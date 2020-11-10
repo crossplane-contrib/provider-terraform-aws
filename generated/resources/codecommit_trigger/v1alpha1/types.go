@@ -52,7 +52,16 @@ type CodecommitTriggerSpec struct {
 
 // A CodecommitTriggerParameters defines the desired state of a CodecommitTrigger
 type CodecommitTriggerParameters struct {
-	RepositoryName string `json:"repository_name"`
+	RepositoryName string    `json:"repository_name"`
+	Trigger        []Trigger `json:"trigger"`
+}
+
+type Trigger struct {
+	Events         []string `json:"events"`
+	Name           string   `json:"name"`
+	Branches       []string `json:"branches"`
+	CustomData     string   `json:"custom_data"`
+	DestinationArn string   `json:"destination_arn"`
 }
 
 // A CodecommitTriggerStatus defines the observed state of a CodecommitTrigger

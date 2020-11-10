@@ -52,13 +52,21 @@ type KinesisStreamSpec struct {
 
 // A KinesisStreamParameters defines the desired state of a KinesisStream
 type KinesisStreamParameters struct {
-	EncryptionType          string   `json:"encryption_type"`
-	Name                    string   `json:"name"`
-	ShardCount              int      `json:"shard_count"`
-	EnforceConsumerDeletion bool     `json:"enforce_consumer_deletion"`
-	KmsKeyId                string   `json:"kms_key_id"`
-	RetentionPeriod         int      `json:"retention_period"`
-	ShardLevelMetrics       []string `json:"shard_level_metrics"`
+	EnforceConsumerDeletion bool              `json:"enforce_consumer_deletion"`
+	KmsKeyId                string            `json:"kms_key_id"`
+	RetentionPeriod         int               `json:"retention_period"`
+	ShardLevelMetrics       []string          `json:"shard_level_metrics"`
+	Tags                    map[string]string `json:"tags"`
+	EncryptionType          string            `json:"encryption_type"`
+	Name                    string            `json:"name"`
+	ShardCount              int               `json:"shard_count"`
+	Timeouts                []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A KinesisStreamStatus defines the observed state of a KinesisStream
@@ -69,6 +77,6 @@ type KinesisStreamStatus struct {
 
 // A KinesisStreamObservation records the observed state of a KinesisStream
 type KinesisStreamObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

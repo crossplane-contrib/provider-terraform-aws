@@ -52,10 +52,10 @@ type SesIdentityNotificationTopicSpec struct {
 
 // A SesIdentityNotificationTopicParameters defines the desired state of a SesIdentityNotificationTopic
 type SesIdentityNotificationTopicParameters struct {
+	Identity               string `json:"identity"`
 	IncludeOriginalHeaders bool   `json:"include_original_headers"`
 	NotificationType       string `json:"notification_type"`
 	TopicArn               string `json:"topic_arn"`
-	Identity               string `json:"identity"`
 }
 
 // A SesIdentityNotificationTopicStatus defines the observed state of a SesIdentityNotificationTopic

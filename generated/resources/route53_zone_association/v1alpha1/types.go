@@ -52,8 +52,8 @@ type Route53ZoneAssociationSpec struct {
 
 // A Route53ZoneAssociationParameters defines the desired state of a Route53ZoneAssociation
 type Route53ZoneAssociationParameters struct {
-	VpcId  string `json:"vpc_id"`
 	ZoneId string `json:"zone_id"`
+	VpcId  string `json:"vpc_id"`
 }
 
 // A Route53ZoneAssociationStatus defines the observed state of a Route53ZoneAssociation

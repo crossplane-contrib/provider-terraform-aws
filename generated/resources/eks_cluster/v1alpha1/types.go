@@ -52,9 +52,38 @@ type EksClusterSpec struct {
 
 // A EksClusterParameters defines the desired state of a EksCluster
 type EksClusterParameters struct {
-	Name                   string   `json:"name"`
-	RoleArn                string   `json:"role_arn"`
-	EnabledClusterLogTypes []string `json:"enabled_cluster_log_types"`
+	RoleArn                string            `json:"role_arn"`
+	Name                   string            `json:"name"`
+	Tags                   map[string]string `json:"tags"`
+	EnabledClusterLogTypes []string          `json:"enabled_cluster_log_types"`
+	EncryptionConfig       EncryptionConfig  `json:"encryption_config"`
+	Timeouts               []Timeouts        `json:"timeouts"`
+	VpcConfig              VpcConfig         `json:"vpc_config"`
+}
+
+type EncryptionConfig struct {
+	Resources []string `json:"resources"`
+	Provider  Provider `json:"provider"`
+}
+
+type Provider struct {
+	KeyArn string `json:"key_arn"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
+}
+
+type VpcConfig struct {
+	ClusterSecurityGroupId string   `json:"cluster_security_group_id"`
+	EndpointPrivateAccess  bool     `json:"endpoint_private_access"`
+	EndpointPublicAccess   bool     `json:"endpoint_public_access"`
+	PublicAccessCidrs      []string `json:"public_access_cidrs"`
+	SecurityGroupIds       []string `json:"security_group_ids"`
+	SubnetIds              []string `json:"subnet_ids"`
+	VpcId                  string   `json:"vpc_id"`
 }
 
 // A EksClusterStatus defines the observed state of a EksCluster
@@ -65,11 +94,11 @@ type EksClusterStatus struct {
 
 // A EksClusterObservation records the observed state of a EksCluster
 type EksClusterObservation struct {
-	CreatedAt       string `json:"created_at"`
-	Endpoint        string `json:"endpoint"`
-	Version         string `json:"version"`
+	Status          string `json:"status"`
 	Arn             string `json:"arn"`
 	Id              string `json:"id"`
 	PlatformVersion string `json:"platform_version"`
-	Status          string `json:"status"`
+	Version         string `json:"version"`
+	CreatedAt       string `json:"created_at"`
+	Endpoint        string `json:"endpoint"`
 }

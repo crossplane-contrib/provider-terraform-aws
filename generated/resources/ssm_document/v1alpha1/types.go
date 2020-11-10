@@ -52,11 +52,20 @@ type SsmDocumentSpec struct {
 
 // A SsmDocumentParameters defines the desired state of a SsmDocument
 type SsmDocumentParameters struct {
-	DocumentType   string `json:"document_type"`
-	DocumentFormat string `json:"document_format"`
-	Content        string `json:"content"`
-	Name           string `json:"name"`
-	TargetType     string `json:"target_type"`
+	TargetType        string              `json:"target_type"`
+	Content           string              `json:"content"`
+	Name              string              `json:"name"`
+	Tags              map[string]string   `json:"tags"`
+	DocumentType      string              `json:"document_type"`
+	Permissions       map[string]string   `json:"permissions"`
+	DocumentFormat    string              `json:"document_format"`
+	AttachmentsSource []AttachmentsSource `json:"attachments_source"`
+}
+
+type AttachmentsSource struct {
+	Key    string   `json:"key"`
+	Name   string   `json:"name"`
+	Values []string `json:"values"`
 }
 
 // A SsmDocumentStatus defines the observed state of a SsmDocument
@@ -68,16 +77,16 @@ type SsmDocumentStatus struct {
 // A SsmDocumentObservation records the observed state of a SsmDocument
 type SsmDocumentObservation struct {
 	Description     string   `json:"description"`
-	DocumentVersion string   `json:"document_version"`
-	HashType        string   `json:"hash_type"`
-	Arn             string   `json:"arn"`
-	DefaultVersion  string   `json:"default_version"`
 	Id              string   `json:"id"`
-	Status          string   `json:"status"`
-	Hash            string   `json:"hash"`
 	LatestVersion   string   `json:"latest_version"`
+	DefaultVersion  string   `json:"default_version"`
+	SchemaVersion   string   `json:"schema_version"`
+	DocumentVersion string   `json:"document_version"`
+	Hash            string   `json:"hash"`
 	Owner           string   `json:"owner"`
 	PlatformTypes   []string `json:"platform_types"`
+	Status          string   `json:"status"`
 	CreatedDate     string   `json:"created_date"`
-	SchemaVersion   string   `json:"schema_version"`
+	HashType        string   `json:"hash_type"`
+	Arn             string   `json:"arn"`
 }

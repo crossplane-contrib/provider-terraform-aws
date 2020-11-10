@@ -52,8 +52,25 @@ type EcrRepositorySpec struct {
 
 // A EcrRepositoryParameters defines the desired state of a EcrRepository
 type EcrRepositoryParameters struct {
-	ImageTagMutability string `json:"image_tag_mutability"`
-	Name               string `json:"name"`
+	Tags                       map[string]string          `json:"tags"`
+	ImageTagMutability         string                     `json:"image_tag_mutability"`
+	Name                       string                     `json:"name"`
+	EncryptionConfiguration    []EncryptionConfiguration  `json:"encryption_configuration"`
+	ImageScanningConfiguration ImageScanningConfiguration `json:"image_scanning_configuration"`
+	Timeouts                   []Timeouts                 `json:"timeouts"`
+}
+
+type EncryptionConfiguration struct {
+	EncryptionType string `json:"encryption_type"`
+	KmsKey         string `json:"kms_key"`
+}
+
+type ImageScanningConfiguration struct {
+	ScanOnPush bool `json:"scan_on_push"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
 }
 
 // A EcrRepositoryStatus defines the observed state of a EcrRepository

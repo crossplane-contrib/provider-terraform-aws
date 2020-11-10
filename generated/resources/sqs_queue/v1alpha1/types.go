@@ -52,16 +52,17 @@ type SqsQueueSpec struct {
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
-	NamePrefix                string `json:"name_prefix"`
-	RedrivePolicy             string `json:"redrive_policy"`
-	ContentBasedDeduplication bool   `json:"content_based_deduplication"`
-	MessageRetentionSeconds   int    `json:"message_retention_seconds"`
-	DelaySeconds              int    `json:"delay_seconds"`
-	MaxMessageSize            int    `json:"max_message_size"`
-	ReceiveWaitTimeSeconds    int    `json:"receive_wait_time_seconds"`
-	FifoQueue                 bool   `json:"fifo_queue"`
-	KmsMasterKeyId            string `json:"kms_master_key_id"`
-	VisibilityTimeoutSeconds  int    `json:"visibility_timeout_seconds"`
+	DelaySeconds              int               `json:"delay_seconds"`
+	KmsMasterKeyId            string            `json:"kms_master_key_id"`
+	MessageRetentionSeconds   int               `json:"message_retention_seconds"`
+	ContentBasedDeduplication bool              `json:"content_based_deduplication"`
+	FifoQueue                 bool              `json:"fifo_queue"`
+	RedrivePolicy             string            `json:"redrive_policy"`
+	Tags                      map[string]string `json:"tags"`
+	VisibilityTimeoutSeconds  int               `json:"visibility_timeout_seconds"`
+	MaxMessageSize            int               `json:"max_message_size"`
+	NamePrefix                string            `json:"name_prefix"`
+	ReceiveWaitTimeSeconds    int               `json:"receive_wait_time_seconds"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue
@@ -72,9 +73,9 @@ type SqsQueueStatus struct {
 
 // A SqsQueueObservation records the observed state of a SqsQueue
 type SqsQueueObservation struct {
+	Policy                       string `json:"policy"`
 	Arn                          string `json:"arn"`
 	KmsDataKeyReusePeriodSeconds int    `json:"kms_data_key_reuse_period_seconds"`
-	Policy                       string `json:"policy"`
-	Name                         string `json:"name"`
 	Id                           string `json:"id"`
+	Name                         string `json:"name"`
 }

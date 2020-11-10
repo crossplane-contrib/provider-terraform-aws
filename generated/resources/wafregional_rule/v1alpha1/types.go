@@ -52,8 +52,16 @@ type WafregionalRuleSpec struct {
 
 // A WafregionalRuleParameters defines the desired state of a WafregionalRule
 type WafregionalRuleParameters struct {
-	MetricName string `json:"metric_name"`
-	Name       string `json:"name"`
+	MetricName string            `json:"metric_name"`
+	Name       string            `json:"name"`
+	Tags       map[string]string `json:"tags"`
+	Predicate  []Predicate       `json:"predicate"`
+}
+
+type Predicate struct {
+	DataId  string `json:"data_id"`
+	Negated bool   `json:"negated"`
+	Type    string `json:"type"`
 }
 
 // A WafregionalRuleStatus defines the observed state of a WafregionalRule

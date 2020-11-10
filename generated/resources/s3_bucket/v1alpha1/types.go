@@ -52,10 +52,153 @@ type S3BucketSpec struct {
 
 // A S3BucketParameters defines the desired state of a S3Bucket
 type S3BucketParameters struct {
-	Acl          string `json:"acl"`
-	BucketPrefix string `json:"bucket_prefix"`
-	ForceDestroy bool   `json:"force_destroy"`
-	Policy       string `json:"policy"`
+	ForceDestroy                      bool                              `json:"force_destroy"`
+	Tags                              map[string]string                 `json:"tags"`
+	BucketPrefix                      string                            `json:"bucket_prefix"`
+	Policy                            string                            `json:"policy"`
+	Acl                               string                            `json:"acl"`
+	Grant                             []Grant                           `json:"grant"`
+	LifecycleRule                     []LifecycleRule                   `json:"lifecycle_rule"`
+	Logging                           []Logging                         `json:"logging"`
+	ObjectLockConfiguration           ObjectLockConfiguration           `json:"object_lock_configuration"`
+	ReplicationConfiguration          ReplicationConfiguration          `json:"replication_configuration"`
+	ServerSideEncryptionConfiguration ServerSideEncryptionConfiguration `json:"server_side_encryption_configuration"`
+	Website                           Website                           `json:"website"`
+	CorsRule                          []CorsRule                        `json:"cors_rule"`
+	Versioning                        Versioning                        `json:"versioning"`
+}
+
+type Grant struct {
+	Id          string   `json:"id"`
+	Permissions []string `json:"permissions"`
+	Type        string   `json:"type"`
+	Uri         string   `json:"uri"`
+}
+
+type LifecycleRule struct {
+	Prefix                             string                        `json:"prefix"`
+	Tags                               map[string]string             `json:"tags"`
+	AbortIncompleteMultipartUploadDays int                           `json:"abort_incomplete_multipart_upload_days"`
+	Enabled                            bool                          `json:"enabled"`
+	Id                                 string                        `json:"id"`
+	Transition                         []Transition                  `json:"transition"`
+	Expiration                         Expiration                    `json:"expiration"`
+	NoncurrentVersionExpiration        NoncurrentVersionExpiration   `json:"noncurrent_version_expiration"`
+	NoncurrentVersionTransition        []NoncurrentVersionTransition `json:"noncurrent_version_transition"`
+}
+
+type Transition struct {
+	Date         string `json:"date"`
+	Days         int    `json:"days"`
+	StorageClass string `json:"storage_class"`
+}
+
+type Expiration struct {
+	Date                      string `json:"date"`
+	Days                      int    `json:"days"`
+	ExpiredObjectDeleteMarker bool   `json:"expired_object_delete_marker"`
+}
+
+type NoncurrentVersionExpiration struct {
+	Days int `json:"days"`
+}
+
+type NoncurrentVersionTransition struct {
+	Days         int    `json:"days"`
+	StorageClass string `json:"storage_class"`
+}
+
+type Logging struct {
+	TargetBucket string `json:"target_bucket"`
+	TargetPrefix string `json:"target_prefix"`
+}
+
+type ObjectLockConfiguration struct {
+	ObjectLockEnabled string `json:"object_lock_enabled"`
+	Rule              Rule   `json:"rule"`
+}
+
+type Rule struct {
+	DefaultRetention DefaultRetention `json:"default_retention"`
+}
+
+type DefaultRetention struct {
+	Days  int    `json:"days"`
+	Mode  string `json:"mode"`
+	Years int    `json:"years"`
+}
+
+type ReplicationConfiguration struct {
+	Role  string  `json:"role"`
+	Rules []Rules `json:"rules"`
+}
+
+type Rules struct {
+	Id                      string                  `json:"id"`
+	Prefix                  string                  `json:"prefix"`
+	Priority                int                     `json:"priority"`
+	Status                  string                  `json:"status"`
+	Filter                  Filter                  `json:"filter"`
+	SourceSelectionCriteria SourceSelectionCriteria `json:"source_selection_criteria"`
+	Destination             Destination             `json:"destination"`
+}
+
+type Filter struct {
+	Prefix string            `json:"prefix"`
+	Tags   map[string]string `json:"tags"`
+}
+
+type SourceSelectionCriteria struct {
+	SseKmsEncryptedObjects SseKmsEncryptedObjects `json:"sse_kms_encrypted_objects"`
+}
+
+type SseKmsEncryptedObjects struct {
+	Enabled bool `json:"enabled"`
+}
+
+type Destination struct {
+	ReplicaKmsKeyId          string                   `json:"replica_kms_key_id"`
+	StorageClass             string                   `json:"storage_class"`
+	AccountId                string                   `json:"account_id"`
+	Bucket                   string                   `json:"bucket"`
+	AccessControlTranslation AccessControlTranslation `json:"access_control_translation"`
+}
+
+type AccessControlTranslation struct {
+	Owner string `json:"owner"`
+}
+
+type ServerSideEncryptionConfiguration struct {
+	Rule Rule `json:"rule"`
+}
+
+type Rule struct {
+	ApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault `json:"apply_server_side_encryption_by_default"`
+}
+
+type ApplyServerSideEncryptionByDefault struct {
+	KmsMasterKeyId string `json:"kms_master_key_id"`
+	SseAlgorithm   string `json:"sse_algorithm"`
+}
+
+type Website struct {
+	RoutingRules          string `json:"routing_rules"`
+	ErrorDocument         string `json:"error_document"`
+	IndexDocument         string `json:"index_document"`
+	RedirectAllRequestsTo string `json:"redirect_all_requests_to"`
+}
+
+type CorsRule struct {
+	AllowedHeaders []string `json:"allowed_headers"`
+	AllowedMethods []string `json:"allowed_methods"`
+	AllowedOrigins []string `json:"allowed_origins"`
+	ExposeHeaders  []string `json:"expose_headers"`
+	MaxAgeSeconds  int      `json:"max_age_seconds"`
+}
+
+type Versioning struct {
+	Enabled   bool `json:"enabled"`
+	MfaDelete bool `json:"mfa_delete"`
 }
 
 // A S3BucketStatus defines the observed state of a S3Bucket
@@ -66,15 +209,15 @@ type S3BucketStatus struct {
 
 // A S3BucketObservation records the observed state of a S3Bucket
 type S3BucketObservation struct {
-	Bucket                   string `json:"bucket"`
-	BucketRegionalDomainName string `json:"bucket_regional_domain_name"`
-	AccelerationStatus       string `json:"acceleration_status"`
-	HostedZoneId             string `json:"hosted_zone_id"`
+	RequestPayer             string `json:"request_payer"`
+	Id                       string `json:"id"`
 	Region                   string `json:"region"`
 	WebsiteDomain            string `json:"website_domain"`
 	WebsiteEndpoint          string `json:"website_endpoint"`
-	Arn                      string `json:"arn"`
+	AccelerationStatus       string `json:"acceleration_status"`
+	BucketRegionalDomainName string `json:"bucket_regional_domain_name"`
 	BucketDomainName         string `json:"bucket_domain_name"`
-	Id                       string `json:"id"`
-	RequestPayer             string `json:"request_payer"`
+	Arn                      string `json:"arn"`
+	Bucket                   string `json:"bucket"`
+	HostedZoneId             string `json:"hosted_zone_id"`
 }

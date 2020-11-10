@@ -52,10 +52,35 @@ type AmiFromInstanceSpec struct {
 
 // A AmiFromInstanceParameters defines the desired state of a AmiFromInstance
 type AmiFromInstanceParameters struct {
-	SourceInstanceId      string `json:"source_instance_id"`
-	Description           string `json:"description"`
-	Name                  string `json:"name"`
-	SnapshotWithoutReboot bool   `json:"snapshot_without_reboot"`
+	Description           string                 `json:"description"`
+	Name                  string                 `json:"name"`
+	SnapshotWithoutReboot bool                   `json:"snapshot_without_reboot"`
+	SourceInstanceId      string                 `json:"source_instance_id"`
+	Tags                  map[string]string      `json:"tags"`
+	EbsBlockDevice        []EbsBlockDevice       `json:"ebs_block_device"`
+	EphemeralBlockDevice  []EphemeralBlockDevice `json:"ephemeral_block_device"`
+	Timeouts              []Timeouts             `json:"timeouts"`
+}
+
+type EbsBlockDevice struct {
+	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+	DeviceName          string `json:"device_name"`
+	Encrypted           bool   `json:"encrypted"`
+	Iops                int    `json:"iops"`
+	SnapshotId          string `json:"snapshot_id"`
+}
+
+type EphemeralBlockDevice struct {
+	DeviceName  string `json:"device_name"`
+	VirtualName string `json:"virtual_name"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A AmiFromInstanceStatus defines the observed state of a AmiFromInstance
@@ -66,16 +91,16 @@ type AmiFromInstanceStatus struct {
 
 // A AmiFromInstanceObservation records the observed state of a AmiFromInstance
 type AmiFromInstanceObservation struct {
-	RamdiskId          string `json:"ramdisk_id"`
-	RootDeviceName     string `json:"root_device_name"`
-	SriovNetSupport    string `json:"sriov_net_support"`
-	Architecture       string `json:"architecture"`
-	Arn                string `json:"arn"`
 	Id                 string `json:"id"`
-	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
-	RootSnapshotId     string `json:"root_snapshot_id"`
-	VirtualizationType string `json:"virtualization_type"`
+	KernelId           string `json:"kernel_id"`
+	Architecture       string `json:"architecture"`
+	SriovNetSupport    string `json:"sriov_net_support"`
+	RootDeviceName     string `json:"root_device_name"`
+	Arn                string `json:"arn"`
 	EnaSupport         bool   `json:"ena_support"`
 	ImageLocation      string `json:"image_location"`
-	KernelId           string `json:"kernel_id"`
+	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
+	RamdiskId          string `json:"ramdisk_id"`
+	RootSnapshotId     string `json:"root_snapshot_id"`
+	VirtualizationType string `json:"virtualization_type"`
 }

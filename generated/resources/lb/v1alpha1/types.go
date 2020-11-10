@@ -52,14 +52,37 @@ type LbSpec struct {
 
 // A LbParameters defines the desired state of a Lb
 type LbParameters struct {
-	EnableHttp2                  bool   `json:"enable_http2"`
-	DropInvalidHeaderFields      bool   `json:"drop_invalid_header_fields"`
-	IdleTimeout                  int    `json:"idle_timeout"`
-	EnableCrossZoneLoadBalancing bool   `json:"enable_cross_zone_load_balancing"`
-	EnableDeletionProtection     bool   `json:"enable_deletion_protection"`
-	NamePrefix                   string `json:"name_prefix"`
-	CustomerOwnedIpv4Pool        string `json:"customer_owned_ipv4_pool"`
-	LoadBalancerType             string `json:"load_balancer_type"`
+	EnableHttp2                  bool              `json:"enable_http2"`
+	LoadBalancerType             string            `json:"load_balancer_type"`
+	DropInvalidHeaderFields      bool              `json:"drop_invalid_header_fields"`
+	EnableDeletionProtection     bool              `json:"enable_deletion_protection"`
+	CustomerOwnedIpv4Pool        string            `json:"customer_owned_ipv4_pool"`
+	EnableCrossZoneLoadBalancing bool              `json:"enable_cross_zone_load_balancing"`
+	NamePrefix                   string            `json:"name_prefix"`
+	Tags                         map[string]string `json:"tags"`
+	IdleTimeout                  int               `json:"idle_timeout"`
+	SubnetMapping                []SubnetMapping   `json:"subnet_mapping"`
+	Timeouts                     []Timeouts        `json:"timeouts"`
+	AccessLogs                   AccessLogs        `json:"access_logs"`
+}
+
+type SubnetMapping struct {
+	AllocationId       string `json:"allocation_id"`
+	OutpostId          string `json:"outpost_id"`
+	PrivateIpv4Address string `json:"private_ipv4_address"`
+	SubnetId           string `json:"subnet_id"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
+}
+
+type AccessLogs struct {
+	Enabled bool   `json:"enabled"`
+	Prefix  string `json:"prefix"`
+	Bucket  string `json:"bucket"`
 }
 
 // A LbStatus defines the observed state of a Lb
@@ -70,15 +93,15 @@ type LbStatus struct {
 
 // A LbObservation records the observed state of a Lb
 type LbObservation struct {
-	DnsName        string   `json:"dns_name"`
+	SecurityGroups []string `json:"security_groups"`
+	Subnets        []string `json:"subnets"`
+	Arn            string   `json:"arn"`
+	Id             string   `json:"id"`
 	IpAddressType  string   `json:"ip_address_type"`
 	Name           string   `json:"name"`
 	VpcId          string   `json:"vpc_id"`
-	Arn            string   `json:"arn"`
-	ArnSuffix      string   `json:"arn_suffix"`
-	Id             string   `json:"id"`
 	ZoneId         string   `json:"zone_id"`
+	ArnSuffix      string   `json:"arn_suffix"`
+	DnsName        string   `json:"dns_name"`
 	Internal       bool     `json:"internal"`
-	Subnets        []string `json:"subnets"`
-	SecurityGroups []string `json:"security_groups"`
 }

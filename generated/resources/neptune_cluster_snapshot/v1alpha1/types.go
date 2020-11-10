@@ -52,8 +52,13 @@ type NeptuneClusterSnapshotSpec struct {
 
 // A NeptuneClusterSnapshotParameters defines the desired state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotParameters struct {
-	DbClusterSnapshotIdentifier string `json:"db_cluster_snapshot_identifier"`
-	DbClusterIdentifier         string `json:"db_cluster_identifier"`
+	DbClusterSnapshotIdentifier string     `json:"db_cluster_snapshot_identifier"`
+	DbClusterIdentifier         string     `json:"db_cluster_identifier"`
+	Timeouts                    []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 // A NeptuneClusterSnapshotStatus defines the observed state of a NeptuneClusterSnapshot
@@ -64,18 +69,18 @@ type NeptuneClusterSnapshotStatus struct {
 
 // A NeptuneClusterSnapshotObservation records the observed state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotObservation struct {
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	Port                       int      `json:"port"`
+	SnapshotType               string   `json:"snapshot_type"`
+	VpcId                      string   `json:"vpc_id"`
+	AllocatedStorage           int      `json:"allocated_storage"`
 	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	EngineVersion              string   `json:"engine_version"`
+	LicenseModel               string   `json:"license_model"`
+	Status                     string   `json:"status"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
 	AvailabilityZones          []string `json:"availability_zones"`
 	Engine                     string   `json:"engine"`
 	Id                         string   `json:"id"`
-	LicenseModel               string   `json:"license_model"`
-	Port                       int      `json:"port"`
-	Status                     string   `json:"status"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
-	AllocatedStorage           int      `json:"allocated_storage"`
 	KmsKeyId                   string   `json:"kms_key_id"`
-	SnapshotType               string   `json:"snapshot_type"`
-	EngineVersion              string   `json:"engine_version"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	VpcId                      string   `json:"vpc_id"`
 }

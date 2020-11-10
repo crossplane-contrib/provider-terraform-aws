@@ -52,14 +52,22 @@ type EmrInstanceGroupSpec struct {
 
 // A EmrInstanceGroupParameters defines the desired state of a EmrInstanceGroup
 type EmrInstanceGroupParameters struct {
-	BidPrice           string `json:"bid_price"`
-	EbsOptimized       bool   `json:"ebs_optimized"`
-	InstanceCount      int    `json:"instance_count"`
-	Name               string `json:"name"`
-	AutoscalingPolicy  string `json:"autoscaling_policy"`
-	ClusterId          string `json:"cluster_id"`
-	ConfigurationsJson string `json:"configurations_json"`
-	InstanceType       string `json:"instance_type"`
+	Name               string      `json:"name"`
+	AutoscalingPolicy  string      `json:"autoscaling_policy"`
+	ConfigurationsJson string      `json:"configurations_json"`
+	EbsOptimized       bool        `json:"ebs_optimized"`
+	InstanceCount      int         `json:"instance_count"`
+	InstanceType       string      `json:"instance_type"`
+	BidPrice           string      `json:"bid_price"`
+	ClusterId          string      `json:"cluster_id"`
+	EbsConfig          []EbsConfig `json:"ebs_config"`
+}
+
+type EbsConfig struct {
+	VolumesPerInstance int    `json:"volumes_per_instance"`
+	Iops               int    `json:"iops"`
+	Size               int    `json:"size"`
+	Type               string `json:"type"`
 }
 
 // A EmrInstanceGroupStatus defines the observed state of a EmrInstanceGroup
@@ -70,7 +78,7 @@ type EmrInstanceGroupStatus struct {
 
 // A EmrInstanceGroupObservation records the observed state of a EmrInstanceGroup
 type EmrInstanceGroupObservation struct {
-	RunningInstanceCount int    `json:"running_instance_count"`
 	Status               string `json:"status"`
 	Id                   string `json:"id"`
+	RunningInstanceCount int    `json:"running_instance_count"`
 }

@@ -52,7 +52,17 @@ type AppmeshMeshSpec struct {
 
 // A AppmeshMeshParameters defines the desired state of a AppmeshMesh
 type AppmeshMeshParameters struct {
-	Name string `json:"name"`
+	Name string            `json:"name"`
+	Tags map[string]string `json:"tags"`
+	Spec Spec              `json:"spec"`
+}
+
+type Spec struct {
+	EgressFilter EgressFilter `json:"egress_filter"`
+}
+
+type EgressFilter struct {
+	Type string `json:"type"`
 }
 
 // A AppmeshMeshStatus defines the observed state of a AppmeshMesh
@@ -63,10 +73,10 @@ type AppmeshMeshStatus struct {
 
 // A AppmeshMeshObservation records the observed state of a AppmeshMesh
 type AppmeshMeshObservation struct {
-	ResourceOwner   string `json:"resource_owner"`
-	Arn             string `json:"arn"`
-	CreatedDate     string `json:"created_date"`
 	Id              string `json:"id"`
 	LastUpdatedDate string `json:"last_updated_date"`
 	MeshOwner       string `json:"mesh_owner"`
+	ResourceOwner   string `json:"resource_owner"`
+	Arn             string `json:"arn"`
+	CreatedDate     string `json:"created_date"`
 }

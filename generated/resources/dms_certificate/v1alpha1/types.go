@@ -52,9 +52,9 @@ type DmsCertificateSpec struct {
 
 // A DmsCertificateParameters defines the desired state of a DmsCertificate
 type DmsCertificateParameters struct {
+	CertificateWallet string `json:"certificate_wallet"`
 	CertificateId     string `json:"certificate_id"`
 	CertificatePem    string `json:"certificate_pem"`
-	CertificateWallet string `json:"certificate_wallet"`
 }
 
 // A DmsCertificateStatus defines the observed state of a DmsCertificate
@@ -65,6 +65,6 @@ type DmsCertificateStatus struct {
 
 // A DmsCertificateObservation records the observed state of a DmsCertificate
 type DmsCertificateObservation struct {
-	CertificateArn string `json:"certificate_arn"`
 	Id             string `json:"id"`
+	CertificateArn string `json:"certificate_arn"`
 }

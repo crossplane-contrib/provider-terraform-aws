@@ -52,21 +52,55 @@ type LambdaFunctionSpec struct {
 
 // A LambdaFunctionParameters defines the desired state of a LambdaFunction
 type LambdaFunctionParameters struct {
-	Publish                      bool     `json:"publish"`
-	S3Bucket                     string   `json:"s3_bucket"`
-	Description                  string   `json:"description"`
-	Handler                      string   `json:"handler"`
-	Runtime                      string   `json:"runtime"`
-	S3ObjectVersion              string   `json:"s3_object_version"`
-	Filename                     string   `json:"filename"`
-	FunctionName                 string   `json:"function_name"`
-	Role                         string   `json:"role"`
-	S3Key                        string   `json:"s3_key"`
-	MemorySize                   int      `json:"memory_size"`
-	ReservedConcurrentExecutions int      `json:"reserved_concurrent_executions"`
-	Timeout                      int      `json:"timeout"`
-	KmsKeyArn                    string   `json:"kms_key_arn"`
-	Layers                       []string `json:"layers"`
+	Handler                      string            `json:"handler"`
+	Publish                      bool              `json:"publish"`
+	Tags                         map[string]string `json:"tags"`
+	Timeout                      int               `json:"timeout"`
+	KmsKeyArn                    string            `json:"kms_key_arn"`
+	Runtime                      string            `json:"runtime"`
+	S3Bucket                     string            `json:"s3_bucket"`
+	S3Key                        string            `json:"s3_key"`
+	MemorySize                   int               `json:"memory_size"`
+	Role                         string            `json:"role"`
+	S3ObjectVersion              string            `json:"s3_object_version"`
+	Description                  string            `json:"description"`
+	FunctionName                 string            `json:"function_name"`
+	Layers                       []string          `json:"layers"`
+	Filename                     string            `json:"filename"`
+	ReservedConcurrentExecutions int               `json:"reserved_concurrent_executions"`
+	TracingConfig                TracingConfig     `json:"tracing_config"`
+	VpcConfig                    VpcConfig         `json:"vpc_config"`
+	DeadLetterConfig             DeadLetterConfig  `json:"dead_letter_config"`
+	Environment                  Environment       `json:"environment"`
+	FileSystemConfig             FileSystemConfig  `json:"file_system_config"`
+	Timeouts                     []Timeouts        `json:"timeouts"`
+}
+
+type TracingConfig struct {
+	Mode string `json:"mode"`
+}
+
+type VpcConfig struct {
+	SecurityGroupIds []string `json:"security_group_ids"`
+	SubnetIds        []string `json:"subnet_ids"`
+	VpcId            string   `json:"vpc_id"`
+}
+
+type DeadLetterConfig struct {
+	TargetArn string `json:"target_arn"`
+}
+
+type Environment struct {
+	Variables map[string]string `json:"variables"`
+}
+
+type FileSystemConfig struct {
+	Arn            string `json:"arn"`
+	LocalMountPath string `json:"local_mount_path"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 // A LambdaFunctionStatus defines the observed state of a LambdaFunction
@@ -77,12 +111,12 @@ type LambdaFunctionStatus struct {
 
 // A LambdaFunctionObservation records the observed state of a LambdaFunction
 type LambdaFunctionObservation struct {
-	Id             string `json:"id"`
-	InvokeArn      string `json:"invoke_arn"`
-	LastModified   string `json:"last_modified"`
 	Arn            string `json:"arn"`
+	SourceCodeHash string `json:"source_code_hash"`
+	Id             string `json:"id"`
+	LastModified   string `json:"last_modified"`
 	SourceCodeSize int    `json:"source_code_size"`
 	Version        string `json:"version"`
+	InvokeArn      string `json:"invoke_arn"`
 	QualifiedArn   string `json:"qualified_arn"`
-	SourceCodeHash string `json:"source_code_hash"`
 }

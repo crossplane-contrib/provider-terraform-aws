@@ -52,13 +52,19 @@ type KmsGrantSpec struct {
 
 // A KmsGrantParameters defines the desired state of a KmsGrant
 type KmsGrantParameters struct {
-	KeyId               string   `json:"key_id"`
-	Operations          []string `json:"operations"`
-	RetireOnDelete      bool     `json:"retire_on_delete"`
-	GrantCreationTokens []string `json:"grant_creation_tokens"`
-	GranteePrincipal    string   `json:"grantee_principal"`
-	Name                string   `json:"name"`
-	RetiringPrincipal   string   `json:"retiring_principal"`
+	Name                string        `json:"name"`
+	RetireOnDelete      bool          `json:"retire_on_delete"`
+	RetiringPrincipal   string        `json:"retiring_principal"`
+	GrantCreationTokens []string      `json:"grant_creation_tokens"`
+	GranteePrincipal    string        `json:"grantee_principal"`
+	KeyId               string        `json:"key_id"`
+	Operations          []string      `json:"operations"`
+	Constraints         []Constraints `json:"constraints"`
+}
+
+type Constraints struct {
+	EncryptionContextEquals map[string]string `json:"encryption_context_equals"`
+	EncryptionContextSubset map[string]string `json:"encryption_context_subset"`
 }
 
 // A KmsGrantStatus defines the observed state of a KmsGrant
@@ -69,7 +75,7 @@ type KmsGrantStatus struct {
 
 // A KmsGrantObservation records the observed state of a KmsGrant
 type KmsGrantObservation struct {
-	Id         string `json:"id"`
-	GrantToken string `json:"grant_token"`
 	GrantId    string `json:"grant_id"`
+	GrantToken string `json:"grant_token"`
+	Id         string `json:"id"`
 }

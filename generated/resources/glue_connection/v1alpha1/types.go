@@ -52,10 +52,18 @@ type GlueConnectionSpec struct {
 
 // A GlueConnectionParameters defines the desired state of a GlueConnection
 type GlueConnectionParameters struct {
-	ConnectionType string   `json:"connection_type"`
-	Description    string   `json:"description"`
-	MatchCriteria  []string `json:"match_criteria"`
-	Name           string   `json:"name"`
+	Description                    string                         `json:"description"`
+	MatchCriteria                  []string                       `json:"match_criteria"`
+	Name                           string                         `json:"name"`
+	ConnectionProperties           map[string]string              `json:"connection_properties"`
+	ConnectionType                 string                         `json:"connection_type"`
+	PhysicalConnectionRequirements PhysicalConnectionRequirements `json:"physical_connection_requirements"`
+}
+
+type PhysicalConnectionRequirements struct {
+	AvailabilityZone    string   `json:"availability_zone"`
+	SecurityGroupIdList []string `json:"security_group_id_list"`
+	SubnetId            string   `json:"subnet_id"`
 }
 
 // A GlueConnectionStatus defines the observed state of a GlueConnection
@@ -66,7 +74,7 @@ type GlueConnectionStatus struct {
 
 // A GlueConnectionObservation records the observed state of a GlueConnection
 type GlueConnectionObservation struct {
+	Id        string `json:"id"`
 	Arn       string `json:"arn"`
 	CatalogId string `json:"catalog_id"`
-	Id        string `json:"id"`
 }

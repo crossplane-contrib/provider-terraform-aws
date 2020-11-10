@@ -52,9 +52,10 @@ type GlueCatalogDatabaseSpec struct {
 
 // A GlueCatalogDatabaseParameters defines the desired state of a GlueCatalogDatabase
 type GlueCatalogDatabaseParameters struct {
-	LocationUri string `json:"location_uri"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Description string            `json:"description"`
+	LocationUri string            `json:"location_uri"`
+	Name        string            `json:"name"`
+	Parameters  map[string]string `json:"parameters"`
 }
 
 // A GlueCatalogDatabaseStatus defines the observed state of a GlueCatalogDatabase
@@ -65,7 +66,7 @@ type GlueCatalogDatabaseStatus struct {
 
 // A GlueCatalogDatabaseObservation records the observed state of a GlueCatalogDatabase
 type GlueCatalogDatabaseObservation struct {
-	Id        string `json:"id"`
 	Arn       string `json:"arn"`
 	CatalogId string `json:"catalog_id"`
+	Id        string `json:"id"`
 }

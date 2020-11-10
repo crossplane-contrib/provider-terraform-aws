@@ -52,9 +52,23 @@ type ApiGatewayMethodSettingsSpec struct {
 
 // A ApiGatewayMethodSettingsParameters defines the desired state of a ApiGatewayMethodSettings
 type ApiGatewayMethodSettingsParameters struct {
-	MethodPath string `json:"method_path"`
-	RestApiId  string `json:"rest_api_id"`
-	StageName  string `json:"stage_name"`
+	MethodPath string   `json:"method_path"`
+	RestApiId  string   `json:"rest_api_id"`
+	StageName  string   `json:"stage_name"`
+	Settings   Settings `json:"settings"`
+}
+
+type Settings struct {
+	CachingEnabled                         bool   `json:"caching_enabled"`
+	LoggingLevel                           string `json:"logging_level"`
+	UnauthorizedCacheControlHeaderStrategy string `json:"unauthorized_cache_control_header_strategy"`
+	ThrottlingBurstLimit                   int    `json:"throttling_burst_limit"`
+	ThrottlingRateLimit                    int    `json:"throttling_rate_limit"`
+	CacheDataEncrypted                     bool   `json:"cache_data_encrypted"`
+	CacheTtlInSeconds                      int    `json:"cache_ttl_in_seconds"`
+	DataTraceEnabled                       bool   `json:"data_trace_enabled"`
+	MetricsEnabled                         bool   `json:"metrics_enabled"`
+	RequireAuthorizationForCacheControl    bool   `json:"require_authorization_for_cache_control"`
 }
 
 // A ApiGatewayMethodSettingsStatus defines the observed state of a ApiGatewayMethodSettings

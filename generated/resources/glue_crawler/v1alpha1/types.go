@@ -52,15 +52,49 @@ type GlueCrawlerSpec struct {
 
 // A GlueCrawlerParameters defines the desired state of a GlueCrawler
 type GlueCrawlerParameters struct {
-	DatabaseName          string   `json:"database_name"`
-	Role                  string   `json:"role"`
-	SecurityConfiguration string   `json:"security_configuration"`
-	Classifiers           []string `json:"classifiers"`
-	Configuration         string   `json:"configuration"`
-	TablePrefix           string   `json:"table_prefix"`
-	Description           string   `json:"description"`
-	Name                  string   `json:"name"`
-	Schedule              string   `json:"schedule"`
+	SecurityConfiguration string             `json:"security_configuration"`
+	Tags                  map[string]string  `json:"tags"`
+	Name                  string             `json:"name"`
+	Role                  string             `json:"role"`
+	Schedule              string             `json:"schedule"`
+	Classifiers           []string           `json:"classifiers"`
+	Configuration         string             `json:"configuration"`
+	DatabaseName          string             `json:"database_name"`
+	Description           string             `json:"description"`
+	TablePrefix           string             `json:"table_prefix"`
+	JdbcTarget            []JdbcTarget       `json:"jdbc_target"`
+	S3Target              []S3Target         `json:"s3_target"`
+	SchemaChangePolicy    SchemaChangePolicy `json:"schema_change_policy"`
+	CatalogTarget         []CatalogTarget    `json:"catalog_target"`
+	DynamodbTarget        []DynamodbTarget   `json:"dynamodb_target"`
+}
+
+type JdbcTarget struct {
+	Exclusions     []string `json:"exclusions"`
+	Path           string   `json:"path"`
+	ConnectionName string   `json:"connection_name"`
+}
+
+type S3Target struct {
+	ConnectionName string   `json:"connection_name"`
+	Exclusions     []string `json:"exclusions"`
+	Path           string   `json:"path"`
+}
+
+type SchemaChangePolicy struct {
+	DeleteBehavior string `json:"delete_behavior"`
+	UpdateBehavior string `json:"update_behavior"`
+}
+
+type CatalogTarget struct {
+	DatabaseName string   `json:"database_name"`
+	Tables       []string `json:"tables"`
+}
+
+type DynamodbTarget struct {
+	Path     string `json:"path"`
+	ScanAll  bool   `json:"scan_all"`
+	ScanRate int    `json:"scan_rate"`
 }
 
 // A GlueCrawlerStatus defines the observed state of a GlueCrawler
@@ -71,6 +105,6 @@ type GlueCrawlerStatus struct {
 
 // A GlueCrawlerObservation records the observed state of a GlueCrawler
 type GlueCrawlerObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
+	Id  string `json:"id"`
 }

@@ -52,11 +52,11 @@ type IamPolicyAttachmentSpec struct {
 
 // A IamPolicyAttachmentParameters defines the desired state of a IamPolicyAttachment
 type IamPolicyAttachmentParameters struct {
-	Groups    []string `json:"groups"`
-	Name      string   `json:"name"`
 	PolicyArn string   `json:"policy_arn"`
 	Roles     []string `json:"roles"`
 	Users     []string `json:"users"`
+	Groups    []string `json:"groups"`
+	Name      string   `json:"name"`
 }
 
 // A IamPolicyAttachmentStatus defines the observed state of a IamPolicyAttachment

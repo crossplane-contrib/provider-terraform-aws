@@ -52,7 +52,18 @@ type WafSqlInjectionMatchSetSpec struct {
 
 // A WafSqlInjectionMatchSetParameters defines the desired state of a WafSqlInjectionMatchSet
 type WafSqlInjectionMatchSetParameters struct {
-	Name string `json:"name"`
+	Name                    string                    `json:"name"`
+	SqlInjectionMatchTuples []SqlInjectionMatchTuples `json:"sql_injection_match_tuples"`
+}
+
+type SqlInjectionMatchTuples struct {
+	TextTransformation string       `json:"text_transformation"`
+	FieldToMatch       FieldToMatch `json:"field_to_match"`
+}
+
+type FieldToMatch struct {
+	Data string `json:"data"`
+	Type string `json:"type"`
 }
 
 // A WafSqlInjectionMatchSetStatus defines the observed state of a WafSqlInjectionMatchSet

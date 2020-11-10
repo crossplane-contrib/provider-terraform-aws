@@ -52,14 +52,23 @@ type LambdaEventSourceMappingSpec struct {
 
 // A LambdaEventSourceMappingParameters defines the desired state of a LambdaEventSourceMapping
 type LambdaEventSourceMappingParameters struct {
-	MaximumBatchingWindowInSeconds int    `json:"maximum_batching_window_in_seconds"`
-	BisectBatchOnFunctionError     bool   `json:"bisect_batch_on_function_error"`
-	EventSourceArn                 string `json:"event_source_arn"`
-	StartingPosition               string `json:"starting_position"`
-	StartingPositionTimestamp      string `json:"starting_position_timestamp"`
-	Enabled                        bool   `json:"enabled"`
-	FunctionName                   string `json:"function_name"`
-	BatchSize                      int    `json:"batch_size"`
+	EventSourceArn                 string            `json:"event_source_arn"`
+	Enabled                        bool              `json:"enabled"`
+	BatchSize                      int               `json:"batch_size"`
+	StartingPosition               string            `json:"starting_position"`
+	StartingPositionTimestamp      string            `json:"starting_position_timestamp"`
+	BisectBatchOnFunctionError     bool              `json:"bisect_batch_on_function_error"`
+	FunctionName                   string            `json:"function_name"`
+	MaximumBatchingWindowInSeconds int               `json:"maximum_batching_window_in_seconds"`
+	DestinationConfig              DestinationConfig `json:"destination_config"`
+}
+
+type DestinationConfig struct {
+	OnFailure OnFailure `json:"on_failure"`
+}
+
+type OnFailure struct {
+	DestinationArn string `json:"destination_arn"`
 }
 
 // A LambdaEventSourceMappingStatus defines the observed state of a LambdaEventSourceMapping
@@ -70,14 +79,14 @@ type LambdaEventSourceMappingStatus struct {
 
 // A LambdaEventSourceMappingObservation records the observed state of a LambdaEventSourceMapping
 type LambdaEventSourceMappingObservation struct {
-	MaximumRetryAttempts      int    `json:"maximum_retry_attempts"`
-	State                     string `json:"state"`
-	LastModified              string `json:"last_modified"`
-	MaximumRecordAgeInSeconds int    `json:"maximum_record_age_in_seconds"`
+	ParallelizationFactor     int    `json:"parallelization_factor"`
+	LastProcessingResult      string `json:"last_processing_result"`
 	StateTransitionReason     string `json:"state_transition_reason"`
 	Uuid                      string `json:"uuid"`
-	LastProcessingResult      string `json:"last_processing_result"`
-	ParallelizationFactor     int    `json:"parallelization_factor"`
 	FunctionArn               string `json:"function_arn"`
 	Id                        string `json:"id"`
+	LastModified              string `json:"last_modified"`
+	State                     string `json:"state"`
+	MaximumRetryAttempts      int    `json:"maximum_retry_attempts"`
+	MaximumRecordAgeInSeconds int    `json:"maximum_record_age_in_seconds"`
 }

@@ -52,9 +52,9 @@ type IamInstanceProfileSpec struct {
 
 // A IamInstanceProfileParameters defines the desired state of a IamInstanceProfile
 type IamInstanceProfileParameters struct {
+	Role       string `json:"role"`
 	NamePrefix string `json:"name_prefix"`
 	Path       string `json:"path"`
-	Role       string `json:"role"`
 }
 
 // A IamInstanceProfileStatus defines the observed state of a IamInstanceProfile

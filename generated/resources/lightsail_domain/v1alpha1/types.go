@@ -63,6 +63,6 @@ type LightsailDomainStatus struct {
 
 // A LightsailDomainObservation records the observed state of a LightsailDomain
 type LightsailDomainObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
+	Id  string `json:"id"`
 }

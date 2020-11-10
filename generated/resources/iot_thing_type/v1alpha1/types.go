@@ -52,8 +52,14 @@ type IotThingTypeSpec struct {
 
 // A IotThingTypeParameters defines the desired state of a IotThingType
 type IotThingTypeParameters struct {
-	Name       string `json:"name"`
-	Deprecated bool   `json:"deprecated"`
+	Deprecated bool       `json:"deprecated"`
+	Name       string     `json:"name"`
+	Properties Properties `json:"properties"`
+}
+
+type Properties struct {
+	Description          string   `json:"description"`
+	SearchableAttributes []string `json:"searchable_attributes"`
 }
 
 // A IotThingTypeStatus defines the observed state of a IotThingType

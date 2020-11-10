@@ -52,7 +52,8 @@ type Ec2TransitGatewayPeeringAttachmentAccepterSpec struct {
 
 // A Ec2TransitGatewayPeeringAttachmentAccepterParameters defines the desired state of a Ec2TransitGatewayPeeringAttachmentAccepter
 type Ec2TransitGatewayPeeringAttachmentAccepterParameters struct {
-	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
+	Tags                       map[string]string `json:"tags"`
+	TransitGatewayAttachmentId string            `json:"transit_gateway_attachment_id"`
 }
 
 // A Ec2TransitGatewayPeeringAttachmentAccepterStatus defines the observed state of a Ec2TransitGatewayPeeringAttachmentAccepter

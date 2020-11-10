@@ -52,8 +52,46 @@ type WafWebAclSpec struct {
 
 // A WafWebAclParameters defines the desired state of a WafWebAcl
 type WafWebAclParameters struct {
-	MetricName string `json:"metric_name"`
-	Name       string `json:"name"`
+	Name                 string               `json:"name"`
+	Tags                 map[string]string    `json:"tags"`
+	MetricName           string               `json:"metric_name"`
+	DefaultAction        DefaultAction        `json:"default_action"`
+	LoggingConfiguration LoggingConfiguration `json:"logging_configuration"`
+	Rules                []Rules              `json:"rules"`
+}
+
+type DefaultAction struct {
+	Type string `json:"type"`
+}
+
+type LoggingConfiguration struct {
+	LogDestination string         `json:"log_destination"`
+	RedactedFields RedactedFields `json:"redacted_fields"`
+}
+
+type RedactedFields struct {
+	FieldToMatch []FieldToMatch `json:"field_to_match"`
+}
+
+type FieldToMatch struct {
+	Data string `json:"data"`
+	Type string `json:"type"`
+}
+
+type Rules struct {
+	Priority       int            `json:"priority"`
+	RuleId         string         `json:"rule_id"`
+	Type           string         `json:"type"`
+	Action         Action         `json:"action"`
+	OverrideAction OverrideAction `json:"override_action"`
+}
+
+type Action struct {
+	Type string `json:"type"`
+}
+
+type OverrideAction struct {
+	Type string `json:"type"`
 }
 
 // A WafWebAclStatus defines the observed state of a WafWebAcl

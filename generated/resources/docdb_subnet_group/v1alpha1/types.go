@@ -52,8 +52,9 @@ type DocdbSubnetGroupSpec struct {
 
 // A DocdbSubnetGroupParameters defines the desired state of a DocdbSubnetGroup
 type DocdbSubnetGroupParameters struct {
-	Description string   `json:"description"`
-	SubnetIds   []string `json:"subnet_ids"`
+	SubnetIds   []string          `json:"subnet_ids"`
+	Tags        map[string]string `json:"tags"`
+	Description string            `json:"description"`
 }
 
 // A DocdbSubnetGroupStatus defines the observed state of a DocdbSubnetGroup
@@ -64,8 +65,8 @@ type DocdbSubnetGroupStatus struct {
 
 // A DocdbSubnetGroupObservation records the observed state of a DocdbSubnetGroup
 type DocdbSubnetGroupObservation struct {
-	Arn        string `json:"arn"`
 	Id         string `json:"id"`
 	Name       string `json:"name"`
 	NamePrefix string `json:"name_prefix"`
+	Arn        string `json:"arn"`
 }

@@ -52,11 +52,14 @@ type LambdaAliasSpec struct {
 
 // A LambdaAliasParameters defines the desired state of a LambdaAlias
 type LambdaAliasParameters struct {
-	Name            string `json:"name"`
-	Description     string `json:"description"`
-	FunctionName    string `json:"function_name"`
-	FunctionVersion string `json:"function_version"`
+	Description     string        `json:"description"`
+	FunctionName    string        `json:"function_name"`
+	FunctionVersion string        `json:"function_version"`
+	Name            string        `json:"name"`
+	RoutingConfig   RoutingConfig `json:"routing_config"`
 }
+
+type RoutingConfig struct{}
 
 // A LambdaAliasStatus defines the observed state of a LambdaAlias
 type LambdaAliasStatus struct {

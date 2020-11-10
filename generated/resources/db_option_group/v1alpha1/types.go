@@ -52,9 +52,30 @@ type DbOptionGroupSpec struct {
 
 // A DbOptionGroupParameters defines the desired state of a DbOptionGroup
 type DbOptionGroupParameters struct {
-	EngineName             string `json:"engine_name"`
-	MajorEngineVersion     string `json:"major_engine_version"`
-	OptionGroupDescription string `json:"option_group_description"`
+	EngineName             string            `json:"engine_name"`
+	MajorEngineVersion     string            `json:"major_engine_version"`
+	OptionGroupDescription string            `json:"option_group_description"`
+	Tags                   map[string]string `json:"tags"`
+	Option                 []Option          `json:"option"`
+	Timeouts               []Timeouts        `json:"timeouts"`
+}
+
+type Option struct {
+	DbSecurityGroupMemberships  []string         `json:"db_security_group_memberships"`
+	OptionName                  string           `json:"option_name"`
+	Port                        int              `json:"port"`
+	Version                     string           `json:"version"`
+	VpcSecurityGroupMemberships []string         `json:"vpc_security_group_memberships"`
+	OptionSettings              []OptionSettings `json:"option_settings"`
+}
+
+type OptionSettings struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
 }
 
 // A DbOptionGroupStatus defines the observed state of a DbOptionGroup

@@ -52,18 +52,77 @@ type InstanceSpec struct {
 
 // A InstanceParameters defines the desired state of a Instance
 type InstanceParameters struct {
-	Ami                               string `json:"ami"`
-	Monitoring                        bool   `json:"monitoring"`
-	DisableApiTermination             bool   `json:"disable_api_termination"`
-	GetPasswordData                   bool   `json:"get_password_data"`
-	IamInstanceProfile                string `json:"iam_instance_profile"`
-	InstanceType                      string `json:"instance_type"`
-	Hibernation                       bool   `json:"hibernation"`
-	InstanceInitiatedShutdownBehavior string `json:"instance_initiated_shutdown_behavior"`
-	EbsOptimized                      bool   `json:"ebs_optimized"`
-	UserDataBase64                    string `json:"user_data_base64"`
-	SourceDestCheck                   bool   `json:"source_dest_check"`
-	UserData                          string `json:"user_data"`
+	DisableApiTermination             bool                   `json:"disable_api_termination"`
+	GetPasswordData                   bool                   `json:"get_password_data"`
+	Monitoring                        bool                   `json:"monitoring"`
+	InstanceInitiatedShutdownBehavior string                 `json:"instance_initiated_shutdown_behavior"`
+	Ami                               string                 `json:"ami"`
+	Hibernation                       bool                   `json:"hibernation"`
+	UserData                          string                 `json:"user_data"`
+	IamInstanceProfile                string                 `json:"iam_instance_profile"`
+	UserDataBase64                    string                 `json:"user_data_base64"`
+	InstanceType                      string                 `json:"instance_type"`
+	EbsOptimized                      bool                   `json:"ebs_optimized"`
+	SourceDestCheck                   bool                   `json:"source_dest_check"`
+	Tags                              map[string]string      `json:"tags"`
+	NetworkInterface                  []NetworkInterface     `json:"network_interface"`
+	RootBlockDevice                   RootBlockDevice        `json:"root_block_device"`
+	Timeouts                          []Timeouts             `json:"timeouts"`
+	CreditSpecification               CreditSpecification    `json:"credit_specification"`
+	EbsBlockDevice                    []EbsBlockDevice       `json:"ebs_block_device"`
+	EphemeralBlockDevice              []EphemeralBlockDevice `json:"ephemeral_block_device"`
+	MetadataOptions                   MetadataOptions        `json:"metadata_options"`
+}
+
+type NetworkInterface struct {
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+	DeviceIndex         int    `json:"device_index"`
+	NetworkInterfaceId  string `json:"network_interface_id"`
+}
+
+type RootBlockDevice struct {
+	Encrypted           bool   `json:"encrypted"`
+	Iops                int    `json:"iops"`
+	KmsKeyId            string `json:"kms_key_id"`
+	VolumeId            string `json:"volume_id"`
+	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+	DeviceName          string `json:"device_name"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
+}
+
+type CreditSpecification struct {
+	CpuCredits string `json:"cpu_credits"`
+}
+
+type EbsBlockDevice struct {
+	DeviceName          string `json:"device_name"`
+	Iops                int    `json:"iops"`
+	SnapshotId          string `json:"snapshot_id"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+	KmsKeyId            string `json:"kms_key_id"`
+	VolumeId            string `json:"volume_id"`
+	VolumeSize          int    `json:"volume_size"`
+	Encrypted           bool   `json:"encrypted"`
+}
+
+type EphemeralBlockDevice struct {
+	DeviceName  string `json:"device_name"`
+	NoDevice    bool   `json:"no_device"`
+	VirtualName string `json:"virtual_name"`
+}
+
+type MetadataOptions struct {
+	HttpTokens              string `json:"http_tokens"`
+	HttpEndpoint            string `json:"http_endpoint"`
+	HttpPutResponseHopLimit int    `json:"http_put_response_hop_limit"`
 }
 
 // A InstanceStatus defines the observed state of a Instance
@@ -74,28 +133,29 @@ type InstanceStatus struct {
 
 // A InstanceObservation records the observed state of a Instance
 type InstanceObservation struct {
-	CpuCoreCount              int      `json:"cpu_core_count"`
-	Id                        string   `json:"id"`
-	VpcSecurityGroupIds       []string `json:"vpc_security_group_ids"`
-	Ipv6AddressCount          int      `json:"ipv6_address_count"`
-	Ipv6Addresses             []string `json:"ipv6_addresses"`
-	PublicIp                  string   `json:"public_ip"`
-	AssociatePublicIpAddress  bool     `json:"associate_public_ip_address"`
-	AvailabilityZone          string   `json:"availability_zone"`
-	PrimaryNetworkInterfaceId string   `json:"primary_network_interface_id"`
-	PrivateIp                 string   `json:"private_ip"`
-	SubnetId                  string   `json:"subnet_id"`
-	InstanceState             string   `json:"instance_state"`
-	SecondaryPrivateIps       []string `json:"secondary_private_ips"`
-	Arn                       string   `json:"arn"`
-	CpuThreadsPerCore         int      `json:"cpu_threads_per_core"`
-	HostId                    string   `json:"host_id"`
-	PlacementGroup            string   `json:"placement_group"`
-	SecurityGroups            []string `json:"security_groups"`
-	PrivateDns                string   `json:"private_dns"`
-	PublicDns                 string   `json:"public_dns"`
-	PasswordData              string   `json:"password_data"`
-	KeyName                   string   `json:"key_name"`
-	OutpostArn                string   `json:"outpost_arn"`
-	Tenancy                   string   `json:"tenancy"`
+	OutpostArn                string            `json:"outpost_arn"`
+	VpcSecurityGroupIds       []string          `json:"vpc_security_group_ids"`
+	AvailabilityZone          string            `json:"availability_zone"`
+	HostId                    string            `json:"host_id"`
+	Id                        string            `json:"id"`
+	PlacementGroup            string            `json:"placement_group"`
+	PrivateDns                string            `json:"private_dns"`
+	PublicIp                  string            `json:"public_ip"`
+	SecurityGroups            []string          `json:"security_groups"`
+	Arn                       string            `json:"arn"`
+	CpuThreadsPerCore         int               `json:"cpu_threads_per_core"`
+	PublicDns                 string            `json:"public_dns"`
+	Tenancy                   string            `json:"tenancy"`
+	PrivateIp                 string            `json:"private_ip"`
+	PasswordData              string            `json:"password_data"`
+	PrimaryNetworkInterfaceId string            `json:"primary_network_interface_id"`
+	KeyName                   string            `json:"key_name"`
+	InstanceState             string            `json:"instance_state"`
+	Ipv6AddressCount          int               `json:"ipv6_address_count"`
+	SecondaryPrivateIps       []string          `json:"secondary_private_ips"`
+	SubnetId                  string            `json:"subnet_id"`
+	AssociatePublicIpAddress  bool              `json:"associate_public_ip_address"`
+	CpuCoreCount              int               `json:"cpu_core_count"`
+	VolumeTags                map[string]string `json:"volume_tags"`
+	Ipv6Addresses             []string          `json:"ipv6_addresses"`
 }

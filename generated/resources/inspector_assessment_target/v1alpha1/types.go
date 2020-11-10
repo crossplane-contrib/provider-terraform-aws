@@ -64,6 +64,6 @@ type InspectorAssessmentTargetStatus struct {
 
 // A InspectorAssessmentTargetObservation records the observed state of a InspectorAssessmentTarget
 type InspectorAssessmentTargetObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

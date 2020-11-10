@@ -52,13 +52,26 @@ type DaxClusterSpec struct {
 
 // A DaxClusterParameters defines the desired state of a DaxCluster
 type DaxClusterParameters struct {
-	AvailabilityZones    []string `json:"availability_zones"`
-	IamRoleArn           string   `json:"iam_role_arn"`
-	NotificationTopicArn string   `json:"notification_topic_arn"`
-	ClusterName          string   `json:"cluster_name"`
-	Description          string   `json:"description"`
-	NodeType             string   `json:"node_type"`
-	ReplicationFactor    int      `json:"replication_factor"`
+	NotificationTopicArn string               `json:"notification_topic_arn"`
+	ClusterName          string               `json:"cluster_name"`
+	Description          string               `json:"description"`
+	IamRoleArn           string               `json:"iam_role_arn"`
+	NodeType             string               `json:"node_type"`
+	AvailabilityZones    []string             `json:"availability_zones"`
+	ReplicationFactor    int                  `json:"replication_factor"`
+	Tags                 map[string]string    `json:"tags"`
+	ServerSideEncryption ServerSideEncryption `json:"server_side_encryption"`
+	Timeouts             []Timeouts           `json:"timeouts"`
+}
+
+type ServerSideEncryption struct {
+	Enabled bool `json:"enabled"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DaxClusterStatus defines the observed state of a DaxCluster
@@ -69,13 +82,13 @@ type DaxClusterStatus struct {
 
 // A DaxClusterObservation records the observed state of a DaxCluster
 type DaxClusterObservation struct {
-	Arn                   string   `json:"arn"`
-	SubnetGroupName       string   `json:"subnet_group_name"`
-	SecurityGroupIds      []string `json:"security_group_ids"`
+	Port                  int      `json:"port"`
 	Id                    string   `json:"id"`
-	MaintenanceWindow     string   `json:"maintenance_window"`
+	ParameterGroupName    string   `json:"parameter_group_name"`
+	SubnetGroupName       string   `json:"subnet_group_name"`
+	Arn                   string   `json:"arn"`
+	SecurityGroupIds      []string `json:"security_group_ids"`
 	ClusterAddress        string   `json:"cluster_address"`
 	ConfigurationEndpoint string   `json:"configuration_endpoint"`
-	ParameterGroupName    string   `json:"parameter_group_name"`
-	Port                  int      `json:"port"`
+	MaintenanceWindow     string   `json:"maintenance_window"`
 }

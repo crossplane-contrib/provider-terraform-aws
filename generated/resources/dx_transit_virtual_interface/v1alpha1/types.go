@@ -52,13 +52,21 @@ type DxTransitVirtualInterfaceSpec struct {
 
 // A DxTransitVirtualInterfaceParameters defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceParameters struct {
-	Vlan          int    `json:"vlan"`
-	BgpAsn        int    `json:"bgp_asn"`
-	ConnectionId  string `json:"connection_id"`
-	Name          string `json:"name"`
-	AddressFamily string `json:"address_family"`
-	DxGatewayId   string `json:"dx_gateway_id"`
-	Mtu           int    `json:"mtu"`
+	AddressFamily string            `json:"address_family"`
+	Mtu           int               `json:"mtu"`
+	Tags          map[string]string `json:"tags"`
+	BgpAsn        int               `json:"bgp_asn"`
+	ConnectionId  string            `json:"connection_id"`
+	DxGatewayId   string            `json:"dx_gateway_id"`
+	Name          string            `json:"name"`
+	Vlan          int               `json:"vlan"`
+	Timeouts      []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Update string `json:"update"`
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A DxTransitVirtualInterfaceStatus defines the observed state of a DxTransitVirtualInterface
@@ -69,12 +77,12 @@ type DxTransitVirtualInterfaceStatus struct {
 
 // A DxTransitVirtualInterfaceObservation records the observed state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceObservation struct {
-	Arn               string `json:"arn"`
-	CustomerAddress   string `json:"customer_address"`
-	Id                string `json:"id"`
-	AmazonSideAsn     string `json:"amazon_side_asn"`
-	AwsDevice         string `json:"aws_device"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
-	AmazonAddress     string `json:"amazon_address"`
 	BgpAuthKey        string `json:"bgp_auth_key"`
+	Id                string `json:"id"`
+	AwsDevice         string `json:"aws_device"`
+	CustomerAddress   string `json:"customer_address"`
+	AmazonAddress     string `json:"amazon_address"`
+	AmazonSideAsn     string `json:"amazon_side_asn"`
+	Arn               string `json:"arn"`
 }

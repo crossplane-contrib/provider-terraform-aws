@@ -52,10 +52,18 @@ type WafRateBasedRuleSpec struct {
 
 // A WafRateBasedRuleParameters defines the desired state of a WafRateBasedRule
 type WafRateBasedRuleParameters struct {
-	MetricName string `json:"metric_name"`
-	Name       string `json:"name"`
-	RateKey    string `json:"rate_key"`
-	RateLimit  int    `json:"rate_limit"`
+	MetricName string            `json:"metric_name"`
+	Name       string            `json:"name"`
+	RateKey    string            `json:"rate_key"`
+	RateLimit  int               `json:"rate_limit"`
+	Tags       map[string]string `json:"tags"`
+	Predicates []Predicates      `json:"predicates"`
+}
+
+type Predicates struct {
+	Type    string `json:"type"`
+	DataId  string `json:"data_id"`
+	Negated bool   `json:"negated"`
 }
 
 // A WafRateBasedRuleStatus defines the observed state of a WafRateBasedRule
@@ -66,6 +74,6 @@ type WafRateBasedRuleStatus struct {
 
 // A WafRateBasedRuleObservation records the observed state of a WafRateBasedRule
 type WafRateBasedRuleObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

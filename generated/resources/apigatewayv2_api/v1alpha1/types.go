@@ -52,17 +52,28 @@ type Apigatewayv2ApiSpec struct {
 
 // A Apigatewayv2ApiParameters defines the desired state of a Apigatewayv2Api
 type Apigatewayv2ApiParameters struct {
-	Target                    string `json:"target"`
-	ApiKeySelectionExpression string `json:"api_key_selection_expression"`
-	DisableExecuteApiEndpoint bool   `json:"disable_execute_api_endpoint"`
-	RouteSelectionExpression  string `json:"route_selection_expression"`
-	Name                      string `json:"name"`
-	ProtocolType              string `json:"protocol_type"`
-	Body                      string `json:"body"`
-	CredentialsArn            string `json:"credentials_arn"`
-	Description               string `json:"description"`
-	RouteKey                  string `json:"route_key"`
-	Version                   string `json:"version"`
+	Body                      string            `json:"body"`
+	Description               string            `json:"description"`
+	DisableExecuteApiEndpoint bool              `json:"disable_execute_api_endpoint"`
+	Name                      string            `json:"name"`
+	ProtocolType              string            `json:"protocol_type"`
+	CredentialsArn            string            `json:"credentials_arn"`
+	RouteSelectionExpression  string            `json:"route_selection_expression"`
+	Target                    string            `json:"target"`
+	ApiKeySelectionExpression string            `json:"api_key_selection_expression"`
+	RouteKey                  string            `json:"route_key"`
+	Version                   string            `json:"version"`
+	Tags                      map[string]string `json:"tags"`
+	CorsConfiguration         CorsConfiguration `json:"cors_configuration"`
+}
+
+type CorsConfiguration struct {
+	AllowCredentials bool     `json:"allow_credentials"`
+	AllowHeaders     []string `json:"allow_headers"`
+	AllowMethods     []string `json:"allow_methods"`
+	AllowOrigins     []string `json:"allow_origins"`
+	ExposeHeaders    []string `json:"expose_headers"`
+	MaxAge           int      `json:"max_age"`
 }
 
 // A Apigatewayv2ApiStatus defines the observed state of a Apigatewayv2Api
@@ -73,8 +84,8 @@ type Apigatewayv2ApiStatus struct {
 
 // A Apigatewayv2ApiObservation records the observed state of a Apigatewayv2Api
 type Apigatewayv2ApiObservation struct {
-	ApiEndpoint  string `json:"api_endpoint"`
-	Arn          string `json:"arn"`
 	ExecutionArn string `json:"execution_arn"`
+	ApiEndpoint  string `json:"api_endpoint"`
 	Id           string `json:"id"`
+	Arn          string `json:"arn"`
 }

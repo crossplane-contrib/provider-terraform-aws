@@ -52,8 +52,13 @@ type GuarddutyInviteAccepterSpec struct {
 
 // A GuarddutyInviteAccepterParameters defines the desired state of a GuarddutyInviteAccepter
 type GuarddutyInviteAccepterParameters struct {
-	MasterAccountId string `json:"master_account_id"`
-	DetectorId      string `json:"detector_id"`
+	DetectorId      string     `json:"detector_id"`
+	MasterAccountId string     `json:"master_account_id"`
+	Timeouts        []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 // A GuarddutyInviteAccepterStatus defines the observed state of a GuarddutyInviteAccepter

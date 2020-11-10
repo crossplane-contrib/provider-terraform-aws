@@ -52,11 +52,18 @@ type GlobalacceleratorEndpointGroupSpec struct {
 
 // A GlobalacceleratorEndpointGroupParameters defines the desired state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupParameters struct {
-	ListenerArn                string `json:"listener_arn"`
-	HealthCheckIntervalSeconds int    `json:"health_check_interval_seconds"`
-	HealthCheckProtocol        string `json:"health_check_protocol"`
-	ThresholdCount             int    `json:"threshold_count"`
-	TrafficDialPercentage      int    `json:"traffic_dial_percentage"`
+	ListenerArn                string                  `json:"listener_arn"`
+	HealthCheckIntervalSeconds int                     `json:"health_check_interval_seconds"`
+	HealthCheckProtocol        string                  `json:"health_check_protocol"`
+	ThresholdCount             int                     `json:"threshold_count"`
+	TrafficDialPercentage      int                     `json:"traffic_dial_percentage"`
+	EndpointConfiguration      []EndpointConfiguration `json:"endpoint_configuration"`
+}
+
+type EndpointConfiguration struct {
+	Weight                      int    `json:"weight"`
+	ClientIpPreservationEnabled bool   `json:"client_ip_preservation_enabled"`
+	EndpointId                  string `json:"endpoint_id"`
 }
 
 // A GlobalacceleratorEndpointGroupStatus defines the observed state of a GlobalacceleratorEndpointGroup
@@ -67,8 +74,8 @@ type GlobalacceleratorEndpointGroupStatus struct {
 
 // A GlobalacceleratorEndpointGroupObservation records the observed state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupObservation struct {
-	Id                  string `json:"id"`
+	HealthCheckPath     string `json:"health_check_path"`
 	EndpointGroupRegion string `json:"endpoint_group_region"`
 	HealthCheckPort     int    `json:"health_check_port"`
-	HealthCheckPath     string `json:"health_check_path"`
+	Id                  string `json:"id"`
 }

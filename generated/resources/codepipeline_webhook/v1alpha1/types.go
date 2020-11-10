@@ -52,10 +52,23 @@ type CodepipelineWebhookSpec struct {
 
 // A CodepipelineWebhookParameters defines the desired state of a CodepipelineWebhook
 type CodepipelineWebhookParameters struct {
-	Name           string `json:"name"`
-	TargetAction   string `json:"target_action"`
-	TargetPipeline string `json:"target_pipeline"`
-	Authentication string `json:"authentication"`
+	Tags                        map[string]string           `json:"tags"`
+	TargetAction                string                      `json:"target_action"`
+	TargetPipeline              string                      `json:"target_pipeline"`
+	Authentication              string                      `json:"authentication"`
+	Name                        string                      `json:"name"`
+	AuthenticationConfiguration AuthenticationConfiguration `json:"authentication_configuration"`
+	Filter                      []Filter                    `json:"filter"`
+}
+
+type AuthenticationConfiguration struct {
+	AllowedIpRange string `json:"allowed_ip_range"`
+	SecretToken    string `json:"secret_token"`
+}
+
+type Filter struct {
+	JsonPath    string `json:"json_path"`
+	MatchEquals string `json:"match_equals"`
 }
 
 // A CodepipelineWebhookStatus defines the observed state of a CodepipelineWebhook
@@ -66,6 +79,6 @@ type CodepipelineWebhookStatus struct {
 
 // A CodepipelineWebhookObservation records the observed state of a CodepipelineWebhook
 type CodepipelineWebhookObservation struct {
-	Id  string `json:"id"`
 	Url string `json:"url"`
+	Id  string `json:"id"`
 }

@@ -52,10 +52,11 @@ type OrganizationsPolicySpec struct {
 
 // A OrganizationsPolicyParameters defines the desired state of a OrganizationsPolicy
 type OrganizationsPolicyParameters struct {
-	Type        string `json:"type"`
-	Content     string `json:"content"`
-	Description string `json:"description"`
-	Name        string `json:"name"`
+	Content     string            `json:"content"`
+	Description string            `json:"description"`
+	Name        string            `json:"name"`
+	Tags        map[string]string `json:"tags"`
+	Type        string            `json:"type"`
 }
 
 // A OrganizationsPolicyStatus defines the observed state of a OrganizationsPolicy

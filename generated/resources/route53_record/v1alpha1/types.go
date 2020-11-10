@@ -52,14 +52,43 @@ type Route53RecordSpec struct {
 
 // A Route53RecordParameters defines the desired state of a Route53Record
 type Route53RecordParameters struct {
-	SetIdentifier                 string   `json:"set_identifier"`
-	Type                          string   `json:"type"`
-	ZoneId                        string   `json:"zone_id"`
-	HealthCheckId                 string   `json:"health_check_id"`
-	MultivalueAnswerRoutingPolicy bool     `json:"multivalue_answer_routing_policy"`
-	Name                          string   `json:"name"`
-	Records                       []string `json:"records"`
-	Ttl                           int      `json:"ttl"`
+	SetIdentifier                 string                     `json:"set_identifier"`
+	Ttl                           int                        `json:"ttl"`
+	Type                          string                     `json:"type"`
+	HealthCheckId                 string                     `json:"health_check_id"`
+	MultivalueAnswerRoutingPolicy bool                       `json:"multivalue_answer_routing_policy"`
+	Name                          string                     `json:"name"`
+	Records                       []string                   `json:"records"`
+	ZoneId                        string                     `json:"zone_id"`
+	WeightedRoutingPolicy         []WeightedRoutingPolicy    `json:"weighted_routing_policy"`
+	Alias                         []Alias                    `json:"alias"`
+	FailoverRoutingPolicy         []FailoverRoutingPolicy    `json:"failover_routing_policy"`
+	GeolocationRoutingPolicy      []GeolocationRoutingPolicy `json:"geolocation_routing_policy"`
+	LatencyRoutingPolicy          []LatencyRoutingPolicy     `json:"latency_routing_policy"`
+}
+
+type WeightedRoutingPolicy struct {
+	Weight int `json:"weight"`
+}
+
+type Alias struct {
+	EvaluateTargetHealth bool   `json:"evaluate_target_health"`
+	Name                 string `json:"name"`
+	ZoneId               string `json:"zone_id"`
+}
+
+type FailoverRoutingPolicy struct {
+	Type string `json:"type"`
+}
+
+type GeolocationRoutingPolicy struct {
+	Continent   string `json:"continent"`
+	Country     string `json:"country"`
+	Subdivision string `json:"subdivision"`
+}
+
+type LatencyRoutingPolicy struct {
+	Region string `json:"region"`
 }
 
 // A Route53RecordStatus defines the observed state of a Route53Record
@@ -70,7 +99,7 @@ type Route53RecordStatus struct {
 
 // A Route53RecordObservation records the observed state of a Route53Record
 type Route53RecordObservation struct {
-	AllowOverwrite bool   `json:"allow_overwrite"`
 	Fqdn           string `json:"fqdn"`
+	AllowOverwrite bool   `json:"allow_overwrite"`
 	Id             string `json:"id"`
 }

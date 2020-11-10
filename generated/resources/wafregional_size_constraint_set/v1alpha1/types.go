@@ -52,7 +52,20 @@ type WafregionalSizeConstraintSetSpec struct {
 
 // A WafregionalSizeConstraintSetParameters defines the desired state of a WafregionalSizeConstraintSet
 type WafregionalSizeConstraintSetParameters struct {
-	Name string `json:"name"`
+	Name            string            `json:"name"`
+	SizeConstraints []SizeConstraints `json:"size_constraints"`
+}
+
+type SizeConstraints struct {
+	ComparisonOperator string       `json:"comparison_operator"`
+	Size               int          `json:"size"`
+	TextTransformation string       `json:"text_transformation"`
+	FieldToMatch       FieldToMatch `json:"field_to_match"`
+}
+
+type FieldToMatch struct {
+	Data string `json:"data"`
+	Type string `json:"type"`
 }
 
 // A WafregionalSizeConstraintSetStatus defines the observed state of a WafregionalSizeConstraintSet
@@ -63,6 +76,6 @@ type WafregionalSizeConstraintSetStatus struct {
 
 // A WafregionalSizeConstraintSetObservation records the observed state of a WafregionalSizeConstraintSet
 type WafregionalSizeConstraintSetObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
+	Id  string `json:"id"`
 }

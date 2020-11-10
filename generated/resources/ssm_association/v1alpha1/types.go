@@ -52,14 +52,26 @@ type SsmAssociationSpec struct {
 
 // A SsmAssociationParameters defines the desired state of a SsmAssociation
 type SsmAssociationParameters struct {
-	ComplianceSeverity            string `json:"compliance_severity"`
-	MaxErrors                     string `json:"max_errors"`
-	Name                          string `json:"name"`
-	AssociationName               string `json:"association_name"`
-	AutomationTargetParameterName string `json:"automation_target_parameter_name"`
-	InstanceId                    string `json:"instance_id"`
-	MaxConcurrency                string `json:"max_concurrency"`
-	ScheduleExpression            string `json:"schedule_expression"`
+	InstanceId                    string         `json:"instance_id"`
+	MaxConcurrency                string         `json:"max_concurrency"`
+	MaxErrors                     string         `json:"max_errors"`
+	ScheduleExpression            string         `json:"schedule_expression"`
+	AssociationName               string         `json:"association_name"`
+	AutomationTargetParameterName string         `json:"automation_target_parameter_name"`
+	ComplianceSeverity            string         `json:"compliance_severity"`
+	Name                          string         `json:"name"`
+	OutputLocation                OutputLocation `json:"output_location"`
+	Targets                       []Targets      `json:"targets"`
+}
+
+type OutputLocation struct {
+	S3BucketName string `json:"s3_bucket_name"`
+	S3KeyPrefix  string `json:"s3_key_prefix"`
+}
+
+type Targets struct {
+	Key    string   `json:"key"`
+	Values []string `json:"values"`
 }
 
 // A SsmAssociationStatus defines the observed state of a SsmAssociation
@@ -70,7 +82,8 @@ type SsmAssociationStatus struct {
 
 // A SsmAssociationObservation records the observed state of a SsmAssociation
 type SsmAssociationObservation struct {
-	DocumentVersion string `json:"document_version"`
-	Id              string `json:"id"`
-	AssociationId   string `json:"association_id"`
+	DocumentVersion string            `json:"document_version"`
+	Id              string            `json:"id"`
+	AssociationId   string            `json:"association_id"`
+	Parameters      map[string]string `json:"parameters"`
 }

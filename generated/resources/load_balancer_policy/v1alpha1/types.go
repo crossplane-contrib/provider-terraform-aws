@@ -52,9 +52,15 @@ type LoadBalancerPolicySpec struct {
 
 // A LoadBalancerPolicyParameters defines the desired state of a LoadBalancerPolicy
 type LoadBalancerPolicyParameters struct {
-	LoadBalancerName string `json:"load_balancer_name"`
-	PolicyName       string `json:"policy_name"`
-	PolicyTypeName   string `json:"policy_type_name"`
+	LoadBalancerName string            `json:"load_balancer_name"`
+	PolicyName       string            `json:"policy_name"`
+	PolicyTypeName   string            `json:"policy_type_name"`
+	PolicyAttribute  []PolicyAttribute `json:"policy_attribute"`
+}
+
+type PolicyAttribute struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // A LoadBalancerPolicyStatus defines the observed state of a LoadBalancerPolicy

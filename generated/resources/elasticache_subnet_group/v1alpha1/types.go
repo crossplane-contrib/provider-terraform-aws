@@ -52,9 +52,9 @@ type ElasticacheSubnetGroupSpec struct {
 
 // A ElasticacheSubnetGroupParameters defines the desired state of a ElasticacheSubnetGroup
 type ElasticacheSubnetGroupParameters struct {
+	Description string   `json:"description"`
 	Name        string   `json:"name"`
 	SubnetIds   []string `json:"subnet_ids"`
-	Description string   `json:"description"`
 }
 
 // A ElasticacheSubnetGroupStatus defines the observed state of a ElasticacheSubnetGroup

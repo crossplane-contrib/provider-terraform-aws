@@ -52,15 +52,36 @@ type LbTargetGroupSpec struct {
 
 // A LbTargetGroupParameters defines the desired state of a LbTargetGroup
 type LbTargetGroupParameters struct {
-	LambdaMultiValueHeadersEnabled bool   `json:"lambda_multi_value_headers_enabled"`
-	Protocol                       string `json:"protocol"`
-	VpcId                          string `json:"vpc_id"`
-	TargetType                     string `json:"target_type"`
-	NamePrefix                     string `json:"name_prefix"`
-	Port                           int    `json:"port"`
-	ProxyProtocolV2                bool   `json:"proxy_protocol_v2"`
-	SlowStart                      int    `json:"slow_start"`
-	DeregistrationDelay            int    `json:"deregistration_delay"`
+	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
+	TargetType                     string            `json:"target_type"`
+	Protocol                       string            `json:"protocol"`
+	VpcId                          string            `json:"vpc_id"`
+	Port                           int               `json:"port"`
+	NamePrefix                     string            `json:"name_prefix"`
+	SlowStart                      int               `json:"slow_start"`
+	Tags                           map[string]string `json:"tags"`
+	DeregistrationDelay            int               `json:"deregistration_delay"`
+	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
+	HealthCheck                    HealthCheck       `json:"health_check"`
+	Stickiness                     Stickiness        `json:"stickiness"`
+}
+
+type HealthCheck struct {
+	HealthyThreshold   int    `json:"healthy_threshold"`
+	Matcher            string `json:"matcher"`
+	Path               string `json:"path"`
+	Protocol           string `json:"protocol"`
+	Enabled            bool   `json:"enabled"`
+	Interval           int    `json:"interval"`
+	Port               string `json:"port"`
+	Timeout            int    `json:"timeout"`
+	UnhealthyThreshold int    `json:"unhealthy_threshold"`
+}
+
+type Stickiness struct {
+	Enabled        bool   `json:"enabled"`
+	Type           string `json:"type"`
+	CookieDuration int    `json:"cookie_duration"`
 }
 
 // A LbTargetGroupStatus defines the observed state of a LbTargetGroup
@@ -71,9 +92,9 @@ type LbTargetGroupStatus struct {
 
 // A LbTargetGroupObservation records the observed state of a LbTargetGroup
 type LbTargetGroupObservation struct {
-	ArnSuffix                  string `json:"arn_suffix"`
-	Id                         string `json:"id"`
 	LoadBalancingAlgorithmType string `json:"load_balancing_algorithm_type"`
+	Id                         string `json:"id"`
 	Name                       string `json:"name"`
 	Arn                        string `json:"arn"`
+	ArnSuffix                  string `json:"arn_suffix"`
 }

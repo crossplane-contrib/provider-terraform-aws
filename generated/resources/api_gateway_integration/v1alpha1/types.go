@@ -52,18 +52,20 @@ type ApiGatewayIntegrationSpec struct {
 
 // A ApiGatewayIntegrationParameters defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationParameters struct {
-	ConnectionId          string   `json:"connection_id"`
-	ConnectionType        string   `json:"connection_type"`
-	HttpMethod            string   `json:"http_method"`
-	Type                  string   `json:"type"`
-	CacheKeyParameters    []string `json:"cache_key_parameters"`
-	IntegrationHttpMethod string   `json:"integration_http_method"`
-	ResourceId            string   `json:"resource_id"`
-	TimeoutMilliseconds   int      `json:"timeout_milliseconds"`
-	ContentHandling       string   `json:"content_handling"`
-	Credentials           string   `json:"credentials"`
-	Uri                   string   `json:"uri"`
-	RestApiId             string   `json:"rest_api_id"`
+	RestApiId             string            `json:"rest_api_id"`
+	TimeoutMilliseconds   int               `json:"timeout_milliseconds"`
+	Uri                   string            `json:"uri"`
+	ConnectionId          string            `json:"connection_id"`
+	ContentHandling       string            `json:"content_handling"`
+	Credentials           string            `json:"credentials"`
+	HttpMethod            string            `json:"http_method"`
+	IntegrationHttpMethod string            `json:"integration_http_method"`
+	CacheKeyParameters    []string          `json:"cache_key_parameters"`
+	ConnectionType        string            `json:"connection_type"`
+	RequestParameters     map[string]string `json:"request_parameters"`
+	RequestTemplates      map[string]string `json:"request_templates"`
+	Type                  string            `json:"type"`
+	ResourceId            string            `json:"resource_id"`
 }
 
 // A ApiGatewayIntegrationStatus defines the observed state of a ApiGatewayIntegration
@@ -74,7 +76,7 @@ type ApiGatewayIntegrationStatus struct {
 
 // A ApiGatewayIntegrationObservation records the observed state of a ApiGatewayIntegration
 type ApiGatewayIntegrationObservation struct {
-	PassthroughBehavior string `json:"passthrough_behavior"`
 	CacheNamespace      string `json:"cache_namespace"`
+	PassthroughBehavior string `json:"passthrough_behavior"`
 	Id                  string `json:"id"`
 }

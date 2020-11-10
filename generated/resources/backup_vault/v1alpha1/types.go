@@ -52,7 +52,8 @@ type BackupVaultSpec struct {
 
 // A BackupVaultParameters defines the desired state of a BackupVault
 type BackupVaultParameters struct {
-	Name string `json:"name"`
+	Name string            `json:"name"`
+	Tags map[string]string `json:"tags"`
 }
 
 // A BackupVaultStatus defines the observed state of a BackupVault
@@ -63,8 +64,8 @@ type BackupVaultStatus struct {
 
 // A BackupVaultObservation records the observed state of a BackupVault
 type BackupVaultObservation struct {
-	Arn            string `json:"arn"`
-	Id             string `json:"id"`
 	KmsKeyArn      string `json:"kms_key_arn"`
 	RecoveryPoints int    `json:"recovery_points"`
+	Arn            string `json:"arn"`
+	Id             string `json:"id"`
 }

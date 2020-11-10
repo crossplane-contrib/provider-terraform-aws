@@ -52,10 +52,18 @@ type DmsReplicationInstanceSpec struct {
 
 // A DmsReplicationInstanceParameters defines the desired state of a DmsReplicationInstance
 type DmsReplicationInstanceParameters struct {
-	ReplicationInstanceClass string `json:"replication_instance_class"`
-	ReplicationInstanceId    string `json:"replication_instance_id"`
-	AllowMajorVersionUpgrade bool   `json:"allow_major_version_upgrade"`
-	ApplyImmediately         bool   `json:"apply_immediately"`
+	AllowMajorVersionUpgrade bool              `json:"allow_major_version_upgrade"`
+	ApplyImmediately         bool              `json:"apply_immediately"`
+	Tags                     map[string]string `json:"tags"`
+	ReplicationInstanceClass string            `json:"replication_instance_class"`
+	ReplicationInstanceId    string            `json:"replication_instance_id"`
+	Timeouts                 []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DmsReplicationInstanceStatus defines the observed state of a DmsReplicationInstance
@@ -66,18 +74,18 @@ type DmsReplicationInstanceStatus struct {
 
 // A DmsReplicationInstanceObservation records the observed state of a DmsReplicationInstance
 type DmsReplicationInstanceObservation struct {
+	PreferredMaintenanceWindow    string   `json:"preferred_maintenance_window"`
+	ReplicationInstanceArn        string   `json:"replication_instance_arn"`
 	VpcSecurityGroupIds           []string `json:"vpc_security_group_ids"`
+	AllocatedStorage              int      `json:"allocated_storage"`
+	PubliclyAccessible            bool     `json:"publicly_accessible"`
+	ReplicationInstancePrivateIps []string `json:"replication_instance_private_ips"`
+	ReplicationInstancePublicIps  []string `json:"replication_instance_public_ips"`
 	AutoMinorVersionUpgrade       bool     `json:"auto_minor_version_upgrade"`
 	EngineVersion                 string   `json:"engine_version"`
-	KmsKeyArn                     string   `json:"kms_key_arn"`
-	PreferredMaintenanceWindow    string   `json:"preferred_maintenance_window"`
-	ReplicationInstancePrivateIps []string `json:"replication_instance_private_ips"`
 	ReplicationSubnetGroupId      string   `json:"replication_subnet_group_id"`
-	MultiAz                       bool     `json:"multi_az"`
 	AvailabilityZone              string   `json:"availability_zone"`
 	Id                            string   `json:"id"`
-	PubliclyAccessible            bool     `json:"publicly_accessible"`
-	ReplicationInstanceArn        string   `json:"replication_instance_arn"`
-	ReplicationInstancePublicIps  []string `json:"replication_instance_public_ips"`
-	AllocatedStorage              int      `json:"allocated_storage"`
+	KmsKeyArn                     string   `json:"kms_key_arn"`
+	MultiAz                       bool     `json:"multi_az"`
 }

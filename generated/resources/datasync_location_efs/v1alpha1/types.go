@@ -52,8 +52,15 @@ type DatasyncLocationEfsSpec struct {
 
 // A DatasyncLocationEfsParameters defines the desired state of a DatasyncLocationEfs
 type DatasyncLocationEfsParameters struct {
-	Subdirectory     string `json:"subdirectory"`
-	EfsFileSystemArn string `json:"efs_file_system_arn"`
+	Subdirectory     string            `json:"subdirectory"`
+	Tags             map[string]string `json:"tags"`
+	EfsFileSystemArn string            `json:"efs_file_system_arn"`
+	Ec2Config        Ec2Config         `json:"ec2_config"`
+}
+
+type Ec2Config struct {
+	SecurityGroupArns []string `json:"security_group_arns"`
+	SubnetArn         string   `json:"subnet_arn"`
 }
 
 // A DatasyncLocationEfsStatus defines the observed state of a DatasyncLocationEfs

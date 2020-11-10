@@ -52,9 +52,15 @@ type MacieS3BucketAssociationSpec struct {
 
 // A MacieS3BucketAssociationParameters defines the desired state of a MacieS3BucketAssociation
 type MacieS3BucketAssociationParameters struct {
-	BucketName      string `json:"bucket_name"`
-	MemberAccountId string `json:"member_account_id"`
-	Prefix          string `json:"prefix"`
+	BucketName         string             `json:"bucket_name"`
+	MemberAccountId    string             `json:"member_account_id"`
+	Prefix             string             `json:"prefix"`
+	ClassificationType ClassificationType `json:"classification_type"`
+}
+
+type ClassificationType struct {
+	Continuous string `json:"continuous"`
+	OneTime    string `json:"one_time"`
 }
 
 // A MacieS3BucketAssociationStatus defines the observed state of a MacieS3BucketAssociation

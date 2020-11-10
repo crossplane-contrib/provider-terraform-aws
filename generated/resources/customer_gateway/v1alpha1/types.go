@@ -52,9 +52,10 @@ type CustomerGatewaySpec struct {
 
 // A CustomerGatewayParameters defines the desired state of a CustomerGateway
 type CustomerGatewayParameters struct {
-	IpAddress string `json:"ip_address"`
-	Type      string `json:"type"`
-	BgpAsn    string `json:"bgp_asn"`
+	IpAddress string            `json:"ip_address"`
+	Tags      map[string]string `json:"tags"`
+	Type      string            `json:"type"`
+	BgpAsn    string            `json:"bgp_asn"`
 }
 
 // A CustomerGatewayStatus defines the observed state of a CustomerGateway

@@ -52,11 +52,19 @@ type VpcEndpointSpec struct {
 
 // A VpcEndpointParameters defines the desired state of a VpcEndpoint
 type VpcEndpointParameters struct {
-	PrivateDnsEnabled bool   `json:"private_dns_enabled"`
-	ServiceName       string `json:"service_name"`
-	AutoAccept        bool   `json:"auto_accept"`
-	VpcId             string `json:"vpc_id"`
-	VpcEndpointType   string `json:"vpc_endpoint_type"`
+	PrivateDnsEnabled bool              `json:"private_dns_enabled"`
+	ServiceName       string            `json:"service_name"`
+	VpcEndpointType   string            `json:"vpc_endpoint_type"`
+	VpcId             string            `json:"vpc_id"`
+	AutoAccept        bool              `json:"auto_accept"`
+	Tags              map[string]string `json:"tags"`
+	Timeouts          []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A VpcEndpointStatus defines the observed state of a VpcEndpoint
@@ -67,16 +75,16 @@ type VpcEndpointStatus struct {
 
 // A VpcEndpointObservation records the observed state of a VpcEndpoint
 type VpcEndpointObservation struct {
-	PrefixListId        string   `json:"prefix_list_id"`
+	SubnetIds           []string `json:"subnet_ids"`
 	SecurityGroupIds    []string `json:"security_group_ids"`
-	State               string   `json:"state"`
-	CidrBlocks          []string `json:"cidr_blocks"`
+	Policy              string   `json:"policy"`
+	PrefixListId        string   `json:"prefix_list_id"`
 	Id                  string   `json:"id"`
 	OwnerId             string   `json:"owner_id"`
-	RouteTableIds       []string `json:"route_table_ids"`
-	RequesterManaged    bool     `json:"requester_managed"`
 	Arn                 string   `json:"arn"`
+	CidrBlocks          []string `json:"cidr_blocks"`
+	State               string   `json:"state"`
 	NetworkInterfaceIds []string `json:"network_interface_ids"`
-	Policy              string   `json:"policy"`
-	SubnetIds           []string `json:"subnet_ids"`
+	RequesterManaged    bool     `json:"requester_managed"`
+	RouteTableIds       []string `json:"route_table_ids"`
 }

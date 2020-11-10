@@ -65,6 +65,6 @@ type WorklinkWebsiteCertificateAuthorityAssociationStatus struct {
 
 // A WorklinkWebsiteCertificateAuthorityAssociationObservation records the observed state of a WorklinkWebsiteCertificateAuthorityAssociation
 type WorklinkWebsiteCertificateAuthorityAssociationObservation struct {
-	Id          string `json:"id"`
 	WebsiteCaId string `json:"website_ca_id"`
+	Id          string `json:"id"`
 }

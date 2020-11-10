@@ -64,13 +64,13 @@ type IamAccountPasswordPolicyStatus struct {
 
 // A IamAccountPasswordPolicyObservation records the observed state of a IamAccountPasswordPolicy
 type IamAccountPasswordPolicyObservation struct {
-	Id                         string `json:"id"`
-	RequireLowercaseCharacters bool   `json:"require_lowercase_characters"`
-	RequireUppercaseCharacters bool   `json:"require_uppercase_characters"`
 	ExpirePasswords            bool   `json:"expire_passwords"`
 	HardExpiry                 bool   `json:"hard_expiry"`
+	RequireLowercaseCharacters bool   `json:"require_lowercase_characters"`
+	Id                         string `json:"id"`
 	MaxPasswordAge             int    `json:"max_password_age"`
 	PasswordReusePrevention    int    `json:"password_reuse_prevention"`
 	RequireNumbers             bool   `json:"require_numbers"`
 	RequireSymbols             bool   `json:"require_symbols"`
+	RequireUppercaseCharacters bool   `json:"require_uppercase_characters"`
 }

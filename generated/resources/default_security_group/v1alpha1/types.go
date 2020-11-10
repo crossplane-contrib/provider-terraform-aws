@@ -52,7 +52,8 @@ type DefaultSecurityGroupSpec struct {
 
 // A DefaultSecurityGroupParameters defines the desired state of a DefaultSecurityGroup
 type DefaultSecurityGroupParameters struct {
-	RevokeRulesOnDelete bool `json:"revoke_rules_on_delete"`
+	Tags                map[string]string `json:"tags"`
+	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
 }
 
 // A DefaultSecurityGroupStatus defines the observed state of a DefaultSecurityGroup
@@ -63,10 +64,10 @@ type DefaultSecurityGroupStatus struct {
 
 // A DefaultSecurityGroupObservation records the observed state of a DefaultSecurityGroup
 type DefaultSecurityGroupObservation struct {
-	Description string `json:"description"`
-	OwnerId     string `json:"owner_id"`
 	VpcId       string `json:"vpc_id"`
-	Arn         string `json:"arn"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
+	OwnerId     string `json:"owner_id"`
+	Arn         string `json:"arn"`
+	Description string `json:"description"`
 }

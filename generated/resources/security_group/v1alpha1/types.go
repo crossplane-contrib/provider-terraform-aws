@@ -52,9 +52,16 @@ type SecurityGroupSpec struct {
 
 // A SecurityGroupParameters defines the desired state of a SecurityGroup
 type SecurityGroupParameters struct {
-	Description         string `json:"description"`
-	NamePrefix          string `json:"name_prefix"`
-	RevokeRulesOnDelete bool   `json:"revoke_rules_on_delete"`
+	Tags                map[string]string `json:"tags"`
+	NamePrefix          string            `json:"name_prefix"`
+	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
+	Description         string            `json:"description"`
+	Timeouts            []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A SecurityGroupStatus defines the observed state of a SecurityGroup
@@ -66,8 +73,8 @@ type SecurityGroupStatus struct {
 // A SecurityGroupObservation records the observed state of a SecurityGroup
 type SecurityGroupObservation struct {
 	Name    string `json:"name"`
+	OwnerId string `json:"owner_id"`
 	VpcId   string `json:"vpc_id"`
 	Arn     string `json:"arn"`
-	OwnerId string `json:"owner_id"`
 	Id      string `json:"id"`
 }

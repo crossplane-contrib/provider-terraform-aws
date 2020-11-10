@@ -52,7 +52,13 @@ type WafregionalIpsetSpec struct {
 
 // A WafregionalIpsetParameters defines the desired state of a WafregionalIpset
 type WafregionalIpsetParameters struct {
-	Name string `json:"name"`
+	Name            string            `json:"name"`
+	IpSetDescriptor []IpSetDescriptor `json:"ip_set_descriptor"`
+}
+
+type IpSetDescriptor struct {
+	Value string `json:"value"`
+	Type  string `json:"type"`
 }
 
 // A WafregionalIpsetStatus defines the observed state of a WafregionalIpset
@@ -63,6 +69,6 @@ type WafregionalIpsetStatus struct {
 
 // A WafregionalIpsetObservation records the observed state of a WafregionalIpset
 type WafregionalIpsetObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

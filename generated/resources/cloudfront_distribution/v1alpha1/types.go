@@ -52,16 +52,163 @@ type CloudfrontDistributionSpec struct {
 
 // A CloudfrontDistributionParameters defines the desired state of a CloudfrontDistribution
 type CloudfrontDistributionParameters struct {
-	Enabled           bool     `json:"enabled"`
-	Aliases           []string `json:"aliases"`
-	HttpVersion       string   `json:"http_version"`
-	WaitForDeployment bool     `json:"wait_for_deployment"`
-	IsIpv6Enabled     bool     `json:"is_ipv6_enabled"`
-	RetainOnDelete    bool     `json:"retain_on_delete"`
-	Comment           string   `json:"comment"`
-	PriceClass        string   `json:"price_class"`
-	WebAclId          string   `json:"web_acl_id"`
-	DefaultRootObject string   `json:"default_root_object"`
+	IsIpv6Enabled        bool                   `json:"is_ipv6_enabled"`
+	HttpVersion          string                 `json:"http_version"`
+	RetainOnDelete       bool                   `json:"retain_on_delete"`
+	DefaultRootObject    string                 `json:"default_root_object"`
+	WaitForDeployment    bool                   `json:"wait_for_deployment"`
+	Aliases              []string               `json:"aliases"`
+	Enabled              bool                   `json:"enabled"`
+	PriceClass           string                 `json:"price_class"`
+	WebAclId             string                 `json:"web_acl_id"`
+	Comment              string                 `json:"comment"`
+	Tags                 map[string]string      `json:"tags"`
+	LoggingConfig        LoggingConfig          `json:"logging_config"`
+	OrderedCacheBehavior []OrderedCacheBehavior `json:"ordered_cache_behavior"`
+	Origin               []Origin               `json:"origin"`
+	OriginGroup          []OriginGroup          `json:"origin_group"`
+	Restrictions         Restrictions           `json:"restrictions"`
+	ViewerCertificate    ViewerCertificate      `json:"viewer_certificate"`
+	CustomErrorResponse  []CustomErrorResponse  `json:"custom_error_response"`
+	DefaultCacheBehavior DefaultCacheBehavior   `json:"default_cache_behavior"`
+}
+
+type LoggingConfig struct {
+	Bucket         string `json:"bucket"`
+	IncludeCookies bool   `json:"include_cookies"`
+	Prefix         string `json:"prefix"`
+}
+
+type OrderedCacheBehavior struct {
+	PathPattern               string                      `json:"path_pattern"`
+	SmoothStreaming           bool                        `json:"smooth_streaming"`
+	ViewerProtocolPolicy      string                      `json:"viewer_protocol_policy"`
+	CachedMethods             []string                    `json:"cached_methods"`
+	Compress                  bool                        `json:"compress"`
+	MaxTtl                    int                         `json:"max_ttl"`
+	MinTtl                    int                         `json:"min_ttl"`
+	TargetOriginId            string                      `json:"target_origin_id"`
+	TrustedSigners            []string                    `json:"trusted_signers"`
+	AllowedMethods            []string                    `json:"allowed_methods"`
+	DefaultTtl                int                         `json:"default_ttl"`
+	FieldLevelEncryptionId    string                      `json:"field_level_encryption_id"`
+	ForwardedValues           ForwardedValues             `json:"forwarded_values"`
+	LambdaFunctionAssociation []LambdaFunctionAssociation `json:"lambda_function_association"`
+}
+
+type ForwardedValues struct {
+	Headers              []string `json:"headers"`
+	QueryString          bool     `json:"query_string"`
+	QueryStringCacheKeys []string `json:"query_string_cache_keys"`
+	Cookies              Cookies  `json:"cookies"`
+}
+
+type Cookies struct {
+	Forward          string   `json:"forward"`
+	WhitelistedNames []string `json:"whitelisted_names"`
+}
+
+type LambdaFunctionAssociation struct {
+	EventType   string `json:"event_type"`
+	IncludeBody bool   `json:"include_body"`
+	LambdaArn   string `json:"lambda_arn"`
+}
+
+type Origin struct {
+	DomainName         string             `json:"domain_name"`
+	OriginId           string             `json:"origin_id"`
+	OriginPath         string             `json:"origin_path"`
+	CustomHeader       []CustomHeader     `json:"custom_header"`
+	CustomOriginConfig CustomOriginConfig `json:"custom_origin_config"`
+	S3OriginConfig     S3OriginConfig     `json:"s3_origin_config"`
+}
+
+type CustomHeader struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type CustomOriginConfig struct {
+	OriginSslProtocols     []string `json:"origin_ssl_protocols"`
+	HttpPort               int      `json:"http_port"`
+	HttpsPort              int      `json:"https_port"`
+	OriginKeepaliveTimeout int      `json:"origin_keepalive_timeout"`
+	OriginProtocolPolicy   string   `json:"origin_protocol_policy"`
+	OriginReadTimeout      int      `json:"origin_read_timeout"`
+}
+
+type S3OriginConfig struct {
+	OriginAccessIdentity string `json:"origin_access_identity"`
+}
+
+type OriginGroup struct {
+	OriginId         string           `json:"origin_id"`
+	FailoverCriteria FailoverCriteria `json:"failover_criteria"`
+	Member           []Member         `json:"member"`
+}
+
+type FailoverCriteria struct{}
+
+type Member struct {
+	OriginId string `json:"origin_id"`
+}
+
+type Restrictions struct {
+	GeoRestriction GeoRestriction `json:"geo_restriction"`
+}
+
+type GeoRestriction struct {
+	Locations       []string `json:"locations"`
+	RestrictionType string   `json:"restriction_type"`
+}
+
+type ViewerCertificate struct {
+	AcmCertificateArn            string `json:"acm_certificate_arn"`
+	CloudfrontDefaultCertificate bool   `json:"cloudfront_default_certificate"`
+	IamCertificateId             string `json:"iam_certificate_id"`
+	MinimumProtocolVersion       string `json:"minimum_protocol_version"`
+	SslSupportMethod             string `json:"ssl_support_method"`
+}
+
+type CustomErrorResponse struct {
+	ErrorCachingMinTtl int    `json:"error_caching_min_ttl"`
+	ErrorCode          int    `json:"error_code"`
+	ResponseCode       int    `json:"response_code"`
+	ResponsePagePath   string `json:"response_page_path"`
+}
+
+type DefaultCacheBehavior struct {
+	SmoothStreaming           bool                        `json:"smooth_streaming"`
+	TargetOriginId            string                      `json:"target_origin_id"`
+	TrustedSigners            []string                    `json:"trusted_signers"`
+	ViewerProtocolPolicy      string                      `json:"viewer_protocol_policy"`
+	CachedMethods             []string                    `json:"cached_methods"`
+	FieldLevelEncryptionId    string                      `json:"field_level_encryption_id"`
+	DefaultTtl                int                         `json:"default_ttl"`
+	MaxTtl                    int                         `json:"max_ttl"`
+	MinTtl                    int                         `json:"min_ttl"`
+	AllowedMethods            []string                    `json:"allowed_methods"`
+	Compress                  bool                        `json:"compress"`
+	ForwardedValues           ForwardedValues             `json:"forwarded_values"`
+	LambdaFunctionAssociation []LambdaFunctionAssociation `json:"lambda_function_association"`
+}
+
+type ForwardedValues struct {
+	Headers              []string `json:"headers"`
+	QueryString          bool     `json:"query_string"`
+	QueryStringCacheKeys []string `json:"query_string_cache_keys"`
+	Cookies              Cookies  `json:"cookies"`
+}
+
+type Cookies struct {
+	Forward          string   `json:"forward"`
+	WhitelistedNames []string `json:"whitelisted_names"`
+}
+
+type LambdaFunctionAssociation struct {
+	EventType   string `json:"event_type"`
+	IncludeBody bool   `json:"include_body"`
+	LambdaArn   string `json:"lambda_arn"`
 }
 
 // A CloudfrontDistributionStatus defines the observed state of a CloudfrontDistribution
@@ -72,13 +219,13 @@ type CloudfrontDistributionStatus struct {
 
 // A CloudfrontDistributionObservation records the observed state of a CloudfrontDistribution
 type CloudfrontDistributionObservation struct {
-	Arn                         string `json:"arn"`
-	HostedZoneId                string `json:"hosted_zone_id"`
-	Id                          string `json:"id"`
-	InProgressValidationBatches int    `json:"in_progress_validation_batches"`
-	DomainName                  string `json:"domain_name"`
-	Etag                        string `json:"etag"`
 	Status                      string `json:"status"`
-	CallerReference             string `json:"caller_reference"`
+	Etag                        string `json:"etag"`
 	LastModifiedTime            string `json:"last_modified_time"`
+	DomainName                  string `json:"domain_name"`
+	HostedZoneId                string `json:"hosted_zone_id"`
+	InProgressValidationBatches int    `json:"in_progress_validation_batches"`
+	Arn                         string `json:"arn"`
+	CallerReference             string `json:"caller_reference"`
+	Id                          string `json:"id"`
 }

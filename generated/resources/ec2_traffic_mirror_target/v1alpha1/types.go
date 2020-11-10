@@ -52,9 +52,10 @@ type Ec2TrafficMirrorTargetSpec struct {
 
 // A Ec2TrafficMirrorTargetParameters defines the desired state of a Ec2TrafficMirrorTarget
 type Ec2TrafficMirrorTargetParameters struct {
-	Description            string `json:"description"`
-	NetworkInterfaceId     string `json:"network_interface_id"`
-	NetworkLoadBalancerArn string `json:"network_load_balancer_arn"`
+	NetworkLoadBalancerArn string            `json:"network_load_balancer_arn"`
+	Tags                   map[string]string `json:"tags"`
+	Description            string            `json:"description"`
+	NetworkInterfaceId     string            `json:"network_interface_id"`
 }
 
 // A Ec2TrafficMirrorTargetStatus defines the observed state of a Ec2TrafficMirrorTarget

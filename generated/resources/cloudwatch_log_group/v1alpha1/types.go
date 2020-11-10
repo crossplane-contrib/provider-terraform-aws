@@ -52,9 +52,10 @@ type CloudwatchLogGroupSpec struct {
 
 // A CloudwatchLogGroupParameters defines the desired state of a CloudwatchLogGroup
 type CloudwatchLogGroupParameters struct {
-	KmsKeyId        string `json:"kms_key_id"`
-	NamePrefix      string `json:"name_prefix"`
-	RetentionInDays int    `json:"retention_in_days"`
+	KmsKeyId        string            `json:"kms_key_id"`
+	NamePrefix      string            `json:"name_prefix"`
+	RetentionInDays int               `json:"retention_in_days"`
+	Tags            map[string]string `json:"tags"`
 }
 
 // A CloudwatchLogGroupStatus defines the observed state of a CloudwatchLogGroup

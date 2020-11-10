@@ -52,13 +52,47 @@ type GameliftFleetSpec struct {
 
 // A GameliftFleetParameters defines the desired state of a GameliftFleet
 type GameliftFleetParameters struct {
-	Description                    string `json:"description"`
-	InstanceRoleArn                string `json:"instance_role_arn"`
-	Name                           string `json:"name"`
-	NewGameSessionProtectionPolicy string `json:"new_game_session_protection_policy"`
-	BuildId                        string `json:"build_id"`
-	Ec2InstanceType                string `json:"ec2_instance_type"`
-	FleetType                      string `json:"fleet_type"`
+	Tags                           map[string]string           `json:"tags"`
+	BuildId                        string                      `json:"build_id"`
+	Name                           string                      `json:"name"`
+	NewGameSessionProtectionPolicy string                      `json:"new_game_session_protection_policy"`
+	Description                    string                      `json:"description"`
+	Ec2InstanceType                string                      `json:"ec2_instance_type"`
+	FleetType                      string                      `json:"fleet_type"`
+	InstanceRoleArn                string                      `json:"instance_role_arn"`
+	Ec2InboundPermission           []Ec2InboundPermission      `json:"ec2_inbound_permission"`
+	ResourceCreationLimitPolicy    ResourceCreationLimitPolicy `json:"resource_creation_limit_policy"`
+	RuntimeConfiguration           RuntimeConfiguration        `json:"runtime_configuration"`
+	Timeouts                       []Timeouts                  `json:"timeouts"`
+}
+
+type Ec2InboundPermission struct {
+	FromPort int    `json:"from_port"`
+	IpRange  string `json:"ip_range"`
+	Protocol string `json:"protocol"`
+	ToPort   int    `json:"to_port"`
+}
+
+type ResourceCreationLimitPolicy struct {
+	PolicyPeriodInMinutes     int `json:"policy_period_in_minutes"`
+	NewGameSessionsPerCreator int `json:"new_game_sessions_per_creator"`
+}
+
+type RuntimeConfiguration struct {
+	GameSessionActivationTimeoutSeconds int             `json:"game_session_activation_timeout_seconds"`
+	MaxConcurrentGameSessionActivations int             `json:"max_concurrent_game_session_activations"`
+	ServerProcess                       []ServerProcess `json:"server_process"`
+}
+
+type ServerProcess struct {
+	LaunchPath           string `json:"launch_path"`
+	Parameters           string `json:"parameters"`
+	ConcurrentExecutions int    `json:"concurrent_executions"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A GameliftFleetStatus defines the observed state of a GameliftFleet
@@ -69,9 +103,9 @@ type GameliftFleetStatus struct {
 
 // A GameliftFleetObservation records the observed state of a GameliftFleet
 type GameliftFleetObservation struct {
+	Arn             string   `json:"arn"`
 	Id              string   `json:"id"`
-	LogPaths        []string `json:"log_paths"`
 	MetricGroups    []string `json:"metric_groups"`
 	OperatingSystem string   `json:"operating_system"`
-	Arn             string   `json:"arn"`
+	LogPaths        []string `json:"log_paths"`
 }

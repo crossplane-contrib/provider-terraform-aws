@@ -52,16 +52,69 @@ type EcsServiceSpec struct {
 
 // A EcsServiceParameters defines the desired state of a EcsService
 type EcsServiceParameters struct {
-	TaskDefinition                  string `json:"task_definition"`
-	DeploymentMinimumHealthyPercent int    `json:"deployment_minimum_healthy_percent"`
-	EnableEcsManagedTags            bool   `json:"enable_ecs_managed_tags"`
-	DesiredCount                    int    `json:"desired_count"`
-	PropagateTags                   string `json:"propagate_tags"`
-	SchedulingStrategy              string `json:"scheduling_strategy"`
-	DeploymentMaximumPercent        int    `json:"deployment_maximum_percent"`
-	ForceNewDeployment              bool   `json:"force_new_deployment"`
-	HealthCheckGracePeriodSeconds   int    `json:"health_check_grace_period_seconds"`
-	Name                            string `json:"name"`
+	DeploymentMinimumHealthyPercent int                        `json:"deployment_minimum_healthy_percent"`
+	DesiredCount                    int                        `json:"desired_count"`
+	HealthCheckGracePeriodSeconds   int                        `json:"health_check_grace_period_seconds"`
+	DeploymentMaximumPercent        int                        `json:"deployment_maximum_percent"`
+	EnableEcsManagedTags            bool                       `json:"enable_ecs_managed_tags"`
+	SchedulingStrategy              string                     `json:"scheduling_strategy"`
+	Tags                            map[string]string          `json:"tags"`
+	TaskDefinition                  string                     `json:"task_definition"`
+	ForceNewDeployment              bool                       `json:"force_new_deployment"`
+	Name                            string                     `json:"name"`
+	PropagateTags                   string                     `json:"propagate_tags"`
+	NetworkConfiguration            NetworkConfiguration       `json:"network_configuration"`
+	OrderedPlacementStrategy        []OrderedPlacementStrategy `json:"ordered_placement_strategy"`
+	PlacementConstraints            []PlacementConstraints     `json:"placement_constraints"`
+	ServiceRegistries               ServiceRegistries          `json:"service_registries"`
+	Timeouts                        []Timeouts                 `json:"timeouts"`
+	CapacityProviderStrategy        []CapacityProviderStrategy `json:"capacity_provider_strategy"`
+	DeploymentController            DeploymentController       `json:"deployment_controller"`
+	LoadBalancer                    []LoadBalancer             `json:"load_balancer"`
+}
+
+type NetworkConfiguration struct {
+	AssignPublicIp bool     `json:"assign_public_ip"`
+	SecurityGroups []string `json:"security_groups"`
+	Subnets        []string `json:"subnets"`
+}
+
+type OrderedPlacementStrategy struct {
+	Field string `json:"field"`
+	Type  string `json:"type"`
+}
+
+type PlacementConstraints struct {
+	Expression string `json:"expression"`
+	Type       string `json:"type"`
+}
+
+type ServiceRegistries struct {
+	ContainerName string `json:"container_name"`
+	ContainerPort int    `json:"container_port"`
+	Port          int    `json:"port"`
+	RegistryArn   string `json:"registry_arn"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
+}
+
+type CapacityProviderStrategy struct {
+	Base             int    `json:"base"`
+	CapacityProvider string `json:"capacity_provider"`
+	Weight           int    `json:"weight"`
+}
+
+type DeploymentController struct {
+	Type string `json:"type"`
+}
+
+type LoadBalancer struct {
+	ContainerName  string `json:"container_name"`
+	ContainerPort  int    `json:"container_port"`
+	ElbName        string `json:"elb_name"`
+	TargetGroupArn string `json:"target_group_arn"`
 }
 
 // A EcsServiceStatus defines the observed state of a EcsService
@@ -73,8 +126,8 @@ type EcsServiceStatus struct {
 // A EcsServiceObservation records the observed state of a EcsService
 type EcsServiceObservation struct {
 	IamRole         string `json:"iam_role"`
-	Cluster         string `json:"cluster"`
-	PlatformVersion string `json:"platform_version"`
-	Id              string `json:"id"`
 	LaunchType      string `json:"launch_type"`
+	PlatformVersion string `json:"platform_version"`
+	Cluster         string `json:"cluster"`
+	Id              string `json:"id"`
 }

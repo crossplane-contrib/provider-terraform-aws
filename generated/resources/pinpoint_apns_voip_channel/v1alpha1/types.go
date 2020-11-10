@@ -52,15 +52,15 @@ type PinpointApnsVoipChannelSpec struct {
 
 // A PinpointApnsVoipChannelParameters defines the desired state of a PinpointApnsVoipChannel
 type PinpointApnsVoipChannelParameters struct {
+	Enabled                     bool   `json:"enabled"`
 	TeamId                      string `json:"team_id"`
-	TokenKeyId                  string `json:"token_key_id"`
+	Certificate                 string `json:"certificate"`
 	BundleId                    string `json:"bundle_id"`
 	DefaultAuthenticationMethod string `json:"default_authentication_method"`
 	PrivateKey                  string `json:"private_key"`
 	TokenKey                    string `json:"token_key"`
+	TokenKeyId                  string `json:"token_key_id"`
 	ApplicationId               string `json:"application_id"`
-	Certificate                 string `json:"certificate"`
-	Enabled                     bool   `json:"enabled"`
 }
 
 // A PinpointApnsVoipChannelStatus defines the observed state of a PinpointApnsVoipChannel

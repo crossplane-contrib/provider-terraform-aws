@@ -52,16 +52,24 @@ type DocdbClusterSpec struct {
 
 // A DocdbClusterParameters defines the desired state of a DocdbCluster
 type DocdbClusterParameters struct {
-	Port                         int      `json:"port"`
-	FinalSnapshotIdentifier      string   `json:"final_snapshot_identifier"`
-	DeletionProtection           bool     `json:"deletion_protection"`
-	StorageEncrypted             bool     `json:"storage_encrypted"`
-	EnabledCloudwatchLogsExports []string `json:"enabled_cloudwatch_logs_exports"`
-	BackupRetentionPeriod        int      `json:"backup_retention_period"`
-	Engine                       string   `json:"engine"`
-	MasterPassword               string   `json:"master_password"`
-	SkipFinalSnapshot            bool     `json:"skip_final_snapshot"`
-	SnapshotIdentifier           string   `json:"snapshot_identifier"`
+	SnapshotIdentifier           string            `json:"snapshot_identifier"`
+	DeletionProtection           bool              `json:"deletion_protection"`
+	Port                         int               `json:"port"`
+	SkipFinalSnapshot            bool              `json:"skip_final_snapshot"`
+	Engine                       string            `json:"engine"`
+	MasterPassword               string            `json:"master_password"`
+	FinalSnapshotIdentifier      string            `json:"final_snapshot_identifier"`
+	StorageEncrypted             bool              `json:"storage_encrypted"`
+	BackupRetentionPeriod        int               `json:"backup_retention_period"`
+	Tags                         map[string]string `json:"tags"`
+	EnabledCloudwatchLogsExports []string          `json:"enabled_cloudwatch_logs_exports"`
+	Timeouts                     []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DocdbClusterStatus defines the observed state of a DocdbCluster
@@ -73,22 +81,22 @@ type DocdbClusterStatus struct {
 // A DocdbClusterObservation records the observed state of a DocdbCluster
 type DocdbClusterObservation struct {
 	PreferredBackupWindow       string   `json:"preferred_backup_window"`
+	PreferredMaintenanceWindow  string   `json:"preferred_maintenance_window"`
 	ClusterMembers              []string `json:"cluster_members"`
-	DbClusterParameterGroupName string   `json:"db_cluster_parameter_group_name"`
 	Id                          string   `json:"id"`
-	ApplyImmediately            bool     `json:"apply_immediately"`
-	ClusterResourceId           string   `json:"cluster_resource_id"`
+	Endpoint                    string   `json:"endpoint"`
+	Arn                         string   `json:"arn"`
+	ClusterIdentifier           string   `json:"cluster_identifier"`
+	VpcSecurityGroupIds         []string `json:"vpc_security_group_ids"`
+	DbSubnetGroupName           string   `json:"db_subnet_group_name"`
 	KmsKeyId                    string   `json:"kms_key_id"`
 	MasterUsername              string   `json:"master_username"`
-	ClusterIdentifier           string   `json:"cluster_identifier"`
-	ClusterIdentifierPrefix     string   `json:"cluster_identifier_prefix"`
-	Arn                         string   `json:"arn"`
-	Endpoint                    string   `json:"endpoint"`
-	EngineVersion               string   `json:"engine_version"`
+	ClusterResourceId           string   `json:"cluster_resource_id"`
+	DbClusterParameterGroupName string   `json:"db_cluster_parameter_group_name"`
 	AvailabilityZones           []string `json:"availability_zones"`
-	DbSubnetGroupName           string   `json:"db_subnet_group_name"`
-	ReaderEndpoint              string   `json:"reader_endpoint"`
-	VpcSecurityGroupIds         []string `json:"vpc_security_group_ids"`
+	ClusterIdentifierPrefix     string   `json:"cluster_identifier_prefix"`
 	HostedZoneId                string   `json:"hosted_zone_id"`
-	PreferredMaintenanceWindow  string   `json:"preferred_maintenance_window"`
+	EngineVersion               string   `json:"engine_version"`
+	ApplyImmediately            bool     `json:"apply_immediately"`
+	ReaderEndpoint              string   `json:"reader_endpoint"`
 }

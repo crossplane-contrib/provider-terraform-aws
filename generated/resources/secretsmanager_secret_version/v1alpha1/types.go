@@ -52,9 +52,9 @@ type SecretsmanagerSecretVersionSpec struct {
 
 // A SecretsmanagerSecretVersionParameters defines the desired state of a SecretsmanagerSecretVersion
 type SecretsmanagerSecretVersionParameters struct {
+	SecretString string `json:"secret_string"`
 	SecretBinary string `json:"secret_binary"`
 	SecretId     string `json:"secret_id"`
-	SecretString string `json:"secret_string"`
 }
 
 // A SecretsmanagerSecretVersionStatus defines the observed state of a SecretsmanagerSecretVersion

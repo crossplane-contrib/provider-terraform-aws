@@ -52,7 +52,8 @@ type NetworkAclSpec struct {
 
 // A NetworkAclParameters defines the desired state of a NetworkAcl
 type NetworkAclParameters struct {
-	VpcId string `json:"vpc_id"`
+	Tags  map[string]string `json:"tags"`
+	VpcId string            `json:"vpc_id"`
 }
 
 // A NetworkAclStatus defines the observed state of a NetworkAcl

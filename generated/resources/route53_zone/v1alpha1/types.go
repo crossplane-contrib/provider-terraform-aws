@@ -52,10 +52,17 @@ type Route53ZoneSpec struct {
 
 // A Route53ZoneParameters defines the desired state of a Route53Zone
 type Route53ZoneParameters struct {
-	Name            string `json:"name"`
-	Comment         string `json:"comment"`
-	DelegationSetId string `json:"delegation_set_id"`
-	ForceDestroy    bool   `json:"force_destroy"`
+	Name            string            `json:"name"`
+	Tags            map[string]string `json:"tags"`
+	Comment         string            `json:"comment"`
+	DelegationSetId string            `json:"delegation_set_id"`
+	ForceDestroy    bool              `json:"force_destroy"`
+	Vpc             []Vpc             `json:"vpc"`
+}
+
+type Vpc struct {
+	VpcId     string `json:"vpc_id"`
+	VpcRegion string `json:"vpc_region"`
 }
 
 // A Route53ZoneStatus defines the observed state of a Route53Zone

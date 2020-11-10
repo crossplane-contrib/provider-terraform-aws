@@ -52,18 +52,36 @@ type CloudtrailSpec struct {
 
 // A CloudtrailParameters defines the desired state of a Cloudtrail
 type CloudtrailParameters struct {
-	EnableLogFileValidation    bool   `json:"enable_log_file_validation"`
-	IsOrganizationTrail        bool   `json:"is_organization_trail"`
-	CloudWatchLogsRoleArn      string `json:"cloud_watch_logs_role_arn"`
-	IsMultiRegionTrail         bool   `json:"is_multi_region_trail"`
-	SnsTopicName               string `json:"sns_topic_name"`
-	Name                       string `json:"name"`
-	S3KeyPrefix                string `json:"s3_key_prefix"`
-	S3BucketName               string `json:"s3_bucket_name"`
-	CloudWatchLogsGroupArn     string `json:"cloud_watch_logs_group_arn"`
-	EnableLogging              bool   `json:"enable_logging"`
-	IncludeGlobalServiceEvents bool   `json:"include_global_service_events"`
-	KmsKeyId                   string `json:"kms_key_id"`
+	CloudWatchLogsGroupArn     string            `json:"cloud_watch_logs_group_arn"`
+	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
+	IsOrganizationTrail        bool              `json:"is_organization_trail"`
+	S3BucketName               string            `json:"s3_bucket_name"`
+	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
+	SnsTopicName               string            `json:"sns_topic_name"`
+	EnableLogFileValidation    bool              `json:"enable_log_file_validation"`
+	EnableLogging              bool              `json:"enable_logging"`
+	Name                       string            `json:"name"`
+	S3KeyPrefix                string            `json:"s3_key_prefix"`
+	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
+	KmsKeyId                   string            `json:"kms_key_id"`
+	Tags                       map[string]string `json:"tags"`
+	EventSelector              []EventSelector   `json:"event_selector"`
+	InsightSelector            []InsightSelector `json:"insight_selector"`
+}
+
+type EventSelector struct {
+	IncludeManagementEvents bool           `json:"include_management_events"`
+	ReadWriteType           string         `json:"read_write_type"`
+	DataResource            []DataResource `json:"data_resource"`
+}
+
+type DataResource struct {
+	Type   string   `json:"type"`
+	Values []string `json:"values"`
+}
+
+type InsightSelector struct {
+	InsightType string `json:"insight_type"`
 }
 
 // A CloudtrailStatus defines the observed state of a Cloudtrail

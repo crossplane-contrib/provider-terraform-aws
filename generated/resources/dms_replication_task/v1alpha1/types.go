@@ -52,14 +52,15 @@ type DmsReplicationTaskSpec struct {
 
 // A DmsReplicationTaskParameters defines the desired state of a DmsReplicationTask
 type DmsReplicationTaskParameters struct {
-	TableMappings           string `json:"table_mappings"`
-	TargetEndpointArn       string `json:"target_endpoint_arn"`
-	ReplicationTaskSettings string `json:"replication_task_settings"`
-	SourceEndpointArn       string `json:"source_endpoint_arn"`
-	CdcStartTime            string `json:"cdc_start_time"`
-	MigrationType           string `json:"migration_type"`
-	ReplicationInstanceArn  string `json:"replication_instance_arn"`
-	ReplicationTaskId       string `json:"replication_task_id"`
+	MigrationType           string            `json:"migration_type"`
+	ReplicationInstanceArn  string            `json:"replication_instance_arn"`
+	ReplicationTaskId       string            `json:"replication_task_id"`
+	ReplicationTaskSettings string            `json:"replication_task_settings"`
+	SourceEndpointArn       string            `json:"source_endpoint_arn"`
+	TableMappings           string            `json:"table_mappings"`
+	CdcStartTime            string            `json:"cdc_start_time"`
+	TargetEndpointArn       string            `json:"target_endpoint_arn"`
+	Tags                    map[string]string `json:"tags"`
 }
 
 // A DmsReplicationTaskStatus defines the observed state of a DmsReplicationTask

@@ -52,20 +52,27 @@ type Apigatewayv2IntegrationSpec struct {
 
 // A Apigatewayv2IntegrationParameters defines the desired state of a Apigatewayv2Integration
 type Apigatewayv2IntegrationParameters struct {
-	CredentialsArn              string `json:"credentials_arn"`
-	Description                 string `json:"description"`
-	ContentHandlingStrategy     string `json:"content_handling_strategy"`
-	IntegrationSubtype          string `json:"integration_subtype"`
-	TemplateSelectionExpression string `json:"template_selection_expression"`
-	TimeoutMilliseconds         int    `json:"timeout_milliseconds"`
-	ApiId                       string `json:"api_id"`
-	IntegrationUri              string `json:"integration_uri"`
-	PassthroughBehavior         string `json:"passthrough_behavior"`
-	ConnectionId                string `json:"connection_id"`
-	ConnectionType              string `json:"connection_type"`
-	IntegrationMethod           string `json:"integration_method"`
-	IntegrationType             string `json:"integration_type"`
-	PayloadFormatVersion        string `json:"payload_format_version"`
+	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
+	IntegrationUri              string            `json:"integration_uri"`
+	ConnectionId                string            `json:"connection_id"`
+	ConnectionType              string            `json:"connection_type"`
+	IntegrationSubtype          string            `json:"integration_subtype"`
+	PassthroughBehavior         string            `json:"passthrough_behavior"`
+	IntegrationMethod           string            `json:"integration_method"`
+	RequestParameters           map[string]string `json:"request_parameters"`
+	RequestTemplates            map[string]string `json:"request_templates"`
+	TemplateSelectionExpression string            `json:"template_selection_expression"`
+	TimeoutMilliseconds         int               `json:"timeout_milliseconds"`
+	ApiId                       string            `json:"api_id"`
+	Description                 string            `json:"description"`
+	IntegrationType             string            `json:"integration_type"`
+	PayloadFormatVersion        string            `json:"payload_format_version"`
+	CredentialsArn              string            `json:"credentials_arn"`
+	TlsConfig                   TlsConfig         `json:"tls_config"`
+}
+
+type TlsConfig struct {
+	ServerNameToVerify string `json:"server_name_to_verify"`
 }
 
 // A Apigatewayv2IntegrationStatus defines the observed state of a Apigatewayv2Integration
@@ -76,6 +83,6 @@ type Apigatewayv2IntegrationStatus struct {
 
 // A Apigatewayv2IntegrationObservation records the observed state of a Apigatewayv2Integration
 type Apigatewayv2IntegrationObservation struct {
-	Id                                     string `json:"id"`
 	IntegrationResponseSelectionExpression string `json:"integration_response_selection_expression"`
+	Id                                     string `json:"id"`
 }

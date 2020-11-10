@@ -52,10 +52,24 @@ type Route53ResolverRuleSpec struct {
 
 // A Route53ResolverRuleParameters defines the desired state of a Route53ResolverRule
 type Route53ResolverRuleParameters struct {
-	RuleType           string `json:"rule_type"`
-	DomainName         string `json:"domain_name"`
-	Name               string `json:"name"`
-	ResolverEndpointId string `json:"resolver_endpoint_id"`
+	ResolverEndpointId string            `json:"resolver_endpoint_id"`
+	Tags               map[string]string `json:"tags"`
+	Name               string            `json:"name"`
+	RuleType           string            `json:"rule_type"`
+	DomainName         string            `json:"domain_name"`
+	TargetIp           []TargetIp        `json:"target_ip"`
+	Timeouts           []Timeouts        `json:"timeouts"`
+}
+
+type TargetIp struct {
+	Ip   string `json:"ip"`
+	Port int    `json:"port"`
+}
+
+type Timeouts struct {
+	Update string `json:"update"`
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A Route53ResolverRuleStatus defines the observed state of a Route53ResolverRule
@@ -66,8 +80,8 @@ type Route53ResolverRuleStatus struct {
 
 // A Route53ResolverRuleObservation records the observed state of a Route53ResolverRule
 type Route53ResolverRuleObservation struct {
-	Id          string `json:"id"`
 	OwnerId     string `json:"owner_id"`
-	Arn         string `json:"arn"`
 	ShareStatus string `json:"share_status"`
+	Arn         string `json:"arn"`
+	Id          string `json:"id"`
 }

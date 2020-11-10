@@ -52,11 +52,20 @@ type CognitoIdentityPoolSpec struct {
 
 // A CognitoIdentityPoolParameters defines the desired state of a CognitoIdentityPool
 type CognitoIdentityPoolParameters struct {
-	DeveloperProviderName          string   `json:"developer_provider_name"`
-	AllowUnauthenticatedIdentities bool     `json:"allow_unauthenticated_identities"`
-	IdentityPoolName               string   `json:"identity_pool_name"`
-	OpenidConnectProviderArns      []string `json:"openid_connect_provider_arns"`
-	SamlProviderArns               []string `json:"saml_provider_arns"`
+	OpenidConnectProviderArns      []string                   `json:"openid_connect_provider_arns"`
+	Tags                           map[string]string          `json:"tags"`
+	AllowUnauthenticatedIdentities bool                       `json:"allow_unauthenticated_identities"`
+	DeveloperProviderName          string                     `json:"developer_provider_name"`
+	IdentityPoolName               string                     `json:"identity_pool_name"`
+	SamlProviderArns               []string                   `json:"saml_provider_arns"`
+	SupportedLoginProviders        map[string]string          `json:"supported_login_providers"`
+	CognitoIdentityProviders       []CognitoIdentityProviders `json:"cognito_identity_providers"`
+}
+
+type CognitoIdentityProviders struct {
+	ClientId             string `json:"client_id"`
+	ProviderName         string `json:"provider_name"`
+	ServerSideTokenCheck bool   `json:"server_side_token_check"`
 }
 
 // A CognitoIdentityPoolStatus defines the observed state of a CognitoIdentityPool

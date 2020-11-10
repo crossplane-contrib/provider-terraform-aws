@@ -52,8 +52,8 @@ type S3BucketPolicySpec struct {
 
 // A S3BucketPolicyParameters defines the desired state of a S3BucketPolicy
 type S3BucketPolicyParameters struct {
-	Policy string `json:"policy"`
 	Bucket string `json:"bucket"`
+	Policy string `json:"policy"`
 }
 
 // A S3BucketPolicyStatus defines the observed state of a S3BucketPolicy

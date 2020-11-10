@@ -52,7 +52,8 @@ type DefaultVpcSpec struct {
 
 // A DefaultVpcParameters defines the desired state of a DefaultVpc
 type DefaultVpcParameters struct {
-	EnableDnsSupport bool `json:"enable_dns_support"`
+	EnableDnsSupport bool              `json:"enable_dns_support"`
+	Tags             map[string]string `json:"tags"`
 }
 
 // A DefaultVpcStatus defines the observed state of a DefaultVpc
@@ -63,20 +64,20 @@ type DefaultVpcStatus struct {
 
 // A DefaultVpcObservation records the observed state of a DefaultVpc
 type DefaultVpcObservation struct {
-	DefaultNetworkAclId          string `json:"default_network_acl_id"`
-	DefaultRouteTableId          string `json:"default_route_table_id"`
-	EnableClassiclinkDnsSupport  bool   `json:"enable_classiclink_dns_support"`
-	OwnerId                      string `json:"owner_id"`
-	CidrBlock                    string `json:"cidr_block"`
-	Id                           string `json:"id"`
-	Ipv6CidrBlock                string `json:"ipv6_cidr_block"`
-	MainRouteTableId             string `json:"main_route_table_id"`
 	AssignGeneratedIpv6CidrBlock bool   `json:"assign_generated_ipv6_cidr_block"`
 	DefaultSecurityGroupId       string `json:"default_security_group_id"`
+	Id                           string `json:"id"`
+	Ipv6CidrBlock                string `json:"ipv6_cidr_block"`
+	Arn                          string `json:"arn"`
+	CidrBlock                    string `json:"cidr_block"`
+	DefaultNetworkAclId          string `json:"default_network_acl_id"`
+	EnableClassiclink            bool   `json:"enable_classiclink"`
+	EnableClassiclinkDnsSupport  bool   `json:"enable_classiclink_dns_support"`
+	OwnerId                      string `json:"owner_id"`
+	DefaultRouteTableId          string `json:"default_route_table_id"`
 	DhcpOptionsId                string `json:"dhcp_options_id"`
 	EnableDnsHostnames           bool   `json:"enable_dns_hostnames"`
 	InstanceTenancy              string `json:"instance_tenancy"`
 	Ipv6AssociationId            string `json:"ipv6_association_id"`
-	Arn                          string `json:"arn"`
-	EnableClassiclink            bool   `json:"enable_classiclink"`
+	MainRouteTableId             string `json:"main_route_table_id"`
 }

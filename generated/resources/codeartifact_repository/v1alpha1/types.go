@@ -52,9 +52,14 @@ type CodeartifactRepositorySpec struct {
 
 // A CodeartifactRepositoryParameters defines the desired state of a CodeartifactRepository
 type CodeartifactRepositoryParameters struct {
-	Repository  string `json:"repository"`
-	Description string `json:"description"`
-	Domain      string `json:"domain"`
+	Description string     `json:"description"`
+	Domain      string     `json:"domain"`
+	Repository  string     `json:"repository"`
+	Upstream    []Upstream `json:"upstream"`
+}
+
+type Upstream struct {
+	RepositoryName string `json:"repository_name"`
 }
 
 // A CodeartifactRepositoryStatus defines the observed state of a CodeartifactRepository
@@ -65,8 +70,8 @@ type CodeartifactRepositoryStatus struct {
 
 // A CodeartifactRepositoryObservation records the observed state of a CodeartifactRepository
 type CodeartifactRepositoryObservation struct {
-	DomainOwner          string `json:"domain_owner"`
-	Id                   string `json:"id"`
 	AdministratorAccount string `json:"administrator_account"`
 	Arn                  string `json:"arn"`
+	DomainOwner          string `json:"domain_owner"`
+	Id                   string `json:"id"`
 }

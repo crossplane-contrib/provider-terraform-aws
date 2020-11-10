@@ -52,12 +52,22 @@ type WorkspacesWorkspaceSpec struct {
 
 // A WorkspacesWorkspaceParameters defines the desired state of a WorkspacesWorkspace
 type WorkspacesWorkspaceParameters struct {
-	BundleId                    string `json:"bundle_id"`
-	UserName                    string `json:"user_name"`
-	UserVolumeEncryptionEnabled bool   `json:"user_volume_encryption_enabled"`
-	VolumeEncryptionKey         string `json:"volume_encryption_key"`
-	DirectoryId                 string `json:"directory_id"`
-	RootVolumeEncryptionEnabled bool   `json:"root_volume_encryption_enabled"`
+	DirectoryId                 string              `json:"directory_id"`
+	VolumeEncryptionKey         string              `json:"volume_encryption_key"`
+	UserVolumeEncryptionEnabled bool                `json:"user_volume_encryption_enabled"`
+	BundleId                    string              `json:"bundle_id"`
+	RootVolumeEncryptionEnabled bool                `json:"root_volume_encryption_enabled"`
+	Tags                        map[string]string   `json:"tags"`
+	UserName                    string              `json:"user_name"`
+	WorkspaceProperties         WorkspaceProperties `json:"workspace_properties"`
+}
+
+type WorkspaceProperties struct {
+	ComputeTypeName                     string `json:"compute_type_name"`
+	RootVolumeSizeGib                   int    `json:"root_volume_size_gib"`
+	RunningMode                         string `json:"running_mode"`
+	RunningModeAutoStopTimeoutInMinutes int    `json:"running_mode_auto_stop_timeout_in_minutes"`
+	UserVolumeSizeGib                   int    `json:"user_volume_size_gib"`
 }
 
 // A WorkspacesWorkspaceStatus defines the observed state of a WorkspacesWorkspace
@@ -69,7 +79,7 @@ type WorkspacesWorkspaceStatus struct {
 // A WorkspacesWorkspaceObservation records the observed state of a WorkspacesWorkspace
 type WorkspacesWorkspaceObservation struct {
 	Id           string `json:"id"`
-	State        string `json:"state"`
 	ComputerName string `json:"computer_name"`
 	IpAddress    string `json:"ip_address"`
+	State        string `json:"state"`
 }

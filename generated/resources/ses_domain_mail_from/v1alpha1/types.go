@@ -52,9 +52,9 @@ type SesDomainMailFromSpec struct {
 
 // A SesDomainMailFromParameters defines the desired state of a SesDomainMailFrom
 type SesDomainMailFromParameters struct {
+	MailFromDomain      string `json:"mail_from_domain"`
 	BehaviorOnMxFailure string `json:"behavior_on_mx_failure"`
 	Domain              string `json:"domain"`
-	MailFromDomain      string `json:"mail_from_domain"`
 }
 
 // A SesDomainMailFromStatus defines the observed state of a SesDomainMailFrom

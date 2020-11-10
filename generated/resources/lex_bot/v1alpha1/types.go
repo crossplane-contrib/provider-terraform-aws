@@ -52,16 +52,54 @@ type LexBotSpec struct {
 
 // A LexBotParameters defines the desired state of a LexBot
 type LexBotParameters struct {
-	EnableModelImprovements      bool   `json:"enable_model_improvements"`
-	Name                         string `json:"name"`
-	Description                  string `json:"description"`
-	Locale                       string `json:"locale"`
-	NluIntentConfidenceThreshold int    `json:"nlu_intent_confidence_threshold"`
-	ChildDirected                bool   `json:"child_directed"`
-	ProcessBehavior              string `json:"process_behavior"`
-	DetectSentiment              bool   `json:"detect_sentiment"`
-	IdleSessionTtlInSeconds      int    `json:"idle_session_ttl_in_seconds"`
-	CreateVersion                bool   `json:"create_version"`
+	NluIntentConfidenceThreshold int                 `json:"nlu_intent_confidence_threshold"`
+	ProcessBehavior              string              `json:"process_behavior"`
+	ChildDirected                bool                `json:"child_directed"`
+	IdleSessionTtlInSeconds      int                 `json:"idle_session_ttl_in_seconds"`
+	Locale                       string              `json:"locale"`
+	Name                         string              `json:"name"`
+	CreateVersion                bool                `json:"create_version"`
+	Description                  string              `json:"description"`
+	DetectSentiment              bool                `json:"detect_sentiment"`
+	EnableModelImprovements      bool                `json:"enable_model_improvements"`
+	AbortStatement               AbortStatement      `json:"abort_statement"`
+	ClarificationPrompt          ClarificationPrompt `json:"clarification_prompt"`
+	Intent                       []Intent            `json:"intent"`
+	Timeouts                     []Timeouts          `json:"timeouts"`
+}
+
+type AbortStatement struct {
+	ResponseCard string    `json:"response_card"`
+	Message      []Message `json:"message"`
+}
+
+type Message struct {
+	ContentType string `json:"content_type"`
+	GroupNumber int    `json:"group_number"`
+	Content     string `json:"content"`
+}
+
+type ClarificationPrompt struct {
+	MaxAttempts  int       `json:"max_attempts"`
+	ResponseCard string    `json:"response_card"`
+	Message      []Message `json:"message"`
+}
+
+type Message struct {
+	GroupNumber int    `json:"group_number"`
+	Content     string `json:"content"`
+	ContentType string `json:"content_type"`
+}
+
+type Intent struct {
+	IntentName    string `json:"intent_name"`
+	IntentVersion string `json:"intent_version"`
+}
+
+type Timeouts struct {
+	Update string `json:"update"`
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A LexBotStatus defines the observed state of a LexBot
@@ -72,13 +110,13 @@ type LexBotStatus struct {
 
 // A LexBotObservation records the observed state of a LexBot
 type LexBotObservation struct {
-	Version         string `json:"version"`
-	Checksum        string `json:"checksum"`
-	Id              string `json:"id"`
 	CreatedDate     string `json:"created_date"`
+	FailureReason   string `json:"failure_reason"`
 	Arn             string `json:"arn"`
+	Checksum        string `json:"checksum"`
 	LastUpdatedDate string `json:"last_updated_date"`
 	Status          string `json:"status"`
+	Id              string `json:"id"`
+	Version         string `json:"version"`
 	VoiceId         string `json:"voice_id"`
-	FailureReason   string `json:"failure_reason"`
 }

@@ -52,10 +52,10 @@ type CodebuildSourceCredentialSpec struct {
 
 // A CodebuildSourceCredentialParameters defines the desired state of a CodebuildSourceCredential
 type CodebuildSourceCredentialParameters struct {
-	AuthType   string `json:"auth_type"`
 	ServerType string `json:"server_type"`
 	Token      string `json:"token"`
 	UserName   string `json:"user_name"`
+	AuthType   string `json:"auth_type"`
 }
 
 // A CodebuildSourceCredentialStatus defines the observed state of a CodebuildSourceCredential
@@ -66,6 +66,6 @@ type CodebuildSourceCredentialStatus struct {
 
 // A CodebuildSourceCredentialObservation records the observed state of a CodebuildSourceCredential
 type CodebuildSourceCredentialObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

@@ -52,8 +52,15 @@ type EbsSnapshotSpec struct {
 
 // A EbsSnapshotParameters defines the desired state of a EbsSnapshot
 type EbsSnapshotParameters struct {
-	VolumeId    string `json:"volume_id"`
-	Description string `json:"description"`
+	Description string            `json:"description"`
+	Tags        map[string]string `json:"tags"`
+	VolumeId    string            `json:"volume_id"`
+	Timeouts    []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A EbsSnapshotStatus defines the observed state of a EbsSnapshot
@@ -64,12 +71,12 @@ type EbsSnapshotStatus struct {
 
 // A EbsSnapshotObservation records the observed state of a EbsSnapshot
 type EbsSnapshotObservation struct {
-	OwnerAlias          string `json:"owner_alias"`
-	OwnerId             string `json:"owner_id"`
 	Encrypted           bool   `json:"encrypted"`
+	OwnerId             string `json:"owner_id"`
+	VolumeSize          int    `json:"volume_size"`
+	DataEncryptionKeyId string `json:"data_encryption_key_id"`
 	Id                  string `json:"id"`
 	KmsKeyId            string `json:"kms_key_id"`
+	OwnerAlias          string `json:"owner_alias"`
 	Arn                 string `json:"arn"`
-	DataEncryptionKeyId string `json:"data_encryption_key_id"`
-	VolumeSize          int    `json:"volume_size"`
 }

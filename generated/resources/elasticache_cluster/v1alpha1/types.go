@@ -52,12 +52,13 @@ type ElasticacheClusterSpec struct {
 
 // A ElasticacheClusterParameters defines the desired state of a ElasticacheCluster
 type ElasticacheClusterParameters struct {
-	PreferredAvailabilityZones []string `json:"preferred_availability_zones"`
-	SnapshotRetentionLimit     int      `json:"snapshot_retention_limit"`
-	SnapshotArns               []string `json:"snapshot_arns"`
-	NotificationTopicArn       string   `json:"notification_topic_arn"`
-	SnapshotName               string   `json:"snapshot_name"`
-	ClusterId                  string   `json:"cluster_id"`
+	ClusterId                  string            `json:"cluster_id"`
+	NotificationTopicArn       string            `json:"notification_topic_arn"`
+	PreferredAvailabilityZones []string          `json:"preferred_availability_zones"`
+	SnapshotName               string            `json:"snapshot_name"`
+	Tags                       map[string]string `json:"tags"`
+	SnapshotRetentionLimit     int               `json:"snapshot_retention_limit"`
+	SnapshotArns               []string          `json:"snapshot_arns"`
 }
 
 // A ElasticacheClusterStatus defines the observed state of a ElasticacheCluster
@@ -68,23 +69,23 @@ type ElasticacheClusterStatus struct {
 
 // A ElasticacheClusterObservation records the observed state of a ElasticacheCluster
 type ElasticacheClusterObservation struct {
-	SnapshotWindow        string   `json:"snapshot_window"`
 	ConfigurationEndpoint string   `json:"configuration_endpoint"`
+	Port                  int      `json:"port"`
+	SecurityGroupNames    []string `json:"security_group_names"`
+	ClusterAddress        string   `json:"cluster_address"`
+	Engine                string   `json:"engine"`
 	NumCacheNodes         int      `json:"num_cache_nodes"`
 	ApplyImmediately      bool     `json:"apply_immediately"`
-	Arn                   string   `json:"arn"`
-	Port                  int      `json:"port"`
-	SubnetGroupName       string   `json:"subnet_group_name"`
-	Engine                string   `json:"engine"`
-	ReplicationGroupId    string   `json:"replication_group_id"`
-	NodeType              string   `json:"node_type"`
-	AvailabilityZone      string   `json:"availability_zone"`
-	ClusterAddress        string   `json:"cluster_address"`
-	EngineVersion         string   `json:"engine_version"`
-	ParameterGroupName    string   `json:"parameter_group_name"`
 	Id                    string   `json:"id"`
-	SecurityGroupNames    []string `json:"security_group_names"`
-	AzMode                string   `json:"az_mode"`
 	MaintenanceWindow     string   `json:"maintenance_window"`
+	NodeType              string   `json:"node_type"`
+	SnapshotWindow        string   `json:"snapshot_window"`
+	AvailabilityZone      string   `json:"availability_zone"`
+	EngineVersion         string   `json:"engine_version"`
 	SecurityGroupIds      []string `json:"security_group_ids"`
+	SubnetGroupName       string   `json:"subnet_group_name"`
+	Arn                   string   `json:"arn"`
+	ParameterGroupName    string   `json:"parameter_group_name"`
+	AzMode                string   `json:"az_mode"`
+	ReplicationGroupId    string   `json:"replication_group_id"`
 }

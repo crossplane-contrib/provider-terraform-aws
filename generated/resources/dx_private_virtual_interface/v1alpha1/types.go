@@ -52,14 +52,22 @@ type DxPrivateVirtualInterfaceSpec struct {
 
 // A DxPrivateVirtualInterfaceParameters defines the desired state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceParameters struct {
-	Name          string `json:"name"`
-	VpnGatewayId  string `json:"vpn_gateway_id"`
-	ConnectionId  string `json:"connection_id"`
-	DxGatewayId   string `json:"dx_gateway_id"`
-	AddressFamily string `json:"address_family"`
-	BgpAsn        int    `json:"bgp_asn"`
-	Mtu           int    `json:"mtu"`
-	Vlan          int    `json:"vlan"`
+	ConnectionId  string            `json:"connection_id"`
+	Tags          map[string]string `json:"tags"`
+	Vlan          int               `json:"vlan"`
+	DxGatewayId   string            `json:"dx_gateway_id"`
+	Mtu           int               `json:"mtu"`
+	VpnGatewayId  string            `json:"vpn_gateway_id"`
+	AddressFamily string            `json:"address_family"`
+	BgpAsn        int               `json:"bgp_asn"`
+	Name          string            `json:"name"`
+	Timeouts      []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DxPrivateVirtualInterfaceStatus defines the observed state of a DxPrivateVirtualInterface
@@ -71,11 +79,11 @@ type DxPrivateVirtualInterfaceStatus struct {
 // A DxPrivateVirtualInterfaceObservation records the observed state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceObservation struct {
 	Arn               string `json:"arn"`
-	Id                string `json:"id"`
 	AmazonAddress     string `json:"amazon_address"`
+	Id                string `json:"id"`
 	AwsDevice         string `json:"aws_device"`
 	BgpAuthKey        string `json:"bgp_auth_key"`
 	CustomerAddress   string `json:"customer_address"`
-	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
+	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 }

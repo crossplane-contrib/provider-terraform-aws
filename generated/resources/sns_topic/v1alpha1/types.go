@@ -52,22 +52,23 @@ type SnsTopicSpec struct {
 
 // A SnsTopicParameters defines the desired state of a SnsTopic
 type SnsTopicParameters struct {
-	DeliveryPolicy                       string `json:"delivery_policy"`
-	DisplayName                          string `json:"display_name"`
-	ApplicationSuccessFeedbackRoleArn    string `json:"application_success_feedback_role_arn"`
-	ApplicationSuccessFeedbackSampleRate int    `json:"application_success_feedback_sample_rate"`
-	NamePrefix                           string `json:"name_prefix"`
-	SqsFailureFeedbackRoleArn            string `json:"sqs_failure_feedback_role_arn"`
-	SqsSuccessFeedbackSampleRate         int    `json:"sqs_success_feedback_sample_rate"`
-	LambdaFailureFeedbackRoleArn         string `json:"lambda_failure_feedback_role_arn"`
-	LambdaSuccessFeedbackRoleArn         string `json:"lambda_success_feedback_role_arn"`
-	SqsSuccessFeedbackRoleArn            string `json:"sqs_success_feedback_role_arn"`
-	HttpSuccessFeedbackRoleArn           string `json:"http_success_feedback_role_arn"`
-	KmsMasterKeyId                       string `json:"kms_master_key_id"`
-	HttpSuccessFeedbackSampleRate        int    `json:"http_success_feedback_sample_rate"`
-	LambdaSuccessFeedbackSampleRate      int    `json:"lambda_success_feedback_sample_rate"`
-	ApplicationFailureFeedbackRoleArn    string `json:"application_failure_feedback_role_arn"`
-	HttpFailureFeedbackRoleArn           string `json:"http_failure_feedback_role_arn"`
+	Tags                                 map[string]string `json:"tags"`
+	DisplayName                          string            `json:"display_name"`
+	HttpSuccessFeedbackSampleRate        int               `json:"http_success_feedback_sample_rate"`
+	KmsMasterKeyId                       string            `json:"kms_master_key_id"`
+	LambdaSuccessFeedbackRoleArn         string            `json:"lambda_success_feedback_role_arn"`
+	DeliveryPolicy                       string            `json:"delivery_policy"`
+	SqsFailureFeedbackRoleArn            string            `json:"sqs_failure_feedback_role_arn"`
+	ApplicationFailureFeedbackRoleArn    string            `json:"application_failure_feedback_role_arn"`
+	ApplicationSuccessFeedbackRoleArn    string            `json:"application_success_feedback_role_arn"`
+	HttpFailureFeedbackRoleArn           string            `json:"http_failure_feedback_role_arn"`
+	HttpSuccessFeedbackRoleArn           string            `json:"http_success_feedback_role_arn"`
+	LambdaFailureFeedbackRoleArn         string            `json:"lambda_failure_feedback_role_arn"`
+	NamePrefix                           string            `json:"name_prefix"`
+	SqsSuccessFeedbackSampleRate         int               `json:"sqs_success_feedback_sample_rate"`
+	ApplicationSuccessFeedbackSampleRate int               `json:"application_success_feedback_sample_rate"`
+	LambdaSuccessFeedbackSampleRate      int               `json:"lambda_success_feedback_sample_rate"`
+	SqsSuccessFeedbackRoleArn            string            `json:"sqs_success_feedback_role_arn"`
 }
 
 // A SnsTopicStatus defines the observed state of a SnsTopic

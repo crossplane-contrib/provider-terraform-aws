@@ -52,8 +52,15 @@ type WorkspacesIpGroupSpec struct {
 
 // A WorkspacesIpGroupParameters defines the desired state of a WorkspacesIpGroup
 type WorkspacesIpGroupParameters struct {
-	Name        string `json:"name"`
+	Description string            `json:"description"`
+	Name        string            `json:"name"`
+	Tags        map[string]string `json:"tags"`
+	Rules       []Rules           `json:"rules"`
+}
+
+type Rules struct {
 	Description string `json:"description"`
+	Source      string `json:"source"`
 }
 
 // A WorkspacesIpGroupStatus defines the observed state of a WorkspacesIpGroup

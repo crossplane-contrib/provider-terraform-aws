@@ -52,8 +52,14 @@ type DatasyncLocationNfsSpec struct {
 
 // A DatasyncLocationNfsParameters defines the desired state of a DatasyncLocationNfs
 type DatasyncLocationNfsParameters struct {
-	ServerHostname string `json:"server_hostname"`
-	Subdirectory   string `json:"subdirectory"`
+	ServerHostname string            `json:"server_hostname"`
+	Subdirectory   string            `json:"subdirectory"`
+	Tags           map[string]string `json:"tags"`
+	OnPremConfig   OnPremConfig      `json:"on_prem_config"`
+}
+
+type OnPremConfig struct {
+	AgentArns []string `json:"agent_arns"`
 }
 
 // A DatasyncLocationNfsStatus defines the observed state of a DatasyncLocationNfs
@@ -64,7 +70,7 @@ type DatasyncLocationNfsStatus struct {
 
 // A DatasyncLocationNfsObservation records the observed state of a DatasyncLocationNfs
 type DatasyncLocationNfsObservation struct {
-	Uri string `json:"uri"`
 	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Uri string `json:"uri"`
 }

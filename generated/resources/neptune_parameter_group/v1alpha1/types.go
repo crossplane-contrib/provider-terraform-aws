@@ -52,9 +52,17 @@ type NeptuneParameterGroupSpec struct {
 
 // A NeptuneParameterGroupParameters defines the desired state of a NeptuneParameterGroup
 type NeptuneParameterGroupParameters struct {
-	Description string `json:"description"`
-	Family      string `json:"family"`
+	Description string            `json:"description"`
+	Family      string            `json:"family"`
+	Name        string            `json:"name"`
+	Tags        map[string]string `json:"tags"`
+	Parameter   []Parameter       `json:"parameter"`
+}
+
+type Parameter struct {
+	ApplyMethod string `json:"apply_method"`
 	Name        string `json:"name"`
+	Value       string `json:"value"`
 }
 
 // A NeptuneParameterGroupStatus defines the observed state of a NeptuneParameterGroup
@@ -65,6 +73,6 @@ type NeptuneParameterGroupStatus struct {
 
 // A NeptuneParameterGroupObservation records the observed state of a NeptuneParameterGroup
 type NeptuneParameterGroupObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

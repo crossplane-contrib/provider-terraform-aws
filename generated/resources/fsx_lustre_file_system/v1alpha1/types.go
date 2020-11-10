@@ -52,14 +52,21 @@ type FsxLustreFileSystemSpec struct {
 
 // A FsxLustreFileSystemParameters defines the desired state of a FsxLustreFileSystem
 type FsxLustreFileSystemParameters struct {
-	PerUnitStorageThroughput int      `json:"per_unit_storage_throughput"`
-	StorageType              string   `json:"storage_type"`
-	SubnetIds                []string `json:"subnet_ids"`
-	DeploymentType           string   `json:"deployment_type"`
-	ImportPath               string   `json:"import_path"`
-	StorageCapacity          int      `json:"storage_capacity"`
-	DriveCacheType           string   `json:"drive_cache_type"`
-	SecurityGroupIds         []string `json:"security_group_ids"`
+	ImportPath               string            `json:"import_path"`
+	SecurityGroupIds         []string          `json:"security_group_ids"`
+	SubnetIds                []string          `json:"subnet_ids"`
+	PerUnitStorageThroughput int               `json:"per_unit_storage_throughput"`
+	DeploymentType           string            `json:"deployment_type"`
+	Tags                     map[string]string `json:"tags"`
+	DriveCacheType           string            `json:"drive_cache_type"`
+	StorageCapacity          int               `json:"storage_capacity"`
+	StorageType              string            `json:"storage_type"`
+	Timeouts                 []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A FsxLustreFileSystemStatus defines the observed state of a FsxLustreFileSystem
@@ -70,18 +77,18 @@ type FsxLustreFileSystemStatus struct {
 
 // A FsxLustreFileSystemObservation records the observed state of a FsxLustreFileSystem
 type FsxLustreFileSystemObservation struct {
-	AutoImportPolicy              string   `json:"auto_import_policy"`
-	DailyAutomaticBackupStartTime string   `json:"daily_automatic_backup_start_time"`
-	DnsName                       string   `json:"dns_name"`
-	ImportedFileChunkSize         int      `json:"imported_file_chunk_size"`
-	KmsKeyId                      string   `json:"kms_key_id"`
+	Arn                           string   `json:"arn"`
+	Id                            string   `json:"id"`
 	OwnerId                       string   `json:"owner_id"`
 	VpcId                         string   `json:"vpc_id"`
-	Arn                           string   `json:"arn"`
-	AutomaticBackupRetentionDays  int      `json:"automatic_backup_retention_days"`
-	Id                            string   `json:"id"`
-	WeeklyMaintenanceStartTime    string   `json:"weekly_maintenance_start_time"`
-	ExportPath                    string   `json:"export_path"`
-	MountName                     string   `json:"mount_name"`
 	NetworkInterfaceIds           []string `json:"network_interface_ids"`
+	ExportPath                    string   `json:"export_path"`
+	KmsKeyId                      string   `json:"kms_key_id"`
+	MountName                     string   `json:"mount_name"`
+	WeeklyMaintenanceStartTime    string   `json:"weekly_maintenance_start_time"`
+	AutomaticBackupRetentionDays  int      `json:"automatic_backup_retention_days"`
+	DailyAutomaticBackupStartTime string   `json:"daily_automatic_backup_start_time"`
+	ImportedFileChunkSize         int      `json:"imported_file_chunk_size"`
+	AutoImportPolicy              string   `json:"auto_import_policy"`
+	DnsName                       string   `json:"dns_name"`
 }

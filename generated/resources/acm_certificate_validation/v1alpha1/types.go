@@ -52,8 +52,13 @@ type AcmCertificateValidationSpec struct {
 
 // A AcmCertificateValidationParameters defines the desired state of a AcmCertificateValidation
 type AcmCertificateValidationParameters struct {
-	CertificateArn        string   `json:"certificate_arn"`
-	ValidationRecordFqdns []string `json:"validation_record_fqdns"`
+	CertificateArn        string     `json:"certificate_arn"`
+	ValidationRecordFqdns []string   `json:"validation_record_fqdns"`
+	Timeouts              []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 // A AcmCertificateValidationStatus defines the observed state of a AcmCertificateValidation

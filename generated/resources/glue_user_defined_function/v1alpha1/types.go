@@ -52,12 +52,18 @@ type GlueUserDefinedFunctionSpec struct {
 
 // A GlueUserDefinedFunctionParameters defines the desired state of a GlueUserDefinedFunction
 type GlueUserDefinedFunctionParameters struct {
-	OwnerType    string `json:"owner_type"`
-	CatalogId    string `json:"catalog_id"`
-	ClassName    string `json:"class_name"`
-	DatabaseName string `json:"database_name"`
-	Name         string `json:"name"`
-	OwnerName    string `json:"owner_name"`
+	CatalogId    string         `json:"catalog_id"`
+	ClassName    string         `json:"class_name"`
+	OwnerName    string         `json:"owner_name"`
+	OwnerType    string         `json:"owner_type"`
+	DatabaseName string         `json:"database_name"`
+	Name         string         `json:"name"`
+	ResourceUris []ResourceUris `json:"resource_uris"`
+}
+
+type ResourceUris struct {
+	ResourceType string `json:"resource_type"`
+	Uri          string `json:"uri"`
 }
 
 // A GlueUserDefinedFunctionStatus defines the observed state of a GlueUserDefinedFunction

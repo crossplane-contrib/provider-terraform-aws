@@ -52,15 +52,23 @@ type CloudformationStackSpec struct {
 
 // A CloudformationStackParameters defines the desired state of a CloudformationStack
 type CloudformationStackParameters struct {
-	NotificationArns []string `json:"notification_arns"`
-	TimeoutInMinutes int      `json:"timeout_in_minutes"`
-	Name             string   `json:"name"`
-	PolicyUrl        string   `json:"policy_url"`
-	DisableRollback  bool     `json:"disable_rollback"`
-	IamRoleArn       string   `json:"iam_role_arn"`
-	OnFailure        string   `json:"on_failure"`
-	TemplateUrl      string   `json:"template_url"`
-	Capabilities     []string `json:"capabilities"`
+	Tags             map[string]string `json:"tags"`
+	DisableRollback  bool              `json:"disable_rollback"`
+	IamRoleArn       string            `json:"iam_role_arn"`
+	NotificationArns []string          `json:"notification_arns"`
+	OnFailure        string            `json:"on_failure"`
+	PolicyUrl        string            `json:"policy_url"`
+	TemplateUrl      string            `json:"template_url"`
+	TimeoutInMinutes int               `json:"timeout_in_minutes"`
+	Name             string            `json:"name"`
+	Capabilities     []string          `json:"capabilities"`
+	Timeouts         []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Update string `json:"update"`
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A CloudformationStackStatus defines the observed state of a CloudformationStack
@@ -71,7 +79,9 @@ type CloudformationStackStatus struct {
 
 // A CloudformationStackObservation records the observed state of a CloudformationStack
 type CloudformationStackObservation struct {
-	Id           string `json:"id"`
-	PolicyBody   string `json:"policy_body"`
-	TemplateBody string `json:"template_body"`
+	Id           string            `json:"id"`
+	Parameters   map[string]string `json:"parameters"`
+	PolicyBody   string            `json:"policy_body"`
+	Outputs      map[string]string `json:"outputs"`
+	TemplateBody string            `json:"template_body"`
 }

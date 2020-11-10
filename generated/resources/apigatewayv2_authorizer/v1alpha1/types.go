@@ -52,14 +52,20 @@ type Apigatewayv2AuthorizerSpec struct {
 
 // A Apigatewayv2AuthorizerParameters defines the desired state of a Apigatewayv2Authorizer
 type Apigatewayv2AuthorizerParameters struct {
-	AuthorizerPayloadFormatVersion string   `json:"authorizer_payload_format_version"`
-	AuthorizerType                 string   `json:"authorizer_type"`
-	AuthorizerUri                  string   `json:"authorizer_uri"`
-	EnableSimpleResponses          bool     `json:"enable_simple_responses"`
-	ApiId                          string   `json:"api_id"`
-	AuthorizerCredentialsArn       string   `json:"authorizer_credentials_arn"`
-	IdentitySources                []string `json:"identity_sources"`
-	Name                           string   `json:"name"`
+	AuthorizerCredentialsArn       string           `json:"authorizer_credentials_arn"`
+	AuthorizerPayloadFormatVersion string           `json:"authorizer_payload_format_version"`
+	AuthorizerType                 string           `json:"authorizer_type"`
+	EnableSimpleResponses          bool             `json:"enable_simple_responses"`
+	Name                           string           `json:"name"`
+	ApiId                          string           `json:"api_id"`
+	AuthorizerUri                  string           `json:"authorizer_uri"`
+	IdentitySources                []string         `json:"identity_sources"`
+	JwtConfiguration               JwtConfiguration `json:"jwt_configuration"`
+}
+
+type JwtConfiguration struct {
+	Audience []string `json:"audience"`
+	Issuer   string   `json:"issuer"`
 }
 
 // A Apigatewayv2AuthorizerStatus defines the observed state of a Apigatewayv2Authorizer

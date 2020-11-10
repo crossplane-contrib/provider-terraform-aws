@@ -52,7 +52,16 @@ type EmrManagedScalingPolicySpec struct {
 
 // A EmrManagedScalingPolicyParameters defines the desired state of a EmrManagedScalingPolicy
 type EmrManagedScalingPolicyParameters struct {
-	ClusterId string `json:"cluster_id"`
+	ClusterId     string          `json:"cluster_id"`
+	ComputeLimits []ComputeLimits `json:"compute_limits"`
+}
+
+type ComputeLimits struct {
+	MaximumCapacityUnits         int    `json:"maximum_capacity_units"`
+	MaximumCoreCapacityUnits     int    `json:"maximum_core_capacity_units"`
+	MaximumOndemandCapacityUnits int    `json:"maximum_ondemand_capacity_units"`
+	MinimumCapacityUnits         int    `json:"minimum_capacity_units"`
+	UnitType                     string `json:"unit_type"`
 }
 
 // A EmrManagedScalingPolicyStatus defines the observed state of a EmrManagedScalingPolicy

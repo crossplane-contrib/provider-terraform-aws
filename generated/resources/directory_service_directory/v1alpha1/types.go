@@ -52,11 +52,29 @@ type DirectoryServiceDirectorySpec struct {
 
 // A DirectoryServiceDirectoryParameters defines the desired state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryParameters struct {
-	EnableSso   bool   `json:"enable_sso"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Password    string `json:"password"`
-	Type        string `json:"type"`
+	Tags            map[string]string `json:"tags"`
+	Name            string            `json:"name"`
+	Password        string            `json:"password"`
+	Type            string            `json:"type"`
+	Description     string            `json:"description"`
+	EnableSso       bool              `json:"enable_sso"`
+	ConnectSettings ConnectSettings   `json:"connect_settings"`
+	VpcSettings     VpcSettings       `json:"vpc_settings"`
+}
+
+type ConnectSettings struct {
+	CustomerDnsIps    []string `json:"customer_dns_ips"`
+	CustomerUsername  string   `json:"customer_username"`
+	SubnetIds         []string `json:"subnet_ids"`
+	VpcId             string   `json:"vpc_id"`
+	AvailabilityZones []string `json:"availability_zones"`
+	ConnectIps        []string `json:"connect_ips"`
+}
+
+type VpcSettings struct {
+	AvailabilityZones []string `json:"availability_zones"`
+	SubnetIds         []string `json:"subnet_ids"`
+	VpcId             string   `json:"vpc_id"`
 }
 
 // A DirectoryServiceDirectoryStatus defines the observed state of a DirectoryServiceDirectory
@@ -68,11 +86,11 @@ type DirectoryServiceDirectoryStatus struct {
 // A DirectoryServiceDirectoryObservation records the observed state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryObservation struct {
 	DnsIpAddresses  []string `json:"dns_ip_addresses"`
-	SecurityGroupId string   `json:"security_group_id"`
+	Edition         string   `json:"edition"`
 	ShortName       string   `json:"short_name"`
 	Size            string   `json:"size"`
-	Edition         string   `json:"edition"`
-	Alias           string   `json:"alias"`
 	Id              string   `json:"id"`
+	SecurityGroupId string   `json:"security_group_id"`
 	AccessUrl       string   `json:"access_url"`
+	Alias           string   `json:"alias"`
 }

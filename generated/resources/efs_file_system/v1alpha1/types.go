@@ -52,8 +52,14 @@ type EfsFileSystemSpec struct {
 
 // A EfsFileSystemParameters defines the desired state of a EfsFileSystem
 type EfsFileSystemParameters struct {
-	ProvisionedThroughputInMibps int    `json:"provisioned_throughput_in_mibps"`
-	ThroughputMode               string `json:"throughput_mode"`
+	ProvisionedThroughputInMibps int               `json:"provisioned_throughput_in_mibps"`
+	Tags                         map[string]string `json:"tags"`
+	ThroughputMode               string            `json:"throughput_mode"`
+	LifecyclePolicy              LifecyclePolicy   `json:"lifecycle_policy"`
+}
+
+type LifecyclePolicy struct {
+	TransitionToIa string `json:"transition_to_ia"`
 }
 
 // A EfsFileSystemStatus defines the observed state of a EfsFileSystem
@@ -64,11 +70,11 @@ type EfsFileSystemStatus struct {
 
 // A EfsFileSystemObservation records the observed state of a EfsFileSystem
 type EfsFileSystemObservation struct {
+	Arn             string `json:"arn"`
+	CreationToken   string `json:"creation_token"`
 	DnsName         string `json:"dns_name"`
 	Encrypted       bool   `json:"encrypted"`
-	KmsKeyId        string `json:"kms_key_id"`
-	Arn             string `json:"arn"`
 	Id              string `json:"id"`
+	KmsKeyId        string `json:"kms_key_id"`
 	PerformanceMode string `json:"performance_mode"`
-	CreationToken   string `json:"creation_token"`
 }

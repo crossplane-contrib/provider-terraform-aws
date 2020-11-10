@@ -63,10 +63,10 @@ type EipAssociationStatus struct {
 
 // A EipAssociationObservation records the observed state of a EipAssociation
 type EipAssociationObservation struct {
-	AllocationId       string `json:"allocation_id"`
 	Id                 string `json:"id"`
 	InstanceId         string `json:"instance_id"`
 	NetworkInterfaceId string `json:"network_interface_id"`
 	PrivateIpAddress   string `json:"private_ip_address"`
 	PublicIp           string `json:"public_ip"`
+	AllocationId       string `json:"allocation_id"`
 }

@@ -63,8 +63,8 @@ type LightsailStaticIpStatus struct {
 
 // A LightsailStaticIpObservation records the observed state of a LightsailStaticIp
 type LightsailStaticIpObservation struct {
-	IpAddress   string `json:"ip_address"`
-	SupportCode string `json:"support_code"`
 	Arn         string `json:"arn"`
 	Id          string `json:"id"`
+	IpAddress   string `json:"ip_address"`
+	SupportCode string `json:"support_code"`
 }

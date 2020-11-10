@@ -52,7 +52,12 @@ type SesDomainIdentityVerificationSpec struct {
 
 // A SesDomainIdentityVerificationParameters defines the desired state of a SesDomainIdentityVerification
 type SesDomainIdentityVerificationParameters struct {
-	Domain string `json:"domain"`
+	Domain   string     `json:"domain"`
+	Timeouts []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 // A SesDomainIdentityVerificationStatus defines the observed state of a SesDomainIdentityVerification

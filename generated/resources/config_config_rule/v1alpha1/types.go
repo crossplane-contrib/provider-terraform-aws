@@ -52,10 +52,32 @@ type ConfigConfigRuleSpec struct {
 
 // A ConfigConfigRuleParameters defines the desired state of a ConfigConfigRule
 type ConfigConfigRuleParameters struct {
+	Description               string            `json:"description"`
+	InputParameters           string            `json:"input_parameters"`
+	MaximumExecutionFrequency string            `json:"maximum_execution_frequency"`
+	Name                      string            `json:"name"`
+	Tags                      map[string]string `json:"tags"`
+	Scope                     Scope             `json:"scope"`
+	Source                    Source            `json:"source"`
+}
+
+type Scope struct {
+	ComplianceResourceId    string   `json:"compliance_resource_id"`
+	ComplianceResourceTypes []string `json:"compliance_resource_types"`
+	TagKey                  string   `json:"tag_key"`
+	TagValue                string   `json:"tag_value"`
+}
+
+type Source struct {
+	Owner            string         `json:"owner"`
+	SourceIdentifier string         `json:"source_identifier"`
+	SourceDetail     []SourceDetail `json:"source_detail"`
+}
+
+type SourceDetail struct {
 	MaximumExecutionFrequency string `json:"maximum_execution_frequency"`
-	Name                      string `json:"name"`
-	Description               string `json:"description"`
-	InputParameters           string `json:"input_parameters"`
+	MessageType               string `json:"message_type"`
+	EventSource               string `json:"event_source"`
 }
 
 // A ConfigConfigRuleStatus defines the observed state of a ConfigConfigRule
@@ -66,7 +88,7 @@ type ConfigConfigRuleStatus struct {
 
 // A ConfigConfigRuleObservation records the observed state of a ConfigConfigRule
 type ConfigConfigRuleObservation struct {
-	RuleId string `json:"rule_id"`
 	Arn    string `json:"arn"`
 	Id     string `json:"id"`
+	RuleId string `json:"rule_id"`
 }

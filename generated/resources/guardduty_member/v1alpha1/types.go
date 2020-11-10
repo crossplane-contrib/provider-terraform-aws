@@ -52,12 +52,18 @@ type GuarddutyMemberSpec struct {
 
 // A GuarddutyMemberParameters defines the desired state of a GuarddutyMember
 type GuarddutyMemberParameters struct {
-	InvitationMessage        string `json:"invitation_message"`
-	Invite                   bool   `json:"invite"`
-	AccountId                string `json:"account_id"`
-	DetectorId               string `json:"detector_id"`
-	DisableEmailNotification bool   `json:"disable_email_notification"`
-	Email                    string `json:"email"`
+	DetectorId               string     `json:"detector_id"`
+	DisableEmailNotification bool       `json:"disable_email_notification"`
+	Email                    string     `json:"email"`
+	InvitationMessage        string     `json:"invitation_message"`
+	Invite                   bool       `json:"invite"`
+	AccountId                string     `json:"account_id"`
+	Timeouts                 []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A GuarddutyMemberStatus defines the observed state of a GuarddutyMember
@@ -68,6 +74,6 @@ type GuarddutyMemberStatus struct {
 
 // A GuarddutyMemberObservation records the observed state of a GuarddutyMember
 type GuarddutyMemberObservation struct {
-	RelationshipStatus string `json:"relationship_status"`
 	Id                 string `json:"id"`
+	RelationshipStatus string `json:"relationship_status"`
 }

@@ -64,10 +64,10 @@ type CodeartifactDomainStatus struct {
 
 // A CodeartifactDomainObservation records the observed state of a CodeartifactDomain
 type CodeartifactDomainObservation struct {
-	Id              string `json:"id"`
-	Owner           string `json:"owner"`
 	RepositoryCount int    `json:"repository_count"`
 	Arn             string `json:"arn"`
 	AssetSizeBytes  int    `json:"asset_size_bytes"`
 	CreatedTime     string `json:"created_time"`
+	Id              string `json:"id"`
+	Owner           string `json:"owner"`
 }

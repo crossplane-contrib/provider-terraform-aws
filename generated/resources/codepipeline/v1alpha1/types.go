@@ -52,8 +52,43 @@ type CodepipelineSpec struct {
 
 // A CodepipelineParameters defines the desired state of a Codepipeline
 type CodepipelineParameters struct {
-	Name    string `json:"name"`
-	RoleArn string `json:"role_arn"`
+	RoleArn       string            `json:"role_arn"`
+	Tags          map[string]string `json:"tags"`
+	Name          string            `json:"name"`
+	Stage         []Stage           `json:"stage"`
+	ArtifactStore []ArtifactStore   `json:"artifact_store"`
+}
+
+type Stage struct {
+	Name   string   `json:"name"`
+	Action []Action `json:"action"`
+}
+
+type Action struct {
+	RunOrder        int               `json:"run_order"`
+	Category        string            `json:"category"`
+	InputArtifacts  []string          `json:"input_artifacts"`
+	Name            string            `json:"name"`
+	Namespace       string            `json:"namespace"`
+	OutputArtifacts []string          `json:"output_artifacts"`
+	Owner           string            `json:"owner"`
+	Region          string            `json:"region"`
+	Version         string            `json:"version"`
+	Configuration   map[string]string `json:"configuration"`
+	Provider        string            `json:"provider"`
+	RoleArn         string            `json:"role_arn"`
+}
+
+type ArtifactStore struct {
+	Location      string        `json:"location"`
+	Region        string        `json:"region"`
+	Type          string        `json:"type"`
+	EncryptionKey EncryptionKey `json:"encryption_key"`
+}
+
+type EncryptionKey struct {
+	Id   string `json:"id"`
+	Type string `json:"type"`
 }
 
 // A CodepipelineStatus defines the observed state of a Codepipeline

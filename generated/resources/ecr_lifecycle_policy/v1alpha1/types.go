@@ -52,8 +52,8 @@ type EcrLifecyclePolicySpec struct {
 
 // A EcrLifecyclePolicyParameters defines the desired state of a EcrLifecyclePolicy
 type EcrLifecyclePolicyParameters struct {
-	Policy     string `json:"policy"`
 	Repository string `json:"repository"`
+	Policy     string `json:"policy"`
 }
 
 // A EcrLifecyclePolicyStatus defines the observed state of a EcrLifecyclePolicy
@@ -64,6 +64,6 @@ type EcrLifecyclePolicyStatus struct {
 
 // A EcrLifecyclePolicyObservation records the observed state of a EcrLifecyclePolicy
 type EcrLifecyclePolicyObservation struct {
-	Id         string `json:"id"`
 	RegistryId string `json:"registry_id"`
+	Id         string `json:"id"`
 }

@@ -52,8 +52,150 @@ type AppmeshVirtualNodeSpec struct {
 
 // A AppmeshVirtualNodeParameters defines the desired state of a AppmeshVirtualNode
 type AppmeshVirtualNodeParameters struct {
-	Name     string `json:"name"`
-	MeshName string `json:"mesh_name"`
+	Tags     map[string]string `json:"tags"`
+	MeshName string            `json:"mesh_name"`
+	Name     string            `json:"name"`
+	Spec     Spec              `json:"spec"`
+}
+
+type Spec struct {
+	Backend          []Backend        `json:"backend"`
+	BackendDefaults  BackendDefaults  `json:"backend_defaults"`
+	Listener         Listener         `json:"listener"`
+	Logging          Logging          `json:"logging"`
+	ServiceDiscovery ServiceDiscovery `json:"service_discovery"`
+}
+
+type Backend struct {
+	VirtualService VirtualService `json:"virtual_service"`
+}
+
+type VirtualService struct {
+	VirtualServiceName string       `json:"virtual_service_name"`
+	ClientPolicy       ClientPolicy `json:"client_policy"`
+}
+
+type ClientPolicy struct {
+	Tls Tls `json:"tls"`
+}
+
+type Tls struct {
+	Enforce    bool       `json:"enforce"`
+	Validation Validation `json:"validation"`
+}
+
+type Validation struct {
+	Trust Trust `json:"trust"`
+}
+
+type Trust struct {
+	Acm  Acm  `json:"acm"`
+	File File `json:"file"`
+}
+
+type Acm struct {
+	CertificateAuthorityArns []string `json:"certificate_authority_arns"`
+}
+
+type File struct {
+	CertificateChain string `json:"certificate_chain"`
+}
+
+type BackendDefaults struct {
+	ClientPolicy ClientPolicy `json:"client_policy"`
+}
+
+type ClientPolicy struct {
+	Tls Tls `json:"tls"`
+}
+
+type Tls struct {
+	Enforce    bool       `json:"enforce"`
+	Validation Validation `json:"validation"`
+}
+
+type Validation struct {
+	Trust Trust `json:"trust"`
+}
+
+type Trust struct {
+	Acm  Acm  `json:"acm"`
+	File File `json:"file"`
+}
+
+type Acm struct {
+	CertificateAuthorityArns []string `json:"certificate_authority_arns"`
+}
+
+type File struct {
+	CertificateChain string `json:"certificate_chain"`
+}
+
+type Listener struct {
+	HealthCheck HealthCheck `json:"health_check"`
+	PortMapping PortMapping `json:"port_mapping"`
+	Tls         Tls         `json:"tls"`
+}
+
+type HealthCheck struct {
+	HealthyThreshold   int    `json:"healthy_threshold"`
+	IntervalMillis     int    `json:"interval_millis"`
+	Path               string `json:"path"`
+	Port               int    `json:"port"`
+	Protocol           string `json:"protocol"`
+	TimeoutMillis      int    `json:"timeout_millis"`
+	UnhealthyThreshold int    `json:"unhealthy_threshold"`
+}
+
+type PortMapping struct {
+	Port     int    `json:"port"`
+	Protocol string `json:"protocol"`
+}
+
+type Tls struct {
+	Mode        string      `json:"mode"`
+	Certificate Certificate `json:"certificate"`
+}
+
+type Certificate struct {
+	Acm  Acm  `json:"acm"`
+	File File `json:"file"`
+}
+
+type Acm struct {
+	CertificateArn string `json:"certificate_arn"`
+}
+
+type File struct {
+	CertificateChain string `json:"certificate_chain"`
+	PrivateKey       string `json:"private_key"`
+}
+
+type Logging struct {
+	AccessLog AccessLog `json:"access_log"`
+}
+
+type AccessLog struct {
+	File File `json:"file"`
+}
+
+type File struct {
+	Path string `json:"path"`
+}
+
+type ServiceDiscovery struct {
+	AwsCloudMap AwsCloudMap `json:"aws_cloud_map"`
+	Dns         Dns         `json:"dns"`
+}
+
+type AwsCloudMap struct {
+	Attributes    map[string]string `json:"attributes"`
+	NamespaceName string            `json:"namespace_name"`
+	ServiceName   string            `json:"service_name"`
+}
+
+type Dns struct {
+	Hostname string `json:"hostname"`
 }
 
 // A AppmeshVirtualNodeStatus defines the observed state of a AppmeshVirtualNode
@@ -64,10 +206,10 @@ type AppmeshVirtualNodeStatus struct {
 
 // A AppmeshVirtualNodeObservation records the observed state of a AppmeshVirtualNode
 type AppmeshVirtualNodeObservation struct {
+	CreatedDate     string `json:"created_date"`
 	Id              string `json:"id"`
 	ResourceOwner   string `json:"resource_owner"`
 	Arn             string `json:"arn"`
-	CreatedDate     string `json:"created_date"`
-	MeshOwner       string `json:"mesh_owner"`
 	LastUpdatedDate string `json:"last_updated_date"`
+	MeshOwner       string `json:"mesh_owner"`
 }

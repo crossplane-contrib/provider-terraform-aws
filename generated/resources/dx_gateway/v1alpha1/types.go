@@ -52,8 +52,14 @@ type DxGatewaySpec struct {
 
 // A DxGatewayParameters defines the desired state of a DxGateway
 type DxGatewayParameters struct {
-	Name          string `json:"name"`
-	AmazonSideAsn string `json:"amazon_side_asn"`
+	AmazonSideAsn string     `json:"amazon_side_asn"`
+	Name          string     `json:"name"`
+	Timeouts      []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A DxGatewayStatus defines the observed state of a DxGateway
@@ -64,6 +70,6 @@ type DxGatewayStatus struct {
 
 // A DxGatewayObservation records the observed state of a DxGateway
 type DxGatewayObservation struct {
-	OwnerAccountId string `json:"owner_account_id"`
 	Id             string `json:"id"`
+	OwnerAccountId string `json:"owner_account_id"`
 }

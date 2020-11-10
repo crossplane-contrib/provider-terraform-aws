@@ -52,7 +52,14 @@ type CloudhsmV2HsmSpec struct {
 
 // A CloudhsmV2HsmParameters defines the desired state of a CloudhsmV2Hsm
 type CloudhsmV2HsmParameters struct {
-	ClusterId string `json:"cluster_id"`
+	ClusterId string     `json:"cluster_id"`
+	Timeouts  []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A CloudhsmV2HsmStatus defines the observed state of a CloudhsmV2Hsm

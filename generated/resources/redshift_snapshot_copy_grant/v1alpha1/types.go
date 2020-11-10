@@ -52,7 +52,8 @@ type RedshiftSnapshotCopyGrantSpec struct {
 
 // A RedshiftSnapshotCopyGrantParameters defines the desired state of a RedshiftSnapshotCopyGrant
 type RedshiftSnapshotCopyGrantParameters struct {
-	SnapshotCopyGrantName string `json:"snapshot_copy_grant_name"`
+	SnapshotCopyGrantName string            `json:"snapshot_copy_grant_name"`
+	Tags                  map[string]string `json:"tags"`
 }
 
 // A RedshiftSnapshotCopyGrantStatus defines the observed state of a RedshiftSnapshotCopyGrant

@@ -52,10 +52,49 @@ type EmrInstanceFleetSpec struct {
 
 // A EmrInstanceFleetParameters defines the desired state of a EmrInstanceFleet
 type EmrInstanceFleetParameters struct {
-	ClusterId              string `json:"cluster_id"`
-	Name                   string `json:"name"`
-	TargetOnDemandCapacity int    `json:"target_on_demand_capacity"`
-	TargetSpotCapacity     int    `json:"target_spot_capacity"`
+	Name                   string                `json:"name"`
+	TargetOnDemandCapacity int                   `json:"target_on_demand_capacity"`
+	TargetSpotCapacity     int                   `json:"target_spot_capacity"`
+	ClusterId              string                `json:"cluster_id"`
+	InstanceTypeConfigs    []InstanceTypeConfigs `json:"instance_type_configs"`
+	LaunchSpecifications   LaunchSpecifications  `json:"launch_specifications"`
+}
+
+type InstanceTypeConfigs struct {
+	BidPrice                            string           `json:"bid_price"`
+	BidPriceAsPercentageOfOnDemandPrice int              `json:"bid_price_as_percentage_of_on_demand_price"`
+	InstanceType                        string           `json:"instance_type"`
+	WeightedCapacity                    int              `json:"weighted_capacity"`
+	Configurations                      []Configurations `json:"configurations"`
+	EbsConfig                           []EbsConfig      `json:"ebs_config"`
+}
+
+type Configurations struct {
+	Classification string            `json:"classification"`
+	Properties     map[string]string `json:"properties"`
+}
+
+type EbsConfig struct {
+	Iops               int    `json:"iops"`
+	Size               int    `json:"size"`
+	Type               string `json:"type"`
+	VolumesPerInstance int    `json:"volumes_per_instance"`
+}
+
+type LaunchSpecifications struct {
+	OnDemandSpecification []OnDemandSpecification `json:"on_demand_specification"`
+	SpotSpecification     []SpotSpecification     `json:"spot_specification"`
+}
+
+type OnDemandSpecification struct {
+	AllocationStrategy string `json:"allocation_strategy"`
+}
+
+type SpotSpecification struct {
+	BlockDurationMinutes   int    `json:"block_duration_minutes"`
+	TimeoutAction          string `json:"timeout_action"`
+	TimeoutDurationMinutes int    `json:"timeout_duration_minutes"`
+	AllocationStrategy     string `json:"allocation_strategy"`
 }
 
 // A EmrInstanceFleetStatus defines the observed state of a EmrInstanceFleet
@@ -66,7 +105,7 @@ type EmrInstanceFleetStatus struct {
 
 // A EmrInstanceFleetObservation records the observed state of a EmrInstanceFleet
 type EmrInstanceFleetObservation struct {
-	Id                          string `json:"id"`
 	ProvisionedOnDemandCapacity int    `json:"provisioned_on_demand_capacity"`
 	ProvisionedSpotCapacity     int    `json:"provisioned_spot_capacity"`
+	Id                          string `json:"id"`
 }

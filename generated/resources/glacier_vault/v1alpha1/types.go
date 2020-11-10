@@ -52,8 +52,15 @@ type GlacierVaultSpec struct {
 
 // A GlacierVaultParameters defines the desired state of a GlacierVault
 type GlacierVaultParameters struct {
-	Name         string `json:"name"`
-	AccessPolicy string `json:"access_policy"`
+	Name         string            `json:"name"`
+	Tags         map[string]string `json:"tags"`
+	AccessPolicy string            `json:"access_policy"`
+	Notification []Notification    `json:"notification"`
+}
+
+type Notification struct {
+	SnsTopic string   `json:"sns_topic"`
+	Events   []string `json:"events"`
 }
 
 // A GlacierVaultStatus defines the observed state of a GlacierVault
@@ -64,7 +71,7 @@ type GlacierVaultStatus struct {
 
 // A GlacierVaultObservation records the observed state of a GlacierVault
 type GlacierVaultObservation struct {
+	Location string `json:"location"`
 	Arn      string `json:"arn"`
 	Id       string `json:"id"`
-	Location string `json:"location"`
 }

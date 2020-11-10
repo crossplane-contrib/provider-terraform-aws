@@ -52,11 +52,19 @@ type DocdbClusterInstanceSpec struct {
 
 // A DocdbClusterInstanceParameters defines the desired state of a DocdbClusterInstance
 type DocdbClusterInstanceParameters struct {
-	ClusterIdentifier       string `json:"cluster_identifier"`
-	AutoMinorVersionUpgrade bool   `json:"auto_minor_version_upgrade"`
-	PromotionTier           int    `json:"promotion_tier"`
-	Engine                  string `json:"engine"`
-	InstanceClass           string `json:"instance_class"`
+	AutoMinorVersionUpgrade bool              `json:"auto_minor_version_upgrade"`
+	Engine                  string            `json:"engine"`
+	InstanceClass           string            `json:"instance_class"`
+	Tags                    map[string]string `json:"tags"`
+	ClusterIdentifier       string            `json:"cluster_identifier"`
+	PromotionTier           int               `json:"promotion_tier"`
+	Timeouts                []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
+	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DocdbClusterInstanceStatus defines the observed state of a DocdbClusterInstance
@@ -67,22 +75,22 @@ type DocdbClusterInstanceStatus struct {
 
 // A DocdbClusterInstanceObservation records the observed state of a DocdbClusterInstance
 type DocdbClusterInstanceObservation struct {
-	PubliclyAccessible         bool   `json:"publicly_accessible"`
+	ApplyImmediately           bool   `json:"apply_immediately"`
+	Port                       int    `json:"port"`
+	DbiResourceId              string `json:"dbi_resource_id"`
+	EngineVersion              string `json:"engine_version"`
+	IdentifierPrefix           string `json:"identifier_prefix"`
+	PreferredBackupWindow      string `json:"preferred_backup_window"`
+	Writer                     bool   `json:"writer"`
 	Arn                        string `json:"arn"`
 	DbSubnetGroupName          string `json:"db_subnet_group_name"`
-	EngineVersion              string `json:"engine_version"`
 	Identifier                 string `json:"identifier"`
-	IdentifierPrefix           string `json:"identifier_prefix"`
 	KmsKeyId                   string `json:"kms_key_id"`
-	DbiResourceId              string `json:"dbi_resource_id"`
-	Endpoint                   string `json:"endpoint"`
-	Id                         string `json:"id"`
-	PreferredBackupWindow      string `json:"preferred_backup_window"`
+	PubliclyAccessible         bool   `json:"publicly_accessible"`
 	StorageEncrypted           bool   `json:"storage_encrypted"`
-	Writer                     bool   `json:"writer"`
 	AvailabilityZone           string `json:"availability_zone"`
 	CaCertIdentifier           string `json:"ca_cert_identifier"`
-	Port                       int    `json:"port"`
+	Endpoint                   string `json:"endpoint"`
+	Id                         string `json:"id"`
 	PreferredMaintenanceWindow string `json:"preferred_maintenance_window"`
-	ApplyImmediately           bool   `json:"apply_immediately"`
 }

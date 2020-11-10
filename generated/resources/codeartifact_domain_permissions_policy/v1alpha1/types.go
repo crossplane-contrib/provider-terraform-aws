@@ -52,8 +52,8 @@ type CodeartifactDomainPermissionsPolicySpec struct {
 
 // A CodeartifactDomainPermissionsPolicyParameters defines the desired state of a CodeartifactDomainPermissionsPolicy
 type CodeartifactDomainPermissionsPolicyParameters struct {
-	PolicyDocument string `json:"policy_document"`
 	Domain         string `json:"domain"`
+	PolicyDocument string `json:"policy_document"`
 }
 
 // A CodeartifactDomainPermissionsPolicyStatus defines the observed state of a CodeartifactDomainPermissionsPolicy

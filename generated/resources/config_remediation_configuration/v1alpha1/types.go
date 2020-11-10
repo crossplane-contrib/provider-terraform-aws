@@ -52,11 +52,18 @@ type ConfigRemediationConfigurationSpec struct {
 
 // A ConfigRemediationConfigurationParameters defines the desired state of a ConfigRemediationConfiguration
 type ConfigRemediationConfigurationParameters struct {
-	ConfigRuleName string `json:"config_rule_name"`
-	ResourceType   string `json:"resource_type"`
-	TargetId       string `json:"target_id"`
-	TargetType     string `json:"target_type"`
-	TargetVersion  string `json:"target_version"`
+	ConfigRuleName string      `json:"config_rule_name"`
+	ResourceType   string      `json:"resource_type"`
+	TargetId       string      `json:"target_id"`
+	TargetType     string      `json:"target_type"`
+	TargetVersion  string      `json:"target_version"`
+	Parameter      []Parameter `json:"parameter"`
+}
+
+type Parameter struct {
+	StaticValue   string `json:"static_value"`
+	Name          string `json:"name"`
+	ResourceValue string `json:"resource_value"`
 }
 
 // A ConfigRemediationConfigurationStatus defines the observed state of a ConfigRemediationConfiguration

@@ -52,8 +52,8 @@ type Route53VpcAssociationAuthorizationSpec struct {
 
 // A Route53VpcAssociationAuthorizationParameters defines the desired state of a Route53VpcAssociationAuthorization
 type Route53VpcAssociationAuthorizationParameters struct {
-	VpcId  string `json:"vpc_id"`
 	ZoneId string `json:"zone_id"`
+	VpcId  string `json:"vpc_id"`
 }
 
 // A Route53VpcAssociationAuthorizationStatus defines the observed state of a Route53VpcAssociationAuthorization

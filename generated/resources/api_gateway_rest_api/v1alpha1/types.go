@@ -52,13 +52,20 @@ type ApiGatewayRestApiSpec struct {
 
 // A ApiGatewayRestApiParameters defines the desired state of a ApiGatewayRestApi
 type ApiGatewayRestApiParameters struct {
-	Body                   string   `json:"body"`
-	MinimumCompressionSize int      `json:"minimum_compression_size"`
-	Name                   string   `json:"name"`
-	ApiKeySource           string   `json:"api_key_source"`
-	BinaryMediaTypes       []string `json:"binary_media_types"`
-	Description            string   `json:"description"`
-	Policy                 string   `json:"policy"`
+	Description            string                `json:"description"`
+	MinimumCompressionSize int                   `json:"minimum_compression_size"`
+	Policy                 string                `json:"policy"`
+	Tags                   map[string]string     `json:"tags"`
+	ApiKeySource           string                `json:"api_key_source"`
+	BinaryMediaTypes       []string              `json:"binary_media_types"`
+	Name                   string                `json:"name"`
+	Body                   string                `json:"body"`
+	EndpointConfiguration  EndpointConfiguration `json:"endpoint_configuration"`
+}
+
+type EndpointConfiguration struct {
+	Types          []string `json:"types"`
+	VpcEndpointIds []string `json:"vpc_endpoint_ids"`
 }
 
 // A ApiGatewayRestApiStatus defines the observed state of a ApiGatewayRestApi
@@ -70,8 +77,8 @@ type ApiGatewayRestApiStatus struct {
 // A ApiGatewayRestApiObservation records the observed state of a ApiGatewayRestApi
 type ApiGatewayRestApiObservation struct {
 	CreatedDate    string `json:"created_date"`
-	RootResourceId string `json:"root_resource_id"`
-	ExecutionArn   string `json:"execution_arn"`
 	Id             string `json:"id"`
+	RootResourceId string `json:"root_resource_id"`
 	Arn            string `json:"arn"`
+	ExecutionArn   string `json:"execution_arn"`
 }

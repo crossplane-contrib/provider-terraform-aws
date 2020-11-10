@@ -52,7 +52,19 @@ type DynamodbGlobalTableSpec struct {
 
 // A DynamodbGlobalTableParameters defines the desired state of a DynamodbGlobalTable
 type DynamodbGlobalTableParameters struct {
-	Name string `json:"name"`
+	Name     string     `json:"name"`
+	Replica  []Replica  `json:"replica"`
+	Timeouts []Timeouts `json:"timeouts"`
+}
+
+type Replica struct {
+	RegionName string `json:"region_name"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DynamodbGlobalTableStatus defines the observed state of a DynamodbGlobalTable
@@ -63,6 +75,6 @@ type DynamodbGlobalTableStatus struct {
 
 // A DynamodbGlobalTableObservation records the observed state of a DynamodbGlobalTable
 type DynamodbGlobalTableObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
+	Id  string `json:"id"`
 }

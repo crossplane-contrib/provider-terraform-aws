@@ -52,7 +52,8 @@ type GuarddutyDetectorSpec struct {
 
 // A GuarddutyDetectorParameters defines the desired state of a GuarddutyDetector
 type GuarddutyDetectorParameters struct {
-	Enable bool `json:"enable"`
+	Enable bool              `json:"enable"`
+	Tags   map[string]string `json:"tags"`
 }
 
 // A GuarddutyDetectorStatus defines the observed state of a GuarddutyDetector

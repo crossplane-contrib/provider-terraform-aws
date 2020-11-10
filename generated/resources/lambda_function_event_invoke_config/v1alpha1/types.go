@@ -52,10 +52,24 @@ type LambdaFunctionEventInvokeConfigSpec struct {
 
 // A LambdaFunctionEventInvokeConfigParameters defines the desired state of a LambdaFunctionEventInvokeConfig
 type LambdaFunctionEventInvokeConfigParameters struct {
-	MaximumEventAgeInSeconds int    `json:"maximum_event_age_in_seconds"`
-	MaximumRetryAttempts     int    `json:"maximum_retry_attempts"`
-	Qualifier                string `json:"qualifier"`
-	FunctionName             string `json:"function_name"`
+	MaximumEventAgeInSeconds int               `json:"maximum_event_age_in_seconds"`
+	MaximumRetryAttempts     int               `json:"maximum_retry_attempts"`
+	Qualifier                string            `json:"qualifier"`
+	FunctionName             string            `json:"function_name"`
+	DestinationConfig        DestinationConfig `json:"destination_config"`
+}
+
+type DestinationConfig struct {
+	OnFailure OnFailure `json:"on_failure"`
+	OnSuccess OnSuccess `json:"on_success"`
+}
+
+type OnFailure struct {
+	Destination string `json:"destination"`
+}
+
+type OnSuccess struct {
+	Destination string `json:"destination"`
 }
 
 // A LambdaFunctionEventInvokeConfigStatus defines the observed state of a LambdaFunctionEventInvokeConfig

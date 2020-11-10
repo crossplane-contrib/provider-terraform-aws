@@ -52,10 +52,12 @@ type ApiGatewayMethodResponseSpec struct {
 
 // A ApiGatewayMethodResponseParameters defines the desired state of a ApiGatewayMethodResponse
 type ApiGatewayMethodResponseParameters struct {
-	RestApiId  string `json:"rest_api_id"`
-	StatusCode string `json:"status_code"`
-	HttpMethod string `json:"http_method"`
-	ResourceId string `json:"resource_id"`
+	ResourceId         string            `json:"resource_id"`
+	ResponseModels     map[string]string `json:"response_models"`
+	ResponseParameters map[string]bool   `json:"response_parameters"`
+	RestApiId          string            `json:"rest_api_id"`
+	StatusCode         string            `json:"status_code"`
+	HttpMethod         string            `json:"http_method"`
 }
 
 // A ApiGatewayMethodResponseStatus defines the observed state of a ApiGatewayMethodResponse

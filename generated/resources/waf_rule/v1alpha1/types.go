@@ -52,8 +52,16 @@ type WafRuleSpec struct {
 
 // A WafRuleParameters defines the desired state of a WafRule
 type WafRuleParameters struct {
-	MetricName string `json:"metric_name"`
-	Name       string `json:"name"`
+	MetricName string            `json:"metric_name"`
+	Name       string            `json:"name"`
+	Tags       map[string]string `json:"tags"`
+	Predicates []Predicates      `json:"predicates"`
+}
+
+type Predicates struct {
+	DataId  string `json:"data_id"`
+	Negated bool   `json:"negated"`
+	Type    string `json:"type"`
 }
 
 // A WafRuleStatus defines the observed state of a WafRule

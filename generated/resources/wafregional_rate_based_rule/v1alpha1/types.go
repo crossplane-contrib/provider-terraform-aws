@@ -52,10 +52,18 @@ type WafregionalRateBasedRuleSpec struct {
 
 // A WafregionalRateBasedRuleParameters defines the desired state of a WafregionalRateBasedRule
 type WafregionalRateBasedRuleParameters struct {
-	MetricName string `json:"metric_name"`
-	Name       string `json:"name"`
-	RateKey    string `json:"rate_key"`
-	RateLimit  int    `json:"rate_limit"`
+	Tags       map[string]string `json:"tags"`
+	MetricName string            `json:"metric_name"`
+	Name       string            `json:"name"`
+	RateKey    string            `json:"rate_key"`
+	RateLimit  int               `json:"rate_limit"`
+	Predicate  []Predicate       `json:"predicate"`
+}
+
+type Predicate struct {
+	Negated bool   `json:"negated"`
+	Type    string `json:"type"`
+	DataId  string `json:"data_id"`
 }
 
 // A WafregionalRateBasedRuleStatus defines the observed state of a WafregionalRateBasedRule

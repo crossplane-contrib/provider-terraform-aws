@@ -52,8 +52,21 @@ type WafRuleGroupSpec struct {
 
 // A WafRuleGroupParameters defines the desired state of a WafRuleGroup
 type WafRuleGroupParameters struct {
-	MetricName string `json:"metric_name"`
-	Name       string `json:"name"`
+	MetricName    string            `json:"metric_name"`
+	Name          string            `json:"name"`
+	Tags          map[string]string `json:"tags"`
+	ActivatedRule []ActivatedRule   `json:"activated_rule"`
+}
+
+type ActivatedRule struct {
+	Priority int    `json:"priority"`
+	RuleId   string `json:"rule_id"`
+	Type     string `json:"type"`
+	Action   Action `json:"action"`
+}
+
+type Action struct {
+	Type string `json:"type"`
 }
 
 // A WafRuleGroupStatus defines the observed state of a WafRuleGroup
@@ -64,6 +77,6 @@ type WafRuleGroupStatus struct {
 
 // A WafRuleGroupObservation records the observed state of a WafRuleGroup
 type WafRuleGroupObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

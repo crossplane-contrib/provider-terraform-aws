@@ -52,9 +52,9 @@ type DxGatewayAssociationProposalSpec struct {
 
 // A DxGatewayAssociationProposalParameters defines the desired state of a DxGatewayAssociationProposal
 type DxGatewayAssociationProposalParameters struct {
+	DxGatewayId             string `json:"dx_gateway_id"`
 	DxGatewayOwnerAccountId string `json:"dx_gateway_owner_account_id"`
 	AssociatedGatewayId     string `json:"associated_gateway_id"`
-	DxGatewayId             string `json:"dx_gateway_id"`
 }
 
 // A DxGatewayAssociationProposalStatus defines the observed state of a DxGatewayAssociationProposal
@@ -65,8 +65,8 @@ type DxGatewayAssociationProposalStatus struct {
 
 // A DxGatewayAssociationProposalObservation records the observed state of a DxGatewayAssociationProposal
 type DxGatewayAssociationProposalObservation struct {
-	Id                              string   `json:"id"`
-	AllowedPrefixes                 []string `json:"allowed_prefixes"`
 	AssociatedGatewayOwnerAccountId string   `json:"associated_gateway_owner_account_id"`
 	AssociatedGatewayType           string   `json:"associated_gateway_type"`
+	Id                              string   `json:"id"`
+	AllowedPrefixes                 []string `json:"allowed_prefixes"`
 }

@@ -52,8 +52,14 @@ type DbClusterSnapshotSpec struct {
 
 // A DbClusterSnapshotParameters defines the desired state of a DbClusterSnapshot
 type DbClusterSnapshotParameters struct {
-	DbClusterSnapshotIdentifier string `json:"db_cluster_snapshot_identifier"`
-	DbClusterIdentifier         string `json:"db_cluster_identifier"`
+	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
+	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
+	Tags                        map[string]string `json:"tags"`
+	Timeouts                    []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 // A DbClusterSnapshotStatus defines the observed state of a DbClusterSnapshot
@@ -64,18 +70,18 @@ type DbClusterSnapshotStatus struct {
 
 // A DbClusterSnapshotObservation records the observed state of a DbClusterSnapshot
 type DbClusterSnapshotObservation struct {
-	EngineVersion              string   `json:"engine_version"`
-	KmsKeyId                   string   `json:"kms_key_id"`
+	VpcId                      string   `json:"vpc_id"`
+	Id                         string   `json:"id"`
+	Status                     string   `json:"status"`
+	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	Engine                     string   `json:"engine"`
 	LicenseModel               string   `json:"license_model"`
-	Port                       int      `json:"port"`
 	SnapshotType               string   `json:"snapshot_type"`
 	AllocatedStorage           int      `json:"allocated_storage"`
-	Engine                     string   `json:"engine"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
-	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
-	VpcId                      string   `json:"vpc_id"`
 	AvailabilityZones          []string `json:"availability_zones"`
-	Status                     string   `json:"status"`
-	Id                         string   `json:"id"`
+	EngineVersion              string   `json:"engine_version"`
+	KmsKeyId                   string   `json:"kms_key_id"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
+	Port                       int      `json:"port"`
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
 }

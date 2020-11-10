@@ -52,9 +52,35 @@ type DlmLifecyclePolicySpec struct {
 
 // A DlmLifecyclePolicyParameters defines the desired state of a DlmLifecyclePolicy
 type DlmLifecyclePolicyParameters struct {
-	State            string `json:"state"`
-	Description      string `json:"description"`
-	ExecutionRoleArn string `json:"execution_role_arn"`
+	State            string            `json:"state"`
+	Tags             map[string]string `json:"tags"`
+	Description      string            `json:"description"`
+	ExecutionRoleArn string            `json:"execution_role_arn"`
+	PolicyDetails    PolicyDetails     `json:"policy_details"`
+}
+
+type PolicyDetails struct {
+	ResourceTypes []string          `json:"resource_types"`
+	TargetTags    map[string]string `json:"target_tags"`
+	Schedule      []Schedule        `json:"schedule"`
+}
+
+type Schedule struct {
+	Name       string            `json:"name"`
+	TagsToAdd  map[string]string `json:"tags_to_add"`
+	CopyTags   bool              `json:"copy_tags"`
+	CreateRule CreateRule        `json:"create_rule"`
+	RetainRule RetainRule        `json:"retain_rule"`
+}
+
+type CreateRule struct {
+	Interval     int      `json:"interval"`
+	IntervalUnit string   `json:"interval_unit"`
+	Times        []string `json:"times"`
+}
+
+type RetainRule struct {
+	Count int `json:"count"`
 }
 
 // A DlmLifecyclePolicyStatus defines the observed state of a DlmLifecyclePolicy
@@ -65,6 +91,6 @@ type DlmLifecyclePolicyStatus struct {
 
 // A DlmLifecyclePolicyObservation records the observed state of a DlmLifecyclePolicy
 type DlmLifecyclePolicyObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
+	Id  string `json:"id"`
 }

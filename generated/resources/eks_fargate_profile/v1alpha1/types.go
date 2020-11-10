@@ -52,10 +52,23 @@ type EksFargateProfileSpec struct {
 
 // A EksFargateProfileParameters defines the desired state of a EksFargateProfile
 type EksFargateProfileParameters struct {
-	ClusterName         string   `json:"cluster_name"`
-	FargateProfileName  string   `json:"fargate_profile_name"`
-	PodExecutionRoleArn string   `json:"pod_execution_role_arn"`
-	SubnetIds           []string `json:"subnet_ids"`
+	FargateProfileName  string            `json:"fargate_profile_name"`
+	PodExecutionRoleArn string            `json:"pod_execution_role_arn"`
+	SubnetIds           []string          `json:"subnet_ids"`
+	Tags                map[string]string `json:"tags"`
+	ClusterName         string            `json:"cluster_name"`
+	Timeouts            []Timeouts        `json:"timeouts"`
+	Selector            []Selector        `json:"selector"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+}
+
+type Selector struct {
+	Labels    map[string]string `json:"labels"`
+	Namespace string            `json:"namespace"`
 }
 
 // A EksFargateProfileStatus defines the observed state of a EksFargateProfile
@@ -66,7 +79,7 @@ type EksFargateProfileStatus struct {
 
 // A EksFargateProfileObservation records the observed state of a EksFargateProfile
 type EksFargateProfileObservation struct {
-	Arn    string `json:"arn"`
 	Id     string `json:"id"`
 	Status string `json:"status"`
+	Arn    string `json:"arn"`
 }

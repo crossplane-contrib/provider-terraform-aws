@@ -52,12 +52,28 @@ type DbProxySpec struct {
 
 // A DbProxyParameters defines the desired state of a DbProxy
 type DbProxyParameters struct {
-	VpcSubnetIds []string `json:"vpc_subnet_ids"`
-	RoleArn      string   `json:"role_arn"`
-	DebugLogging bool     `json:"debug_logging"`
-	EngineFamily string   `json:"engine_family"`
-	Name         string   `json:"name"`
-	RequireTls   bool     `json:"require_tls"`
+	Name         string            `json:"name"`
+	VpcSubnetIds []string          `json:"vpc_subnet_ids"`
+	Tags         map[string]string `json:"tags"`
+	DebugLogging bool              `json:"debug_logging"`
+	EngineFamily string            `json:"engine_family"`
+	RequireTls   bool              `json:"require_tls"`
+	RoleArn      string            `json:"role_arn"`
+	Auth         []Auth            `json:"auth"`
+	Timeouts     []Timeouts        `json:"timeouts"`
+}
+
+type Auth struct {
+	AuthScheme  string `json:"auth_scheme"`
+	Description string `json:"description"`
+	IamAuth     string `json:"iam_auth"`
+	SecretArn   string `json:"secret_arn"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DbProxyStatus defines the observed state of a DbProxy
@@ -69,8 +85,8 @@ type DbProxyStatus struct {
 // A DbProxyObservation records the observed state of a DbProxy
 type DbProxyObservation struct {
 	Arn                 string   `json:"arn"`
-	Endpoint            string   `json:"endpoint"`
 	Id                  string   `json:"id"`
 	VpcSecurityGroupIds []string `json:"vpc_security_group_ids"`
+	Endpoint            string   `json:"endpoint"`
 	IdleClientTimeout   int      `json:"idle_client_timeout"`
 }

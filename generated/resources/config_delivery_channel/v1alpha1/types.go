@@ -52,10 +52,15 @@ type ConfigDeliveryChannelSpec struct {
 
 // A ConfigDeliveryChannelParameters defines the desired state of a ConfigDeliveryChannel
 type ConfigDeliveryChannelParameters struct {
-	Name         string `json:"name"`
-	S3BucketName string `json:"s3_bucket_name"`
-	S3KeyPrefix  string `json:"s3_key_prefix"`
-	SnsTopicArn  string `json:"sns_topic_arn"`
+	Name                       string                     `json:"name"`
+	S3BucketName               string                     `json:"s3_bucket_name"`
+	S3KeyPrefix                string                     `json:"s3_key_prefix"`
+	SnsTopicArn                string                     `json:"sns_topic_arn"`
+	SnapshotDeliveryProperties SnapshotDeliveryProperties `json:"snapshot_delivery_properties"`
+}
+
+type SnapshotDeliveryProperties struct {
+	DeliveryFrequency string `json:"delivery_frequency"`
 }
 
 // A ConfigDeliveryChannelStatus defines the observed state of a ConfigDeliveryChannel

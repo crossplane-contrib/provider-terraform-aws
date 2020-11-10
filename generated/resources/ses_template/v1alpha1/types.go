@@ -52,10 +52,10 @@ type SesTemplateSpec struct {
 
 // A SesTemplateParameters defines the desired state of a SesTemplate
 type SesTemplateParameters struct {
+	Name    string `json:"name"`
 	Subject string `json:"subject"`
 	Text    string `json:"text"`
 	Html    string `json:"html"`
-	Name    string `json:"name"`
 }
 
 // A SesTemplateStatus defines the observed state of a SesTemplate

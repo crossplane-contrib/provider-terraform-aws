@@ -52,8 +52,8 @@ type OrganizationsOrganizationSpec struct {
 
 // A OrganizationsOrganizationParameters defines the desired state of a OrganizationsOrganization
 type OrganizationsOrganizationParameters struct {
-	AwsServiceAccessPrincipals []string `json:"aws_service_access_principals"`
 	EnabledPolicyTypes         []string `json:"enabled_policy_types"`
+	AwsServiceAccessPrincipals []string `json:"aws_service_access_principals"`
 	FeatureSet                 string   `json:"feature_set"`
 }
 
@@ -66,8 +66,8 @@ type OrganizationsOrganizationStatus struct {
 // A OrganizationsOrganizationObservation records the observed state of a OrganizationsOrganization
 type OrganizationsOrganizationObservation struct {
 	Arn                string `json:"arn"`
-	MasterAccountEmail string `json:"master_account_email"`
-	Id                 string `json:"id"`
 	MasterAccountArn   string `json:"master_account_arn"`
+	MasterAccountEmail string `json:"master_account_email"`
 	MasterAccountId    string `json:"master_account_id"`
+	Id                 string `json:"id"`
 }

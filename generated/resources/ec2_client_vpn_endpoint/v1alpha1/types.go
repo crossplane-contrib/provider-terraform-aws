@@ -52,12 +52,28 @@ type Ec2ClientVpnEndpointSpec struct {
 
 // A Ec2ClientVpnEndpointParameters defines the desired state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointParameters struct {
-	DnsServers           []string `json:"dns_servers"`
-	ServerCertificateArn string   `json:"server_certificate_arn"`
-	SplitTunnel          bool     `json:"split_tunnel"`
-	ClientCidrBlock      string   `json:"client_cidr_block"`
-	TransportProtocol    string   `json:"transport_protocol"`
-	Description          string   `json:"description"`
+	SplitTunnel           bool                    `json:"split_tunnel"`
+	Tags                  map[string]string       `json:"tags"`
+	TransportProtocol     string                  `json:"transport_protocol"`
+	ClientCidrBlock       string                  `json:"client_cidr_block"`
+	Description           string                  `json:"description"`
+	DnsServers            []string                `json:"dns_servers"`
+	ServerCertificateArn  string                  `json:"server_certificate_arn"`
+	ConnectionLogOptions  ConnectionLogOptions    `json:"connection_log_options"`
+	AuthenticationOptions []AuthenticationOptions `json:"authentication_options"`
+}
+
+type ConnectionLogOptions struct {
+	Enabled             bool   `json:"enabled"`
+	CloudwatchLogGroup  string `json:"cloudwatch_log_group"`
+	CloudwatchLogStream string `json:"cloudwatch_log_stream"`
+}
+
+type AuthenticationOptions struct {
+	ActiveDirectoryId       string `json:"active_directory_id"`
+	RootCertificateChainArn string `json:"root_certificate_chain_arn"`
+	SamlProviderArn         string `json:"saml_provider_arn"`
+	Type                    string `json:"type"`
 }
 
 // A Ec2ClientVpnEndpointStatus defines the observed state of a Ec2ClientVpnEndpoint
@@ -69,7 +85,7 @@ type Ec2ClientVpnEndpointStatus struct {
 // A Ec2ClientVpnEndpointObservation records the observed state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointObservation struct {
 	Id      string `json:"id"`
-	Arn     string `json:"arn"`
-	DnsName string `json:"dns_name"`
 	Status  string `json:"status"`
+	DnsName string `json:"dns_name"`
+	Arn     string `json:"arn"`
 }

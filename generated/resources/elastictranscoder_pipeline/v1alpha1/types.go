@@ -52,9 +52,43 @@ type ElastictranscoderPipelineSpec struct {
 
 // A ElastictranscoderPipelineParameters defines the desired state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineParameters struct {
-	Role         string `json:"role"`
-	AwsKmsKeyArn string `json:"aws_kms_key_arn"`
-	InputBucket  string `json:"input_bucket"`
+	Role                       string                       `json:"role"`
+	AwsKmsKeyArn               string                       `json:"aws_kms_key_arn"`
+	InputBucket                string                       `json:"input_bucket"`
+	ThumbnailConfigPermissions []ThumbnailConfigPermissions `json:"thumbnail_config_permissions"`
+	ContentConfig              ContentConfig                `json:"content_config"`
+	ContentConfigPermissions   []ContentConfigPermissions   `json:"content_config_permissions"`
+	Notifications              Notifications                `json:"notifications"`
+	ThumbnailConfig            ThumbnailConfig              `json:"thumbnail_config"`
+}
+
+type ThumbnailConfigPermissions struct {
+	Access      []string `json:"access"`
+	Grantee     string   `json:"grantee"`
+	GranteeType string   `json:"grantee_type"`
+}
+
+type ContentConfig struct {
+	Bucket       string `json:"bucket"`
+	StorageClass string `json:"storage_class"`
+}
+
+type ContentConfigPermissions struct {
+	Access      []string `json:"access"`
+	Grantee     string   `json:"grantee"`
+	GranteeType string   `json:"grantee_type"`
+}
+
+type Notifications struct {
+	Completed   string `json:"completed"`
+	Error       string `json:"error"`
+	Progressing string `json:"progressing"`
+	Warning     string `json:"warning"`
+}
+
+type ThumbnailConfig struct {
+	Bucket       string `json:"bucket"`
+	StorageClass string `json:"storage_class"`
 }
 
 // A ElastictranscoderPipelineStatus defines the observed state of a ElastictranscoderPipeline

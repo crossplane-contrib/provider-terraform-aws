@@ -52,8 +52,8 @@ type SnapshotCreateVolumePermissionSpec struct {
 
 // A SnapshotCreateVolumePermissionParameters defines the desired state of a SnapshotCreateVolumePermission
 type SnapshotCreateVolumePermissionParameters struct {
-	AccountId  string `json:"account_id"`
 	SnapshotId string `json:"snapshot_id"`
+	AccountId  string `json:"account_id"`
 }
 
 // A SnapshotCreateVolumePermissionStatus defines the observed state of a SnapshotCreateVolumePermission

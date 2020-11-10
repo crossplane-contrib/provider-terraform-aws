@@ -52,14 +52,22 @@ type RdsClusterInstanceSpec struct {
 
 // A RdsClusterInstanceParameters defines the desired state of a RdsClusterInstance
 type RdsClusterInstanceParameters struct {
-	InstanceClass           string `json:"instance_class"`
-	MonitoringInterval      int    `json:"monitoring_interval"`
-	ClusterIdentifier       string `json:"cluster_identifier"`
-	PubliclyAccessible      bool   `json:"publicly_accessible"`
-	CopyTagsToSnapshot      bool   `json:"copy_tags_to_snapshot"`
-	PromotionTier           int    `json:"promotion_tier"`
-	AutoMinorVersionUpgrade bool   `json:"auto_minor_version_upgrade"`
-	Engine                  string `json:"engine"`
+	Engine                  string            `json:"engine"`
+	Tags                    map[string]string `json:"tags"`
+	ClusterIdentifier       string            `json:"cluster_identifier"`
+	CopyTagsToSnapshot      bool              `json:"copy_tags_to_snapshot"`
+	MonitoringInterval      int               `json:"monitoring_interval"`
+	AutoMinorVersionUpgrade bool              `json:"auto_minor_version_upgrade"`
+	InstanceClass           string            `json:"instance_class"`
+	PromotionTier           int               `json:"promotion_tier"`
+	PubliclyAccessible      bool              `json:"publicly_accessible"`
+	Timeouts                []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A RdsClusterInstanceStatus defines the observed state of a RdsClusterInstance
@@ -70,25 +78,25 @@ type RdsClusterInstanceStatus struct {
 
 // A RdsClusterInstanceObservation records the observed state of a RdsClusterInstance
 type RdsClusterInstanceObservation struct {
-	Arn                         string `json:"arn"`
-	CaCertIdentifier            string `json:"ca_cert_identifier"`
-	DbiResourceId               string `json:"dbi_resource_id"`
-	Identifier                  string `json:"identifier"`
-	DbParameterGroupName        string `json:"db_parameter_group_name"`
-	EngineVersion               string `json:"engine_version"`
-	KmsKeyId                    string `json:"kms_key_id"`
-	DbSubnetGroupName           string `json:"db_subnet_group_name"`
 	AvailabilityZone            string `json:"availability_zone"`
-	IdentifierPrefix            string `json:"identifier_prefix"`
-	MonitoringRoleArn           string `json:"monitoring_role_arn"`
-	PerformanceInsightsKmsKeyId string `json:"performance_insights_kms_key_id"`
-	Port                        int    `json:"port"`
-	ApplyImmediately            bool   `json:"apply_immediately"`
+	CaCertIdentifier            string `json:"ca_cert_identifier"`
+	Arn                         string `json:"arn"`
 	Endpoint                    string `json:"endpoint"`
-	Id                          string `json:"id"`
-	PreferredMaintenanceWindow  string `json:"preferred_maintenance_window"`
-	Writer                      bool   `json:"writer"`
 	PerformanceInsightsEnabled  bool   `json:"performance_insights_enabled"`
-	PreferredBackupWindow       string `json:"preferred_backup_window"`
+	PerformanceInsightsKmsKeyId string `json:"performance_insights_kms_key_id"`
+	ApplyImmediately            bool   `json:"apply_immediately"`
+	DbSubnetGroupName           string `json:"db_subnet_group_name"`
+	IdentifierPrefix            string `json:"identifier_prefix"`
+	KmsKeyId                    string `json:"kms_key_id"`
+	Port                        int    `json:"port"`
+	PreferredMaintenanceWindow  string `json:"preferred_maintenance_window"`
 	StorageEncrypted            bool   `json:"storage_encrypted"`
+	Id                          string `json:"id"`
+	MonitoringRoleArn           string `json:"monitoring_role_arn"`
+	DbParameterGroupName        string `json:"db_parameter_group_name"`
+	DbiResourceId               string `json:"dbi_resource_id"`
+	PreferredBackupWindow       string `json:"preferred_backup_window"`
+	EngineVersion               string `json:"engine_version"`
+	Identifier                  string `json:"identifier"`
+	Writer                      bool   `json:"writer"`
 }

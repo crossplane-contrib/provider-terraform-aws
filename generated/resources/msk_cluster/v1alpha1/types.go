@@ -52,10 +52,91 @@ type MskClusterSpec struct {
 
 // A MskClusterParameters defines the desired state of a MskCluster
 type MskClusterParameters struct {
-	ClusterName         string `json:"cluster_name"`
-	EnhancedMonitoring  string `json:"enhanced_monitoring"`
-	KafkaVersion        string `json:"kafka_version"`
-	NumberOfBrokerNodes int    `json:"number_of_broker_nodes"`
+	ClusterName          string               `json:"cluster_name"`
+	EnhancedMonitoring   string               `json:"enhanced_monitoring"`
+	KafkaVersion         string               `json:"kafka_version"`
+	NumberOfBrokerNodes  int                  `json:"number_of_broker_nodes"`
+	Tags                 map[string]string    `json:"tags"`
+	BrokerNodeGroupInfo  BrokerNodeGroupInfo  `json:"broker_node_group_info"`
+	ClientAuthentication ClientAuthentication `json:"client_authentication"`
+	ConfigurationInfo    ConfigurationInfo    `json:"configuration_info"`
+	EncryptionInfo       EncryptionInfo       `json:"encryption_info"`
+	LoggingInfo          LoggingInfo          `json:"logging_info"`
+	OpenMonitoring       OpenMonitoring       `json:"open_monitoring"`
+}
+
+type BrokerNodeGroupInfo struct {
+	EbsVolumeSize  int      `json:"ebs_volume_size"`
+	InstanceType   string   `json:"instance_type"`
+	SecurityGroups []string `json:"security_groups"`
+	AzDistribution string   `json:"az_distribution"`
+	ClientSubnets  []string `json:"client_subnets"`
+}
+
+type ClientAuthentication struct {
+	Tls Tls `json:"tls"`
+}
+
+type Tls struct {
+	CertificateAuthorityArns []string `json:"certificate_authority_arns"`
+}
+
+type ConfigurationInfo struct {
+	Arn      string `json:"arn"`
+	Revision int    `json:"revision"`
+}
+
+type EncryptionInfo struct {
+	EncryptionAtRestKmsKeyArn string              `json:"encryption_at_rest_kms_key_arn"`
+	EncryptionInTransit       EncryptionInTransit `json:"encryption_in_transit"`
+}
+
+type EncryptionInTransit struct {
+	ClientBroker string `json:"client_broker"`
+	InCluster    bool   `json:"in_cluster"`
+}
+
+type LoggingInfo struct {
+	BrokerLogs BrokerLogs `json:"broker_logs"`
+}
+
+type BrokerLogs struct {
+	S3             S3             `json:"s3"`
+	CloudwatchLogs CloudwatchLogs `json:"cloudwatch_logs"`
+	Firehose       Firehose       `json:"firehose"`
+}
+
+type S3 struct {
+	Bucket  string `json:"bucket"`
+	Enabled bool   `json:"enabled"`
+	Prefix  string `json:"prefix"`
+}
+
+type CloudwatchLogs struct {
+	Enabled  bool   `json:"enabled"`
+	LogGroup string `json:"log_group"`
+}
+
+type Firehose struct {
+	DeliveryStream string `json:"delivery_stream"`
+	Enabled        bool   `json:"enabled"`
+}
+
+type OpenMonitoring struct {
+	Prometheus Prometheus `json:"prometheus"`
+}
+
+type Prometheus struct {
+	JmxExporter  JmxExporter  `json:"jmx_exporter"`
+	NodeExporter NodeExporter `json:"node_exporter"`
+}
+
+type JmxExporter struct {
+	EnabledInBroker bool `json:"enabled_in_broker"`
+}
+
+type NodeExporter struct {
+	EnabledInBroker bool `json:"enabled_in_broker"`
 }
 
 // A MskClusterStatus defines the observed state of a MskCluster
@@ -68,8 +149,8 @@ type MskClusterStatus struct {
 type MskClusterObservation struct {
 	BootstrapBrokersTls    string `json:"bootstrap_brokers_tls"`
 	CurrentVersion         string `json:"current_version"`
-	Id                     string `json:"id"`
 	ZookeeperConnectString string `json:"zookeeper_connect_string"`
 	Arn                    string `json:"arn"`
 	BootstrapBrokers       string `json:"bootstrap_brokers"`
+	Id                     string `json:"id"`
 }

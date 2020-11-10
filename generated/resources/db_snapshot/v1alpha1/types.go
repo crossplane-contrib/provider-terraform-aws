@@ -52,8 +52,14 @@ type DbSnapshotSpec struct {
 
 // A DbSnapshotParameters defines the desired state of a DbSnapshot
 type DbSnapshotParameters struct {
-	DbSnapshotIdentifier string `json:"db_snapshot_identifier"`
-	DbInstanceIdentifier string `json:"db_instance_identifier"`
+	Tags                 map[string]string `json:"tags"`
+	DbSnapshotIdentifier string            `json:"db_snapshot_identifier"`
+	DbInstanceIdentifier string            `json:"db_instance_identifier"`
+	Timeouts             []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Read string `json:"read"`
 }
 
 // A DbSnapshotStatus defines the observed state of a DbSnapshot
@@ -64,22 +70,22 @@ type DbSnapshotStatus struct {
 
 // A DbSnapshotObservation records the observed state of a DbSnapshot
 type DbSnapshotObservation struct {
-	Encrypted                  bool   `json:"encrypted"`
-	Iops                       int    `json:"iops"`
-	AvailabilityZone           string `json:"availability_zone"`
-	DbSnapshotArn              string `json:"db_snapshot_arn"`
 	Engine                     string `json:"engine"`
-	EngineVersion              string `json:"engine_version"`
-	Port                       int    `json:"port"`
-	VpcId                      string `json:"vpc_id"`
-	AllocatedStorage           int    `json:"allocated_storage"`
-	Id                         string `json:"id"`
 	KmsKeyId                   string `json:"kms_key_id"`
-	SnapshotType               string `json:"snapshot_type"`
-	LicenseModel               string `json:"license_model"`
 	OptionGroupName            string `json:"option_group_name"`
+	Port                       int    `json:"port"`
+	SnapshotType               string `json:"snapshot_type"`
+	StorageType                string `json:"storage_type"`
+	AvailabilityZone           string `json:"availability_zone"`
+	EngineVersion              string `json:"engine_version"`
+	LicenseModel               string `json:"license_model"`
+	AllocatedStorage           int    `json:"allocated_storage"`
+	Encrypted                  bool   `json:"encrypted"`
+	Id                         string `json:"id"`
 	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
 	SourceRegion               string `json:"source_region"`
 	Status                     string `json:"status"`
-	StorageType                string `json:"storage_type"`
+	VpcId                      string `json:"vpc_id"`
+	DbSnapshotArn              string `json:"db_snapshot_arn"`
+	Iops                       int    `json:"iops"`
 }

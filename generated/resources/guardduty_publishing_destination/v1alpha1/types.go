@@ -52,10 +52,10 @@ type GuarddutyPublishingDestinationSpec struct {
 
 // A GuarddutyPublishingDestinationParameters defines the desired state of a GuarddutyPublishingDestination
 type GuarddutyPublishingDestinationParameters struct {
+	KmsKeyArn       string `json:"kms_key_arn"`
 	DestinationArn  string `json:"destination_arn"`
 	DestinationType string `json:"destination_type"`
 	DetectorId      string `json:"detector_id"`
-	KmsKeyArn       string `json:"kms_key_arn"`
 }
 
 // A GuarddutyPublishingDestinationStatus defines the observed state of a GuarddutyPublishingDestination

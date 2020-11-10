@@ -52,7 +52,21 @@ type VpcPeeringConnectionOptionsSpec struct {
 
 // A VpcPeeringConnectionOptionsParameters defines the desired state of a VpcPeeringConnectionOptions
 type VpcPeeringConnectionOptionsParameters struct {
-	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
+	VpcPeeringConnectionId string    `json:"vpc_peering_connection_id"`
+	Accepter               Accepter  `json:"accepter"`
+	Requester              Requester `json:"requester"`
+}
+
+type Accepter struct {
+	AllowClassicLinkToRemoteVpc bool `json:"allow_classic_link_to_remote_vpc"`
+	AllowRemoteVpcDnsResolution bool `json:"allow_remote_vpc_dns_resolution"`
+	AllowVpcToRemoteClassicLink bool `json:"allow_vpc_to_remote_classic_link"`
+}
+
+type Requester struct {
+	AllowClassicLinkToRemoteVpc bool `json:"allow_classic_link_to_remote_vpc"`
+	AllowRemoteVpcDnsResolution bool `json:"allow_remote_vpc_dns_resolution"`
+	AllowVpcToRemoteClassicLink bool `json:"allow_vpc_to_remote_classic_link"`
 }
 
 // A VpcPeeringConnectionOptionsStatus defines the observed state of a VpcPeeringConnectionOptions

@@ -52,10 +52,16 @@ type AcmCertificateSpec struct {
 
 // A AcmCertificateParameters defines the desired state of a AcmCertificate
 type AcmCertificateParameters struct {
-	CertificateBody         string `json:"certificate_body"`
-	PrivateKey              string `json:"private_key"`
-	CertificateAuthorityArn string `json:"certificate_authority_arn"`
-	CertificateChain        string `json:"certificate_chain"`
+	CertificateChain        string            `json:"certificate_chain"`
+	PrivateKey              string            `json:"private_key"`
+	CertificateBody         string            `json:"certificate_body"`
+	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
+	Tags                    map[string]string `json:"tags"`
+	Options                 Options           `json:"options"`
+}
+
+type Options struct {
+	CertificateTransparencyLoggingPreference string `json:"certificate_transparency_logging_preference"`
 }
 
 // A AcmCertificateStatus defines the observed state of a AcmCertificate
@@ -66,11 +72,11 @@ type AcmCertificateStatus struct {
 
 // A AcmCertificateObservation records the observed state of a AcmCertificate
 type AcmCertificateObservation struct {
-	SubjectAlternativeNames []string `json:"subject_alternative_names"`
-	Arn                     string   `json:"arn"`
-	Status                  string   `json:"status"`
-	ValidationEmails        []string `json:"validation_emails"`
-	ValidationMethod        string   `json:"validation_method"`
 	DomainName              string   `json:"domain_name"`
 	Id                      string   `json:"id"`
+	Status                  string   `json:"status"`
+	SubjectAlternativeNames []string `json:"subject_alternative_names"`
+	ValidationEmails        []string `json:"validation_emails"`
+	Arn                     string   `json:"arn"`
+	ValidationMethod        string   `json:"validation_method"`
 }

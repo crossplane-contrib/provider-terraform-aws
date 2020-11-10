@@ -63,9 +63,9 @@ type OpsworksPermissionStatus struct {
 
 // A OpsworksPermissionObservation records the observed state of a OpsworksPermission
 type OpsworksPermissionObservation struct {
-	AllowSsh  bool   `json:"allow_ssh"`
-	AllowSudo bool   `json:"allow_sudo"`
 	Id        string `json:"id"`
 	Level     string `json:"level"`
 	StackId   string `json:"stack_id"`
+	AllowSsh  bool   `json:"allow_ssh"`
+	AllowSudo bool   `json:"allow_sudo"`
 }

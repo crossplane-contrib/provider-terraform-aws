@@ -52,13 +52,19 @@ type AppautoscalingScheduledActionSpec struct {
 
 // A AppautoscalingScheduledActionParameters defines the desired state of a AppautoscalingScheduledAction
 type AppautoscalingScheduledActionParameters struct {
-	EndTime           string `json:"end_time"`
-	Name              string `json:"name"`
-	ResourceId        string `json:"resource_id"`
-	ScalableDimension string `json:"scalable_dimension"`
-	StartTime         string `json:"start_time"`
-	Schedule          string `json:"schedule"`
-	ServiceNamespace  string `json:"service_namespace"`
+	EndTime              string               `json:"end_time"`
+	Name                 string               `json:"name"`
+	ResourceId           string               `json:"resource_id"`
+	ScalableDimension    string               `json:"scalable_dimension"`
+	Schedule             string               `json:"schedule"`
+	ServiceNamespace     string               `json:"service_namespace"`
+	StartTime            string               `json:"start_time"`
+	ScalableTargetAction ScalableTargetAction `json:"scalable_target_action"`
+}
+
+type ScalableTargetAction struct {
+	MaxCapacity int `json:"max_capacity"`
+	MinCapacity int `json:"min_capacity"`
 }
 
 // A AppautoscalingScheduledActionStatus defines the observed state of a AppautoscalingScheduledAction

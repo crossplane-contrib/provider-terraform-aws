@@ -52,9 +52,9 @@ type CloudwatchLogDestinationSpec struct {
 
 // A CloudwatchLogDestinationParameters defines the desired state of a CloudwatchLogDestination
 type CloudwatchLogDestinationParameters struct {
+	TargetArn string `json:"target_arn"`
 	Name      string `json:"name"`
 	RoleArn   string `json:"role_arn"`
-	TargetArn string `json:"target_arn"`
 }
 
 // A CloudwatchLogDestinationStatus defines the observed state of a CloudwatchLogDestination
@@ -65,6 +65,6 @@ type CloudwatchLogDestinationStatus struct {
 
 // A CloudwatchLogDestinationObservation records the observed state of a CloudwatchLogDestination
 type CloudwatchLogDestinationObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
+	Id  string `json:"id"`
 }

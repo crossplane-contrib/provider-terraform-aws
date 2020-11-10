@@ -52,11 +52,57 @@ type CloudwatchEventTargetSpec struct {
 
 // A CloudwatchEventTargetParameters defines the desired state of a CloudwatchEventTarget
 type CloudwatchEventTargetParameters struct {
-	Rule      string `json:"rule"`
-	Arn       string `json:"arn"`
-	Input     string `json:"input"`
-	InputPath string `json:"input_path"`
-	RoleArn   string `json:"role_arn"`
+	Arn               string              `json:"arn"`
+	Input             string              `json:"input"`
+	InputPath         string              `json:"input_path"`
+	RoleArn           string              `json:"role_arn"`
+	Rule              string              `json:"rule"`
+	KinesisTarget     KinesisTarget       `json:"kinesis_target"`
+	RunCommandTargets []RunCommandTargets `json:"run_command_targets"`
+	SqsTarget         SqsTarget           `json:"sqs_target"`
+	BatchTarget       BatchTarget         `json:"batch_target"`
+	EcsTarget         EcsTarget           `json:"ecs_target"`
+	InputTransformer  InputTransformer    `json:"input_transformer"`
+}
+
+type KinesisTarget struct {
+	PartitionKeyPath string `json:"partition_key_path"`
+}
+
+type RunCommandTargets struct {
+	Key    string   `json:"key"`
+	Values []string `json:"values"`
+}
+
+type SqsTarget struct {
+	MessageGroupId string `json:"message_group_id"`
+}
+
+type BatchTarget struct {
+	ArraySize     int    `json:"array_size"`
+	JobAttempts   int    `json:"job_attempts"`
+	JobDefinition string `json:"job_definition"`
+	JobName       string `json:"job_name"`
+}
+
+type EcsTarget struct {
+	TaskDefinitionArn    string               `json:"task_definition_arn"`
+	Group                string               `json:"group"`
+	LaunchType           string               `json:"launch_type"`
+	PlatformVersion      string               `json:"platform_version"`
+	TaskCount            int                  `json:"task_count"`
+	NetworkConfiguration NetworkConfiguration `json:"network_configuration"`
+}
+
+type NetworkConfiguration struct {
+	Subnets        []string `json:"subnets"`
+	AssignPublicIp bool     `json:"assign_public_ip"`
+	SecurityGroups []string `json:"security_groups"`
+}
+
+type InputTransformer struct {
+	InputPaths    map[string]string `json:"input_paths"`
+	InputTemplate string            `json:"input_template"`
 }
 
 // A CloudwatchEventTargetStatus defines the observed state of a CloudwatchEventTarget
@@ -67,6 +113,6 @@ type CloudwatchEventTargetStatus struct {
 
 // A CloudwatchEventTargetObservation records the observed state of a CloudwatchEventTarget
 type CloudwatchEventTargetObservation struct {
-	TargetId string `json:"target_id"`
 	Id       string `json:"id"`
+	TargetId string `json:"target_id"`
 }

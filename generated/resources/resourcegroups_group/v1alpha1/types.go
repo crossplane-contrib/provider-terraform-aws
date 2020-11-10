@@ -52,8 +52,15 @@ type ResourcegroupsGroupSpec struct {
 
 // A ResourcegroupsGroupParameters defines the desired state of a ResourcegroupsGroup
 type ResourcegroupsGroupParameters struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name          string            `json:"name"`
+	Tags          map[string]string `json:"tags"`
+	Description   string            `json:"description"`
+	ResourceQuery ResourceQuery     `json:"resource_query"`
+}
+
+type ResourceQuery struct {
+	Type  string `json:"type"`
+	Query string `json:"query"`
 }
 
 // A ResourcegroupsGroupStatus defines the observed state of a ResourcegroupsGroup

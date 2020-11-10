@@ -52,8 +52,14 @@ type DatasyncLocationS3Spec struct {
 
 // A DatasyncLocationS3Parameters defines the desired state of a DatasyncLocationS3
 type DatasyncLocationS3Parameters struct {
-	S3BucketArn  string `json:"s3_bucket_arn"`
-	Subdirectory string `json:"subdirectory"`
+	S3BucketArn  string            `json:"s3_bucket_arn"`
+	Subdirectory string            `json:"subdirectory"`
+	Tags         map[string]string `json:"tags"`
+	S3Config     S3Config          `json:"s3_config"`
+}
+
+type S3Config struct {
+	BucketAccessRoleArn string `json:"bucket_access_role_arn"`
 }
 
 // A DatasyncLocationS3Status defines the observed state of a DatasyncLocationS3

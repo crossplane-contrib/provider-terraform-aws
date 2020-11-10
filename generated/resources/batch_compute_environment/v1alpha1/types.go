@@ -52,10 +52,35 @@ type BatchComputeEnvironmentSpec struct {
 
 // A BatchComputeEnvironmentParameters defines the desired state of a BatchComputeEnvironment
 type BatchComputeEnvironmentParameters struct {
-	ComputeEnvironmentNamePrefix string `json:"compute_environment_name_prefix"`
-	ServiceRole                  string `json:"service_role"`
-	State                        string `json:"state"`
-	Type                         string `json:"type"`
+	ServiceRole                  string           `json:"service_role"`
+	ComputeEnvironmentNamePrefix string           `json:"compute_environment_name_prefix"`
+	State                        string           `json:"state"`
+	Type                         string           `json:"type"`
+	ComputeResources             ComputeResources `json:"compute_resources"`
+}
+
+type ComputeResources struct {
+	BidPercentage      int               `json:"bid_percentage"`
+	Ec2KeyPair         string            `json:"ec2_key_pair"`
+	ImageId            string            `json:"image_id"`
+	AllocationStrategy string            `json:"allocation_strategy"`
+	InstanceType       []string          `json:"instance_type"`
+	MinVcpus           int               `json:"min_vcpus"`
+	Subnets            []string          `json:"subnets"`
+	Type               string            `json:"type"`
+	InstanceRole       string            `json:"instance_role"`
+	SpotIamFleetRole   string            `json:"spot_iam_fleet_role"`
+	DesiredVcpus       int               `json:"desired_vcpus"`
+	MaxVcpus           int               `json:"max_vcpus"`
+	SecurityGroupIds   []string          `json:"security_group_ids"`
+	Tags               map[string]string `json:"tags"`
+	LaunchTemplate     LaunchTemplate    `json:"launch_template"`
+}
+
+type LaunchTemplate struct {
+	LaunchTemplateName string `json:"launch_template_name"`
+	Version            string `json:"version"`
+	LaunchTemplateId   string `json:"launch_template_id"`
 }
 
 // A BatchComputeEnvironmentStatus defines the observed state of a BatchComputeEnvironment
@@ -66,10 +91,10 @@ type BatchComputeEnvironmentStatus struct {
 
 // A BatchComputeEnvironmentObservation records the observed state of a BatchComputeEnvironment
 type BatchComputeEnvironmentObservation struct {
-	Status                 string `json:"status"`
-	StatusReason           string `json:"status_reason"`
+	Arn                    string `json:"arn"`
 	ComputeEnvironmentName string `json:"compute_environment_name"`
 	EcsClusterArn          string `json:"ecs_cluster_arn"`
+	Status                 string `json:"status"`
 	Id                     string `json:"id"`
-	Arn                    string `json:"arn"`
+	StatusReason           string `json:"status_reason"`
 }

@@ -52,8 +52,23 @@ type AppmeshVirtualRouterSpec struct {
 
 // A AppmeshVirtualRouterParameters defines the desired state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterParameters struct {
-	MeshName string `json:"mesh_name"`
-	Name     string `json:"name"`
+	MeshName string            `json:"mesh_name"`
+	Name     string            `json:"name"`
+	Tags     map[string]string `json:"tags"`
+	Spec     Spec              `json:"spec"`
+}
+
+type Spec struct {
+	Listener Listener `json:"listener"`
+}
+
+type Listener struct {
+	PortMapping PortMapping `json:"port_mapping"`
+}
+
+type PortMapping struct {
+	Port     int    `json:"port"`
+	Protocol string `json:"protocol"`
 }
 
 // A AppmeshVirtualRouterStatus defines the observed state of a AppmeshVirtualRouter
@@ -64,10 +79,10 @@ type AppmeshVirtualRouterStatus struct {
 
 // A AppmeshVirtualRouterObservation records the observed state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterObservation struct {
-	Arn             string `json:"arn"`
-	MeshOwner       string `json:"mesh_owner"`
 	CreatedDate     string `json:"created_date"`
+	ResourceOwner   string `json:"resource_owner"`
+	Arn             string `json:"arn"`
 	Id              string `json:"id"`
 	LastUpdatedDate string `json:"last_updated_date"`
-	ResourceOwner   string `json:"resource_owner"`
+	MeshOwner       string `json:"mesh_owner"`
 }

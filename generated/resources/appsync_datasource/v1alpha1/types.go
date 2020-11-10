@@ -52,11 +52,34 @@ type AppsyncDatasourceSpec struct {
 
 // A AppsyncDatasourceParameters defines the desired state of a AppsyncDatasource
 type AppsyncDatasourceParameters struct {
-	Description    string `json:"description"`
-	Name           string `json:"name"`
-	ServiceRoleArn string `json:"service_role_arn"`
-	Type           string `json:"type"`
-	ApiId          string `json:"api_id"`
+	Description         string              `json:"description"`
+	Name                string              `json:"name"`
+	ServiceRoleArn      string              `json:"service_role_arn"`
+	Type                string              `json:"type"`
+	ApiId               string              `json:"api_id"`
+	DynamodbConfig      DynamodbConfig      `json:"dynamodb_config"`
+	ElasticsearchConfig ElasticsearchConfig `json:"elasticsearch_config"`
+	HttpConfig          HttpConfig          `json:"http_config"`
+	LambdaConfig        LambdaConfig        `json:"lambda_config"`
+}
+
+type DynamodbConfig struct {
+	Region               string `json:"region"`
+	TableName            string `json:"table_name"`
+	UseCallerCredentials bool   `json:"use_caller_credentials"`
+}
+
+type ElasticsearchConfig struct {
+	Endpoint string `json:"endpoint"`
+	Region   string `json:"region"`
+}
+
+type HttpConfig struct {
+	Endpoint string `json:"endpoint"`
+}
+
+type LambdaConfig struct {
+	FunctionArn string `json:"function_arn"`
 }
 
 // A AppsyncDatasourceStatus defines the observed state of a AppsyncDatasource
@@ -67,6 +90,6 @@ type AppsyncDatasourceStatus struct {
 
 // A AppsyncDatasourceObservation records the observed state of a AppsyncDatasource
 type AppsyncDatasourceObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
+	Id  string `json:"id"`
 }

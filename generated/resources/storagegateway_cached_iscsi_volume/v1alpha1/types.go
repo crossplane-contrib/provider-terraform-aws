@@ -52,14 +52,15 @@ type StoragegatewayCachedIscsiVolumeSpec struct {
 
 // A StoragegatewayCachedIscsiVolumeParameters defines the desired state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeParameters struct {
-	SourceVolumeArn    string `json:"source_volume_arn"`
-	KmsKey             string `json:"kms_key"`
-	TargetName         string `json:"target_name"`
-	GatewayArn         string `json:"gateway_arn"`
-	KmsEncrypted       bool   `json:"kms_encrypted"`
-	NetworkInterfaceId string `json:"network_interface_id"`
-	SnapshotId         string `json:"snapshot_id"`
-	VolumeSizeInBytes  int    `json:"volume_size_in_bytes"`
+	SnapshotId         string            `json:"snapshot_id"`
+	SourceVolumeArn    string            `json:"source_volume_arn"`
+	Tags               map[string]string `json:"tags"`
+	NetworkInterfaceId string            `json:"network_interface_id"`
+	TargetName         string            `json:"target_name"`
+	VolumeSizeInBytes  int               `json:"volume_size_in_bytes"`
+	GatewayArn         string            `json:"gateway_arn"`
+	KmsEncrypted       bool              `json:"kms_encrypted"`
+	KmsKey             string            `json:"kms_key"`
 }
 
 // A StoragegatewayCachedIscsiVolumeStatus defines the observed state of a StoragegatewayCachedIscsiVolume
@@ -70,12 +71,12 @@ type StoragegatewayCachedIscsiVolumeStatus struct {
 
 // A StoragegatewayCachedIscsiVolumeObservation records the observed state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeObservation struct {
-	ChapEnabled          bool   `json:"chap_enabled"`
-	LunNumber            int    `json:"lun_number"`
-	NetworkInterfacePort int    `json:"network_interface_port"`
 	VolumeArn            string `json:"volume_arn"`
 	Arn                  string `json:"arn"`
+	ChapEnabled          bool   `json:"chap_enabled"`
 	Id                   string `json:"id"`
 	TargetArn            string `json:"target_arn"`
 	VolumeId             string `json:"volume_id"`
+	LunNumber            int    `json:"lun_number"`
+	NetworkInterfacePort int    `json:"network_interface_port"`
 }

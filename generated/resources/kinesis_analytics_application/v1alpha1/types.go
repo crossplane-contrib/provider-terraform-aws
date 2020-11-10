@@ -52,9 +52,157 @@ type KinesisAnalyticsApplicationSpec struct {
 
 // A KinesisAnalyticsApplicationParameters defines the desired state of a KinesisAnalyticsApplication
 type KinesisAnalyticsApplicationParameters struct {
-	Name        string `json:"name"`
-	Code        string `json:"code"`
-	Description string `json:"description"`
+	Tags                     map[string]string        `json:"tags"`
+	Code                     string                   `json:"code"`
+	Name                     string                   `json:"name"`
+	Description              string                   `json:"description"`
+	Inputs                   Inputs                   `json:"inputs"`
+	Outputs                  []Outputs                `json:"outputs"`
+	ReferenceDataSources     ReferenceDataSources     `json:"reference_data_sources"`
+	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
+}
+
+type Inputs struct {
+	Id                      string                  `json:"id"`
+	NamePrefix              string                  `json:"name_prefix"`
+	StreamNames             []string                `json:"stream_names"`
+	KinesisFirehose         KinesisFirehose         `json:"kinesis_firehose"`
+	KinesisStream           KinesisStream           `json:"kinesis_stream"`
+	Parallelism             Parallelism             `json:"parallelism"`
+	ProcessingConfiguration ProcessingConfiguration `json:"processing_configuration"`
+	Schema                  Schema                  `json:"schema"`
+}
+
+type KinesisFirehose struct {
+	ResourceArn string `json:"resource_arn"`
+	RoleArn     string `json:"role_arn"`
+}
+
+type KinesisStream struct {
+	ResourceArn string `json:"resource_arn"`
+	RoleArn     string `json:"role_arn"`
+}
+
+type Parallelism struct {
+	Count int `json:"count"`
+}
+
+type ProcessingConfiguration struct {
+	Lambda Lambda `json:"lambda"`
+}
+
+type Lambda struct {
+	ResourceArn string `json:"resource_arn"`
+	RoleArn     string `json:"role_arn"`
+}
+
+type Schema struct {
+	RecordEncoding string          `json:"record_encoding"`
+	RecordFormat   RecordFormat    `json:"record_format"`
+	RecordColumns  []RecordColumns `json:"record_columns"`
+}
+
+type RecordFormat struct {
+	RecordFormatType  string            `json:"record_format_type"`
+	MappingParameters MappingParameters `json:"mapping_parameters"`
+}
+
+type MappingParameters struct {
+	Csv  Csv  `json:"csv"`
+	Json Json `json:"json"`
+}
+
+type Csv struct {
+	RecordColumnDelimiter string `json:"record_column_delimiter"`
+	RecordRowDelimiter    string `json:"record_row_delimiter"`
+}
+
+type Json struct {
+	RecordRowPath string `json:"record_row_path"`
+}
+
+type RecordColumns struct {
+	Mapping string `json:"mapping"`
+	Name    string `json:"name"`
+	SqlType string `json:"sql_type"`
+}
+
+type Outputs struct {
+	Id              string          `json:"id"`
+	Name            string          `json:"name"`
+	Lambda          Lambda          `json:"lambda"`
+	Schema          Schema          `json:"schema"`
+	KinesisFirehose KinesisFirehose `json:"kinesis_firehose"`
+	KinesisStream   KinesisStream   `json:"kinesis_stream"`
+}
+
+type Lambda struct {
+	ResourceArn string `json:"resource_arn"`
+	RoleArn     string `json:"role_arn"`
+}
+
+type Schema struct {
+	RecordFormatType string `json:"record_format_type"`
+}
+
+type KinesisFirehose struct {
+	ResourceArn string `json:"resource_arn"`
+	RoleArn     string `json:"role_arn"`
+}
+
+type KinesisStream struct {
+	ResourceArn string `json:"resource_arn"`
+	RoleArn     string `json:"role_arn"`
+}
+
+type ReferenceDataSources struct {
+	Id        string `json:"id"`
+	TableName string `json:"table_name"`
+	S3        S3     `json:"s3"`
+	Schema    Schema `json:"schema"`
+}
+
+type S3 struct {
+	BucketArn string `json:"bucket_arn"`
+	FileKey   string `json:"file_key"`
+	RoleArn   string `json:"role_arn"`
+}
+
+type Schema struct {
+	RecordEncoding string          `json:"record_encoding"`
+	RecordColumns  []RecordColumns `json:"record_columns"`
+	RecordFormat   RecordFormat    `json:"record_format"`
+}
+
+type RecordColumns struct {
+	Mapping string `json:"mapping"`
+	Name    string `json:"name"`
+	SqlType string `json:"sql_type"`
+}
+
+type RecordFormat struct {
+	RecordFormatType  string            `json:"record_format_type"`
+	MappingParameters MappingParameters `json:"mapping_parameters"`
+}
+
+type MappingParameters struct {
+	Csv  Csv  `json:"csv"`
+	Json Json `json:"json"`
+}
+
+type Csv struct {
+	RecordRowDelimiter    string `json:"record_row_delimiter"`
+	RecordColumnDelimiter string `json:"record_column_delimiter"`
+}
+
+type Json struct {
+	RecordRowPath string `json:"record_row_path"`
+}
+
+type CloudwatchLoggingOptions struct {
+	Id           string `json:"id"`
+	LogStreamArn string `json:"log_stream_arn"`
+	RoleArn      string `json:"role_arn"`
 }
 
 // A KinesisAnalyticsApplicationStatus defines the observed state of a KinesisAnalyticsApplication
@@ -65,10 +213,10 @@ type KinesisAnalyticsApplicationStatus struct {
 
 // A KinesisAnalyticsApplicationObservation records the observed state of a KinesisAnalyticsApplication
 type KinesisAnalyticsApplicationObservation struct {
+	Id                  string `json:"id"`
+	Status              string `json:"status"`
 	Arn                 string `json:"arn"`
 	LastUpdateTimestamp string `json:"last_update_timestamp"`
-	Status              string `json:"status"`
 	Version             int    `json:"version"`
 	CreateTimestamp     string `json:"create_timestamp"`
-	Id                  string `json:"id"`
 }

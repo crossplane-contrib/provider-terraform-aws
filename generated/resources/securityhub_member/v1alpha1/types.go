@@ -65,7 +65,7 @@ type SecurityhubMemberStatus struct {
 
 // A SecurityhubMemberObservation records the observed state of a SecurityhubMember
 type SecurityhubMemberObservation struct {
-	Id           string `json:"id"`
 	MasterId     string `json:"master_id"`
 	MemberStatus string `json:"member_status"`
+	Id           string `json:"id"`
 }

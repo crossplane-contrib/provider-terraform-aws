@@ -52,11 +52,40 @@ type EksNodeGroupSpec struct {
 
 // A EksNodeGroupParameters defines the desired state of a EksNodeGroup
 type EksNodeGroupParameters struct {
-	ForceUpdateVersion bool     `json:"force_update_version"`
-	NodeGroupName      string   `json:"node_group_name"`
-	ClusterName        string   `json:"cluster_name"`
-	SubnetIds          []string `json:"subnet_ids"`
-	NodeRoleArn        string   `json:"node_role_arn"`
+	ClusterName        string            `json:"cluster_name"`
+	Labels             map[string]string `json:"labels"`
+	Tags               map[string]string `json:"tags"`
+	ForceUpdateVersion bool              `json:"force_update_version"`
+	SubnetIds          []string          `json:"subnet_ids"`
+	NodeGroupName      string            `json:"node_group_name"`
+	NodeRoleArn        string            `json:"node_role_arn"`
+	LaunchTemplate     LaunchTemplate    `json:"launch_template"`
+	RemoteAccess       RemoteAccess      `json:"remote_access"`
+	ScalingConfig      ScalingConfig     `json:"scaling_config"`
+	Timeouts           []Timeouts        `json:"timeouts"`
+}
+
+type LaunchTemplate struct {
+	Id      string `json:"id"`
+	Name    string `json:"name"`
+	Version string `json:"version"`
+}
+
+type RemoteAccess struct {
+	Ec2SshKey              string   `json:"ec2_ssh_key"`
+	SourceSecurityGroupIds []string `json:"source_security_group_ids"`
+}
+
+type ScalingConfig struct {
+	MinSize     int `json:"min_size"`
+	DesiredSize int `json:"desired_size"`
+	MaxSize     int `json:"max_size"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A EksNodeGroupStatus defines the observed state of a EksNodeGroup
@@ -67,12 +96,12 @@ type EksNodeGroupStatus struct {
 
 // A EksNodeGroupObservation records the observed state of a EksNodeGroup
 type EksNodeGroupObservation struct {
-	DiskSize       int      `json:"disk_size"`
-	Version        string   `json:"version"`
-	Status         string   `json:"status"`
-	InstanceTypes  []string `json:"instance_types"`
-	Id             string   `json:"id"`
-	Arn            string   `json:"arn"`
-	ReleaseVersion string   `json:"release_version"`
 	AmiType        string   `json:"ami_type"`
+	ReleaseVersion string   `json:"release_version"`
+	Status         string   `json:"status"`
+	DiskSize       int      `json:"disk_size"`
+	Arn            string   `json:"arn"`
+	Id             string   `json:"id"`
+	InstanceTypes  []string `json:"instance_types"`
+	Version        string   `json:"version"`
 }

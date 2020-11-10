@@ -52,9 +52,15 @@ type Route53ResolverRuleAssociationSpec struct {
 
 // A Route53ResolverRuleAssociationParameters defines the desired state of a Route53ResolverRuleAssociation
 type Route53ResolverRuleAssociationParameters struct {
-	Name           string `json:"name"`
-	ResolverRuleId string `json:"resolver_rule_id"`
-	VpcId          string `json:"vpc_id"`
+	ResolverRuleId string     `json:"resolver_rule_id"`
+	VpcId          string     `json:"vpc_id"`
+	Name           string     `json:"name"`
+	Timeouts       []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A Route53ResolverRuleAssociationStatus defines the observed state of a Route53ResolverRuleAssociation

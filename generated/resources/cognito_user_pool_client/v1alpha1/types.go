@@ -52,20 +52,28 @@ type CognitoUserPoolClientSpec struct {
 
 // A CognitoUserPoolClientParameters defines the desired state of a CognitoUserPoolClient
 type CognitoUserPoolClientParameters struct {
-	AllowedOauthFlowsUserPoolClient bool     `json:"allowed_oauth_flows_user_pool_client"`
-	ExplicitAuthFlows               []string `json:"explicit_auth_flows"`
-	UserPoolId                      string   `json:"user_pool_id"`
-	ReadAttributes                  []string `json:"read_attributes"`
-	SupportedIdentityProviders      []string `json:"supported_identity_providers"`
-	AllowedOauthFlows               []string `json:"allowed_oauth_flows"`
-	AllowedOauthScopes              []string `json:"allowed_oauth_scopes"`
-	CallbackUrls                    []string `json:"callback_urls"`
-	DefaultRedirectUri              string   `json:"default_redirect_uri"`
-	GenerateSecret                  bool     `json:"generate_secret"`
-	Name                            string   `json:"name"`
-	LogoutUrls                      []string `json:"logout_urls"`
-	RefreshTokenValidity            int      `json:"refresh_token_validity"`
-	WriteAttributes                 []string `json:"write_attributes"`
+	AllowedOauthFlowsUserPoolClient bool                   `json:"allowed_oauth_flows_user_pool_client"`
+	CallbackUrls                    []string               `json:"callback_urls"`
+	UserPoolId                      string                 `json:"user_pool_id"`
+	Name                            string                 `json:"name"`
+	ReadAttributes                  []string               `json:"read_attributes"`
+	SupportedIdentityProviders      []string               `json:"supported_identity_providers"`
+	AllowedOauthScopes              []string               `json:"allowed_oauth_scopes"`
+	DefaultRedirectUri              string                 `json:"default_redirect_uri"`
+	ExplicitAuthFlows               []string               `json:"explicit_auth_flows"`
+	GenerateSecret                  bool                   `json:"generate_secret"`
+	RefreshTokenValidity            int                    `json:"refresh_token_validity"`
+	AllowedOauthFlows               []string               `json:"allowed_oauth_flows"`
+	LogoutUrls                      []string               `json:"logout_urls"`
+	WriteAttributes                 []string               `json:"write_attributes"`
+	AnalyticsConfiguration          AnalyticsConfiguration `json:"analytics_configuration"`
+}
+
+type AnalyticsConfiguration struct {
+	UserDataShared bool   `json:"user_data_shared"`
+	ApplicationId  string `json:"application_id"`
+	ExternalId     string `json:"external_id"`
+	RoleArn        string `json:"role_arn"`
 }
 
 // A CognitoUserPoolClientStatus defines the observed state of a CognitoUserPoolClient
@@ -76,7 +84,7 @@ type CognitoUserPoolClientStatus struct {
 
 // A CognitoUserPoolClientObservation records the observed state of a CognitoUserPoolClient
 type CognitoUserPoolClientObservation struct {
-	PreventUserExistenceErrors string `json:"prevent_user_existence_errors"`
 	ClientSecret               string `json:"client_secret"`
 	Id                         string `json:"id"`
+	PreventUserExistenceErrors string `json:"prevent_user_existence_errors"`
 }

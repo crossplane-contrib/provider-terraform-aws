@@ -52,12 +52,20 @@ type DmsEventSubscriptionSpec struct {
 
 // A DmsEventSubscriptionParameters defines the desired state of a DmsEventSubscription
 type DmsEventSubscriptionParameters struct {
-	Enabled         bool     `json:"enabled"`
-	EventCategories []string `json:"event_categories"`
-	Name            string   `json:"name"`
-	SnsTopicArn     string   `json:"sns_topic_arn"`
-	SourceIds       []string `json:"source_ids"`
-	SourceType      string   `json:"source_type"`
+	SnsTopicArn     string            `json:"sns_topic_arn"`
+	SourceType      string            `json:"source_type"`
+	Tags            map[string]string `json:"tags"`
+	Enabled         bool              `json:"enabled"`
+	EventCategories []string          `json:"event_categories"`
+	Name            string            `json:"name"`
+	SourceIds       []string          `json:"source_ids"`
+	Timeouts        []Timeouts        `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DmsEventSubscriptionStatus defines the observed state of a DmsEventSubscription

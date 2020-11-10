@@ -52,7 +52,8 @@ type ApiGatewayClientCertificateSpec struct {
 
 // A ApiGatewayClientCertificateParameters defines the desired state of a ApiGatewayClientCertificate
 type ApiGatewayClientCertificateParameters struct {
-	Description string `json:"description"`
+	Tags        map[string]string `json:"tags"`
+	Description string            `json:"description"`
 }
 
 // A ApiGatewayClientCertificateStatus defines the observed state of a ApiGatewayClientCertificate

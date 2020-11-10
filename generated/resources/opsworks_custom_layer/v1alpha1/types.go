@@ -52,26 +52,38 @@ type OpsworksCustomLayerSpec struct {
 
 // A OpsworksCustomLayerParameters defines the desired state of a OpsworksCustomLayer
 type OpsworksCustomLayerParameters struct {
-	Name                     string   `json:"name"`
-	AutoAssignPublicIps      bool     `json:"auto_assign_public_ips"`
-	CustomInstanceProfileArn string   `json:"custom_instance_profile_arn"`
-	CustomShutdownRecipes    []string `json:"custom_shutdown_recipes"`
-	CustomUndeployRecipes    []string `json:"custom_undeploy_recipes"`
-	DrainElbOnShutdown       bool     `json:"drain_elb_on_shutdown"`
-	ShortName                string   `json:"short_name"`
-	SystemPackages           []string `json:"system_packages"`
-	CustomDeployRecipes      []string `json:"custom_deploy_recipes"`
-	CustomJson               string   `json:"custom_json"`
-	CustomSecurityGroupIds   []string `json:"custom_security_group_ids"`
-	AutoAssignElasticIps     bool     `json:"auto_assign_elastic_ips"`
-	CustomConfigureRecipes   []string `json:"custom_configure_recipes"`
-	CustomSetupRecipes       []string `json:"custom_setup_recipes"`
-	InstanceShutdownTimeout  int      `json:"instance_shutdown_timeout"`
-	UseEbsOptimizedInstances bool     `json:"use_ebs_optimized_instances"`
-	AutoHealing              bool     `json:"auto_healing"`
-	ElasticLoadBalancer      string   `json:"elastic_load_balancer"`
-	InstallUpdatesOnBoot     bool     `json:"install_updates_on_boot"`
-	StackId                  string   `json:"stack_id"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	Name                     string            `json:"name"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	CustomJson               string            `json:"custom_json"`
+	StackId                  string            `json:"stack_id"`
+	Tags                     map[string]string `json:"tags"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	ShortName                string            `json:"short_name"`
+	SystemPackages           []string          `json:"system_packages"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	AutoHealing              bool              `json:"auto_healing"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	EbsVolume                []EbsVolume       `json:"ebs_volume"`
+}
+
+type EbsVolume struct {
+	Encrypted     bool   `json:"encrypted"`
+	Iops          int    `json:"iops"`
+	MountPoint    string `json:"mount_point"`
+	NumberOfDisks int    `json:"number_of_disks"`
+	RaidLevel     string `json:"raid_level"`
+	Size          int    `json:"size"`
+	Type          string `json:"type"`
 }
 
 // A OpsworksCustomLayerStatus defines the observed state of a OpsworksCustomLayer

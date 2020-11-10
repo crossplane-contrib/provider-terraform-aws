@@ -52,8 +52,13 @@ type DocdbClusterSnapshotSpec struct {
 
 // A DocdbClusterSnapshotParameters defines the desired state of a DocdbClusterSnapshot
 type DocdbClusterSnapshotParameters struct {
-	DbClusterSnapshotIdentifier string `json:"db_cluster_snapshot_identifier"`
-	DbClusterIdentifier         string `json:"db_cluster_identifier"`
+	DbClusterIdentifier         string     `json:"db_cluster_identifier"`
+	DbClusterSnapshotIdentifier string     `json:"db_cluster_snapshot_identifier"`
+	Timeouts                    []Timeouts `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 // A DocdbClusterSnapshotStatus defines the observed state of a DocdbClusterSnapshot
@@ -64,16 +69,16 @@ type DocdbClusterSnapshotStatus struct {
 
 // A DocdbClusterSnapshotObservation records the observed state of a DocdbClusterSnapshot
 type DocdbClusterSnapshotObservation struct {
-	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
-	VpcId                      string   `json:"vpc_id"`
-	EngineVersion              string   `json:"engine_version"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	Port                       int      `json:"port"`
-	SnapshotType               string   `json:"snapshot_type"`
-	Status                     string   `json:"status"`
 	AvailabilityZones          []string `json:"availability_zones"`
-	Engine                     string   `json:"engine"`
-	Id                         string   `json:"id"`
+	Status                     string   `json:"status"`
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
 	KmsKeyId                   string   `json:"kms_key_id"`
+	SnapshotType               string   `json:"snapshot_type"`
+	Port                       int      `json:"port"`
+	VpcId                      string   `json:"vpc_id"`
+	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	Engine                     string   `json:"engine"`
+	EngineVersion              string   `json:"engine_version"`
+	Id                         string   `json:"id"`
 }

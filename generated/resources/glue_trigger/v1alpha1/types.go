@@ -52,12 +52,41 @@ type GlueTriggerSpec struct {
 
 // A GlueTriggerParameters defines the desired state of a GlueTrigger
 type GlueTriggerParameters struct {
-	Enabled      bool   `json:"enabled"`
-	Schedule     string `json:"schedule"`
-	Type         string `json:"type"`
-	WorkflowName string `json:"workflow_name"`
-	Description  string `json:"description"`
-	Name         string `json:"name"`
+	Description  string            `json:"description"`
+	Name         string            `json:"name"`
+	Schedule     string            `json:"schedule"`
+	Tags         map[string]string `json:"tags"`
+	WorkflowName string            `json:"workflow_name"`
+	Enabled      bool              `json:"enabled"`
+	Type         string            `json:"type"`
+	Actions      []Actions         `json:"actions"`
+	Predicate    Predicate         `json:"predicate"`
+	Timeouts     []Timeouts        `json:"timeouts"`
+}
+
+type Actions struct {
+	Arguments   map[string]string `json:"arguments"`
+	CrawlerName string            `json:"crawler_name"`
+	JobName     string            `json:"job_name"`
+	Timeout     int               `json:"timeout"`
+}
+
+type Predicate struct {
+	Logical    string       `json:"logical"`
+	Conditions []Conditions `json:"conditions"`
+}
+
+type Conditions struct {
+	JobName         string `json:"job_name"`
+	LogicalOperator string `json:"logical_operator"`
+	State           string `json:"state"`
+	CrawlState      string `json:"crawl_state"`
+	CrawlerName     string `json:"crawler_name"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A GlueTriggerStatus defines the observed state of a GlueTrigger
@@ -68,6 +97,6 @@ type GlueTriggerStatus struct {
 
 // A GlueTriggerObservation records the observed state of a GlueTrigger
 type GlueTriggerObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

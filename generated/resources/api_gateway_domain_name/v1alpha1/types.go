@@ -52,14 +52,20 @@ type ApiGatewayDomainNameSpec struct {
 
 // A ApiGatewayDomainNameParameters defines the desired state of a ApiGatewayDomainName
 type ApiGatewayDomainNameParameters struct {
-	CertificateName         string `json:"certificate_name"`
-	DomainName              string `json:"domain_name"`
-	CertificateArn          string `json:"certificate_arn"`
-	CertificateBody         string `json:"certificate_body"`
-	RegionalCertificateArn  string `json:"regional_certificate_arn"`
-	CertificateChain        string `json:"certificate_chain"`
-	RegionalCertificateName string `json:"regional_certificate_name"`
-	CertificatePrivateKey   string `json:"certificate_private_key"`
+	RegionalCertificateArn  string                `json:"regional_certificate_arn"`
+	CertificateArn          string                `json:"certificate_arn"`
+	CertificateBody         string                `json:"certificate_body"`
+	CertificateChain        string                `json:"certificate_chain"`
+	CertificatePrivateKey   string                `json:"certificate_private_key"`
+	Tags                    map[string]string     `json:"tags"`
+	DomainName              string                `json:"domain_name"`
+	RegionalCertificateName string                `json:"regional_certificate_name"`
+	CertificateName         string                `json:"certificate_name"`
+	EndpointConfiguration   EndpointConfiguration `json:"endpoint_configuration"`
+}
+
+type EndpointConfiguration struct {
+	Types []string `json:"types"`
 }
 
 // A ApiGatewayDomainNameStatus defines the observed state of a ApiGatewayDomainName
@@ -70,12 +76,12 @@ type ApiGatewayDomainNameStatus struct {
 
 // A ApiGatewayDomainNameObservation records the observed state of a ApiGatewayDomainName
 type ApiGatewayDomainNameObservation struct {
-	Arn                   string `json:"arn"`
-	CloudfrontDomainName  string `json:"cloudfront_domain_name"`
-	Id                    string `json:"id"`
-	SecurityPolicy        string `json:"security_policy"`
 	RegionalDomainName    string `json:"regional_domain_name"`
+	SecurityPolicy        string `json:"security_policy"`
 	CertificateUploadDate string `json:"certificate_upload_date"`
 	CloudfrontZoneId      string `json:"cloudfront_zone_id"`
+	CloudfrontDomainName  string `json:"cloudfront_domain_name"`
 	RegionalZoneId        string `json:"regional_zone_id"`
+	Arn                   string `json:"arn"`
+	Id                    string `json:"id"`
 }

@@ -52,24 +52,25 @@ type Route53HealthCheckSpec struct {
 
 // A Route53HealthCheckParameters defines the desired state of a Route53HealthCheck
 type Route53HealthCheckParameters struct {
-	Port                         int      `json:"port"`
-	ResourcePath                 string   `json:"resource_path"`
-	ChildHealthThreshold         int      `json:"child_health_threshold"`
-	CloudwatchAlarmRegion        string   `json:"cloudwatch_alarm_region"`
-	FailureThreshold             int      `json:"failure_threshold"`
-	MeasureLatency               bool     `json:"measure_latency"`
-	Fqdn                         string   `json:"fqdn"`
-	RequestInterval              int      `json:"request_interval"`
-	Type                         string   `json:"type"`
-	ReferenceName                string   `json:"reference_name"`
-	Regions                      []string `json:"regions"`
-	SearchString                 string   `json:"search_string"`
-	ChildHealthchecks            []string `json:"child_healthchecks"`
-	CloudwatchAlarmName          string   `json:"cloudwatch_alarm_name"`
-	IpAddress                    string   `json:"ip_address"`
-	Disabled                     bool     `json:"disabled"`
-	InsufficientDataHealthStatus string   `json:"insufficient_data_health_status"`
-	InvertHealthcheck            bool     `json:"invert_healthcheck"`
+	SearchString                 string            `json:"search_string"`
+	Type                         string            `json:"type"`
+	CloudwatchAlarmRegion        string            `json:"cloudwatch_alarm_region"`
+	InsufficientDataHealthStatus string            `json:"insufficient_data_health_status"`
+	IpAddress                    string            `json:"ip_address"`
+	RequestInterval              int               `json:"request_interval"`
+	ChildHealthThreshold         int               `json:"child_health_threshold"`
+	Disabled                     bool              `json:"disabled"`
+	InvertHealthcheck            bool              `json:"invert_healthcheck"`
+	MeasureLatency               bool              `json:"measure_latency"`
+	Port                         int               `json:"port"`
+	ResourcePath                 string            `json:"resource_path"`
+	Tags                         map[string]string `json:"tags"`
+	CloudwatchAlarmName          string            `json:"cloudwatch_alarm_name"`
+	Fqdn                         string            `json:"fqdn"`
+	ReferenceName                string            `json:"reference_name"`
+	Regions                      []string          `json:"regions"`
+	ChildHealthchecks            []string          `json:"child_healthchecks"`
+	FailureThreshold             int               `json:"failure_threshold"`
 }
 
 // A Route53HealthCheckStatus defines the observed state of a Route53HealthCheck
@@ -80,6 +81,6 @@ type Route53HealthCheckStatus struct {
 
 // A Route53HealthCheckObservation records the observed state of a Route53HealthCheck
 type Route53HealthCheckObservation struct {
-	EnableSni bool   `json:"enable_sni"`
 	Id        string `json:"id"`
+	EnableSni bool   `json:"enable_sni"`
 }

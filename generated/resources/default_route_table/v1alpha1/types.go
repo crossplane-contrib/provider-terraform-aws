@@ -52,8 +52,9 @@ type DefaultRouteTableSpec struct {
 
 // A DefaultRouteTableParameters defines the desired state of a DefaultRouteTable
 type DefaultRouteTableParameters struct {
-	DefaultRouteTableId string   `json:"default_route_table_id"`
-	PropagatingVgws     []string `json:"propagating_vgws"`
+	DefaultRouteTableId string            `json:"default_route_table_id"`
+	PropagatingVgws     []string          `json:"propagating_vgws"`
+	Tags                map[string]string `json:"tags"`
 }
 
 // A DefaultRouteTableStatus defines the observed state of a DefaultRouteTable

@@ -52,11 +52,27 @@ type GuarddutyFilterSpec struct {
 
 // A GuarddutyFilterParameters defines the desired state of a GuarddutyFilter
 type GuarddutyFilterParameters struct {
-	Description string `json:"description"`
-	DetectorId  string `json:"detector_id"`
-	Name        string `json:"name"`
-	Rank        int    `json:"rank"`
-	Action      string `json:"action"`
+	Description     string            `json:"description"`
+	DetectorId      string            `json:"detector_id"`
+	Name            string            `json:"name"`
+	Rank            int               `json:"rank"`
+	Tags            map[string]string `json:"tags"`
+	Action          string            `json:"action"`
+	FindingCriteria FindingCriteria   `json:"finding_criteria"`
+}
+
+type FindingCriteria struct {
+	Criterion []Criterion `json:"criterion"`
+}
+
+type Criterion struct {
+	LessThan           string   `json:"less_than"`
+	LessThanOrEqual    string   `json:"less_than_or_equal"`
+	NotEquals          []string `json:"not_equals"`
+	Equals             []string `json:"equals"`
+	Field              string   `json:"field"`
+	GreaterThan        string   `json:"greater_than"`
+	GreaterThanOrEqual string   `json:"greater_than_or_equal"`
 }
 
 // A GuarddutyFilterStatus defines the observed state of a GuarddutyFilter
@@ -67,6 +83,6 @@ type GuarddutyFilterStatus struct {
 
 // A GuarddutyFilterObservation records the observed state of a GuarddutyFilter
 type GuarddutyFilterObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

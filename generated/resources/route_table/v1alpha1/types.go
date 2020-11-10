@@ -52,7 +52,8 @@ type RouteTableSpec struct {
 
 // A RouteTableParameters defines the desired state of a RouteTable
 type RouteTableParameters struct {
-	VpcId string `json:"vpc_id"`
+	Tags  map[string]string `json:"tags"`
+	VpcId string            `json:"vpc_id"`
 }
 
 // A RouteTableStatus defines the observed state of a RouteTable

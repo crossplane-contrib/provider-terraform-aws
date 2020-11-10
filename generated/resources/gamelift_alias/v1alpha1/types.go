@@ -52,8 +52,16 @@ type GameliftAliasSpec struct {
 
 // A GameliftAliasParameters defines the desired state of a GameliftAlias
 type GameliftAliasParameters struct {
-	Description string `json:"description"`
-	Name        string `json:"name"`
+	Name            string            `json:"name"`
+	Tags            map[string]string `json:"tags"`
+	Description     string            `json:"description"`
+	RoutingStrategy RoutingStrategy   `json:"routing_strategy"`
+}
+
+type RoutingStrategy struct {
+	FleetId string `json:"fleet_id"`
+	Message string `json:"message"`
+	Type    string `json:"type"`
 }
 
 // A GameliftAliasStatus defines the observed state of a GameliftAlias
@@ -64,6 +72,6 @@ type GameliftAliasStatus struct {
 
 // A GameliftAliasObservation records the observed state of a GameliftAlias
 type GameliftAliasObservation struct {
-	Arn string `json:"arn"`
 	Id  string `json:"id"`
+	Arn string `json:"arn"`
 }

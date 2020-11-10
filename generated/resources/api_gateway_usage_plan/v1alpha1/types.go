@@ -52,9 +52,29 @@ type ApiGatewayUsagePlanSpec struct {
 
 // A ApiGatewayUsagePlanParameters defines the desired state of a ApiGatewayUsagePlan
 type ApiGatewayUsagePlanParameters struct {
-	Description string `json:"description"`
-	Name        string `json:"name"`
-	ProductCode string `json:"product_code"`
+	Description      string            `json:"description"`
+	Name             string            `json:"name"`
+	ProductCode      string            `json:"product_code"`
+	Tags             map[string]string `json:"tags"`
+	QuotaSettings    QuotaSettings     `json:"quota_settings"`
+	ThrottleSettings ThrottleSettings  `json:"throttle_settings"`
+	ApiStages        []ApiStages       `json:"api_stages"`
+}
+
+type QuotaSettings struct {
+	Limit  int    `json:"limit"`
+	Offset int    `json:"offset"`
+	Period string `json:"period"`
+}
+
+type ThrottleSettings struct {
+	BurstLimit int `json:"burst_limit"`
+	RateLimit  int `json:"rate_limit"`
+}
+
+type ApiStages struct {
+	ApiId string `json:"api_id"`
+	Stage string `json:"stage"`
 }
 
 // A ApiGatewayUsagePlanStatus defines the observed state of a ApiGatewayUsagePlan

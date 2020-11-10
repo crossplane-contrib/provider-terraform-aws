@@ -52,8 +52,16 @@ type DbParameterGroupSpec struct {
 
 // A DbParameterGroupParameters defines the desired state of a DbParameterGroup
 type DbParameterGroupParameters struct {
-	Description string `json:"description"`
-	Family      string `json:"family"`
+	Description string            `json:"description"`
+	Family      string            `json:"family"`
+	Tags        map[string]string `json:"tags"`
+	Parameter   []Parameter       `json:"parameter"`
+}
+
+type Parameter struct {
+	Name        string `json:"name"`
+	Value       string `json:"value"`
+	ApplyMethod string `json:"apply_method"`
 }
 
 // A DbParameterGroupStatus defines the observed state of a DbParameterGroup

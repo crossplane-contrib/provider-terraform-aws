@@ -65,7 +65,7 @@ type KmsAliasStatus struct {
 
 // A KmsAliasObservation records the observed state of a KmsAlias
 type KmsAliasObservation struct {
-	Arn          string `json:"arn"`
 	Id           string `json:"id"`
 	TargetKeyArn string `json:"target_key_arn"`
+	Arn          string `json:"arn"`
 }

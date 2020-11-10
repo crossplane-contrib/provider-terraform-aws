@@ -52,24 +52,44 @@ type CloudwatchMetricAlarmSpec struct {
 
 // A CloudwatchMetricAlarmParameters defines the desired state of a CloudwatchMetricAlarm
 type CloudwatchMetricAlarmParameters struct {
-	Statistic               string   `json:"statistic"`
-	Threshold               int      `json:"threshold"`
-	ThresholdMetricId       string   `json:"threshold_metric_id"`
-	TreatMissingData        string   `json:"treat_missing_data"`
-	ActionsEnabled          bool     `json:"actions_enabled"`
-	AlarmActions            []string `json:"alarm_actions"`
-	InsufficientDataActions []string `json:"insufficient_data_actions"`
-	Namespace               string   `json:"namespace"`
-	Unit                    string   `json:"unit"`
-	AlarmName               string   `json:"alarm_name"`
-	EvaluationPeriods       int      `json:"evaluation_periods"`
-	ExtendedStatistic       string   `json:"extended_statistic"`
-	MetricName              string   `json:"metric_name"`
-	OkActions               []string `json:"ok_actions"`
-	AlarmDescription        string   `json:"alarm_description"`
-	ComparisonOperator      string   `json:"comparison_operator"`
-	DatapointsToAlarm       int      `json:"datapoints_to_alarm"`
-	Period                  int      `json:"period"`
+	AlarmDescription        string            `json:"alarm_description"`
+	AlarmName               string            `json:"alarm_name"`
+	Dimensions              map[string]string `json:"dimensions"`
+	EvaluationPeriods       int               `json:"evaluation_periods"`
+	OkActions               []string          `json:"ok_actions"`
+	Tags                    map[string]string `json:"tags"`
+	ThresholdMetricId       string            `json:"threshold_metric_id"`
+	ComparisonOperator      string            `json:"comparison_operator"`
+	Period                  int               `json:"period"`
+	Threshold               int               `json:"threshold"`
+	TreatMissingData        string            `json:"treat_missing_data"`
+	Unit                    string            `json:"unit"`
+	AlarmActions            []string          `json:"alarm_actions"`
+	DatapointsToAlarm       int               `json:"datapoints_to_alarm"`
+	ExtendedStatistic       string            `json:"extended_statistic"`
+	InsufficientDataActions []string          `json:"insufficient_data_actions"`
+	MetricName              string            `json:"metric_name"`
+	ActionsEnabled          bool              `json:"actions_enabled"`
+	Namespace               string            `json:"namespace"`
+	Statistic               string            `json:"statistic"`
+	MetricQuery             []MetricQuery     `json:"metric_query"`
+}
+
+type MetricQuery struct {
+	Label      string `json:"label"`
+	ReturnData bool   `json:"return_data"`
+	Expression string `json:"expression"`
+	Id         string `json:"id"`
+	Metric     Metric `json:"metric"`
+}
+
+type Metric struct {
+	Dimensions map[string]string `json:"dimensions"`
+	MetricName string            `json:"metric_name"`
+	Namespace  string            `json:"namespace"`
+	Period     int               `json:"period"`
+	Stat       string            `json:"stat"`
+	Unit       string            `json:"unit"`
 }
 
 // A CloudwatchMetricAlarmStatus defines the observed state of a CloudwatchMetricAlarm
@@ -80,7 +100,7 @@ type CloudwatchMetricAlarmStatus struct {
 
 // A CloudwatchMetricAlarmObservation records the observed state of a CloudwatchMetricAlarm
 type CloudwatchMetricAlarmObservation struct {
-	EvaluateLowSampleCountPercentiles string `json:"evaluate_low_sample_count_percentiles"`
-	Id                                string `json:"id"`
 	Arn                               string `json:"arn"`
+	Id                                string `json:"id"`
+	EvaluateLowSampleCountPercentiles string `json:"evaluate_low_sample_count_percentiles"`
 }

@@ -52,15 +52,58 @@ type DmsEndpointSpec struct {
 
 // A DmsEndpointParameters defines the desired state of a DmsEndpoint
 type DmsEndpointParameters struct {
-	ServiceAccessRole string `json:"service_access_role"`
-	EngineName        string `json:"engine_name"`
-	Password          string `json:"password"`
-	ServerName        string `json:"server_name"`
-	Username          string `json:"username"`
-	EndpointId        string `json:"endpoint_id"`
-	Port              int    `json:"port"`
-	DatabaseName      string `json:"database_name"`
-	EndpointType      string `json:"endpoint_type"`
+	DatabaseName          string                `json:"database_name"`
+	EndpointId            string                `json:"endpoint_id"`
+	Password              string                `json:"password"`
+	EndpointType          string                `json:"endpoint_type"`
+	Tags                  map[string]string     `json:"tags"`
+	EngineName            string                `json:"engine_name"`
+	Port                  int                   `json:"port"`
+	ServerName            string                `json:"server_name"`
+	ServiceAccessRole     string                `json:"service_access_role"`
+	Username              string                `json:"username"`
+	KinesisSettings       KinesisSettings       `json:"kinesis_settings"`
+	MongodbSettings       MongodbSettings       `json:"mongodb_settings"`
+	S3Settings            S3Settings            `json:"s3_settings"`
+	ElasticsearchSettings ElasticsearchSettings `json:"elasticsearch_settings"`
+	KafkaSettings         KafkaSettings         `json:"kafka_settings"`
+}
+
+type KinesisSettings struct {
+	MessageFormat        string `json:"message_format"`
+	ServiceAccessRoleArn string `json:"service_access_role_arn"`
+	StreamArn            string `json:"stream_arn"`
+}
+
+type MongodbSettings struct {
+	AuthMechanism     string `json:"auth_mechanism"`
+	AuthSource        string `json:"auth_source"`
+	AuthType          string `json:"auth_type"`
+	DocsToInvestigate string `json:"docs_to_investigate"`
+	ExtractDocId      string `json:"extract_doc_id"`
+	NestingLevel      string `json:"nesting_level"`
+}
+
+type S3Settings struct {
+	ExternalTableDefinition string `json:"external_table_definition"`
+	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
+	BucketFolder            string `json:"bucket_folder"`
+	BucketName              string `json:"bucket_name"`
+	CompressionType         string `json:"compression_type"`
+	CsvDelimiter            string `json:"csv_delimiter"`
+	CsvRowDelimiter         string `json:"csv_row_delimiter"`
+}
+
+type ElasticsearchSettings struct {
+	EndpointUri             string `json:"endpoint_uri"`
+	ErrorRetryDuration      int    `json:"error_retry_duration"`
+	FullLoadErrorPercentage int    `json:"full_load_error_percentage"`
+	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
+}
+
+type KafkaSettings struct {
+	Broker string `json:"broker"`
+	Topic  string `json:"topic"`
 }
 
 // A DmsEndpointStatus defines the observed state of a DmsEndpoint
@@ -71,10 +114,10 @@ type DmsEndpointStatus struct {
 
 // A DmsEndpointObservation records the observed state of a DmsEndpoint
 type DmsEndpointObservation struct {
+	KmsKeyArn                 string `json:"kms_key_arn"`
 	CertificateArn            string `json:"certificate_arn"`
-	ExtraConnectionAttributes string `json:"extra_connection_attributes"`
-	SslMode                   string `json:"ssl_mode"`
 	EndpointArn               string `json:"endpoint_arn"`
 	Id                        string `json:"id"`
-	KmsKeyArn                 string `json:"kms_key_arn"`
+	ExtraConnectionAttributes string `json:"extra_connection_attributes"`
+	SslMode                   string `json:"ssl_mode"`
 }

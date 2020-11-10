@@ -52,9 +52,9 @@ type ApiGatewayDocumentationVersionSpec struct {
 
 // A ApiGatewayDocumentationVersionParameters defines the desired state of a ApiGatewayDocumentationVersion
 type ApiGatewayDocumentationVersionParameters struct {
-	Description string `json:"description"`
 	RestApiId   string `json:"rest_api_id"`
 	Version     string `json:"version"`
+	Description string `json:"description"`
 }
 
 // A ApiGatewayDocumentationVersionStatus defines the observed state of a ApiGatewayDocumentationVersion

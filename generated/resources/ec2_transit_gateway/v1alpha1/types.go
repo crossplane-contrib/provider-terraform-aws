@@ -52,13 +52,14 @@ type Ec2TransitGatewaySpec struct {
 
 // A Ec2TransitGatewayParameters defines the desired state of a Ec2TransitGateway
 type Ec2TransitGatewayParameters struct {
-	DefaultRouteTablePropagation string `json:"default_route_table_propagation"`
-	AmazonSideAsn                int    `json:"amazon_side_asn"`
-	DnsSupport                   string `json:"dns_support"`
-	VpnEcmpSupport               string `json:"vpn_ecmp_support"`
-	AutoAcceptSharedAttachments  string `json:"auto_accept_shared_attachments"`
-	DefaultRouteTableAssociation string `json:"default_route_table_association"`
-	Description                  string `json:"description"`
+	DefaultRouteTablePropagation string            `json:"default_route_table_propagation"`
+	AmazonSideAsn                int               `json:"amazon_side_asn"`
+	AutoAcceptSharedAttachments  string            `json:"auto_accept_shared_attachments"`
+	DefaultRouteTableAssociation string            `json:"default_route_table_association"`
+	Description                  string            `json:"description"`
+	DnsSupport                   string            `json:"dns_support"`
+	Tags                         map[string]string `json:"tags"`
+	VpnEcmpSupport               string            `json:"vpn_ecmp_support"`
 }
 
 // A Ec2TransitGatewayStatus defines the observed state of a Ec2TransitGateway
@@ -70,8 +71,8 @@ type Ec2TransitGatewayStatus struct {
 // A Ec2TransitGatewayObservation records the observed state of a Ec2TransitGateway
 type Ec2TransitGatewayObservation struct {
 	OwnerId                        string `json:"owner_id"`
-	Arn                            string `json:"arn"`
+	PropagationDefaultRouteTableId string `json:"propagation_default_route_table_id"`
 	AssociationDefaultRouteTableId string `json:"association_default_route_table_id"`
 	Id                             string `json:"id"`
-	PropagationDefaultRouteTableId string `json:"propagation_default_route_table_id"`
+	Arn                            string `json:"arn"`
 }

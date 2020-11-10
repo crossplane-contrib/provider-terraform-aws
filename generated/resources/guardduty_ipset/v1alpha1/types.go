@@ -52,11 +52,12 @@ type GuarddutyIpsetSpec struct {
 
 // A GuarddutyIpsetParameters defines the desired state of a GuarddutyIpset
 type GuarddutyIpsetParameters struct {
-	Name       string `json:"name"`
-	Activate   bool   `json:"activate"`
-	DetectorId string `json:"detector_id"`
-	Format     string `json:"format"`
-	Location   string `json:"location"`
+	Name       string            `json:"name"`
+	Tags       map[string]string `json:"tags"`
+	Activate   bool              `json:"activate"`
+	DetectorId string            `json:"detector_id"`
+	Format     string            `json:"format"`
+	Location   string            `json:"location"`
 }
 
 // A GuarddutyIpsetStatus defines the observed state of a GuarddutyIpset

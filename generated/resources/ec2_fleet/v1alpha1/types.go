@@ -52,11 +52,60 @@ type Ec2FleetSpec struct {
 
 // A Ec2FleetParameters defines the desired state of a Ec2Fleet
 type Ec2FleetParameters struct {
-	Type                             string `json:"type"`
-	ExcessCapacityTerminationPolicy  string `json:"excess_capacity_termination_policy"`
-	ReplaceUnhealthyInstances        bool   `json:"replace_unhealthy_instances"`
-	TerminateInstances               bool   `json:"terminate_instances"`
-	TerminateInstancesWithExpiration bool   `json:"terminate_instances_with_expiration"`
+	ReplaceUnhealthyInstances        bool                        `json:"replace_unhealthy_instances"`
+	Tags                             map[string]string           `json:"tags"`
+	TerminateInstances               bool                        `json:"terminate_instances"`
+	TerminateInstancesWithExpiration bool                        `json:"terminate_instances_with_expiration"`
+	Type                             string                      `json:"type"`
+	ExcessCapacityTerminationPolicy  string                      `json:"excess_capacity_termination_policy"`
+	TargetCapacitySpecification      TargetCapacitySpecification `json:"target_capacity_specification"`
+	Timeouts                         []Timeouts                  `json:"timeouts"`
+	LaunchTemplateConfig             LaunchTemplateConfig        `json:"launch_template_config"`
+	OnDemandOptions                  OnDemandOptions             `json:"on_demand_options"`
+	SpotOptions                      SpotOptions                 `json:"spot_options"`
+}
+
+type TargetCapacitySpecification struct {
+	DefaultTargetCapacityType string `json:"default_target_capacity_type"`
+	OnDemandTargetCapacity    int    `json:"on_demand_target_capacity"`
+	SpotTargetCapacity        int    `json:"spot_target_capacity"`
+	TotalTargetCapacity       int    `json:"total_target_capacity"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
+}
+
+type LaunchTemplateConfig struct {
+	LaunchTemplateSpecification LaunchTemplateSpecification `json:"launch_template_specification"`
+	Override                    []Override                  `json:"override"`
+}
+
+type LaunchTemplateSpecification struct {
+	LaunchTemplateId   string `json:"launch_template_id"`
+	LaunchTemplateName string `json:"launch_template_name"`
+	Version            string `json:"version"`
+}
+
+type Override struct {
+	SubnetId         string `json:"subnet_id"`
+	WeightedCapacity int    `json:"weighted_capacity"`
+	AvailabilityZone string `json:"availability_zone"`
+	InstanceType     string `json:"instance_type"`
+	MaxPrice         string `json:"max_price"`
+	Priority         int    `json:"priority"`
+}
+
+type OnDemandOptions struct {
+	AllocationStrategy string `json:"allocation_strategy"`
+}
+
+type SpotOptions struct {
+	AllocationStrategy           string `json:"allocation_strategy"`
+	InstanceInterruptionBehavior string `json:"instance_interruption_behavior"`
+	InstancePoolsToUseCount      int    `json:"instance_pools_to_use_count"`
 }
 
 // A Ec2FleetStatus defines the observed state of a Ec2Fleet

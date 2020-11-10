@@ -52,8 +52,16 @@ type RdsClusterParameterGroupSpec struct {
 
 // A RdsClusterParameterGroupParameters defines the desired state of a RdsClusterParameterGroup
 type RdsClusterParameterGroupParameters struct {
-	Description string `json:"description"`
-	Family      string `json:"family"`
+	Description string            `json:"description"`
+	Family      string            `json:"family"`
+	Tags        map[string]string `json:"tags"`
+	Parameter   []Parameter       `json:"parameter"`
+}
+
+type Parameter struct {
+	ApplyMethod string `json:"apply_method"`
+	Name        string `json:"name"`
+	Value       string `json:"value"`
 }
 
 // A RdsClusterParameterGroupStatus defines the observed state of a RdsClusterParameterGroup

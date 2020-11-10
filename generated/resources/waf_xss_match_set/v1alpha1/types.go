@@ -52,7 +52,18 @@ type WafXssMatchSetSpec struct {
 
 // A WafXssMatchSetParameters defines the desired state of a WafXssMatchSet
 type WafXssMatchSetParameters struct {
-	Name string `json:"name"`
+	Name           string           `json:"name"`
+	XssMatchTuples []XssMatchTuples `json:"xss_match_tuples"`
+}
+
+type XssMatchTuples struct {
+	TextTransformation string       `json:"text_transformation"`
+	FieldToMatch       FieldToMatch `json:"field_to_match"`
+}
+
+type FieldToMatch struct {
+	Data string `json:"data"`
+	Type string `json:"type"`
 }
 
 // A WafXssMatchSetStatus defines the observed state of a WafXssMatchSet

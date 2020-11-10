@@ -52,8 +52,8 @@ type ConfigConfigurationRecorderStatusSpec struct {
 
 // A ConfigConfigurationRecorderStatusParameters defines the desired state of a ConfigConfigurationRecorderStatus
 type ConfigConfigurationRecorderStatusParameters struct {
-	IsEnabled bool   `json:"is_enabled"`
 	Name      string `json:"name"`
+	IsEnabled bool   `json:"is_enabled"`
 }
 
 // A ConfigConfigurationRecorderStatusStatus defines the observed state of a ConfigConfigurationRecorderStatus

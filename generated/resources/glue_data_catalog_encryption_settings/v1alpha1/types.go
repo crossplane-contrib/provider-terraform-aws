@@ -51,7 +51,24 @@ type GlueDataCatalogEncryptionSettingsSpec struct {
 }
 
 // A GlueDataCatalogEncryptionSettingsParameters defines the desired state of a GlueDataCatalogEncryptionSettings
-type GlueDataCatalogEncryptionSettingsParameters struct{}
+type GlueDataCatalogEncryptionSettingsParameters struct {
+	DataCatalogEncryptionSettings DataCatalogEncryptionSettings `json:"data_catalog_encryption_settings"`
+}
+
+type DataCatalogEncryptionSettings struct {
+	ConnectionPasswordEncryption ConnectionPasswordEncryption `json:"connection_password_encryption"`
+	EncryptionAtRest             EncryptionAtRest             `json:"encryption_at_rest"`
+}
+
+type ConnectionPasswordEncryption struct {
+	AwsKmsKeyId                       string `json:"aws_kms_key_id"`
+	ReturnConnectionPasswordEncrypted bool   `json:"return_connection_password_encrypted"`
+}
+
+type EncryptionAtRest struct {
+	CatalogEncryptionMode string `json:"catalog_encryption_mode"`
+	SseAwsKmsKeyId        string `json:"sse_aws_kms_key_id"`
+}
 
 // A GlueDataCatalogEncryptionSettingsStatus defines the observed state of a GlueDataCatalogEncryptionSettings
 type GlueDataCatalogEncryptionSettingsStatus struct {

@@ -52,7 +52,29 @@ type GlueSecurityConfigurationSpec struct {
 
 // A GlueSecurityConfigurationParameters defines the desired state of a GlueSecurityConfiguration
 type GlueSecurityConfigurationParameters struct {
-	Name string `json:"name"`
+	Name                    string                  `json:"name"`
+	EncryptionConfiguration EncryptionConfiguration `json:"encryption_configuration"`
+}
+
+type EncryptionConfiguration struct {
+	CloudwatchEncryption   CloudwatchEncryption   `json:"cloudwatch_encryption"`
+	JobBookmarksEncryption JobBookmarksEncryption `json:"job_bookmarks_encryption"`
+	S3Encryption           S3Encryption           `json:"s3_encryption"`
+}
+
+type CloudwatchEncryption struct {
+	CloudwatchEncryptionMode string `json:"cloudwatch_encryption_mode"`
+	KmsKeyArn                string `json:"kms_key_arn"`
+}
+
+type JobBookmarksEncryption struct {
+	JobBookmarksEncryptionMode string `json:"job_bookmarks_encryption_mode"`
+	KmsKeyArn                  string `json:"kms_key_arn"`
+}
+
+type S3Encryption struct {
+	KmsKeyArn        string `json:"kms_key_arn"`
+	S3EncryptionMode string `json:"s3_encryption_mode"`
 }
 
 // A GlueSecurityConfigurationStatus defines the observed state of a GlueSecurityConfiguration

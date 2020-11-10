@@ -52,11 +52,38 @@ type ElbSpec struct {
 
 // A ElbParameters defines the desired state of a Elb
 type ElbParameters struct {
-	ConnectionDrainingTimeout int    `json:"connection_draining_timeout"`
-	NamePrefix                string `json:"name_prefix"`
-	IdleTimeout               int    `json:"idle_timeout"`
-	ConnectionDraining        bool   `json:"connection_draining"`
-	CrossZoneLoadBalancing    bool   `json:"cross_zone_load_balancing"`
+	ConnectionDraining        bool              `json:"connection_draining"`
+	NamePrefix                string            `json:"name_prefix"`
+	ConnectionDrainingTimeout int               `json:"connection_draining_timeout"`
+	Tags                      map[string]string `json:"tags"`
+	CrossZoneLoadBalancing    bool              `json:"cross_zone_load_balancing"`
+	IdleTimeout               int               `json:"idle_timeout"`
+	AccessLogs                AccessLogs        `json:"access_logs"`
+	HealthCheck               HealthCheck       `json:"health_check"`
+	Listener                  []Listener        `json:"listener"`
+}
+
+type AccessLogs struct {
+	Enabled      bool   `json:"enabled"`
+	Interval     int    `json:"interval"`
+	Bucket       string `json:"bucket"`
+	BucketPrefix string `json:"bucket_prefix"`
+}
+
+type HealthCheck struct {
+	Timeout            int    `json:"timeout"`
+	UnhealthyThreshold int    `json:"unhealthy_threshold"`
+	HealthyThreshold   int    `json:"healthy_threshold"`
+	Interval           int    `json:"interval"`
+	Target             string `json:"target"`
+}
+
+type Listener struct {
+	InstancePort     int    `json:"instance_port"`
+	InstanceProtocol string `json:"instance_protocol"`
+	LbPort           int    `json:"lb_port"`
+	LbProtocol       string `json:"lb_protocol"`
+	SslCertificateId string `json:"ssl_certificate_id"`
 }
 
 // A ElbStatus defines the observed state of a Elb
@@ -67,16 +94,16 @@ type ElbStatus struct {
 
 // A ElbObservation records the observed state of a Elb
 type ElbObservation struct {
-	Arn                   string   `json:"arn"`
-	Name                  string   `json:"name"`
 	Subnets               []string `json:"subnets"`
 	ZoneId                string   `json:"zone_id"`
-	Instances             []string `json:"instances"`
-	SourceSecurityGroup   string   `json:"source_security_group"`
-	DnsName               string   `json:"dns_name"`
-	Id                    string   `json:"id"`
-	AvailabilityZones     []string `json:"availability_zones"`
-	Internal              bool     `json:"internal"`
-	SecurityGroups        []string `json:"security_groups"`
+	Name                  string   `json:"name"`
 	SourceSecurityGroupId string   `json:"source_security_group_id"`
+	AvailabilityZones     []string `json:"availability_zones"`
+	Id                    string   `json:"id"`
+	SecurityGroups        []string `json:"security_groups"`
+	SourceSecurityGroup   string   `json:"source_security_group"`
+	Instances             []string `json:"instances"`
+	Internal              bool     `json:"internal"`
+	Arn                   string   `json:"arn"`
+	DnsName               string   `json:"dns_name"`
 }

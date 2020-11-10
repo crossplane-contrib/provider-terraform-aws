@@ -52,10 +52,11 @@ type VpcSpec struct {
 
 // A VpcParameters defines the desired state of a Vpc
 type VpcParameters struct {
-	AssignGeneratedIpv6CidrBlock bool   `json:"assign_generated_ipv6_cidr_block"`
-	CidrBlock                    string `json:"cidr_block"`
-	InstanceTenancy              string `json:"instance_tenancy"`
-	EnableDnsSupport             bool   `json:"enable_dns_support"`
+	EnableDnsSupport             bool              `json:"enable_dns_support"`
+	InstanceTenancy              string            `json:"instance_tenancy"`
+	Tags                         map[string]string `json:"tags"`
+	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
+	CidrBlock                    string            `json:"cidr_block"`
 }
 
 // A VpcStatus defines the observed state of a Vpc
@@ -66,17 +67,17 @@ type VpcStatus struct {
 
 // A VpcObservation records the observed state of a Vpc
 type VpcObservation struct {
-	Arn                         string `json:"arn"`
-	DefaultNetworkAclId         string `json:"default_network_acl_id"`
-	DefaultRouteTableId         string `json:"default_route_table_id"`
-	DhcpOptionsId               string `json:"dhcp_options_id"`
-	EnableClassiclink           bool   `json:"enable_classiclink"`
 	EnableDnsHostnames          bool   `json:"enable_dns_hostnames"`
 	MainRouteTableId            string `json:"main_route_table_id"`
-	EnableClassiclinkDnsSupport bool   `json:"enable_classiclink_dns_support"`
-	Id                          string `json:"id"`
-	Ipv6AssociationId           string `json:"ipv6_association_id"`
-	Ipv6CidrBlock               string `json:"ipv6_cidr_block"`
-	DefaultSecurityGroupId      string `json:"default_security_group_id"`
 	OwnerId                     string `json:"owner_id"`
+	DefaultSecurityGroupId      string `json:"default_security_group_id"`
+	EnableClassiclinkDnsSupport bool   `json:"enable_classiclink_dns_support"`
+	Arn                         string `json:"arn"`
+	DhcpOptionsId               string `json:"dhcp_options_id"`
+	Ipv6AssociationId           string `json:"ipv6_association_id"`
+	Id                          string `json:"id"`
+	Ipv6CidrBlock               string `json:"ipv6_cidr_block"`
+	DefaultNetworkAclId         string `json:"default_network_acl_id"`
+	DefaultRouteTableId         string `json:"default_route_table_id"`
+	EnableClassiclink           bool   `json:"enable_classiclink"`
 }

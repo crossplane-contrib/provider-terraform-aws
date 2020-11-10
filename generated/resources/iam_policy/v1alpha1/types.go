@@ -52,10 +52,10 @@ type IamPolicySpec struct {
 
 // A IamPolicyParameters defines the desired state of a IamPolicy
 type IamPolicyParameters struct {
-	Description string `json:"description"`
 	NamePrefix  string `json:"name_prefix"`
 	Path        string `json:"path"`
 	Policy      string `json:"policy"`
+	Description string `json:"description"`
 }
 
 // A IamPolicyStatus defines the observed state of a IamPolicy
@@ -66,7 +66,7 @@ type IamPolicyStatus struct {
 
 // A IamPolicyObservation records the observed state of a IamPolicy
 type IamPolicyObservation struct {
-	Id   string `json:"id"`
 	Name string `json:"name"`
 	Arn  string `json:"arn"`
+	Id   string `json:"id"`
 }

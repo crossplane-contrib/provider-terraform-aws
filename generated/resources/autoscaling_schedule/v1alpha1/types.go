@@ -65,11 +65,11 @@ type AutoscalingScheduleStatus struct {
 // A AutoscalingScheduleObservation records the observed state of a AutoscalingSchedule
 type AutoscalingScheduleObservation struct {
 	Arn             string `json:"arn"`
-	DesiredCapacity int    `json:"desired_capacity"`
 	EndTime         string `json:"end_time"`
-	Id              string `json:"id"`
 	Recurrence      string `json:"recurrence"`
+	StartTime       string `json:"start_time"`
+	DesiredCapacity int    `json:"desired_capacity"`
+	Id              string `json:"id"`
 	MaxSize         int    `json:"max_size"`
 	MinSize         int    `json:"min_size"`
-	StartTime       string `json:"start_time"`
 }

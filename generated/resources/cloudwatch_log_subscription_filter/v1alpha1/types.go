@@ -67,6 +67,6 @@ type CloudwatchLogSubscriptionFilterStatus struct {
 
 // A CloudwatchLogSubscriptionFilterObservation records the observed state of a CloudwatchLogSubscriptionFilter
 type CloudwatchLogSubscriptionFilterObservation struct {
-	Id      string `json:"id"`
 	RoleArn string `json:"role_arn"`
+	Id      string `json:"id"`
 }

@@ -52,19 +52,96 @@ type SpotFleetRequestSpec struct {
 
 // A SpotFleetRequestParameters defines the desired state of a SpotFleetRequest
 type SpotFleetRequestParameters struct {
-	TerminateInstancesWithExpiration bool   `json:"terminate_instances_with_expiration"`
-	InstanceInterruptionBehaviour    string `json:"instance_interruption_behaviour"`
-	InstancePoolsToUseCount          int    `json:"instance_pools_to_use_count"`
-	ValidFrom                        string `json:"valid_from"`
-	ExcessCapacityTerminationPolicy  string `json:"excess_capacity_termination_policy"`
-	FleetType                        string `json:"fleet_type"`
-	WaitForFulfillment               bool   `json:"wait_for_fulfillment"`
-	SpotPrice                        string `json:"spot_price"`
-	ReplaceUnhealthyInstances        bool   `json:"replace_unhealthy_instances"`
-	TargetCapacity                   int    `json:"target_capacity"`
-	ValidUntil                       string `json:"valid_until"`
-	AllocationStrategy               string `json:"allocation_strategy"`
-	IamFleetRole                     string `json:"iam_fleet_role"`
+	ExcessCapacityTerminationPolicy  string                 `json:"excess_capacity_termination_policy"`
+	IamFleetRole                     string                 `json:"iam_fleet_role"`
+	AllocationStrategy               string                 `json:"allocation_strategy"`
+	TargetCapacity                   int                    `json:"target_capacity"`
+	ValidFrom                        string                 `json:"valid_from"`
+	ValidUntil                       string                 `json:"valid_until"`
+	FleetType                        string                 `json:"fleet_type"`
+	InstancePoolsToUseCount          int                    `json:"instance_pools_to_use_count"`
+	ReplaceUnhealthyInstances        bool                   `json:"replace_unhealthy_instances"`
+	Tags                             map[string]string      `json:"tags"`
+	TerminateInstancesWithExpiration bool                   `json:"terminate_instances_with_expiration"`
+	InstanceInterruptionBehaviour    string                 `json:"instance_interruption_behaviour"`
+	SpotPrice                        string                 `json:"spot_price"`
+	WaitForFulfillment               bool                   `json:"wait_for_fulfillment"`
+	LaunchSpecification              []LaunchSpecification  `json:"launch_specification"`
+	LaunchTemplateConfig             []LaunchTemplateConfig `json:"launch_template_config"`
+	Timeouts                         []Timeouts             `json:"timeouts"`
+}
+
+type LaunchSpecification struct {
+	EbsOptimized             bool                   `json:"ebs_optimized"`
+	InstanceType             string                 `json:"instance_type"`
+	SpotPrice                string                 `json:"spot_price"`
+	Monitoring               bool                   `json:"monitoring"`
+	SubnetId                 string                 `json:"subnet_id"`
+	Tags                     map[string]string      `json:"tags"`
+	PlacementGroup           string                 `json:"placement_group"`
+	UserData                 string                 `json:"user_data"`
+	Ami                      string                 `json:"ami"`
+	AssociatePublicIpAddress bool                   `json:"associate_public_ip_address"`
+	AvailabilityZone         string                 `json:"availability_zone"`
+	IamInstanceProfile       string                 `json:"iam_instance_profile"`
+	IamInstanceProfileArn    string                 `json:"iam_instance_profile_arn"`
+	KeyName                  string                 `json:"key_name"`
+	VpcSecurityGroupIds      []string               `json:"vpc_security_group_ids"`
+	PlacementTenancy         string                 `json:"placement_tenancy"`
+	WeightedCapacity         string                 `json:"weighted_capacity"`
+	RootBlockDevice          []RootBlockDevice      `json:"root_block_device"`
+	EbsBlockDevice           []EbsBlockDevice       `json:"ebs_block_device"`
+	EphemeralBlockDevice     []EphemeralBlockDevice `json:"ephemeral_block_device"`
+}
+
+type RootBlockDevice struct {
+	Encrypted           bool   `json:"encrypted"`
+	Iops                int    `json:"iops"`
+	KmsKeyId            string `json:"kms_key_id"`
+	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+}
+
+type EbsBlockDevice struct {
+	DeviceName          string `json:"device_name"`
+	Encrypted           bool   `json:"encrypted"`
+	Iops                int    `json:"iops"`
+	KmsKeyId            string `json:"kms_key_id"`
+	SnapshotId          string `json:"snapshot_id"`
+	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+}
+
+type EphemeralBlockDevice struct {
+	VirtualName string `json:"virtual_name"`
+	DeviceName  string `json:"device_name"`
+}
+
+type LaunchTemplateConfig struct {
+	LaunchTemplateSpecification LaunchTemplateSpecification `json:"launch_template_specification"`
+	Overrides                   []Overrides                 `json:"overrides"`
+}
+
+type LaunchTemplateSpecification struct {
+	Id      string `json:"id"`
+	Name    string `json:"name"`
+	Version string `json:"version"`
+}
+
+type Overrides struct {
+	Priority         int    `json:"priority"`
+	SpotPrice        string `json:"spot_price"`
+	SubnetId         string `json:"subnet_id"`
+	WeightedCapacity int    `json:"weighted_capacity"`
+	AvailabilityZone string `json:"availability_zone"`
+	InstanceType     string `json:"instance_type"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A SpotFleetRequestStatus defines the observed state of a SpotFleetRequest
@@ -75,9 +152,9 @@ type SpotFleetRequestStatus struct {
 
 // A SpotFleetRequestObservation records the observed state of a SpotFleetRequest
 type SpotFleetRequestObservation struct {
-	LoadBalancers    []string `json:"load_balancers"`
-	SpotRequestState string   `json:"spot_request_state"`
 	ClientToken      string   `json:"client_token"`
-	Id               string   `json:"id"`
 	TargetGroupArns  []string `json:"target_group_arns"`
+	SpotRequestState string   `json:"spot_request_state"`
+	Id               string   `json:"id"`
+	LoadBalancers    []string `json:"load_balancers"`
 }

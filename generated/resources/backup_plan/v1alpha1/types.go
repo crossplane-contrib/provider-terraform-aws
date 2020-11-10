@@ -52,7 +52,35 @@ type BackupPlanSpec struct {
 
 // A BackupPlanParameters defines the desired state of a BackupPlan
 type BackupPlanParameters struct {
-	Name string `json:"name"`
+	Name string            `json:"name"`
+	Tags map[string]string `json:"tags"`
+	Rule []Rule            `json:"rule"`
+}
+
+type Rule struct {
+	RuleName          string            `json:"rule_name"`
+	Schedule          string            `json:"schedule"`
+	StartWindow       int               `json:"start_window"`
+	TargetVaultName   string            `json:"target_vault_name"`
+	CompletionWindow  int               `json:"completion_window"`
+	RecoveryPointTags map[string]string `json:"recovery_point_tags"`
+	CopyAction        []CopyAction      `json:"copy_action"`
+	Lifecycle         Lifecycle         `json:"lifecycle"`
+}
+
+type CopyAction struct {
+	DestinationVaultArn string    `json:"destination_vault_arn"`
+	Lifecycle           Lifecycle `json:"lifecycle"`
+}
+
+type Lifecycle struct {
+	DeleteAfter      int `json:"delete_after"`
+	ColdStorageAfter int `json:"cold_storage_after"`
+}
+
+type Lifecycle struct {
+	ColdStorageAfter int `json:"cold_storage_after"`
+	DeleteAfter      int `json:"delete_after"`
 }
 
 // A BackupPlanStatus defines the observed state of a BackupPlan
@@ -63,7 +91,7 @@ type BackupPlanStatus struct {
 
 // A BackupPlanObservation records the observed state of a BackupPlan
 type BackupPlanObservation struct {
-	Arn     string `json:"arn"`
 	Id      string `json:"id"`
 	Version string `json:"version"`
+	Arn     string `json:"arn"`
 }

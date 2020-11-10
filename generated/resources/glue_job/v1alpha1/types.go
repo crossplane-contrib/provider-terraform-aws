@@ -52,15 +52,35 @@ type GlueJobSpec struct {
 
 // A GlueJobParameters defines the desired state of a GlueJob
 type GlueJobParameters struct {
-	WorkerType            string   `json:"worker_type"`
-	SecurityConfiguration string   `json:"security_configuration"`
-	Timeout               int      `json:"timeout"`
-	Connections           []string `json:"connections"`
-	MaxRetries            int      `json:"max_retries"`
-	RoleArn               string   `json:"role_arn"`
-	Description           string   `json:"description"`
-	Name                  string   `json:"name"`
-	NumberOfWorkers       int      `json:"number_of_workers"`
+	MaxRetries              int                  `json:"max_retries"`
+	Description             string               `json:"description"`
+	Timeout                 int                  `json:"timeout"`
+	WorkerType              string               `json:"worker_type"`
+	Connections             []string             `json:"connections"`
+	NonOverridableArguments map[string]string    `json:"non_overridable_arguments"`
+	RoleArn                 string               `json:"role_arn"`
+	SecurityConfiguration   string               `json:"security_configuration"`
+	Tags                    map[string]string    `json:"tags"`
+	DefaultArguments        map[string]string    `json:"default_arguments"`
+	Name                    string               `json:"name"`
+	NumberOfWorkers         int                  `json:"number_of_workers"`
+	Command                 Command              `json:"command"`
+	ExecutionProperty       ExecutionProperty    `json:"execution_property"`
+	NotificationProperty    NotificationProperty `json:"notification_property"`
+}
+
+type Command struct {
+	Name           string `json:"name"`
+	PythonVersion  string `json:"python_version"`
+	ScriptLocation string `json:"script_location"`
+}
+
+type ExecutionProperty struct {
+	MaxConcurrentRuns int `json:"max_concurrent_runs"`
+}
+
+type NotificationProperty struct {
+	NotifyDelayAfter int `json:"notify_delay_after"`
 }
 
 // A GlueJobStatus defines the observed state of a GlueJob
@@ -71,8 +91,8 @@ type GlueJobStatus struct {
 
 // A GlueJobObservation records the observed state of a GlueJob
 type GlueJobObservation struct {
-	Id          string `json:"id"`
-	Arn         string `json:"arn"`
 	GlueVersion string `json:"glue_version"`
+	Arn         string `json:"arn"`
+	Id          string `json:"id"`
 	MaxCapacity int    `json:"max_capacity"`
 }

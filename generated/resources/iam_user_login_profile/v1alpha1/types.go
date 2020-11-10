@@ -66,7 +66,7 @@ type IamUserLoginProfileStatus struct {
 
 // A IamUserLoginProfileObservation records the observed state of a IamUserLoginProfile
 type IamUserLoginProfileObservation struct {
-	EncryptedPassword string `json:"encrypted_password"`
 	Id                string `json:"id"`
 	KeyFingerprint    string `json:"key_fingerprint"`
+	EncryptedPassword string `json:"encrypted_password"`
 }

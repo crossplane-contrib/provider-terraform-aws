@@ -64,10 +64,10 @@ type IamAccessKeyStatus struct {
 
 // A IamAccessKeyObservation records the observed state of a IamAccessKey
 type IamAccessKeyObservation struct {
-	Secret            string `json:"secret"`
-	SesSmtpPasswordV4 string `json:"ses_smtp_password_v4"`
-	Status            string `json:"status"`
 	EncryptedSecret   string `json:"encrypted_secret"`
 	Id                string `json:"id"`
 	KeyFingerprint    string `json:"key_fingerprint"`
+	Secret            string `json:"secret"`
+	SesSmtpPasswordV4 string `json:"ses_smtp_password_v4"`
+	Status            string `json:"status"`
 }

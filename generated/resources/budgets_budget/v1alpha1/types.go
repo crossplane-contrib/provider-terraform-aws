@@ -52,12 +52,37 @@ type BudgetsBudgetSpec struct {
 
 // A BudgetsBudgetParameters defines the desired state of a BudgetsBudget
 type BudgetsBudgetParameters struct {
-	LimitAmount     string `json:"limit_amount"`
-	TimePeriodStart string `json:"time_period_start"`
-	BudgetType      string `json:"budget_type"`
-	LimitUnit       string `json:"limit_unit"`
-	TimePeriodEnd   string `json:"time_period_end"`
-	TimeUnit        string `json:"time_unit"`
+	LimitUnit       string         `json:"limit_unit"`
+	TimeUnit        string         `json:"time_unit"`
+	BudgetType      string         `json:"budget_type"`
+	LimitAmount     string         `json:"limit_amount"`
+	TimePeriodEnd   string         `json:"time_period_end"`
+	TimePeriodStart string         `json:"time_period_start"`
+	CostTypes       CostTypes      `json:"cost_types"`
+	Notification    []Notification `json:"notification"`
+}
+
+type CostTypes struct {
+	IncludeCredit            bool `json:"include_credit"`
+	IncludeDiscount          bool `json:"include_discount"`
+	IncludeSupport           bool `json:"include_support"`
+	IncludeTax               bool `json:"include_tax"`
+	IncludeOtherSubscription bool `json:"include_other_subscription"`
+	IncludeRecurring         bool `json:"include_recurring"`
+	IncludeRefund            bool `json:"include_refund"`
+	IncludeSubscription      bool `json:"include_subscription"`
+	IncludeUpfront           bool `json:"include_upfront"`
+	UseAmortized             bool `json:"use_amortized"`
+	UseBlended               bool `json:"use_blended"`
+}
+
+type Notification struct {
+	SubscriberSnsTopicArns   []string `json:"subscriber_sns_topic_arns"`
+	Threshold                int      `json:"threshold"`
+	ThresholdType            string   `json:"threshold_type"`
+	ComparisonOperator       string   `json:"comparison_operator"`
+	NotificationType         string   `json:"notification_type"`
+	SubscriberEmailAddresses []string `json:"subscriber_email_addresses"`
 }
 
 // A BudgetsBudgetStatus defines the observed state of a BudgetsBudget
@@ -68,8 +93,9 @@ type BudgetsBudgetStatus struct {
 
 // A BudgetsBudgetObservation records the observed state of a BudgetsBudget
 type BudgetsBudgetObservation struct {
-	Id         string `json:"id"`
-	Name       string `json:"name"`
-	AccountId  string `json:"account_id"`
-	NamePrefix string `json:"name_prefix"`
+	Name        string            `json:"name"`
+	CostFilters map[string]string `json:"cost_filters"`
+	Id          string            `json:"id"`
+	AccountId   string            `json:"account_id"`
+	NamePrefix  string            `json:"name_prefix"`
 }

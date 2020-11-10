@@ -52,22 +52,24 @@ type S3BucketObjectSpec struct {
 
 // A S3BucketObjectParameters defines the desired state of a S3BucketObject
 type S3BucketObjectParameters struct {
-	ContentLanguage           string `json:"content_language"`
-	KmsKeyId                  string `json:"kms_key_id"`
-	ObjectLockMode            string `json:"object_lock_mode"`
-	WebsiteRedirect           string `json:"website_redirect"`
-	Acl                       string `json:"acl"`
-	Bucket                    string `json:"bucket"`
-	ContentDisposition        string `json:"content_disposition"`
-	ForceDestroy              bool   `json:"force_destroy"`
-	Key                       string `json:"key"`
-	CacheControl              string `json:"cache_control"`
-	ContentEncoding           string `json:"content_encoding"`
-	ObjectLockLegalHoldStatus string `json:"object_lock_legal_hold_status"`
-	Content                   string `json:"content"`
-	ContentBase64             string `json:"content_base64"`
-	ObjectLockRetainUntilDate string `json:"object_lock_retain_until_date"`
-	Source                    string `json:"source"`
+	ContentEncoding           string            `json:"content_encoding"`
+	ContentLanguage           string            `json:"content_language"`
+	ForceDestroy              bool              `json:"force_destroy"`
+	Key                       string            `json:"key"`
+	ObjectLockLegalHoldStatus string            `json:"object_lock_legal_hold_status"`
+	ObjectLockRetainUntilDate string            `json:"object_lock_retain_until_date"`
+	WebsiteRedirect           string            `json:"website_redirect"`
+	ContentBase64             string            `json:"content_base64"`
+	CacheControl              string            `json:"cache_control"`
+	Content                   string            `json:"content"`
+	ObjectLockMode            string            `json:"object_lock_mode"`
+	Acl                       string            `json:"acl"`
+	KmsKeyId                  string            `json:"kms_key_id"`
+	Metadata                  map[string]string `json:"metadata"`
+	Source                    string            `json:"source"`
+	Bucket                    string            `json:"bucket"`
+	Tags                      map[string]string `json:"tags"`
+	ContentDisposition        string            `json:"content_disposition"`
 }
 
 // A S3BucketObjectStatus defines the observed state of a S3BucketObject
@@ -78,10 +80,10 @@ type S3BucketObjectStatus struct {
 
 // A S3BucketObjectObservation records the observed state of a S3BucketObject
 type S3BucketObjectObservation struct {
-	ContentType          string `json:"content_type"`
 	Etag                 string `json:"etag"`
-	Id                   string `json:"id"`
 	ServerSideEncryption string `json:"server_side_encryption"`
+	ContentType          string `json:"content_type"`
 	StorageClass         string `json:"storage_class"`
+	Id                   string `json:"id"`
 	VersionId            string `json:"version_id"`
 }

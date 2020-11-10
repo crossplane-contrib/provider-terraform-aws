@@ -52,15 +52,23 @@ type ApiGatewayStageSpec struct {
 
 // A ApiGatewayStageParameters defines the desired state of a ApiGatewayStage
 type ApiGatewayStageParameters struct {
-	DeploymentId         string `json:"deployment_id"`
-	Description          string `json:"description"`
-	XrayTracingEnabled   bool   `json:"xray_tracing_enabled"`
-	CacheClusterSize     string `json:"cache_cluster_size"`
-	DocumentationVersion string `json:"documentation_version"`
-	RestApiId            string `json:"rest_api_id"`
-	CacheClusterEnabled  bool   `json:"cache_cluster_enabled"`
-	ClientCertificateId  string `json:"client_certificate_id"`
-	StageName            string `json:"stage_name"`
+	Variables            map[string]string `json:"variables"`
+	ClientCertificateId  string            `json:"client_certificate_id"`
+	StageName            string            `json:"stage_name"`
+	CacheClusterSize     string            `json:"cache_cluster_size"`
+	DocumentationVersion string            `json:"documentation_version"`
+	CacheClusterEnabled  bool              `json:"cache_cluster_enabled"`
+	Description          string            `json:"description"`
+	RestApiId            string            `json:"rest_api_id"`
+	Tags                 map[string]string `json:"tags"`
+	XrayTracingEnabled   bool              `json:"xray_tracing_enabled"`
+	DeploymentId         string            `json:"deployment_id"`
+	AccessLogSettings    AccessLogSettings `json:"access_log_settings"`
+}
+
+type AccessLogSettings struct {
+	DestinationArn string `json:"destination_arn"`
+	Format         string `json:"format"`
 }
 
 // A ApiGatewayStageStatus defines the observed state of a ApiGatewayStage
@@ -72,7 +80,7 @@ type ApiGatewayStageStatus struct {
 // A ApiGatewayStageObservation records the observed state of a ApiGatewayStage
 type ApiGatewayStageObservation struct {
 	Arn          string `json:"arn"`
+	Id           string `json:"id"`
 	InvokeUrl    string `json:"invoke_url"`
 	ExecutionArn string `json:"execution_arn"`
-	Id           string `json:"id"`
 }

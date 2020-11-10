@@ -52,7 +52,8 @@ type VpnGatewaySpec struct {
 
 // A VpnGatewayParameters defines the desired state of a VpnGateway
 type VpnGatewayParameters struct {
-	AvailabilityZone string `json:"availability_zone"`
+	Tags             map[string]string `json:"tags"`
+	AvailabilityZone string            `json:"availability_zone"`
 }
 
 // A VpnGatewayStatus defines the observed state of a VpnGateway

@@ -52,9 +52,15 @@ type ElasticacheParameterGroupSpec struct {
 
 // A ElasticacheParameterGroupParameters defines the desired state of a ElasticacheParameterGroup
 type ElasticacheParameterGroupParameters struct {
-	Family      string `json:"family"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name        string      `json:"name"`
+	Description string      `json:"description"`
+	Family      string      `json:"family"`
+	Parameter   []Parameter `json:"parameter"`
+}
+
+type Parameter struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // A ElasticacheParameterGroupStatus defines the observed state of a ElasticacheParameterGroup

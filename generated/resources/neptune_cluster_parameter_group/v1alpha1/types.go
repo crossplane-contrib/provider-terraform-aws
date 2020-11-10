@@ -52,8 +52,16 @@ type NeptuneClusterParameterGroupSpec struct {
 
 // A NeptuneClusterParameterGroupParameters defines the desired state of a NeptuneClusterParameterGroup
 type NeptuneClusterParameterGroupParameters struct {
-	Description string `json:"description"`
-	Family      string `json:"family"`
+	Description string            `json:"description"`
+	Family      string            `json:"family"`
+	Tags        map[string]string `json:"tags"`
+	Parameter   []Parameter       `json:"parameter"`
+}
+
+type Parameter struct {
+	ApplyMethod string `json:"apply_method"`
+	Name        string `json:"name"`
+	Value       string `json:"value"`
 }
 
 // A NeptuneClusterParameterGroupStatus defines the observed state of a NeptuneClusterParameterGroup
@@ -64,8 +72,8 @@ type NeptuneClusterParameterGroupStatus struct {
 
 // A NeptuneClusterParameterGroupObservation records the observed state of a NeptuneClusterParameterGroup
 type NeptuneClusterParameterGroupObservation struct {
-	Name       string `json:"name"`
-	NamePrefix string `json:"name_prefix"`
 	Arn        string `json:"arn"`
 	Id         string `json:"id"`
+	Name       string `json:"name"`
+	NamePrefix string `json:"name_prefix"`
 }

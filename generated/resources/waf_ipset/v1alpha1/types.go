@@ -52,7 +52,13 @@ type WafIpsetSpec struct {
 
 // A WafIpsetParameters defines the desired state of a WafIpset
 type WafIpsetParameters struct {
-	Name string `json:"name"`
+	Name             string             `json:"name"`
+	IpSetDescriptors []IpSetDescriptors `json:"ip_set_descriptors"`
+}
+
+type IpSetDescriptors struct {
+	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
 // A WafIpsetStatus defines the observed state of a WafIpset
