@@ -52,15 +52,16 @@ type ConfigConfigurationRecorderSpec struct {
 
 // A ConfigConfigurationRecorderParameters defines the desired state of a ConfigConfigurationRecorder
 type ConfigConfigurationRecorderParameters struct {
+	Id             string         `json:"id"`
 	Name           string         `json:"name"`
 	RoleArn        string         `json:"role_arn"`
 	RecordingGroup RecordingGroup `json:"recording_group"`
 }
 
 type RecordingGroup struct {
-	AllSupported               bool     `json:"all_supported"`
 	IncludeGlobalResourceTypes bool     `json:"include_global_resource_types"`
 	ResourceTypes              []string `json:"resource_types"`
+	AllSupported               bool     `json:"all_supported"`
 }
 
 // A ConfigConfigurationRecorderStatus defines the observed state of a ConfigConfigurationRecorder
@@ -70,6 +71,4 @@ type ConfigConfigurationRecorderStatus struct {
 }
 
 // A ConfigConfigurationRecorderObservation records the observed state of a ConfigConfigurationRecorder
-type ConfigConfigurationRecorderObservation struct {
-	Id string `json:"id"`
-}
+type ConfigConfigurationRecorderObservation struct{}

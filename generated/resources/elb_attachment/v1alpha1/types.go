@@ -53,6 +53,7 @@ type ElbAttachmentSpec struct {
 // A ElbAttachmentParameters defines the desired state of a ElbAttachment
 type ElbAttachmentParameters struct {
 	Elb      string `json:"elb"`
+	Id       string `json:"id"`
 	Instance string `json:"instance"`
 }
 
@@ -63,6 +64,4 @@ type ElbAttachmentStatus struct {
 }
 
 // A ElbAttachmentObservation records the observed state of a ElbAttachment
-type ElbAttachmentObservation struct {
-	Id string `json:"id"`
-}
+type ElbAttachmentObservation struct{}

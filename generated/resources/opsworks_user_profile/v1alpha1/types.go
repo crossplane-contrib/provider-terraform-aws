@@ -53,6 +53,7 @@ type OpsworksUserProfileSpec struct {
 // A OpsworksUserProfileParameters defines the desired state of a OpsworksUserProfile
 type OpsworksUserProfileParameters struct {
 	AllowSelfManagement bool   `json:"allow_self_management"`
+	Id                  string `json:"id"`
 	SshPublicKey        string `json:"ssh_public_key"`
 	SshUsername         string `json:"ssh_username"`
 	UserArn             string `json:"user_arn"`
@@ -65,6 +66,4 @@ type OpsworksUserProfileStatus struct {
 }
 
 // A OpsworksUserProfileObservation records the observed state of a OpsworksUserProfile
-type OpsworksUserProfileObservation struct {
-	Id string `json:"id"`
-}
+type OpsworksUserProfileObservation struct{}

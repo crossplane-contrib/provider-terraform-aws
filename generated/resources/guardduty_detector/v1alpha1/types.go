@@ -52,8 +52,10 @@ type GuarddutyDetectorSpec struct {
 
 // A GuarddutyDetectorParameters defines the desired state of a GuarddutyDetector
 type GuarddutyDetectorParameters struct {
-	Enable bool              `json:"enable"`
-	Tags   map[string]string `json:"tags"`
+	Enable                     bool              `json:"enable"`
+	FindingPublishingFrequency string            `json:"finding_publishing_frequency"`
+	Id                         string            `json:"id"`
+	Tags                       map[string]string `json:"tags"`
 }
 
 // A GuarddutyDetectorStatus defines the observed state of a GuarddutyDetector
@@ -64,8 +66,6 @@ type GuarddutyDetectorStatus struct {
 
 // A GuarddutyDetectorObservation records the observed state of a GuarddutyDetector
 type GuarddutyDetectorObservation struct {
-	Arn                        string `json:"arn"`
-	FindingPublishingFrequency string `json:"finding_publishing_frequency"`
-	Id                         string `json:"id"`
-	AccountId                  string `json:"account_id"`
+	AccountId string `json:"account_id"`
+	Arn       string `json:"arn"`
 }

@@ -54,6 +54,7 @@ type CloudwatchLogDestinationPolicySpec struct {
 type CloudwatchLogDestinationPolicyParameters struct {
 	AccessPolicy    string `json:"access_policy"`
 	DestinationName string `json:"destination_name"`
+	Id              string `json:"id"`
 }
 
 // A CloudwatchLogDestinationPolicyStatus defines the observed state of a CloudwatchLogDestinationPolicy
@@ -63,6 +64,4 @@ type CloudwatchLogDestinationPolicyStatus struct {
 }
 
 // A CloudwatchLogDestinationPolicyObservation records the observed state of a CloudwatchLogDestinationPolicy
-type CloudwatchLogDestinationPolicyObservation struct {
-	Id string `json:"id"`
-}
+type CloudwatchLogDestinationPolicyObservation struct{}

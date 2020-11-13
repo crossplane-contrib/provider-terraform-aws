@@ -52,31 +52,32 @@ type OpsworksHaproxyLayerSpec struct {
 
 // A OpsworksHaproxyLayerParameters defines the desired state of a OpsworksHaproxyLayer
 type OpsworksHaproxyLayerParameters struct {
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
 	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	HealthcheckMethod        string            `json:"healthcheck_method"`
+	StatsEnabled             bool              `json:"stats_enabled"`
+	StatsUrl                 string            `json:"stats_url"`
+	Name                     string            `json:"name"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	StatsPassword            string            `json:"stats_password"`
+	SystemPackages           []string          `json:"system_packages"`
 	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
 	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	SystemPackages           []string          `json:"system_packages"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	StackId                  string            `json:"stack_id"`
-	StatsPassword            string            `json:"stats_password"`
-	StatsUser                string            `json:"stats_user"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	HealthcheckUrl           string            `json:"healthcheck_url"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	Name                     string            `json:"name"`
-	StatsEnabled             bool              `json:"stats_enabled"`
 	Tags                     map[string]string `json:"tags"`
+	StatsUser                string            `json:"stats_user"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
 	CustomJson               string            `json:"custom_json"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	HealthcheckMethod        string            `json:"healthcheck_method"`
-	StatsUrl                 string            `json:"stats_url"`
-	AutoHealing              bool              `json:"auto_healing"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
+	HealthcheckUrl           string            `json:"healthcheck_url"`
+	Id                       string            `json:"id"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	StackId                  string            `json:"stack_id"`
+	AutoHealing              bool              `json:"auto_healing"`
 	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
 	EbsVolume                []EbsVolume       `json:"ebs_volume"`
 }
@@ -100,5 +101,4 @@ type OpsworksHaproxyLayerStatus struct {
 // A OpsworksHaproxyLayerObservation records the observed state of a OpsworksHaproxyLayer
 type OpsworksHaproxyLayerObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

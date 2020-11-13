@@ -54,6 +54,7 @@ type SnsTopicPolicySpec struct {
 type SnsTopicPolicyParameters struct {
 	Policy string `json:"policy"`
 	Arn    string `json:"arn"`
+	Id     string `json:"id"`
 }
 
 // A SnsTopicPolicyStatus defines the observed state of a SnsTopicPolicy
@@ -63,6 +64,4 @@ type SnsTopicPolicyStatus struct {
 }
 
 // A SnsTopicPolicyObservation records the observed state of a SnsTopicPolicy
-type SnsTopicPolicyObservation struct {
-	Id string `json:"id"`
-}
+type SnsTopicPolicyObservation struct{}

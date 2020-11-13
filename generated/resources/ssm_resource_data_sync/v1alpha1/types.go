@@ -52,6 +52,7 @@ type SsmResourceDataSyncSpec struct {
 
 // A SsmResourceDataSyncParameters defines the desired state of a SsmResourceDataSync
 type SsmResourceDataSyncParameters struct {
+	Id            string        `json:"id"`
 	Name          string        `json:"name"`
 	S3Destination S3Destination `json:"s3_destination"`
 }
@@ -71,6 +72,4 @@ type SsmResourceDataSyncStatus struct {
 }
 
 // A SsmResourceDataSyncObservation records the observed state of a SsmResourceDataSync
-type SsmResourceDataSyncObservation struct {
-	Id string `json:"id"`
-}
+type SsmResourceDataSyncObservation struct{}

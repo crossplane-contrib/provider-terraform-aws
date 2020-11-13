@@ -54,6 +54,7 @@ type ApiGatewayModelSpec struct {
 type ApiGatewayModelParameters struct {
 	ContentType string `json:"content_type"`
 	Description string `json:"description"`
+	Id          string `json:"id"`
 	Name        string `json:"name"`
 	RestApiId   string `json:"rest_api_id"`
 	Schema      string `json:"schema"`
@@ -66,6 +67,4 @@ type ApiGatewayModelStatus struct {
 }
 
 // A ApiGatewayModelObservation records the observed state of a ApiGatewayModel
-type ApiGatewayModelObservation struct {
-	Id string `json:"id"`
-}
+type ApiGatewayModelObservation struct{}

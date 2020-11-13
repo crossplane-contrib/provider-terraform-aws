@@ -52,9 +52,10 @@ type RamResourceShareSpec struct {
 
 // A RamResourceShareParameters defines the desired state of a RamResourceShare
 type RamResourceShareParameters struct {
+	AllowExternalPrincipals bool              `json:"allow_external_principals"`
+	Id                      string            `json:"id"`
 	Name                    string            `json:"name"`
 	Tags                    map[string]string `json:"tags"`
-	AllowExternalPrincipals bool              `json:"allow_external_principals"`
 	Timeouts                []Timeouts        `json:"timeouts"`
 }
 
@@ -71,6 +72,5 @@ type RamResourceShareStatus struct {
 
 // A RamResourceShareObservation records the observed state of a RamResourceShare
 type RamResourceShareObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

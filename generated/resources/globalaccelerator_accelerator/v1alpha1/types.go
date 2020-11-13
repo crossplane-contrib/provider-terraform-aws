@@ -52,10 +52,11 @@ type GlobalacceleratorAcceleratorSpec struct {
 
 // A GlobalacceleratorAcceleratorParameters defines the desired state of a GlobalacceleratorAccelerator
 type GlobalacceleratorAcceleratorParameters struct {
+	Enabled       bool              `json:"enabled"`
+	Id            string            `json:"id"`
 	IpAddressType string            `json:"ip_address_type"`
 	Name          string            `json:"name"`
 	Tags          map[string]string `json:"tags"`
-	Enabled       bool              `json:"enabled"`
 	Attributes    Attributes        `json:"attributes"`
 }
 
@@ -73,7 +74,12 @@ type GlobalacceleratorAcceleratorStatus struct {
 
 // A GlobalacceleratorAcceleratorObservation records the observed state of a GlobalacceleratorAccelerator
 type GlobalacceleratorAcceleratorObservation struct {
-	Id           string `json:"id"`
-	DnsName      string `json:"dns_name"`
-	HostedZoneId string `json:"hosted_zone_id"`
+	HostedZoneId string   `json:"hosted_zone_id"`
+	IpSets       []IpSets `json:"ip_sets"`
+	DnsName      string   `json:"dns_name"`
+}
+
+type IpSets struct {
+	IpAddresses []string `json:"ip_addresses"`
+	IpFamily    string   `json:"ip_family"`
 }

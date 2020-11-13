@@ -52,23 +52,21 @@ type SesReceiptRuleSpec struct {
 
 // A SesReceiptRuleParameters defines the desired state of a SesReceiptRule
 type SesReceiptRuleParameters struct {
-	RuleSetName     string            `json:"rule_set_name"`
-	After           string            `json:"after"`
+	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	Recipients      []string          `json:"recipients"`
-	AddHeaderAction []AddHeaderAction `json:"add_header_action"`
+	RuleSetName     string            `json:"rule_set_name"`
+	ScanEnabled     bool              `json:"scan_enabled"`
+	TlsPolicy       string            `json:"tls_policy"`
+	After           string            `json:"after"`
+	Enabled         bool              `json:"enabled"`
 	BounceAction    []BounceAction    `json:"bounce_action"`
 	LambdaAction    []LambdaAction    `json:"lambda_action"`
 	S3Action        []S3Action        `json:"s3_action"`
 	SnsAction       []SnsAction       `json:"sns_action"`
 	StopAction      []StopAction      `json:"stop_action"`
 	WorkmailAction  []WorkmailAction  `json:"workmail_action"`
-}
-
-type AddHeaderAction struct {
-	HeaderName  string `json:"header_name"`
-	HeaderValue string `json:"header_value"`
-	Position    int    `json:"position"`
+	AddHeaderAction []AddHeaderAction `json:"add_header_action"`
 }
 
 type BounceAction struct {
@@ -112,6 +110,12 @@ type WorkmailAction struct {
 	TopicArn        string `json:"topic_arn"`
 }
 
+type AddHeaderAction struct {
+	HeaderName  string `json:"header_name"`
+	HeaderValue string `json:"header_value"`
+	Position    int    `json:"position"`
+}
+
 // A SesReceiptRuleStatus defines the observed state of a SesReceiptRule
 type SesReceiptRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -119,9 +123,4 @@ type SesReceiptRuleStatus struct {
 }
 
 // A SesReceiptRuleObservation records the observed state of a SesReceiptRule
-type SesReceiptRuleObservation struct {
-	ScanEnabled bool   `json:"scan_enabled"`
-	TlsPolicy   string `json:"tls_policy"`
-	Enabled     bool   `json:"enabled"`
-	Id          string `json:"id"`
-}
+type SesReceiptRuleObservation struct{}

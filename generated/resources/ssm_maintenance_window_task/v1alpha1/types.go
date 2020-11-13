@@ -52,15 +52,16 @@ type SsmMaintenanceWindowTaskSpec struct {
 
 // A SsmMaintenanceWindowTaskParameters defines the desired state of a SsmMaintenanceWindowTask
 type SsmMaintenanceWindowTaskParameters struct {
-	WindowId                 string                   `json:"window_id"`
 	Description              string                   `json:"description"`
-	MaxConcurrency           string                   `json:"max_concurrency"`
 	MaxErrors                string                   `json:"max_errors"`
-	Priority                 int                      `json:"priority"`
+	TaskType                 string                   `json:"task_type"`
+	WindowId                 string                   `json:"window_id"`
+	Id                       string                   `json:"id"`
+	MaxConcurrency           string                   `json:"max_concurrency"`
 	Name                     string                   `json:"name"`
+	Priority                 int                      `json:"priority"`
 	ServiceRoleArn           string                   `json:"service_role_arn"`
 	TaskArn                  string                   `json:"task_arn"`
-	TaskType                 string                   `json:"task_type"`
 	Targets                  []Targets                `json:"targets"`
 	TaskInvocationParameters TaskInvocationParameters `json:"task_invocation_parameters"`
 }
@@ -112,8 +113,8 @@ type NotificationConfig struct {
 }
 
 type Parameter struct {
-	Values []string `json:"values"`
 	Name   string   `json:"name"`
+	Values []string `json:"values"`
 }
 
 type StepFunctionsParameters struct {
@@ -128,6 +129,4 @@ type SsmMaintenanceWindowTaskStatus struct {
 }
 
 // A SsmMaintenanceWindowTaskObservation records the observed state of a SsmMaintenanceWindowTask
-type SsmMaintenanceWindowTaskObservation struct {
-	Id string `json:"id"`
-}
+type SsmMaintenanceWindowTaskObservation struct{}

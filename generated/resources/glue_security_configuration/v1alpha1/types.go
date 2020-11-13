@@ -52,6 +52,7 @@ type GlueSecurityConfigurationSpec struct {
 
 // A GlueSecurityConfigurationParameters defines the desired state of a GlueSecurityConfiguration
 type GlueSecurityConfigurationParameters struct {
+	Id                      string                  `json:"id"`
 	Name                    string                  `json:"name"`
 	EncryptionConfiguration EncryptionConfiguration `json:"encryption_configuration"`
 }
@@ -84,6 +85,4 @@ type GlueSecurityConfigurationStatus struct {
 }
 
 // A GlueSecurityConfigurationObservation records the observed state of a GlueSecurityConfiguration
-type GlueSecurityConfigurationObservation struct {
-	Id string `json:"id"`
-}
+type GlueSecurityConfigurationObservation struct{}

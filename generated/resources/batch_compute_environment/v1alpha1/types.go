@@ -52,35 +52,37 @@ type BatchComputeEnvironmentSpec struct {
 
 // A BatchComputeEnvironmentParameters defines the desired state of a BatchComputeEnvironment
 type BatchComputeEnvironmentParameters struct {
+	Id                           string           `json:"id"`
 	ServiceRole                  string           `json:"service_role"`
 	ComputeEnvironmentNamePrefix string           `json:"compute_environment_name_prefix"`
 	State                        string           `json:"state"`
 	Type                         string           `json:"type"`
+	ComputeEnvironmentName       string           `json:"compute_environment_name"`
 	ComputeResources             ComputeResources `json:"compute_resources"`
 }
 
 type ComputeResources struct {
 	BidPercentage      int               `json:"bid_percentage"`
-	Ec2KeyPair         string            `json:"ec2_key_pair"`
-	ImageId            string            `json:"image_id"`
-	AllocationStrategy string            `json:"allocation_strategy"`
-	InstanceType       []string          `json:"instance_type"`
 	MinVcpus           int               `json:"min_vcpus"`
-	Subnets            []string          `json:"subnets"`
-	Type               string            `json:"type"`
-	InstanceRole       string            `json:"instance_role"`
-	SpotIamFleetRole   string            `json:"spot_iam_fleet_role"`
-	DesiredVcpus       int               `json:"desired_vcpus"`
-	MaxVcpus           int               `json:"max_vcpus"`
 	SecurityGroupIds   []string          `json:"security_group_ids"`
+	SpotIamFleetRole   string            `json:"spot_iam_fleet_role"`
+	Type               string            `json:"type"`
+	InstanceType       []string          `json:"instance_type"`
+	AllocationStrategy string            `json:"allocation_strategy"`
+	DesiredVcpus       int               `json:"desired_vcpus"`
+	ImageId            string            `json:"image_id"`
+	InstanceRole       string            `json:"instance_role"`
+	Ec2KeyPair         string            `json:"ec2_key_pair"`
+	MaxVcpus           int               `json:"max_vcpus"`
+	Subnets            []string          `json:"subnets"`
 	Tags               map[string]string `json:"tags"`
 	LaunchTemplate     LaunchTemplate    `json:"launch_template"`
 }
 
 type LaunchTemplate struct {
+	LaunchTemplateId   string `json:"launch_template_id"`
 	LaunchTemplateName string `json:"launch_template_name"`
 	Version            string `json:"version"`
-	LaunchTemplateId   string `json:"launch_template_id"`
 }
 
 // A BatchComputeEnvironmentStatus defines the observed state of a BatchComputeEnvironment
@@ -91,10 +93,8 @@ type BatchComputeEnvironmentStatus struct {
 
 // A BatchComputeEnvironmentObservation records the observed state of a BatchComputeEnvironment
 type BatchComputeEnvironmentObservation struct {
-	Arn                    string `json:"arn"`
-	ComputeEnvironmentName string `json:"compute_environment_name"`
-	EcsClusterArn          string `json:"ecs_cluster_arn"`
-	Status                 string `json:"status"`
-	Id                     string `json:"id"`
-	StatusReason           string `json:"status_reason"`
+	Status        string `json:"status"`
+	StatusReason  string `json:"status_reason"`
+	Arn           string `json:"arn"`
+	EcsClusterArn string `json:"ecs_cluster_arn"`
 }

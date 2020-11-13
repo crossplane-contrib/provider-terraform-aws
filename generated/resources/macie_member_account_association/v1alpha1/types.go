@@ -52,6 +52,7 @@ type MacieMemberAccountAssociationSpec struct {
 
 // A MacieMemberAccountAssociationParameters defines the desired state of a MacieMemberAccountAssociation
 type MacieMemberAccountAssociationParameters struct {
+	Id              string `json:"id"`
 	MemberAccountId string `json:"member_account_id"`
 }
 
@@ -62,6 +63,4 @@ type MacieMemberAccountAssociationStatus struct {
 }
 
 // A MacieMemberAccountAssociationObservation records the observed state of a MacieMemberAccountAssociation
-type MacieMemberAccountAssociationObservation struct {
-	Id string `json:"id"`
-}
+type MacieMemberAccountAssociationObservation struct{}

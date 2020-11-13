@@ -52,9 +52,10 @@ type Ec2TrafficMirrorFilterSpec struct {
 
 // A Ec2TrafficMirrorFilterParameters defines the desired state of a Ec2TrafficMirrorFilter
 type Ec2TrafficMirrorFilterParameters struct {
+	Description     string            `json:"description"`
+	Id              string            `json:"id"`
 	NetworkServices []string          `json:"network_services"`
 	Tags            map[string]string `json:"tags"`
-	Description     string            `json:"description"`
 }
 
 // A Ec2TrafficMirrorFilterStatus defines the observed state of a Ec2TrafficMirrorFilter
@@ -64,6 +65,4 @@ type Ec2TrafficMirrorFilterStatus struct {
 }
 
 // A Ec2TrafficMirrorFilterObservation records the observed state of a Ec2TrafficMirrorFilter
-type Ec2TrafficMirrorFilterObservation struct {
-	Id string `json:"id"`
-}
+type Ec2TrafficMirrorFilterObservation struct{}

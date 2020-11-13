@@ -52,17 +52,18 @@ type Apigatewayv2RouteSpec struct {
 
 // A Apigatewayv2RouteParameters defines the desired state of a Apigatewayv2Route
 type Apigatewayv2RouteParameters struct {
-	Target                           string            `json:"target"`
-	AuthorizationScopes              []string          `json:"authorization_scopes"`
-	AuthorizerId                     string            `json:"authorizer_id"`
-	ModelSelectionExpression         string            `json:"model_selection_expression"`
+	AuthorizationType                string            `json:"authorization_type"`
+	Id                               string            `json:"id"`
 	OperationName                    string            `json:"operation_name"`
 	RequestModels                    map[string]string `json:"request_models"`
 	RouteKey                         string            `json:"route_key"`
 	RouteResponseSelectionExpression string            `json:"route_response_selection_expression"`
-	ApiId                            string            `json:"api_id"`
 	ApiKeyRequired                   bool              `json:"api_key_required"`
-	AuthorizationType                string            `json:"authorization_type"`
+	AuthorizationScopes              []string          `json:"authorization_scopes"`
+	ModelSelectionExpression         string            `json:"model_selection_expression"`
+	Target                           string            `json:"target"`
+	ApiId                            string            `json:"api_id"`
+	AuthorizerId                     string            `json:"authorizer_id"`
 }
 
 // A Apigatewayv2RouteStatus defines the observed state of a Apigatewayv2Route
@@ -72,6 +73,4 @@ type Apigatewayv2RouteStatus struct {
 }
 
 // A Apigatewayv2RouteObservation records the observed state of a Apigatewayv2Route
-type Apigatewayv2RouteObservation struct {
-	Id string `json:"id"`
-}
+type Apigatewayv2RouteObservation struct{}

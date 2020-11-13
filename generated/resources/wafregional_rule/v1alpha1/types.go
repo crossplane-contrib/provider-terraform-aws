@@ -55,6 +55,7 @@ type WafregionalRuleParameters struct {
 	MetricName string            `json:"metric_name"`
 	Name       string            `json:"name"`
 	Tags       map[string]string `json:"tags"`
+	Id         string            `json:"id"`
 	Predicate  []Predicate       `json:"predicate"`
 }
 
@@ -73,5 +74,4 @@ type WafregionalRuleStatus struct {
 // A WafregionalRuleObservation records the observed state of a WafregionalRule
 type WafregionalRuleObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

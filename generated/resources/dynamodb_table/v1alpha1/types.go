@@ -53,13 +53,16 @@ type DynamodbTableSpec struct {
 // A DynamodbTableParameters defines the desired state of a DynamodbTable
 type DynamodbTableParameters struct {
 	Name                 string                 `json:"name"`
-	StreamEnabled        bool                   `json:"stream_enabled"`
-	Tags                 map[string]string      `json:"tags"`
-	BillingMode          string                 `json:"billing_mode"`
-	WriteCapacity        int                    `json:"write_capacity"`
 	ReadCapacity         int                    `json:"read_capacity"`
+	StreamViewType       string                 `json:"stream_view_type"`
+	Tags                 map[string]string      `json:"tags"`
+	WriteCapacity        int                    `json:"write_capacity"`
 	HashKey              string                 `json:"hash_key"`
+	Id                   string                 `json:"id"`
 	RangeKey             string                 `json:"range_key"`
+	StreamEnabled        bool                   `json:"stream_enabled"`
+	BillingMode          string                 `json:"billing_mode"`
+	Timeouts             []Timeouts             `json:"timeouts"`
 	Ttl                  Ttl                    `json:"ttl"`
 	Attribute            []Attribute            `json:"attribute"`
 	GlobalSecondaryIndex []GlobalSecondaryIndex `json:"global_secondary_index"`
@@ -67,12 +70,17 @@ type DynamodbTableParameters struct {
 	PointInTimeRecovery  PointInTimeRecovery    `json:"point_in_time_recovery"`
 	Replica              []Replica              `json:"replica"`
 	ServerSideEncryption ServerSideEncryption   `json:"server_side_encryption"`
-	Timeouts             []Timeouts             `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 type Ttl struct {
-	Enabled       bool   `json:"enabled"`
 	AttributeName string `json:"attribute_name"`
+	Enabled       bool   `json:"enabled"`
 }
 
 type Attribute struct {
@@ -81,20 +89,20 @@ type Attribute struct {
 }
 
 type GlobalSecondaryIndex struct {
+	Name             string   `json:"name"`
+	NonKeyAttributes []string `json:"non_key_attributes"`
 	ProjectionType   string   `json:"projection_type"`
 	RangeKey         string   `json:"range_key"`
 	ReadCapacity     int      `json:"read_capacity"`
 	WriteCapacity    int      `json:"write_capacity"`
 	HashKey          string   `json:"hash_key"`
-	Name             string   `json:"name"`
-	NonKeyAttributes []string `json:"non_key_attributes"`
 }
 
 type LocalSecondaryIndex struct {
-	Name             string   `json:"name"`
 	NonKeyAttributes []string `json:"non_key_attributes"`
 	ProjectionType   string   `json:"projection_type"`
 	RangeKey         string   `json:"range_key"`
+	Name             string   `json:"name"`
 }
 
 type PointInTimeRecovery struct {
@@ -110,12 +118,6 @@ type ServerSideEncryption struct {
 	KmsKeyArn string `json:"kms_key_arn"`
 }
 
-type Timeouts struct {
-	Create string `json:"create"`
-	Delete string `json:"delete"`
-	Update string `json:"update"`
-}
-
 // A DynamodbTableStatus defines the observed state of a DynamodbTable
 type DynamodbTableStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -124,9 +126,7 @@ type DynamodbTableStatus struct {
 
 // A DynamodbTableObservation records the observed state of a DynamodbTable
 type DynamodbTableObservation struct {
-	Id             string `json:"id"`
-	StreamArn      string `json:"stream_arn"`
-	StreamViewType string `json:"stream_view_type"`
-	Arn            string `json:"arn"`
-	StreamLabel    string `json:"stream_label"`
+	StreamArn   string `json:"stream_arn"`
+	Arn         string `json:"arn"`
+	StreamLabel string `json:"stream_label"`
 }

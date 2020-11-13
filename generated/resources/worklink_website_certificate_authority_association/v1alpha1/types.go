@@ -55,6 +55,7 @@ type WorklinkWebsiteCertificateAuthorityAssociationParameters struct {
 	Certificate string `json:"certificate"`
 	DisplayName string `json:"display_name"`
 	FleetArn    string `json:"fleet_arn"`
+	Id          string `json:"id"`
 }
 
 // A WorklinkWebsiteCertificateAuthorityAssociationStatus defines the observed state of a WorklinkWebsiteCertificateAuthorityAssociation
@@ -66,5 +67,4 @@ type WorklinkWebsiteCertificateAuthorityAssociationStatus struct {
 // A WorklinkWebsiteCertificateAuthorityAssociationObservation records the observed state of a WorklinkWebsiteCertificateAuthorityAssociation
 type WorklinkWebsiteCertificateAuthorityAssociationObservation struct {
 	WebsiteCaId string `json:"website_ca_id"`
-	Id          string `json:"id"`
 }

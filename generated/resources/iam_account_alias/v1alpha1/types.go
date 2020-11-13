@@ -53,6 +53,7 @@ type IamAccountAliasSpec struct {
 // A IamAccountAliasParameters defines the desired state of a IamAccountAlias
 type IamAccountAliasParameters struct {
 	AccountAlias string `json:"account_alias"`
+	Id           string `json:"id"`
 }
 
 // A IamAccountAliasStatus defines the observed state of a IamAccountAlias
@@ -62,6 +63,4 @@ type IamAccountAliasStatus struct {
 }
 
 // A IamAccountAliasObservation records the observed state of a IamAccountAlias
-type IamAccountAliasObservation struct {
-	Id string `json:"id"`
-}
+type IamAccountAliasObservation struct{}

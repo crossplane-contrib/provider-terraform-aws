@@ -56,6 +56,7 @@ type GameliftGameSessionQueueParameters struct {
 	Tags                map[string]string     `json:"tags"`
 	TimeoutInSeconds    int                   `json:"timeout_in_seconds"`
 	Destinations        []string              `json:"destinations"`
+	Id                  string                `json:"id"`
 	PlayerLatencyPolicy []PlayerLatencyPolicy `json:"player_latency_policy"`
 }
 
@@ -72,6 +73,5 @@ type GameliftGameSessionQueueStatus struct {
 
 // A GameliftGameSessionQueueObservation records the observed state of a GameliftGameSessionQueue
 type GameliftGameSessionQueueObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

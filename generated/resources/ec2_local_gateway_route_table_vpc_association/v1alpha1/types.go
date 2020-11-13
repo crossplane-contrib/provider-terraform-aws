@@ -52,6 +52,7 @@ type Ec2LocalGatewayRouteTableVpcAssociationSpec struct {
 
 // A Ec2LocalGatewayRouteTableVpcAssociationParameters defines the desired state of a Ec2LocalGatewayRouteTableVpcAssociation
 type Ec2LocalGatewayRouteTableVpcAssociationParameters struct {
+	Id                       string            `json:"id"`
 	LocalGatewayRouteTableId string            `json:"local_gateway_route_table_id"`
 	Tags                     map[string]string `json:"tags"`
 	VpcId                    string            `json:"vpc_id"`
@@ -65,6 +66,5 @@ type Ec2LocalGatewayRouteTableVpcAssociationStatus struct {
 
 // A Ec2LocalGatewayRouteTableVpcAssociationObservation records the observed state of a Ec2LocalGatewayRouteTableVpcAssociation
 type Ec2LocalGatewayRouteTableVpcAssociationObservation struct {
-	Id             string `json:"id"`
 	LocalGatewayId string `json:"local_gateway_id"`
 }

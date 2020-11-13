@@ -52,11 +52,12 @@ type MediaConvertQueueSpec struct {
 
 // A MediaConvertQueueParameters defines the desired state of a MediaConvertQueue
 type MediaConvertQueueParameters struct {
+	Name                    string                  `json:"name"`
 	PricingPlan             string                  `json:"pricing_plan"`
 	Status                  string                  `json:"status"`
 	Tags                    map[string]string       `json:"tags"`
 	Description             string                  `json:"description"`
-	Name                    string                  `json:"name"`
+	Id                      string                  `json:"id"`
 	ReservationPlanSettings ReservationPlanSettings `json:"reservation_plan_settings"`
 }
 
@@ -75,5 +76,4 @@ type MediaConvertQueueStatus struct {
 // A MediaConvertQueueObservation records the observed state of a MediaConvertQueue
 type MediaConvertQueueObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

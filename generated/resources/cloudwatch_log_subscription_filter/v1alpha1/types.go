@@ -54,9 +54,11 @@ type CloudwatchLogSubscriptionFilterSpec struct {
 type CloudwatchLogSubscriptionFilterParameters struct {
 	LogGroupName   string `json:"log_group_name"`
 	Name           string `json:"name"`
+	RoleArn        string `json:"role_arn"`
 	DestinationArn string `json:"destination_arn"`
 	Distribution   string `json:"distribution"`
 	FilterPattern  string `json:"filter_pattern"`
+	Id             string `json:"id"`
 }
 
 // A CloudwatchLogSubscriptionFilterStatus defines the observed state of a CloudwatchLogSubscriptionFilter
@@ -66,7 +68,4 @@ type CloudwatchLogSubscriptionFilterStatus struct {
 }
 
 // A CloudwatchLogSubscriptionFilterObservation records the observed state of a CloudwatchLogSubscriptionFilter
-type CloudwatchLogSubscriptionFilterObservation struct {
-	RoleArn string `json:"role_arn"`
-	Id      string `json:"id"`
-}
+type CloudwatchLogSubscriptionFilterObservation struct{}

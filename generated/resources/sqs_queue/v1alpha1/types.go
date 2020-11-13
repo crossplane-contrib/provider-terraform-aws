@@ -52,17 +52,21 @@ type SqsQueueSpec struct {
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
-	DelaySeconds              int               `json:"delay_seconds"`
-	KmsMasterKeyId            string            `json:"kms_master_key_id"`
-	MessageRetentionSeconds   int               `json:"message_retention_seconds"`
-	ContentBasedDeduplication bool              `json:"content_based_deduplication"`
-	FifoQueue                 bool              `json:"fifo_queue"`
-	RedrivePolicy             string            `json:"redrive_policy"`
-	Tags                      map[string]string `json:"tags"`
-	VisibilityTimeoutSeconds  int               `json:"visibility_timeout_seconds"`
-	MaxMessageSize            int               `json:"max_message_size"`
-	NamePrefix                string            `json:"name_prefix"`
-	ReceiveWaitTimeSeconds    int               `json:"receive_wait_time_seconds"`
+	Policy                       string            `json:"policy"`
+	ReceiveWaitTimeSeconds       int               `json:"receive_wait_time_seconds"`
+	VisibilityTimeoutSeconds     int               `json:"visibility_timeout_seconds"`
+	DelaySeconds                 int               `json:"delay_seconds"`
+	Name                         string            `json:"name"`
+	NamePrefix                   string            `json:"name_prefix"`
+	Id                           string            `json:"id"`
+	KmsMasterKeyId               string            `json:"kms_master_key_id"`
+	Tags                         map[string]string `json:"tags"`
+	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
+	FifoQueue                    bool              `json:"fifo_queue"`
+	MaxMessageSize               int               `json:"max_message_size"`
+	RedrivePolicy                string            `json:"redrive_policy"`
+	KmsDataKeyReusePeriodSeconds int               `json:"kms_data_key_reuse_period_seconds"`
+	MessageRetentionSeconds      int               `json:"message_retention_seconds"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue
@@ -73,9 +77,5 @@ type SqsQueueStatus struct {
 
 // A SqsQueueObservation records the observed state of a SqsQueue
 type SqsQueueObservation struct {
-	Policy                       string `json:"policy"`
-	Arn                          string `json:"arn"`
-	KmsDataKeyReusePeriodSeconds int    `json:"kms_data_key_reuse_period_seconds"`
-	Id                           string `json:"id"`
-	Name                         string `json:"name"`
+	Arn string `json:"arn"`
 }

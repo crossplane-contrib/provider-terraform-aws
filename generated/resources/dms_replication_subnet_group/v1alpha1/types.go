@@ -52,6 +52,7 @@ type DmsReplicationSubnetGroupSpec struct {
 
 // A DmsReplicationSubnetGroupParameters defines the desired state of a DmsReplicationSubnetGroup
 type DmsReplicationSubnetGroupParameters struct {
+	Id                                string            `json:"id"`
 	ReplicationSubnetGroupDescription string            `json:"replication_subnet_group_description"`
 	ReplicationSubnetGroupId          string            `json:"replication_subnet_group_id"`
 	SubnetIds                         []string          `json:"subnet_ids"`
@@ -67,6 +68,5 @@ type DmsReplicationSubnetGroupStatus struct {
 // A DmsReplicationSubnetGroupObservation records the observed state of a DmsReplicationSubnetGroup
 type DmsReplicationSubnetGroupObservation struct {
 	VpcId                     string `json:"vpc_id"`
-	Id                        string `json:"id"`
 	ReplicationSubnetGroupArn string `json:"replication_subnet_group_arn"`
 }

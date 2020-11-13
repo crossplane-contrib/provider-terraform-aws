@@ -52,9 +52,10 @@ type DbInstanceRoleAssociationSpec struct {
 
 // A DbInstanceRoleAssociationParameters defines the desired state of a DbInstanceRoleAssociation
 type DbInstanceRoleAssociationParameters struct {
+	FeatureName          string `json:"feature_name"`
+	Id                   string `json:"id"`
 	RoleArn              string `json:"role_arn"`
 	DbInstanceIdentifier string `json:"db_instance_identifier"`
-	FeatureName          string `json:"feature_name"`
 }
 
 // A DbInstanceRoleAssociationStatus defines the observed state of a DbInstanceRoleAssociation
@@ -64,6 +65,4 @@ type DbInstanceRoleAssociationStatus struct {
 }
 
 // A DbInstanceRoleAssociationObservation records the observed state of a DbInstanceRoleAssociation
-type DbInstanceRoleAssociationObservation struct {
-	Id string `json:"id"`
-}
+type DbInstanceRoleAssociationObservation struct{}

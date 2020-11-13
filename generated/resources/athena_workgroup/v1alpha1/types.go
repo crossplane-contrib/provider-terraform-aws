@@ -52,18 +52,19 @@ type AthenaWorkgroupSpec struct {
 
 // A AthenaWorkgroupParameters defines the desired state of a AthenaWorkgroup
 type AthenaWorkgroupParameters struct {
-	Description   string            `json:"description"`
-	ForceDestroy  bool              `json:"force_destroy"`
-	Name          string            `json:"name"`
 	State         string            `json:"state"`
 	Tags          map[string]string `json:"tags"`
+	Description   string            `json:"description"`
+	ForceDestroy  bool              `json:"force_destroy"`
+	Id            string            `json:"id"`
+	Name          string            `json:"name"`
 	Configuration Configuration     `json:"configuration"`
 }
 
 type Configuration struct {
-	BytesScannedCutoffPerQuery      int                 `json:"bytes_scanned_cutoff_per_query"`
 	EnforceWorkgroupConfiguration   bool                `json:"enforce_workgroup_configuration"`
 	PublishCloudwatchMetricsEnabled bool                `json:"publish_cloudwatch_metrics_enabled"`
+	BytesScannedCutoffPerQuery      int                 `json:"bytes_scanned_cutoff_per_query"`
 	ResultConfiguration             ResultConfiguration `json:"result_configuration"`
 }
 
@@ -86,5 +87,4 @@ type AthenaWorkgroupStatus struct {
 // A AthenaWorkgroupObservation records the observed state of a AthenaWorkgroup
 type AthenaWorkgroupObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

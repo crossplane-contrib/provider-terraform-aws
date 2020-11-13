@@ -52,6 +52,7 @@ type CloudwatchLogStreamSpec struct {
 
 // A CloudwatchLogStreamParameters defines the desired state of a CloudwatchLogStream
 type CloudwatchLogStreamParameters struct {
+	Id           string `json:"id"`
 	LogGroupName string `json:"log_group_name"`
 	Name         string `json:"name"`
 }
@@ -65,5 +66,4 @@ type CloudwatchLogStreamStatus struct {
 // A CloudwatchLogStreamObservation records the observed state of a CloudwatchLogStream
 type CloudwatchLogStreamObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

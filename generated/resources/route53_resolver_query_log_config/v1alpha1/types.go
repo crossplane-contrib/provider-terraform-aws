@@ -55,6 +55,7 @@ type Route53ResolverQueryLogConfigParameters struct {
 	Name           string            `json:"name"`
 	Tags           map[string]string `json:"tags"`
 	DestinationArn string            `json:"destination_arn"`
+	Id             string            `json:"id"`
 }
 
 // A Route53ResolverQueryLogConfigStatus defines the observed state of a Route53ResolverQueryLogConfig
@@ -68,5 +69,4 @@ type Route53ResolverQueryLogConfigObservation struct {
 	OwnerId     string `json:"owner_id"`
 	ShareStatus string `json:"share_status"`
 	Arn         string `json:"arn"`
-	Id          string `json:"id"`
 }

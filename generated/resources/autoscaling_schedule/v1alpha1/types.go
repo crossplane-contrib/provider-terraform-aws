@@ -52,8 +52,15 @@ type AutoscalingScheduleSpec struct {
 
 // A AutoscalingScheduleParameters defines the desired state of a AutoscalingSchedule
 type AutoscalingScheduleParameters struct {
-	AutoscalingGroupName string `json:"autoscaling_group_name"`
+	Recurrence           string `json:"recurrence"`
 	ScheduledActionName  string `json:"scheduled_action_name"`
+	AutoscalingGroupName string `json:"autoscaling_group_name"`
+	EndTime              string `json:"end_time"`
+	MinSize              int    `json:"min_size"`
+	StartTime            string `json:"start_time"`
+	DesiredCapacity      int    `json:"desired_capacity"`
+	Id                   string `json:"id"`
+	MaxSize              int    `json:"max_size"`
 }
 
 // A AutoscalingScheduleStatus defines the observed state of a AutoscalingSchedule
@@ -64,12 +71,5 @@ type AutoscalingScheduleStatus struct {
 
 // A AutoscalingScheduleObservation records the observed state of a AutoscalingSchedule
 type AutoscalingScheduleObservation struct {
-	Arn             string `json:"arn"`
-	EndTime         string `json:"end_time"`
-	Recurrence      string `json:"recurrence"`
-	StartTime       string `json:"start_time"`
-	DesiredCapacity int    `json:"desired_capacity"`
-	Id              string `json:"id"`
-	MaxSize         int    `json:"max_size"`
-	MinSize         int    `json:"min_size"`
+	Arn string `json:"arn"`
 }

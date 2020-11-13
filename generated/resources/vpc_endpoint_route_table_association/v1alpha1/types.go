@@ -52,8 +52,9 @@ type VpcEndpointRouteTableAssociationSpec struct {
 
 // A VpcEndpointRouteTableAssociationParameters defines the desired state of a VpcEndpointRouteTableAssociation
 type VpcEndpointRouteTableAssociationParameters struct {
-	RouteTableId  string `json:"route_table_id"`
 	VpcEndpointId string `json:"vpc_endpoint_id"`
+	Id            string `json:"id"`
+	RouteTableId  string `json:"route_table_id"`
 }
 
 // A VpcEndpointRouteTableAssociationStatus defines the observed state of a VpcEndpointRouteTableAssociation
@@ -63,6 +64,4 @@ type VpcEndpointRouteTableAssociationStatus struct {
 }
 
 // A VpcEndpointRouteTableAssociationObservation records the observed state of a VpcEndpointRouteTableAssociation
-type VpcEndpointRouteTableAssociationObservation struct {
-	Id string `json:"id"`
-}
+type VpcEndpointRouteTableAssociationObservation struct{}

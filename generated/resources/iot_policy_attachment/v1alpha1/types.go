@@ -52,8 +52,9 @@ type IotPolicyAttachmentSpec struct {
 
 // A IotPolicyAttachmentParameters defines the desired state of a IotPolicyAttachment
 type IotPolicyAttachmentParameters struct {
-	Target string `json:"target"`
+	Id     string `json:"id"`
 	Policy string `json:"policy"`
+	Target string `json:"target"`
 }
 
 // A IotPolicyAttachmentStatus defines the observed state of a IotPolicyAttachment
@@ -63,6 +64,4 @@ type IotPolicyAttachmentStatus struct {
 }
 
 // A IotPolicyAttachmentObservation records the observed state of a IotPolicyAttachment
-type IotPolicyAttachmentObservation struct {
-	Id string `json:"id"`
-}
+type IotPolicyAttachmentObservation struct{}

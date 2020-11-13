@@ -55,23 +55,10 @@ type WafregionalWebAclParameters struct {
 	MetricName           string               `json:"metric_name"`
 	Name                 string               `json:"name"`
 	Tags                 map[string]string    `json:"tags"`
-	LoggingConfiguration LoggingConfiguration `json:"logging_configuration"`
+	Id                   string               `json:"id"`
 	Rule                 []Rule               `json:"rule"`
 	DefaultAction        DefaultAction        `json:"default_action"`
-}
-
-type LoggingConfiguration struct {
-	LogDestination string         `json:"log_destination"`
-	RedactedFields RedactedFields `json:"redacted_fields"`
-}
-
-type RedactedFields struct {
-	FieldToMatch []FieldToMatch `json:"field_to_match"`
-}
-
-type FieldToMatch struct {
-	Data string `json:"data"`
-	Type string `json:"type"`
+	LoggingConfiguration LoggingConfiguration `json:"logging_configuration"`
 }
 
 type Rule struct {
@@ -94,6 +81,20 @@ type DefaultAction struct {
 	Type string `json:"type"`
 }
 
+type LoggingConfiguration struct {
+	LogDestination string         `json:"log_destination"`
+	RedactedFields RedactedFields `json:"redacted_fields"`
+}
+
+type RedactedFields struct {
+	FieldToMatch []FieldToMatch `json:"field_to_match"`
+}
+
+type FieldToMatch struct {
+	Data string `json:"data"`
+	Type string `json:"type"`
+}
+
 // A WafregionalWebAclStatus defines the observed state of a WafregionalWebAcl
 type WafregionalWebAclStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -103,5 +104,4 @@ type WafregionalWebAclStatus struct {
 // A WafregionalWebAclObservation records the observed state of a WafregionalWebAcl
 type WafregionalWebAclObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

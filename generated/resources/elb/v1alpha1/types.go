@@ -53,21 +53,29 @@ type ElbSpec struct {
 // A ElbParameters defines the desired state of a Elb
 type ElbParameters struct {
 	ConnectionDraining        bool              `json:"connection_draining"`
+	Id                        string            `json:"id"`
+	Instances                 []string          `json:"instances"`
+	Name                      string            `json:"name"`
 	NamePrefix                string            `json:"name_prefix"`
-	ConnectionDrainingTimeout int               `json:"connection_draining_timeout"`
 	Tags                      map[string]string `json:"tags"`
-	CrossZoneLoadBalancing    bool              `json:"cross_zone_load_balancing"`
+	ConnectionDrainingTimeout int               `json:"connection_draining_timeout"`
 	IdleTimeout               int               `json:"idle_timeout"`
+	Internal                  bool              `json:"internal"`
+	SecurityGroups            []string          `json:"security_groups"`
+	SourceSecurityGroup       string            `json:"source_security_group"`
+	Subnets                   []string          `json:"subnets"`
+	AvailabilityZones         []string          `json:"availability_zones"`
+	CrossZoneLoadBalancing    bool              `json:"cross_zone_load_balancing"`
 	AccessLogs                AccessLogs        `json:"access_logs"`
 	HealthCheck               HealthCheck       `json:"health_check"`
 	Listener                  []Listener        `json:"listener"`
 }
 
 type AccessLogs struct {
-	Enabled      bool   `json:"enabled"`
-	Interval     int    `json:"interval"`
 	Bucket       string `json:"bucket"`
 	BucketPrefix string `json:"bucket_prefix"`
+	Enabled      bool   `json:"enabled"`
+	Interval     int    `json:"interval"`
 }
 
 type HealthCheck struct {
@@ -94,16 +102,8 @@ type ElbStatus struct {
 
 // A ElbObservation records the observed state of a Elb
 type ElbObservation struct {
-	Subnets               []string `json:"subnets"`
-	ZoneId                string   `json:"zone_id"`
-	Name                  string   `json:"name"`
-	SourceSecurityGroupId string   `json:"source_security_group_id"`
-	AvailabilityZones     []string `json:"availability_zones"`
-	Id                    string   `json:"id"`
-	SecurityGroups        []string `json:"security_groups"`
-	SourceSecurityGroup   string   `json:"source_security_group"`
-	Instances             []string `json:"instances"`
-	Internal              bool     `json:"internal"`
-	Arn                   string   `json:"arn"`
-	DnsName               string   `json:"dns_name"`
+	ZoneId                string `json:"zone_id"`
+	Arn                   string `json:"arn"`
+	SourceSecurityGroupId string `json:"source_security_group_id"`
+	DnsName               string `json:"dns_name"`
 }

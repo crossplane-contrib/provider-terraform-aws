@@ -52,6 +52,7 @@ type DxHostedPrivateVirtualInterfaceAccepterSpec struct {
 
 // A DxHostedPrivateVirtualInterfaceAccepterParameters defines the desired state of a DxHostedPrivateVirtualInterfaceAccepter
 type DxHostedPrivateVirtualInterfaceAccepterParameters struct {
+	Id                 string            `json:"id"`
 	Tags               map[string]string `json:"tags"`
 	VirtualInterfaceId string            `json:"virtual_interface_id"`
 	VpnGatewayId       string            `json:"vpn_gateway_id"`
@@ -60,8 +61,8 @@ type DxHostedPrivateVirtualInterfaceAccepterParameters struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A DxHostedPrivateVirtualInterfaceAccepterStatus defines the observed state of a DxHostedPrivateVirtualInterfaceAccepter
@@ -72,6 +73,5 @@ type DxHostedPrivateVirtualInterfaceAccepterStatus struct {
 
 // A DxHostedPrivateVirtualInterfaceAccepterObservation records the observed state of a DxHostedPrivateVirtualInterfaceAccepter
 type DxHostedPrivateVirtualInterfaceAccepterObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

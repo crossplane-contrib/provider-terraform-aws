@@ -52,6 +52,7 @@ type WafregionalXssMatchSetSpec struct {
 
 // A WafregionalXssMatchSetParameters defines the desired state of a WafregionalXssMatchSet
 type WafregionalXssMatchSetParameters struct {
+	Id            string          `json:"id"`
 	Name          string          `json:"name"`
 	XssMatchTuple []XssMatchTuple `json:"xss_match_tuple"`
 }
@@ -62,8 +63,8 @@ type XssMatchTuple struct {
 }
 
 type FieldToMatch struct {
-	Data string `json:"data"`
 	Type string `json:"type"`
+	Data string `json:"data"`
 }
 
 // A WafregionalXssMatchSetStatus defines the observed state of a WafregionalXssMatchSet
@@ -73,6 +74,4 @@ type WafregionalXssMatchSetStatus struct {
 }
 
 // A WafregionalXssMatchSetObservation records the observed state of a WafregionalXssMatchSet
-type WafregionalXssMatchSetObservation struct {
-	Id string `json:"id"`
-}
+type WafregionalXssMatchSetObservation struct{}

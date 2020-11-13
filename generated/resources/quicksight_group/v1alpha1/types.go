@@ -52,9 +52,11 @@ type QuicksightGroupSpec struct {
 
 // A QuicksightGroupParameters defines the desired state of a QuicksightGroup
 type QuicksightGroupParameters struct {
-	Description string `json:"description"`
-	GroupName   string `json:"group_name"`
-	Namespace   string `json:"namespace"`
+	GroupName    string `json:"group_name"`
+	Id           string `json:"id"`
+	Namespace    string `json:"namespace"`
+	AwsAccountId string `json:"aws_account_id"`
+	Description  string `json:"description"`
 }
 
 // A QuicksightGroupStatus defines the observed state of a QuicksightGroup
@@ -65,7 +67,5 @@ type QuicksightGroupStatus struct {
 
 // A QuicksightGroupObservation records the observed state of a QuicksightGroup
 type QuicksightGroupObservation struct {
-	Arn          string `json:"arn"`
-	AwsAccountId string `json:"aws_account_id"`
-	Id           string `json:"id"`
+	Arn string `json:"arn"`
 }

@@ -52,8 +52,9 @@ type SqsQueuePolicySpec struct {
 
 // A SqsQueuePolicyParameters defines the desired state of a SqsQueuePolicy
 type SqsQueuePolicyParameters struct {
-	Policy   string `json:"policy"`
 	QueueUrl string `json:"queue_url"`
+	Id       string `json:"id"`
+	Policy   string `json:"policy"`
 }
 
 // A SqsQueuePolicyStatus defines the observed state of a SqsQueuePolicy
@@ -63,6 +64,4 @@ type SqsQueuePolicyStatus struct {
 }
 
 // A SqsQueuePolicyObservation records the observed state of a SqsQueuePolicy
-type SqsQueuePolicyObservation struct {
-	Id string `json:"id"`
-}
+type SqsQueuePolicyObservation struct{}

@@ -52,18 +52,19 @@ type Apigatewayv2ApiSpec struct {
 
 // A Apigatewayv2ApiParameters defines the desired state of a Apigatewayv2Api
 type Apigatewayv2ApiParameters struct {
+	CredentialsArn            string            `json:"credentials_arn"`
+	RouteKey                  string            `json:"route_key"`
+	RouteSelectionExpression  string            `json:"route_selection_expression"`
+	Version                   string            `json:"version"`
 	Body                      string            `json:"body"`
-	Description               string            `json:"description"`
+	Id                        string            `json:"id"`
+	Tags                      map[string]string `json:"tags"`
 	DisableExecuteApiEndpoint bool              `json:"disable_execute_api_endpoint"`
 	Name                      string            `json:"name"`
 	ProtocolType              string            `json:"protocol_type"`
-	CredentialsArn            string            `json:"credentials_arn"`
-	RouteSelectionExpression  string            `json:"route_selection_expression"`
-	Target                    string            `json:"target"`
 	ApiKeySelectionExpression string            `json:"api_key_selection_expression"`
-	RouteKey                  string            `json:"route_key"`
-	Version                   string            `json:"version"`
-	Tags                      map[string]string `json:"tags"`
+	Description               string            `json:"description"`
+	Target                    string            `json:"target"`
 	CorsConfiguration         CorsConfiguration `json:"cors_configuration"`
 }
 
@@ -86,6 +87,5 @@ type Apigatewayv2ApiStatus struct {
 type Apigatewayv2ApiObservation struct {
 	ExecutionArn string `json:"execution_arn"`
 	ApiEndpoint  string `json:"api_endpoint"`
-	Id           string `json:"id"`
 	Arn          string `json:"arn"`
 }

@@ -52,6 +52,7 @@ type IamGroupMembershipSpec struct {
 
 // A IamGroupMembershipParameters defines the desired state of a IamGroupMembership
 type IamGroupMembershipParameters struct {
+	Id    string   `json:"id"`
 	Name  string   `json:"name"`
 	Users []string `json:"users"`
 	Group string   `json:"group"`
@@ -64,6 +65,4 @@ type IamGroupMembershipStatus struct {
 }
 
 // A IamGroupMembershipObservation records the observed state of a IamGroupMembership
-type IamGroupMembershipObservation struct {
-	Id string `json:"id"`
-}
+type IamGroupMembershipObservation struct{}

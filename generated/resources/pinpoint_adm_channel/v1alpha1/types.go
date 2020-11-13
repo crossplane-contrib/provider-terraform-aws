@@ -56,6 +56,7 @@ type PinpointAdmChannelParameters struct {
 	ClientId      string `json:"client_id"`
 	ClientSecret  string `json:"client_secret"`
 	Enabled       bool   `json:"enabled"`
+	Id            string `json:"id"`
 }
 
 // A PinpointAdmChannelStatus defines the observed state of a PinpointAdmChannel
@@ -65,6 +66,4 @@ type PinpointAdmChannelStatus struct {
 }
 
 // A PinpointAdmChannelObservation records the observed state of a PinpointAdmChannel
-type PinpointAdmChannelObservation struct {
-	Id string `json:"id"`
-}
+type PinpointAdmChannelObservation struct{}

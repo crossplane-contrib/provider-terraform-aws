@@ -52,35 +52,46 @@ type ElasticacheReplicationGroupSpec struct {
 
 // A ElasticacheReplicationGroupParameters defines the desired state of a ElasticacheReplicationGroup
 type ElasticacheReplicationGroupParameters struct {
-	NotificationTopicArn        string            `json:"notification_topic_arn"`
-	KmsKeyId                    string            `json:"kms_key_id"`
-	Tags                        map[string]string `json:"tags"`
-	SnapshotRetentionLimit      int               `json:"snapshot_retention_limit"`
-	TransitEncryptionEnabled    bool              `json:"transit_encryption_enabled"`
-	SnapshotArns                []string          `json:"snapshot_arns"`
-	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
-	AvailabilityZones           []string          `json:"availability_zones"`
+	MaintenanceWindow           string            `json:"maintenance_window"`
+	NumberCacheClusters         int               `json:"number_cache_clusters"`
 	Port                        int               `json:"port"`
-	SnapshotName                string            `json:"snapshot_name"`
+	SecurityGroupNames          []string          `json:"security_group_names"`
 	AtRestEncryptionEnabled     bool              `json:"at_rest_encryption_enabled"`
+	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
+	NodeType                    string            `json:"node_type"`
+	ReplicationGroupId          string            `json:"replication_group_id"`
+	ParameterGroupName          string            `json:"parameter_group_name"`
+	SnapshotName                string            `json:"snapshot_name"`
+	SnapshotWindow              string            `json:"snapshot_window"`
+	ApplyImmediately            bool              `json:"apply_immediately"`
+	Id                          string            `json:"id"`
+	Tags                        map[string]string `json:"tags"`
+	KmsKeyId                    string            `json:"kms_key_id"`
+	SecurityGroupIds            []string          `json:"security_group_ids"`
+	NotificationTopicArn        string            `json:"notification_topic_arn"`
+	AuthToken                   string            `json:"auth_token"`
+	EngineVersion               string            `json:"engine_version"`
+	SubnetGroupName             string            `json:"subnet_group_name"`
 	AutomaticFailoverEnabled    bool              `json:"automatic_failover_enabled"`
+	AvailabilityZones           []string          `json:"availability_zones"`
 	Engine                      string            `json:"engine"`
 	ReplicationGroupDescription string            `json:"replication_group_description"`
-	ReplicationGroupId          string            `json:"replication_group_id"`
-	AuthToken                   string            `json:"auth_token"`
-	ClusterMode                 ClusterMode       `json:"cluster_mode"`
+	SnapshotArns                []string          `json:"snapshot_arns"`
+	SnapshotRetentionLimit      int               `json:"snapshot_retention_limit"`
+	TransitEncryptionEnabled    bool              `json:"transit_encryption_enabled"`
 	Timeouts                    []Timeouts        `json:"timeouts"`
+	ClusterMode                 ClusterMode       `json:"cluster_mode"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 type ClusterMode struct {
 	ReplicasPerNodeGroup int `json:"replicas_per_node_group"`
 	NumNodeGroups        int `json:"num_node_groups"`
-}
-
-type Timeouts struct {
-	Delete string `json:"delete"`
-	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A ElasticacheReplicationGroupStatus defines the observed state of a ElasticacheReplicationGroup
@@ -91,18 +102,7 @@ type ElasticacheReplicationGroupStatus struct {
 
 // A ElasticacheReplicationGroupObservation records the observed state of a ElasticacheReplicationGroup
 type ElasticacheReplicationGroupObservation struct {
-	SubnetGroupName              string   `json:"subnet_group_name"`
-	ConfigurationEndpointAddress string   `json:"configuration_endpoint_address"`
-	SecurityGroupNames           []string `json:"security_group_names"`
 	MemberClusters               []string `json:"member_clusters"`
-	SecurityGroupIds             []string `json:"security_group_ids"`
-	EngineVersion                string   `json:"engine_version"`
-	NumberCacheClusters          int      `json:"number_cache_clusters"`
-	ParameterGroupName           string   `json:"parameter_group_name"`
-	SnapshotWindow               string   `json:"snapshot_window"`
-	Id                           string   `json:"id"`
-	ApplyImmediately             bool     `json:"apply_immediately"`
+	ConfigurationEndpointAddress string   `json:"configuration_endpoint_address"`
 	PrimaryEndpointAddress       string   `json:"primary_endpoint_address"`
-	MaintenanceWindow            string   `json:"maintenance_window"`
-	NodeType                     string   `json:"node_type"`
 }

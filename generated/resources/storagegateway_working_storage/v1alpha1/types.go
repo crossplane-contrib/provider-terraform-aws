@@ -54,6 +54,7 @@ type StoragegatewayWorkingStorageSpec struct {
 type StoragegatewayWorkingStorageParameters struct {
 	DiskId     string `json:"disk_id"`
 	GatewayArn string `json:"gateway_arn"`
+	Id         string `json:"id"`
 }
 
 // A StoragegatewayWorkingStorageStatus defines the observed state of a StoragegatewayWorkingStorage
@@ -63,6 +64,4 @@ type StoragegatewayWorkingStorageStatus struct {
 }
 
 // A StoragegatewayWorkingStorageObservation records the observed state of a StoragegatewayWorkingStorage
-type StoragegatewayWorkingStorageObservation struct {
-	Id string `json:"id"`
-}
+type StoragegatewayWorkingStorageObservation struct{}

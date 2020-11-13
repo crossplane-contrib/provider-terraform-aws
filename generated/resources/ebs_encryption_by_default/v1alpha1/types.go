@@ -52,7 +52,8 @@ type EbsEncryptionByDefaultSpec struct {
 
 // A EbsEncryptionByDefaultParameters defines the desired state of a EbsEncryptionByDefault
 type EbsEncryptionByDefaultParameters struct {
-	Enabled bool `json:"enabled"`
+	Enabled bool   `json:"enabled"`
+	Id      string `json:"id"`
 }
 
 // A EbsEncryptionByDefaultStatus defines the observed state of a EbsEncryptionByDefault
@@ -62,6 +63,4 @@ type EbsEncryptionByDefaultStatus struct {
 }
 
 // A EbsEncryptionByDefaultObservation records the observed state of a EbsEncryptionByDefault
-type EbsEncryptionByDefaultObservation struct {
-	Id string `json:"id"`
-}
+type EbsEncryptionByDefaultObservation struct{}

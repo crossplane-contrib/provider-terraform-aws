@@ -52,10 +52,11 @@ type ServiceDiscoveryPrivateDnsNamespaceSpec struct {
 
 // A ServiceDiscoveryPrivateDnsNamespaceParameters defines the desired state of a ServiceDiscoveryPrivateDnsNamespace
 type ServiceDiscoveryPrivateDnsNamespaceParameters struct {
-	Description string            `json:"description"`
+	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	Vpc         string            `json:"vpc"`
+	Description string            `json:"description"`
 }
 
 // A ServiceDiscoveryPrivateDnsNamespaceStatus defines the observed state of a ServiceDiscoveryPrivateDnsNamespace
@@ -66,7 +67,6 @@ type ServiceDiscoveryPrivateDnsNamespaceStatus struct {
 
 // A ServiceDiscoveryPrivateDnsNamespaceObservation records the observed state of a ServiceDiscoveryPrivateDnsNamespace
 type ServiceDiscoveryPrivateDnsNamespaceObservation struct {
-	HostedZone string `json:"hosted_zone"`
-	Id         string `json:"id"`
 	Arn        string `json:"arn"`
+	HostedZone string `json:"hosted_zone"`
 }

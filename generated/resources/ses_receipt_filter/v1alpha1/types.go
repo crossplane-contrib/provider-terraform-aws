@@ -54,6 +54,7 @@ type SesReceiptFilterSpec struct {
 type SesReceiptFilterParameters struct {
 	Policy string `json:"policy"`
 	Cidr   string `json:"cidr"`
+	Id     string `json:"id"`
 	Name   string `json:"name"`
 }
 
@@ -66,5 +67,4 @@ type SesReceiptFilterStatus struct {
 // A SesReceiptFilterObservation records the observed state of a SesReceiptFilter
 type SesReceiptFilterObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

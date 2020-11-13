@@ -53,6 +53,7 @@ type SesEmailIdentitySpec struct {
 // A SesEmailIdentityParameters defines the desired state of a SesEmailIdentity
 type SesEmailIdentityParameters struct {
 	Email string `json:"email"`
+	Id    string `json:"id"`
 }
 
 // A SesEmailIdentityStatus defines the observed state of a SesEmailIdentity
@@ -64,5 +65,4 @@ type SesEmailIdentityStatus struct {
 // A SesEmailIdentityObservation records the observed state of a SesEmailIdentity
 type SesEmailIdentityObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

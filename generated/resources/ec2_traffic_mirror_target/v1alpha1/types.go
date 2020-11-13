@@ -55,6 +55,7 @@ type Ec2TrafficMirrorTargetParameters struct {
 	NetworkLoadBalancerArn string            `json:"network_load_balancer_arn"`
 	Tags                   map[string]string `json:"tags"`
 	Description            string            `json:"description"`
+	Id                     string            `json:"id"`
 	NetworkInterfaceId     string            `json:"network_interface_id"`
 }
 
@@ -67,5 +68,4 @@ type Ec2TrafficMirrorTargetStatus struct {
 // A Ec2TrafficMirrorTargetObservation records the observed state of a Ec2TrafficMirrorTarget
 type Ec2TrafficMirrorTargetObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

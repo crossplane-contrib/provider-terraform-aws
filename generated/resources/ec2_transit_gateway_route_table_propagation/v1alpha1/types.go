@@ -54,6 +54,7 @@ type Ec2TransitGatewayRouteTablePropagationSpec struct {
 type Ec2TransitGatewayRouteTablePropagationParameters struct {
 	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
 	TransitGatewayRouteTableId string `json:"transit_gateway_route_table_id"`
+	Id                         string `json:"id"`
 }
 
 // A Ec2TransitGatewayRouteTablePropagationStatus defines the observed state of a Ec2TransitGatewayRouteTablePropagation
@@ -64,7 +65,6 @@ type Ec2TransitGatewayRouteTablePropagationStatus struct {
 
 // A Ec2TransitGatewayRouteTablePropagationObservation records the observed state of a Ec2TransitGatewayRouteTablePropagation
 type Ec2TransitGatewayRouteTablePropagationObservation struct {
-	Id           string `json:"id"`
 	ResourceId   string `json:"resource_id"`
 	ResourceType string `json:"resource_type"`
 }

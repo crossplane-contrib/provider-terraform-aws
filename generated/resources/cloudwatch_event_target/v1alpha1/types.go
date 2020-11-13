@@ -52,11 +52,13 @@ type CloudwatchEventTargetSpec struct {
 
 // A CloudwatchEventTargetParameters defines the desired state of a CloudwatchEventTarget
 type CloudwatchEventTargetParameters struct {
-	Arn               string              `json:"arn"`
-	Input             string              `json:"input"`
-	InputPath         string              `json:"input_path"`
 	RoleArn           string              `json:"role_arn"`
 	Rule              string              `json:"rule"`
+	TargetId          string              `json:"target_id"`
+	Arn               string              `json:"arn"`
+	Id                string              `json:"id"`
+	Input             string              `json:"input"`
+	InputPath         string              `json:"input_path"`
 	KinesisTarget     KinesisTarget       `json:"kinesis_target"`
 	RunCommandTargets []RunCommandTargets `json:"run_command_targets"`
 	SqsTarget         SqsTarget           `json:"sqs_target"`
@@ -86,18 +88,18 @@ type BatchTarget struct {
 }
 
 type EcsTarget struct {
-	TaskDefinitionArn    string               `json:"task_definition_arn"`
 	Group                string               `json:"group"`
 	LaunchType           string               `json:"launch_type"`
 	PlatformVersion      string               `json:"platform_version"`
 	TaskCount            int                  `json:"task_count"`
+	TaskDefinitionArn    string               `json:"task_definition_arn"`
 	NetworkConfiguration NetworkConfiguration `json:"network_configuration"`
 }
 
 type NetworkConfiguration struct {
+	SecurityGroups []string `json:"security_groups"`
 	Subnets        []string `json:"subnets"`
 	AssignPublicIp bool     `json:"assign_public_ip"`
-	SecurityGroups []string `json:"security_groups"`
 }
 
 type InputTransformer struct {
@@ -112,7 +114,4 @@ type CloudwatchEventTargetStatus struct {
 }
 
 // A CloudwatchEventTargetObservation records the observed state of a CloudwatchEventTarget
-type CloudwatchEventTargetObservation struct {
-	Id       string `json:"id"`
-	TargetId string `json:"target_id"`
-}
+type CloudwatchEventTargetObservation struct{}

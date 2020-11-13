@@ -52,34 +52,36 @@ type AmiSpec struct {
 
 // A AmiParameters defines the desired state of a Ami
 type AmiParameters struct {
-	Architecture         string                 `json:"architecture"`
-	RootDeviceName       string                 `json:"root_device_name"`
 	EnaSupport           bool                   `json:"ena_support"`
-	Name                 string                 `json:"name"`
-	SriovNetSupport      string                 `json:"sriov_net_support"`
-	Description          string                 `json:"description"`
-	KernelId             string                 `json:"kernel_id"`
-	RamdiskId            string                 `json:"ramdisk_id"`
+	RootDeviceName       string                 `json:"root_device_name"`
 	Tags                 map[string]string      `json:"tags"`
+	Architecture         string                 `json:"architecture"`
+	Id                   string                 `json:"id"`
+	KernelId             string                 `json:"kernel_id"`
+	Description          string                 `json:"description"`
 	VirtualizationType   string                 `json:"virtualization_type"`
+	ImageLocation        string                 `json:"image_location"`
+	Name                 string                 `json:"name"`
+	RamdiskId            string                 `json:"ramdisk_id"`
+	SriovNetSupport      string                 `json:"sriov_net_support"`
 	EbsBlockDevice       []EbsBlockDevice       `json:"ebs_block_device"`
 	EphemeralBlockDevice []EphemeralBlockDevice `json:"ephemeral_block_device"`
 	Timeouts             []Timeouts             `json:"timeouts"`
 }
 
 type EbsBlockDevice struct {
-	VolumeType          string `json:"volume_type"`
-	DeleteOnTermination bool   `json:"delete_on_termination"`
 	DeviceName          string `json:"device_name"`
 	Encrypted           bool   `json:"encrypted"`
 	Iops                int    `json:"iops"`
 	SnapshotId          string `json:"snapshot_id"`
 	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
 }
 
 type EphemeralBlockDevice struct {
-	DeviceName  string `json:"device_name"`
 	VirtualName string `json:"virtual_name"`
+	DeviceName  string `json:"device_name"`
 }
 
 type Timeouts struct {
@@ -96,9 +98,7 @@ type AmiStatus struct {
 
 // A AmiObservation records the observed state of a Ami
 type AmiObservation struct {
-	ImageLocation      string `json:"image_location"`
-	RootSnapshotId     string `json:"root_snapshot_id"`
 	Arn                string `json:"arn"`
-	Id                 string `json:"id"`
 	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
+	RootSnapshotId     string `json:"root_snapshot_id"`
 }

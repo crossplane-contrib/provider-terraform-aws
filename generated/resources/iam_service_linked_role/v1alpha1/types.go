@@ -53,8 +53,9 @@ type IamServiceLinkedRoleSpec struct {
 // A IamServiceLinkedRoleParameters defines the desired state of a IamServiceLinkedRole
 type IamServiceLinkedRoleParameters struct {
 	AwsServiceName string `json:"aws_service_name"`
-	Description    string `json:"description"`
+	Id             string `json:"id"`
 	CustomSuffix   string `json:"custom_suffix"`
+	Description    string `json:"description"`
 }
 
 // A IamServiceLinkedRoleStatus defines the observed state of a IamServiceLinkedRole
@@ -65,10 +66,9 @@ type IamServiceLinkedRoleStatus struct {
 
 // A IamServiceLinkedRoleObservation records the observed state of a IamServiceLinkedRole
 type IamServiceLinkedRoleObservation struct {
-	Id         string `json:"id"`
+	Path       string `json:"path"`
 	UniqueId   string `json:"unique_id"`
 	Arn        string `json:"arn"`
-	Path       string `json:"path"`
 	CreateDate string `json:"create_date"`
 	Name       string `json:"name"`
 }

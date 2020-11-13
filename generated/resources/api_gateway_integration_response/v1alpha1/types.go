@@ -52,13 +52,14 @@ type ApiGatewayIntegrationResponseSpec struct {
 
 // A ApiGatewayIntegrationResponseParameters defines the desired state of a ApiGatewayIntegrationResponse
 type ApiGatewayIntegrationResponseParameters struct {
+	Id                 string            `json:"id"`
 	ResponseParameters map[string]string `json:"response_parameters"`
-	ResponseTemplates  map[string]string `json:"response_templates"`
 	RestApiId          string            `json:"rest_api_id"`
-	SelectionPattern   string            `json:"selection_pattern"`
 	ContentHandling    string            `json:"content_handling"`
-	ResourceId         string            `json:"resource_id"`
 	HttpMethod         string            `json:"http_method"`
+	ResourceId         string            `json:"resource_id"`
+	ResponseTemplates  map[string]string `json:"response_templates"`
+	SelectionPattern   string            `json:"selection_pattern"`
 	StatusCode         string            `json:"status_code"`
 }
 
@@ -69,6 +70,4 @@ type ApiGatewayIntegrationResponseStatus struct {
 }
 
 // A ApiGatewayIntegrationResponseObservation records the observed state of a ApiGatewayIntegrationResponse
-type ApiGatewayIntegrationResponseObservation struct {
-	Id string `json:"id"`
-}
+type ApiGatewayIntegrationResponseObservation struct{}

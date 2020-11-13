@@ -52,9 +52,10 @@ type Ec2TagSpec struct {
 
 // A Ec2TagParameters defines the desired state of a Ec2Tag
 type Ec2TagParameters struct {
-	Value      string `json:"value"`
+	Id         string `json:"id"`
 	Key        string `json:"key"`
 	ResourceId string `json:"resource_id"`
+	Value      string `json:"value"`
 }
 
 // A Ec2TagStatus defines the observed state of a Ec2Tag
@@ -64,6 +65,4 @@ type Ec2TagStatus struct {
 }
 
 // A Ec2TagObservation records the observed state of a Ec2Tag
-type Ec2TagObservation struct {
-	Id string `json:"id"`
-}
+type Ec2TagObservation struct{}

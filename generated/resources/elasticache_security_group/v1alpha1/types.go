@@ -53,6 +53,7 @@ type ElasticacheSecurityGroupSpec struct {
 // A ElasticacheSecurityGroupParameters defines the desired state of a ElasticacheSecurityGroup
 type ElasticacheSecurityGroupParameters struct {
 	Description        string   `json:"description"`
+	Id                 string   `json:"id"`
 	Name               string   `json:"name"`
 	SecurityGroupNames []string `json:"security_group_names"`
 }
@@ -64,6 +65,4 @@ type ElasticacheSecurityGroupStatus struct {
 }
 
 // A ElasticacheSecurityGroupObservation records the observed state of a ElasticacheSecurityGroup
-type ElasticacheSecurityGroupObservation struct {
-	Id string `json:"id"`
-}
+type ElasticacheSecurityGroupObservation struct{}

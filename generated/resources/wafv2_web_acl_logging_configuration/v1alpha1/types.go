@@ -54,17 +54,24 @@ type Wafv2WebAclLoggingConfigurationSpec struct {
 type Wafv2WebAclLoggingConfigurationParameters struct {
 	LogDestinationConfigs []string         `json:"log_destination_configs"`
 	ResourceArn           string           `json:"resource_arn"`
+	Id                    string           `json:"id"`
 	RedactedFields        []RedactedFields `json:"redacted_fields"`
 }
 
 type RedactedFields struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
 }
 
 type SingleQueryArgument struct {
@@ -79,12 +86,6 @@ type Body struct{}
 
 type Method struct{}
 
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
 // A Wafv2WebAclLoggingConfigurationStatus defines the observed state of a Wafv2WebAclLoggingConfiguration
 type Wafv2WebAclLoggingConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -92,6 +93,4 @@ type Wafv2WebAclLoggingConfigurationStatus struct {
 }
 
 // A Wafv2WebAclLoggingConfigurationObservation records the observed state of a Wafv2WebAclLoggingConfiguration
-type Wafv2WebAclLoggingConfigurationObservation struct {
-	Id string `json:"id"`
-}
+type Wafv2WebAclLoggingConfigurationObservation struct{}

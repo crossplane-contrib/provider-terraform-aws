@@ -55,6 +55,7 @@ type PinpointBaiduChannelParameters struct {
 	ApiKey        string `json:"api_key"`
 	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
+	Id            string `json:"id"`
 	SecretKey     string `json:"secret_key"`
 }
 
@@ -65,6 +66,4 @@ type PinpointBaiduChannelStatus struct {
 }
 
 // A PinpointBaiduChannelObservation records the observed state of a PinpointBaiduChannel
-type PinpointBaiduChannelObservation struct {
-	Id string `json:"id"`
-}
+type PinpointBaiduChannelObservation struct{}

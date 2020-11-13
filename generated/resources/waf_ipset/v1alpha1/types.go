@@ -52,6 +52,7 @@ type WafIpsetSpec struct {
 
 // A WafIpsetParameters defines the desired state of a WafIpset
 type WafIpsetParameters struct {
+	Id               string             `json:"id"`
 	Name             string             `json:"name"`
 	IpSetDescriptors []IpSetDescriptors `json:"ip_set_descriptors"`
 }
@@ -70,5 +71,4 @@ type WafIpsetStatus struct {
 // A WafIpsetObservation records the observed state of a WafIpset
 type WafIpsetObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

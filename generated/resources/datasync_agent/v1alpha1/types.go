@@ -52,9 +52,12 @@ type DatasyncAgentSpec struct {
 
 // A DatasyncAgentParameters defines the desired state of a DatasyncAgent
 type DatasyncAgentParameters struct {
-	Tags     map[string]string `json:"tags"`
-	Name     string            `json:"name"`
-	Timeouts []Timeouts        `json:"timeouts"`
+	Id            string            `json:"id"`
+	IpAddress     string            `json:"ip_address"`
+	Name          string            `json:"name"`
+	Tags          map[string]string `json:"tags"`
+	ActivationKey string            `json:"activation_key"`
+	Timeouts      []Timeouts        `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -69,8 +72,5 @@ type DatasyncAgentStatus struct {
 
 // A DatasyncAgentObservation records the observed state of a DatasyncAgent
 type DatasyncAgentObservation struct {
-	ActivationKey string `json:"activation_key"`
-	Arn           string `json:"arn"`
-	Id            string `json:"id"`
-	IpAddress     string `json:"ip_address"`
+	Arn string `json:"arn"`
 }

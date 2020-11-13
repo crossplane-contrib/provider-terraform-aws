@@ -52,41 +52,45 @@ type LaunchConfigurationSpec struct {
 
 // A LaunchConfigurationParameters defines the desired state of a LaunchConfiguration
 type LaunchConfigurationParameters struct {
-	NamePrefix                   string                 `json:"name_prefix"`
-	UserData                     string                 `json:"user_data"`
-	VpcClassicLinkSecurityGroups []string               `json:"vpc_classic_link_security_groups"`
-	PlacementTenancy             string                 `json:"placement_tenancy"`
-	IamInstanceProfile           string                 `json:"iam_instance_profile"`
+	EbsOptimized                 bool                   `json:"ebs_optimized"`
+	InstanceType                 string                 `json:"instance_type"`
+	KeyName                      string                 `json:"key_name"`
 	SpotPrice                    string                 `json:"spot_price"`
+	VpcClassicLinkSecurityGroups []string               `json:"vpc_classic_link_security_groups"`
+	EnableMonitoring             bool                   `json:"enable_monitoring"`
+	IamInstanceProfile           string                 `json:"iam_instance_profile"`
+	Name                         string                 `json:"name"`
 	UserDataBase64               string                 `json:"user_data_base64"`
+	ImageId                      string                 `json:"image_id"`
+	NamePrefix                   string                 `json:"name_prefix"`
+	PlacementTenancy             string                 `json:"placement_tenancy"`
+	SecurityGroups               []string               `json:"security_groups"`
+	UserData                     string                 `json:"user_data"`
 	VpcClassicLinkId             string                 `json:"vpc_classic_link_id"`
 	AssociatePublicIpAddress     bool                   `json:"associate_public_ip_address"`
-	EnableMonitoring             bool                   `json:"enable_monitoring"`
-	ImageId                      string                 `json:"image_id"`
-	InstanceType                 string                 `json:"instance_type"`
-	SecurityGroups               []string               `json:"security_groups"`
+	Id                           string                 `json:"id"`
 	RootBlockDevice              RootBlockDevice        `json:"root_block_device"`
 	EbsBlockDevice               []EbsBlockDevice       `json:"ebs_block_device"`
 	EphemeralBlockDevice         []EphemeralBlockDevice `json:"ephemeral_block_device"`
 }
 
 type RootBlockDevice struct {
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+	Encrypted           bool   `json:"encrypted"`
 	Iops                int    `json:"iops"`
 	VolumeSize          int    `json:"volume_size"`
 	VolumeType          string `json:"volume_type"`
-	DeleteOnTermination bool   `json:"delete_on_termination"`
-	Encrypted           bool   `json:"encrypted"`
 }
 
 type EbsBlockDevice struct {
-	DeviceName          string `json:"device_name"`
-	Encrypted           bool   `json:"encrypted"`
-	Iops                int    `json:"iops"`
 	NoDevice            bool   `json:"no_device"`
 	SnapshotId          string `json:"snapshot_id"`
 	VolumeSize          int    `json:"volume_size"`
 	VolumeType          string `json:"volume_type"`
 	DeleteOnTermination bool   `json:"delete_on_termination"`
+	DeviceName          string `json:"device_name"`
+	Encrypted           bool   `json:"encrypted"`
+	Iops                int    `json:"iops"`
 }
 
 type EphemeralBlockDevice struct {
@@ -102,9 +106,5 @@ type LaunchConfigurationStatus struct {
 
 // A LaunchConfigurationObservation records the observed state of a LaunchConfiguration
 type LaunchConfigurationObservation struct {
-	Id           string `json:"id"`
-	Arn          string `json:"arn"`
-	KeyName      string `json:"key_name"`
-	Name         string `json:"name"`
-	EbsOptimized bool   `json:"ebs_optimized"`
+	Arn string `json:"arn"`
 }

@@ -52,24 +52,39 @@ type RedshiftClusterSpec struct {
 
 // A RedshiftClusterParameters defines the desired state of a RedshiftCluster
 type RedshiftClusterParameters struct {
-	AutomatedSnapshotRetentionPeriod int               `json:"automated_snapshot_retention_period"`
-	Encrypted                        bool              `json:"encrypted"`
-	MasterUsername                   string            `json:"master_username"`
-	Tags                             map[string]string `json:"tags"`
-	Port                             int               `json:"port"`
-	PubliclyAccessible               bool              `json:"publicly_accessible"`
-	SnapshotIdentifier               string            `json:"snapshot_identifier"`
-	ClusterVersion                   string            `json:"cluster_version"`
-	ElasticIp                        string            `json:"elastic_ip"`
-	FinalSnapshotIdentifier          string            `json:"final_snapshot_identifier"`
-	SnapshotClusterIdentifier        string            `json:"snapshot_cluster_identifier"`
-	NodeType                         string            `json:"node_type"`
-	OwnerAccount                     string            `json:"owner_account"`
-	SkipFinalSnapshot                bool              `json:"skip_final_snapshot"`
-	NumberOfNodes                    int               `json:"number_of_nodes"`
-	AllowVersionUpgrade              bool              `json:"allow_version_upgrade"`
 	ClusterIdentifier                string            `json:"cluster_identifier"`
+	Encrypted                        bool              `json:"encrypted"`
+	IamRoles                         []string          `json:"iam_roles"`
+	VpcSecurityGroupIds              []string          `json:"vpc_security_group_ids"`
+	ClusterPublicKey                 string            `json:"cluster_public_key"`
+	ElasticIp                        string            `json:"elastic_ip"`
+	KmsKeyId                         string            `json:"kms_key_id"`
+	OwnerAccount                     string            `json:"owner_account"`
+	SnapshotClusterIdentifier        string            `json:"snapshot_cluster_identifier"`
+	AllowVersionUpgrade              bool              `json:"allow_version_upgrade"`
+	AutomatedSnapshotRetentionPeriod int               `json:"automated_snapshot_retention_period"`
 	MasterPassword                   string            `json:"master_password"`
+	MasterUsername                   string            `json:"master_username"`
+	NumberOfNodes                    int               `json:"number_of_nodes"`
+	PreferredMaintenanceWindow       string            `json:"preferred_maintenance_window"`
+	ClusterParameterGroupName        string            `json:"cluster_parameter_group_name"`
+	PubliclyAccessible               bool              `json:"publicly_accessible"`
+	Tags                             map[string]string `json:"tags"`
+	SnapshotIdentifier               string            `json:"snapshot_identifier"`
+	AvailabilityZone                 string            `json:"availability_zone"`
+	ClusterRevisionNumber            string            `json:"cluster_revision_number"`
+	ClusterType                      string            `json:"cluster_type"`
+	EnhancedVpcRouting               bool              `json:"enhanced_vpc_routing"`
+	FinalSnapshotIdentifier          string            `json:"final_snapshot_identifier"`
+	Id                               string            `json:"id"`
+	SkipFinalSnapshot                bool              `json:"skip_final_snapshot"`
+	DatabaseName                     string            `json:"database_name"`
+	Endpoint                         string            `json:"endpoint"`
+	Port                             int               `json:"port"`
+	ClusterSecurityGroups            []string          `json:"cluster_security_groups"`
+	ClusterSubnetGroupName           string            `json:"cluster_subnet_group_name"`
+	ClusterVersion                   string            `json:"cluster_version"`
+	NodeType                         string            `json:"node_type"`
 	Logging                          Logging           `json:"logging"`
 	SnapshotCopy                     SnapshotCopy      `json:"snapshot_copy"`
 	Timeouts                         []Timeouts        `json:"timeouts"`
@@ -82,15 +97,15 @@ type Logging struct {
 }
 
 type SnapshotCopy struct {
+	DestinationRegion string `json:"destination_region"`
 	GrantName         string `json:"grant_name"`
 	RetentionPeriod   int    `json:"retention_period"`
-	DestinationRegion string `json:"destination_region"`
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A RedshiftClusterStatus defines the observed state of a RedshiftCluster
@@ -101,21 +116,6 @@ type RedshiftClusterStatus struct {
 
 // A RedshiftClusterObservation records the observed state of a RedshiftCluster
 type RedshiftClusterObservation struct {
-	KmsKeyId                   string   `json:"kms_key_id"`
-	ClusterPublicKey           string   `json:"cluster_public_key"`
-	ClusterRevisionNumber      string   `json:"cluster_revision_number"`
-	PreferredMaintenanceWindow string   `json:"preferred_maintenance_window"`
-	VpcSecurityGroupIds        []string `json:"vpc_security_group_ids"`
-	ClusterType                string   `json:"cluster_type"`
-	DatabaseName               string   `json:"database_name"`
-	Id                         string   `json:"id"`
-	ClusterSecurityGroups      []string `json:"cluster_security_groups"`
-	Arn                        string   `json:"arn"`
-	ClusterParameterGroupName  string   `json:"cluster_parameter_group_name"`
-	DnsName                    string   `json:"dns_name"`
-	Endpoint                   string   `json:"endpoint"`
-	EnhancedVpcRouting         bool     `json:"enhanced_vpc_routing"`
-	AvailabilityZone           string   `json:"availability_zone"`
-	ClusterSubnetGroupName     string   `json:"cluster_subnet_group_name"`
-	IamRoles                   []string `json:"iam_roles"`
+	DnsName string `json:"dns_name"`
+	Arn     string `json:"arn"`
 }

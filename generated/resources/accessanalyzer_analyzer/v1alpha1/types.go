@@ -52,9 +52,10 @@ type AccessanalyzerAnalyzerSpec struct {
 
 // A AccessanalyzerAnalyzerParameters defines the desired state of a AccessanalyzerAnalyzer
 type AccessanalyzerAnalyzerParameters struct {
-	AnalyzerName string            `json:"analyzer_name"`
-	Tags         map[string]string `json:"tags"`
 	Type         string            `json:"type"`
+	AnalyzerName string            `json:"analyzer_name"`
+	Id           string            `json:"id"`
+	Tags         map[string]string `json:"tags"`
 }
 
 // A AccessanalyzerAnalyzerStatus defines the observed state of a AccessanalyzerAnalyzer
@@ -66,5 +67,4 @@ type AccessanalyzerAnalyzerStatus struct {
 // A AccessanalyzerAnalyzerObservation records the observed state of a AccessanalyzerAnalyzer
 type AccessanalyzerAnalyzerObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

@@ -52,6 +52,8 @@ type IamRolePolicySpec struct {
 
 // A IamRolePolicyParameters defines the desired state of a IamRolePolicy
 type IamRolePolicyParameters struct {
+	Id         string `json:"id"`
+	Name       string `json:"name"`
 	NamePrefix string `json:"name_prefix"`
 	Policy     string `json:"policy"`
 	Role       string `json:"role"`
@@ -64,7 +66,4 @@ type IamRolePolicyStatus struct {
 }
 
 // A IamRolePolicyObservation records the observed state of a IamRolePolicy
-type IamRolePolicyObservation struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
-}
+type IamRolePolicyObservation struct{}

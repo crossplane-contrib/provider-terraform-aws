@@ -53,7 +53,10 @@ type CodeartifactDomainPermissionsPolicySpec struct {
 // A CodeartifactDomainPermissionsPolicyParameters defines the desired state of a CodeartifactDomainPermissionsPolicy
 type CodeartifactDomainPermissionsPolicyParameters struct {
 	Domain         string `json:"domain"`
+	DomainOwner    string `json:"domain_owner"`
+	Id             string `json:"id"`
 	PolicyDocument string `json:"policy_document"`
+	PolicyRevision string `json:"policy_revision"`
 }
 
 // A CodeartifactDomainPermissionsPolicyStatus defines the observed state of a CodeartifactDomainPermissionsPolicy
@@ -64,8 +67,5 @@ type CodeartifactDomainPermissionsPolicyStatus struct {
 
 // A CodeartifactDomainPermissionsPolicyObservation records the observed state of a CodeartifactDomainPermissionsPolicy
 type CodeartifactDomainPermissionsPolicyObservation struct {
-	PolicyRevision string `json:"policy_revision"`
-	ResourceArn    string `json:"resource_arn"`
-	DomainOwner    string `json:"domain_owner"`
-	Id             string `json:"id"`
+	ResourceArn string `json:"resource_arn"`
 }

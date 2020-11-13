@@ -53,6 +53,7 @@ type WafregionalSqlInjectionMatchSetSpec struct {
 // A WafregionalSqlInjectionMatchSetParameters defines the desired state of a WafregionalSqlInjectionMatchSet
 type WafregionalSqlInjectionMatchSetParameters struct {
 	Name                   string                   `json:"name"`
+	Id                     string                   `json:"id"`
 	SqlInjectionMatchTuple []SqlInjectionMatchTuple `json:"sql_injection_match_tuple"`
 }
 
@@ -73,6 +74,4 @@ type WafregionalSqlInjectionMatchSetStatus struct {
 }
 
 // A WafregionalSqlInjectionMatchSetObservation records the observed state of a WafregionalSqlInjectionMatchSet
-type WafregionalSqlInjectionMatchSetObservation struct {
-	Id string `json:"id"`
-}
+type WafregionalSqlInjectionMatchSetObservation struct{}

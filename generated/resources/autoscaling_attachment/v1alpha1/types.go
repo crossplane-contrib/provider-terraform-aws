@@ -52,9 +52,10 @@ type AutoscalingAttachmentSpec struct {
 
 // A AutoscalingAttachmentParameters defines the desired state of a AutoscalingAttachment
 type AutoscalingAttachmentParameters struct {
+	AlbTargetGroupArn    string `json:"alb_target_group_arn"`
 	AutoscalingGroupName string `json:"autoscaling_group_name"`
 	Elb                  string `json:"elb"`
-	AlbTargetGroupArn    string `json:"alb_target_group_arn"`
+	Id                   string `json:"id"`
 }
 
 // A AutoscalingAttachmentStatus defines the observed state of a AutoscalingAttachment
@@ -64,6 +65,4 @@ type AutoscalingAttachmentStatus struct {
 }
 
 // A AutoscalingAttachmentObservation records the observed state of a AutoscalingAttachment
-type AutoscalingAttachmentObservation struct {
-	Id string `json:"id"`
-}
+type AutoscalingAttachmentObservation struct{}

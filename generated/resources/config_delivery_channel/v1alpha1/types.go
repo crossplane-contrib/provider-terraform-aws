@@ -52,10 +52,11 @@ type ConfigDeliveryChannelSpec struct {
 
 // A ConfigDeliveryChannelParameters defines the desired state of a ConfigDeliveryChannel
 type ConfigDeliveryChannelParameters struct {
-	Name                       string                     `json:"name"`
 	S3BucketName               string                     `json:"s3_bucket_name"`
 	S3KeyPrefix                string                     `json:"s3_key_prefix"`
 	SnsTopicArn                string                     `json:"sns_topic_arn"`
+	Id                         string                     `json:"id"`
+	Name                       string                     `json:"name"`
 	SnapshotDeliveryProperties SnapshotDeliveryProperties `json:"snapshot_delivery_properties"`
 }
 
@@ -70,6 +71,4 @@ type ConfigDeliveryChannelStatus struct {
 }
 
 // A ConfigDeliveryChannelObservation records the observed state of a ConfigDeliveryChannel
-type ConfigDeliveryChannelObservation struct {
-	Id string `json:"id"`
-}
+type ConfigDeliveryChannelObservation struct{}

@@ -52,14 +52,15 @@ type SnsTopicSubscriptionSpec struct {
 
 // A SnsTopicSubscriptionParameters defines the desired state of a SnsTopicSubscription
 type SnsTopicSubscriptionParameters struct {
+	ConfirmationTimeoutInMinutes int    `json:"confirmation_timeout_in_minutes"`
+	Endpoint                     string `json:"endpoint"`
+	FilterPolicy                 string `json:"filter_policy"`
 	Protocol                     string `json:"protocol"`
 	RawMessageDelivery           bool   `json:"raw_message_delivery"`
-	ConfirmationTimeoutInMinutes int    `json:"confirmation_timeout_in_minutes"`
-	DeliveryPolicy               string `json:"delivery_policy"`
-	Endpoint                     string `json:"endpoint"`
-	EndpointAutoConfirms         bool   `json:"endpoint_auto_confirms"`
-	FilterPolicy                 string `json:"filter_policy"`
 	TopicArn                     string `json:"topic_arn"`
+	DeliveryPolicy               string `json:"delivery_policy"`
+	EndpointAutoConfirms         bool   `json:"endpoint_auto_confirms"`
+	Id                           string `json:"id"`
 }
 
 // A SnsTopicSubscriptionStatus defines the observed state of a SnsTopicSubscription
@@ -71,5 +72,4 @@ type SnsTopicSubscriptionStatus struct {
 // A SnsTopicSubscriptionObservation records the observed state of a SnsTopicSubscription
 type SnsTopicSubscriptionObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

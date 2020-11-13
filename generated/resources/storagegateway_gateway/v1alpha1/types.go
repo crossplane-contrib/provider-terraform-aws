@@ -52,17 +52,21 @@ type StoragegatewayGatewaySpec struct {
 
 // A StoragegatewayGatewayParameters defines the desired state of a StoragegatewayGateway
 type StoragegatewayGatewayParameters struct {
-	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
-	TapeDriveType                        string                     `json:"tape_drive_type"`
-	Tags                                 map[string]string          `json:"tags"`
-	AverageUploadRateLimitInBitsPerSec   int                        `json:"average_upload_rate_limit_in_bits_per_sec"`
-	GatewayTimezone                      string                     `json:"gateway_timezone"`
-	GatewayType                          string                     `json:"gateway_type"`
-	AverageDownloadRateLimitInBitsPerSec int                        `json:"average_download_rate_limit_in_bits_per_sec"`
 	GatewayName                          string                     `json:"gateway_name"`
+	ActivationKey                        string                     `json:"activation_key"`
+	AverageDownloadRateLimitInBitsPerSec int                        `json:"average_download_rate_limit_in_bits_per_sec"`
+	GatewayType                          string                     `json:"gateway_type"`
 	GatewayVpcEndpoint                   string                     `json:"gateway_vpc_endpoint"`
+	AverageUploadRateLimitInBitsPerSec   int                        `json:"average_upload_rate_limit_in_bits_per_sec"`
+	GatewayIpAddress                     string                     `json:"gateway_ip_address"`
+	SmbSecurityStrategy                  string                     `json:"smb_security_strategy"`
+	Tags                                 map[string]string          `json:"tags"`
+	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
+	GatewayTimezone                      string                     `json:"gateway_timezone"`
+	Id                                   string                     `json:"id"`
 	MediumChangerType                    string                     `json:"medium_changer_type"`
 	SmbGuestPassword                     string                     `json:"smb_guest_password"`
+	TapeDriveType                        string                     `json:"tape_drive_type"`
 	SmbActiveDirectorySettings           SmbActiveDirectorySettings `json:"smb_active_directory_settings"`
 	Timeouts                             []Timeouts                 `json:"timeouts"`
 }
@@ -85,10 +89,6 @@ type StoragegatewayGatewayStatus struct {
 
 // A StoragegatewayGatewayObservation records the observed state of a StoragegatewayGateway
 type StoragegatewayGatewayObservation struct {
-	GatewayIpAddress    string `json:"gateway_ip_address"`
-	Arn                 string `json:"arn"`
-	Id                  string `json:"id"`
-	SmbSecurityStrategy string `json:"smb_security_strategy"`
-	GatewayId           string `json:"gateway_id"`
-	ActivationKey       string `json:"activation_key"`
+	Arn       string `json:"arn"`
+	GatewayId string `json:"gateway_id"`
 }

@@ -52,20 +52,24 @@ type DxHostedTransitVirtualInterfaceSpec struct {
 
 // A DxHostedTransitVirtualInterfaceParameters defines the desired state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceParameters struct {
-	Name           string     `json:"name"`
-	AddressFamily  string     `json:"address_family"`
-	Mtu            int        `json:"mtu"`
-	ConnectionId   string     `json:"connection_id"`
-	Vlan           int        `json:"vlan"`
-	BgpAsn         int        `json:"bgp_asn"`
-	OwnerAccountId string     `json:"owner_account_id"`
-	Timeouts       []Timeouts `json:"timeouts"`
+	Id              string     `json:"id"`
+	Mtu             int        `json:"mtu"`
+	AddressFamily   string     `json:"address_family"`
+	AmazonAddress   string     `json:"amazon_address"`
+	BgpAsn          int        `json:"bgp_asn"`
+	BgpAuthKey      string     `json:"bgp_auth_key"`
+	CustomerAddress string     `json:"customer_address"`
+	Name            string     `json:"name"`
+	OwnerAccountId  string     `json:"owner_account_id"`
+	Vlan            int        `json:"vlan"`
+	ConnectionId    string     `json:"connection_id"`
+	Timeouts        []Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A DxHostedTransitVirtualInterfaceStatus defines the observed state of a DxHostedTransitVirtualInterface
@@ -76,12 +80,8 @@ type DxHostedTransitVirtualInterfaceStatus struct {
 
 // A DxHostedTransitVirtualInterfaceObservation records the observed state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceObservation struct {
-	BgpAuthKey        string `json:"bgp_auth_key"`
-	Id                string `json:"id"`
-	AmazonAddress     string `json:"amazon_address"`
+	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
 	Arn               string `json:"arn"`
-	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AwsDevice         string `json:"aws_device"`
-	CustomerAddress   string `json:"customer_address"`
 }

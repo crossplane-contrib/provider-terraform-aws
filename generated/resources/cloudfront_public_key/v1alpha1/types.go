@@ -52,6 +52,9 @@ type CloudfrontPublicKeySpec struct {
 
 // A CloudfrontPublicKeyParameters defines the desired state of a CloudfrontPublicKey
 type CloudfrontPublicKeyParameters struct {
+	Id         string `json:"id"`
+	Name       string `json:"name"`
+	NamePrefix string `json:"name_prefix"`
 	Comment    string `json:"comment"`
 	EncodedKey string `json:"encoded_key"`
 }
@@ -64,9 +67,6 @@ type CloudfrontPublicKeyStatus struct {
 
 // A CloudfrontPublicKeyObservation records the observed state of a CloudfrontPublicKey
 type CloudfrontPublicKeyObservation struct {
-	Id              string `json:"id"`
-	Name            string `json:"name"`
-	NamePrefix      string `json:"name_prefix"`
-	CallerReference string `json:"caller_reference"`
 	Etag            string `json:"etag"`
+	CallerReference string `json:"caller_reference"`
 }

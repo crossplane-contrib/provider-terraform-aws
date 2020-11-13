@@ -52,14 +52,15 @@ type WafByteMatchSetSpec struct {
 
 // A WafByteMatchSetParameters defines the desired state of a WafByteMatchSet
 type WafByteMatchSetParameters struct {
+	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	ByteMatchTuples []ByteMatchTuples `json:"byte_match_tuples"`
 }
 
 type ByteMatchTuples struct {
+	TextTransformation   string       `json:"text_transformation"`
 	PositionalConstraint string       `json:"positional_constraint"`
 	TargetString         string       `json:"target_string"`
-	TextTransformation   string       `json:"text_transformation"`
 	FieldToMatch         FieldToMatch `json:"field_to_match"`
 }
 
@@ -75,6 +76,4 @@ type WafByteMatchSetStatus struct {
 }
 
 // A WafByteMatchSetObservation records the observed state of a WafByteMatchSet
-type WafByteMatchSetObservation struct {
-	Id string `json:"id"`
-}
+type WafByteMatchSetObservation struct{}

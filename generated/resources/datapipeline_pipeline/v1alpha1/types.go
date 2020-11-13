@@ -55,6 +55,7 @@ type DatapipelinePipelineParameters struct {
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
+	Id          string            `json:"id"`
 }
 
 // A DatapipelinePipelineStatus defines the observed state of a DatapipelinePipeline
@@ -64,6 +65,4 @@ type DatapipelinePipelineStatus struct {
 }
 
 // A DatapipelinePipelineObservation records the observed state of a DatapipelinePipeline
-type DatapipelinePipelineObservation struct {
-	Id string `json:"id"`
-}
+type DatapipelinePipelineObservation struct{}

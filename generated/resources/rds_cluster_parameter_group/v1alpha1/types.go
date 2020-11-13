@@ -54,6 +54,9 @@ type RdsClusterParameterGroupSpec struct {
 type RdsClusterParameterGroupParameters struct {
 	Description string            `json:"description"`
 	Family      string            `json:"family"`
+	Id          string            `json:"id"`
+	Name        string            `json:"name"`
+	NamePrefix  string            `json:"name_prefix"`
 	Tags        map[string]string `json:"tags"`
 	Parameter   []Parameter       `json:"parameter"`
 }
@@ -72,8 +75,5 @@ type RdsClusterParameterGroupStatus struct {
 
 // A RdsClusterParameterGroupObservation records the observed state of a RdsClusterParameterGroup
 type RdsClusterParameterGroupObservation struct {
-	Arn        string `json:"arn"`
-	Id         string `json:"id"`
-	Name       string `json:"name"`
-	NamePrefix string `json:"name_prefix"`
+	Arn string `json:"arn"`
 }

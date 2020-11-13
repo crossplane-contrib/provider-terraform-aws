@@ -53,6 +53,7 @@ type DbClusterSnapshotSpec struct {
 // A DbClusterSnapshotParameters defines the desired state of a DbClusterSnapshot
 type DbClusterSnapshotParameters struct {
 	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
+	Id                          string            `json:"id"`
 	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
 	Tags                        map[string]string `json:"tags"`
 	Timeouts                    []Timeouts        `json:"timeouts"`
@@ -70,18 +71,17 @@ type DbClusterSnapshotStatus struct {
 
 // A DbClusterSnapshotObservation records the observed state of a DbClusterSnapshot
 type DbClusterSnapshotObservation struct {
-	VpcId                      string   `json:"vpc_id"`
-	Id                         string   `json:"id"`
-	Status                     string   `json:"status"`
 	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
-	Engine                     string   `json:"engine"`
-	LicenseModel               string   `json:"license_model"`
-	SnapshotType               string   `json:"snapshot_type"`
-	AllocatedStorage           int      `json:"allocated_storage"`
+	Port                       int      `json:"port"`
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	Status                     string   `json:"status"`
 	AvailabilityZones          []string `json:"availability_zones"`
 	EngineVersion              string   `json:"engine_version"`
 	KmsKeyId                   string   `json:"kms_key_id"`
+	LicenseModel               string   `json:"license_model"`
+	SnapshotType               string   `json:"snapshot_type"`
+	AllocatedStorage           int      `json:"allocated_storage"`
+	Engine                     string   `json:"engine"`
 	StorageEncrypted           bool     `json:"storage_encrypted"`
-	Port                       int      `json:"port"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	VpcId                      string   `json:"vpc_id"`
 }

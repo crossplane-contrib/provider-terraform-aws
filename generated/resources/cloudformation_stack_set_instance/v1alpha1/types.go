@@ -52,9 +52,12 @@ type CloudformationStackSetInstanceSpec struct {
 
 // A CloudformationStackSetInstanceParameters defines the desired state of a CloudformationStackSetInstance
 type CloudformationStackSetInstanceParameters struct {
+	AccountId          string            `json:"account_id"`
+	Id                 string            `json:"id"`
+	ParameterOverrides map[string]string `json:"parameter_overrides"`
+	Region             string            `json:"region"`
 	RetainStack        bool              `json:"retain_stack"`
 	StackSetName       string            `json:"stack_set_name"`
-	ParameterOverrides map[string]string `json:"parameter_overrides"`
 	Timeouts           []Timeouts        `json:"timeouts"`
 }
 
@@ -72,8 +75,5 @@ type CloudformationStackSetInstanceStatus struct {
 
 // A CloudformationStackSetInstanceObservation records the observed state of a CloudformationStackSetInstance
 type CloudformationStackSetInstanceObservation struct {
-	StackId   string `json:"stack_id"`
-	AccountId string `json:"account_id"`
-	Id        string `json:"id"`
-	Region    string `json:"region"`
+	StackId string `json:"stack_id"`
 }

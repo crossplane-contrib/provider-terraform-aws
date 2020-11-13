@@ -55,6 +55,7 @@ type IotRoleAliasParameters struct {
 	RoleArn            string `json:"role_arn"`
 	Alias              string `json:"alias"`
 	CredentialDuration int    `json:"credential_duration"`
+	Id                 string `json:"id"`
 }
 
 // A IotRoleAliasStatus defines the observed state of a IotRoleAlias
@@ -66,5 +67,4 @@ type IotRoleAliasStatus struct {
 // A IotRoleAliasObservation records the observed state of a IotRoleAlias
 type IotRoleAliasObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

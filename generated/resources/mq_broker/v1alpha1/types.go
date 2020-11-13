@@ -52,26 +52,23 @@ type MqBrokerSpec struct {
 
 // A MqBrokerParameters defines the desired state of a MqBroker
 type MqBrokerParameters struct {
-	Tags                       map[string]string          `json:"tags"`
 	AutoMinorVersionUpgrade    bool                       `json:"auto_minor_version_upgrade"`
-	EngineVersion              string                     `json:"engine_version"`
+	DeploymentMode             string                     `json:"deployment_mode"`
+	Tags                       map[string]string          `json:"tags"`
+	ApplyImmediately           bool                       `json:"apply_immediately"`
 	HostInstanceType           string                     `json:"host_instance_type"`
 	PubliclyAccessible         bool                       `json:"publicly_accessible"`
-	ApplyImmediately           bool                       `json:"apply_immediately"`
-	BrokerName                 string                     `json:"broker_name"`
-	DeploymentMode             string                     `json:"deployment_mode"`
-	EngineType                 string                     `json:"engine_type"`
+	Id                         string                     `json:"id"`
+	SubnetIds                  []string                   `json:"subnet_ids"`
 	SecurityGroups             []string                   `json:"security_groups"`
-	Configuration              Configuration              `json:"configuration"`
+	BrokerName                 string                     `json:"broker_name"`
+	EngineType                 string                     `json:"engine_type"`
+	EngineVersion              string                     `json:"engine_version"`
 	EncryptionOptions          EncryptionOptions          `json:"encryption_options"`
 	Logs                       Logs                       `json:"logs"`
 	MaintenanceWindowStartTime MaintenanceWindowStartTime `json:"maintenance_window_start_time"`
 	User                       []User                     `json:"user"`
-}
-
-type Configuration struct {
-	Id       string `json:"id"`
-	Revision int    `json:"revision"`
+	Configuration              Configuration              `json:"configuration"`
 }
 
 type EncryptionOptions struct {
@@ -85,9 +82,9 @@ type Logs struct {
 }
 
 type MaintenanceWindowStartTime struct {
-	DayOfWeek string `json:"day_of_week"`
 	TimeOfDay string `json:"time_of_day"`
 	TimeZone  string `json:"time_zone"`
+	DayOfWeek string `json:"day_of_week"`
 }
 
 type User struct {
@@ -95,6 +92,11 @@ type User struct {
 	Groups        []string `json:"groups"`
 	Password      string   `json:"password"`
 	Username      string   `json:"username"`
+}
+
+type Configuration struct {
+	Id       string `json:"id"`
+	Revision int    `json:"revision"`
 }
 
 // A MqBrokerStatus defines the observed state of a MqBroker
@@ -105,7 +107,12 @@ type MqBrokerStatus struct {
 
 // A MqBrokerObservation records the observed state of a MqBroker
 type MqBrokerObservation struct {
-	SubnetIds []string `json:"subnet_ids"`
-	Arn       string   `json:"arn"`
-	Id        string   `json:"id"`
+	Arn       string      `json:"arn"`
+	Instances []Instances `json:"instances"`
+}
+
+type Instances struct {
+	IpAddress  string   `json:"ip_address"`
+	ConsoleUrl string   `json:"console_url"`
+	Endpoints  []string `json:"endpoints"`
 }

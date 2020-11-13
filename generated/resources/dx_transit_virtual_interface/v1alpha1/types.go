@@ -52,21 +52,25 @@ type DxTransitVirtualInterfaceSpec struct {
 
 // A DxTransitVirtualInterfaceParameters defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceParameters struct {
-	AddressFamily string            `json:"address_family"`
-	Mtu           int               `json:"mtu"`
-	Tags          map[string]string `json:"tags"`
-	BgpAsn        int               `json:"bgp_asn"`
-	ConnectionId  string            `json:"connection_id"`
-	DxGatewayId   string            `json:"dx_gateway_id"`
-	Name          string            `json:"name"`
-	Vlan          int               `json:"vlan"`
-	Timeouts      []Timeouts        `json:"timeouts"`
+	ConnectionId    string            `json:"connection_id"`
+	Id              string            `json:"id"`
+	DxGatewayId     string            `json:"dx_gateway_id"`
+	Mtu             int               `json:"mtu"`
+	Name            string            `json:"name"`
+	Tags            map[string]string `json:"tags"`
+	CustomerAddress string            `json:"customer_address"`
+	Vlan            int               `json:"vlan"`
+	AddressFamily   string            `json:"address_family"`
+	AmazonAddress   string            `json:"amazon_address"`
+	BgpAsn          int               `json:"bgp_asn"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
+	Timeouts        []Timeouts        `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DxTransitVirtualInterfaceStatus defines the observed state of a DxTransitVirtualInterface
@@ -78,11 +82,7 @@ type DxTransitVirtualInterfaceStatus struct {
 // A DxTransitVirtualInterfaceObservation records the observed state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceObservation struct {
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
-	BgpAuthKey        string `json:"bgp_auth_key"`
-	Id                string `json:"id"`
-	AwsDevice         string `json:"aws_device"`
-	CustomerAddress   string `json:"customer_address"`
-	AmazonAddress     string `json:"amazon_address"`
-	AmazonSideAsn     string `json:"amazon_side_asn"`
 	Arn               string `json:"arn"`
+	AmazonSideAsn     string `json:"amazon_side_asn"`
+	AwsDevice         string `json:"aws_device"`
 }

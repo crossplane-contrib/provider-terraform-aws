@@ -53,6 +53,7 @@ type ApiGatewayAccountSpec struct {
 // A ApiGatewayAccountParameters defines the desired state of a ApiGatewayAccount
 type ApiGatewayAccountParameters struct {
 	CloudwatchRoleArn string `json:"cloudwatch_role_arn"`
+	Id                string `json:"id"`
 }
 
 // A ApiGatewayAccountStatus defines the observed state of a ApiGatewayAccount
@@ -63,5 +64,10 @@ type ApiGatewayAccountStatus struct {
 
 // A ApiGatewayAccountObservation records the observed state of a ApiGatewayAccount
 type ApiGatewayAccountObservation struct {
-	Id string `json:"id"`
+	ThrottleSettings []ThrottleSettings `json:"throttle_settings"`
+}
+
+type ThrottleSettings struct {
+	BurstLimit int `json:"burst_limit"`
+	RateLimit  int `json:"rate_limit"`
 }

@@ -52,6 +52,7 @@ type InternetGatewaySpec struct {
 
 // A InternetGatewayParameters defines the desired state of a InternetGateway
 type InternetGatewayParameters struct {
+	Id    string            `json:"id"`
 	Tags  map[string]string `json:"tags"`
 	VpcId string            `json:"vpc_id"`
 }
@@ -65,6 +66,5 @@ type InternetGatewayStatus struct {
 // A InternetGatewayObservation records the observed state of a InternetGateway
 type InternetGatewayObservation struct {
 	Arn     string `json:"arn"`
-	Id      string `json:"id"`
 	OwnerId string `json:"owner_id"`
 }

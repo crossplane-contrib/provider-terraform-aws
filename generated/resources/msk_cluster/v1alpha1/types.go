@@ -52,10 +52,11 @@ type MskClusterSpec struct {
 
 // A MskClusterParameters defines the desired state of a MskCluster
 type MskClusterParameters struct {
-	ClusterName          string               `json:"cluster_name"`
-	EnhancedMonitoring   string               `json:"enhanced_monitoring"`
+	Id                   string               `json:"id"`
 	KafkaVersion         string               `json:"kafka_version"`
 	NumberOfBrokerNodes  int                  `json:"number_of_broker_nodes"`
+	ClusterName          string               `json:"cluster_name"`
+	EnhancedMonitoring   string               `json:"enhanced_monitoring"`
 	Tags                 map[string]string    `json:"tags"`
 	BrokerNodeGroupInfo  BrokerNodeGroupInfo  `json:"broker_node_group_info"`
 	ClientAuthentication ClientAuthentication `json:"client_authentication"`
@@ -66,11 +67,11 @@ type MskClusterParameters struct {
 }
 
 type BrokerNodeGroupInfo struct {
+	AzDistribution string   `json:"az_distribution"`
+	ClientSubnets  []string `json:"client_subnets"`
 	EbsVolumeSize  int      `json:"ebs_volume_size"`
 	InstanceType   string   `json:"instance_type"`
 	SecurityGroups []string `json:"security_groups"`
-	AzDistribution string   `json:"az_distribution"`
-	ClientSubnets  []string `json:"client_subnets"`
 }
 
 type ClientAuthentication struct {
@@ -92,8 +93,8 @@ type EncryptionInfo struct {
 }
 
 type EncryptionInTransit struct {
-	ClientBroker string `json:"client_broker"`
 	InCluster    bool   `json:"in_cluster"`
+	ClientBroker string `json:"client_broker"`
 }
 
 type LoggingInfo struct {
@@ -101,15 +102,9 @@ type LoggingInfo struct {
 }
 
 type BrokerLogs struct {
-	S3             S3             `json:"s3"`
 	CloudwatchLogs CloudwatchLogs `json:"cloudwatch_logs"`
 	Firehose       Firehose       `json:"firehose"`
-}
-
-type S3 struct {
-	Bucket  string `json:"bucket"`
-	Enabled bool   `json:"enabled"`
-	Prefix  string `json:"prefix"`
+	S3             S3             `json:"s3"`
 }
 
 type CloudwatchLogs struct {
@@ -118,8 +113,14 @@ type CloudwatchLogs struct {
 }
 
 type Firehose struct {
-	DeliveryStream string `json:"delivery_stream"`
 	Enabled        bool   `json:"enabled"`
+	DeliveryStream string `json:"delivery_stream"`
+}
+
+type S3 struct {
+	Bucket  string `json:"bucket"`
+	Enabled bool   `json:"enabled"`
+	Prefix  string `json:"prefix"`
 }
 
 type OpenMonitoring struct {
@@ -149,8 +150,7 @@ type MskClusterStatus struct {
 type MskClusterObservation struct {
 	BootstrapBrokersTls    string `json:"bootstrap_brokers_tls"`
 	CurrentVersion         string `json:"current_version"`
-	ZookeeperConnectString string `json:"zookeeper_connect_string"`
 	Arn                    string `json:"arn"`
 	BootstrapBrokers       string `json:"bootstrap_brokers"`
-	Id                     string `json:"id"`
+	ZookeeperConnectString string `json:"zookeeper_connect_string"`
 }

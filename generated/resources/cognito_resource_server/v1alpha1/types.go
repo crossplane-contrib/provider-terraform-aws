@@ -54,13 +54,14 @@ type CognitoResourceServerSpec struct {
 type CognitoResourceServerParameters struct {
 	Name       string  `json:"name"`
 	UserPoolId string  `json:"user_pool_id"`
+	Id         string  `json:"id"`
 	Identifier string  `json:"identifier"`
 	Scope      []Scope `json:"scope"`
 }
 
 type Scope struct {
-	ScopeDescription string `json:"scope_description"`
 	ScopeName        string `json:"scope_name"`
+	ScopeDescription string `json:"scope_description"`
 }
 
 // A CognitoResourceServerStatus defines the observed state of a CognitoResourceServer
@@ -72,5 +73,4 @@ type CognitoResourceServerStatus struct {
 // A CognitoResourceServerObservation records the observed state of a CognitoResourceServer
 type CognitoResourceServerObservation struct {
 	ScopeIdentifiers []string `json:"scope_identifiers"`
-	Id               string   `json:"id"`
 }

@@ -54,6 +54,7 @@ type PlacementGroupSpec struct {
 type PlacementGroupParameters struct {
 	Strategy string            `json:"strategy"`
 	Tags     map[string]string `json:"tags"`
+	Id       string            `json:"id"`
 	Name     string            `json:"name"`
 }
 
@@ -65,7 +66,6 @@ type PlacementGroupStatus struct {
 
 // A PlacementGroupObservation records the observed state of a PlacementGroup
 type PlacementGroupObservation struct {
-	PlacementGroupId string `json:"placement_group_id"`
 	Arn              string `json:"arn"`
-	Id               string `json:"id"`
+	PlacementGroupId string `json:"placement_group_id"`
 }

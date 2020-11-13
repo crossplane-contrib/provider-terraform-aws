@@ -52,6 +52,7 @@ type VpcPeeringConnectionOptionsSpec struct {
 
 // A VpcPeeringConnectionOptionsParameters defines the desired state of a VpcPeeringConnectionOptions
 type VpcPeeringConnectionOptionsParameters struct {
+	Id                     string    `json:"id"`
 	VpcPeeringConnectionId string    `json:"vpc_peering_connection_id"`
 	Accepter               Accepter  `json:"accepter"`
 	Requester              Requester `json:"requester"`
@@ -76,6 +77,4 @@ type VpcPeeringConnectionOptionsStatus struct {
 }
 
 // A VpcPeeringConnectionOptionsObservation records the observed state of a VpcPeeringConnectionOptions
-type VpcPeeringConnectionOptionsObservation struct {
-	Id string `json:"id"`
-}
+type VpcPeeringConnectionOptionsObservation struct{}

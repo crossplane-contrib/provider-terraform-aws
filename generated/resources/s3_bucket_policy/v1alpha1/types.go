@@ -53,6 +53,7 @@ type S3BucketPolicySpec struct {
 // A S3BucketPolicyParameters defines the desired state of a S3BucketPolicy
 type S3BucketPolicyParameters struct {
 	Bucket string `json:"bucket"`
+	Id     string `json:"id"`
 	Policy string `json:"policy"`
 }
 
@@ -63,6 +64,4 @@ type S3BucketPolicyStatus struct {
 }
 
 // A S3BucketPolicyObservation records the observed state of a S3BucketPolicy
-type S3BucketPolicyObservation struct {
-	Id string `json:"id"`
-}
+type S3BucketPolicyObservation struct{}

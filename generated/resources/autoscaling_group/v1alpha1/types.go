@@ -52,29 +52,44 @@ type AutoscalingGroupSpec struct {
 
 // A AutoscalingGroupParameters defines the desired state of a AutoscalingGroup
 type AutoscalingGroupParameters struct {
-	EnabledMetrics         []string               `json:"enabled_metrics"`
-	MetricsGranularity     string                 `json:"metrics_granularity"`
-	ForceDelete            bool                   `json:"force_delete"`
-	MaxInstanceLifetime    int                    `json:"max_instance_lifetime"`
-	ProtectFromScaleIn     bool                   `json:"protect_from_scale_in"`
-	TargetGroupArns        []string               `json:"target_group_arns"`
-	TerminationPolicies    []string               `json:"termination_policies"`
-	WaitForElbCapacity     int                    `json:"wait_for_elb_capacity"`
 	LaunchConfiguration    string                 `json:"launch_configuration"`
-	MinSize                int                    `json:"min_size"`
-	PlacementGroup         string                 `json:"placement_group"`
-	MaxSize                int                    `json:"max_size"`
-	MinElbCapacity         int                    `json:"min_elb_capacity"`
-	NamePrefix             string                 `json:"name_prefix"`
 	SuspendedProcesses     []string               `json:"suspended_processes"`
 	WaitForCapacityTimeout string                 `json:"wait_for_capacity_timeout"`
+	AvailabilityZones      []string               `json:"availability_zones"`
+	DesiredCapacity        int                    `json:"desired_capacity"`
+	MetricsGranularity     string                 `json:"metrics_granularity"`
+	VpcZoneIdentifier      []string               `json:"vpc_zone_identifier"`
 	HealthCheckGracePeriod int                    `json:"health_check_grace_period"`
+	TerminationPolicies    []string               `json:"termination_policies"`
 	LoadBalancers          []string               `json:"load_balancers"`
+	PlacementGroup         string                 `json:"placement_group"`
+	ServiceLinkedRoleArn   string                 `json:"service_linked_role_arn"`
+	DefaultCooldown        int                    `json:"default_cooldown"`
+	MaxSize                int                    `json:"max_size"`
+	ForceDelete            bool                   `json:"force_delete"`
+	HealthCheckType        string                 `json:"health_check_type"`
+	MaxInstanceLifetime    int                    `json:"max_instance_lifetime"`
+	Name                   string                 `json:"name"`
+	ProtectFromScaleIn     bool                   `json:"protect_from_scale_in"`
+	Tags                   []map[string]string    `json:"tags"`
+	EnabledMetrics         []string               `json:"enabled_metrics"`
+	Id                     string                 `json:"id"`
+	MinElbCapacity         int                    `json:"min_elb_capacity"`
+	MinSize                int                    `json:"min_size"`
+	NamePrefix             string                 `json:"name_prefix"`
+	TargetGroupArns        []string               `json:"target_group_arns"`
+	WaitForElbCapacity     int                    `json:"wait_for_elb_capacity"`
+	Tag                    []Tag                  `json:"tag"`
 	Timeouts               []Timeouts             `json:"timeouts"`
 	InitialLifecycleHook   []InitialLifecycleHook `json:"initial_lifecycle_hook"`
 	LaunchTemplate         LaunchTemplate         `json:"launch_template"`
 	MixedInstancesPolicy   MixedInstancesPolicy   `json:"mixed_instances_policy"`
-	Tag                    []Tag                  `json:"tag"`
+}
+
+type Tag struct {
+	Key               string `json:"key"`
+	PropagateAtLaunch bool   `json:"propagate_at_launch"`
+	Value             string `json:"value"`
 }
 
 type Timeouts struct {
@@ -92,14 +107,23 @@ type InitialLifecycleHook struct {
 }
 
 type LaunchTemplate struct {
-	Id      string `json:"id"`
 	Name    string `json:"name"`
 	Version string `json:"version"`
+	Id      string `json:"id"`
 }
 
 type MixedInstancesPolicy struct {
-	LaunchTemplate        LaunchTemplate        `json:"launch_template"`
 	InstancesDistribution InstancesDistribution `json:"instances_distribution"`
+	LaunchTemplate        LaunchTemplate        `json:"launch_template"`
+}
+
+type InstancesDistribution struct {
+	SpotInstancePools                   int    `json:"spot_instance_pools"`
+	SpotMaxPrice                        string `json:"spot_max_price"`
+	OnDemandAllocationStrategy          string `json:"on_demand_allocation_strategy"`
+	OnDemandBaseCapacity                int    `json:"on_demand_base_capacity"`
+	OnDemandPercentageAboveBaseCapacity int    `json:"on_demand_percentage_above_base_capacity"`
+	SpotAllocationStrategy              string `json:"spot_allocation_strategy"`
 }
 
 type LaunchTemplate struct {
@@ -118,21 +142,6 @@ type Override struct {
 	WeightedCapacity string `json:"weighted_capacity"`
 }
 
-type InstancesDistribution struct {
-	OnDemandAllocationStrategy          string `json:"on_demand_allocation_strategy"`
-	OnDemandBaseCapacity                int    `json:"on_demand_base_capacity"`
-	OnDemandPercentageAboveBaseCapacity int    `json:"on_demand_percentage_above_base_capacity"`
-	SpotAllocationStrategy              string `json:"spot_allocation_strategy"`
-	SpotInstancePools                   int    `json:"spot_instance_pools"`
-	SpotMaxPrice                        string `json:"spot_max_price"`
-}
-
-type Tag struct {
-	Key               string `json:"key"`
-	PropagateAtLaunch bool   `json:"propagate_at_launch"`
-	Value             string `json:"value"`
-}
-
 // A AutoscalingGroupStatus defines the observed state of a AutoscalingGroup
 type AutoscalingGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -141,13 +150,5 @@ type AutoscalingGroupStatus struct {
 
 // A AutoscalingGroupObservation records the observed state of a AutoscalingGroup
 type AutoscalingGroupObservation struct {
-	DesiredCapacity      int      `json:"desired_capacity"`
-	Name                 string   `json:"name"`
-	Id                   string   `json:"id"`
-	ServiceLinkedRoleArn string   `json:"service_linked_role_arn"`
-	Arn                  string   `json:"arn"`
-	AvailabilityZones    []string `json:"availability_zones"`
-	DefaultCooldown      int      `json:"default_cooldown"`
-	HealthCheckType      string   `json:"health_check_type"`
-	VpcZoneIdentifier    []string `json:"vpc_zone_identifier"`
+	Arn string `json:"arn"`
 }

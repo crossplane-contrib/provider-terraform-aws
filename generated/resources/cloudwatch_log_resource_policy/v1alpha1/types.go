@@ -52,6 +52,7 @@ type CloudwatchLogResourcePolicySpec struct {
 
 // A CloudwatchLogResourcePolicyParameters defines the desired state of a CloudwatchLogResourcePolicy
 type CloudwatchLogResourcePolicyParameters struct {
+	Id             string `json:"id"`
 	PolicyDocument string `json:"policy_document"`
 	PolicyName     string `json:"policy_name"`
 }
@@ -63,6 +64,4 @@ type CloudwatchLogResourcePolicyStatus struct {
 }
 
 // A CloudwatchLogResourcePolicyObservation records the observed state of a CloudwatchLogResourcePolicy
-type CloudwatchLogResourcePolicyObservation struct {
-	Id string `json:"id"`
-}
+type CloudwatchLogResourcePolicyObservation struct{}

@@ -52,8 +52,9 @@ type DxHostedPublicVirtualInterfaceAccepterSpec struct {
 
 // A DxHostedPublicVirtualInterfaceAccepterParameters defines the desired state of a DxHostedPublicVirtualInterfaceAccepter
 type DxHostedPublicVirtualInterfaceAccepterParameters struct {
-	VirtualInterfaceId string            `json:"virtual_interface_id"`
+	Id                 string            `json:"id"`
 	Tags               map[string]string `json:"tags"`
+	VirtualInterfaceId string            `json:"virtual_interface_id"`
 	Timeouts           []Timeouts        `json:"timeouts"`
 }
 
@@ -71,5 +72,4 @@ type DxHostedPublicVirtualInterfaceAccepterStatus struct {
 // A DxHostedPublicVirtualInterfaceAccepterObservation records the observed state of a DxHostedPublicVirtualInterfaceAccepter
 type DxHostedPublicVirtualInterfaceAccepterObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

@@ -52,14 +52,16 @@ type Apigatewayv2AuthorizerSpec struct {
 
 // A Apigatewayv2AuthorizerParameters defines the desired state of a Apigatewayv2Authorizer
 type Apigatewayv2AuthorizerParameters struct {
-	AuthorizerCredentialsArn       string           `json:"authorizer_credentials_arn"`
-	AuthorizerPayloadFormatVersion string           `json:"authorizer_payload_format_version"`
-	AuthorizerType                 string           `json:"authorizer_type"`
-	EnableSimpleResponses          bool             `json:"enable_simple_responses"`
-	Name                           string           `json:"name"`
-	ApiId                          string           `json:"api_id"`
 	AuthorizerUri                  string           `json:"authorizer_uri"`
+	EnableSimpleResponses          bool             `json:"enable_simple_responses"`
+	Id                             string           `json:"id"`
 	IdentitySources                []string         `json:"identity_sources"`
+	ApiId                          string           `json:"api_id"`
+	AuthorizerCredentialsArn       string           `json:"authorizer_credentials_arn"`
+	AuthorizerType                 string           `json:"authorizer_type"`
+	Name                           string           `json:"name"`
+	AuthorizerPayloadFormatVersion string           `json:"authorizer_payload_format_version"`
+	AuthorizerResultTtlInSeconds   int              `json:"authorizer_result_ttl_in_seconds"`
 	JwtConfiguration               JwtConfiguration `json:"jwt_configuration"`
 }
 
@@ -75,7 +77,4 @@ type Apigatewayv2AuthorizerStatus struct {
 }
 
 // A Apigatewayv2AuthorizerObservation records the observed state of a Apigatewayv2Authorizer
-type Apigatewayv2AuthorizerObservation struct {
-	AuthorizerResultTtlInSeconds int    `json:"authorizer_result_ttl_in_seconds"`
-	Id                           string `json:"id"`
-}
+type Apigatewayv2AuthorizerObservation struct{}

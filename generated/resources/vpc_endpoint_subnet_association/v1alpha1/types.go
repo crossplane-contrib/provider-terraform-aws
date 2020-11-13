@@ -52,14 +52,15 @@ type VpcEndpointSubnetAssociationSpec struct {
 
 // A VpcEndpointSubnetAssociationParameters defines the desired state of a VpcEndpointSubnetAssociation
 type VpcEndpointSubnetAssociationParameters struct {
-	VpcEndpointId string     `json:"vpc_endpoint_id"`
+	Id            string     `json:"id"`
 	SubnetId      string     `json:"subnet_id"`
+	VpcEndpointId string     `json:"vpc_endpoint_id"`
 	Timeouts      []Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A VpcEndpointSubnetAssociationStatus defines the observed state of a VpcEndpointSubnetAssociation
@@ -69,6 +70,4 @@ type VpcEndpointSubnetAssociationStatus struct {
 }
 
 // A VpcEndpointSubnetAssociationObservation records the observed state of a VpcEndpointSubnetAssociation
-type VpcEndpointSubnetAssociationObservation struct {
-	Id string `json:"id"`
-}
+type VpcEndpointSubnetAssociationObservation struct{}

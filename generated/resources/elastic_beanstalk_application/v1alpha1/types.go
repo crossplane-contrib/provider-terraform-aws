@@ -52,17 +52,18 @@ type ElasticBeanstalkApplicationSpec struct {
 
 // A ElasticBeanstalkApplicationParameters defines the desired state of a ElasticBeanstalkApplication
 type ElasticBeanstalkApplicationParameters struct {
-	Tags                map[string]string   `json:"tags"`
 	Description         string              `json:"description"`
+	Id                  string              `json:"id"`
 	Name                string              `json:"name"`
+	Tags                map[string]string   `json:"tags"`
 	AppversionLifecycle AppversionLifecycle `json:"appversion_lifecycle"`
 }
 
 type AppversionLifecycle struct {
-	DeleteSourceFromS3 bool   `json:"delete_source_from_s3"`
 	MaxAgeInDays       int    `json:"max_age_in_days"`
 	MaxCount           int    `json:"max_count"`
 	ServiceRole        string `json:"service_role"`
+	DeleteSourceFromS3 bool   `json:"delete_source_from_s3"`
 }
 
 // A ElasticBeanstalkApplicationStatus defines the observed state of a ElasticBeanstalkApplication
@@ -74,5 +75,4 @@ type ElasticBeanstalkApplicationStatus struct {
 // A ElasticBeanstalkApplicationObservation records the observed state of a ElasticBeanstalkApplication
 type ElasticBeanstalkApplicationObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

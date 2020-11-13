@@ -52,6 +52,7 @@ type WafregionalWebAclAssociationSpec struct {
 
 // A WafregionalWebAclAssociationParameters defines the desired state of a WafregionalWebAclAssociation
 type WafregionalWebAclAssociationParameters struct {
+	Id          string `json:"id"`
 	ResourceArn string `json:"resource_arn"`
 	WebAclId    string `json:"web_acl_id"`
 }
@@ -63,6 +64,4 @@ type WafregionalWebAclAssociationStatus struct {
 }
 
 // A WafregionalWebAclAssociationObservation records the observed state of a WafregionalWebAclAssociation
-type WafregionalWebAclAssociationObservation struct {
-	Id string `json:"id"`
-}
+type WafregionalWebAclAssociationObservation struct{}

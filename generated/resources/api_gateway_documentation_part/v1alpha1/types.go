@@ -52,17 +52,18 @@ type ApiGatewayDocumentationPartSpec struct {
 
 // A ApiGatewayDocumentationPartParameters defines the desired state of a ApiGatewayDocumentationPart
 type ApiGatewayDocumentationPartParameters struct {
+	Id         string   `json:"id"`
 	Properties string   `json:"properties"`
 	RestApiId  string   `json:"rest_api_id"`
 	Location   Location `json:"location"`
 }
 
 type Location struct {
-	Type       string `json:"type"`
 	Method     string `json:"method"`
 	Name       string `json:"name"`
 	Path       string `json:"path"`
 	StatusCode string `json:"status_code"`
+	Type       string `json:"type"`
 }
 
 // A ApiGatewayDocumentationPartStatus defines the observed state of a ApiGatewayDocumentationPart
@@ -72,6 +73,4 @@ type ApiGatewayDocumentationPartStatus struct {
 }
 
 // A ApiGatewayDocumentationPartObservation records the observed state of a ApiGatewayDocumentationPart
-type ApiGatewayDocumentationPartObservation struct {
-	Id string `json:"id"`
-}
+type ApiGatewayDocumentationPartObservation struct{}

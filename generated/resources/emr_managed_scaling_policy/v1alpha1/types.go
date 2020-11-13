@@ -52,6 +52,7 @@ type EmrManagedScalingPolicySpec struct {
 
 // A EmrManagedScalingPolicyParameters defines the desired state of a EmrManagedScalingPolicy
 type EmrManagedScalingPolicyParameters struct {
+	Id            string          `json:"id"`
 	ClusterId     string          `json:"cluster_id"`
 	ComputeLimits []ComputeLimits `json:"compute_limits"`
 }
@@ -71,6 +72,4 @@ type EmrManagedScalingPolicyStatus struct {
 }
 
 // A EmrManagedScalingPolicyObservation records the observed state of a EmrManagedScalingPolicy
-type EmrManagedScalingPolicyObservation struct {
-	Id string `json:"id"`
-}
+type EmrManagedScalingPolicyObservation struct{}

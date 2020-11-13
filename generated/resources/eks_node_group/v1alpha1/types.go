@@ -53,12 +53,18 @@ type EksNodeGroupSpec struct {
 // A EksNodeGroupParameters defines the desired state of a EksNodeGroup
 type EksNodeGroupParameters struct {
 	ClusterName        string            `json:"cluster_name"`
-	Labels             map[string]string `json:"labels"`
-	Tags               map[string]string `json:"tags"`
-	ForceUpdateVersion bool              `json:"force_update_version"`
+	Id                 string            `json:"id"`
+	InstanceTypes      []string          `json:"instance_types"`
+	ReleaseVersion     string            `json:"release_version"`
 	SubnetIds          []string          `json:"subnet_ids"`
-	NodeGroupName      string            `json:"node_group_name"`
+	Tags               map[string]string `json:"tags"`
+	AmiType            string            `json:"ami_type"`
+	DiskSize           int               `json:"disk_size"`
 	NodeRoleArn        string            `json:"node_role_arn"`
+	Labels             map[string]string `json:"labels"`
+	NodeGroupName      string            `json:"node_group_name"`
+	Version            string            `json:"version"`
+	ForceUpdateVersion bool              `json:"force_update_version"`
 	LaunchTemplate     LaunchTemplate    `json:"launch_template"`
 	RemoteAccess       RemoteAccess      `json:"remote_access"`
 	ScalingConfig      ScalingConfig     `json:"scaling_config"`
@@ -66,9 +72,9 @@ type EksNodeGroupParameters struct {
 }
 
 type LaunchTemplate struct {
-	Id      string `json:"id"`
 	Name    string `json:"name"`
 	Version string `json:"version"`
+	Id      string `json:"id"`
 }
 
 type RemoteAccess struct {
@@ -77,9 +83,9 @@ type RemoteAccess struct {
 }
 
 type ScalingConfig struct {
-	MinSize     int `json:"min_size"`
 	DesiredSize int `json:"desired_size"`
 	MaxSize     int `json:"max_size"`
+	MinSize     int `json:"min_size"`
 }
 
 type Timeouts struct {
@@ -96,12 +102,16 @@ type EksNodeGroupStatus struct {
 
 // A EksNodeGroupObservation records the observed state of a EksNodeGroup
 type EksNodeGroupObservation struct {
-	AmiType        string   `json:"ami_type"`
-	ReleaseVersion string   `json:"release_version"`
-	Status         string   `json:"status"`
-	DiskSize       int      `json:"disk_size"`
-	Arn            string   `json:"arn"`
-	Id             string   `json:"id"`
-	InstanceTypes  []string `json:"instance_types"`
-	Version        string   `json:"version"`
+	Arn       string      `json:"arn"`
+	Status    string      `json:"status"`
+	Resources []Resources `json:"resources"`
+}
+
+type Resources struct {
+	AutoscalingGroups           []AutoscalingGroups `json:"autoscaling_groups"`
+	RemoteAccessSecurityGroupId string              `json:"remote_access_security_group_id"`
+}
+
+type AutoscalingGroups struct {
+	Name string `json:"name"`
 }

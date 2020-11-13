@@ -53,6 +53,7 @@ type DxHostedTransitVirtualInterfaceAccepterSpec struct {
 // A DxHostedTransitVirtualInterfaceAccepterParameters defines the desired state of a DxHostedTransitVirtualInterfaceAccepter
 type DxHostedTransitVirtualInterfaceAccepterParameters struct {
 	DxGatewayId        string            `json:"dx_gateway_id"`
+	Id                 string            `json:"id"`
 	Tags               map[string]string `json:"tags"`
 	VirtualInterfaceId string            `json:"virtual_interface_id"`
 	Timeouts           []Timeouts        `json:"timeouts"`
@@ -72,5 +73,4 @@ type DxHostedTransitVirtualInterfaceAccepterStatus struct {
 // A DxHostedTransitVirtualInterfaceAccepterObservation records the observed state of a DxHostedTransitVirtualInterfaceAccepter
 type DxHostedTransitVirtualInterfaceAccepterObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

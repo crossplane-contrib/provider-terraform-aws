@@ -52,6 +52,7 @@ type InspectorResourceGroupSpec struct {
 
 // A InspectorResourceGroupParameters defines the desired state of a InspectorResourceGroup
 type InspectorResourceGroupParameters struct {
+	Id   string            `json:"id"`
 	Tags map[string]string `json:"tags"`
 }
 
@@ -64,5 +65,4 @@ type InspectorResourceGroupStatus struct {
 // A InspectorResourceGroupObservation records the observed state of a InspectorResourceGroup
 type InspectorResourceGroupObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

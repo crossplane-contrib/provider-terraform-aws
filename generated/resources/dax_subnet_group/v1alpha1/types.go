@@ -53,6 +53,7 @@ type DaxSubnetGroupSpec struct {
 // A DaxSubnetGroupParameters defines the desired state of a DaxSubnetGroup
 type DaxSubnetGroupParameters struct {
 	Description string   `json:"description"`
+	Id          string   `json:"id"`
 	Name        string   `json:"name"`
 	SubnetIds   []string `json:"subnet_ids"`
 }
@@ -65,6 +66,5 @@ type DaxSubnetGroupStatus struct {
 
 // A DaxSubnetGroupObservation records the observed state of a DaxSubnetGroup
 type DaxSubnetGroupObservation struct {
-	Id    string `json:"id"`
 	VpcId string `json:"vpc_id"`
 }

@@ -52,17 +52,24 @@ type Ec2FleetSpec struct {
 
 // A Ec2FleetParameters defines the desired state of a Ec2Fleet
 type Ec2FleetParameters struct {
+	Id                               string                      `json:"id"`
 	ReplaceUnhealthyInstances        bool                        `json:"replace_unhealthy_instances"`
 	Tags                             map[string]string           `json:"tags"`
 	TerminateInstances               bool                        `json:"terminate_instances"`
 	TerminateInstancesWithExpiration bool                        `json:"terminate_instances_with_expiration"`
 	Type                             string                      `json:"type"`
 	ExcessCapacityTerminationPolicy  string                      `json:"excess_capacity_termination_policy"`
+	SpotOptions                      SpotOptions                 `json:"spot_options"`
 	TargetCapacitySpecification      TargetCapacitySpecification `json:"target_capacity_specification"`
 	Timeouts                         []Timeouts                  `json:"timeouts"`
 	LaunchTemplateConfig             LaunchTemplateConfig        `json:"launch_template_config"`
 	OnDemandOptions                  OnDemandOptions             `json:"on_demand_options"`
-	SpotOptions                      SpotOptions                 `json:"spot_options"`
+}
+
+type SpotOptions struct {
+	InstanceInterruptionBehavior string `json:"instance_interruption_behavior"`
+	InstancePoolsToUseCount      int    `json:"instance_pools_to_use_count"`
+	AllocationStrategy           string `json:"allocation_strategy"`
 }
 
 type TargetCapacitySpecification struct {
@@ -90,22 +97,16 @@ type LaunchTemplateSpecification struct {
 }
 
 type Override struct {
-	SubnetId         string `json:"subnet_id"`
-	WeightedCapacity int    `json:"weighted_capacity"`
 	AvailabilityZone string `json:"availability_zone"`
 	InstanceType     string `json:"instance_type"`
 	MaxPrice         string `json:"max_price"`
 	Priority         int    `json:"priority"`
+	SubnetId         string `json:"subnet_id"`
+	WeightedCapacity int    `json:"weighted_capacity"`
 }
 
 type OnDemandOptions struct {
 	AllocationStrategy string `json:"allocation_strategy"`
-}
-
-type SpotOptions struct {
-	AllocationStrategy           string `json:"allocation_strategy"`
-	InstanceInterruptionBehavior string `json:"instance_interruption_behavior"`
-	InstancePoolsToUseCount      int    `json:"instance_pools_to_use_count"`
 }
 
 // A Ec2FleetStatus defines the observed state of a Ec2Fleet
@@ -115,6 +116,4 @@ type Ec2FleetStatus struct {
 }
 
 // A Ec2FleetObservation records the observed state of a Ec2Fleet
-type Ec2FleetObservation struct {
-	Id string `json:"id"`
-}
+type Ec2FleetObservation struct{}

@@ -54,6 +54,7 @@ type GlueUserDefinedFunctionSpec struct {
 type GlueUserDefinedFunctionParameters struct {
 	CatalogId    string         `json:"catalog_id"`
 	ClassName    string         `json:"class_name"`
+	Id           string         `json:"id"`
 	OwnerName    string         `json:"owner_name"`
 	OwnerType    string         `json:"owner_type"`
 	DatabaseName string         `json:"database_name"`
@@ -75,6 +76,5 @@ type GlueUserDefinedFunctionStatus struct {
 // A GlueUserDefinedFunctionObservation records the observed state of a GlueUserDefinedFunction
 type GlueUserDefinedFunctionObservation struct {
 	Arn        string `json:"arn"`
-	Id         string `json:"id"`
 	CreateTime string `json:"create_time"`
 }

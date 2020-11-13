@@ -52,138 +52,21 @@ type AppmeshRouteSpec struct {
 
 // A AppmeshRouteParameters defines the desired state of a AppmeshRoute
 type AppmeshRouteParameters struct {
-	Tags              map[string]string `json:"tags"`
 	Name              string            `json:"name"`
+	Tags              map[string]string `json:"tags"`
 	VirtualRouterName string            `json:"virtual_router_name"`
+	Id                string            `json:"id"`
 	MeshName          string            `json:"mesh_name"`
+	MeshOwner         string            `json:"mesh_owner"`
 	Spec              Spec              `json:"spec"`
 }
 
 type Spec struct {
 	Priority   int        `json:"priority"`
+	HttpRoute  HttpRoute  `json:"http_route"`
 	TcpRoute   TcpRoute   `json:"tcp_route"`
 	GrpcRoute  GrpcRoute  `json:"grpc_route"`
 	Http2Route Http2Route `json:"http2_route"`
-	HttpRoute  HttpRoute  `json:"http_route"`
-}
-
-type TcpRoute struct {
-	Action Action `json:"action"`
-}
-
-type Action struct {
-	WeightedTarget []WeightedTarget `json:"weighted_target"`
-}
-
-type WeightedTarget struct {
-	VirtualNode string `json:"virtual_node"`
-	Weight      int    `json:"weight"`
-}
-
-type GrpcRoute struct {
-	Action      Action      `json:"action"`
-	Match       Match       `json:"match"`
-	RetryPolicy RetryPolicy `json:"retry_policy"`
-}
-
-type Action struct {
-	WeightedTarget []WeightedTarget `json:"weighted_target"`
-}
-
-type WeightedTarget struct {
-	VirtualNode string `json:"virtual_node"`
-	Weight      int    `json:"weight"`
-}
-
-type Match struct {
-	MethodName  string     `json:"method_name"`
-	ServiceName string     `json:"service_name"`
-	Metadata    []Metadata `json:"metadata"`
-}
-
-type Metadata struct {
-	Invert bool   `json:"invert"`
-	Name   string `json:"name"`
-	Match  Match  `json:"match"`
-}
-
-type Match struct {
-	Exact  string `json:"exact"`
-	Prefix string `json:"prefix"`
-	Regex  string `json:"regex"`
-	Suffix string `json:"suffix"`
-	Range  Range  `json:"range"`
-}
-
-type Range struct {
-	End   int `json:"end"`
-	Start int `json:"start"`
-}
-
-type RetryPolicy struct {
-	GrpcRetryEvents []string        `json:"grpc_retry_events"`
-	HttpRetryEvents []string        `json:"http_retry_events"`
-	MaxRetries      int             `json:"max_retries"`
-	TcpRetryEvents  []string        `json:"tcp_retry_events"`
-	PerRetryTimeout PerRetryTimeout `json:"per_retry_timeout"`
-}
-
-type PerRetryTimeout struct {
-	Unit  string `json:"unit"`
-	Value int    `json:"value"`
-}
-
-type Http2Route struct {
-	Match       Match       `json:"match"`
-	RetryPolicy RetryPolicy `json:"retry_policy"`
-	Action      Action      `json:"action"`
-}
-
-type Match struct {
-	Method string   `json:"method"`
-	Prefix string   `json:"prefix"`
-	Scheme string   `json:"scheme"`
-	Header []Header `json:"header"`
-}
-
-type Header struct {
-	Invert bool   `json:"invert"`
-	Name   string `json:"name"`
-	Match  Match  `json:"match"`
-}
-
-type Match struct {
-	Exact  string `json:"exact"`
-	Prefix string `json:"prefix"`
-	Regex  string `json:"regex"`
-	Suffix string `json:"suffix"`
-	Range  Range  `json:"range"`
-}
-
-type Range struct {
-	End   int `json:"end"`
-	Start int `json:"start"`
-}
-
-type RetryPolicy struct {
-	HttpRetryEvents []string        `json:"http_retry_events"`
-	MaxRetries      int             `json:"max_retries"`
-	TcpRetryEvents  []string        `json:"tcp_retry_events"`
-	PerRetryTimeout PerRetryTimeout `json:"per_retry_timeout"`
-}
-
-type PerRetryTimeout struct {
-	Unit  string `json:"unit"`
-	Value int    `json:"value"`
-}
-
-type Action struct {
-	WeightedTarget []WeightedTarget `json:"weighted_target"`
-}
-
-type WeightedTarget struct {
-	VirtualNode string `json:"virtual_node"`
-	Weight      int    `json:"weight"`
 }
 
 type HttpRoute struct {
@@ -223,8 +106,8 @@ type Match struct {
 }
 
 type Range struct {
-	Start int `json:"start"`
 	End   int `json:"end"`
+	Start int `json:"start"`
 }
 
 type RetryPolicy struct {
@@ -239,6 +122,125 @@ type PerRetryTimeout struct {
 	Value int    `json:"value"`
 }
 
+type TcpRoute struct {
+	Action Action `json:"action"`
+}
+
+type Action struct {
+	WeightedTarget []WeightedTarget `json:"weighted_target"`
+}
+
+type WeightedTarget struct {
+	VirtualNode string `json:"virtual_node"`
+	Weight      int    `json:"weight"`
+}
+
+type GrpcRoute struct {
+	Match       Match       `json:"match"`
+	RetryPolicy RetryPolicy `json:"retry_policy"`
+	Action      Action      `json:"action"`
+}
+
+type Match struct {
+	ServiceName string     `json:"service_name"`
+	MethodName  string     `json:"method_name"`
+	Metadata    []Metadata `json:"metadata"`
+}
+
+type Metadata struct {
+	Invert bool   `json:"invert"`
+	Name   string `json:"name"`
+	Match  Match  `json:"match"`
+}
+
+type Match struct {
+	Exact  string `json:"exact"`
+	Prefix string `json:"prefix"`
+	Regex  string `json:"regex"`
+	Suffix string `json:"suffix"`
+	Range  Range  `json:"range"`
+}
+
+type Range struct {
+	End   int `json:"end"`
+	Start int `json:"start"`
+}
+
+type RetryPolicy struct {
+	HttpRetryEvents []string        `json:"http_retry_events"`
+	MaxRetries      int             `json:"max_retries"`
+	TcpRetryEvents  []string        `json:"tcp_retry_events"`
+	GrpcRetryEvents []string        `json:"grpc_retry_events"`
+	PerRetryTimeout PerRetryTimeout `json:"per_retry_timeout"`
+}
+
+type PerRetryTimeout struct {
+	Unit  string `json:"unit"`
+	Value int    `json:"value"`
+}
+
+type Action struct {
+	WeightedTarget []WeightedTarget `json:"weighted_target"`
+}
+
+type WeightedTarget struct {
+	VirtualNode string `json:"virtual_node"`
+	Weight      int    `json:"weight"`
+}
+
+type Http2Route struct {
+	RetryPolicy RetryPolicy `json:"retry_policy"`
+	Action      Action      `json:"action"`
+	Match       Match       `json:"match"`
+}
+
+type RetryPolicy struct {
+	HttpRetryEvents []string        `json:"http_retry_events"`
+	MaxRetries      int             `json:"max_retries"`
+	TcpRetryEvents  []string        `json:"tcp_retry_events"`
+	PerRetryTimeout PerRetryTimeout `json:"per_retry_timeout"`
+}
+
+type PerRetryTimeout struct {
+	Value int    `json:"value"`
+	Unit  string `json:"unit"`
+}
+
+type Action struct {
+	WeightedTarget []WeightedTarget `json:"weighted_target"`
+}
+
+type WeightedTarget struct {
+	VirtualNode string `json:"virtual_node"`
+	Weight      int    `json:"weight"`
+}
+
+type Match struct {
+	Scheme string   `json:"scheme"`
+	Method string   `json:"method"`
+	Prefix string   `json:"prefix"`
+	Header []Header `json:"header"`
+}
+
+type Header struct {
+	Invert bool   `json:"invert"`
+	Name   string `json:"name"`
+	Match  Match  `json:"match"`
+}
+
+type Match struct {
+	Regex  string `json:"regex"`
+	Suffix string `json:"suffix"`
+	Exact  string `json:"exact"`
+	Prefix string `json:"prefix"`
+	Range  Range  `json:"range"`
+}
+
+type Range struct {
+	End   int `json:"end"`
+	Start int `json:"start"`
+}
+
 // A AppmeshRouteStatus defines the observed state of a AppmeshRoute
 type AppmeshRouteStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -248,9 +250,7 @@ type AppmeshRouteStatus struct {
 // A AppmeshRouteObservation records the observed state of a AppmeshRoute
 type AppmeshRouteObservation struct {
 	Arn             string `json:"arn"`
-	MeshOwner       string `json:"mesh_owner"`
 	ResourceOwner   string `json:"resource_owner"`
 	CreatedDate     string `json:"created_date"`
-	Id              string `json:"id"`
 	LastUpdatedDate string `json:"last_updated_date"`
 }

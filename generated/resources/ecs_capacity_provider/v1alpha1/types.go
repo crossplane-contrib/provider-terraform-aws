@@ -52,14 +52,15 @@ type EcsCapacityProviderSpec struct {
 
 // A EcsCapacityProviderParameters defines the desired state of a EcsCapacityProvider
 type EcsCapacityProviderParameters struct {
-	Tags                     map[string]string        `json:"tags"`
+	Id                       string                   `json:"id"`
 	Name                     string                   `json:"name"`
+	Tags                     map[string]string        `json:"tags"`
 	AutoScalingGroupProvider AutoScalingGroupProvider `json:"auto_scaling_group_provider"`
 }
 
 type AutoScalingGroupProvider struct {
-	ManagedTerminationProtection string         `json:"managed_termination_protection"`
 	AutoScalingGroupArn          string         `json:"auto_scaling_group_arn"`
+	ManagedTerminationProtection string         `json:"managed_termination_protection"`
 	ManagedScaling               ManagedScaling `json:"managed_scaling"`
 }
 
@@ -79,5 +80,4 @@ type EcsCapacityProviderStatus struct {
 // A EcsCapacityProviderObservation records the observed state of a EcsCapacityProvider
 type EcsCapacityProviderObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

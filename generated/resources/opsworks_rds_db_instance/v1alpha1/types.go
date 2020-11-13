@@ -52,10 +52,11 @@ type OpsworksRdsDbInstanceSpec struct {
 
 // A OpsworksRdsDbInstanceParameters defines the desired state of a OpsworksRdsDbInstance
 type OpsworksRdsDbInstanceParameters struct {
-	DbPassword       string `json:"db_password"`
-	DbUser           string `json:"db_user"`
+	Id               string `json:"id"`
 	RdsDbInstanceArn string `json:"rds_db_instance_arn"`
 	StackId          string `json:"stack_id"`
+	DbPassword       string `json:"db_password"`
+	DbUser           string `json:"db_user"`
 }
 
 // A OpsworksRdsDbInstanceStatus defines the observed state of a OpsworksRdsDbInstance
@@ -65,6 +66,4 @@ type OpsworksRdsDbInstanceStatus struct {
 }
 
 // A OpsworksRdsDbInstanceObservation records the observed state of a OpsworksRdsDbInstance
-type OpsworksRdsDbInstanceObservation struct {
-	Id string `json:"id"`
-}
+type OpsworksRdsDbInstanceObservation struct{}

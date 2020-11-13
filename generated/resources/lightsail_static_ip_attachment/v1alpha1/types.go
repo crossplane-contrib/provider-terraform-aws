@@ -52,8 +52,9 @@ type LightsailStaticIpAttachmentSpec struct {
 
 // A LightsailStaticIpAttachmentParameters defines the desired state of a LightsailStaticIpAttachment
 type LightsailStaticIpAttachmentParameters struct {
-	InstanceName string `json:"instance_name"`
 	StaticIpName string `json:"static_ip_name"`
+	Id           string `json:"id"`
+	InstanceName string `json:"instance_name"`
 }
 
 // A LightsailStaticIpAttachmentStatus defines the observed state of a LightsailStaticIpAttachment
@@ -64,6 +65,5 @@ type LightsailStaticIpAttachmentStatus struct {
 
 // A LightsailStaticIpAttachmentObservation records the observed state of a LightsailStaticIpAttachment
 type LightsailStaticIpAttachmentObservation struct {
-	Id        string `json:"id"`
 	IpAddress string `json:"ip_address"`
 }

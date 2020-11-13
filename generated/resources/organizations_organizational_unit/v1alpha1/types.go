@@ -52,6 +52,7 @@ type OrganizationsOrganizationalUnitSpec struct {
 
 // A OrganizationsOrganizationalUnitParameters defines the desired state of a OrganizationsOrganizationalUnit
 type OrganizationsOrganizationalUnitParameters struct {
+	Id       string `json:"id"`
 	Name     string `json:"name"`
 	ParentId string `json:"parent_id"`
 }
@@ -64,6 +65,13 @@ type OrganizationsOrganizationalUnitStatus struct {
 
 // A OrganizationsOrganizationalUnitObservation records the observed state of a OrganizationsOrganizationalUnit
 type OrganizationsOrganizationalUnitObservation struct {
-	Arn string `json:"arn"`
-	Id  string `json:"id"`
+	Accounts []Accounts `json:"accounts"`
+	Arn      string     `json:"arn"`
+}
+
+type Accounts struct {
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Arn   string `json:"arn"`
+	Email string `json:"email"`
 }

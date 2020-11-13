@@ -53,6 +53,7 @@ type SesReceiptRuleSetSpec struct {
 // A SesReceiptRuleSetParameters defines the desired state of a SesReceiptRuleSet
 type SesReceiptRuleSetParameters struct {
 	RuleSetName string `json:"rule_set_name"`
+	Id          string `json:"id"`
 }
 
 // A SesReceiptRuleSetStatus defines the observed state of a SesReceiptRuleSet
@@ -62,6 +63,4 @@ type SesReceiptRuleSetStatus struct {
 }
 
 // A SesReceiptRuleSetObservation records the observed state of a SesReceiptRuleSet
-type SesReceiptRuleSetObservation struct {
-	Id string `json:"id"`
-}
+type SesReceiptRuleSetObservation struct{}

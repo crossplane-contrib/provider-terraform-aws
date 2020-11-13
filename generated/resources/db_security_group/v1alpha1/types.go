@@ -53,16 +53,17 @@ type DbSecurityGroupSpec struct {
 // A DbSecurityGroupParameters defines the desired state of a DbSecurityGroup
 type DbSecurityGroupParameters struct {
 	Description string            `json:"description"`
+	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	Ingress     []Ingress         `json:"ingress"`
 }
 
 type Ingress struct {
+	Cidr                 string `json:"cidr"`
 	SecurityGroupId      string `json:"security_group_id"`
 	SecurityGroupName    string `json:"security_group_name"`
 	SecurityGroupOwnerId string `json:"security_group_owner_id"`
-	Cidr                 string `json:"cidr"`
 }
 
 // A DbSecurityGroupStatus defines the observed state of a DbSecurityGroup
@@ -73,6 +74,5 @@ type DbSecurityGroupStatus struct {
 
 // A DbSecurityGroupObservation records the observed state of a DbSecurityGroup
 type DbSecurityGroupObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

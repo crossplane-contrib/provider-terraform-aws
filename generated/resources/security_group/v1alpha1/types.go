@@ -52,11 +52,40 @@ type SecurityGroupSpec struct {
 
 // A SecurityGroupParameters defines the desired state of a SecurityGroup
 type SecurityGroupParameters struct {
-	Tags                map[string]string `json:"tags"`
+	Description         string            `json:"description"`
+	Egress              []Egress          `json:"egress"`
+	Name                string            `json:"name"`
 	NamePrefix          string            `json:"name_prefix"`
 	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
-	Description         string            `json:"description"`
+	Id                  string            `json:"id"`
+	Ingress             []Ingress         `json:"ingress"`
+	Tags                map[string]string `json:"tags"`
+	VpcId               string            `json:"vpc_id"`
 	Timeouts            []Timeouts        `json:"timeouts"`
+}
+
+type Egress struct {
+	CidrBlocks     []string `json:"cidr_blocks"`
+	Description    string   `json:"description"`
+	ToPort         int      `json:"to_port"`
+	Protocol       string   `json:"protocol"`
+	SecurityGroups []string `json:"security_groups"`
+	PrefixListIds  []string `json:"prefix_list_ids"`
+	Self           bool     `json:"self"`
+	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
+	FromPort       int      `json:"from_port"`
+}
+
+type Ingress struct {
+	Protocol       string   `json:"protocol"`
+	Self           bool     `json:"self"`
+	Description    string   `json:"description"`
+	PrefixListIds  []string `json:"prefix_list_ids"`
+	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
+	SecurityGroups []string `json:"security_groups"`
+	ToPort         int      `json:"to_port"`
+	CidrBlocks     []string `json:"cidr_blocks"`
+	FromPort       int      `json:"from_port"`
 }
 
 type Timeouts struct {
@@ -72,9 +101,6 @@ type SecurityGroupStatus struct {
 
 // A SecurityGroupObservation records the observed state of a SecurityGroup
 type SecurityGroupObservation struct {
-	Name    string `json:"name"`
-	OwnerId string `json:"owner_id"`
-	VpcId   string `json:"vpc_id"`
 	Arn     string `json:"arn"`
-	Id      string `json:"id"`
+	OwnerId string `json:"owner_id"`
 }

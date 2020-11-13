@@ -52,13 +52,18 @@ type DaxClusterSpec struct {
 
 // A DaxClusterParameters defines the desired state of a DaxCluster
 type DaxClusterParameters struct {
-	NotificationTopicArn string               `json:"notification_topic_arn"`
-	ClusterName          string               `json:"cluster_name"`
-	Description          string               `json:"description"`
-	IamRoleArn           string               `json:"iam_role_arn"`
-	NodeType             string               `json:"node_type"`
 	AvailabilityZones    []string             `json:"availability_zones"`
+	Id                   string               `json:"id"`
+	NodeType             string               `json:"node_type"`
+	NotificationTopicArn string               `json:"notification_topic_arn"`
+	Description          string               `json:"description"`
+	MaintenanceWindow    string               `json:"maintenance_window"`
+	SecurityGroupIds     []string             `json:"security_group_ids"`
+	ClusterName          string               `json:"cluster_name"`
 	ReplicationFactor    int                  `json:"replication_factor"`
+	IamRoleArn           string               `json:"iam_role_arn"`
+	ParameterGroupName   string               `json:"parameter_group_name"`
+	SubnetGroupName      string               `json:"subnet_group_name"`
 	Tags                 map[string]string    `json:"tags"`
 	ServerSideEncryption ServerSideEncryption `json:"server_side_encryption"`
 	Timeouts             []Timeouts           `json:"timeouts"`
@@ -82,13 +87,16 @@ type DaxClusterStatus struct {
 
 // A DaxClusterObservation records the observed state of a DaxCluster
 type DaxClusterObservation struct {
-	Port                  int      `json:"port"`
-	Id                    string   `json:"id"`
-	ParameterGroupName    string   `json:"parameter_group_name"`
-	SubnetGroupName       string   `json:"subnet_group_name"`
-	Arn                   string   `json:"arn"`
-	SecurityGroupIds      []string `json:"security_group_ids"`
-	ClusterAddress        string   `json:"cluster_address"`
-	ConfigurationEndpoint string   `json:"configuration_endpoint"`
-	MaintenanceWindow     string   `json:"maintenance_window"`
+	ClusterAddress        string  `json:"cluster_address"`
+	Port                  int     `json:"port"`
+	Arn                   string  `json:"arn"`
+	ConfigurationEndpoint string  `json:"configuration_endpoint"`
+	Nodes                 []Nodes `json:"nodes"`
+}
+
+type Nodes struct {
+	Port             int    `json:"port"`
+	Address          string `json:"address"`
+	AvailabilityZone string `json:"availability_zone"`
+	Id               string `json:"id"`
 }

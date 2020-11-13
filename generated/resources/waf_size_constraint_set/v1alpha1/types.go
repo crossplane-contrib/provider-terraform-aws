@@ -52,6 +52,7 @@ type WafSizeConstraintSetSpec struct {
 
 // A WafSizeConstraintSetParameters defines the desired state of a WafSizeConstraintSet
 type WafSizeConstraintSetParameters struct {
+	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	SizeConstraints []SizeConstraints `json:"size_constraints"`
 }
@@ -77,5 +78,4 @@ type WafSizeConstraintSetStatus struct {
 // A WafSizeConstraintSetObservation records the observed state of a WafSizeConstraintSet
 type WafSizeConstraintSetObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

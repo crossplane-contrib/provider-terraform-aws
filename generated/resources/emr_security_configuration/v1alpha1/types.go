@@ -53,6 +53,8 @@ type EmrSecurityConfigurationSpec struct {
 // A EmrSecurityConfigurationParameters defines the desired state of a EmrSecurityConfiguration
 type EmrSecurityConfigurationParameters struct {
 	Configuration string `json:"configuration"`
+	Id            string `json:"id"`
+	Name          string `json:"name"`
 	NamePrefix    string `json:"name_prefix"`
 }
 
@@ -65,6 +67,4 @@ type EmrSecurityConfigurationStatus struct {
 // A EmrSecurityConfigurationObservation records the observed state of a EmrSecurityConfiguration
 type EmrSecurityConfigurationObservation struct {
 	CreationDate string `json:"creation_date"`
-	Id           string `json:"id"`
-	Name         string `json:"name"`
 }

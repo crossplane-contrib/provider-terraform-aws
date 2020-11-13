@@ -53,6 +53,7 @@ type SesDomainDkimSpec struct {
 // A SesDomainDkimParameters defines the desired state of a SesDomainDkim
 type SesDomainDkimParameters struct {
 	Domain string `json:"domain"`
+	Id     string `json:"id"`
 }
 
 // A SesDomainDkimStatus defines the observed state of a SesDomainDkim
@@ -64,5 +65,4 @@ type SesDomainDkimStatus struct {
 // A SesDomainDkimObservation records the observed state of a SesDomainDkim
 type SesDomainDkimObservation struct {
 	DkimTokens []string `json:"dkim_tokens"`
-	Id         string   `json:"id"`
 }

@@ -55,6 +55,7 @@ type XrayGroupParameters struct {
 	Tags             map[string]string `json:"tags"`
 	FilterExpression string            `json:"filter_expression"`
 	GroupName        string            `json:"group_name"`
+	Id               string            `json:"id"`
 }
 
 // A XrayGroupStatus defines the observed state of a XrayGroup
@@ -65,6 +66,5 @@ type XrayGroupStatus struct {
 
 // A XrayGroupObservation records the observed state of a XrayGroup
 type XrayGroupObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

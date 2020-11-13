@@ -53,15 +53,16 @@ type ApiGatewayMethodSpec struct {
 // A ApiGatewayMethodParameters defines the desired state of a ApiGatewayMethod
 type ApiGatewayMethodParameters struct {
 	RequestModels       map[string]string `json:"request_models"`
-	ResourceId          string            `json:"resource_id"`
-	RestApiId           string            `json:"rest_api_id"`
-	ApiKeyRequired      bool              `json:"api_key_required"`
+	RequestParameters   map[string]bool   `json:"request_parameters"`
 	Authorization       string            `json:"authorization"`
 	AuthorizationScopes []string          `json:"authorization_scopes"`
 	AuthorizerId        string            `json:"authorizer_id"`
-	HttpMethod          string            `json:"http_method"`
-	RequestParameters   map[string]bool   `json:"request_parameters"`
 	RequestValidatorId  string            `json:"request_validator_id"`
+	ResourceId          string            `json:"resource_id"`
+	RestApiId           string            `json:"rest_api_id"`
+	ApiKeyRequired      bool              `json:"api_key_required"`
+	HttpMethod          string            `json:"http_method"`
+	Id                  string            `json:"id"`
 }
 
 // A ApiGatewayMethodStatus defines the observed state of a ApiGatewayMethod
@@ -71,6 +72,4 @@ type ApiGatewayMethodStatus struct {
 }
 
 // A ApiGatewayMethodObservation records the observed state of a ApiGatewayMethod
-type ApiGatewayMethodObservation struct {
-	Id string `json:"id"`
-}
+type ApiGatewayMethodObservation struct{}

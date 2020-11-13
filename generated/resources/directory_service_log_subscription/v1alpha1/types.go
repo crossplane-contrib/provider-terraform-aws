@@ -53,6 +53,7 @@ type DirectoryServiceLogSubscriptionSpec struct {
 // A DirectoryServiceLogSubscriptionParameters defines the desired state of a DirectoryServiceLogSubscription
 type DirectoryServiceLogSubscriptionParameters struct {
 	DirectoryId  string `json:"directory_id"`
+	Id           string `json:"id"`
 	LogGroupName string `json:"log_group_name"`
 }
 
@@ -63,6 +64,4 @@ type DirectoryServiceLogSubscriptionStatus struct {
 }
 
 // A DirectoryServiceLogSubscriptionObservation records the observed state of a DirectoryServiceLogSubscription
-type DirectoryServiceLogSubscriptionObservation struct {
-	Id string `json:"id"`
-}
+type DirectoryServiceLogSubscriptionObservation struct{}

@@ -52,17 +52,18 @@ type ConfigOrganizationCustomRuleSpec struct {
 
 // A ConfigOrganizationCustomRuleParameters defines the desired state of a ConfigOrganizationCustomRule
 type ConfigOrganizationCustomRuleParameters struct {
-	ExcludedAccounts          []string   `json:"excluded_accounts"`
-	LambdaFunctionArn         string     `json:"lambda_function_arn"`
-	ResourceTypesScope        []string   `json:"resource_types_scope"`
-	TagKeyScope               string     `json:"tag_key_scope"`
-	TagValueScope             string     `json:"tag_value_scope"`
-	TriggerTypes              []string   `json:"trigger_types"`
 	Description               string     `json:"description"`
+	Id                        string     `json:"id"`
 	InputParameters           string     `json:"input_parameters"`
 	MaximumExecutionFrequency string     `json:"maximum_execution_frequency"`
 	Name                      string     `json:"name"`
 	ResourceIdScope           string     `json:"resource_id_scope"`
+	ResourceTypesScope        []string   `json:"resource_types_scope"`
+	TagKeyScope               string     `json:"tag_key_scope"`
+	LambdaFunctionArn         string     `json:"lambda_function_arn"`
+	TagValueScope             string     `json:"tag_value_scope"`
+	TriggerTypes              []string   `json:"trigger_types"`
+	ExcludedAccounts          []string   `json:"excluded_accounts"`
 	Timeouts                  []Timeouts `json:"timeouts"`
 }
 
@@ -81,5 +82,4 @@ type ConfigOrganizationCustomRuleStatus struct {
 // A ConfigOrganizationCustomRuleObservation records the observed state of a ConfigOrganizationCustomRule
 type ConfigOrganizationCustomRuleObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

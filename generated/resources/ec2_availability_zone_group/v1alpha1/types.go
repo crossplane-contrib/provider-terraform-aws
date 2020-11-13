@@ -53,6 +53,7 @@ type Ec2AvailabilityZoneGroupSpec struct {
 // A Ec2AvailabilityZoneGroupParameters defines the desired state of a Ec2AvailabilityZoneGroup
 type Ec2AvailabilityZoneGroupParameters struct {
 	GroupName   string `json:"group_name"`
+	Id          string `json:"id"`
 	OptInStatus string `json:"opt_in_status"`
 }
 
@@ -63,6 +64,4 @@ type Ec2AvailabilityZoneGroupStatus struct {
 }
 
 // A Ec2AvailabilityZoneGroupObservation records the observed state of a Ec2AvailabilityZoneGroup
-type Ec2AvailabilityZoneGroupObservation struct {
-	Id string `json:"id"`
-}
+type Ec2AvailabilityZoneGroupObservation struct{}

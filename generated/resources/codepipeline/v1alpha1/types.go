@@ -52,31 +52,12 @@ type CodepipelineSpec struct {
 
 // A CodepipelineParameters defines the desired state of a Codepipeline
 type CodepipelineParameters struct {
-	RoleArn       string            `json:"role_arn"`
 	Tags          map[string]string `json:"tags"`
+	Id            string            `json:"id"`
 	Name          string            `json:"name"`
-	Stage         []Stage           `json:"stage"`
+	RoleArn       string            `json:"role_arn"`
 	ArtifactStore []ArtifactStore   `json:"artifact_store"`
-}
-
-type Stage struct {
-	Name   string   `json:"name"`
-	Action []Action `json:"action"`
-}
-
-type Action struct {
-	RunOrder        int               `json:"run_order"`
-	Category        string            `json:"category"`
-	InputArtifacts  []string          `json:"input_artifacts"`
-	Name            string            `json:"name"`
-	Namespace       string            `json:"namespace"`
-	OutputArtifacts []string          `json:"output_artifacts"`
-	Owner           string            `json:"owner"`
-	Region          string            `json:"region"`
-	Version         string            `json:"version"`
-	Configuration   map[string]string `json:"configuration"`
-	Provider        string            `json:"provider"`
-	RoleArn         string            `json:"role_arn"`
+	Stage         []Stage           `json:"stage"`
 }
 
 type ArtifactStore struct {
@@ -91,6 +72,26 @@ type EncryptionKey struct {
 	Type string `json:"type"`
 }
 
+type Stage struct {
+	Name   string   `json:"name"`
+	Action []Action `json:"action"`
+}
+
+type Action struct {
+	Category        string            `json:"category"`
+	Name            string            `json:"name"`
+	Namespace       string            `json:"namespace"`
+	Owner           string            `json:"owner"`
+	Region          string            `json:"region"`
+	RoleArn         string            `json:"role_arn"`
+	RunOrder        int               `json:"run_order"`
+	Configuration   map[string]string `json:"configuration"`
+	InputArtifacts  []string          `json:"input_artifacts"`
+	OutputArtifacts []string          `json:"output_artifacts"`
+	Provider        string            `json:"provider"`
+	Version         string            `json:"version"`
+}
+
 // A CodepipelineStatus defines the observed state of a Codepipeline
 type CodepipelineStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -100,5 +101,4 @@ type CodepipelineStatus struct {
 // A CodepipelineObservation records the observed state of a Codepipeline
 type CodepipelineObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

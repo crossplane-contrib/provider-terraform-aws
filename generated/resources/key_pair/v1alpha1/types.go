@@ -52,6 +52,8 @@ type KeyPairSpec struct {
 
 // A KeyPairParameters defines the desired state of a KeyPair
 type KeyPairParameters struct {
+	Id            string            `json:"id"`
+	KeyName       string            `json:"key_name"`
 	KeyNamePrefix string            `json:"key_name_prefix"`
 	PublicKey     string            `json:"public_key"`
 	Tags          map[string]string `json:"tags"`
@@ -65,9 +67,7 @@ type KeyPairStatus struct {
 
 // A KeyPairObservation records the observed state of a KeyPair
 type KeyPairObservation struct {
-	Id          string `json:"id"`
-	KeyName     string `json:"key_name"`
-	KeyPairId   string `json:"key_pair_id"`
 	Arn         string `json:"arn"`
 	Fingerprint string `json:"fingerprint"`
+	KeyPairId   string `json:"key_pair_id"`
 }

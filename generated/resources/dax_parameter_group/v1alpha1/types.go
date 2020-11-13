@@ -52,8 +52,9 @@ type DaxParameterGroupSpec struct {
 
 // A DaxParameterGroupParameters defines the desired state of a DaxParameterGroup
 type DaxParameterGroupParameters struct {
-	Name        string       `json:"name"`
 	Description string       `json:"description"`
+	Id          string       `json:"id"`
+	Name        string       `json:"name"`
 	Parameters  []Parameters `json:"parameters"`
 }
 
@@ -69,6 +70,4 @@ type DaxParameterGroupStatus struct {
 }
 
 // A DaxParameterGroupObservation records the observed state of a DaxParameterGroup
-type DaxParameterGroupObservation struct {
-	Id string `json:"id"`
-}
+type DaxParameterGroupObservation struct{}

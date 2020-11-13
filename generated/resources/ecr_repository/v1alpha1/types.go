@@ -52,9 +52,10 @@ type EcrRepositorySpec struct {
 
 // A EcrRepositoryParameters defines the desired state of a EcrRepository
 type EcrRepositoryParameters struct {
-	Tags                       map[string]string          `json:"tags"`
+	Id                         string                     `json:"id"`
 	ImageTagMutability         string                     `json:"image_tag_mutability"`
 	Name                       string                     `json:"name"`
+	Tags                       map[string]string          `json:"tags"`
 	EncryptionConfiguration    []EncryptionConfiguration  `json:"encryption_configuration"`
 	ImageScanningConfiguration ImageScanningConfiguration `json:"image_scanning_configuration"`
 	Timeouts                   []Timeouts                 `json:"timeouts"`
@@ -81,8 +82,7 @@ type EcrRepositoryStatus struct {
 
 // A EcrRepositoryObservation records the observed state of a EcrRepository
 type EcrRepositoryObservation struct {
-	RepositoryUrl string `json:"repository_url"`
 	Arn           string `json:"arn"`
-	Id            string `json:"id"`
 	RegistryId    string `json:"registry_id"`
+	RepositoryUrl string `json:"repository_url"`
 }

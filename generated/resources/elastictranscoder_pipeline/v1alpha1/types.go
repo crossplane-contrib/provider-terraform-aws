@@ -52,20 +52,17 @@ type ElastictranscoderPipelineSpec struct {
 
 // A ElastictranscoderPipelineParameters defines the desired state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineParameters struct {
-	Role                       string                       `json:"role"`
 	AwsKmsKeyArn               string                       `json:"aws_kms_key_arn"`
+	Id                         string                       `json:"id"`
 	InputBucket                string                       `json:"input_bucket"`
-	ThumbnailConfigPermissions []ThumbnailConfigPermissions `json:"thumbnail_config_permissions"`
+	Name                       string                       `json:"name"`
+	OutputBucket               string                       `json:"output_bucket"`
+	Role                       string                       `json:"role"`
 	ContentConfig              ContentConfig                `json:"content_config"`
 	ContentConfigPermissions   []ContentConfigPermissions   `json:"content_config_permissions"`
 	Notifications              Notifications                `json:"notifications"`
 	ThumbnailConfig            ThumbnailConfig              `json:"thumbnail_config"`
-}
-
-type ThumbnailConfigPermissions struct {
-	Access      []string `json:"access"`
-	Grantee     string   `json:"grantee"`
-	GranteeType string   `json:"grantee_type"`
+	ThumbnailConfigPermissions []ThumbnailConfigPermissions `json:"thumbnail_config_permissions"`
 }
 
 type ContentConfig struct {
@@ -80,15 +77,21 @@ type ContentConfigPermissions struct {
 }
 
 type Notifications struct {
-	Completed   string `json:"completed"`
 	Error       string `json:"error"`
 	Progressing string `json:"progressing"`
 	Warning     string `json:"warning"`
+	Completed   string `json:"completed"`
 }
 
 type ThumbnailConfig struct {
 	Bucket       string `json:"bucket"`
 	StorageClass string `json:"storage_class"`
+}
+
+type ThumbnailConfigPermissions struct {
+	GranteeType string   `json:"grantee_type"`
+	Access      []string `json:"access"`
+	Grantee     string   `json:"grantee"`
 }
 
 // A ElastictranscoderPipelineStatus defines the observed state of a ElastictranscoderPipeline
@@ -99,8 +102,5 @@ type ElastictranscoderPipelineStatus struct {
 
 // A ElastictranscoderPipelineObservation records the observed state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineObservation struct {
-	Name         string `json:"name"`
-	OutputBucket string `json:"output_bucket"`
-	Arn          string `json:"arn"`
-	Id           string `json:"id"`
+	Arn string `json:"arn"`
 }

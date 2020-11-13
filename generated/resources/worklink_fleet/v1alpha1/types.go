@@ -52,11 +52,12 @@ type WorklinkFleetSpec struct {
 
 // A WorklinkFleetParameters defines the desired state of a WorklinkFleet
 type WorklinkFleetParameters struct {
-	DisplayName                string           `json:"display_name"`
-	Name                       string           `json:"name"`
-	AuditStreamArn             string           `json:"audit_stream_arn"`
-	OptimizeForEndUserLocation bool             `json:"optimize_for_end_user_location"`
 	DeviceCaCertificate        string           `json:"device_ca_certificate"`
+	DisplayName                string           `json:"display_name"`
+	OptimizeForEndUserLocation bool             `json:"optimize_for_end_user_location"`
+	AuditStreamArn             string           `json:"audit_stream_arn"`
+	Id                         string           `json:"id"`
+	Name                       string           `json:"name"`
 	IdentityProvider           IdentityProvider `json:"identity_provider"`
 	Network                    Network          `json:"network"`
 }
@@ -82,7 +83,6 @@ type WorklinkFleetStatus struct {
 type WorklinkFleetObservation struct {
 	Arn             string `json:"arn"`
 	CompanyCode     string `json:"company_code"`
-	LastUpdatedTime string `json:"last_updated_time"`
 	CreatedTime     string `json:"created_time"`
-	Id              string `json:"id"`
+	LastUpdatedTime string `json:"last_updated_time"`
 }

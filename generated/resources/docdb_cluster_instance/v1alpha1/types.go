@@ -52,19 +52,26 @@ type DocdbClusterInstanceSpec struct {
 
 // A DocdbClusterInstanceParameters defines the desired state of a DocdbClusterInstance
 type DocdbClusterInstanceParameters struct {
-	AutoMinorVersionUpgrade bool              `json:"auto_minor_version_upgrade"`
-	Engine                  string            `json:"engine"`
-	InstanceClass           string            `json:"instance_class"`
-	Tags                    map[string]string `json:"tags"`
-	ClusterIdentifier       string            `json:"cluster_identifier"`
-	PromotionTier           int               `json:"promotion_tier"`
-	Timeouts                []Timeouts        `json:"timeouts"`
+	ApplyImmediately           bool              `json:"apply_immediately"`
+	Identifier                 string            `json:"identifier"`
+	InstanceClass              string            `json:"instance_class"`
+	AutoMinorVersionUpgrade    bool              `json:"auto_minor_version_upgrade"`
+	CaCertIdentifier           string            `json:"ca_cert_identifier"`
+	Id                         string            `json:"id"`
+	PromotionTier              int               `json:"promotion_tier"`
+	ClusterIdentifier          string            `json:"cluster_identifier"`
+	Engine                     string            `json:"engine"`
+	IdentifierPrefix           string            `json:"identifier_prefix"`
+	Tags                       map[string]string `json:"tags"`
+	AvailabilityZone           string            `json:"availability_zone"`
+	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
+	Timeouts                   []Timeouts        `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A DocdbClusterInstanceStatus defines the observed state of a DocdbClusterInstance
@@ -75,22 +82,15 @@ type DocdbClusterInstanceStatus struct {
 
 // A DocdbClusterInstanceObservation records the observed state of a DocdbClusterInstance
 type DocdbClusterInstanceObservation struct {
-	ApplyImmediately           bool   `json:"apply_immediately"`
-	Port                       int    `json:"port"`
-	DbiResourceId              string `json:"dbi_resource_id"`
-	EngineVersion              string `json:"engine_version"`
-	IdentifierPrefix           string `json:"identifier_prefix"`
-	PreferredBackupWindow      string `json:"preferred_backup_window"`
-	Writer                     bool   `json:"writer"`
-	Arn                        string `json:"arn"`
-	DbSubnetGroupName          string `json:"db_subnet_group_name"`
-	Identifier                 string `json:"identifier"`
-	KmsKeyId                   string `json:"kms_key_id"`
-	PubliclyAccessible         bool   `json:"publicly_accessible"`
-	StorageEncrypted           bool   `json:"storage_encrypted"`
-	AvailabilityZone           string `json:"availability_zone"`
-	CaCertIdentifier           string `json:"ca_cert_identifier"`
-	Endpoint                   string `json:"endpoint"`
-	Id                         string `json:"id"`
-	PreferredMaintenanceWindow string `json:"preferred_maintenance_window"`
+	Port                  int    `json:"port"`
+	DbiResourceId         string `json:"dbi_resource_id"`
+	KmsKeyId              string `json:"kms_key_id"`
+	PreferredBackupWindow string `json:"preferred_backup_window"`
+	StorageEncrypted      bool   `json:"storage_encrypted"`
+	DbSubnetGroupName     string `json:"db_subnet_group_name"`
+	Endpoint              string `json:"endpoint"`
+	Arn                   string `json:"arn"`
+	EngineVersion         string `json:"engine_version"`
+	PubliclyAccessible    bool   `json:"publicly_accessible"`
+	Writer                bool   `json:"writer"`
 }

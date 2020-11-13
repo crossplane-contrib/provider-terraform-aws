@@ -53,6 +53,7 @@ type SesDomainIdentitySpec struct {
 // A SesDomainIdentityParameters defines the desired state of a SesDomainIdentity
 type SesDomainIdentityParameters struct {
 	Domain string `json:"domain"`
+	Id     string `json:"id"`
 }
 
 // A SesDomainIdentityStatus defines the observed state of a SesDomainIdentity
@@ -64,6 +65,5 @@ type SesDomainIdentityStatus struct {
 // A SesDomainIdentityObservation records the observed state of a SesDomainIdentity
 type SesDomainIdentityObservation struct {
 	Arn               string `json:"arn"`
-	Id                string `json:"id"`
 	VerificationToken string `json:"verification_token"`
 }

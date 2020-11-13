@@ -53,6 +53,7 @@ type ConfigConfigRuleSpec struct {
 // A ConfigConfigRuleParameters defines the desired state of a ConfigConfigRule
 type ConfigConfigRuleParameters struct {
 	Description               string            `json:"description"`
+	Id                        string            `json:"id"`
 	InputParameters           string            `json:"input_parameters"`
 	MaximumExecutionFrequency string            `json:"maximum_execution_frequency"`
 	Name                      string            `json:"name"`
@@ -75,9 +76,9 @@ type Source struct {
 }
 
 type SourceDetail struct {
+	EventSource               string `json:"event_source"`
 	MaximumExecutionFrequency string `json:"maximum_execution_frequency"`
 	MessageType               string `json:"message_type"`
-	EventSource               string `json:"event_source"`
 }
 
 // A ConfigConfigRuleStatus defines the observed state of a ConfigConfigRule
@@ -89,6 +90,5 @@ type ConfigConfigRuleStatus struct {
 // A ConfigConfigRuleObservation records the observed state of a ConfigConfigRule
 type ConfigConfigRuleObservation struct {
 	Arn    string `json:"arn"`
-	Id     string `json:"id"`
 	RuleId string `json:"rule_id"`
 }

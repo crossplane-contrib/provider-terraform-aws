@@ -52,6 +52,7 @@ type IamSamlProviderSpec struct {
 
 // A IamSamlProviderParameters defines the desired state of a IamSamlProvider
 type IamSamlProviderParameters struct {
+	Id                   string `json:"id"`
 	Name                 string `json:"name"`
 	SamlMetadataDocument string `json:"saml_metadata_document"`
 }
@@ -64,7 +65,6 @@ type IamSamlProviderStatus struct {
 
 // A IamSamlProviderObservation records the observed state of a IamSamlProvider
 type IamSamlProviderObservation struct {
-	Id         string `json:"id"`
-	ValidUntil string `json:"valid_until"`
 	Arn        string `json:"arn"`
+	ValidUntil string `json:"valid_until"`
 }

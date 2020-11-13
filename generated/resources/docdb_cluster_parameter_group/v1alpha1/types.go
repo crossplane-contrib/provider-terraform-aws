@@ -52,6 +52,9 @@ type DocdbClusterParameterGroupSpec struct {
 
 // A DocdbClusterParameterGroupParameters defines the desired state of a DocdbClusterParameterGroup
 type DocdbClusterParameterGroupParameters struct {
+	Id          string            `json:"id"`
+	Name        string            `json:"name"`
+	NamePrefix  string            `json:"name_prefix"`
 	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Family      string            `json:"family"`
@@ -59,9 +62,9 @@ type DocdbClusterParameterGroupParameters struct {
 }
 
 type Parameter struct {
-	Value       string `json:"value"`
 	ApplyMethod string `json:"apply_method"`
 	Name        string `json:"name"`
+	Value       string `json:"value"`
 }
 
 // A DocdbClusterParameterGroupStatus defines the observed state of a DocdbClusterParameterGroup
@@ -72,8 +75,5 @@ type DocdbClusterParameterGroupStatus struct {
 
 // A DocdbClusterParameterGroupObservation records the observed state of a DocdbClusterParameterGroup
 type DocdbClusterParameterGroupObservation struct {
-	NamePrefix string `json:"name_prefix"`
-	Arn        string `json:"arn"`
-	Id         string `json:"id"`
-	Name       string `json:"name"`
+	Arn string `json:"arn"`
 }

@@ -52,13 +52,14 @@ type WafGeoMatchSetSpec struct {
 
 // A WafGeoMatchSetParameters defines the desired state of a WafGeoMatchSet
 type WafGeoMatchSetParameters struct {
+	Id                 string               `json:"id"`
 	Name               string               `json:"name"`
 	GeoMatchConstraint []GeoMatchConstraint `json:"geo_match_constraint"`
 }
 
 type GeoMatchConstraint struct {
-	Value string `json:"value"`
 	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
 // A WafGeoMatchSetStatus defines the observed state of a WafGeoMatchSet
@@ -70,5 +71,4 @@ type WafGeoMatchSetStatus struct {
 // A WafGeoMatchSetObservation records the observed state of a WafGeoMatchSet
 type WafGeoMatchSetObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

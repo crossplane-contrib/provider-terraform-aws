@@ -52,17 +52,24 @@ type RouteSpec struct {
 
 // A RouteParameters defines the desired state of a Route
 type RouteParameters struct {
-	DestinationIpv6CidrBlock string     `json:"destination_ipv6_cidr_block"`
-	RouteTableId             string     `json:"route_table_id"`
-	VpcPeeringConnectionId   string     `json:"vpc_peering_connection_id"`
-	DestinationCidrBlock     string     `json:"destination_cidr_block"`
+	Id                       string     `json:"id"`
+	LocalGatewayId           string     `json:"local_gateway_id"`
 	TransitGatewayId         string     `json:"transit_gateway_id"`
+	NatGatewayId             string     `json:"nat_gateway_id"`
+	NetworkInterfaceId       string     `json:"network_interface_id"`
+	InstanceId               string     `json:"instance_id"`
+	RouteTableId             string     `json:"route_table_id"`
+	DestinationCidrBlock     string     `json:"destination_cidr_block"`
+	DestinationIpv6CidrBlock string     `json:"destination_ipv6_cidr_block"`
+	EgressOnlyGatewayId      string     `json:"egress_only_gateway_id"`
+	GatewayId                string     `json:"gateway_id"`
+	VpcPeeringConnectionId   string     `json:"vpc_peering_connection_id"`
 	Timeouts                 []Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A RouteStatus defines the observed state of a Route
@@ -73,15 +80,8 @@ type RouteStatus struct {
 
 // A RouteObservation records the observed state of a Route
 type RouteObservation struct {
-	LocalGatewayId          string `json:"local_gateway_id"`
 	InstanceOwnerId         string `json:"instance_owner_id"`
-	NetworkInterfaceId      string `json:"network_interface_id"`
 	Origin                  string `json:"origin"`
 	State                   string `json:"state"`
-	GatewayId               string `json:"gateway_id"`
-	Id                      string `json:"id"`
-	InstanceId              string `json:"instance_id"`
 	DestinationPrefixListId string `json:"destination_prefix_list_id"`
-	EgressOnlyGatewayId     string `json:"egress_only_gateway_id"`
-	NatGatewayId            string `json:"nat_gateway_id"`
 }

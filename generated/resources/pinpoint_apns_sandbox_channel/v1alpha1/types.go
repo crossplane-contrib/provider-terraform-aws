@@ -52,15 +52,16 @@ type PinpointApnsSandboxChannelSpec struct {
 
 // A PinpointApnsSandboxChannelParameters defines the desired state of a PinpointApnsSandboxChannel
 type PinpointApnsSandboxChannelParameters struct {
+	BundleId                    string `json:"bundle_id"`
+	Certificate                 string `json:"certificate"`
+	DefaultAuthenticationMethod string `json:"default_authentication_method"`
+	Enabled                     bool   `json:"enabled"`
 	PrivateKey                  string `json:"private_key"`
 	TeamId                      string `json:"team_id"`
-	TokenKey                    string `json:"token_key"`
-	BundleId                    string `json:"bundle_id"`
-	DefaultAuthenticationMethod string `json:"default_authentication_method"`
 	TokenKeyId                  string `json:"token_key_id"`
 	ApplicationId               string `json:"application_id"`
-	Certificate                 string `json:"certificate"`
-	Enabled                     bool   `json:"enabled"`
+	TokenKey                    string `json:"token_key"`
+	Id                          string `json:"id"`
 }
 
 // A PinpointApnsSandboxChannelStatus defines the observed state of a PinpointApnsSandboxChannel
@@ -70,6 +71,4 @@ type PinpointApnsSandboxChannelStatus struct {
 }
 
 // A PinpointApnsSandboxChannelObservation records the observed state of a PinpointApnsSandboxChannel
-type PinpointApnsSandboxChannelObservation struct {
-	Id string `json:"id"`
-}
+type PinpointApnsSandboxChannelObservation struct{}

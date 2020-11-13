@@ -54,6 +54,7 @@ type StoragegatewayUploadBufferSpec struct {
 type StoragegatewayUploadBufferParameters struct {
 	DiskId     string `json:"disk_id"`
 	GatewayArn string `json:"gateway_arn"`
+	Id         string `json:"id"`
 }
 
 // A StoragegatewayUploadBufferStatus defines the observed state of a StoragegatewayUploadBuffer
@@ -63,6 +64,4 @@ type StoragegatewayUploadBufferStatus struct {
 }
 
 // A StoragegatewayUploadBufferObservation records the observed state of a StoragegatewayUploadBuffer
-type StoragegatewayUploadBufferObservation struct {
-	Id string `json:"id"`
-}
+type StoragegatewayUploadBufferObservation struct{}

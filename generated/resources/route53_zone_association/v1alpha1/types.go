@@ -52,8 +52,10 @@ type Route53ZoneAssociationSpec struct {
 
 // A Route53ZoneAssociationParameters defines the desired state of a Route53ZoneAssociation
 type Route53ZoneAssociationParameters struct {
-	ZoneId string `json:"zone_id"`
-	VpcId  string `json:"vpc_id"`
+	Id        string `json:"id"`
+	VpcId     string `json:"vpc_id"`
+	VpcRegion string `json:"vpc_region"`
+	ZoneId    string `json:"zone_id"`
 }
 
 // A Route53ZoneAssociationStatus defines the observed state of a Route53ZoneAssociation
@@ -64,7 +66,5 @@ type Route53ZoneAssociationStatus struct {
 
 // A Route53ZoneAssociationObservation records the observed state of a Route53ZoneAssociation
 type Route53ZoneAssociationObservation struct {
-	Id            string `json:"id"`
 	OwningAccount string `json:"owning_account"`
-	VpcRegion     string `json:"vpc_region"`
 }

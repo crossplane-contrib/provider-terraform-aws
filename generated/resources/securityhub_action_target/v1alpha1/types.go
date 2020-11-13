@@ -52,9 +52,10 @@ type SecurityhubActionTargetSpec struct {
 
 // A SecurityhubActionTargetParameters defines the desired state of a SecurityhubActionTarget
 type SecurityhubActionTargetParameters struct {
-	Description string `json:"description"`
-	Identifier  string `json:"identifier"`
 	Name        string `json:"name"`
+	Description string `json:"description"`
+	Id          string `json:"id"`
+	Identifier  string `json:"identifier"`
 }
 
 // A SecurityhubActionTargetStatus defines the observed state of a SecurityhubActionTarget
@@ -66,5 +67,4 @@ type SecurityhubActionTargetStatus struct {
 // A SecurityhubActionTargetObservation records the observed state of a SecurityhubActionTarget
 type SecurityhubActionTargetObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

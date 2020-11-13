@@ -53,6 +53,7 @@ type IamGroupPolicyAttachmentSpec struct {
 // A IamGroupPolicyAttachmentParameters defines the desired state of a IamGroupPolicyAttachment
 type IamGroupPolicyAttachmentParameters struct {
 	Group     string `json:"group"`
+	Id        string `json:"id"`
 	PolicyArn string `json:"policy_arn"`
 }
 
@@ -63,6 +64,4 @@ type IamGroupPolicyAttachmentStatus struct {
 }
 
 // A IamGroupPolicyAttachmentObservation records the observed state of a IamGroupPolicyAttachment
-type IamGroupPolicyAttachmentObservation struct {
-	Id string `json:"id"`
-}
+type IamGroupPolicyAttachmentObservation struct{}

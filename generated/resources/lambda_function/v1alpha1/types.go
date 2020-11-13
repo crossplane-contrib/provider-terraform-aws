@@ -52,38 +52,36 @@ type LambdaFunctionSpec struct {
 
 // A LambdaFunctionParameters defines the desired state of a LambdaFunction
 type LambdaFunctionParameters struct {
-	Handler                      string            `json:"handler"`
-	Publish                      bool              `json:"publish"`
-	Tags                         map[string]string `json:"tags"`
-	Timeout                      int               `json:"timeout"`
 	KmsKeyArn                    string            `json:"kms_key_arn"`
-	Runtime                      string            `json:"runtime"`
-	S3Bucket                     string            `json:"s3_bucket"`
-	S3Key                        string            `json:"s3_key"`
-	MemorySize                   int               `json:"memory_size"`
 	Role                         string            `json:"role"`
-	S3ObjectVersion              string            `json:"s3_object_version"`
-	Description                  string            `json:"description"`
+	S3Bucket                     string            `json:"s3_bucket"`
+	Id                           string            `json:"id"`
+	MemorySize                   int               `json:"memory_size"`
+	S3Key                        string            `json:"s3_key"`
+	SourceCodeHash               string            `json:"source_code_hash"`
+	Timeout                      int               `json:"timeout"`
 	FunctionName                 string            `json:"function_name"`
-	Layers                       []string          `json:"layers"`
-	Filename                     string            `json:"filename"`
 	ReservedConcurrentExecutions int               `json:"reserved_concurrent_executions"`
-	TracingConfig                TracingConfig     `json:"tracing_config"`
+	Runtime                      string            `json:"runtime"`
+	S3ObjectVersion              string            `json:"s3_object_version"`
+	Tags                         map[string]string `json:"tags"`
+	Description                  string            `json:"description"`
+	Handler                      string            `json:"handler"`
+	Layers                       []string          `json:"layers"`
+	Publish                      bool              `json:"publish"`
+	Filename                     string            `json:"filename"`
 	VpcConfig                    VpcConfig         `json:"vpc_config"`
 	DeadLetterConfig             DeadLetterConfig  `json:"dead_letter_config"`
 	Environment                  Environment       `json:"environment"`
 	FileSystemConfig             FileSystemConfig  `json:"file_system_config"`
 	Timeouts                     []Timeouts        `json:"timeouts"`
-}
-
-type TracingConfig struct {
-	Mode string `json:"mode"`
+	TracingConfig                TracingConfig     `json:"tracing_config"`
 }
 
 type VpcConfig struct {
-	SecurityGroupIds []string `json:"security_group_ids"`
 	SubnetIds        []string `json:"subnet_ids"`
 	VpcId            string   `json:"vpc_id"`
+	SecurityGroupIds []string `json:"security_group_ids"`
 }
 
 type DeadLetterConfig struct {
@@ -95,12 +93,16 @@ type Environment struct {
 }
 
 type FileSystemConfig struct {
-	Arn            string `json:"arn"`
 	LocalMountPath string `json:"local_mount_path"`
+	Arn            string `json:"arn"`
 }
 
 type Timeouts struct {
 	Create string `json:"create"`
+}
+
+type TracingConfig struct {
+	Mode string `json:"mode"`
 }
 
 // A LambdaFunctionStatus defines the observed state of a LambdaFunction
@@ -111,12 +113,10 @@ type LambdaFunctionStatus struct {
 
 // A LambdaFunctionObservation records the observed state of a LambdaFunction
 type LambdaFunctionObservation struct {
-	Arn            string `json:"arn"`
-	SourceCodeHash string `json:"source_code_hash"`
-	Id             string `json:"id"`
-	LastModified   string `json:"last_modified"`
-	SourceCodeSize int    `json:"source_code_size"`
-	Version        string `json:"version"`
 	InvokeArn      string `json:"invoke_arn"`
+	LastModified   string `json:"last_modified"`
 	QualifiedArn   string `json:"qualified_arn"`
+	SourceCodeSize int    `json:"source_code_size"`
+	Arn            string `json:"arn"`
+	Version        string `json:"version"`
 }

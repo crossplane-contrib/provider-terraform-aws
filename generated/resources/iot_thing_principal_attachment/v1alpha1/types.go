@@ -52,6 +52,7 @@ type IotThingPrincipalAttachmentSpec struct {
 
 // A IotThingPrincipalAttachmentParameters defines the desired state of a IotThingPrincipalAttachment
 type IotThingPrincipalAttachmentParameters struct {
+	Id        string `json:"id"`
 	Principal string `json:"principal"`
 	Thing     string `json:"thing"`
 }
@@ -63,6 +64,4 @@ type IotThingPrincipalAttachmentStatus struct {
 }
 
 // A IotThingPrincipalAttachmentObservation records the observed state of a IotThingPrincipalAttachment
-type IotThingPrincipalAttachmentObservation struct {
-	Id string `json:"id"`
-}
+type IotThingPrincipalAttachmentObservation struct{}

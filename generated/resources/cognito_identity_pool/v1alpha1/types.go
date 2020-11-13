@@ -52,12 +52,13 @@ type CognitoIdentityPoolSpec struct {
 
 // A CognitoIdentityPoolParameters defines the desired state of a CognitoIdentityPool
 type CognitoIdentityPoolParameters struct {
-	OpenidConnectProviderArns      []string                   `json:"openid_connect_provider_arns"`
-	Tags                           map[string]string          `json:"tags"`
-	AllowUnauthenticatedIdentities bool                       `json:"allow_unauthenticated_identities"`
 	DeveloperProviderName          string                     `json:"developer_provider_name"`
+	Id                             string                     `json:"id"`
 	IdentityPoolName               string                     `json:"identity_pool_name"`
 	SamlProviderArns               []string                   `json:"saml_provider_arns"`
+	Tags                           map[string]string          `json:"tags"`
+	AllowUnauthenticatedIdentities bool                       `json:"allow_unauthenticated_identities"`
+	OpenidConnectProviderArns      []string                   `json:"openid_connect_provider_arns"`
 	SupportedLoginProviders        map[string]string          `json:"supported_login_providers"`
 	CognitoIdentityProviders       []CognitoIdentityProviders `json:"cognito_identity_providers"`
 }
@@ -77,5 +78,4 @@ type CognitoIdentityPoolStatus struct {
 // A CognitoIdentityPoolObservation records the observed state of a CognitoIdentityPool
 type CognitoIdentityPoolObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

@@ -56,6 +56,7 @@ type GuarddutyThreatintelsetParameters struct {
 	Activate   bool              `json:"activate"`
 	DetectorId string            `json:"detector_id"`
 	Format     string            `json:"format"`
+	Id         string            `json:"id"`
 	Location   string            `json:"location"`
 	Name       string            `json:"name"`
 }
@@ -69,5 +70,4 @@ type GuarddutyThreatintelsetStatus struct {
 // A GuarddutyThreatintelsetObservation records the observed state of a GuarddutyThreatintelset
 type GuarddutyThreatintelsetObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

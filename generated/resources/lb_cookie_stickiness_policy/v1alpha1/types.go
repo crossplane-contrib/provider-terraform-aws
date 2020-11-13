@@ -56,6 +56,7 @@ type LbCookieStickinessPolicyParameters struct {
 	LoadBalancer           string `json:"load_balancer"`
 	Name                   string `json:"name"`
 	CookieExpirationPeriod int    `json:"cookie_expiration_period"`
+	Id                     string `json:"id"`
 }
 
 // A LbCookieStickinessPolicyStatus defines the observed state of a LbCookieStickinessPolicy
@@ -65,6 +66,4 @@ type LbCookieStickinessPolicyStatus struct {
 }
 
 // A LbCookieStickinessPolicyObservation records the observed state of a LbCookieStickinessPolicy
-type LbCookieStickinessPolicyObservation struct {
-	Id string `json:"id"`
-}
+type LbCookieStickinessPolicyObservation struct{}

@@ -55,6 +55,7 @@ type ApiGatewayBasePathMappingParameters struct {
 	ApiId      string `json:"api_id"`
 	BasePath   string `json:"base_path"`
 	DomainName string `json:"domain_name"`
+	Id         string `json:"id"`
 	StageName  string `json:"stage_name"`
 }
 
@@ -65,6 +66,4 @@ type ApiGatewayBasePathMappingStatus struct {
 }
 
 // A ApiGatewayBasePathMappingObservation records the observed state of a ApiGatewayBasePathMapping
-type ApiGatewayBasePathMappingObservation struct {
-	Id string `json:"id"`
-}
+type ApiGatewayBasePathMappingObservation struct{}

@@ -52,9 +52,13 @@ type KinesisFirehoseDeliveryStreamSpec struct {
 
 // A KinesisFirehoseDeliveryStreamParameters defines the desired state of a KinesisFirehoseDeliveryStream
 type KinesisFirehoseDeliveryStreamParameters struct {
+	Arn                        string                     `json:"arn"`
 	Destination                string                     `json:"destination"`
+	DestinationId              string                     `json:"destination_id"`
+	Id                         string                     `json:"id"`
 	Name                       string                     `json:"name"`
 	Tags                       map[string]string          `json:"tags"`
+	VersionId                  string                     `json:"version_id"`
 	SplunkConfiguration        SplunkConfiguration        `json:"splunk_configuration"`
 	ElasticsearchConfiguration ElasticsearchConfiguration `json:"elasticsearch_configuration"`
 	ExtendedS3Configuration    ExtendedS3Configuration    `json:"extended_s3_configuration"`
@@ -76,9 +80,9 @@ type SplunkConfiguration struct {
 }
 
 type CloudwatchLoggingOptions struct {
-	Enabled       bool   `json:"enabled"`
 	LogGroupName  string `json:"log_group_name"`
 	LogStreamName string `json:"log_stream_name"`
+	Enabled       bool   `json:"enabled"`
 }
 
 type ProcessingConfiguration struct {
@@ -97,25 +101,25 @@ type Parameters struct {
 }
 
 type ElasticsearchConfiguration struct {
+	ClusterEndpoint          string                   `json:"cluster_endpoint"`
+	DomainArn                string                   `json:"domain_arn"`
+	IndexRotationPeriod      string                   `json:"index_rotation_period"`
+	S3BackupMode             string                   `json:"s3_backup_mode"`
+	RoleArn                  string                   `json:"role_arn"`
+	TypeName                 string                   `json:"type_name"`
 	BufferingInterval        int                      `json:"buffering_interval"`
 	BufferingSize            int                      `json:"buffering_size"`
-	ClusterEndpoint          string                   `json:"cluster_endpoint"`
 	IndexName                string                   `json:"index_name"`
-	IndexRotationPeriod      string                   `json:"index_rotation_period"`
-	RoleArn                  string                   `json:"role_arn"`
-	S3BackupMode             string                   `json:"s3_backup_mode"`
-	DomainArn                string                   `json:"domain_arn"`
 	RetryDuration            int                      `json:"retry_duration"`
-	TypeName                 string                   `json:"type_name"`
 	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
 	ProcessingConfiguration  ProcessingConfiguration  `json:"processing_configuration"`
 	VpcConfig                VpcConfig                `json:"vpc_config"`
 }
 
 type CloudwatchLoggingOptions struct {
-	Enabled       bool   `json:"enabled"`
 	LogGroupName  string `json:"log_group_name"`
 	LogStreamName string `json:"log_stream_name"`
+	Enabled       bool   `json:"enabled"`
 }
 
 type ProcessingConfiguration struct {
@@ -134,22 +138,22 @@ type Parameters struct {
 }
 
 type VpcConfig struct {
-	VpcId            string   `json:"vpc_id"`
 	RoleArn          string   `json:"role_arn"`
 	SecurityGroupIds []string `json:"security_group_ids"`
 	SubnetIds        []string `json:"subnet_ids"`
+	VpcId            string   `json:"vpc_id"`
 }
 
 type ExtendedS3Configuration struct {
+	BufferSize                        int                               `json:"buffer_size"`
+	KmsKeyArn                         string                            `json:"kms_key_arn"`
 	BufferInterval                    int                               `json:"buffer_interval"`
 	CompressionFormat                 string                            `json:"compression_format"`
-	S3BackupMode                      string                            `json:"s3_backup_mode"`
-	BucketArn                         string                            `json:"bucket_arn"`
 	ErrorOutputPrefix                 string                            `json:"error_output_prefix"`
-	KmsKeyArn                         string                            `json:"kms_key_arn"`
 	Prefix                            string                            `json:"prefix"`
 	RoleArn                           string                            `json:"role_arn"`
-	BufferSize                        int                               `json:"buffer_size"`
+	S3BackupMode                      string                            `json:"s3_backup_mode"`
+	BucketArn                         string                            `json:"bucket_arn"`
 	CloudwatchLoggingOptions          CloudwatchLoggingOptions          `json:"cloudwatch_logging_options"`
 	DataFormatConversionConfiguration DataFormatConversionConfiguration `json:"data_format_conversion_configuration"`
 	ProcessingConfiguration           ProcessingConfiguration           `json:"processing_configuration"`
@@ -198,34 +202,34 @@ type Serializer struct {
 }
 
 type OrcSerDe struct {
-	DictionaryKeyThreshold              int      `json:"dictionary_key_threshold"`
-	BloomFilterFalsePositiveProbability int      `json:"bloom_filter_false_positive_probability"`
-	Compression                         string   `json:"compression"`
 	EnablePadding                       bool     `json:"enable_padding"`
 	FormatVersion                       string   `json:"format_version"`
+	BloomFilterFalsePositiveProbability int      `json:"bloom_filter_false_positive_probability"`
+	BloomFilterColumns                  []string `json:"bloom_filter_columns"`
+	Compression                         string   `json:"compression"`
+	DictionaryKeyThreshold              int      `json:"dictionary_key_threshold"`
 	PaddingTolerance                    int      `json:"padding_tolerance"`
 	RowIndexStride                      int      `json:"row_index_stride"`
 	StripeSizeBytes                     int      `json:"stripe_size_bytes"`
 	BlockSizeBytes                      int      `json:"block_size_bytes"`
-	BloomFilterColumns                  []string `json:"bloom_filter_columns"`
 }
 
 type ParquetSerDe struct {
-	PageSizeBytes               int    `json:"page_size_bytes"`
-	WriterVersion               string `json:"writer_version"`
 	BlockSizeBytes              int    `json:"block_size_bytes"`
 	Compression                 string `json:"compression"`
 	EnableDictionaryCompression bool   `json:"enable_dictionary_compression"`
 	MaxPaddingBytes             int    `json:"max_padding_bytes"`
+	PageSizeBytes               int    `json:"page_size_bytes"`
+	WriterVersion               string `json:"writer_version"`
 }
 
 type SchemaConfiguration struct {
+	CatalogId    string `json:"catalog_id"`
+	DatabaseName string `json:"database_name"`
 	Region       string `json:"region"`
 	RoleArn      string `json:"role_arn"`
 	TableName    string `json:"table_name"`
 	VersionId    string `json:"version_id"`
-	CatalogId    string `json:"catalog_id"`
-	DatabaseName string `json:"database_name"`
 }
 
 type ProcessingConfiguration struct {
@@ -244,13 +248,13 @@ type Parameters struct {
 }
 
 type S3BackupConfiguration struct {
-	KmsKeyArn                string                   `json:"kms_key_arn"`
-	Prefix                   string                   `json:"prefix"`
 	RoleArn                  string                   `json:"role_arn"`
 	BucketArn                string                   `json:"bucket_arn"`
 	BufferInterval           int                      `json:"buffer_interval"`
 	BufferSize               int                      `json:"buffer_size"`
 	CompressionFormat        string                   `json:"compression_format"`
+	KmsKeyArn                string                   `json:"kms_key_arn"`
+	Prefix                   string                   `json:"prefix"`
 	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
 }
 
@@ -266,15 +270,15 @@ type KinesisSourceConfiguration struct {
 }
 
 type RedshiftConfiguration struct {
-	CopyOptions              string                   `json:"copy_options"`
 	DataTableName            string                   `json:"data_table_name"`
+	Password                 string                   `json:"password"`
+	Username                 string                   `json:"username"`
+	S3BackupMode             string                   `json:"s3_backup_mode"`
+	ClusterJdbcurl           string                   `json:"cluster_jdbcurl"`
+	CopyOptions              string                   `json:"copy_options"`
+	DataTableColumns         string                   `json:"data_table_columns"`
 	RetryDuration            int                      `json:"retry_duration"`
 	RoleArn                  string                   `json:"role_arn"`
-	S3BackupMode             string                   `json:"s3_backup_mode"`
-	Username                 string                   `json:"username"`
-	ClusterJdbcurl           string                   `json:"cluster_jdbcurl"`
-	DataTableColumns         string                   `json:"data_table_columns"`
-	Password                 string                   `json:"password"`
 	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
 	ProcessingConfiguration  ProcessingConfiguration  `json:"processing_configuration"`
 	S3BackupConfiguration    S3BackupConfiguration    `json:"s3_backup_configuration"`
@@ -302,13 +306,13 @@ type Parameters struct {
 }
 
 type S3BackupConfiguration struct {
-	Prefix                   string                   `json:"prefix"`
-	RoleArn                  string                   `json:"role_arn"`
-	BucketArn                string                   `json:"bucket_arn"`
 	BufferInterval           int                      `json:"buffer_interval"`
 	BufferSize               int                      `json:"buffer_size"`
 	CompressionFormat        string                   `json:"compression_format"`
 	KmsKeyArn                string                   `json:"kms_key_arn"`
+	Prefix                   string                   `json:"prefix"`
+	RoleArn                  string                   `json:"role_arn"`
+	BucketArn                string                   `json:"bucket_arn"`
 	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
 }
 
@@ -319,13 +323,13 @@ type CloudwatchLoggingOptions struct {
 }
 
 type S3Configuration struct {
-	Prefix                   string                   `json:"prefix"`
 	RoleArn                  string                   `json:"role_arn"`
 	BucketArn                string                   `json:"bucket_arn"`
 	BufferInterval           int                      `json:"buffer_interval"`
 	BufferSize               int                      `json:"buffer_size"`
 	CompressionFormat        string                   `json:"compression_format"`
 	KmsKeyArn                string                   `json:"kms_key_arn"`
+	Prefix                   string                   `json:"prefix"`
 	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
 }
 
@@ -336,9 +340,9 @@ type CloudwatchLoggingOptions struct {
 }
 
 type ServerSideEncryption struct {
-	KeyArn  string `json:"key_arn"`
 	KeyType string `json:"key_type"`
 	Enabled bool   `json:"enabled"`
+	KeyArn  string `json:"key_arn"`
 }
 
 // A KinesisFirehoseDeliveryStreamStatus defines the observed state of a KinesisFirehoseDeliveryStream
@@ -348,9 +352,4 @@ type KinesisFirehoseDeliveryStreamStatus struct {
 }
 
 // A KinesisFirehoseDeliveryStreamObservation records the observed state of a KinesisFirehoseDeliveryStream
-type KinesisFirehoseDeliveryStreamObservation struct {
-	VersionId     string `json:"version_id"`
-	Arn           string `json:"arn"`
-	DestinationId string `json:"destination_id"`
-	Id            string `json:"id"`
-}
+type KinesisFirehoseDeliveryStreamObservation struct{}

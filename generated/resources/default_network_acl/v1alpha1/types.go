@@ -53,6 +53,7 @@ type DefaultNetworkAclSpec struct {
 // A DefaultNetworkAclParameters defines the desired state of a DefaultNetworkAcl
 type DefaultNetworkAclParameters struct {
 	DefaultNetworkAclId string            `json:"default_network_acl_id"`
+	Id                  string            `json:"id"`
 	SubnetIds           []string          `json:"subnet_ids"`
 	Tags                map[string]string `json:"tags"`
 	Egress              []Egress          `json:"egress"`
@@ -61,26 +62,26 @@ type DefaultNetworkAclParameters struct {
 
 type Egress struct {
 	FromPort      int    `json:"from_port"`
-	IcmpType      int    `json:"icmp_type"`
+	IcmpCode      int    `json:"icmp_code"`
 	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	RuleNo        int    `json:"rule_no"`
 	ToPort        int    `json:"to_port"`
 	Action        string `json:"action"`
 	CidrBlock     string `json:"cidr_block"`
-	IcmpCode      int    `json:"icmp_code"`
+	IcmpType      int    `json:"icmp_type"`
 	Protocol      string `json:"protocol"`
 }
 
 type Ingress struct {
-	ToPort        int    `json:"to_port"`
-	Action        string `json:"action"`
-	CidrBlock     string `json:"cidr_block"`
-	FromPort      int    `json:"from_port"`
 	IcmpCode      int    `json:"icmp_code"`
 	IcmpType      int    `json:"icmp_type"`
-	RuleNo        int    `json:"rule_no"`
 	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	ToPort        int    `json:"to_port"`
+	FromPort      int    `json:"from_port"`
+	CidrBlock     string `json:"cidr_block"`
 	Protocol      string `json:"protocol"`
+	RuleNo        int    `json:"rule_no"`
+	Action        string `json:"action"`
 }
 
 // A DefaultNetworkAclStatus defines the observed state of a DefaultNetworkAcl
@@ -92,7 +93,6 @@ type DefaultNetworkAclStatus struct {
 // A DefaultNetworkAclObservation records the observed state of a DefaultNetworkAcl
 type DefaultNetworkAclObservation struct {
 	Arn     string `json:"arn"`
-	Id      string `json:"id"`
 	OwnerId string `json:"owner_id"`
 	VpcId   string `json:"vpc_id"`
 }

@@ -52,6 +52,7 @@ type AppCookieStickinessPolicySpec struct {
 
 // A AppCookieStickinessPolicyParameters defines the desired state of a AppCookieStickinessPolicy
 type AppCookieStickinessPolicyParameters struct {
+	Id           string `json:"id"`
 	LbPort       int    `json:"lb_port"`
 	LoadBalancer string `json:"load_balancer"`
 	Name         string `json:"name"`
@@ -65,6 +66,4 @@ type AppCookieStickinessPolicyStatus struct {
 }
 
 // A AppCookieStickinessPolicyObservation records the observed state of a AppCookieStickinessPolicy
-type AppCookieStickinessPolicyObservation struct {
-	Id string `json:"id"`
-}
+type AppCookieStickinessPolicyObservation struct{}

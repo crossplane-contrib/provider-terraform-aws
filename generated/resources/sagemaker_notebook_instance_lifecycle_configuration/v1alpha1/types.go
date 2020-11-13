@@ -52,9 +52,10 @@ type SagemakerNotebookInstanceLifecycleConfigurationSpec struct {
 
 // A SagemakerNotebookInstanceLifecycleConfigurationParameters defines the desired state of a SagemakerNotebookInstanceLifecycleConfiguration
 type SagemakerNotebookInstanceLifecycleConfigurationParameters struct {
+	OnStart  string `json:"on_start"`
+	Id       string `json:"id"`
 	Name     string `json:"name"`
 	OnCreate string `json:"on_create"`
-	OnStart  string `json:"on_start"`
 }
 
 // A SagemakerNotebookInstanceLifecycleConfigurationStatus defines the observed state of a SagemakerNotebookInstanceLifecycleConfiguration
@@ -66,5 +67,4 @@ type SagemakerNotebookInstanceLifecycleConfigurationStatus struct {
 // A SagemakerNotebookInstanceLifecycleConfigurationObservation records the observed state of a SagemakerNotebookInstanceLifecycleConfiguration
 type SagemakerNotebookInstanceLifecycleConfigurationObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

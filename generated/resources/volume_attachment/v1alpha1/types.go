@@ -54,6 +54,7 @@ type VolumeAttachmentSpec struct {
 type VolumeAttachmentParameters struct {
 	DeviceName  string `json:"device_name"`
 	ForceDetach bool   `json:"force_detach"`
+	Id          string `json:"id"`
 	InstanceId  string `json:"instance_id"`
 	SkipDestroy bool   `json:"skip_destroy"`
 	VolumeId    string `json:"volume_id"`
@@ -66,6 +67,4 @@ type VolumeAttachmentStatus struct {
 }
 
 // A VolumeAttachmentObservation records the observed state of a VolumeAttachment
-type VolumeAttachmentObservation struct {
-	Id string `json:"id"`
-}
+type VolumeAttachmentObservation struct{}

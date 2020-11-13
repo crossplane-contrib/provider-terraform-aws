@@ -52,16 +52,20 @@ type DxPrivateVirtualInterfaceSpec struct {
 
 // A DxPrivateVirtualInterfaceParameters defines the desired state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceParameters struct {
-	ConnectionId  string            `json:"connection_id"`
-	Tags          map[string]string `json:"tags"`
-	Vlan          int               `json:"vlan"`
-	DxGatewayId   string            `json:"dx_gateway_id"`
-	Mtu           int               `json:"mtu"`
-	VpnGatewayId  string            `json:"vpn_gateway_id"`
-	AddressFamily string            `json:"address_family"`
-	BgpAsn        int               `json:"bgp_asn"`
-	Name          string            `json:"name"`
-	Timeouts      []Timeouts        `json:"timeouts"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
+	ConnectionId    string            `json:"connection_id"`
+	Name            string            `json:"name"`
+	Tags            map[string]string `json:"tags"`
+	VpnGatewayId    string            `json:"vpn_gateway_id"`
+	BgpAsn          int               `json:"bgp_asn"`
+	Id              string            `json:"id"`
+	AmazonAddress   string            `json:"amazon_address"`
+	CustomerAddress string            `json:"customer_address"`
+	Vlan            int               `json:"vlan"`
+	AddressFamily   string            `json:"address_family"`
+	DxGatewayId     string            `json:"dx_gateway_id"`
+	Mtu             int               `json:"mtu"`
+	Timeouts        []Timeouts        `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -78,12 +82,8 @@ type DxPrivateVirtualInterfaceStatus struct {
 
 // A DxPrivateVirtualInterfaceObservation records the observed state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceObservation struct {
-	Arn               string `json:"arn"`
-	AmazonAddress     string `json:"amazon_address"`
-	Id                string `json:"id"`
 	AwsDevice         string `json:"aws_device"`
-	BgpAuthKey        string `json:"bgp_auth_key"`
-	CustomerAddress   string `json:"customer_address"`
-	AmazonSideAsn     string `json:"amazon_side_asn"`
+	Arn               string `json:"arn"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
+	AmazonSideAsn     string `json:"amazon_side_asn"`
 }

@@ -52,26 +52,44 @@ type SpotInstanceRequestSpec struct {
 
 // A SpotInstanceRequestParameters defines the desired state of a SpotInstanceRequest
 type SpotInstanceRequestParameters struct {
-	GetPasswordData                   bool                   `json:"get_password_data"`
-	Monitoring                        bool                   `json:"monitoring"`
-	UserData                          string                 `json:"user_data"`
-	BlockDurationMinutes              int                    `json:"block_duration_minutes"`
-	EbsOptimized                      bool                   `json:"ebs_optimized"`
-	IamInstanceProfile                string                 `json:"iam_instance_profile"`
-	InstanceInitiatedShutdownBehavior string                 `json:"instance_initiated_shutdown_behavior"`
-	SourceDestCheck                   bool                   `json:"source_dest_check"`
-	SpotPrice                         string                 `json:"spot_price"`
-	WaitForFulfillment                bool                   `json:"wait_for_fulfillment"`
-	UserDataBase64                    string                 `json:"user_data_base64"`
-	Hibernation                       bool                   `json:"hibernation"`
-	InstanceInterruptionBehaviour     string                 `json:"instance_interruption_behaviour"`
 	DisableApiTermination             bool                   `json:"disable_api_termination"`
-	InstanceType                      string                 `json:"instance_type"`
+	Ipv6AddressCount                  int                    `json:"ipv6_address_count"`
 	LaunchGroup                       string                 `json:"launch_group"`
-	Ami                               string                 `json:"ami"`
+	Tenancy                           string                 `json:"tenancy"`
+	CpuThreadsPerCore                 int                    `json:"cpu_threads_per_core"`
+	EbsOptimized                      bool                   `json:"ebs_optimized"`
+	GetPasswordData                   bool                   `json:"get_password_data"`
+	HostId                            string                 `json:"host_id"`
+	IamInstanceProfile                string                 `json:"iam_instance_profile"`
+	SpotPrice                         string                 `json:"spot_price"`
+	SubnetId                          string                 `json:"subnet_id"`
+	UserDataBase64                    string                 `json:"user_data_base64"`
+	ValidFrom                         string                 `json:"valid_from"`
+	ValidUntil                        string                 `json:"valid_until"`
+	AssociatePublicIpAddress          bool                   `json:"associate_public_ip_address"`
+	InstanceInitiatedShutdownBehavior string                 `json:"instance_initiated_shutdown_behavior"`
+	InstanceInterruptionBehaviour     string                 `json:"instance_interruption_behaviour"`
+	PrivateIp                         string                 `json:"private_ip"`
+	SecondaryPrivateIps               []string               `json:"secondary_private_ips"`
+	SecurityGroups                    []string               `json:"security_groups"`
+	VpcSecurityGroupIds               []string               `json:"vpc_security_group_ids"`
+	AvailabilityZone                  string                 `json:"availability_zone"`
+	InstanceType                      string                 `json:"instance_type"`
+	Ipv6Addresses                     []string               `json:"ipv6_addresses"`
+	Monitoring                        bool                   `json:"monitoring"`
+	PlacementGroup                    string                 `json:"placement_group"`
 	SpotType                          string                 `json:"spot_type"`
-	Tags                              map[string]string      `json:"tags"`
+	CpuCoreCount                      int                    `json:"cpu_core_count"`
+	Hibernation                       bool                   `json:"hibernation"`
+	Id                                string                 `json:"id"`
+	KeyName                           string                 `json:"key_name"`
 	VolumeTags                        map[string]string      `json:"volume_tags"`
+	WaitForFulfillment                bool                   `json:"wait_for_fulfillment"`
+	Ami                               string                 `json:"ami"`
+	BlockDurationMinutes              int                    `json:"block_duration_minutes"`
+	SourceDestCheck                   bool                   `json:"source_dest_check"`
+	Tags                              map[string]string      `json:"tags"`
+	UserData                          string                 `json:"user_data"`
 	RootBlockDevice                   RootBlockDevice        `json:"root_block_device"`
 	Timeouts                          []Timeouts             `json:"timeouts"`
 	CreditSpecification               CreditSpecification    `json:"credit_specification"`
@@ -82,14 +100,14 @@ type SpotInstanceRequestParameters struct {
 }
 
 type RootBlockDevice struct {
+	VolumeId            string `json:"volume_id"`
+	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
 	DeleteOnTermination bool   `json:"delete_on_termination"`
 	DeviceName          string `json:"device_name"`
 	Encrypted           bool   `json:"encrypted"`
 	Iops                int    `json:"iops"`
 	KmsKeyId            string `json:"kms_key_id"`
-	VolumeId            string `json:"volume_id"`
-	VolumeSize          int    `json:"volume_size"`
-	VolumeType          string `json:"volume_type"`
 }
 
 type Timeouts struct {
@@ -102,15 +120,15 @@ type CreditSpecification struct {
 }
 
 type EbsBlockDevice struct {
-	DeleteOnTermination bool   `json:"delete_on_termination"`
-	Iops                int    `json:"iops"`
-	KmsKeyId            string `json:"kms_key_id"`
 	SnapshotId          string `json:"snapshot_id"`
 	VolumeId            string `json:"volume_id"`
-	DeviceName          string `json:"device_name"`
-	Encrypted           bool   `json:"encrypted"`
 	VolumeSize          int    `json:"volume_size"`
 	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+	DeviceName          string `json:"device_name"`
+	Encrypted           bool   `json:"encrypted"`
+	Iops                int    `json:"iops"`
+	KmsKeyId            string `json:"kms_key_id"`
 }
 
 type EphemeralBlockDevice struct {
@@ -139,33 +157,15 @@ type SpotInstanceRequestStatus struct {
 
 // A SpotInstanceRequestObservation records the observed state of a SpotInstanceRequest
 type SpotInstanceRequestObservation struct {
-	Arn                       string   `json:"arn"`
-	PlacementGroup            string   `json:"placement_group"`
-	SecurityGroups            []string `json:"security_groups"`
-	ValidUntil                string   `json:"valid_until"`
-	AssociatePublicIpAddress  bool     `json:"associate_public_ip_address"`
-	HostId                    string   `json:"host_id"`
-	PasswordData              string   `json:"password_data"`
-	CpuCoreCount              int      `json:"cpu_core_count"`
-	InstanceState             string   `json:"instance_state"`
-	Ipv6AddressCount          int      `json:"ipv6_address_count"`
-	PublicIp                  string   `json:"public_ip"`
-	Tenancy                   string   `json:"tenancy"`
-	AvailabilityZone          string   `json:"availability_zone"`
-	KeyName                   string   `json:"key_name"`
-	PrivateIp                 string   `json:"private_ip"`
-	SpotBidStatus             string   `json:"spot_bid_status"`
-	VpcSecurityGroupIds       []string `json:"vpc_security_group_ids"`
-	CpuThreadsPerCore         int      `json:"cpu_threads_per_core"`
-	Id                        string   `json:"id"`
-	SpotRequestState          string   `json:"spot_request_state"`
-	SubnetId                  string   `json:"subnet_id"`
-	PrimaryNetworkInterfaceId string   `json:"primary_network_interface_id"`
-	PrivateDns                string   `json:"private_dns"`
-	ValidFrom                 string   `json:"valid_from"`
-	Ipv6Addresses             []string `json:"ipv6_addresses"`
-	OutpostArn                string   `json:"outpost_arn"`
-	PublicDns                 string   `json:"public_dns"`
-	SecondaryPrivateIps       []string `json:"secondary_private_ips"`
-	SpotInstanceId            string   `json:"spot_instance_id"`
+	PasswordData              string `json:"password_data"`
+	PrimaryNetworkInterfaceId string `json:"primary_network_interface_id"`
+	SpotInstanceId            string `json:"spot_instance_id"`
+	SpotBidStatus             string `json:"spot_bid_status"`
+	InstanceState             string `json:"instance_state"`
+	PrivateDns                string `json:"private_dns"`
+	Arn                       string `json:"arn"`
+	PublicIp                  string `json:"public_ip"`
+	PublicDns                 string `json:"public_dns"`
+	OutpostArn                string `json:"outpost_arn"`
+	SpotRequestState          string `json:"spot_request_state"`
 }

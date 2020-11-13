@@ -52,12 +52,25 @@ type ServiceDiscoveryServiceSpec struct {
 
 // A ServiceDiscoveryServiceParameters defines the desired state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceParameters struct {
-	Description             string                  `json:"description"`
-	Name                    string                  `json:"name"`
+	NamespaceId             string                  `json:"namespace_id"`
 	Tags                    map[string]string       `json:"tags"`
+	Description             string                  `json:"description"`
+	Id                      string                  `json:"id"`
+	Name                    string                  `json:"name"`
+	DnsConfig               DnsConfig               `json:"dns_config"`
 	HealthCheckConfig       HealthCheckConfig       `json:"health_check_config"`
 	HealthCheckCustomConfig HealthCheckCustomConfig `json:"health_check_custom_config"`
-	DnsConfig               DnsConfig               `json:"dns_config"`
+}
+
+type DnsConfig struct {
+	NamespaceId   string       `json:"namespace_id"`
+	RoutingPolicy string       `json:"routing_policy"`
+	DnsRecords    []DnsRecords `json:"dns_records"`
+}
+
+type DnsRecords struct {
+	Ttl  int    `json:"ttl"`
+	Type string `json:"type"`
 }
 
 type HealthCheckConfig struct {
@@ -70,17 +83,6 @@ type HealthCheckCustomConfig struct {
 	FailureThreshold int `json:"failure_threshold"`
 }
 
-type DnsConfig struct {
-	NamespaceId   string       `json:"namespace_id"`
-	RoutingPolicy string       `json:"routing_policy"`
-	DnsRecords    []DnsRecords `json:"dns_records"`
-}
-
-type DnsRecords struct {
-	Type string `json:"type"`
-	Ttl  int    `json:"ttl"`
-}
-
 // A ServiceDiscoveryServiceStatus defines the observed state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -89,7 +91,5 @@ type ServiceDiscoveryServiceStatus struct {
 
 // A ServiceDiscoveryServiceObservation records the observed state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceObservation struct {
-	Id          string `json:"id"`
-	NamespaceId string `json:"namespace_id"`
-	Arn         string `json:"arn"`
+	Arn string `json:"arn"`
 }

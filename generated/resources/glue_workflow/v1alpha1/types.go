@@ -52,11 +52,12 @@ type GlueWorkflowSpec struct {
 
 // A GlueWorkflowParameters defines the desired state of a GlueWorkflow
 type GlueWorkflowParameters struct {
+	Tags                 map[string]string `json:"tags"`
 	DefaultRunProperties map[string]string `json:"default_run_properties"`
 	Description          string            `json:"description"`
+	Id                   string            `json:"id"`
 	MaxConcurrentRuns    int               `json:"max_concurrent_runs"`
 	Name                 string            `json:"name"`
-	Tags                 map[string]string `json:"tags"`
 }
 
 // A GlueWorkflowStatus defines the observed state of a GlueWorkflow
@@ -68,5 +69,4 @@ type GlueWorkflowStatus struct {
 // A GlueWorkflowObservation records the observed state of a GlueWorkflow
 type GlueWorkflowObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

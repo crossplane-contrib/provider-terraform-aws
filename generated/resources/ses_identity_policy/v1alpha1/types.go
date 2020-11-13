@@ -52,6 +52,7 @@ type SesIdentityPolicySpec struct {
 
 // A SesIdentityPolicyParameters defines the desired state of a SesIdentityPolicy
 type SesIdentityPolicyParameters struct {
+	Id       string `json:"id"`
 	Identity string `json:"identity"`
 	Name     string `json:"name"`
 	Policy   string `json:"policy"`
@@ -64,6 +65,4 @@ type SesIdentityPolicyStatus struct {
 }
 
 // A SesIdentityPolicyObservation records the observed state of a SesIdentityPolicy
-type SesIdentityPolicyObservation struct {
-	Id string `json:"id"`
-}
+type SesIdentityPolicyObservation struct{}

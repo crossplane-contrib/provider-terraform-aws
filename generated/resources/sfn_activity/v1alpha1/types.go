@@ -52,6 +52,7 @@ type SfnActivitySpec struct {
 
 // A SfnActivityParameters defines the desired state of a SfnActivity
 type SfnActivityParameters struct {
+	Id   string            `json:"id"`
 	Name string            `json:"name"`
 	Tags map[string]string `json:"tags"`
 }
@@ -65,5 +66,4 @@ type SfnActivityStatus struct {
 // A SfnActivityObservation records the observed state of a SfnActivity
 type SfnActivityObservation struct {
 	CreationDate string `json:"creation_date"`
-	Id           string `json:"id"`
 }

@@ -53,6 +53,7 @@ type S3BucketAnalyticsConfigurationSpec struct {
 // A S3BucketAnalyticsConfigurationParameters defines the desired state of a S3BucketAnalyticsConfiguration
 type S3BucketAnalyticsConfigurationParameters struct {
 	Bucket               string               `json:"bucket"`
+	Id                   string               `json:"id"`
 	Name                 string               `json:"name"`
 	Filter               Filter               `json:"filter"`
 	StorageClassAnalysis StorageClassAnalysis `json:"storage_class_analysis"`
@@ -77,10 +78,10 @@ type Destination struct {
 }
 
 type S3BucketDestination struct {
-	BucketArn       string `json:"bucket_arn"`
 	Format          string `json:"format"`
 	Prefix          string `json:"prefix"`
 	BucketAccountId string `json:"bucket_account_id"`
+	BucketArn       string `json:"bucket_arn"`
 }
 
 // A S3BucketAnalyticsConfigurationStatus defines the observed state of a S3BucketAnalyticsConfiguration
@@ -90,6 +91,4 @@ type S3BucketAnalyticsConfigurationStatus struct {
 }
 
 // A S3BucketAnalyticsConfigurationObservation records the observed state of a S3BucketAnalyticsConfiguration
-type S3BucketAnalyticsConfigurationObservation struct {
-	Id string `json:"id"`
-}
+type S3BucketAnalyticsConfigurationObservation struct{}

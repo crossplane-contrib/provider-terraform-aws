@@ -52,6 +52,7 @@ type DevicefarmProjectSpec struct {
 
 // A DevicefarmProjectParameters defines the desired state of a DevicefarmProject
 type DevicefarmProjectParameters struct {
+	Id   string `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -64,5 +65,4 @@ type DevicefarmProjectStatus struct {
 // A DevicefarmProjectObservation records the observed state of a DevicefarmProject
 type DevicefarmProjectObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

@@ -52,19 +52,20 @@ type XraySamplingRuleSpec struct {
 
 // A XraySamplingRuleParameters defines the desired state of a XraySamplingRule
 type XraySamplingRuleParameters struct {
-	RuleName      string            `json:"rule_name"`
-	Version       int               `json:"version"`
-	Tags          map[string]string `json:"tags"`
-	UrlPath       string            `json:"url_path"`
-	FixedRate     int               `json:"fixed_rate"`
-	Host          string            `json:"host"`
-	ReservoirSize int               `json:"reservoir_size"`
-	ResourceArn   string            `json:"resource_arn"`
-	ServiceName   string            `json:"service_name"`
 	ServiceType   string            `json:"service_type"`
-	Attributes    map[string]string `json:"attributes"`
+	Version       int               `json:"version"`
 	HttpMethod    string            `json:"http_method"`
+	ResourceArn   string            `json:"resource_arn"`
+	Id            string            `json:"id"`
+	Host          string            `json:"host"`
 	Priority      int               `json:"priority"`
+	ReservoirSize int               `json:"reservoir_size"`
+	RuleName      string            `json:"rule_name"`
+	ServiceName   string            `json:"service_name"`
+	Tags          map[string]string `json:"tags"`
+	Attributes    map[string]string `json:"attributes"`
+	FixedRate     int               `json:"fixed_rate"`
+	UrlPath       string            `json:"url_path"`
 }
 
 // A XraySamplingRuleStatus defines the observed state of a XraySamplingRule
@@ -75,6 +76,5 @@ type XraySamplingRuleStatus struct {
 
 // A XraySamplingRuleObservation records the observed state of a XraySamplingRule
 type XraySamplingRuleObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

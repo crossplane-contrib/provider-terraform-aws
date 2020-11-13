@@ -53,6 +53,7 @@ type CodebuildWebhookSpec struct {
 // A CodebuildWebhookParameters defines the desired state of a CodebuildWebhook
 type CodebuildWebhookParameters struct {
 	BranchFilter string        `json:"branch_filter"`
+	Id           string        `json:"id"`
 	ProjectName  string        `json:"project_name"`
 	FilterGroup  []FilterGroup `json:"filter_group"`
 }
@@ -75,8 +76,7 @@ type CodebuildWebhookStatus struct {
 
 // A CodebuildWebhookObservation records the observed state of a CodebuildWebhook
 type CodebuildWebhookObservation struct {
+	PayloadUrl string `json:"payload_url"`
 	Secret     string `json:"secret"`
 	Url        string `json:"url"`
-	Id         string `json:"id"`
-	PayloadUrl string `json:"payload_url"`
 }

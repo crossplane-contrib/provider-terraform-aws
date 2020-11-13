@@ -52,7 +52,9 @@ type CodedeployAppSpec struct {
 
 // A CodedeployAppParameters defines the desired state of a CodedeployApp
 type CodedeployAppParameters struct {
+	UniqueId        string `json:"unique_id"`
 	ComputePlatform string `json:"compute_platform"`
+	Id              string `json:"id"`
 	Name            string `json:"name"`
 }
 
@@ -63,7 +65,4 @@ type CodedeployAppStatus struct {
 }
 
 // A CodedeployAppObservation records the observed state of a CodedeployApp
-type CodedeployAppObservation struct {
-	Id       string `json:"id"`
-	UniqueId string `json:"unique_id"`
-}
+type CodedeployAppObservation struct{}

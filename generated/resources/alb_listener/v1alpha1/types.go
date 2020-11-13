@@ -52,18 +52,20 @@ type AlbListenerSpec struct {
 
 // A AlbListenerParameters defines the desired state of a AlbListener
 type AlbListenerParameters struct {
-	CertificateArn  string          `json:"certificate_arn"`
 	LoadBalancerArn string          `json:"load_balancer_arn"`
 	Port            int             `json:"port"`
 	Protocol        string          `json:"protocol"`
+	SslPolicy       string          `json:"ssl_policy"`
+	CertificateArn  string          `json:"certificate_arn"`
+	Id              string          `json:"id"`
 	DefaultAction   []DefaultAction `json:"default_action"`
 	Timeouts        []Timeouts      `json:"timeouts"`
 }
 
 type DefaultAction struct {
+	Type                string              `json:"type"`
 	Order               int                 `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
-	Type                string              `json:"type"`
 	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
 	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
@@ -72,6 +74,7 @@ type DefaultAction struct {
 }
 
 type AuthenticateCognito struct {
+	Scope                            string            `json:"scope"`
 	SessionCookieName                string            `json:"session_cookie_name"`
 	SessionTimeout                   int               `json:"session_timeout"`
 	UserPoolArn                      string            `json:"user_pool_arn"`
@@ -79,21 +82,20 @@ type AuthenticateCognito struct {
 	UserPoolDomain                   string            `json:"user_pool_domain"`
 	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
 	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
 }
 
 type AuthenticateOidc struct {
 	ClientSecret                     string            `json:"client_secret"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int               `json:"session_timeout"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
+	ClientId                         string            `json:"client_id"`
 	Issuer                           string            `json:"issuer"`
 	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 	Scope                            string            `json:"scope"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
-	ClientId                         string            `json:"client_id"`
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int               `json:"session_timeout"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
 }
 
 type FixedResponse struct {
@@ -108,22 +110,22 @@ type Forward struct {
 }
 
 type Stickiness struct {
-	Duration int  `json:"duration"`
 	Enabled  bool `json:"enabled"`
+	Duration int  `json:"duration"`
 }
 
 type TargetGroup struct {
-	Weight int    `json:"weight"`
 	Arn    string `json:"arn"`
+	Weight int    `json:"weight"`
 }
 
 type Redirect struct {
-	Protocol   string `json:"protocol"`
 	Query      string `json:"query"`
 	StatusCode string `json:"status_code"`
 	Host       string `json:"host"`
 	Path       string `json:"path"`
 	Port       string `json:"port"`
+	Protocol   string `json:"protocol"`
 }
 
 type Timeouts struct {
@@ -138,7 +140,5 @@ type AlbListenerStatus struct {
 
 // A AlbListenerObservation records the observed state of a AlbListener
 type AlbListenerObservation struct {
-	Id        string `json:"id"`
-	SslPolicy string `json:"ssl_policy"`
-	Arn       string `json:"arn"`
+	Arn string `json:"arn"`
 }

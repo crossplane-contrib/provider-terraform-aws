@@ -52,54 +52,82 @@ type CognitoUserPoolSpec struct {
 
 // A CognitoUserPoolParameters defines the desired state of a CognitoUserPool
 type CognitoUserPoolParameters struct {
-	SmsAuthenticationMessage      string                        `json:"sms_authentication_message"`
-	Tags                          map[string]string             `json:"tags"`
-	AutoVerifiedAttributes        []string                      `json:"auto_verified_attributes"`
 	MfaConfiguration              string                        `json:"mfa_configuration"`
 	Name                          string                        `json:"name"`
-	AliasAttributes               []string                      `json:"alias_attributes"`
+	AutoVerifiedAttributes        []string                      `json:"auto_verified_attributes"`
+	EmailVerificationMessage      string                        `json:"email_verification_message"`
+	EmailVerificationSubject      string                        `json:"email_verification_subject"`
+	Id                            string                        `json:"id"`
+	SmsAuthenticationMessage      string                        `json:"sms_authentication_message"`
+	Tags                          map[string]string             `json:"tags"`
 	UsernameAttributes            []string                      `json:"username_attributes"`
-	LambdaConfig                  LambdaConfig                  `json:"lambda_config"`
+	AliasAttributes               []string                      `json:"alias_attributes"`
+	SmsVerificationMessage        string                        `json:"sms_verification_message"`
+	UserPoolAddOns                UserPoolAddOns                `json:"user_pool_add_ons"`
+	UsernameConfiguration         UsernameConfiguration         `json:"username_configuration"`
+	VerificationMessageTemplate   VerificationMessageTemplate   `json:"verification_message_template"`
+	EmailConfiguration            EmailConfiguration            `json:"email_configuration"`
 	PasswordPolicy                PasswordPolicy                `json:"password_policy"`
+	LambdaConfig                  LambdaConfig                  `json:"lambda_config"`
 	Schema                        []Schema                      `json:"schema"`
 	SmsConfiguration              SmsConfiguration              `json:"sms_configuration"`
 	SoftwareTokenMfaConfiguration SoftwareTokenMfaConfiguration `json:"software_token_mfa_configuration"`
-	UsernameConfiguration         UsernameConfiguration         `json:"username_configuration"`
-	VerificationMessageTemplate   VerificationMessageTemplate   `json:"verification_message_template"`
-	DeviceConfiguration           DeviceConfiguration           `json:"device_configuration"`
-	EmailConfiguration            EmailConfiguration            `json:"email_configuration"`
-	UserPoolAddOns                UserPoolAddOns                `json:"user_pool_add_ons"`
 	AdminCreateUserConfig         AdminCreateUserConfig         `json:"admin_create_user_config"`
+	DeviceConfiguration           DeviceConfiguration           `json:"device_configuration"`
 }
 
-type LambdaConfig struct {
-	DefineAuthChallenge         string `json:"define_auth_challenge"`
-	PreSignUp                   string `json:"pre_sign_up"`
-	UserMigration               string `json:"user_migration"`
-	PostConfirmation            string `json:"post_confirmation"`
-	PreAuthentication           string `json:"pre_authentication"`
-	PreTokenGeneration          string `json:"pre_token_generation"`
-	VerifyAuthChallengeResponse string `json:"verify_auth_challenge_response"`
-	CreateAuthChallenge         string `json:"create_auth_challenge"`
-	CustomMessage               string `json:"custom_message"`
-	PostAuthentication          string `json:"post_authentication"`
+type UserPoolAddOns struct {
+	AdvancedSecurityMode string `json:"advanced_security_mode"`
+}
+
+type UsernameConfiguration struct {
+	CaseSensitive bool `json:"case_sensitive"`
+}
+
+type VerificationMessageTemplate struct {
+	EmailMessage       string `json:"email_message"`
+	EmailMessageByLink string `json:"email_message_by_link"`
+	EmailSubject       string `json:"email_subject"`
+	EmailSubjectByLink string `json:"email_subject_by_link"`
+	SmsMessage         string `json:"sms_message"`
+	DefaultEmailOption string `json:"default_email_option"`
+}
+
+type EmailConfiguration struct {
+	SourceArn           string `json:"source_arn"`
+	EmailSendingAccount string `json:"email_sending_account"`
+	FromEmailAddress    string `json:"from_email_address"`
+	ReplyToEmailAddress string `json:"reply_to_email_address"`
 }
 
 type PasswordPolicy struct {
-	RequireUppercase              bool `json:"require_uppercase"`
-	TemporaryPasswordValidityDays int  `json:"temporary_password_validity_days"`
 	MinimumLength                 int  `json:"minimum_length"`
 	RequireLowercase              bool `json:"require_lowercase"`
 	RequireNumbers                bool `json:"require_numbers"`
 	RequireSymbols                bool `json:"require_symbols"`
+	RequireUppercase              bool `json:"require_uppercase"`
+	TemporaryPasswordValidityDays int  `json:"temporary_password_validity_days"`
+}
+
+type LambdaConfig struct {
+	CustomMessage               string `json:"custom_message"`
+	PostAuthentication          string `json:"post_authentication"`
+	PostConfirmation            string `json:"post_confirmation"`
+	PreAuthentication           string `json:"pre_authentication"`
+	PreSignUp                   string `json:"pre_sign_up"`
+	CreateAuthChallenge         string `json:"create_auth_challenge"`
+	DefineAuthChallenge         string `json:"define_auth_challenge"`
+	PreTokenGeneration          string `json:"pre_token_generation"`
+	UserMigration               string `json:"user_migration"`
+	VerifyAuthChallengeResponse string `json:"verify_auth_challenge_response"`
 }
 
 type Schema struct {
+	AttributeDataType          string                     `json:"attribute_data_type"`
 	DeveloperOnlyAttribute     bool                       `json:"developer_only_attribute"`
 	Mutable                    bool                       `json:"mutable"`
 	Name                       string                     `json:"name"`
 	Required                   bool                       `json:"required"`
-	AttributeDataType          string                     `json:"attribute_data_type"`
 	NumberAttributeConstraints NumberAttributeConstraints `json:"number_attribute_constraints"`
 	StringAttributeConstraints StringAttributeConstraints `json:"string_attribute_constraints"`
 }
@@ -110,46 +138,17 @@ type NumberAttributeConstraints struct {
 }
 
 type StringAttributeConstraints struct {
-	MaxLength string `json:"max_length"`
 	MinLength string `json:"min_length"`
+	MaxLength string `json:"max_length"`
 }
 
 type SmsConfiguration struct {
-	ExternalId   string `json:"external_id"`
 	SnsCallerArn string `json:"sns_caller_arn"`
+	ExternalId   string `json:"external_id"`
 }
 
 type SoftwareTokenMfaConfiguration struct {
 	Enabled bool `json:"enabled"`
-}
-
-type UsernameConfiguration struct {
-	CaseSensitive bool `json:"case_sensitive"`
-}
-
-type VerificationMessageTemplate struct {
-	EmailSubjectByLink string `json:"email_subject_by_link"`
-	SmsMessage         string `json:"sms_message"`
-	DefaultEmailOption string `json:"default_email_option"`
-	EmailMessage       string `json:"email_message"`
-	EmailMessageByLink string `json:"email_message_by_link"`
-	EmailSubject       string `json:"email_subject"`
-}
-
-type DeviceConfiguration struct {
-	ChallengeRequiredOnNewDevice     bool `json:"challenge_required_on_new_device"`
-	DeviceOnlyRememberedOnUserPrompt bool `json:"device_only_remembered_on_user_prompt"`
-}
-
-type EmailConfiguration struct {
-	EmailSendingAccount string `json:"email_sending_account"`
-	FromEmailAddress    string `json:"from_email_address"`
-	ReplyToEmailAddress string `json:"reply_to_email_address"`
-	SourceArn           string `json:"source_arn"`
-}
-
-type UserPoolAddOns struct {
-	AdvancedSecurityMode string `json:"advanced_security_mode"`
 }
 
 type AdminCreateUserConfig struct {
@@ -158,9 +157,14 @@ type AdminCreateUserConfig struct {
 }
 
 type InviteMessageTemplate struct {
-	EmailMessage string `json:"email_message"`
 	EmailSubject string `json:"email_subject"`
 	SmsMessage   string `json:"sms_message"`
+	EmailMessage string `json:"email_message"`
+}
+
+type DeviceConfiguration struct {
+	ChallengeRequiredOnNewDevice     bool `json:"challenge_required_on_new_device"`
+	DeviceOnlyRememberedOnUserPrompt bool `json:"device_only_remembered_on_user_prompt"`
 }
 
 // A CognitoUserPoolStatus defines the observed state of a CognitoUserPool
@@ -171,12 +175,8 @@ type CognitoUserPoolStatus struct {
 
 // A CognitoUserPoolObservation records the observed state of a CognitoUserPool
 type CognitoUserPoolObservation struct {
-	Id                       string `json:"id"`
-	LastModifiedDate         string `json:"last_modified_date"`
-	CreationDate             string `json:"creation_date"`
-	Endpoint                 string `json:"endpoint"`
-	SmsVerificationMessage   string `json:"sms_verification_message"`
-	Arn                      string `json:"arn"`
-	EmailVerificationMessage string `json:"email_verification_message"`
-	EmailVerificationSubject string `json:"email_verification_subject"`
+	Endpoint         string `json:"endpoint"`
+	LastModifiedDate string `json:"last_modified_date"`
+	Arn              string `json:"arn"`
+	CreationDate     string `json:"creation_date"`
 }

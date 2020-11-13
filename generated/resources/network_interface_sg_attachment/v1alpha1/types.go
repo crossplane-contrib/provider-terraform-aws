@@ -52,8 +52,9 @@ type NetworkInterfaceSgAttachmentSpec struct {
 
 // A NetworkInterfaceSgAttachmentParameters defines the desired state of a NetworkInterfaceSgAttachment
 type NetworkInterfaceSgAttachmentParameters struct {
-	NetworkInterfaceId string `json:"network_interface_id"`
 	SecurityGroupId    string `json:"security_group_id"`
+	Id                 string `json:"id"`
+	NetworkInterfaceId string `json:"network_interface_id"`
 }
 
 // A NetworkInterfaceSgAttachmentStatus defines the observed state of a NetworkInterfaceSgAttachment
@@ -63,6 +64,4 @@ type NetworkInterfaceSgAttachmentStatus struct {
 }
 
 // A NetworkInterfaceSgAttachmentObservation records the observed state of a NetworkInterfaceSgAttachment
-type NetworkInterfaceSgAttachmentObservation struct {
-	Id string `json:"id"`
-}
+type NetworkInterfaceSgAttachmentObservation struct{}

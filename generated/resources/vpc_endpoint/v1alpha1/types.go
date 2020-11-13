@@ -52,12 +52,17 @@ type VpcEndpointSpec struct {
 
 // A VpcEndpointParameters defines the desired state of a VpcEndpoint
 type VpcEndpointParameters struct {
-	PrivateDnsEnabled bool              `json:"private_dns_enabled"`
-	ServiceName       string            `json:"service_name"`
 	VpcEndpointType   string            `json:"vpc_endpoint_type"`
 	VpcId             string            `json:"vpc_id"`
-	AutoAccept        bool              `json:"auto_accept"`
+	Policy            string            `json:"policy"`
+	ServiceName       string            `json:"service_name"`
+	PrivateDnsEnabled bool              `json:"private_dns_enabled"`
+	SubnetIds         []string          `json:"subnet_ids"`
+	Id                string            `json:"id"`
 	Tags              map[string]string `json:"tags"`
+	RouteTableIds     []string          `json:"route_table_ids"`
+	SecurityGroupIds  []string          `json:"security_group_ids"`
+	AutoAccept        bool              `json:"auto_accept"`
 	Timeouts          []Timeouts        `json:"timeouts"`
 }
 
@@ -75,16 +80,17 @@ type VpcEndpointStatus struct {
 
 // A VpcEndpointObservation records the observed state of a VpcEndpoint
 type VpcEndpointObservation struct {
-	SubnetIds           []string `json:"subnet_ids"`
-	SecurityGroupIds    []string `json:"security_group_ids"`
-	Policy              string   `json:"policy"`
-	PrefixListId        string   `json:"prefix_list_id"`
-	Id                  string   `json:"id"`
-	OwnerId             string   `json:"owner_id"`
-	Arn                 string   `json:"arn"`
-	CidrBlocks          []string `json:"cidr_blocks"`
-	State               string   `json:"state"`
-	NetworkInterfaceIds []string `json:"network_interface_ids"`
-	RequesterManaged    bool     `json:"requester_managed"`
-	RouteTableIds       []string `json:"route_table_ids"`
+	PrefixListId        string     `json:"prefix_list_id"`
+	NetworkInterfaceIds []string   `json:"network_interface_ids"`
+	RequesterManaged    bool       `json:"requester_managed"`
+	State               string     `json:"state"`
+	Arn                 string     `json:"arn"`
+	CidrBlocks          []string   `json:"cidr_blocks"`
+	DnsEntry            []DnsEntry `json:"dns_entry"`
+	OwnerId             string     `json:"owner_id"`
+}
+
+type DnsEntry struct {
+	DnsName      string `json:"dns_name"`
+	HostedZoneId string `json:"hosted_zone_id"`
 }

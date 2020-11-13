@@ -52,15 +52,18 @@ type DbProxySpec struct {
 
 // A DbProxyParameters defines the desired state of a DbProxy
 type DbProxyParameters struct {
-	Name         string            `json:"name"`
-	VpcSubnetIds []string          `json:"vpc_subnet_ids"`
-	Tags         map[string]string `json:"tags"`
-	DebugLogging bool              `json:"debug_logging"`
-	EngineFamily string            `json:"engine_family"`
-	RequireTls   bool              `json:"require_tls"`
-	RoleArn      string            `json:"role_arn"`
-	Auth         []Auth            `json:"auth"`
-	Timeouts     []Timeouts        `json:"timeouts"`
+	Id                  string            `json:"id"`
+	RequireTls          bool              `json:"require_tls"`
+	RoleArn             string            `json:"role_arn"`
+	Tags                map[string]string `json:"tags"`
+	DebugLogging        bool              `json:"debug_logging"`
+	EngineFamily        string            `json:"engine_family"`
+	IdleClientTimeout   int               `json:"idle_client_timeout"`
+	Name                string            `json:"name"`
+	VpcSecurityGroupIds []string          `json:"vpc_security_group_ids"`
+	VpcSubnetIds        []string          `json:"vpc_subnet_ids"`
+	Auth                []Auth            `json:"auth"`
+	Timeouts            []Timeouts        `json:"timeouts"`
 }
 
 type Auth struct {
@@ -71,9 +74,9 @@ type Auth struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DbProxyStatus defines the observed state of a DbProxy
@@ -84,9 +87,6 @@ type DbProxyStatus struct {
 
 // A DbProxyObservation records the observed state of a DbProxy
 type DbProxyObservation struct {
-	Arn                 string   `json:"arn"`
-	Id                  string   `json:"id"`
-	VpcSecurityGroupIds []string `json:"vpc_security_group_ids"`
-	Endpoint            string   `json:"endpoint"`
-	IdleClientTimeout   int      `json:"idle_client_timeout"`
+	Arn      string `json:"arn"`
+	Endpoint string `json:"endpoint"`
 }

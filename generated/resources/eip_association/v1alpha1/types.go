@@ -52,7 +52,13 @@ type EipAssociationSpec struct {
 
 // A EipAssociationParameters defines the desired state of a EipAssociation
 type EipAssociationParameters struct {
-	AllowReassociation bool `json:"allow_reassociation"`
+	AllocationId       string `json:"allocation_id"`
+	AllowReassociation bool   `json:"allow_reassociation"`
+	Id                 string `json:"id"`
+	InstanceId         string `json:"instance_id"`
+	NetworkInterfaceId string `json:"network_interface_id"`
+	PrivateIpAddress   string `json:"private_ip_address"`
+	PublicIp           string `json:"public_ip"`
 }
 
 // A EipAssociationStatus defines the observed state of a EipAssociation
@@ -62,11 +68,4 @@ type EipAssociationStatus struct {
 }
 
 // A EipAssociationObservation records the observed state of a EipAssociation
-type EipAssociationObservation struct {
-	Id                 string `json:"id"`
-	InstanceId         string `json:"instance_id"`
-	NetworkInterfaceId string `json:"network_interface_id"`
-	PrivateIpAddress   string `json:"private_ip_address"`
-	PublicIp           string `json:"public_ip"`
-	AllocationId       string `json:"allocation_id"`
-}
+type EipAssociationObservation struct{}

@@ -52,6 +52,7 @@ type GlueClassifierSpec struct {
 
 // A GlueClassifierParameters defines the desired state of a GlueClassifier
 type GlueClassifierParameters struct {
+	Id             string         `json:"id"`
 	Name           string         `json:"name"`
 	CsvClassifier  CsvClassifier  `json:"csv_classifier"`
 	GrokClassifier GrokClassifier `json:"grok_classifier"`
@@ -60,12 +61,12 @@ type GlueClassifierParameters struct {
 }
 
 type CsvClassifier struct {
-	QuoteSymbol          string   `json:"quote_symbol"`
-	AllowSingleColumn    bool     `json:"allow_single_column"`
-	ContainsHeader       string   `json:"contains_header"`
 	Delimiter            string   `json:"delimiter"`
 	DisableValueTrimming bool     `json:"disable_value_trimming"`
 	Header               []string `json:"header"`
+	QuoteSymbol          string   `json:"quote_symbol"`
+	AllowSingleColumn    bool     `json:"allow_single_column"`
+	ContainsHeader       string   `json:"contains_header"`
 }
 
 type GrokClassifier struct {
@@ -90,6 +91,4 @@ type GlueClassifierStatus struct {
 }
 
 // A GlueClassifierObservation records the observed state of a GlueClassifier
-type GlueClassifierObservation struct {
-	Id string `json:"id"`
-}
+type GlueClassifierObservation struct{}

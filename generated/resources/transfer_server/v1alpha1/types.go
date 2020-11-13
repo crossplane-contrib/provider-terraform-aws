@@ -53,21 +53,22 @@ type TransferServerSpec struct {
 // A TransferServerParameters defines the desired state of a TransferServer
 type TransferServerParameters struct {
 	HostKey              string            `json:"host_key"`
-	InvocationRole       string            `json:"invocation_role"`
+	IdentityProviderType string            `json:"identity_provider_type"`
 	LoggingRole          string            `json:"logging_role"`
-	Tags                 map[string]string `json:"tags"`
 	Url                  string            `json:"url"`
+	Tags                 map[string]string `json:"tags"`
 	EndpointType         string            `json:"endpoint_type"`
 	ForceDestroy         bool              `json:"force_destroy"`
-	IdentityProviderType string            `json:"identity_provider_type"`
+	Id                   string            `json:"id"`
+	InvocationRole       string            `json:"invocation_role"`
 	EndpointDetails      EndpointDetails   `json:"endpoint_details"`
 }
 
 type EndpointDetails struct {
-	VpcEndpointId        string   `json:"vpc_endpoint_id"`
 	VpcId                string   `json:"vpc_id"`
 	AddressAllocationIds []string `json:"address_allocation_ids"`
 	SubnetIds            []string `json:"subnet_ids"`
+	VpcEndpointId        string   `json:"vpc_endpoint_id"`
 }
 
 // A TransferServerStatus defines the observed state of a TransferServer
@@ -78,8 +79,7 @@ type TransferServerStatus struct {
 
 // A TransferServerObservation records the observed state of a TransferServer
 type TransferServerObservation struct {
-	Endpoint           string `json:"endpoint"`
 	Arn                string `json:"arn"`
+	Endpoint           string `json:"endpoint"`
 	HostKeyFingerprint string `json:"host_key_fingerprint"`
-	Id                 string `json:"id"`
 }

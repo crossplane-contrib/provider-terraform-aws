@@ -52,11 +52,12 @@ type S3BucketInventorySpec struct {
 
 // A S3BucketInventoryParameters defines the desired state of a S3BucketInventory
 type S3BucketInventoryParameters struct {
+	OptionalFields         []string    `json:"optional_fields"`
 	Bucket                 string      `json:"bucket"`
 	Enabled                bool        `json:"enabled"`
+	Id                     string      `json:"id"`
 	IncludedObjectVersions string      `json:"included_object_versions"`
 	Name                   string      `json:"name"`
-	OptionalFields         []string    `json:"optional_fields"`
 	Destination            Destination `json:"destination"`
 	Filter                 Filter      `json:"filter"`
 	Schedule               Schedule    `json:"schedule"`
@@ -67,10 +68,10 @@ type Destination struct {
 }
 
 type Bucket struct {
-	AccountId  string     `json:"account_id"`
-	BucketArn  string     `json:"bucket_arn"`
 	Format     string     `json:"format"`
 	Prefix     string     `json:"prefix"`
+	AccountId  string     `json:"account_id"`
+	BucketArn  string     `json:"bucket_arn"`
 	Encryption Encryption `json:"encryption"`
 }
 
@@ -100,6 +101,4 @@ type S3BucketInventoryStatus struct {
 }
 
 // A S3BucketInventoryObservation records the observed state of a S3BucketInventory
-type S3BucketInventoryObservation struct {
-	Id string `json:"id"`
-}
+type S3BucketInventoryObservation struct{}

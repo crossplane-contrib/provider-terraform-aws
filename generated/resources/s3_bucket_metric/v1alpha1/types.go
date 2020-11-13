@@ -52,8 +52,9 @@ type S3BucketMetricSpec struct {
 
 // A S3BucketMetricParameters defines the desired state of a S3BucketMetric
 type S3BucketMetricParameters struct {
-	Bucket string `json:"bucket"`
+	Id     string `json:"id"`
 	Name   string `json:"name"`
+	Bucket string `json:"bucket"`
 	Filter Filter `json:"filter"`
 }
 
@@ -69,6 +70,4 @@ type S3BucketMetricStatus struct {
 }
 
 // A S3BucketMetricObservation records the observed state of a S3BucketMetric
-type S3BucketMetricObservation struct {
-	Id string `json:"id"`
-}
+type S3BucketMetricObservation struct{}

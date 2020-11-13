@@ -52,17 +52,18 @@ type SsmMaintenanceWindowSpec struct {
 
 // A SsmMaintenanceWindowParameters defines the desired state of a SsmMaintenanceWindow
 type SsmMaintenanceWindowParameters struct {
-	Cutoff                   int               `json:"cutoff"`
-	Duration                 int               `json:"duration"`
-	Enabled                  bool              `json:"enabled"`
 	Name                     string            `json:"name"`
 	ScheduleTimezone         string            `json:"schedule_timezone"`
-	StartDate                string            `json:"start_date"`
-	AllowUnassociatedTargets bool              `json:"allow_unassociated_targets"`
-	Description              string            `json:"description"`
 	EndDate                  string            `json:"end_date"`
+	Id                       string            `json:"id"`
+	Description              string            `json:"description"`
+	Duration                 int               `json:"duration"`
+	Enabled                  bool              `json:"enabled"`
 	Schedule                 string            `json:"schedule"`
+	StartDate                string            `json:"start_date"`
 	Tags                     map[string]string `json:"tags"`
+	AllowUnassociatedTargets bool              `json:"allow_unassociated_targets"`
+	Cutoff                   int               `json:"cutoff"`
 }
 
 // A SsmMaintenanceWindowStatus defines the observed state of a SsmMaintenanceWindow
@@ -72,6 +73,4 @@ type SsmMaintenanceWindowStatus struct {
 }
 
 // A SsmMaintenanceWindowObservation records the observed state of a SsmMaintenanceWindow
-type SsmMaintenanceWindowObservation struct {
-	Id string `json:"id"`
-}
+type SsmMaintenanceWindowObservation struct{}

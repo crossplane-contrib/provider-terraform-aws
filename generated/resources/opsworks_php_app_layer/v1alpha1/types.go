@@ -52,37 +52,38 @@ type OpsworksPhpAppLayerSpec struct {
 
 // A OpsworksPhpAppLayerParameters defines the desired state of a OpsworksPhpAppLayer
 type OpsworksPhpAppLayerParameters struct {
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
 	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomJson               string            `json:"custom_json"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	Name                     string            `json:"name"`
-	SystemPackages           []string          `json:"system_packages"`
-	Tags                     map[string]string `json:"tags"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	StackId                  string            `json:"stack_id"`
+	SystemPackages           []string          `json:"system_packages"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
 	AutoHealing              bool              `json:"auto_healing"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	CustomJson               string            `json:"custom_json"`
 	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
+	Name                     string            `json:"name"`
+	StackId                  string            `json:"stack_id"`
+	Tags                     map[string]string `json:"tags"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	Id                       string            `json:"id"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
 	EbsVolume                []EbsVolume       `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
+	RaidLevel     string `json:"raid_level"`
+	Size          int    `json:"size"`
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
 	Iops          int    `json:"iops"`
 	MountPoint    string `json:"mount_point"`
 	NumberOfDisks int    `json:"number_of_disks"`
-	RaidLevel     string `json:"raid_level"`
-	Size          int    `json:"size"`
 }
 
 // A OpsworksPhpAppLayerStatus defines the observed state of a OpsworksPhpAppLayer
@@ -94,5 +95,4 @@ type OpsworksPhpAppLayerStatus struct {
 // A OpsworksPhpAppLayerObservation records the observed state of a OpsworksPhpAppLayer
 type OpsworksPhpAppLayerObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

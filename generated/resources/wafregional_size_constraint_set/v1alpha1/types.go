@@ -52,6 +52,7 @@ type WafregionalSizeConstraintSetSpec struct {
 
 // A WafregionalSizeConstraintSetParameters defines the desired state of a WafregionalSizeConstraintSet
 type WafregionalSizeConstraintSetParameters struct {
+	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	SizeConstraints []SizeConstraints `json:"size_constraints"`
 }
@@ -77,5 +78,4 @@ type WafregionalSizeConstraintSetStatus struct {
 // A WafregionalSizeConstraintSetObservation records the observed state of a WafregionalSizeConstraintSet
 type WafregionalSizeConstraintSetObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

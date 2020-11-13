@@ -53,16 +53,18 @@ type WorkspacesDirectorySpec struct {
 // A WorkspacesDirectoryParameters defines the desired state of a WorkspacesDirectory
 type WorkspacesDirectoryParameters struct {
 	DirectoryId            string                 `json:"directory_id"`
+	Id                     string                 `json:"id"`
 	Tags                   map[string]string      `json:"tags"`
+	SubnetIds              []string               `json:"subnet_ids"`
 	SelfServicePermissions SelfServicePermissions `json:"self_service_permissions"`
 }
 
 type SelfServicePermissions struct {
-	RestartWorkspace   bool `json:"restart_workspace"`
 	SwitchRunningMode  bool `json:"switch_running_mode"`
 	ChangeComputeType  bool `json:"change_compute_type"`
 	IncreaseVolumeSize bool `json:"increase_volume_size"`
 	RebuildWorkspace   bool `json:"rebuild_workspace"`
+	RestartWorkspace   bool `json:"restart_workspace"`
 }
 
 // A WorkspacesDirectoryStatus defines the observed state of a WorkspacesDirectory
@@ -75,13 +77,11 @@ type WorkspacesDirectoryStatus struct {
 type WorkspacesDirectoryObservation struct {
 	DirectoryName            string   `json:"directory_name"`
 	DirectoryType            string   `json:"directory_type"`
-	DnsIpAddresses           []string `json:"dns_ip_addresses"`
-	Id                       string   `json:"id"`
-	SubnetIds                []string `json:"subnet_ids"`
+	IamRoleId                string   `json:"iam_role_id"`
 	WorkspaceSecurityGroupId string   `json:"workspace_security_group_id"`
 	Alias                    string   `json:"alias"`
-	IamRoleId                string   `json:"iam_role_id"`
+	CustomerUserName         string   `json:"customer_user_name"`
+	DnsIpAddresses           []string `json:"dns_ip_addresses"`
 	IpGroupIds               []string `json:"ip_group_ids"`
 	RegistrationCode         string   `json:"registration_code"`
-	CustomerUserName         string   `json:"customer_user_name"`
 }

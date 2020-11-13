@@ -52,9 +52,12 @@ type ElastictranscoderPresetSpec struct {
 
 // A ElastictranscoderPresetParameters defines the desired state of a ElastictranscoderPreset
 type ElastictranscoderPresetParameters struct {
+	Id                string            `json:"id"`
+	Name              string            `json:"name"`
+	Type              string            `json:"type"`
+	VideoCodecOptions map[string]string `json:"video_codec_options"`
 	Container         string            `json:"container"`
 	Description       string            `json:"description"`
-	VideoCodecOptions map[string]string `json:"video_codec_options"`
 	Audio             Audio             `json:"audio"`
 	AudioCodecOptions AudioCodecOptions `json:"audio_codec_options"`
 	Thumbnails        Thumbnails        `json:"thumbnails"`
@@ -63,58 +66,58 @@ type ElastictranscoderPresetParameters struct {
 }
 
 type Audio struct {
+	Codec            string `json:"codec"`
 	SampleRate       string `json:"sample_rate"`
 	AudioPackingMode string `json:"audio_packing_mode"`
 	BitRate          string `json:"bit_rate"`
 	Channels         string `json:"channels"`
-	Codec            string `json:"codec"`
 }
 
 type AudioCodecOptions struct {
+	Signed   string `json:"signed"`
 	BitDepth string `json:"bit_depth"`
 	BitOrder string `json:"bit_order"`
 	Profile  string `json:"profile"`
-	Signed   string `json:"signed"`
 }
 
 type Thumbnails struct {
-	AspectRatio   string `json:"aspect_ratio"`
-	Format        string `json:"format"`
-	Interval      string `json:"interval"`
 	MaxHeight     string `json:"max_height"`
 	MaxWidth      string `json:"max_width"`
 	PaddingPolicy string `json:"padding_policy"`
 	Resolution    string `json:"resolution"`
 	SizingPolicy  string `json:"sizing_policy"`
+	AspectRatio   string `json:"aspect_ratio"`
+	Format        string `json:"format"`
+	Interval      string `json:"interval"`
 }
 
 type Video struct {
+	FixedGop           string `json:"fixed_gop"`
 	KeyframesMaxDist   string `json:"keyframes_max_dist"`
+	MaxHeight          string `json:"max_height"`
 	MaxWidth           string `json:"max_width"`
 	PaddingPolicy      string `json:"padding_policy"`
-	Resolution         string `json:"resolution"`
-	SizingPolicy       string `json:"sizing_policy"`
-	BitRate            string `json:"bit_rate"`
 	Codec              string `json:"codec"`
+	BitRate            string `json:"bit_rate"`
+	DisplayAspectRatio string `json:"display_aspect_ratio"`
 	FrameRate          string `json:"frame_rate"`
 	MaxFrameRate       string `json:"max_frame_rate"`
-	MaxHeight          string `json:"max_height"`
+	Resolution         string `json:"resolution"`
+	SizingPolicy       string `json:"sizing_policy"`
 	AspectRatio        string `json:"aspect_ratio"`
-	DisplayAspectRatio string `json:"display_aspect_ratio"`
-	FixedGop           string `json:"fixed_gop"`
 }
 
 type VideoWatermarks struct {
-	HorizontalOffset string `json:"horizontal_offset"`
-	SizingPolicy     string `json:"sizing_policy"`
-	Target           string `json:"target"`
-	HorizontalAlign  string `json:"horizontal_align"`
-	Id               string `json:"id"`
+	VerticalAlign    string `json:"vertical_align"`
 	MaxHeight        string `json:"max_height"`
+	SizingPolicy     string `json:"sizing_policy"`
+	Id               string `json:"id"`
 	MaxWidth         string `json:"max_width"`
 	Opacity          string `json:"opacity"`
-	VerticalAlign    string `json:"vertical_align"`
+	Target           string `json:"target"`
 	VerticalOffset   string `json:"vertical_offset"`
+	HorizontalAlign  string `json:"horizontal_align"`
+	HorizontalOffset string `json:"horizontal_offset"`
 }
 
 // A ElastictranscoderPresetStatus defines the observed state of a ElastictranscoderPreset
@@ -125,8 +128,5 @@ type ElastictranscoderPresetStatus struct {
 
 // A ElastictranscoderPresetObservation records the observed state of a ElastictranscoderPreset
 type ElastictranscoderPresetObservation struct {
-	Arn  string `json:"arn"`
-	Id   string `json:"id"`
-	Name string `json:"name"`
-	Type string `json:"type"`
+	Arn string `json:"arn"`
 }

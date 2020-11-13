@@ -52,9 +52,10 @@ type TransferSshKeySpec struct {
 
 // A TransferSshKeyParameters defines the desired state of a TransferSshKey
 type TransferSshKeyParameters struct {
-	Body     string `json:"body"`
+	Id       string `json:"id"`
 	ServerId string `json:"server_id"`
 	UserName string `json:"user_name"`
+	Body     string `json:"body"`
 }
 
 // A TransferSshKeyStatus defines the observed state of a TransferSshKey
@@ -64,6 +65,4 @@ type TransferSshKeyStatus struct {
 }
 
 // A TransferSshKeyObservation records the observed state of a TransferSshKey
-type TransferSshKeyObservation struct {
-	Id string `json:"id"`
-}
+type TransferSshKeyObservation struct{}

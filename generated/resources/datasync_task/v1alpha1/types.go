@@ -52,29 +52,30 @@ type DatasyncTaskSpec struct {
 
 // A DatasyncTaskParameters defines the desired state of a DatasyncTask
 type DatasyncTaskParameters struct {
+	CloudwatchLogGroupArn  string            `json:"cloudwatch_log_group_arn"`
 	DestinationLocationArn string            `json:"destination_location_arn"`
+	Id                     string            `json:"id"`
 	Name                   string            `json:"name"`
 	SourceLocationArn      string            `json:"source_location_arn"`
 	Tags                   map[string]string `json:"tags"`
-	CloudwatchLogGroupArn  string            `json:"cloudwatch_log_group_arn"`
-	Timeouts               []Timeouts        `json:"timeouts"`
 	Options                Options           `json:"options"`
+	Timeouts               []Timeouts        `json:"timeouts"`
+}
+
+type Options struct {
+	Atime                string `json:"atime"`
+	BytesPerSecond       int    `json:"bytes_per_second"`
+	Mtime                string `json:"mtime"`
+	Uid                  string `json:"uid"`
+	Gid                  string `json:"gid"`
+	PosixPermissions     string `json:"posix_permissions"`
+	PreserveDeletedFiles string `json:"preserve_deleted_files"`
+	PreserveDevices      string `json:"preserve_devices"`
+	VerifyMode           string `json:"verify_mode"`
 }
 
 type Timeouts struct {
 	Create string `json:"create"`
-}
-
-type Options struct {
-	PosixPermissions     string `json:"posix_permissions"`
-	PreserveDevices      string `json:"preserve_devices"`
-	Gid                  string `json:"gid"`
-	Mtime                string `json:"mtime"`
-	PreserveDeletedFiles string `json:"preserve_deleted_files"`
-	Uid                  string `json:"uid"`
-	VerifyMode           string `json:"verify_mode"`
-	Atime                string `json:"atime"`
-	BytesPerSecond       int    `json:"bytes_per_second"`
 }
 
 // A DatasyncTaskStatus defines the observed state of a DatasyncTask
@@ -85,6 +86,5 @@ type DatasyncTaskStatus struct {
 
 // A DatasyncTaskObservation records the observed state of a DatasyncTask
 type DatasyncTaskObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

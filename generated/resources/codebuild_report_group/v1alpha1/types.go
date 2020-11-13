@@ -52,9 +52,10 @@ type CodebuildReportGroupSpec struct {
 
 // A CodebuildReportGroupParameters defines the desired state of a CodebuildReportGroup
 type CodebuildReportGroupParameters struct {
-	Name         string            `json:"name"`
 	Tags         map[string]string `json:"tags"`
 	Type         string            `json:"type"`
+	Id           string            `json:"id"`
+	Name         string            `json:"name"`
 	ExportConfig ExportConfig      `json:"export_config"`
 }
 
@@ -64,11 +65,11 @@ type ExportConfig struct {
 }
 
 type S3Destination struct {
-	Packaging          string `json:"packaging"`
-	Path               string `json:"path"`
 	Bucket             string `json:"bucket"`
 	EncryptionDisabled bool   `json:"encryption_disabled"`
 	EncryptionKey      string `json:"encryption_key"`
+	Packaging          string `json:"packaging"`
+	Path               string `json:"path"`
 }
 
 // A CodebuildReportGroupStatus defines the observed state of a CodebuildReportGroup
@@ -81,5 +82,4 @@ type CodebuildReportGroupStatus struct {
 type CodebuildReportGroupObservation struct {
 	Arn     string `json:"arn"`
 	Created string `json:"created"`
-	Id      string `json:"id"`
 }

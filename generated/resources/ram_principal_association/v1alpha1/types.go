@@ -52,6 +52,7 @@ type RamPrincipalAssociationSpec struct {
 
 // A RamPrincipalAssociationParameters defines the desired state of a RamPrincipalAssociation
 type RamPrincipalAssociationParameters struct {
+	Id               string `json:"id"`
 	Principal        string `json:"principal"`
 	ResourceShareArn string `json:"resource_share_arn"`
 }
@@ -63,6 +64,4 @@ type RamPrincipalAssociationStatus struct {
 }
 
 // A RamPrincipalAssociationObservation records the observed state of a RamPrincipalAssociation
-type RamPrincipalAssociationObservation struct {
-	Id string `json:"id"`
-}
+type RamPrincipalAssociationObservation struct{}

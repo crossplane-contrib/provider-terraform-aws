@@ -52,11 +52,12 @@ type Ec2ClientVpnAuthorizationRuleSpec struct {
 
 // A Ec2ClientVpnAuthorizationRuleParameters defines the desired state of a Ec2ClientVpnAuthorizationRule
 type Ec2ClientVpnAuthorizationRuleParameters struct {
-	TargetNetworkCidr   string `json:"target_network_cidr"`
 	AccessGroupId       string `json:"access_group_id"`
 	AuthorizeAllGroups  bool   `json:"authorize_all_groups"`
 	ClientVpnEndpointId string `json:"client_vpn_endpoint_id"`
 	Description         string `json:"description"`
+	Id                  string `json:"id"`
+	TargetNetworkCidr   string `json:"target_network_cidr"`
 }
 
 // A Ec2ClientVpnAuthorizationRuleStatus defines the observed state of a Ec2ClientVpnAuthorizationRule
@@ -66,6 +67,4 @@ type Ec2ClientVpnAuthorizationRuleStatus struct {
 }
 
 // A Ec2ClientVpnAuthorizationRuleObservation records the observed state of a Ec2ClientVpnAuthorizationRule
-type Ec2ClientVpnAuthorizationRuleObservation struct {
-	Id string `json:"id"`
-}
+type Ec2ClientVpnAuthorizationRuleObservation struct{}

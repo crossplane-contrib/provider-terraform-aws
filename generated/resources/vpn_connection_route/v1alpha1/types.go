@@ -53,6 +53,7 @@ type VpnConnectionRouteSpec struct {
 // A VpnConnectionRouteParameters defines the desired state of a VpnConnectionRoute
 type VpnConnectionRouteParameters struct {
 	DestinationCidrBlock string `json:"destination_cidr_block"`
+	Id                   string `json:"id"`
 	VpnConnectionId      string `json:"vpn_connection_id"`
 }
 
@@ -63,6 +64,4 @@ type VpnConnectionRouteStatus struct {
 }
 
 // A VpnConnectionRouteObservation records the observed state of a VpnConnectionRoute
-type VpnConnectionRouteObservation struct {
-	Id string `json:"id"`
-}
+type VpnConnectionRouteObservation struct{}

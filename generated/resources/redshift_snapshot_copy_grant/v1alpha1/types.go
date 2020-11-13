@@ -52,6 +52,8 @@ type RedshiftSnapshotCopyGrantSpec struct {
 
 // A RedshiftSnapshotCopyGrantParameters defines the desired state of a RedshiftSnapshotCopyGrant
 type RedshiftSnapshotCopyGrantParameters struct {
+	Id                    string            `json:"id"`
+	KmsKeyId              string            `json:"kms_key_id"`
 	SnapshotCopyGrantName string            `json:"snapshot_copy_grant_name"`
 	Tags                  map[string]string `json:"tags"`
 }
@@ -64,7 +66,5 @@ type RedshiftSnapshotCopyGrantStatus struct {
 
 // A RedshiftSnapshotCopyGrantObservation records the observed state of a RedshiftSnapshotCopyGrant
 type RedshiftSnapshotCopyGrantObservation struct {
-	Arn      string `json:"arn"`
-	Id       string `json:"id"`
-	KmsKeyId string `json:"kms_key_id"`
+	Arn string `json:"arn"`
 }

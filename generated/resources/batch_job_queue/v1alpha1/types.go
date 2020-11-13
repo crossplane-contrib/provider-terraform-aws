@@ -52,10 +52,11 @@ type BatchJobQueueSpec struct {
 
 // A BatchJobQueueParameters defines the desired state of a BatchJobQueue
 type BatchJobQueueParameters struct {
+	Id                  string   `json:"id"`
+	Name                string   `json:"name"`
 	Priority            int      `json:"priority"`
 	State               string   `json:"state"`
 	ComputeEnvironments []string `json:"compute_environments"`
-	Name                string   `json:"name"`
 }
 
 // A BatchJobQueueStatus defines the observed state of a BatchJobQueue
@@ -67,5 +68,4 @@ type BatchJobQueueStatus struct {
 // A BatchJobQueueObservation records the observed state of a BatchJobQueue
 type BatchJobQueueObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

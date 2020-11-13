@@ -54,9 +54,10 @@ type AppautoscalingScheduledActionSpec struct {
 type AppautoscalingScheduledActionParameters struct {
 	EndTime              string               `json:"end_time"`
 	Name                 string               `json:"name"`
+	Schedule             string               `json:"schedule"`
+	Id                   string               `json:"id"`
 	ResourceId           string               `json:"resource_id"`
 	ScalableDimension    string               `json:"scalable_dimension"`
-	Schedule             string               `json:"schedule"`
 	ServiceNamespace     string               `json:"service_namespace"`
 	StartTime            string               `json:"start_time"`
 	ScalableTargetAction ScalableTargetAction `json:"scalable_target_action"`
@@ -76,5 +77,4 @@ type AppautoscalingScheduledActionStatus struct {
 // A AppautoscalingScheduledActionObservation records the observed state of a AppautoscalingScheduledAction
 type AppautoscalingScheduledActionObservation struct {
 	Arn string `json:"arn"`
-	Id  string `json:"id"`
 }

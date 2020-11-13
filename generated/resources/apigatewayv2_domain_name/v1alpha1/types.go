@@ -53,21 +53,22 @@ type Apigatewayv2DomainNameSpec struct {
 // A Apigatewayv2DomainNameParameters defines the desired state of a Apigatewayv2DomainName
 type Apigatewayv2DomainNameParameters struct {
 	DomainName              string                  `json:"domain_name"`
+	Id                      string                  `json:"id"`
 	Tags                    map[string]string       `json:"tags"`
-	DomainNameConfiguration DomainNameConfiguration `json:"domain_name_configuration"`
 	Timeouts                []Timeouts              `json:"timeouts"`
-}
-
-type DomainNameConfiguration struct {
-	CertificateArn   string `json:"certificate_arn"`
-	EndpointType     string `json:"endpoint_type"`
-	HostedZoneId     string `json:"hosted_zone_id"`
-	SecurityPolicy   string `json:"security_policy"`
-	TargetDomainName string `json:"target_domain_name"`
+	DomainNameConfiguration DomainNameConfiguration `json:"domain_name_configuration"`
 }
 
 type Timeouts struct {
 	Update string `json:"update"`
+}
+
+type DomainNameConfiguration struct {
+	SecurityPolicy   string `json:"security_policy"`
+	TargetDomainName string `json:"target_domain_name"`
+	CertificateArn   string `json:"certificate_arn"`
+	EndpointType     string `json:"endpoint_type"`
+	HostedZoneId     string `json:"hosted_zone_id"`
 }
 
 // A Apigatewayv2DomainNameStatus defines the observed state of a Apigatewayv2DomainName
@@ -79,6 +80,5 @@ type Apigatewayv2DomainNameStatus struct {
 // A Apigatewayv2DomainNameObservation records the observed state of a Apigatewayv2DomainName
 type Apigatewayv2DomainNameObservation struct {
 	Arn                           string `json:"arn"`
-	Id                            string `json:"id"`
 	ApiMappingSelectionExpression string `json:"api_mapping_selection_expression"`
 }

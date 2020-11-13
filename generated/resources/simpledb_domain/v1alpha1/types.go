@@ -52,6 +52,7 @@ type SimpledbDomainSpec struct {
 
 // A SimpledbDomainParameters defines the desired state of a SimpledbDomain
 type SimpledbDomainParameters struct {
+	Id   string `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -62,6 +63,4 @@ type SimpledbDomainStatus struct {
 }
 
 // A SimpledbDomainObservation records the observed state of a SimpledbDomain
-type SimpledbDomainObservation struct {
-	Id string `json:"id"`
-}
+type SimpledbDomainObservation struct{}

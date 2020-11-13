@@ -52,11 +52,14 @@ type KmsExternalKeySpec struct {
 
 // A KmsExternalKeyParameters defines the desired state of a KmsExternalKey
 type KmsExternalKeyParameters struct {
+	Enabled              bool              `json:"enabled"`
+	Id                   string            `json:"id"`
+	Tags                 map[string]string `json:"tags"`
 	ValidTo              string            `json:"valid_to"`
 	DeletionWindowInDays int               `json:"deletion_window_in_days"`
 	Description          string            `json:"description"`
 	KeyMaterialBase64    string            `json:"key_material_base64"`
-	Tags                 map[string]string `json:"tags"`
+	Policy               string            `json:"policy"`
 }
 
 // A KmsExternalKeyStatus defines the observed state of a KmsExternalKey
@@ -67,11 +70,8 @@ type KmsExternalKeyStatus struct {
 
 // A KmsExternalKeyObservation records the observed state of a KmsExternalKey
 type KmsExternalKeyObservation struct {
-	Arn             string `json:"arn"`
-	Enabled         bool   `json:"enabled"`
 	ExpirationModel string `json:"expiration_model"`
 	KeyState        string `json:"key_state"`
-	Policy          string `json:"policy"`
-	Id              string `json:"id"`
+	Arn             string `json:"arn"`
 	KeyUsage        string `json:"key_usage"`
 }

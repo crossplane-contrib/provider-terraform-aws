@@ -56,6 +56,7 @@ type MskConfigurationParameters struct {
 	Name             string   `json:"name"`
 	ServerProperties string   `json:"server_properties"`
 	Description      string   `json:"description"`
+	Id               string   `json:"id"`
 }
 
 // A MskConfigurationStatus defines the observed state of a MskConfiguration
@@ -68,5 +69,4 @@ type MskConfigurationStatus struct {
 type MskConfigurationObservation struct {
 	LatestRevision int    `json:"latest_revision"`
 	Arn            string `json:"arn"`
-	Id             string `json:"id"`
 }

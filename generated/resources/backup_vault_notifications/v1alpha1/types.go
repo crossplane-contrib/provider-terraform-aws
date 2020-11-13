@@ -52,9 +52,10 @@ type BackupVaultNotificationsSpec struct {
 
 // A BackupVaultNotificationsParameters defines the desired state of a BackupVaultNotifications
 type BackupVaultNotificationsParameters struct {
-	BackupVaultName   string   `json:"backup_vault_name"`
-	SnsTopicArn       string   `json:"sns_topic_arn"`
 	BackupVaultEvents []string `json:"backup_vault_events"`
+	BackupVaultName   string   `json:"backup_vault_name"`
+	Id                string   `json:"id"`
+	SnsTopicArn       string   `json:"sns_topic_arn"`
 }
 
 // A BackupVaultNotificationsStatus defines the observed state of a BackupVaultNotifications
@@ -65,6 +66,5 @@ type BackupVaultNotificationsStatus struct {
 
 // A BackupVaultNotificationsObservation records the observed state of a BackupVaultNotifications
 type BackupVaultNotificationsObservation struct {
-	Id             string `json:"id"`
 	BackupVaultArn string `json:"backup_vault_arn"`
 }

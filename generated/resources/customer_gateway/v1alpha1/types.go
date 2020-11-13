@@ -52,10 +52,11 @@ type CustomerGatewaySpec struct {
 
 // A CustomerGatewayParameters defines the desired state of a CustomerGateway
 type CustomerGatewayParameters struct {
-	IpAddress string            `json:"ip_address"`
 	Tags      map[string]string `json:"tags"`
 	Type      string            `json:"type"`
 	BgpAsn    string            `json:"bgp_asn"`
+	Id        string            `json:"id"`
+	IpAddress string            `json:"ip_address"`
 }
 
 // A CustomerGatewayStatus defines the observed state of a CustomerGateway
@@ -66,6 +67,5 @@ type CustomerGatewayStatus struct {
 
 // A CustomerGatewayObservation records the observed state of a CustomerGateway
 type CustomerGatewayObservation struct {
-	Id  string `json:"id"`
 	Arn string `json:"arn"`
 }

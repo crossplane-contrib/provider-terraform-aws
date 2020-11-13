@@ -52,26 +52,29 @@ type AlbTargetGroupSpec struct {
 
 // A AlbTargetGroupParameters defines the desired state of a AlbTargetGroup
 type AlbTargetGroupParameters struct {
-	DeregistrationDelay            int               `json:"deregistration_delay"`
-	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
-	Tags                           map[string]string `json:"tags"`
-	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
 	NamePrefix                     string            `json:"name_prefix"`
-	Port                           int               `json:"port"`
-	TargetType                     string            `json:"target_type"`
-	VpcId                          string            `json:"vpc_id"`
-	Protocol                       string            `json:"protocol"`
 	SlowStart                      int               `json:"slow_start"`
+	Tags                           map[string]string `json:"tags"`
+	Id                             string            `json:"id"`
+	TargetType                     string            `json:"target_type"`
+	LoadBalancingAlgorithmType     string            `json:"load_balancing_algorithm_type"`
+	Name                           string            `json:"name"`
+	Port                           int               `json:"port"`
+	Protocol                       string            `json:"protocol"`
+	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
+	DeregistrationDelay            int               `json:"deregistration_delay"`
+	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
+	VpcId                          string            `json:"vpc_id"`
 	HealthCheck                    HealthCheck       `json:"health_check"`
 	Stickiness                     Stickiness        `json:"stickiness"`
 }
 
 type HealthCheck struct {
+	Path               string `json:"path"`
 	UnhealthyThreshold int    `json:"unhealthy_threshold"`
 	Interval           int    `json:"interval"`
 	HealthyThreshold   int    `json:"healthy_threshold"`
 	Matcher            string `json:"matcher"`
-	Path               string `json:"path"`
 	Port               string `json:"port"`
 	Protocol           string `json:"protocol"`
 	Timeout            int    `json:"timeout"`
@@ -92,9 +95,6 @@ type AlbTargetGroupStatus struct {
 
 // A AlbTargetGroupObservation records the observed state of a AlbTargetGroup
 type AlbTargetGroupObservation struct {
-	ArnSuffix                  string `json:"arn_suffix"`
-	LoadBalancingAlgorithmType string `json:"load_balancing_algorithm_type"`
-	Arn                        string `json:"arn"`
-	Id                         string `json:"id"`
-	Name                       string `json:"name"`
+	ArnSuffix string `json:"arn_suffix"`
+	Arn       string `json:"arn"`
 }

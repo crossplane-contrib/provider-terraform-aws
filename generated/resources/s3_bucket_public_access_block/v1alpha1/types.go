@@ -54,6 +54,7 @@ type S3BucketPublicAccessBlockSpec struct {
 type S3BucketPublicAccessBlockParameters struct {
 	BlockPublicPolicy     bool   `json:"block_public_policy"`
 	Bucket                string `json:"bucket"`
+	Id                    string `json:"id"`
 	IgnorePublicAcls      bool   `json:"ignore_public_acls"`
 	RestrictPublicBuckets bool   `json:"restrict_public_buckets"`
 	BlockPublicAcls       bool   `json:"block_public_acls"`
@@ -66,6 +67,4 @@ type S3BucketPublicAccessBlockStatus struct {
 }
 
 // A S3BucketPublicAccessBlockObservation records the observed state of a S3BucketPublicAccessBlock
-type S3BucketPublicAccessBlockObservation struct {
-	Id string `json:"id"`
-}
+type S3BucketPublicAccessBlockObservation struct{}

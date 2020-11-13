@@ -52,10 +52,11 @@ type SesTemplateSpec struct {
 
 // A SesTemplateParameters defines the desired state of a SesTemplate
 type SesTemplateParameters struct {
+	Html    string `json:"html"`
+	Id      string `json:"id"`
 	Name    string `json:"name"`
 	Subject string `json:"subject"`
 	Text    string `json:"text"`
-	Html    string `json:"html"`
 }
 
 // A SesTemplateStatus defines the observed state of a SesTemplate
@@ -65,6 +66,4 @@ type SesTemplateStatus struct {
 }
 
 // A SesTemplateObservation records the observed state of a SesTemplate
-type SesTemplateObservation struct {
-	Id string `json:"id"`
-}
+type SesTemplateObservation struct{}

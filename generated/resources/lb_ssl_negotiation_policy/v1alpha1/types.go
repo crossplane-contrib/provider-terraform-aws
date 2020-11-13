@@ -52,9 +52,10 @@ type LbSslNegotiationPolicySpec struct {
 
 // A LbSslNegotiationPolicyParameters defines the desired state of a LbSslNegotiationPolicy
 type LbSslNegotiationPolicyParameters struct {
-	Name         string      `json:"name"`
-	LbPort       int         `json:"lb_port"`
 	LoadBalancer string      `json:"load_balancer"`
+	Name         string      `json:"name"`
+	Id           string      `json:"id"`
+	LbPort       int         `json:"lb_port"`
 	Attribute    []Attribute `json:"attribute"`
 }
 
@@ -70,6 +71,4 @@ type LbSslNegotiationPolicyStatus struct {
 }
 
 // A LbSslNegotiationPolicyObservation records the observed state of a LbSslNegotiationPolicy
-type LbSslNegotiationPolicyObservation struct {
-	Id string `json:"id"`
-}
+type LbSslNegotiationPolicyObservation struct{}

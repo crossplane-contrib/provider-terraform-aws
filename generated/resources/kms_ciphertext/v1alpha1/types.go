@@ -53,6 +53,7 @@ type KmsCiphertextSpec struct {
 // A KmsCiphertextParameters defines the desired state of a KmsCiphertext
 type KmsCiphertextParameters struct {
 	Context   map[string]string `json:"context"`
+	Id        string            `json:"id"`
 	KeyId     string            `json:"key_id"`
 	Plaintext string            `json:"plaintext"`
 }
@@ -66,5 +67,4 @@ type KmsCiphertextStatus struct {
 // A KmsCiphertextObservation records the observed state of a KmsCiphertext
 type KmsCiphertextObservation struct {
 	CiphertextBlob string `json:"ciphertext_blob"`
-	Id             string `json:"id"`
 }

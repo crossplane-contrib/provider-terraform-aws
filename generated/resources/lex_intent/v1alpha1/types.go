@@ -52,52 +52,20 @@ type LexIntentSpec struct {
 
 // A LexIntentParameters defines the desired state of a LexIntent
 type LexIntentParameters struct {
-	Name                  string              `json:"name"`
-	SampleUtterances      []string            `json:"sample_utterances"`
 	Description           string              `json:"description"`
+	Id                    string              `json:"id"`
 	ParentIntentSignature string              `json:"parent_intent_signature"`
 	CreateVersion         bool                `json:"create_version"`
-	DialogCodeHook        DialogCodeHook      `json:"dialog_code_hook"`
-	FollowUpPrompt        FollowUpPrompt      `json:"follow_up_prompt"`
+	Name                  string              `json:"name"`
+	SampleUtterances      []string            `json:"sample_utterances"`
 	FulfillmentActivity   FulfillmentActivity `json:"fulfillment_activity"`
 	RejectionStatement    RejectionStatement  `json:"rejection_statement"`
 	Slot                  []Slot              `json:"slot"`
 	Timeouts              []Timeouts          `json:"timeouts"`
 	ConclusionStatement   ConclusionStatement `json:"conclusion_statement"`
 	ConfirmationPrompt    ConfirmationPrompt  `json:"confirmation_prompt"`
-}
-
-type DialogCodeHook struct {
-	MessageVersion string `json:"message_version"`
-	Uri            string `json:"uri"`
-}
-
-type FollowUpPrompt struct {
-	Prompt             Prompt             `json:"prompt"`
-	RejectionStatement RejectionStatement `json:"rejection_statement"`
-}
-
-type Prompt struct {
-	ResponseCard string    `json:"response_card"`
-	MaxAttempts  int       `json:"max_attempts"`
-	Message      []Message `json:"message"`
-}
-
-type Message struct {
-	Content     string `json:"content"`
-	ContentType string `json:"content_type"`
-	GroupNumber int    `json:"group_number"`
-}
-
-type RejectionStatement struct {
-	ResponseCard string    `json:"response_card"`
-	Message      []Message `json:"message"`
-}
-
-type Message struct {
-	Content     string `json:"content"`
-	ContentType string `json:"content_type"`
-	GroupNumber int    `json:"group_number"`
+	DialogCodeHook        DialogCodeHook      `json:"dialog_code_hook"`
+	FollowUpPrompt        FollowUpPrompt      `json:"follow_up_prompt"`
 }
 
 type FulfillmentActivity struct {
@@ -116,13 +84,12 @@ type RejectionStatement struct {
 }
 
 type Message struct {
-	Content     string `json:"content"`
 	ContentType string `json:"content_type"`
 	GroupNumber int    `json:"group_number"`
+	Content     string `json:"content"`
 }
 
 type Slot struct {
-	ResponseCard           string                 `json:"response_card"`
 	SampleUtterances       []string               `json:"sample_utterances"`
 	SlotConstraint         string                 `json:"slot_constraint"`
 	SlotType               string                 `json:"slot_type"`
@@ -130,12 +97,13 @@ type Slot struct {
 	Description            string                 `json:"description"`
 	Name                   string                 `json:"name"`
 	Priority               int                    `json:"priority"`
+	ResponseCard           string                 `json:"response_card"`
 	ValueElicitationPrompt ValueElicitationPrompt `json:"value_elicitation_prompt"`
 }
 
 type ValueElicitationPrompt struct {
-	ResponseCard string    `json:"response_card"`
 	MaxAttempts  int       `json:"max_attempts"`
+	ResponseCard string    `json:"response_card"`
 	Message      []Message `json:"message"`
 }
 
@@ -169,9 +137,42 @@ type ConfirmationPrompt struct {
 }
 
 type Message struct {
+	Content     string `json:"content"`
+	ContentType string `json:"content_type"`
+	GroupNumber int    `json:"group_number"`
+}
+
+type DialogCodeHook struct {
+	MessageVersion string `json:"message_version"`
+	Uri            string `json:"uri"`
+}
+
+type FollowUpPrompt struct {
+	RejectionStatement RejectionStatement `json:"rejection_statement"`
+	Prompt             Prompt             `json:"prompt"`
+}
+
+type RejectionStatement struct {
+	ResponseCard string    `json:"response_card"`
+	Message      []Message `json:"message"`
+}
+
+type Message struct {
 	GroupNumber int    `json:"group_number"`
 	Content     string `json:"content"`
 	ContentType string `json:"content_type"`
+}
+
+type Prompt struct {
+	MaxAttempts  int       `json:"max_attempts"`
+	ResponseCard string    `json:"response_card"`
+	Message      []Message `json:"message"`
+}
+
+type Message struct {
+	Content     string `json:"content"`
+	ContentType string `json:"content_type"`
+	GroupNumber int    `json:"group_number"`
 }
 
 // A LexIntentStatus defines the observed state of a LexIntent
@@ -182,10 +183,9 @@ type LexIntentStatus struct {
 
 // A LexIntentObservation records the observed state of a LexIntent
 type LexIntentObservation struct {
-	Version         string `json:"version"`
 	Arn             string `json:"arn"`
 	Checksum        string `json:"checksum"`
-	Id              string `json:"id"`
-	LastUpdatedDate string `json:"last_updated_date"`
 	CreatedDate     string `json:"created_date"`
+	LastUpdatedDate string `json:"last_updated_date"`
+	Version         string `json:"version"`
 }

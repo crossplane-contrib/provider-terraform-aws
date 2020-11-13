@@ -52,6 +52,7 @@ type EbsDefaultKmsKeySpec struct {
 
 // A EbsDefaultKmsKeyParameters defines the desired state of a EbsDefaultKmsKey
 type EbsDefaultKmsKeyParameters struct {
+	Id     string `json:"id"`
 	KeyArn string `json:"key_arn"`
 }
 
@@ -62,6 +63,4 @@ type EbsDefaultKmsKeyStatus struct {
 }
 
 // A EbsDefaultKmsKeyObservation records the observed state of a EbsDefaultKmsKey
-type EbsDefaultKmsKeyObservation struct {
-	Id string `json:"id"`
-}
+type EbsDefaultKmsKeyObservation struct{}

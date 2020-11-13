@@ -52,21 +52,31 @@ type DmsEndpointSpec struct {
 
 // A DmsEndpointParameters defines the desired state of a DmsEndpoint
 type DmsEndpointParameters struct {
-	DatabaseName          string                `json:"database_name"`
-	EndpointId            string                `json:"endpoint_id"`
-	Password              string                `json:"password"`
-	EndpointType          string                `json:"endpoint_type"`
-	Tags                  map[string]string     `json:"tags"`
-	EngineName            string                `json:"engine_name"`
-	Port                  int                   `json:"port"`
-	ServerName            string                `json:"server_name"`
-	ServiceAccessRole     string                `json:"service_access_role"`
-	Username              string                `json:"username"`
-	KinesisSettings       KinesisSettings       `json:"kinesis_settings"`
-	MongodbSettings       MongodbSettings       `json:"mongodb_settings"`
-	S3Settings            S3Settings            `json:"s3_settings"`
-	ElasticsearchSettings ElasticsearchSettings `json:"elasticsearch_settings"`
-	KafkaSettings         KafkaSettings         `json:"kafka_settings"`
+	EngineName                string                `json:"engine_name"`
+	Port                      int                   `json:"port"`
+	SslMode                   string                `json:"ssl_mode"`
+	Tags                      map[string]string     `json:"tags"`
+	EndpointId                string                `json:"endpoint_id"`
+	ServerName                string                `json:"server_name"`
+	ServiceAccessRole         string                `json:"service_access_role"`
+	Username                  string                `json:"username"`
+	ExtraConnectionAttributes string                `json:"extra_connection_attributes"`
+	Id                        string                `json:"id"`
+	CertificateArn            string                `json:"certificate_arn"`
+	DatabaseName              string                `json:"database_name"`
+	EndpointType              string                `json:"endpoint_type"`
+	KmsKeyArn                 string                `json:"kms_key_arn"`
+	Password                  string                `json:"password"`
+	KafkaSettings             KafkaSettings         `json:"kafka_settings"`
+	KinesisSettings           KinesisSettings       `json:"kinesis_settings"`
+	MongodbSettings           MongodbSettings       `json:"mongodb_settings"`
+	S3Settings                S3Settings            `json:"s3_settings"`
+	ElasticsearchSettings     ElasticsearchSettings `json:"elasticsearch_settings"`
+}
+
+type KafkaSettings struct {
+	Broker string `json:"broker"`
+	Topic  string `json:"topic"`
 }
 
 type KinesisSettings struct {
@@ -76,12 +86,12 @@ type KinesisSettings struct {
 }
 
 type MongodbSettings struct {
-	AuthMechanism     string `json:"auth_mechanism"`
-	AuthSource        string `json:"auth_source"`
-	AuthType          string `json:"auth_type"`
 	DocsToInvestigate string `json:"docs_to_investigate"`
 	ExtractDocId      string `json:"extract_doc_id"`
 	NestingLevel      string `json:"nesting_level"`
+	AuthMechanism     string `json:"auth_mechanism"`
+	AuthSource        string `json:"auth_source"`
+	AuthType          string `json:"auth_type"`
 }
 
 type S3Settings struct {
@@ -101,11 +111,6 @@ type ElasticsearchSettings struct {
 	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
 }
 
-type KafkaSettings struct {
-	Broker string `json:"broker"`
-	Topic  string `json:"topic"`
-}
-
 // A DmsEndpointStatus defines the observed state of a DmsEndpoint
 type DmsEndpointStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -114,10 +119,5 @@ type DmsEndpointStatus struct {
 
 // A DmsEndpointObservation records the observed state of a DmsEndpoint
 type DmsEndpointObservation struct {
-	KmsKeyArn                 string `json:"kms_key_arn"`
-	CertificateArn            string `json:"certificate_arn"`
-	EndpointArn               string `json:"endpoint_arn"`
-	Id                        string `json:"id"`
-	ExtraConnectionAttributes string `json:"extra_connection_attributes"`
-	SslMode                   string `json:"ssl_mode"`
+	EndpointArn string `json:"endpoint_arn"`
 }

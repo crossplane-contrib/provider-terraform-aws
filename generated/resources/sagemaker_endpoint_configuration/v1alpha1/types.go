@@ -53,17 +53,19 @@ type SagemakerEndpointConfigurationSpec struct {
 // A SagemakerEndpointConfigurationParameters defines the desired state of a SagemakerEndpointConfiguration
 type SagemakerEndpointConfigurationParameters struct {
 	Tags               map[string]string    `json:"tags"`
+	Id                 string               `json:"id"`
 	KmsKeyArn          string               `json:"kms_key_arn"`
+	Name               string               `json:"name"`
 	ProductionVariants []ProductionVariants `json:"production_variants"`
 }
 
 type ProductionVariants struct {
+	AcceleratorType      string `json:"accelerator_type"`
+	InitialInstanceCount int    `json:"initial_instance_count"`
 	InitialVariantWeight int    `json:"initial_variant_weight"`
 	InstanceType         string `json:"instance_type"`
 	ModelName            string `json:"model_name"`
 	VariantName          string `json:"variant_name"`
-	AcceleratorType      string `json:"accelerator_type"`
-	InitialInstanceCount int    `json:"initial_instance_count"`
 }
 
 // A SagemakerEndpointConfigurationStatus defines the observed state of a SagemakerEndpointConfiguration
@@ -74,7 +76,5 @@ type SagemakerEndpointConfigurationStatus struct {
 
 // A SagemakerEndpointConfigurationObservation records the observed state of a SagemakerEndpointConfiguration
 type SagemakerEndpointConfigurationObservation struct {
-	Arn  string `json:"arn"`
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Arn string `json:"arn"`
 }

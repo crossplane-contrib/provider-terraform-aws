@@ -52,12 +52,13 @@ type MqConfigurationSpec struct {
 
 // A MqConfigurationParameters defines the desired state of a MqConfiguration
 type MqConfigurationParameters struct {
+	EngineVersion string            `json:"engine_version"`
+	Id            string            `json:"id"`
 	Data          string            `json:"data"`
 	Description   string            `json:"description"`
-	EngineVersion string            `json:"engine_version"`
-	Tags          map[string]string `json:"tags"`
 	EngineType    string            `json:"engine_type"`
 	Name          string            `json:"name"`
+	Tags          map[string]string `json:"tags"`
 }
 
 // A MqConfigurationStatus defines the observed state of a MqConfiguration
@@ -70,5 +71,4 @@ type MqConfigurationStatus struct {
 type MqConfigurationObservation struct {
 	LatestRevision int    `json:"latest_revision"`
 	Arn            string `json:"arn"`
-	Id             string `json:"id"`
 }

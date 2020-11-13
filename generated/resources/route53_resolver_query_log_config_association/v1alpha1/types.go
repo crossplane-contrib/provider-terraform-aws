@@ -52,6 +52,7 @@ type Route53ResolverQueryLogConfigAssociationSpec struct {
 
 // A Route53ResolverQueryLogConfigAssociationParameters defines the desired state of a Route53ResolverQueryLogConfigAssociation
 type Route53ResolverQueryLogConfigAssociationParameters struct {
+	Id                       string `json:"id"`
 	ResolverQueryLogConfigId string `json:"resolver_query_log_config_id"`
 	ResourceId               string `json:"resource_id"`
 }
@@ -63,6 +64,4 @@ type Route53ResolverQueryLogConfigAssociationStatus struct {
 }
 
 // A Route53ResolverQueryLogConfigAssociationObservation records the observed state of a Route53ResolverQueryLogConfigAssociation
-type Route53ResolverQueryLogConfigAssociationObservation struct {
-	Id string `json:"id"`
-}
+type Route53ResolverQueryLogConfigAssociationObservation struct{}

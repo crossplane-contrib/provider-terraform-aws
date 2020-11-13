@@ -54,13 +54,14 @@ type DmsReplicationTaskSpec struct {
 type DmsReplicationTaskParameters struct {
 	MigrationType           string            `json:"migration_type"`
 	ReplicationInstanceArn  string            `json:"replication_instance_arn"`
+	Tags                    map[string]string `json:"tags"`
+	Id                      string            `json:"id"`
 	ReplicationTaskId       string            `json:"replication_task_id"`
 	ReplicationTaskSettings string            `json:"replication_task_settings"`
 	SourceEndpointArn       string            `json:"source_endpoint_arn"`
 	TableMappings           string            `json:"table_mappings"`
-	CdcStartTime            string            `json:"cdc_start_time"`
 	TargetEndpointArn       string            `json:"target_endpoint_arn"`
-	Tags                    map[string]string `json:"tags"`
+	CdcStartTime            string            `json:"cdc_start_time"`
 }
 
 // A DmsReplicationTaskStatus defines the observed state of a DmsReplicationTask
@@ -71,6 +72,5 @@ type DmsReplicationTaskStatus struct {
 
 // A DmsReplicationTaskObservation records the observed state of a DmsReplicationTask
 type DmsReplicationTaskObservation struct {
-	Id                 string `json:"id"`
 	ReplicationTaskArn string `json:"replication_task_arn"`
 }

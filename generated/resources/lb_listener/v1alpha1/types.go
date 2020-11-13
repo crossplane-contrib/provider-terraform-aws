@@ -52,18 +52,20 @@ type LbListenerSpec struct {
 
 // A LbListenerParameters defines the desired state of a LbListener
 type LbListenerParameters struct {
-	Protocol        string          `json:"protocol"`
-	CertificateArn  string          `json:"certificate_arn"`
+	Id              string          `json:"id"`
 	LoadBalancerArn string          `json:"load_balancer_arn"`
 	Port            int             `json:"port"`
+	Protocol        string          `json:"protocol"`
+	SslPolicy       string          `json:"ssl_policy"`
+	CertificateArn  string          `json:"certificate_arn"`
 	DefaultAction   []DefaultAction `json:"default_action"`
 	Timeouts        []Timeouts      `json:"timeouts"`
 }
 
 type DefaultAction struct {
-	Type                string              `json:"type"`
 	Order               int                 `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
+	Type                string              `json:"type"`
 	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
 	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
@@ -72,7 +74,6 @@ type DefaultAction struct {
 }
 
 type AuthenticateCognito struct {
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 	Scope                            string            `json:"scope"`
 	SessionCookieName                string            `json:"session_cookie_name"`
 	SessionTimeout                   int               `json:"session_timeout"`
@@ -80,26 +81,27 @@ type AuthenticateCognito struct {
 	UserPoolClientId                 string            `json:"user_pool_client_id"`
 	UserPoolDomain                   string            `json:"user_pool_domain"`
 	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 }
 
 type AuthenticateOidc struct {
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	SessionTimeout                   int               `json:"session_timeout"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
 	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
 	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
 	ClientId                         string            `json:"client_id"`
 	ClientSecret                     string            `json:"client_secret"`
 	Issuer                           string            `json:"issuer"`
 	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int               `json:"session_timeout"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
 }
 
 type FixedResponse struct {
-	ContentType string `json:"content_type"`
 	MessageBody string `json:"message_body"`
 	StatusCode  string `json:"status_code"`
+	ContentType string `json:"content_type"`
 }
 
 type Forward struct {
@@ -138,7 +140,5 @@ type LbListenerStatus struct {
 
 // A LbListenerObservation records the observed state of a LbListener
 type LbListenerObservation struct {
-	SslPolicy string `json:"ssl_policy"`
-	Arn       string `json:"arn"`
-	Id        string `json:"id"`
+	Arn string `json:"arn"`
 }

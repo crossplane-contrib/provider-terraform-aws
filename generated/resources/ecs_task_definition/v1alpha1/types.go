@@ -52,16 +52,18 @@ type EcsTaskDefinitionSpec struct {
 
 // A EcsTaskDefinitionParameters defines the desired state of a EcsTaskDefinition
 type EcsTaskDefinitionParameters struct {
-	Tags                    map[string]string      `json:"tags"`
-	TaskRoleArn             string                 `json:"task_role_arn"`
-	ExecutionRoleArn        string                 `json:"execution_role_arn"`
-	Memory                  string                 `json:"memory"`
-	ContainerDefinitions    string                 `json:"container_definitions"`
 	Cpu                     string                 `json:"cpu"`
-	Family                  string                 `json:"family"`
-	IpcMode                 string                 `json:"ipc_mode"`
-	PidMode                 string                 `json:"pid_mode"`
 	RequiresCompatibilities []string               `json:"requires_compatibilities"`
+	Tags                    map[string]string      `json:"tags"`
+	ContainerDefinitions    string                 `json:"container_definitions"`
+	ExecutionRoleArn        string                 `json:"execution_role_arn"`
+	NetworkMode             string                 `json:"network_mode"`
+	PidMode                 string                 `json:"pid_mode"`
+	Memory                  string                 `json:"memory"`
+	TaskRoleArn             string                 `json:"task_role_arn"`
+	Family                  string                 `json:"family"`
+	Id                      string                 `json:"id"`
+	IpcMode                 string                 `json:"ipc_mode"`
 	InferenceAccelerator    []InferenceAccelerator `json:"inference_accelerator"`
 	PlacementConstraints    []PlacementConstraints `json:"placement_constraints"`
 	ProxyConfiguration      ProxyConfiguration     `json:"proxy_configuration"`
@@ -74,29 +76,29 @@ type InferenceAccelerator struct {
 }
 
 type PlacementConstraints struct {
-	Expression string `json:"expression"`
 	Type       string `json:"type"`
+	Expression string `json:"expression"`
 }
 
 type ProxyConfiguration struct {
+	Type          string            `json:"type"`
 	ContainerName string            `json:"container_name"`
 	Properties    map[string]string `json:"properties"`
-	Type          string            `json:"type"`
 }
 
 type Volume struct {
-	HostPath                  string                    `json:"host_path"`
 	Name                      string                    `json:"name"`
+	HostPath                  string                    `json:"host_path"`
 	DockerVolumeConfiguration DockerVolumeConfiguration `json:"docker_volume_configuration"`
 	EfsVolumeConfiguration    EfsVolumeConfiguration    `json:"efs_volume_configuration"`
 }
 
 type DockerVolumeConfiguration struct {
-	Autoprovision bool              `json:"autoprovision"`
 	Driver        string            `json:"driver"`
 	DriverOpts    map[string]string `json:"driver_opts"`
 	Labels        map[string]string `json:"labels"`
 	Scope         string            `json:"scope"`
+	Autoprovision bool              `json:"autoprovision"`
 }
 
 type EfsVolumeConfiguration struct {
@@ -120,8 +122,6 @@ type EcsTaskDefinitionStatus struct {
 
 // A EcsTaskDefinitionObservation records the observed state of a EcsTaskDefinition
 type EcsTaskDefinitionObservation struct {
-	Arn         string `json:"arn"`
-	NetworkMode string `json:"network_mode"`
-	Revision    int    `json:"revision"`
-	Id          string `json:"id"`
+	Revision int    `json:"revision"`
+	Arn      string `json:"arn"`
 }
