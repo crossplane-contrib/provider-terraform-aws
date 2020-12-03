@@ -52,15 +52,15 @@ type SecretsmanagerSecretSpec struct {
 
 // A SecretsmanagerSecretParameters defines the desired state of a SecretsmanagerSecret
 type SecretsmanagerSecretParameters struct {
-	Description          string            `json:"description"`
-	Id                   string            `json:"id"`
-	RecoveryWindowInDays int               `json:"recovery_window_in_days"`
+	Name                 string            `json:"name"`
 	RotationLambdaArn    string            `json:"rotation_lambda_arn"`
 	KmsKeyId             string            `json:"kms_key_id"`
-	Name                 string            `json:"name"`
 	NamePrefix           string            `json:"name_prefix"`
 	Policy               string            `json:"policy"`
+	RecoveryWindowInDays int               `json:"recovery_window_in_days"`
 	Tags                 map[string]string `json:"tags"`
+	Description          string            `json:"description"`
+	Id                   string            `json:"id"`
 	RotationRules        RotationRules     `json:"rotation_rules"`
 }
 

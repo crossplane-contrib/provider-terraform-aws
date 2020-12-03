@@ -52,46 +52,79 @@ type S3BucketSpec struct {
 
 // A S3BucketParameters defines the desired state of a S3Bucket
 type S3BucketParameters struct {
-	AccelerationStatus                string                            `json:"acceleration_status"`
-	Policy                            string                            `json:"policy"`
-	RequestPayer                      string                            `json:"request_payer"`
-	WebsiteDomain                     string                            `json:"website_domain"`
-	Acl                               string                            `json:"acl"`
 	Arn                               string                            `json:"arn"`
-	HostedZoneId                      string                            `json:"hosted_zone_id"`
-	Id                                string                            `json:"id"`
-	Tags                              map[string]string                 `json:"tags"`
-	WebsiteEndpoint                   string                            `json:"website_endpoint"`
 	Bucket                            string                            `json:"bucket"`
+	Id                                string                            `json:"id"`
+	Policy                            string                            `json:"policy"`
+	WebsiteEndpoint                   string                            `json:"website_endpoint"`
+	AccelerationStatus                string                            `json:"acceleration_status"`
 	BucketPrefix                      string                            `json:"bucket_prefix"`
+	Acl                               string                            `json:"acl"`
+	HostedZoneId                      string                            `json:"hosted_zone_id"`
+	Tags                              map[string]string                 `json:"tags"`
+	WebsiteDomain                     string                            `json:"website_domain"`
 	ForceDestroy                      bool                              `json:"force_destroy"`
-	LifecycleRule                     []LifecycleRule                   `json:"lifecycle_rule"`
-	ObjectLockConfiguration           ObjectLockConfiguration           `json:"object_lock_configuration"`
-	ServerSideEncryptionConfiguration ServerSideEncryptionConfiguration `json:"server_side_encryption_configuration"`
-	Versioning                        Versioning                        `json:"versioning"`
-	Website                           Website                           `json:"website"`
+	RequestPayer                      string                            `json:"request_payer"`
 	CorsRule                          []CorsRule                        `json:"cors_rule"`
-	Logging                           []Logging                         `json:"logging"`
-	ReplicationConfiguration          ReplicationConfiguration          `json:"replication_configuration"`
+	Website                           Website                           `json:"website"`
+	Versioning                        Versioning                        `json:"versioning"`
 	Grant                             []Grant                           `json:"grant"`
+	LifecycleRule                     []LifecycleRule                   `json:"lifecycle_rule"`
+	Logging                           []Logging                         `json:"logging"`
+	ObjectLockConfiguration           ObjectLockConfiguration           `json:"object_lock_configuration"`
+	ReplicationConfiguration          ReplicationConfiguration          `json:"replication_configuration"`
+	ServerSideEncryptionConfiguration ServerSideEncryptionConfiguration `json:"server_side_encryption_configuration"`
+}
+
+type CorsRule struct {
+	ExposeHeaders  []string `json:"expose_headers"`
+	MaxAgeSeconds  int      `json:"max_age_seconds"`
+	AllowedHeaders []string `json:"allowed_headers"`
+	AllowedMethods []string `json:"allowed_methods"`
+	AllowedOrigins []string `json:"allowed_origins"`
+}
+
+type Website struct {
+	ErrorDocument         string `json:"error_document"`
+	IndexDocument         string `json:"index_document"`
+	RedirectAllRequestsTo string `json:"redirect_all_requests_to"`
+	RoutingRules          string `json:"routing_rules"`
+}
+
+type Versioning struct {
+	MfaDelete bool `json:"mfa_delete"`
+	Enabled   bool `json:"enabled"`
+}
+
+type Grant struct {
+	Id          string   `json:"id"`
+	Permissions []string `json:"permissions"`
+	Type        string   `json:"type"`
+	Uri         string   `json:"uri"`
 }
 
 type LifecycleRule struct {
+	AbortIncompleteMultipartUploadDays int                           `json:"abort_incomplete_multipart_upload_days"`
+	Enabled                            bool                          `json:"enabled"`
 	Id                                 string                        `json:"id"`
 	Prefix                             string                        `json:"prefix"`
 	Tags                               map[string]string             `json:"tags"`
-	AbortIncompleteMultipartUploadDays int                           `json:"abort_incomplete_multipart_upload_days"`
-	Enabled                            bool                          `json:"enabled"`
+	Transition                         []Transition                  `json:"transition"`
 	Expiration                         Expiration                    `json:"expiration"`
 	NoncurrentVersionExpiration        NoncurrentVersionExpiration   `json:"noncurrent_version_expiration"`
 	NoncurrentVersionTransition        []NoncurrentVersionTransition `json:"noncurrent_version_transition"`
-	Transition                         []Transition                  `json:"transition"`
+}
+
+type Transition struct {
+	Date         string `json:"date"`
+	Days         int    `json:"days"`
+	StorageClass string `json:"storage_class"`
 }
 
 type Expiration struct {
+	Date                      string `json:"date"`
 	Days                      int    `json:"days"`
 	ExpiredObjectDeleteMarker bool   `json:"expired_object_delete_marker"`
-	Date                      string `json:"date"`
 }
 
 type NoncurrentVersionExpiration struct {
@@ -99,14 +132,13 @@ type NoncurrentVersionExpiration struct {
 }
 
 type NoncurrentVersionTransition struct {
-	StorageClass string `json:"storage_class"`
 	Days         int    `json:"days"`
+	StorageClass string `json:"storage_class"`
 }
 
-type Transition struct {
-	Date         string `json:"date"`
-	Days         int    `json:"days"`
-	StorageClass string `json:"storage_class"`
+type Logging struct {
+	TargetBucket string `json:"target_bucket"`
+	TargetPrefix string `json:"target_prefix"`
 }
 
 type ObjectLockConfiguration struct {
@@ -122,44 +154,6 @@ type DefaultRetention struct {
 	Days  int    `json:"days"`
 	Mode  string `json:"mode"`
 	Years int    `json:"years"`
-}
-
-type ServerSideEncryptionConfiguration struct {
-	Rule Rule `json:"rule"`
-}
-
-type Rule struct {
-	ApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault `json:"apply_server_side_encryption_by_default"`
-}
-
-type ApplyServerSideEncryptionByDefault struct {
-	KmsMasterKeyId string `json:"kms_master_key_id"`
-	SseAlgorithm   string `json:"sse_algorithm"`
-}
-
-type Versioning struct {
-	Enabled   bool `json:"enabled"`
-	MfaDelete bool `json:"mfa_delete"`
-}
-
-type Website struct {
-	ErrorDocument         string `json:"error_document"`
-	IndexDocument         string `json:"index_document"`
-	RedirectAllRequestsTo string `json:"redirect_all_requests_to"`
-	RoutingRules          string `json:"routing_rules"`
-}
-
-type CorsRule struct {
-	AllowedHeaders []string `json:"allowed_headers"`
-	AllowedMethods []string `json:"allowed_methods"`
-	AllowedOrigins []string `json:"allowed_origins"`
-	ExposeHeaders  []string `json:"expose_headers"`
-	MaxAgeSeconds  int      `json:"max_age_seconds"`
-}
-
-type Logging struct {
-	TargetBucket string `json:"target_bucket"`
-	TargetPrefix string `json:"target_prefix"`
 }
 
 type ReplicationConfiguration struct {
@@ -202,11 +196,17 @@ type SseKmsEncryptedObjects struct {
 	Enabled bool `json:"enabled"`
 }
 
-type Grant struct {
-	Id          string   `json:"id"`
-	Permissions []string `json:"permissions"`
-	Type        string   `json:"type"`
-	Uri         string   `json:"uri"`
+type ServerSideEncryptionConfiguration struct {
+	Rule Rule `json:"rule"`
+}
+
+type Rule struct {
+	ApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault `json:"apply_server_side_encryption_by_default"`
+}
+
+type ApplyServerSideEncryptionByDefault struct {
+	KmsMasterKeyId string `json:"kms_master_key_id"`
+	SseAlgorithm   string `json:"sse_algorithm"`
 }
 
 // A S3BucketStatus defines the observed state of a S3Bucket
@@ -217,7 +217,7 @@ type S3BucketStatus struct {
 
 // A S3BucketObservation records the observed state of a S3Bucket
 type S3BucketObservation struct {
+	BucketDomainName         string `json:"bucket_domain_name"`
 	BucketRegionalDomainName string `json:"bucket_regional_domain_name"`
 	Region                   string `json:"region"`
-	BucketDomainName         string `json:"bucket_domain_name"`
 }

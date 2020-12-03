@@ -61,8 +61,8 @@ type GameliftGameSessionQueueParameters struct {
 }
 
 type PlayerLatencyPolicy struct {
-	MaximumIndividualPlayerLatencyMilliseconds int `json:"maximum_individual_player_latency_milliseconds"`
 	PolicyDurationSeconds                      int `json:"policy_duration_seconds"`
+	MaximumIndividualPlayerLatencyMilliseconds int `json:"maximum_individual_player_latency_milliseconds"`
 }
 
 // A GameliftGameSessionQueueStatus defines the observed state of a GameliftGameSessionQueue

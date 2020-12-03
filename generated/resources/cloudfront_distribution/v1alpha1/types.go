@@ -52,26 +52,102 @@ type CloudfrontDistributionSpec struct {
 
 // A CloudfrontDistributionParameters defines the desired state of a CloudfrontDistribution
 type CloudfrontDistributionParameters struct {
-	WebAclId             string                 `json:"web_acl_id"`
-	PriceClass           string                 `json:"price_class"`
-	DefaultRootObject    string                 `json:"default_root_object"`
-	Enabled              bool                   `json:"enabled"`
-	Id                   string                 `json:"id"`
 	Comment              string                 `json:"comment"`
-	RetainOnDelete       bool                   `json:"retain_on_delete"`
-	IsIpv6Enabled        bool                   `json:"is_ipv6_enabled"`
-	Tags                 map[string]string      `json:"tags"`
-	WaitForDeployment    bool                   `json:"wait_for_deployment"`
-	Aliases              []string               `json:"aliases"`
+	Enabled              bool                   `json:"enabled"`
+	DefaultRootObject    string                 `json:"default_root_object"`
 	HttpVersion          string                 `json:"http_version"`
+	PriceClass           string                 `json:"price_class"`
+	Tags                 map[string]string      `json:"tags"`
+	Id                   string                 `json:"id"`
+	WaitForDeployment    bool                   `json:"wait_for_deployment"`
+	WebAclId             string                 `json:"web_acl_id"`
+	Aliases              []string               `json:"aliases"`
+	IsIpv6Enabled        bool                   `json:"is_ipv6_enabled"`
+	RetainOnDelete       bool                   `json:"retain_on_delete"`
+	OrderedCacheBehavior []OrderedCacheBehavior `json:"ordered_cache_behavior"`
+	Origin               []Origin               `json:"origin"`
+	OriginGroup          []OriginGroup          `json:"origin_group"`
 	Restrictions         Restrictions           `json:"restrictions"`
 	ViewerCertificate    ViewerCertificate      `json:"viewer_certificate"`
 	CustomErrorResponse  []CustomErrorResponse  `json:"custom_error_response"`
 	DefaultCacheBehavior DefaultCacheBehavior   `json:"default_cache_behavior"`
 	LoggingConfig        LoggingConfig          `json:"logging_config"`
-	OrderedCacheBehavior []OrderedCacheBehavior `json:"ordered_cache_behavior"`
-	Origin               []Origin               `json:"origin"`
-	OriginGroup          []OriginGroup          `json:"origin_group"`
+}
+
+type OrderedCacheBehavior struct {
+	DefaultTtl                int                         `json:"default_ttl"`
+	FieldLevelEncryptionId    string                      `json:"field_level_encryption_id"`
+	MaxTtl                    int                         `json:"max_ttl"`
+	MinTtl                    int                         `json:"min_ttl"`
+	PathPattern               string                      `json:"path_pattern"`
+	SmoothStreaming           bool                        `json:"smooth_streaming"`
+	AllowedMethods            []string                    `json:"allowed_methods"`
+	CachedMethods             []string                    `json:"cached_methods"`
+	TrustedSigners            []string                    `json:"trusted_signers"`
+	ViewerProtocolPolicy      string                      `json:"viewer_protocol_policy"`
+	Compress                  bool                        `json:"compress"`
+	TargetOriginId            string                      `json:"target_origin_id"`
+	ForwardedValues           ForwardedValues             `json:"forwarded_values"`
+	LambdaFunctionAssociation []LambdaFunctionAssociation `json:"lambda_function_association"`
+}
+
+type ForwardedValues struct {
+	Headers              []string `json:"headers"`
+	QueryString          bool     `json:"query_string"`
+	QueryStringCacheKeys []string `json:"query_string_cache_keys"`
+	Cookies              Cookies  `json:"cookies"`
+}
+
+type Cookies struct {
+	Forward          string   `json:"forward"`
+	WhitelistedNames []string `json:"whitelisted_names"`
+}
+
+type LambdaFunctionAssociation struct {
+	EventType   string `json:"event_type"`
+	IncludeBody bool   `json:"include_body"`
+	LambdaArn   string `json:"lambda_arn"`
+}
+
+type Origin struct {
+	DomainName         string             `json:"domain_name"`
+	OriginId           string             `json:"origin_id"`
+	OriginPath         string             `json:"origin_path"`
+	S3OriginConfig     S3OriginConfig     `json:"s3_origin_config"`
+	CustomHeader       []CustomHeader     `json:"custom_header"`
+	CustomOriginConfig CustomOriginConfig `json:"custom_origin_config"`
+}
+
+type S3OriginConfig struct {
+	OriginAccessIdentity string `json:"origin_access_identity"`
+}
+
+type CustomHeader struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type CustomOriginConfig struct {
+	OriginKeepaliveTimeout int      `json:"origin_keepalive_timeout"`
+	OriginProtocolPolicy   string   `json:"origin_protocol_policy"`
+	OriginReadTimeout      int      `json:"origin_read_timeout"`
+	OriginSslProtocols     []string `json:"origin_ssl_protocols"`
+	HttpPort               int      `json:"http_port"`
+	HttpsPort              int      `json:"https_port"`
+}
+
+type OriginGroup struct {
+	OriginId         string           `json:"origin_id"`
+	FailoverCriteria FailoverCriteria `json:"failover_criteria"`
+	Member           []Member         `json:"member"`
+}
+
+type FailoverCriteria struct {
+	StatusCodes []int `json:"status_codes"`
+}
+
+type Member struct {
+	OriginId string `json:"origin_id"`
 }
 
 type Restrictions struct {
@@ -92,24 +168,24 @@ type ViewerCertificate struct {
 }
 
 type CustomErrorResponse struct {
-	ErrorCachingMinTtl int    `json:"error_caching_min_ttl"`
-	ErrorCode          int    `json:"error_code"`
 	ResponseCode       int    `json:"response_code"`
 	ResponsePagePath   string `json:"response_page_path"`
+	ErrorCachingMinTtl int    `json:"error_caching_min_ttl"`
+	ErrorCode          int    `json:"error_code"`
 }
 
 type DefaultCacheBehavior struct {
-	SmoothStreaming           bool                        `json:"smooth_streaming"`
-	AllowedMethods            []string                    `json:"allowed_methods"`
+	CachedMethods             []string                    `json:"cached_methods"`
 	Compress                  bool                        `json:"compress"`
 	MaxTtl                    int                         `json:"max_ttl"`
-	MinTtl                    int                         `json:"min_ttl"`
-	TargetOriginId            string                      `json:"target_origin_id"`
 	TrustedSigners            []string                    `json:"trusted_signers"`
-	ViewerProtocolPolicy      string                      `json:"viewer_protocol_policy"`
-	CachedMethods             []string                    `json:"cached_methods"`
+	AllowedMethods            []string                    `json:"allowed_methods"`
 	DefaultTtl                int                         `json:"default_ttl"`
 	FieldLevelEncryptionId    string                      `json:"field_level_encryption_id"`
+	MinTtl                    int                         `json:"min_ttl"`
+	SmoothStreaming           bool                        `json:"smooth_streaming"`
+	TargetOriginId            string                      `json:"target_origin_id"`
+	ViewerProtocolPolicy      string                      `json:"viewer_protocol_policy"`
 	ForwardedValues           ForwardedValues             `json:"forwarded_values"`
 	LambdaFunctionAssociation []LambdaFunctionAssociation `json:"lambda_function_association"`
 }
@@ -127,91 +203,15 @@ type Cookies struct {
 }
 
 type LambdaFunctionAssociation struct {
+	LambdaArn   string `json:"lambda_arn"`
 	EventType   string `json:"event_type"`
 	IncludeBody bool   `json:"include_body"`
-	LambdaArn   string `json:"lambda_arn"`
 }
 
 type LoggingConfig struct {
 	Bucket         string `json:"bucket"`
 	IncludeCookies bool   `json:"include_cookies"`
 	Prefix         string `json:"prefix"`
-}
-
-type OrderedCacheBehavior struct {
-	DefaultTtl                int                         `json:"default_ttl"`
-	PathPattern               string                      `json:"path_pattern"`
-	SmoothStreaming           bool                        `json:"smooth_streaming"`
-	TrustedSigners            []string                    `json:"trusted_signers"`
-	ViewerProtocolPolicy      string                      `json:"viewer_protocol_policy"`
-	AllowedMethods            []string                    `json:"allowed_methods"`
-	Compress                  bool                        `json:"compress"`
-	MaxTtl                    int                         `json:"max_ttl"`
-	MinTtl                    int                         `json:"min_ttl"`
-	TargetOriginId            string                      `json:"target_origin_id"`
-	CachedMethods             []string                    `json:"cached_methods"`
-	FieldLevelEncryptionId    string                      `json:"field_level_encryption_id"`
-	ForwardedValues           ForwardedValues             `json:"forwarded_values"`
-	LambdaFunctionAssociation []LambdaFunctionAssociation `json:"lambda_function_association"`
-}
-
-type ForwardedValues struct {
-	Headers              []string `json:"headers"`
-	QueryString          bool     `json:"query_string"`
-	QueryStringCacheKeys []string `json:"query_string_cache_keys"`
-	Cookies              Cookies  `json:"cookies"`
-}
-
-type Cookies struct {
-	Forward          string   `json:"forward"`
-	WhitelistedNames []string `json:"whitelisted_names"`
-}
-
-type LambdaFunctionAssociation struct {
-	IncludeBody bool   `json:"include_body"`
-	LambdaArn   string `json:"lambda_arn"`
-	EventType   string `json:"event_type"`
-}
-
-type Origin struct {
-	DomainName         string             `json:"domain_name"`
-	OriginId           string             `json:"origin_id"`
-	OriginPath         string             `json:"origin_path"`
-	CustomHeader       []CustomHeader     `json:"custom_header"`
-	CustomOriginConfig CustomOriginConfig `json:"custom_origin_config"`
-	S3OriginConfig     S3OriginConfig     `json:"s3_origin_config"`
-}
-
-type CustomHeader struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
-}
-
-type CustomOriginConfig struct {
-	OriginReadTimeout      int      `json:"origin_read_timeout"`
-	OriginSslProtocols     []string `json:"origin_ssl_protocols"`
-	HttpPort               int      `json:"http_port"`
-	HttpsPort              int      `json:"https_port"`
-	OriginKeepaliveTimeout int      `json:"origin_keepalive_timeout"`
-	OriginProtocolPolicy   string   `json:"origin_protocol_policy"`
-}
-
-type S3OriginConfig struct {
-	OriginAccessIdentity string `json:"origin_access_identity"`
-}
-
-type OriginGroup struct {
-	OriginId         string           `json:"origin_id"`
-	FailoverCriteria FailoverCriteria `json:"failover_criteria"`
-	Member           []Member         `json:"member"`
-}
-
-type FailoverCriteria struct {
-	StatusCodes []int `json:"status_codes"`
-}
-
-type Member struct {
-	OriginId string `json:"origin_id"`
 }
 
 // A CloudfrontDistributionStatus defines the observed state of a CloudfrontDistribution
@@ -222,15 +222,15 @@ type CloudfrontDistributionStatus struct {
 
 // A CloudfrontDistributionObservation records the observed state of a CloudfrontDistribution
 type CloudfrontDistributionObservation struct {
-	TrustedSigners              []TrustedSigners `json:"trusted_signers"`
-	CallerReference             string           `json:"caller_reference"`
+	InProgressValidationBatches int              `json:"in_progress_validation_batches"`
+	Status                      string           `json:"status"`
 	DomainName                  string           `json:"domain_name"`
 	HostedZoneId                string           `json:"hosted_zone_id"`
-	InProgressValidationBatches int              `json:"in_progress_validation_batches"`
-	Arn                         string           `json:"arn"`
 	LastModifiedTime            string           `json:"last_modified_time"`
+	CallerReference             string           `json:"caller_reference"`
+	TrustedSigners              []TrustedSigners `json:"trusted_signers"`
+	Arn                         string           `json:"arn"`
 	Etag                        string           `json:"etag"`
-	Status                      string           `json:"status"`
 }
 
 type TrustedSigners struct {

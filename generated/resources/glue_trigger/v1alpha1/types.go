@@ -54,27 +54,22 @@ type GlueTriggerSpec struct {
 type GlueTriggerParameters struct {
 	Description  string            `json:"description"`
 	Enabled      bool              `json:"enabled"`
-	Name         string            `json:"name"`
+	Schedule     string            `json:"schedule"`
 	Tags         map[string]string `json:"tags"`
+	Id           string            `json:"id"`
+	Name         string            `json:"name"`
 	Type         string            `json:"type"`
 	WorkflowName string            `json:"workflow_name"`
-	Id           string            `json:"id"`
-	Schedule     string            `json:"schedule"`
-	Timeouts     []Timeouts        `json:"timeouts"`
 	Actions      []Actions         `json:"actions"`
 	Predicate    Predicate         `json:"predicate"`
-}
-
-type Timeouts struct {
-	Create string `json:"create"`
-	Delete string `json:"delete"`
+	Timeouts     []Timeouts        `json:"timeouts"`
 }
 
 type Actions struct {
-	Arguments   map[string]string `json:"arguments"`
 	CrawlerName string            `json:"crawler_name"`
 	JobName     string            `json:"job_name"`
 	Timeout     int               `json:"timeout"`
+	Arguments   map[string]string `json:"arguments"`
 }
 
 type Predicate struct {
@@ -83,11 +78,16 @@ type Predicate struct {
 }
 
 type Conditions struct {
-	CrawlState      string `json:"crawl_state"`
-	CrawlerName     string `json:"crawler_name"`
 	JobName         string `json:"job_name"`
 	LogicalOperator string `json:"logical_operator"`
 	State           string `json:"state"`
+	CrawlState      string `json:"crawl_state"`
+	CrawlerName     string `json:"crawler_name"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A GlueTriggerStatus defines the observed state of a GlueTrigger

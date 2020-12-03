@@ -52,18 +52,18 @@ type DbProxyDefaultTargetGroupSpec struct {
 
 // A DbProxyDefaultTargetGroupParameters defines the desired state of a DbProxyDefaultTargetGroup
 type DbProxyDefaultTargetGroupParameters struct {
-	Id                   string               `json:"id"`
 	DbProxyName          string               `json:"db_proxy_name"`
+	Id                   string               `json:"id"`
 	ConnectionPoolConfig ConnectionPoolConfig `json:"connection_pool_config"`
 	Timeouts             []Timeouts           `json:"timeouts"`
 }
 
 type ConnectionPoolConfig struct {
+	InitQuery                 string   `json:"init_query"`
 	MaxConnectionsPercent     int      `json:"max_connections_percent"`
 	MaxIdleConnectionsPercent int      `json:"max_idle_connections_percent"`
 	SessionPinningFilters     []string `json:"session_pinning_filters"`
 	ConnectionBorrowTimeout   int      `json:"connection_borrow_timeout"`
-	InitQuery                 string   `json:"init_query"`
 }
 
 type Timeouts struct {
@@ -79,6 +79,6 @@ type DbProxyDefaultTargetGroupStatus struct {
 
 // A DbProxyDefaultTargetGroupObservation records the observed state of a DbProxyDefaultTargetGroup
 type DbProxyDefaultTargetGroupObservation struct {
-	Name string `json:"name"`
 	Arn  string `json:"arn"`
+	Name string `json:"name"`
 }

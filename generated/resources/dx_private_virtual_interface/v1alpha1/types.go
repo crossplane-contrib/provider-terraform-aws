@@ -52,19 +52,19 @@ type DxPrivateVirtualInterfaceSpec struct {
 
 // A DxPrivateVirtualInterfaceParameters defines the desired state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceParameters struct {
-	BgpAuthKey      string            `json:"bgp_auth_key"`
-	ConnectionId    string            `json:"connection_id"`
-	Name            string            `json:"name"`
-	Tags            map[string]string `json:"tags"`
-	VpnGatewayId    string            `json:"vpn_gateway_id"`
-	BgpAsn          int               `json:"bgp_asn"`
-	Id              string            `json:"id"`
-	AmazonAddress   string            `json:"amazon_address"`
-	CustomerAddress string            `json:"customer_address"`
 	Vlan            int               `json:"vlan"`
-	AddressFamily   string            `json:"address_family"`
-	DxGatewayId     string            `json:"dx_gateway_id"`
+	AmazonAddress   string            `json:"amazon_address"`
+	ConnectionId    string            `json:"connection_id"`
 	Mtu             int               `json:"mtu"`
+	AddressFamily   string            `json:"address_family"`
+	BgpAsn          int               `json:"bgp_asn"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
+	DxGatewayId     string            `json:"dx_gateway_id"`
+	Tags            map[string]string `json:"tags"`
+	CustomerAddress string            `json:"customer_address"`
+	Id              string            `json:"id"`
+	Name            string            `json:"name"`
+	VpnGatewayId    string            `json:"vpn_gateway_id"`
 	Timeouts        []Timeouts        `json:"timeouts"`
 }
 
@@ -82,8 +82,8 @@ type DxPrivateVirtualInterfaceStatus struct {
 
 // A DxPrivateVirtualInterfaceObservation records the observed state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceObservation struct {
-	AwsDevice         string `json:"aws_device"`
-	Arn               string `json:"arn"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
+	Arn               string `json:"arn"`
+	AwsDevice         string `json:"aws_device"`
 }

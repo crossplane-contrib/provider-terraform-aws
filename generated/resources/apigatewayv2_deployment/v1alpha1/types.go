@@ -52,10 +52,10 @@ type Apigatewayv2DeploymentSpec struct {
 
 // A Apigatewayv2DeploymentParameters defines the desired state of a Apigatewayv2Deployment
 type Apigatewayv2DeploymentParameters struct {
-	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Triggers    map[string]string `json:"triggers"`
 	ApiId       string            `json:"api_id"`
+	Description string            `json:"description"`
 }
 
 // A Apigatewayv2DeploymentStatus defines the observed state of a Apigatewayv2Deployment

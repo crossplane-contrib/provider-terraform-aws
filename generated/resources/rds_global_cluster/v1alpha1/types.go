@@ -52,14 +52,14 @@ type RdsGlobalClusterSpec struct {
 
 // A RdsGlobalClusterParameters defines the desired state of a RdsGlobalCluster
 type RdsGlobalClusterParameters struct {
+	DatabaseName              string `json:"database_name"`
+	DeletionProtection        bool   `json:"deletion_protection"`
+	Engine                    string `json:"engine"`
+	EngineVersion             string `json:"engine_version"`
 	GlobalClusterIdentifier   string `json:"global_cluster_identifier"`
 	Id                        string `json:"id"`
 	SourceDbClusterIdentifier string `json:"source_db_cluster_identifier"`
-	DatabaseName              string `json:"database_name"`
-	DeletionProtection        bool   `json:"deletion_protection"`
 	ForceDestroy              bool   `json:"force_destroy"`
-	Engine                    string `json:"engine"`
-	EngineVersion             string `json:"engine_version"`
 	StorageEncrypted          bool   `json:"storage_encrypted"`
 }
 
@@ -71,12 +71,12 @@ type RdsGlobalClusterStatus struct {
 
 // A RdsGlobalClusterObservation records the observed state of a RdsGlobalCluster
 type RdsGlobalClusterObservation struct {
-	GlobalClusterResourceId string                 `json:"global_cluster_resource_id"`
 	Arn                     string                 `json:"arn"`
+	GlobalClusterResourceId string                 `json:"global_cluster_resource_id"`
 	GlobalClusterMembers    []GlobalClusterMembers `json:"global_cluster_members"`
 }
 
 type GlobalClusterMembers struct {
-	IsWriter     bool   `json:"is_writer"`
 	DbClusterArn string `json:"db_cluster_arn"`
+	IsWriter     bool   `json:"is_writer"`
 }

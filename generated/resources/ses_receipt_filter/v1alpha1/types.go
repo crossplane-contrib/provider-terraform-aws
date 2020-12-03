@@ -52,10 +52,10 @@ type SesReceiptFilterSpec struct {
 
 // A SesReceiptFilterParameters defines the desired state of a SesReceiptFilter
 type SesReceiptFilterParameters struct {
-	Policy string `json:"policy"`
 	Cidr   string `json:"cidr"`
 	Id     string `json:"id"`
 	Name   string `json:"name"`
+	Policy string `json:"policy"`
 }
 
 // A SesReceiptFilterStatus defines the observed state of a SesReceiptFilter

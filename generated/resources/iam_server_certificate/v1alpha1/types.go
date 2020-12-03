@@ -52,14 +52,14 @@ type IamServerCertificateSpec struct {
 
 // A IamServerCertificateParameters defines the desired state of a IamServerCertificate
 type IamServerCertificateParameters struct {
+	Path             string `json:"path"`
+	PrivateKey       string `json:"private_key"`
 	Arn              string `json:"arn"`
 	CertificateBody  string `json:"certificate_body"`
 	CertificateChain string `json:"certificate_chain"`
 	Id               string `json:"id"`
 	Name             string `json:"name"`
 	NamePrefix       string `json:"name_prefix"`
-	Path             string `json:"path"`
-	PrivateKey       string `json:"private_key"`
 }
 
 // A IamServerCertificateStatus defines the observed state of a IamServerCertificate

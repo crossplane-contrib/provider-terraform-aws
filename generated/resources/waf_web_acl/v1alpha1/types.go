@@ -75,8 +75,8 @@ type RedactedFields struct {
 }
 
 type FieldToMatch struct {
-	Type string `json:"type"`
 	Data string `json:"data"`
+	Type string `json:"type"`
 }
 
 type Rules struct {

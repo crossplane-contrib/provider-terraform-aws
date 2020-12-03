@@ -52,17 +52,17 @@ type DxHostedTransitVirtualInterfaceSpec struct {
 
 // A DxHostedTransitVirtualInterfaceParameters defines the desired state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceParameters struct {
-	Id              string     `json:"id"`
-	Mtu             int        `json:"mtu"`
-	AddressFamily   string     `json:"address_family"`
-	AmazonAddress   string     `json:"amazon_address"`
 	BgpAsn          int        `json:"bgp_asn"`
+	Mtu             int        `json:"mtu"`
 	BgpAuthKey      string     `json:"bgp_auth_key"`
 	CustomerAddress string     `json:"customer_address"`
-	Name            string     `json:"name"`
+	Id              string     `json:"id"`
 	OwnerAccountId  string     `json:"owner_account_id"`
 	Vlan            int        `json:"vlan"`
+	AmazonAddress   string     `json:"amazon_address"`
 	ConnectionId    string     `json:"connection_id"`
+	Name            string     `json:"name"`
+	AddressFamily   string     `json:"address_family"`
 	Timeouts        []Timeouts `json:"timeouts"`
 }
 
@@ -82,6 +82,6 @@ type DxHostedTransitVirtualInterfaceStatus struct {
 type DxHostedTransitVirtualInterfaceObservation struct {
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
-	Arn               string `json:"arn"`
 	AwsDevice         string `json:"aws_device"`
+	Arn               string `json:"arn"`
 }

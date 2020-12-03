@@ -52,49 +52,49 @@ type AutoscalingPolicySpec struct {
 
 // A AutoscalingPolicyParameters defines the desired state of a AutoscalingPolicy
 type AutoscalingPolicyParameters struct {
-	EstimatedInstanceWarmup     int                         `json:"estimated_instance_warmup"`
-	Id                          string                      `json:"id"`
 	MetricAggregationType       string                      `json:"metric_aggregation_type"`
 	Name                        string                      `json:"name"`
-	PolicyType                  string                      `json:"policy_type"`
 	AdjustmentType              string                      `json:"adjustment_type"`
-	MinAdjustmentMagnitude      int                         `json:"min_adjustment_magnitude"`
-	ScalingAdjustment           int                         `json:"scaling_adjustment"`
 	AutoscalingGroupName        string                      `json:"autoscaling_group_name"`
 	Cooldown                    int                         `json:"cooldown"`
+	EstimatedInstanceWarmup     int                         `json:"estimated_instance_warmup"`
+	Id                          string                      `json:"id"`
+	ScalingAdjustment           int                         `json:"scaling_adjustment"`
+	MinAdjustmentMagnitude      int                         `json:"min_adjustment_magnitude"`
+	PolicyType                  string                      `json:"policy_type"`
 	StepAdjustment              []StepAdjustment            `json:"step_adjustment"`
 	TargetTrackingConfiguration TargetTrackingConfiguration `json:"target_tracking_configuration"`
 }
 
 type StepAdjustment struct {
-	MetricIntervalLowerBound string `json:"metric_interval_lower_bound"`
 	MetricIntervalUpperBound string `json:"metric_interval_upper_bound"`
 	ScalingAdjustment        int    `json:"scaling_adjustment"`
+	MetricIntervalLowerBound string `json:"metric_interval_lower_bound"`
 }
 
 type TargetTrackingConfiguration struct {
-	TargetValue                   int                           `json:"target_value"`
 	DisableScaleIn                bool                          `json:"disable_scale_in"`
-	CustomizedMetricSpecification CustomizedMetricSpecification `json:"customized_metric_specification"`
+	TargetValue                   int                           `json:"target_value"`
 	PredefinedMetricSpecification PredefinedMetricSpecification `json:"predefined_metric_specification"`
+	CustomizedMetricSpecification CustomizedMetricSpecification `json:"customized_metric_specification"`
+}
+
+type PredefinedMetricSpecification struct {
+	PredefinedMetricType string `json:"predefined_metric_type"`
+	ResourceLabel        string `json:"resource_label"`
 }
 
 type CustomizedMetricSpecification struct {
-	Statistic       string            `json:"statistic"`
-	Unit            string            `json:"unit"`
 	MetricName      string            `json:"metric_name"`
 	Namespace       string            `json:"namespace"`
+	Statistic       string            `json:"statistic"`
+	Unit            string            `json:"unit"`
 	MetricDimension []MetricDimension `json:"metric_dimension"`
 }
 
 type MetricDimension struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
-}
-
-type PredefinedMetricSpecification struct {
-	PredefinedMetricType string `json:"predefined_metric_type"`
-	ResourceLabel        string `json:"resource_label"`
 }
 
 // A AutoscalingPolicyStatus defines the observed state of a AutoscalingPolicy

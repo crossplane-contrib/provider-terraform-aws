@@ -52,16 +52,16 @@ type CodedeployDeploymentConfigSpec struct {
 
 // A CodedeployDeploymentConfigParameters defines the desired state of a CodedeployDeploymentConfig
 type CodedeployDeploymentConfigParameters struct {
-	ComputePlatform      string               `json:"compute_platform"`
 	DeploymentConfigName string               `json:"deployment_config_name"`
 	Id                   string               `json:"id"`
+	ComputePlatform      string               `json:"compute_platform"`
 	MinimumHealthyHosts  MinimumHealthyHosts  `json:"minimum_healthy_hosts"`
 	TrafficRoutingConfig TrafficRoutingConfig `json:"traffic_routing_config"`
 }
 
 type MinimumHealthyHosts struct {
-	Value int    `json:"value"`
 	Type  string `json:"type"`
+	Value int    `json:"value"`
 }
 
 type TrafficRoutingConfig struct {

@@ -59,9 +59,9 @@ type RedshiftSecurityGroupParameters struct {
 }
 
 type Ingress struct {
+	SecurityGroupOwnerId string `json:"security_group_owner_id"`
 	Cidr                 string `json:"cidr"`
 	SecurityGroupName    string `json:"security_group_name"`
-	SecurityGroupOwnerId string `json:"security_group_owner_id"`
 }
 
 // A RedshiftSecurityGroupStatus defines the observed state of a RedshiftSecurityGroup

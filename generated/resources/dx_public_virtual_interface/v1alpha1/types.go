@@ -52,17 +52,17 @@ type DxPublicVirtualInterfaceSpec struct {
 
 // A DxPublicVirtualInterfaceParameters defines the desired state of a DxPublicVirtualInterface
 type DxPublicVirtualInterfaceParameters struct {
-	BgpAuthKey          string            `json:"bgp_auth_key"`
-	Vlan                int               `json:"vlan"`
+	AddressFamily       string            `json:"address_family"`
 	AmazonAddress       string            `json:"amazon_address"`
 	ConnectionId        string            `json:"connection_id"`
-	CustomerAddress     string            `json:"customer_address"`
-	AddressFamily       string            `json:"address_family"`
-	RouteFilterPrefixes []string          `json:"route_filter_prefixes"`
-	BgpAsn              int               `json:"bgp_asn"`
 	Id                  string            `json:"id"`
 	Name                string            `json:"name"`
 	Tags                map[string]string `json:"tags"`
+	Vlan                int               `json:"vlan"`
+	BgpAsn              int               `json:"bgp_asn"`
+	CustomerAddress     string            `json:"customer_address"`
+	RouteFilterPrefixes []string          `json:"route_filter_prefixes"`
+	BgpAuthKey          string            `json:"bgp_auth_key"`
 	Timeouts            []Timeouts        `json:"timeouts"`
 }
 

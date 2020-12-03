@@ -66,9 +66,9 @@ type DefaultVpcDhcpOptionsStatus struct {
 
 // A DefaultVpcDhcpOptionsObservation records the observed state of a DefaultVpcDhcpOptions
 type DefaultVpcDhcpOptionsObservation struct {
-	DomainName        string `json:"domain_name"`
-	DomainNameServers string `json:"domain_name_servers"`
 	OwnerId           string `json:"owner_id"`
-	Arn               string `json:"arn"`
+	DomainNameServers string `json:"domain_name_servers"`
+	DomainName        string `json:"domain_name"`
 	NtpServers        string `json:"ntp_servers"`
+	Arn               string `json:"arn"`
 }

@@ -52,10 +52,10 @@ type DatasyncLocationNfsSpec struct {
 
 // A DatasyncLocationNfsParameters defines the desired state of a DatasyncLocationNfs
 type DatasyncLocationNfsParameters struct {
-	Tags           map[string]string `json:"tags"`
-	Id             string            `json:"id"`
 	ServerHostname string            `json:"server_hostname"`
 	Subdirectory   string            `json:"subdirectory"`
+	Tags           map[string]string `json:"tags"`
+	Id             string            `json:"id"`
 	OnPremConfig   OnPremConfig      `json:"on_prem_config"`
 }
 

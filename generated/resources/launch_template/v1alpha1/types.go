@@ -52,98 +52,43 @@ type LaunchTemplateSpec struct {
 
 // A LaunchTemplateParameters defines the desired state of a LaunchTemplate
 type LaunchTemplateParameters struct {
-	Id                                string                           `json:"id"`
-	ImageId                           string                           `json:"image_id"`
-	UpdateDefaultVersion              bool                             `json:"update_default_version"`
-	UserData                          string                           `json:"user_data"`
+	DefaultVersion                    int                              `json:"default_version"`
 	Description                       string                           `json:"description"`
 	InstanceType                      string                           `json:"instance_type"`
-	KernelId                          string                           `json:"kernel_id"`
-	DefaultVersion                    int                              `json:"default_version"`
-	EbsOptimized                      string                           `json:"ebs_optimized"`
-	Name                              string                           `json:"name"`
-	NamePrefix                        string                           `json:"name_prefix"`
+	VpcSecurityGroupIds               []string                         `json:"vpc_security_group_ids"`
+	Id                                string                           `json:"id"`
+	KeyName                           string                           `json:"key_name"`
 	RamDiskId                         string                           `json:"ram_disk_id"`
 	SecurityGroupNames                []string                         `json:"security_group_names"`
-	Tags                              map[string]string                `json:"tags"`
 	InstanceInitiatedShutdownBehavior string                           `json:"instance_initiated_shutdown_behavior"`
-	KeyName                           string                           `json:"key_name"`
-	VpcSecurityGroupIds               []string                         `json:"vpc_security_group_ids"`
+	Name                              string                           `json:"name"`
+	NamePrefix                        string                           `json:"name_prefix"`
+	Tags                              map[string]string                `json:"tags"`
+	UpdateDefaultVersion              bool                             `json:"update_default_version"`
+	UserData                          string                           `json:"user_data"`
 	DisableApiTermination             bool                             `json:"disable_api_termination"`
-	Monitoring                        Monitoring                       `json:"monitoring"`
-	Placement                         Placement                        `json:"placement"`
-	TagSpecifications                 []TagSpecifications              `json:"tag_specifications"`
-	CreditSpecification               CreditSpecification              `json:"credit_specification"`
-	LicenseSpecification              []LicenseSpecification           `json:"license_specification"`
-	NetworkInterfaces                 []NetworkInterfaces              `json:"network_interfaces"`
-	ElasticInferenceAccelerator       ElasticInferenceAccelerator      `json:"elastic_inference_accelerator"`
+	EbsOptimized                      string                           `json:"ebs_optimized"`
+	ImageId                           string                           `json:"image_id"`
+	KernelId                          string                           `json:"kernel_id"`
 	ElasticGpuSpecifications          []ElasticGpuSpecifications       `json:"elastic_gpu_specifications"`
-	HibernationOptions                HibernationOptions               `json:"hibernation_options"`
-	IamInstanceProfile                IamInstanceProfile               `json:"iam_instance_profile"`
 	InstanceMarketOptions             InstanceMarketOptions            `json:"instance_market_options"`
-	MetadataOptions                   MetadataOptions                  `json:"metadata_options"`
+	NetworkInterfaces                 []NetworkInterfaces              `json:"network_interfaces"`
+	TagSpecifications                 []TagSpecifications              `json:"tag_specifications"`
+	IamInstanceProfile                IamInstanceProfile               `json:"iam_instance_profile"`
+	LicenseSpecification              []LicenseSpecification           `json:"license_specification"`
+	Monitoring                        Monitoring                       `json:"monitoring"`
 	BlockDeviceMappings               []BlockDeviceMappings            `json:"block_device_mappings"`
 	CapacityReservationSpecification  CapacityReservationSpecification `json:"capacity_reservation_specification"`
+	CreditSpecification               CreditSpecification              `json:"credit_specification"`
+	HibernationOptions                HibernationOptions               `json:"hibernation_options"`
 	CpuOptions                        CpuOptions                       `json:"cpu_options"`
-}
-
-type Monitoring struct {
-	Enabled bool `json:"enabled"`
-}
-
-type Placement struct {
-	GroupName        string `json:"group_name"`
-	HostId           string `json:"host_id"`
-	PartitionNumber  int    `json:"partition_number"`
-	SpreadDomain     string `json:"spread_domain"`
-	Tenancy          string `json:"tenancy"`
-	Affinity         string `json:"affinity"`
-	AvailabilityZone string `json:"availability_zone"`
-}
-
-type TagSpecifications struct {
-	Tags         map[string]string `json:"tags"`
-	ResourceType string            `json:"resource_type"`
-}
-
-type CreditSpecification struct {
-	CpuCredits string `json:"cpu_credits"`
-}
-
-type LicenseSpecification struct {
-	LicenseConfigurationArn string `json:"license_configuration_arn"`
-}
-
-type NetworkInterfaces struct {
-	AssociatePublicIpAddress string   `json:"associate_public_ip_address"`
-	DeleteOnTermination      string   `json:"delete_on_termination"`
-	DeviceIndex              int      `json:"device_index"`
-	Ipv4AddressCount         int      `json:"ipv4_address_count"`
-	PrivateIpAddress         string   `json:"private_ip_address"`
-	SecurityGroups           []string `json:"security_groups"`
-	SubnetId                 string   `json:"subnet_id"`
-	Description              string   `json:"description"`
-	Ipv4Addresses            []string `json:"ipv4_addresses"`
-	Ipv6AddressCount         int      `json:"ipv6_address_count"`
-	Ipv6Addresses            []string `json:"ipv6_addresses"`
-	NetworkInterfaceId       string   `json:"network_interface_id"`
-}
-
-type ElasticInferenceAccelerator struct {
-	Type string `json:"type"`
+	ElasticInferenceAccelerator       ElasticInferenceAccelerator      `json:"elastic_inference_accelerator"`
+	MetadataOptions                   MetadataOptions                  `json:"metadata_options"`
+	Placement                         Placement                        `json:"placement"`
 }
 
 type ElasticGpuSpecifications struct {
 	Type string `json:"type"`
-}
-
-type HibernationOptions struct {
-	Configured bool `json:"configured"`
-}
-
-type IamInstanceProfile struct {
-	Arn  string `json:"arn"`
-	Name string `json:"name"`
 }
 
 type InstanceMarketOptions struct {
@@ -159,10 +104,37 @@ type SpotOptions struct {
 	ValidUntil                   string `json:"valid_until"`
 }
 
-type MetadataOptions struct {
-	HttpEndpoint            string `json:"http_endpoint"`
-	HttpPutResponseHopLimit int    `json:"http_put_response_hop_limit"`
-	HttpTokens              string `json:"http_tokens"`
+type NetworkInterfaces struct {
+	Ipv6Addresses            []string `json:"ipv6_addresses"`
+	NetworkInterfaceId       string   `json:"network_interface_id"`
+	SecurityGroups           []string `json:"security_groups"`
+	Ipv4AddressCount         int      `json:"ipv4_address_count"`
+	Ipv4Addresses            []string `json:"ipv4_addresses"`
+	Ipv6AddressCount         int      `json:"ipv6_address_count"`
+	DeviceIndex              int      `json:"device_index"`
+	PrivateIpAddress         string   `json:"private_ip_address"`
+	SubnetId                 string   `json:"subnet_id"`
+	AssociatePublicIpAddress string   `json:"associate_public_ip_address"`
+	DeleteOnTermination      string   `json:"delete_on_termination"`
+	Description              string   `json:"description"`
+}
+
+type TagSpecifications struct {
+	ResourceType string            `json:"resource_type"`
+	Tags         map[string]string `json:"tags"`
+}
+
+type IamInstanceProfile struct {
+	Arn  string `json:"arn"`
+	Name string `json:"name"`
+}
+
+type LicenseSpecification struct {
+	LicenseConfigurationArn string `json:"license_configuration_arn"`
+}
+
+type Monitoring struct {
+	Enabled bool `json:"enabled"`
 }
 
 type BlockDeviceMappings struct {
@@ -173,13 +145,13 @@ type BlockDeviceMappings struct {
 }
 
 type Ebs struct {
+	KmsKeyId            string `json:"kms_key_id"`
+	SnapshotId          string `json:"snapshot_id"`
+	VolumeSize          int    `json:"volume_size"`
 	VolumeType          string `json:"volume_type"`
 	DeleteOnTermination string `json:"delete_on_termination"`
 	Encrypted           string `json:"encrypted"`
 	Iops                int    `json:"iops"`
-	KmsKeyId            string `json:"kms_key_id"`
-	SnapshotId          string `json:"snapshot_id"`
-	VolumeSize          int    `json:"volume_size"`
 }
 
 type CapacityReservationSpecification struct {
@@ -191,9 +163,37 @@ type CapacityReservationTarget struct {
 	CapacityReservationId string `json:"capacity_reservation_id"`
 }
 
+type CreditSpecification struct {
+	CpuCredits string `json:"cpu_credits"`
+}
+
+type HibernationOptions struct {
+	Configured bool `json:"configured"`
+}
+
 type CpuOptions struct {
 	CoreCount      int `json:"core_count"`
 	ThreadsPerCore int `json:"threads_per_core"`
+}
+
+type ElasticInferenceAccelerator struct {
+	Type string `json:"type"`
+}
+
+type MetadataOptions struct {
+	HttpPutResponseHopLimit int    `json:"http_put_response_hop_limit"`
+	HttpTokens              string `json:"http_tokens"`
+	HttpEndpoint            string `json:"http_endpoint"`
+}
+
+type Placement struct {
+	HostId           string `json:"host_id"`
+	PartitionNumber  int    `json:"partition_number"`
+	SpreadDomain     string `json:"spread_domain"`
+	Tenancy          string `json:"tenancy"`
+	Affinity         string `json:"affinity"`
+	AvailabilityZone string `json:"availability_zone"`
+	GroupName        string `json:"group_name"`
 }
 
 // A LaunchTemplateStatus defines the observed state of a LaunchTemplate

@@ -52,33 +52,33 @@ type AlbTargetGroupSpec struct {
 
 // A AlbTargetGroupParameters defines the desired state of a AlbTargetGroup
 type AlbTargetGroupParameters struct {
-	NamePrefix                     string            `json:"name_prefix"`
-	SlowStart                      int               `json:"slow_start"`
-	Tags                           map[string]string `json:"tags"`
-	Id                             string            `json:"id"`
-	TargetType                     string            `json:"target_type"`
-	LoadBalancingAlgorithmType     string            `json:"load_balancing_algorithm_type"`
-	Name                           string            `json:"name"`
-	Port                           int               `json:"port"`
-	Protocol                       string            `json:"protocol"`
 	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
-	DeregistrationDelay            int               `json:"deregistration_delay"`
+	Tags                           map[string]string `json:"tags"`
+	TargetType                     string            `json:"target_type"`
+	Id                             string            `json:"id"`
+	LoadBalancingAlgorithmType     string            `json:"load_balancing_algorithm_type"`
+	Protocol                       string            `json:"protocol"`
 	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
+	Name                           string            `json:"name"`
+	NamePrefix                     string            `json:"name_prefix"`
+	Port                           int               `json:"port"`
 	VpcId                          string            `json:"vpc_id"`
+	DeregistrationDelay            int               `json:"deregistration_delay"`
+	SlowStart                      int               `json:"slow_start"`
 	HealthCheck                    HealthCheck       `json:"health_check"`
 	Stickiness                     Stickiness        `json:"stickiness"`
 }
 
 type HealthCheck struct {
 	Path               string `json:"path"`
-	UnhealthyThreshold int    `json:"unhealthy_threshold"`
+	Enabled            bool   `json:"enabled"`
 	Interval           int    `json:"interval"`
-	HealthyThreshold   int    `json:"healthy_threshold"`
 	Matcher            string `json:"matcher"`
 	Port               string `json:"port"`
 	Protocol           string `json:"protocol"`
 	Timeout            int    `json:"timeout"`
-	Enabled            bool   `json:"enabled"`
+	UnhealthyThreshold int    `json:"unhealthy_threshold"`
+	HealthyThreshold   int    `json:"healthy_threshold"`
 }
 
 type Stickiness struct {

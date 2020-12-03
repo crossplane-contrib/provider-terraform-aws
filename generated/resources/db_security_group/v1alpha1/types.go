@@ -52,10 +52,10 @@ type DbSecurityGroupSpec struct {
 
 // A DbSecurityGroupParameters defines the desired state of a DbSecurityGroup
 type DbSecurityGroupParameters struct {
-	Description string            `json:"description"`
-	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
+	Description string            `json:"description"`
+	Id          string            `json:"id"`
 	Ingress     []Ingress         `json:"ingress"`
 }
 

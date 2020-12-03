@@ -52,21 +52,21 @@ type AlbSpec struct {
 
 // A AlbParameters defines the desired state of a Alb
 type AlbParameters struct {
-	CustomerOwnedIpv4Pool        string            `json:"customer_owned_ipv4_pool"`
-	EnableCrossZoneLoadBalancing bool              `json:"enable_cross_zone_load_balancing"`
+	DropInvalidHeaderFields      bool              `json:"drop_invalid_header_fields"`
 	IdleTimeout                  int               `json:"idle_timeout"`
+	Internal                     bool              `json:"internal"`
 	IpAddressType                string            `json:"ip_address_type"`
 	LoadBalancerType             string            `json:"load_balancer_type"`
 	NamePrefix                   string            `json:"name_prefix"`
 	Subnets                      []string          `json:"subnets"`
-	DropInvalidHeaderFields      bool              `json:"drop_invalid_header_fields"`
-	EnableHttp2                  bool              `json:"enable_http2"`
-	Internal                     bool              `json:"internal"`
-	EnableDeletionProtection     bool              `json:"enable_deletion_protection"`
-	Id                           string            `json:"id"`
-	Name                         string            `json:"name"`
-	SecurityGroups               []string          `json:"security_groups"`
+	EnableCrossZoneLoadBalancing bool              `json:"enable_cross_zone_load_balancing"`
 	Tags                         map[string]string `json:"tags"`
+	CustomerOwnedIpv4Pool        string            `json:"customer_owned_ipv4_pool"`
+	EnableDeletionProtection     bool              `json:"enable_deletion_protection"`
+	EnableHttp2                  bool              `json:"enable_http2"`
+	Name                         string            `json:"name"`
+	Id                           string            `json:"id"`
+	SecurityGroups               []string          `json:"security_groups"`
 	AccessLogs                   AccessLogs        `json:"access_logs"`
 	SubnetMapping                []SubnetMapping   `json:"subnet_mapping"`
 	Timeouts                     []Timeouts        `json:"timeouts"`
@@ -86,9 +86,9 @@ type SubnetMapping struct {
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A AlbStatus defines the observed state of a Alb
@@ -100,8 +100,8 @@ type AlbStatus struct {
 // A AlbObservation records the observed state of a Alb
 type AlbObservation struct {
 	DnsName   string `json:"dns_name"`
-	ArnSuffix string `json:"arn_suffix"`
 	VpcId     string `json:"vpc_id"`
 	ZoneId    string `json:"zone_id"`
 	Arn       string `json:"arn"`
+	ArnSuffix string `json:"arn_suffix"`
 }

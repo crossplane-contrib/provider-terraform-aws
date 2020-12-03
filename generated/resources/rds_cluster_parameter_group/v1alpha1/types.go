@@ -62,9 +62,9 @@ type RdsClusterParameterGroupParameters struct {
 }
 
 type Parameter struct {
-	ApplyMethod string `json:"apply_method"`
 	Name        string `json:"name"`
 	Value       string `json:"value"`
+	ApplyMethod string `json:"apply_method"`
 }
 
 // A RdsClusterParameterGroupStatus defines the observed state of a RdsClusterParameterGroup

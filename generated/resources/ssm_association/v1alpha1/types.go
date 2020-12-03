@@ -52,29 +52,29 @@ type SsmAssociationSpec struct {
 
 // A SsmAssociationParameters defines the desired state of a SsmAssociation
 type SsmAssociationParameters struct {
+	InstanceId                    string            `json:"instance_id"`
+	MaxErrors                     string            `json:"max_errors"`
+	Parameters                    map[string]string `json:"parameters"`
+	ScheduleExpression            string            `json:"schedule_expression"`
+	DocumentVersion               string            `json:"document_version"`
 	AssociationName               string            `json:"association_name"`
 	AutomationTargetParameterName string            `json:"automation_target_parameter_name"`
 	ComplianceSeverity            string            `json:"compliance_severity"`
-	DocumentVersion               string            `json:"document_version"`
 	Id                            string            `json:"id"`
-	InstanceId                    string            `json:"instance_id"`
-	Name                          string            `json:"name"`
-	Parameters                    map[string]string `json:"parameters"`
-	ScheduleExpression            string            `json:"schedule_expression"`
 	MaxConcurrency                string            `json:"max_concurrency"`
-	MaxErrors                     string            `json:"max_errors"`
-	OutputLocation                OutputLocation    `json:"output_location"`
+	Name                          string            `json:"name"`
 	Targets                       []Targets         `json:"targets"`
-}
-
-type OutputLocation struct {
-	S3KeyPrefix  string `json:"s3_key_prefix"`
-	S3BucketName string `json:"s3_bucket_name"`
+	OutputLocation                OutputLocation    `json:"output_location"`
 }
 
 type Targets struct {
 	Key    string   `json:"key"`
 	Values []string `json:"values"`
+}
+
+type OutputLocation struct {
+	S3BucketName string `json:"s3_bucket_name"`
+	S3KeyPrefix  string `json:"s3_key_prefix"`
 }
 
 // A SsmAssociationStatus defines the observed state of a SsmAssociation

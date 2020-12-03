@@ -52,18 +52,18 @@ type DxTransitVirtualInterfaceSpec struct {
 
 // A DxTransitVirtualInterfaceParameters defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceParameters struct {
-	ConnectionId    string            `json:"connection_id"`
-	Id              string            `json:"id"`
-	DxGatewayId     string            `json:"dx_gateway_id"`
-	Mtu             int               `json:"mtu"`
+	AddressFamily   string            `json:"address_family"`
+	CustomerAddress string            `json:"customer_address"`
 	Name            string            `json:"name"`
 	Tags            map[string]string `json:"tags"`
-	CustomerAddress string            `json:"customer_address"`
-	Vlan            int               `json:"vlan"`
-	AddressFamily   string            `json:"address_family"`
 	AmazonAddress   string            `json:"amazon_address"`
+	Mtu             int               `json:"mtu"`
 	BgpAsn          int               `json:"bgp_asn"`
 	BgpAuthKey      string            `json:"bgp_auth_key"`
+	DxGatewayId     string            `json:"dx_gateway_id"`
+	Vlan            int               `json:"vlan"`
+	ConnectionId    string            `json:"connection_id"`
+	Id              string            `json:"id"`
 	Timeouts        []Timeouts        `json:"timeouts"`
 }
 
@@ -81,8 +81,8 @@ type DxTransitVirtualInterfaceStatus struct {
 
 // A DxTransitVirtualInterfaceObservation records the observed state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceObservation struct {
-	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
-	Arn               string `json:"arn"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
 	AwsDevice         string `json:"aws_device"`
+	Arn               string `json:"arn"`
+	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 }

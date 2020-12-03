@@ -52,12 +52,12 @@ type AppsyncDatasourceSpec struct {
 
 // A AppsyncDatasourceParameters defines the desired state of a AppsyncDatasource
 type AppsyncDatasourceParameters struct {
-	Type                string              `json:"type"`
 	ApiId               string              `json:"api_id"`
 	Description         string              `json:"description"`
 	Id                  string              `json:"id"`
 	Name                string              `json:"name"`
 	ServiceRoleArn      string              `json:"service_role_arn"`
+	Type                string              `json:"type"`
 	DynamodbConfig      DynamodbConfig      `json:"dynamodb_config"`
 	ElasticsearchConfig ElasticsearchConfig `json:"elasticsearch_config"`
 	HttpConfig          HttpConfig          `json:"http_config"`

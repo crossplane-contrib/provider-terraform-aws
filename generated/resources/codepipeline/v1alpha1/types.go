@@ -61,9 +61,9 @@ type CodepipelineParameters struct {
 }
 
 type ArtifactStore struct {
+	Type          string        `json:"type"`
 	Location      string        `json:"location"`
 	Region        string        `json:"region"`
-	Type          string        `json:"type"`
 	EncryptionKey EncryptionKey `json:"encryption_key"`
 }
 
@@ -78,17 +78,17 @@ type Stage struct {
 }
 
 type Action struct {
-	Category        string            `json:"category"`
-	Name            string            `json:"name"`
-	Namespace       string            `json:"namespace"`
+	OutputArtifacts []string          `json:"output_artifacts"`
 	Owner           string            `json:"owner"`
+	Provider        string            `json:"provider"`
 	Region          string            `json:"region"`
-	RoleArn         string            `json:"role_arn"`
 	RunOrder        int               `json:"run_order"`
+	Category        string            `json:"category"`
 	Configuration   map[string]string `json:"configuration"`
 	InputArtifacts  []string          `json:"input_artifacts"`
-	OutputArtifacts []string          `json:"output_artifacts"`
-	Provider        string            `json:"provider"`
+	Name            string            `json:"name"`
+	Namespace       string            `json:"namespace"`
+	RoleArn         string            `json:"role_arn"`
 	Version         string            `json:"version"`
 }
 

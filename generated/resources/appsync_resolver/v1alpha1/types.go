@@ -55,18 +55,18 @@ type AppsyncResolverParameters struct {
 	Field            string         `json:"field"`
 	Id               string         `json:"id"`
 	Kind             string         `json:"kind"`
+	RequestTemplate  string         `json:"request_template"`
 	ResponseTemplate string         `json:"response_template"`
+	Type             string         `json:"type"`
 	ApiId            string         `json:"api_id"`
 	DataSource       string         `json:"data_source"`
-	RequestTemplate  string         `json:"request_template"`
-	Type             string         `json:"type"`
 	CachingConfig    CachingConfig  `json:"caching_config"`
 	PipelineConfig   PipelineConfig `json:"pipeline_config"`
 }
 
 type CachingConfig struct {
-	CachingKeys []string `json:"caching_keys"`
 	Ttl         int      `json:"ttl"`
+	CachingKeys []string `json:"caching_keys"`
 }
 
 type PipelineConfig struct {

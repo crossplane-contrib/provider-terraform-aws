@@ -52,11 +52,11 @@ type DefaultSubnetSpec struct {
 
 // A DefaultSubnetParameters defines the desired state of a DefaultSubnet
 type DefaultSubnetParameters struct {
-	Id                  string            `json:"id"`
-	Tags                map[string]string `json:"tags"`
 	AvailabilityZone    string            `json:"availability_zone"`
-	MapPublicIpOnLaunch bool              `json:"map_public_ip_on_launch"`
+	Id                  string            `json:"id"`
 	OutpostArn          string            `json:"outpost_arn"`
+	Tags                map[string]string `json:"tags"`
+	MapPublicIpOnLaunch bool              `json:"map_public_ip_on_launch"`
 	Timeouts            []Timeouts        `json:"timeouts"`
 }
 
@@ -73,12 +73,12 @@ type DefaultSubnetStatus struct {
 
 // A DefaultSubnetObservation records the observed state of a DefaultSubnet
 type DefaultSubnetObservation struct {
-	CidrBlock                   string `json:"cidr_block"`
-	Ipv6CidrBlock               string `json:"ipv6_cidr_block"`
-	Ipv6CidrBlockAssociationId  string `json:"ipv6_cidr_block_association_id"`
-	OwnerId                     string `json:"owner_id"`
-	Arn                         string `json:"arn"`
-	AssignIpv6AddressOnCreation bool   `json:"assign_ipv6_address_on_creation"`
 	AvailabilityZoneId          string `json:"availability_zone_id"`
 	VpcId                       string `json:"vpc_id"`
+	Arn                         string `json:"arn"`
+	AssignIpv6AddressOnCreation bool   `json:"assign_ipv6_address_on_creation"`
+	Ipv6CidrBlockAssociationId  string `json:"ipv6_cidr_block_association_id"`
+	OwnerId                     string `json:"owner_id"`
+	CidrBlock                   string `json:"cidr_block"`
+	Ipv6CidrBlock               string `json:"ipv6_cidr_block"`
 }

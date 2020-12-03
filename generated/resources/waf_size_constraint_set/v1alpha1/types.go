@@ -58,9 +58,9 @@ type WafSizeConstraintSetParameters struct {
 }
 
 type SizeConstraints struct {
+	TextTransformation string       `json:"text_transformation"`
 	ComparisonOperator string       `json:"comparison_operator"`
 	Size               int          `json:"size"`
-	TextTransformation string       `json:"text_transformation"`
 	FieldToMatch       FieldToMatch `json:"field_to_match"`
 }
 

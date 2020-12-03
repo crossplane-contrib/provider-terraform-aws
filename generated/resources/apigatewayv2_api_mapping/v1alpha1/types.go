@@ -52,11 +52,11 @@ type Apigatewayv2ApiMappingSpec struct {
 
 // A Apigatewayv2ApiMappingParameters defines the desired state of a Apigatewayv2ApiMapping
 type Apigatewayv2ApiMappingParameters struct {
+	Stage         string `json:"stage"`
+	ApiId         string `json:"api_id"`
 	ApiMappingKey string `json:"api_mapping_key"`
 	DomainName    string `json:"domain_name"`
 	Id            string `json:"id"`
-	Stage         string `json:"stage"`
-	ApiId         string `json:"api_id"`
 }
 
 // A Apigatewayv2ApiMappingStatus defines the observed state of a Apigatewayv2ApiMapping

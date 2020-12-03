@@ -52,22 +52,76 @@ type CodedeployDeploymentGroupSpec struct {
 
 // A CodedeployDeploymentGroupParameters defines the desired state of a CodedeployDeploymentGroup
 type CodedeployDeploymentGroupParameters struct {
-	DeploymentGroupName         string                        `json:"deployment_group_name"`
 	Id                          string                        `json:"id"`
 	ServiceRoleArn              string                        `json:"service_role_arn"`
 	AppName                     string                        `json:"app_name"`
 	AutoscalingGroups           []string                      `json:"autoscaling_groups"`
 	DeploymentConfigName        string                        `json:"deployment_config_name"`
-	AutoRollbackConfiguration   AutoRollbackConfiguration     `json:"auto_rollback_configuration"`
-	BlueGreenDeploymentConfig   BlueGreenDeploymentConfig     `json:"blue_green_deployment_config"`
+	DeploymentGroupName         string                        `json:"deployment_group_name"`
 	Ec2TagFilter                []Ec2TagFilter                `json:"ec2_tag_filter"`
 	Ec2TagSet                   []Ec2TagSet                   `json:"ec2_tag_set"`
-	EcsService                  EcsService                    `json:"ecs_service"`
-	AlarmConfiguration          AlarmConfiguration            `json:"alarm_configuration"`
-	DeploymentStyle             DeploymentStyle               `json:"deployment_style"`
 	LoadBalancerInfo            LoadBalancerInfo              `json:"load_balancer_info"`
 	OnPremisesInstanceTagFilter []OnPremisesInstanceTagFilter `json:"on_premises_instance_tag_filter"`
+	AutoRollbackConfiguration   AutoRollbackConfiguration     `json:"auto_rollback_configuration"`
+	BlueGreenDeploymentConfig   BlueGreenDeploymentConfig     `json:"blue_green_deployment_config"`
+	DeploymentStyle             DeploymentStyle               `json:"deployment_style"`
+	EcsService                  EcsService                    `json:"ecs_service"`
 	TriggerConfiguration        []TriggerConfiguration        `json:"trigger_configuration"`
+	AlarmConfiguration          AlarmConfiguration            `json:"alarm_configuration"`
+}
+
+type Ec2TagFilter struct {
+	Key   string `json:"key"`
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+type Ec2TagSet struct {
+	Ec2TagFilter []Ec2TagFilter `json:"ec2_tag_filter"`
+}
+
+type Ec2TagFilter struct {
+	Key   string `json:"key"`
+	Type  string `json:"type"`
+	Value string `json:"value"`
+}
+
+type LoadBalancerInfo struct {
+	ElbInfo             []ElbInfo           `json:"elb_info"`
+	TargetGroupInfo     []TargetGroupInfo   `json:"target_group_info"`
+	TargetGroupPairInfo TargetGroupPairInfo `json:"target_group_pair_info"`
+}
+
+type ElbInfo struct {
+	Name string `json:"name"`
+}
+
+type TargetGroupInfo struct {
+	Name string `json:"name"`
+}
+
+type TargetGroupPairInfo struct {
+	ProdTrafficRoute ProdTrafficRoute `json:"prod_traffic_route"`
+	TargetGroup      []TargetGroup    `json:"target_group"`
+	TestTrafficRoute TestTrafficRoute `json:"test_traffic_route"`
+}
+
+type ProdTrafficRoute struct {
+	ListenerArns []string `json:"listener_arns"`
+}
+
+type TargetGroup struct {
+	Name string `json:"name"`
+}
+
+type TestTrafficRoute struct {
+	ListenerArns []string `json:"listener_arns"`
+}
+
+type OnPremisesInstanceTagFilter struct {
+	Key   string `json:"key"`
+	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
 type AutoRollbackConfiguration struct {
@@ -95,20 +149,9 @@ type TerminateBlueInstancesOnDeploymentSuccess struct {
 	TerminationWaitTimeInMinutes int    `json:"termination_wait_time_in_minutes"`
 }
 
-type Ec2TagFilter struct {
-	Key   string `json:"key"`
-	Type  string `json:"type"`
-	Value string `json:"value"`
-}
-
-type Ec2TagSet struct {
-	Ec2TagFilter []Ec2TagFilter `json:"ec2_tag_filter"`
-}
-
-type Ec2TagFilter struct {
-	Key   string `json:"key"`
-	Type  string `json:"type"`
-	Value string `json:"value"`
+type DeploymentStyle struct {
+	DeploymentOption string `json:"deployment_option"`
+	DeploymentType   string `json:"deployment_type"`
 }
 
 type EcsService struct {
@@ -116,59 +159,16 @@ type EcsService struct {
 	ServiceName string `json:"service_name"`
 }
 
-type AlarmConfiguration struct {
-	Alarms                 []string `json:"alarms"`
-	Enabled                bool     `json:"enabled"`
-	IgnorePollAlarmFailure bool     `json:"ignore_poll_alarm_failure"`
-}
-
-type DeploymentStyle struct {
-	DeploymentOption string `json:"deployment_option"`
-	DeploymentType   string `json:"deployment_type"`
-}
-
-type LoadBalancerInfo struct {
-	ElbInfo             []ElbInfo           `json:"elb_info"`
-	TargetGroupInfo     []TargetGroupInfo   `json:"target_group_info"`
-	TargetGroupPairInfo TargetGroupPairInfo `json:"target_group_pair_info"`
-}
-
-type ElbInfo struct {
-	Name string `json:"name"`
-}
-
-type TargetGroupInfo struct {
-	Name string `json:"name"`
-}
-
-type TargetGroupPairInfo struct {
-	TargetGroup      []TargetGroup    `json:"target_group"`
-	TestTrafficRoute TestTrafficRoute `json:"test_traffic_route"`
-	ProdTrafficRoute ProdTrafficRoute `json:"prod_traffic_route"`
-}
-
-type TargetGroup struct {
-	Name string `json:"name"`
-}
-
-type TestTrafficRoute struct {
-	ListenerArns []string `json:"listener_arns"`
-}
-
-type ProdTrafficRoute struct {
-	ListenerArns []string `json:"listener_arns"`
-}
-
-type OnPremisesInstanceTagFilter struct {
-	Key   string `json:"key"`
-	Type  string `json:"type"`
-	Value string `json:"value"`
-}
-
 type TriggerConfiguration struct {
 	TriggerEvents    []string `json:"trigger_events"`
 	TriggerName      string   `json:"trigger_name"`
 	TriggerTargetArn string   `json:"trigger_target_arn"`
+}
+
+type AlarmConfiguration struct {
+	Alarms                 []string `json:"alarms"`
+	Enabled                bool     `json:"enabled"`
+	IgnorePollAlarmFailure bool     `json:"ignore_poll_alarm_failure"`
 }
 
 // A CodedeployDeploymentGroupStatus defines the observed state of a CodedeployDeploymentGroup

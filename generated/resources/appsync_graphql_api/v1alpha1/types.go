@@ -52,30 +52,16 @@ type AppsyncGraphqlApiSpec struct {
 
 // A AppsyncGraphqlApiParameters defines the desired state of a AppsyncGraphqlApi
 type AppsyncGraphqlApiParameters struct {
-	Schema                           string                             `json:"schema"`
 	Tags                             map[string]string                  `json:"tags"`
 	XrayEnabled                      bool                               `json:"xray_enabled"`
 	AuthenticationType               string                             `json:"authentication_type"`
 	Id                               string                             `json:"id"`
 	Name                             string                             `json:"name"`
-	OpenidConnectConfig              OpenidConnectConfig                `json:"openid_connect_config"`
-	UserPoolConfig                   UserPoolConfig                     `json:"user_pool_config"`
+	Schema                           string                             `json:"schema"`
 	AdditionalAuthenticationProvider []AdditionalAuthenticationProvider `json:"additional_authentication_provider"`
 	LogConfig                        LogConfig                          `json:"log_config"`
-}
-
-type OpenidConnectConfig struct {
-	AuthTtl  int    `json:"auth_ttl"`
-	ClientId string `json:"client_id"`
-	IatTtl   int    `json:"iat_ttl"`
-	Issuer   string `json:"issuer"`
-}
-
-type UserPoolConfig struct {
-	AppIdClientRegex string `json:"app_id_client_regex"`
-	AwsRegion        string `json:"aws_region"`
-	DefaultAction    string `json:"default_action"`
-	UserPoolId       string `json:"user_pool_id"`
+	OpenidConnectConfig              OpenidConnectConfig                `json:"openid_connect_config"`
+	UserPoolConfig                   UserPoolConfig                     `json:"user_pool_config"`
 }
 
 type AdditionalAuthenticationProvider struct {
@@ -85,22 +71,36 @@ type AdditionalAuthenticationProvider struct {
 }
 
 type OpenidConnectConfig struct {
-	AuthTtl  int    `json:"auth_ttl"`
-	ClientId string `json:"client_id"`
 	IatTtl   int    `json:"iat_ttl"`
 	Issuer   string `json:"issuer"`
+	AuthTtl  int    `json:"auth_ttl"`
+	ClientId string `json:"client_id"`
 }
 
 type UserPoolConfig struct {
-	AppIdClientRegex string `json:"app_id_client_regex"`
 	AwsRegion        string `json:"aws_region"`
 	UserPoolId       string `json:"user_pool_id"`
+	AppIdClientRegex string `json:"app_id_client_regex"`
 }
 
 type LogConfig struct {
 	CloudwatchLogsRoleArn string `json:"cloudwatch_logs_role_arn"`
 	ExcludeVerboseContent bool   `json:"exclude_verbose_content"`
 	FieldLogLevel         string `json:"field_log_level"`
+}
+
+type OpenidConnectConfig struct {
+	IatTtl   int    `json:"iat_ttl"`
+	Issuer   string `json:"issuer"`
+	AuthTtl  int    `json:"auth_ttl"`
+	ClientId string `json:"client_id"`
+}
+
+type UserPoolConfig struct {
+	AppIdClientRegex string `json:"app_id_client_regex"`
+	AwsRegion        string `json:"aws_region"`
+	DefaultAction    string `json:"default_action"`
+	UserPoolId       string `json:"user_pool_id"`
 }
 
 // A AppsyncGraphqlApiStatus defines the observed state of a AppsyncGraphqlApi

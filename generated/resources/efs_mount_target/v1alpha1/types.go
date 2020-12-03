@@ -52,10 +52,10 @@ type EfsMountTargetSpec struct {
 
 // A EfsMountTargetParameters defines the desired state of a EfsMountTarget
 type EfsMountTargetParameters struct {
-	IpAddress      string   `json:"ip_address"`
 	SubnetId       string   `json:"subnet_id"`
 	FileSystemId   string   `json:"file_system_id"`
 	Id             string   `json:"id"`
+	IpAddress      string   `json:"ip_address"`
 	SecurityGroups []string `json:"security_groups"`
 }
 
@@ -67,11 +67,11 @@ type EfsMountTargetStatus struct {
 
 // A EfsMountTargetObservation records the observed state of a EfsMountTarget
 type EfsMountTargetObservation struct {
-	AvailabilityZoneId   string `json:"availability_zone_id"`
-	MountTargetDnsName   string `json:"mount_target_dns_name"`
 	NetworkInterfaceId   string `json:"network_interface_id"`
 	OwnerId              string `json:"owner_id"`
-	AvailabilityZoneName string `json:"availability_zone_name"`
 	DnsName              string `json:"dns_name"`
+	MountTargetDnsName   string `json:"mount_target_dns_name"`
 	FileSystemArn        string `json:"file_system_arn"`
+	AvailabilityZoneId   string `json:"availability_zone_id"`
+	AvailabilityZoneName string `json:"availability_zone_name"`
 }

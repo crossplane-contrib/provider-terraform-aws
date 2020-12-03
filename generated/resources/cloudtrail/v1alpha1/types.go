@@ -52,20 +52,20 @@ type CloudtrailSpec struct {
 
 // A CloudtrailParameters defines the desired state of a Cloudtrail
 type CloudtrailParameters struct {
-	CloudWatchLogsGroupArn     string            `json:"cloud_watch_logs_group_arn"`
-	Id                         string            `json:"id"`
-	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
-	S3KeyPrefix                string            `json:"s3_key_prefix"`
-	IsOrganizationTrail        bool              `json:"is_organization_trail"`
-	Name                       string            `json:"name"`
 	S3BucketName               string            `json:"s3_bucket_name"`
 	Tags                       map[string]string `json:"tags"`
-	KmsKeyId                   string            `json:"kms_key_id"`
+	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
+	IsOrganizationTrail        bool              `json:"is_organization_trail"`
+	Name                       string            `json:"name"`
+	SnsTopicName               string            `json:"sns_topic_name"`
+	CloudWatchLogsGroupArn     string            `json:"cloud_watch_logs_group_arn"`
+	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
+	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
+	S3KeyPrefix                string            `json:"s3_key_prefix"`
 	EnableLogFileValidation    bool              `json:"enable_log_file_validation"`
 	EnableLogging              bool              `json:"enable_logging"`
-	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
-	SnsTopicName               string            `json:"sns_topic_name"`
-	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
+	Id                         string            `json:"id"`
+	KmsKeyId                   string            `json:"kms_key_id"`
 	EventSelector              []EventSelector   `json:"event_selector"`
 	InsightSelector            []InsightSelector `json:"insight_selector"`
 }

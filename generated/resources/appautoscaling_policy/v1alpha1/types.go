@@ -81,13 +81,8 @@ type TargetTrackingScalingPolicyConfiguration struct {
 	ScaleInCooldown               int                           `json:"scale_in_cooldown"`
 	ScaleOutCooldown              int                           `json:"scale_out_cooldown"`
 	TargetValue                   int                           `json:"target_value"`
-	PredefinedMetricSpecification PredefinedMetricSpecification `json:"predefined_metric_specification"`
 	CustomizedMetricSpecification CustomizedMetricSpecification `json:"customized_metric_specification"`
-}
-
-type PredefinedMetricSpecification struct {
-	PredefinedMetricType string `json:"predefined_metric_type"`
-	ResourceLabel        string `json:"resource_label"`
+	PredefinedMetricSpecification PredefinedMetricSpecification `json:"predefined_metric_specification"`
 }
 
 type CustomizedMetricSpecification struct {
@@ -101,6 +96,11 @@ type CustomizedMetricSpecification struct {
 type Dimensions struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
+}
+
+type PredefinedMetricSpecification struct {
+	ResourceLabel        string `json:"resource_label"`
+	PredefinedMetricType string `json:"predefined_metric_type"`
 }
 
 // A AppautoscalingPolicyStatus defines the observed state of a AppautoscalingPolicy

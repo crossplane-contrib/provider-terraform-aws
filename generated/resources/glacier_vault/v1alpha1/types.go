@@ -72,6 +72,6 @@ type GlacierVaultStatus struct {
 
 // A GlacierVaultObservation records the observed state of a GlacierVault
 type GlacierVaultObservation struct {
-	Arn      string `json:"arn"`
 	Location string `json:"location"`
+	Arn      string `json:"arn"`
 }

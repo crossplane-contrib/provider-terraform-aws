@@ -52,19 +52,19 @@ type WorkspacesDirectorySpec struct {
 
 // A WorkspacesDirectoryParameters defines the desired state of a WorkspacesDirectory
 type WorkspacesDirectoryParameters struct {
-	DirectoryId            string                 `json:"directory_id"`
-	Id                     string                 `json:"id"`
 	Tags                   map[string]string      `json:"tags"`
 	SubnetIds              []string               `json:"subnet_ids"`
+	DirectoryId            string                 `json:"directory_id"`
+	Id                     string                 `json:"id"`
 	SelfServicePermissions SelfServicePermissions `json:"self_service_permissions"`
 }
 
 type SelfServicePermissions struct {
-	SwitchRunningMode  bool `json:"switch_running_mode"`
 	ChangeComputeType  bool `json:"change_compute_type"`
 	IncreaseVolumeSize bool `json:"increase_volume_size"`
 	RebuildWorkspace   bool `json:"rebuild_workspace"`
 	RestartWorkspace   bool `json:"restart_workspace"`
+	SwitchRunningMode  bool `json:"switch_running_mode"`
 }
 
 // A WorkspacesDirectoryStatus defines the observed state of a WorkspacesDirectory
@@ -75,13 +75,13 @@ type WorkspacesDirectoryStatus struct {
 
 // A WorkspacesDirectoryObservation records the observed state of a WorkspacesDirectory
 type WorkspacesDirectoryObservation struct {
-	DirectoryName            string   `json:"directory_name"`
-	DirectoryType            string   `json:"directory_type"`
-	IamRoleId                string   `json:"iam_role_id"`
 	WorkspaceSecurityGroupId string   `json:"workspace_security_group_id"`
 	Alias                    string   `json:"alias"`
-	CustomerUserName         string   `json:"customer_user_name"`
-	DnsIpAddresses           []string `json:"dns_ip_addresses"`
-	IpGroupIds               []string `json:"ip_group_ids"`
+	DirectoryType            string   `json:"directory_type"`
+	IamRoleId                string   `json:"iam_role_id"`
 	RegistrationCode         string   `json:"registration_code"`
+	IpGroupIds               []string `json:"ip_group_ids"`
+	CustomerUserName         string   `json:"customer_user_name"`
+	DirectoryName            string   `json:"directory_name"`
+	DnsIpAddresses           []string `json:"dns_ip_addresses"`
 }

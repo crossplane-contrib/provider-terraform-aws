@@ -52,15 +52,15 @@ type VpcSpec struct {
 
 // A VpcParameters defines the desired state of a Vpc
 type VpcParameters struct {
-	EnableDnsSupport             bool              `json:"enable_dns_support"`
-	Tags                         map[string]string `json:"tags"`
 	EnableClassiclink            bool              `json:"enable_classiclink"`
-	EnableDnsHostnames           bool              `json:"enable_dns_hostnames"`
-	EnableClassiclinkDnsSupport  bool              `json:"enable_classiclink_dns_support"`
-	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
-	CidrBlock                    string            `json:"cidr_block"`
-	Id                           string            `json:"id"`
 	InstanceTenancy              string            `json:"instance_tenancy"`
+	CidrBlock                    string            `json:"cidr_block"`
+	EnableClassiclinkDnsSupport  bool              `json:"enable_classiclink_dns_support"`
+	EnableDnsSupport             bool              `json:"enable_dns_support"`
+	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
+	Id                           string            `json:"id"`
+	Tags                         map[string]string `json:"tags"`
+	EnableDnsHostnames           bool              `json:"enable_dns_hostnames"`
 }
 
 // A VpcStatus defines the observed state of a Vpc
@@ -71,13 +71,13 @@ type VpcStatus struct {
 
 // A VpcObservation records the observed state of a Vpc
 type VpcObservation struct {
-	DhcpOptionsId          string `json:"dhcp_options_id"`
+	Arn                    string `json:"arn"`
+	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
+	MainRouteTableId       string `json:"main_route_table_id"`
 	DefaultRouteTableId    string `json:"default_route_table_id"`
 	DefaultSecurityGroupId string `json:"default_security_group_id"`
-	Ipv6AssociationId      string `json:"ipv6_association_id"`
-	MainRouteTableId       string `json:"main_route_table_id"`
+	DhcpOptionsId          string `json:"dhcp_options_id"`
 	OwnerId                string `json:"owner_id"`
-	Arn                    string `json:"arn"`
 	DefaultNetworkAclId    string `json:"default_network_acl_id"`
-	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
+	Ipv6AssociationId      string `json:"ipv6_association_id"`
 }

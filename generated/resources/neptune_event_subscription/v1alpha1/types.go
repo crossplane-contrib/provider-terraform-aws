@@ -52,15 +52,15 @@ type NeptuneEventSubscriptionSpec struct {
 
 // A NeptuneEventSubscriptionParameters defines the desired state of a NeptuneEventSubscription
 type NeptuneEventSubscriptionParameters struct {
-	EventCategories []string          `json:"event_categories"`
-	Id              string            `json:"id"`
-	Name            string            `json:"name"`
-	SnsTopicArn     string            `json:"sns_topic_arn"`
-	SourceType      string            `json:"source_type"`
-	Enabled         bool              `json:"enabled"`
 	NamePrefix      string            `json:"name_prefix"`
 	SourceIds       []string          `json:"source_ids"`
 	Tags            map[string]string `json:"tags"`
+	EventCategories []string          `json:"event_categories"`
+	SnsTopicArn     string            `json:"sns_topic_arn"`
+	SourceType      string            `json:"source_type"`
+	Enabled         bool              `json:"enabled"`
+	Id              string            `json:"id"`
+	Name            string            `json:"name"`
 	Timeouts        []Timeouts        `json:"timeouts"`
 }
 
@@ -78,6 +78,6 @@ type NeptuneEventSubscriptionStatus struct {
 
 // A NeptuneEventSubscriptionObservation records the observed state of a NeptuneEventSubscription
 type NeptuneEventSubscriptionObservation struct {
-	CustomerAwsId string `json:"customer_aws_id"`
 	Arn           string `json:"arn"`
+	CustomerAwsId string `json:"customer_aws_id"`
 }

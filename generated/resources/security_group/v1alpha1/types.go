@@ -52,40 +52,40 @@ type SecurityGroupSpec struct {
 
 // A SecurityGroupParameters defines the desired state of a SecurityGroup
 type SecurityGroupParameters struct {
+	Tags                map[string]string `json:"tags"`
+	VpcId               string            `json:"vpc_id"`
+	Id                  string            `json:"id"`
+	Ingress             []Ingress         `json:"ingress"`
+	NamePrefix          string            `json:"name_prefix"`
+	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
 	Description         string            `json:"description"`
 	Egress              []Egress          `json:"egress"`
 	Name                string            `json:"name"`
-	NamePrefix          string            `json:"name_prefix"`
-	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
-	Id                  string            `json:"id"`
-	Ingress             []Ingress         `json:"ingress"`
-	Tags                map[string]string `json:"tags"`
-	VpcId               string            `json:"vpc_id"`
 	Timeouts            []Timeouts        `json:"timeouts"`
 }
 
-type Egress struct {
-	CidrBlocks     []string `json:"cidr_blocks"`
-	Description    string   `json:"description"`
+type Ingress struct {
 	ToPort         int      `json:"to_port"`
+	CidrBlocks     []string `json:"cidr_blocks"`
 	Protocol       string   `json:"protocol"`
 	SecurityGroups []string `json:"security_groups"`
-	PrefixListIds  []string `json:"prefix_list_ids"`
 	Self           bool     `json:"self"`
-	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
+	Description    string   `json:"description"`
 	FromPort       int      `json:"from_port"`
+	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
+	PrefixListIds  []string `json:"prefix_list_ids"`
 }
 
-type Ingress struct {
+type Egress struct {
 	Protocol       string   `json:"protocol"`
-	Self           bool     `json:"self"`
-	Description    string   `json:"description"`
-	PrefixListIds  []string `json:"prefix_list_ids"`
-	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
 	SecurityGroups []string `json:"security_groups"`
-	ToPort         int      `json:"to_port"`
+	Description    string   `json:"description"`
+	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
 	CidrBlocks     []string `json:"cidr_blocks"`
+	PrefixListIds  []string `json:"prefix_list_ids"`
+	ToPort         int      `json:"to_port"`
 	FromPort       int      `json:"from_port"`
+	Self           bool     `json:"self"`
 }
 
 type Timeouts struct {
@@ -101,6 +101,6 @@ type SecurityGroupStatus struct {
 
 // A SecurityGroupObservation records the observed state of a SecurityGroup
 type SecurityGroupObservation struct {
-	Arn     string `json:"arn"`
 	OwnerId string `json:"owner_id"`
+	Arn     string `json:"arn"`
 }

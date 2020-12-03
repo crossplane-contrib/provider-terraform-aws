@@ -52,37 +52,37 @@ type StoragegatewaySmbFileShareSpec struct {
 
 // A StoragegatewaySmbFileShareParameters defines the desired state of a StoragegatewaySmbFileShare
 type StoragegatewaySmbFileShareParameters struct {
+	GuessMimeTypeEnabled bool              `json:"guess_mime_type_enabled"`
+	KmsEncrypted         bool              `json:"kms_encrypted"`
 	AdminUserList        []string          `json:"admin_user_list"`
 	AuditDestinationArn  string            `json:"audit_destination_arn"`
 	Authentication       string            `json:"authentication"`
-	CaseSensitivity      string            `json:"case_sensitivity"`
-	KmsEncrypted         bool              `json:"kms_encrypted"`
+	DefaultStorageClass  string            `json:"default_storage_class"`
 	KmsKeyArn            string            `json:"kms_key_arn"`
 	RequesterPays        bool              `json:"requester_pays"`
 	SmbAclEnabled        bool              `json:"smb_acl_enabled"`
+	Tags                 map[string]string `json:"tags"`
+	CaseSensitivity      string            `json:"case_sensitivity"`
+	Id                   string            `json:"id"`
+	InvalidUserList      []string          `json:"invalid_user_list"`
+	ObjectAcl            string            `json:"object_acl"`
 	ValidUserList        []string          `json:"valid_user_list"`
 	GatewayArn           string            `json:"gateway_arn"`
-	ObjectAcl            string            `json:"object_acl"`
+	LocationArn          string            `json:"location_arn"`
 	ReadOnly             bool              `json:"read_only"`
 	RoleArn              string            `json:"role_arn"`
-	Tags                 map[string]string `json:"tags"`
-	DefaultStorageClass  string            `json:"default_storage_class"`
-	GuessMimeTypeEnabled bool              `json:"guess_mime_type_enabled"`
-	Id                   string            `json:"id"`
-	LocationArn          string            `json:"location_arn"`
-	InvalidUserList      []string          `json:"invalid_user_list"`
-	Timeouts             []Timeouts        `json:"timeouts"`
 	CacheAttributes      CacheAttributes   `json:"cache_attributes"`
-}
-
-type Timeouts struct {
-	Create string `json:"create"`
-	Delete string `json:"delete"`
-	Update string `json:"update"`
+	Timeouts             []Timeouts        `json:"timeouts"`
 }
 
 type CacheAttributes struct {
 	CacheStaleTimeoutInSeconds int `json:"cache_stale_timeout_in_seconds"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
+	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A StoragegatewaySmbFileShareStatus defines the observed state of a StoragegatewaySmbFileShare
@@ -93,7 +93,7 @@ type StoragegatewaySmbFileShareStatus struct {
 
 // A StoragegatewaySmbFileShareObservation records the observed state of a StoragegatewaySmbFileShare
 type StoragegatewaySmbFileShareObservation struct {
-	Arn         string `json:"arn"`
-	Path        string `json:"path"`
 	FileshareId string `json:"fileshare_id"`
+	Path        string `json:"path"`
+	Arn         string `json:"arn"`
 }

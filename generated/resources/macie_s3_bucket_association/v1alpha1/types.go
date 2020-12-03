@@ -52,10 +52,10 @@ type MacieS3BucketAssociationSpec struct {
 
 // A MacieS3BucketAssociationParameters defines the desired state of a MacieS3BucketAssociation
 type MacieS3BucketAssociationParameters struct {
-	Prefix             string             `json:"prefix"`
 	BucketName         string             `json:"bucket_name"`
 	Id                 string             `json:"id"`
 	MemberAccountId    string             `json:"member_account_id"`
+	Prefix             string             `json:"prefix"`
 	ClassificationType ClassificationType `json:"classification_type"`
 }
 

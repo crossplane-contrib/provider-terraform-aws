@@ -52,16 +52,17 @@ type CodebuildProjectSpec struct {
 
 // A CodebuildProjectParameters defines the desired state of a CodebuildProject
 type CodebuildProjectParameters struct {
-	Description        string               `json:"description"`
 	EncryptionKey      string               `json:"encryption_key"`
-	Name               string               `json:"name"`
+	Id                 string               `json:"id"`
 	ServiceRole        string               `json:"service_role"`
 	BadgeEnabled       bool                 `json:"badge_enabled"`
-	QueuedTimeout      int                  `json:"queued_timeout"`
-	SourceVersion      string               `json:"source_version"`
+	Description        string               `json:"description"`
 	Tags               map[string]string    `json:"tags"`
 	BuildTimeout       int                  `json:"build_timeout"`
-	Id                 string               `json:"id"`
+	Name               string               `json:"name"`
+	QueuedTimeout      int                  `json:"queued_timeout"`
+	SourceVersion      string               `json:"source_version"`
+	Artifacts          Artifacts            `json:"artifacts"`
 	Cache              Cache                `json:"cache"`
 	Environment        Environment          `json:"environment"`
 	LogsConfig         LogsConfig           `json:"logs_config"`
@@ -69,22 +70,33 @@ type CodebuildProjectParameters struct {
 	SecondarySources   []SecondarySources   `json:"secondary_sources"`
 	Source             Source               `json:"source"`
 	VpcConfig          VpcConfig            `json:"vpc_config"`
-	Artifacts          Artifacts            `json:"artifacts"`
+}
+
+type Artifacts struct {
+	Location             string `json:"location"`
+	Name                 string `json:"name"`
+	Packaging            string `json:"packaging"`
+	Type                 string `json:"type"`
+	Path                 string `json:"path"`
+	ArtifactIdentifier   string `json:"artifact_identifier"`
+	EncryptionDisabled   bool   `json:"encryption_disabled"`
+	NamespaceType        string `json:"namespace_type"`
+	OverrideArtifactName bool   `json:"override_artifact_name"`
 }
 
 type Cache struct {
+	Location string   `json:"location"`
 	Modes    []string `json:"modes"`
 	Type     string   `json:"type"`
-	Location string   `json:"location"`
 }
 
 type Environment struct {
-	Certificate              string                `json:"certificate"`
-	ComputeType              string                `json:"compute_type"`
 	Image                    string                `json:"image"`
 	ImagePullCredentialsType string                `json:"image_pull_credentials_type"`
 	PrivilegedMode           bool                  `json:"privileged_mode"`
 	Type                     string                `json:"type"`
+	Certificate              string                `json:"certificate"`
+	ComputeType              string                `json:"compute_type"`
 	EnvironmentVariable      []EnvironmentVariable `json:"environment_variable"`
 	RegistryCredential       RegistryCredential    `json:"registry_credential"`
 }
@@ -106,86 +118,74 @@ type LogsConfig struct {
 }
 
 type CloudwatchLogs struct {
+	StreamName string `json:"stream_name"`
 	GroupName  string `json:"group_name"`
 	Status     string `json:"status"`
-	StreamName string `json:"stream_name"`
 }
 
 type S3Logs struct {
-	Status             string `json:"status"`
 	EncryptionDisabled bool   `json:"encryption_disabled"`
 	Location           string `json:"location"`
+	Status             string `json:"status"`
 }
 
 type SecondaryArtifacts struct {
-	ArtifactIdentifier   string `json:"artifact_identifier"`
 	EncryptionDisabled   bool   `json:"encryption_disabled"`
-	NamespaceType        string `json:"namespace_type"`
 	OverrideArtifactName bool   `json:"override_artifact_name"`
-	Packaging            string `json:"packaging"`
+	Type                 string `json:"type"`
+	ArtifactIdentifier   string `json:"artifact_identifier"`
 	Location             string `json:"location"`
 	Name                 string `json:"name"`
+	NamespaceType        string `json:"namespace_type"`
+	Packaging            string `json:"packaging"`
 	Path                 string `json:"path"`
-	Type                 string `json:"type"`
 }
 
 type SecondarySources struct {
+	SourceIdentifier    string              `json:"source_identifier"`
 	Type                string              `json:"type"`
 	Buildspec           string              `json:"buildspec"`
 	GitCloneDepth       int                 `json:"git_clone_depth"`
 	InsecureSsl         bool                `json:"insecure_ssl"`
 	Location            string              `json:"location"`
 	ReportBuildStatus   bool                `json:"report_build_status"`
-	SourceIdentifier    string              `json:"source_identifier"`
-	Auth                Auth                `json:"auth"`
 	GitSubmodulesConfig GitSubmodulesConfig `json:"git_submodules_config"`
+	Auth                Auth                `json:"auth"`
+}
+
+type GitSubmodulesConfig struct {
+	FetchSubmodules bool `json:"fetch_submodules"`
 }
 
 type Auth struct {
 	Resource string `json:"resource"`
 	Type     string `json:"type"`
-}
-
-type GitSubmodulesConfig struct {
-	FetchSubmodules bool `json:"fetch_submodules"`
 }
 
 type Source struct {
-	Buildspec           string              `json:"buildspec"`
 	GitCloneDepth       int                 `json:"git_clone_depth"`
 	InsecureSsl         bool                `json:"insecure_ssl"`
 	Location            string              `json:"location"`
 	ReportBuildStatus   bool                `json:"report_build_status"`
 	Type                string              `json:"type"`
-	Auth                Auth                `json:"auth"`
+	Buildspec           string              `json:"buildspec"`
 	GitSubmodulesConfig GitSubmodulesConfig `json:"git_submodules_config"`
-}
-
-type Auth struct {
-	Type     string `json:"type"`
-	Resource string `json:"resource"`
+	Auth                Auth                `json:"auth"`
 }
 
 type GitSubmodulesConfig struct {
 	FetchSubmodules bool `json:"fetch_submodules"`
+}
+
+type Auth struct {
+	Resource string `json:"resource"`
+	Type     string `json:"type"`
 }
 
 type VpcConfig struct {
 	SecurityGroupIds []string `json:"security_group_ids"`
 	Subnets          []string `json:"subnets"`
 	VpcId            string   `json:"vpc_id"`
-}
-
-type Artifacts struct {
-	OverrideArtifactName bool   `json:"override_artifact_name"`
-	Type                 string `json:"type"`
-	ArtifactIdentifier   string `json:"artifact_identifier"`
-	EncryptionDisabled   bool   `json:"encryption_disabled"`
-	Location             string `json:"location"`
-	Path                 string `json:"path"`
-	Name                 string `json:"name"`
-	NamespaceType        string `json:"namespace_type"`
-	Packaging            string `json:"packaging"`
 }
 
 // A CodebuildProjectStatus defines the observed state of a CodebuildProject
@@ -196,6 +196,6 @@ type CodebuildProjectStatus struct {
 
 // A CodebuildProjectObservation records the observed state of a CodebuildProject
 type CodebuildProjectObservation struct {
-	BadgeUrl string `json:"badge_url"`
 	Arn      string `json:"arn"`
+	BadgeUrl string `json:"badge_url"`
 }

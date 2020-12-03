@@ -52,22 +52,22 @@ type CognitoUserPoolClientSpec struct {
 
 // A CognitoUserPoolClientParameters defines the desired state of a CognitoUserPoolClient
 type CognitoUserPoolClientParameters struct {
+	CallbackUrls                    []string               `json:"callback_urls"`
 	ExplicitAuthFlows               []string               `json:"explicit_auth_flows"`
 	GenerateSecret                  bool                   `json:"generate_secret"`
-	ReadAttributes                  []string               `json:"read_attributes"`
-	SupportedIdentityProviders      []string               `json:"supported_identity_providers"`
-	AllowedOauthFlows               []string               `json:"allowed_oauth_flows"`
-	AllowedOauthFlowsUserPoolClient bool                   `json:"allowed_oauth_flows_user_pool_client"`
-	LogoutUrls                      []string               `json:"logout_urls"`
-	UserPoolId                      string                 `json:"user_pool_id"`
-	DefaultRedirectUri              string                 `json:"default_redirect_uri"`
 	Id                              string                 `json:"id"`
-	Name                            string                 `json:"name"`
 	PreventUserExistenceErrors      string                 `json:"prevent_user_existence_errors"`
-	RefreshTokenValidity            int                    `json:"refresh_token_validity"`
+	AllowedOauthFlows               []string               `json:"allowed_oauth_flows"`
 	AllowedOauthScopes              []string               `json:"allowed_oauth_scopes"`
-	CallbackUrls                    []string               `json:"callback_urls"`
+	DefaultRedirectUri              string                 `json:"default_redirect_uri"`
+	ReadAttributes                  []string               `json:"read_attributes"`
+	UserPoolId                      string                 `json:"user_pool_id"`
+	AllowedOauthFlowsUserPoolClient bool                   `json:"allowed_oauth_flows_user_pool_client"`
+	Name                            string                 `json:"name"`
+	SupportedIdentityProviders      []string               `json:"supported_identity_providers"`
 	WriteAttributes                 []string               `json:"write_attributes"`
+	LogoutUrls                      []string               `json:"logout_urls"`
+	RefreshTokenValidity            int                    `json:"refresh_token_validity"`
 	AnalyticsConfiguration          AnalyticsConfiguration `json:"analytics_configuration"`
 }
 

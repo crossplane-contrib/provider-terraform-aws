@@ -53,12 +53,12 @@ type KinesisVideoStreamSpec struct {
 // A KinesisVideoStreamParameters defines the desired state of a KinesisVideoStream
 type KinesisVideoStreamParameters struct {
 	DataRetentionInHours int               `json:"data_retention_in_hours"`
-	MediaType            string            `json:"media_type"`
-	Name                 string            `json:"name"`
+	Id                   string            `json:"id"`
 	Tags                 map[string]string `json:"tags"`
 	DeviceName           string            `json:"device_name"`
-	Id                   string            `json:"id"`
 	KmsKeyId             string            `json:"kms_key_id"`
+	MediaType            string            `json:"media_type"`
+	Name                 string            `json:"name"`
 	Timeouts             []Timeouts        `json:"timeouts"`
 }
 

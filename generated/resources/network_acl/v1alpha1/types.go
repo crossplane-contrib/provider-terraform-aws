@@ -61,26 +61,26 @@ type NetworkAclParameters struct {
 }
 
 type Ingress struct {
-	CidrBlock     string `json:"cidr_block"`
-	FromPort      int    `json:"from_port"`
-	IcmpType      int    `json:"icmp_type"`
 	RuleNo        int    `json:"rule_no"`
-	Protocol      string `json:"protocol"`
-	IcmpCode      int    `json:"icmp_code"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	Action        string `json:"action"`
+	FromPort      int    `json:"from_port"`
+	IcmpCode      int    `json:"icmp_code"`
+	IcmpType      int    `json:"icmp_type"`
+	Protocol      string `json:"protocol"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	ToPort        int    `json:"to_port"`
+	CidrBlock     string `json:"cidr_block"`
 }
 
 type Egress struct {
-	IcmpCode      int    `json:"icmp_code"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
-	Action        string `json:"action"`
 	ToPort        int    `json:"to_port"`
+	IcmpType      int    `json:"icmp_type"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	CidrBlock     string `json:"cidr_block"`
 	FromPort      int    `json:"from_port"`
 	RuleNo        int    `json:"rule_no"`
-	IcmpType      int    `json:"icmp_type"`
-	CidrBlock     string `json:"cidr_block"`
+	Action        string `json:"action"`
+	IcmpCode      int    `json:"icmp_code"`
 	Protocol      string `json:"protocol"`
 }
 

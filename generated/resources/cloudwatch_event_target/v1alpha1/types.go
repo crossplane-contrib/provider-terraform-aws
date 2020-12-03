@@ -52,39 +52,26 @@ type CloudwatchEventTargetSpec struct {
 
 // A CloudwatchEventTargetParameters defines the desired state of a CloudwatchEventTarget
 type CloudwatchEventTargetParameters struct {
-	RoleArn           string              `json:"role_arn"`
-	Rule              string              `json:"rule"`
-	TargetId          string              `json:"target_id"`
 	Arn               string              `json:"arn"`
 	Id                string              `json:"id"`
 	Input             string              `json:"input"`
 	InputPath         string              `json:"input_path"`
-	KinesisTarget     KinesisTarget       `json:"kinesis_target"`
-	RunCommandTargets []RunCommandTargets `json:"run_command_targets"`
-	SqsTarget         SqsTarget           `json:"sqs_target"`
+	RoleArn           string              `json:"role_arn"`
+	Rule              string              `json:"rule"`
+	TargetId          string              `json:"target_id"`
 	BatchTarget       BatchTarget         `json:"batch_target"`
 	EcsTarget         EcsTarget           `json:"ecs_target"`
 	InputTransformer  InputTransformer    `json:"input_transformer"`
-}
-
-type KinesisTarget struct {
-	PartitionKeyPath string `json:"partition_key_path"`
-}
-
-type RunCommandTargets struct {
-	Key    string   `json:"key"`
-	Values []string `json:"values"`
-}
-
-type SqsTarget struct {
-	MessageGroupId string `json:"message_group_id"`
+	KinesisTarget     KinesisTarget       `json:"kinesis_target"`
+	RunCommandTargets []RunCommandTargets `json:"run_command_targets"`
+	SqsTarget         SqsTarget           `json:"sqs_target"`
 }
 
 type BatchTarget struct {
+	JobName       string `json:"job_name"`
 	ArraySize     int    `json:"array_size"`
 	JobAttempts   int    `json:"job_attempts"`
 	JobDefinition string `json:"job_definition"`
-	JobName       string `json:"job_name"`
 }
 
 type EcsTarget struct {
@@ -105,6 +92,19 @@ type NetworkConfiguration struct {
 type InputTransformer struct {
 	InputPaths    map[string]string `json:"input_paths"`
 	InputTemplate string            `json:"input_template"`
+}
+
+type KinesisTarget struct {
+	PartitionKeyPath string `json:"partition_key_path"`
+}
+
+type RunCommandTargets struct {
+	Key    string   `json:"key"`
+	Values []string `json:"values"`
+}
+
+type SqsTarget struct {
+	MessageGroupId string `json:"message_group_id"`
 }
 
 // A CloudwatchEventTargetStatus defines the observed state of a CloudwatchEventTarget

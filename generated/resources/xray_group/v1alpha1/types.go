@@ -52,10 +52,10 @@ type XrayGroupSpec struct {
 
 // A XrayGroupParameters defines the desired state of a XrayGroup
 type XrayGroupParameters struct {
-	Tags             map[string]string `json:"tags"`
 	FilterExpression string            `json:"filter_expression"`
 	GroupName        string            `json:"group_name"`
 	Id               string            `json:"id"`
+	Tags             map[string]string `json:"tags"`
 }
 
 // A XrayGroupStatus defines the observed state of a XrayGroup

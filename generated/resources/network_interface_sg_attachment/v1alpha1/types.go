@@ -52,9 +52,9 @@ type NetworkInterfaceSgAttachmentSpec struct {
 
 // A NetworkInterfaceSgAttachmentParameters defines the desired state of a NetworkInterfaceSgAttachment
 type NetworkInterfaceSgAttachmentParameters struct {
-	SecurityGroupId    string `json:"security_group_id"`
 	Id                 string `json:"id"`
 	NetworkInterfaceId string `json:"network_interface_id"`
+	SecurityGroupId    string `json:"security_group_id"`
 }
 
 // A NetworkInterfaceSgAttachmentStatus defines the observed state of a NetworkInterfaceSgAttachment

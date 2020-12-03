@@ -52,12 +52,12 @@ type ElastictranscoderPipelineSpec struct {
 
 // A ElastictranscoderPipelineParameters defines the desired state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineParameters struct {
-	AwsKmsKeyArn               string                       `json:"aws_kms_key_arn"`
-	Id                         string                       `json:"id"`
-	InputBucket                string                       `json:"input_bucket"`
 	Name                       string                       `json:"name"`
 	OutputBucket               string                       `json:"output_bucket"`
 	Role                       string                       `json:"role"`
+	AwsKmsKeyArn               string                       `json:"aws_kms_key_arn"`
+	Id                         string                       `json:"id"`
+	InputBucket                string                       `json:"input_bucket"`
 	ContentConfig              ContentConfig                `json:"content_config"`
 	ContentConfigPermissions   []ContentConfigPermissions   `json:"content_config_permissions"`
 	Notifications              Notifications                `json:"notifications"`
@@ -77,10 +77,10 @@ type ContentConfigPermissions struct {
 }
 
 type Notifications struct {
+	Completed   string `json:"completed"`
 	Error       string `json:"error"`
 	Progressing string `json:"progressing"`
 	Warning     string `json:"warning"`
-	Completed   string `json:"completed"`
 }
 
 type ThumbnailConfig struct {
@@ -89,9 +89,9 @@ type ThumbnailConfig struct {
 }
 
 type ThumbnailConfigPermissions struct {
-	GranteeType string   `json:"grantee_type"`
 	Access      []string `json:"access"`
 	Grantee     string   `json:"grantee"`
+	GranteeType string   `json:"grantee_type"`
 }
 
 // A ElastictranscoderPipelineStatus defines the observed state of a ElastictranscoderPipeline

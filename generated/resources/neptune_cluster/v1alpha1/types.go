@@ -52,38 +52,38 @@ type NeptuneClusterSpec struct {
 
 // A NeptuneClusterParameters defines the desired state of a NeptuneCluster
 type NeptuneClusterParameters struct {
-	Port                             int               `json:"port"`
-	PreferredBackupWindow            string            `json:"preferred_backup_window"`
-	StorageEncrypted                 bool              `json:"storage_encrypted"`
-	ReplicationSourceIdentifier      string            `json:"replication_source_identifier"`
-	ApplyImmediately                 bool              `json:"apply_immediately"`
-	ClusterIdentifierPrefix          string            `json:"cluster_identifier_prefix"`
-	IamRoles                         []string          `json:"iam_roles"`
-	Id                               string            `json:"id"`
+	IamDatabaseAuthenticationEnabled bool              `json:"iam_database_authentication_enabled"`
+	ClusterIdentifier                string            `json:"cluster_identifier"`
+	AvailabilityZones                []string          `json:"availability_zones"`
 	Engine                           string            `json:"engine"`
 	FinalSnapshotIdentifier          string            `json:"final_snapshot_identifier"`
-	IamDatabaseAuthenticationEnabled bool              `json:"iam_database_authentication_enabled"`
-	EngineVersion                    string            `json:"engine_version"`
-	SkipFinalSnapshot                bool              `json:"skip_final_snapshot"`
-	Tags                             map[string]string `json:"tags"`
-	AvailabilityZones                []string          `json:"availability_zones"`
-	DeletionProtection               bool              `json:"deletion_protection"`
+	StorageEncrypted                 bool              `json:"storage_encrypted"`
+	ApplyImmediately                 bool              `json:"apply_immediately"`
 	EnableCloudwatchLogsExports      []string          `json:"enable_cloudwatch_logs_exports"`
 	KmsKeyArn                        string            `json:"kms_key_arn"`
-	BackupRetentionPeriod            int               `json:"backup_retention_period"`
-	NeptuneClusterParameterGroupName string            `json:"neptune_cluster_parameter_group_name"`
-	NeptuneSubnetGroupName           string            `json:"neptune_subnet_group_name"`
-	SnapshotIdentifier               string            `json:"snapshot_identifier"`
-	VpcSecurityGroupIds              []string          `json:"vpc_security_group_ids"`
-	ClusterIdentifier                string            `json:"cluster_identifier"`
+	Id                               string            `json:"id"`
+	PreferredBackupWindow            string            `json:"preferred_backup_window"`
+	IamRoles                         []string          `json:"iam_roles"`
 	PreferredMaintenanceWindow       string            `json:"preferred_maintenance_window"`
+	ReplicationSourceIdentifier      string            `json:"replication_source_identifier"`
+	NeptuneClusterParameterGroupName string            `json:"neptune_cluster_parameter_group_name"`
+	BackupRetentionPeriod            int               `json:"backup_retention_period"`
+	NeptuneSubnetGroupName           string            `json:"neptune_subnet_group_name"`
+	Tags                             map[string]string `json:"tags"`
+	VpcSecurityGroupIds              []string          `json:"vpc_security_group_ids"`
+	Port                             int               `json:"port"`
+	SkipFinalSnapshot                bool              `json:"skip_final_snapshot"`
+	EngineVersion                    string            `json:"engine_version"`
+	DeletionProtection               bool              `json:"deletion_protection"`
+	SnapshotIdentifier               string            `json:"snapshot_identifier"`
+	ClusterIdentifierPrefix          string            `json:"cluster_identifier_prefix"`
 	Timeouts                         []Timeouts        `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A NeptuneClusterStatus defines the observed state of a NeptuneCluster
@@ -94,10 +94,10 @@ type NeptuneClusterStatus struct {
 
 // A NeptuneClusterObservation records the observed state of a NeptuneCluster
 type NeptuneClusterObservation struct {
-	HostedZoneId      string   `json:"hosted_zone_id"`
-	ReaderEndpoint    string   `json:"reader_endpoint"`
-	Arn               string   `json:"arn"`
 	ClusterResourceId string   `json:"cluster_resource_id"`
-	Endpoint          string   `json:"endpoint"`
 	ClusterMembers    []string `json:"cluster_members"`
+	Endpoint          string   `json:"endpoint"`
+	Arn               string   `json:"arn"`
+	ReaderEndpoint    string   `json:"reader_endpoint"`
+	HostedZoneId      string   `json:"hosted_zone_id"`
 }

@@ -52,9 +52,9 @@ type SpotDatafeedSubscriptionSpec struct {
 
 // A SpotDatafeedSubscriptionParameters defines the desired state of a SpotDatafeedSubscription
 type SpotDatafeedSubscriptionParameters struct {
-	Bucket string `json:"bucket"`
 	Id     string `json:"id"`
 	Prefix string `json:"prefix"`
+	Bucket string `json:"bucket"`
 }
 
 // A SpotDatafeedSubscriptionStatus defines the observed state of a SpotDatafeedSubscription

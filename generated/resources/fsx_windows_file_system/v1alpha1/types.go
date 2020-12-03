@@ -52,20 +52,20 @@ type FsxWindowsFileSystemSpec struct {
 
 // A FsxWindowsFileSystemParameters defines the desired state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemParameters struct {
+	DailyAutomaticBackupStartTime string                     `json:"daily_automatic_backup_start_time"`
+	AutomaticBackupRetentionDays  int                        `json:"automatic_backup_retention_days"`
 	Id                            string                     `json:"id"`
+	SkipFinalBackup               bool                       `json:"skip_final_backup"`
+	Tags                          map[string]string          `json:"tags"`
+	PreferredSubnetId             string                     `json:"preferred_subnet_id"`
+	SecurityGroupIds              []string                   `json:"security_group_ids"`
+	StorageCapacity               int                        `json:"storage_capacity"`
 	StorageType                   string                     `json:"storage_type"`
 	SubnetIds                     []string                   `json:"subnet_ids"`
 	ActiveDirectoryId             string                     `json:"active_directory_id"`
-	SkipFinalBackup               bool                       `json:"skip_final_backup"`
-	AutomaticBackupRetentionDays  int                        `json:"automatic_backup_retention_days"`
 	CopyTagsToBackups             bool                       `json:"copy_tags_to_backups"`
 	DeploymentType                string                     `json:"deployment_type"`
-	SecurityGroupIds              []string                   `json:"security_group_ids"`
-	DailyAutomaticBackupStartTime string                     `json:"daily_automatic_backup_start_time"`
 	KmsKeyId                      string                     `json:"kms_key_id"`
-	PreferredSubnetId             string                     `json:"preferred_subnet_id"`
-	StorageCapacity               int                        `json:"storage_capacity"`
-	Tags                          map[string]string          `json:"tags"`
 	ThroughputCapacity            int                        `json:"throughput_capacity"`
 	WeeklyMaintenanceStartTime    string                     `json:"weekly_maintenance_start_time"`
 	SelfManagedActiveDirectory    SelfManagedActiveDirectory `json:"self_managed_active_directory"`
@@ -94,11 +94,11 @@ type FsxWindowsFileSystemStatus struct {
 
 // A FsxWindowsFileSystemObservation records the observed state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemObservation struct {
-	OwnerId                      string   `json:"owner_id"`
-	VpcId                        string   `json:"vpc_id"`
-	RemoteAdministrationEndpoint string   `json:"remote_administration_endpoint"`
 	Arn                          string   `json:"arn"`
 	DnsName                      string   `json:"dns_name"`
-	NetworkInterfaceIds          []string `json:"network_interface_ids"`
 	PreferredFileServerIp        string   `json:"preferred_file_server_ip"`
+	VpcId                        string   `json:"vpc_id"`
+	NetworkInterfaceIds          []string `json:"network_interface_ids"`
+	RemoteAdministrationEndpoint string   `json:"remote_administration_endpoint"`
+	OwnerId                      string   `json:"owner_id"`
 }

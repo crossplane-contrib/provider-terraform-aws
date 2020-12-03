@@ -62,10 +62,10 @@ type ElasticBeanstalkConfigurationTemplateParameters struct {
 }
 
 type Setting struct {
+	Value     string `json:"value"`
 	Name      string `json:"name"`
 	Namespace string `json:"namespace"`
 	Resource  string `json:"resource"`
-	Value     string `json:"value"`
 }
 
 // A ElasticBeanstalkConfigurationTemplateStatus defines the observed state of a ElasticBeanstalkConfigurationTemplate

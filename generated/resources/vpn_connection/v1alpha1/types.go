@@ -52,17 +52,17 @@ type VpnConnectionSpec struct {
 
 // A VpnConnectionParameters defines the desired state of a VpnConnection
 type VpnConnectionParameters struct {
-	Tunnel1InsideCidr   string            `json:"tunnel1_inside_cidr"`
-	Tunnel2PresharedKey string            `json:"tunnel2_preshared_key"`
+	Id                  string            `json:"id"`
 	Tags                map[string]string `json:"tags"`
 	TransitGatewayId    string            `json:"transit_gateway_id"`
-	Id                  string            `json:"id"`
-	StaticRoutesOnly    bool              `json:"static_routes_only"`
-	VpnGatewayId        string            `json:"vpn_gateway_id"`
-	Tunnel1PresharedKey string            `json:"tunnel1_preshared_key"`
+	Tunnel1InsideCidr   string            `json:"tunnel1_inside_cidr"`
 	Tunnel2InsideCidr   string            `json:"tunnel2_inside_cidr"`
 	Type                string            `json:"type"`
+	StaticRoutesOnly    bool              `json:"static_routes_only"`
+	Tunnel2PresharedKey string            `json:"tunnel2_preshared_key"`
 	CustomerGatewayId   string            `json:"customer_gateway_id"`
+	Tunnel1PresharedKey string            `json:"tunnel1_preshared_key"`
+	VpnGatewayId        string            `json:"vpn_gateway_id"`
 }
 
 // A VpnConnectionStatus defines the observed state of a VpnConnection
@@ -73,21 +73,21 @@ type VpnConnectionStatus struct {
 
 // A VpnConnectionObservation records the observed state of a VpnConnection
 type VpnConnectionObservation struct {
-	Tunnel1VgwInsideAddress      string         `json:"tunnel1_vgw_inside_address"`
-	Tunnel2BgpAsn                string         `json:"tunnel2_bgp_asn"`
-	Tunnel2BgpHoldtime           int            `json:"tunnel2_bgp_holdtime"`
-	Tunnel2CgwInsideAddress      string         `json:"tunnel2_cgw_inside_address"`
-	Arn                          string         `json:"arn"`
-	TransitGatewayAttachmentId   string         `json:"transit_gateway_attachment_id"`
-	Tunnel1Address               string         `json:"tunnel1_address"`
-	Tunnel1CgwInsideAddress      string         `json:"tunnel1_cgw_inside_address"`
 	Tunnel2Address               string         `json:"tunnel2_address"`
-	Tunnel2VgwInsideAddress      string         `json:"tunnel2_vgw_inside_address"`
+	Tunnel2CgwInsideAddress      string         `json:"tunnel2_cgw_inside_address"`
+	CustomerGatewayConfiguration string         `json:"customer_gateway_configuration"`
 	Routes                       []Routes       `json:"routes"`
+	TransitGatewayAttachmentId   string         `json:"transit_gateway_attachment_id"`
 	Tunnel1BgpAsn                string         `json:"tunnel1_bgp_asn"`
 	Tunnel1BgpHoldtime           int            `json:"tunnel1_bgp_holdtime"`
-	CustomerGatewayConfiguration string         `json:"customer_gateway_configuration"`
+	Tunnel1VgwInsideAddress      string         `json:"tunnel1_vgw_inside_address"`
+	Tunnel2BgpAsn                string         `json:"tunnel2_bgp_asn"`
+	Tunnel2VgwInsideAddress      string         `json:"tunnel2_vgw_inside_address"`
 	VgwTelemetry                 []VgwTelemetry `json:"vgw_telemetry"`
+	Arn                          string         `json:"arn"`
+	Tunnel1Address               string         `json:"tunnel1_address"`
+	Tunnel1CgwInsideAddress      string         `json:"tunnel1_cgw_inside_address"`
+	Tunnel2BgpHoldtime           int            `json:"tunnel2_bgp_holdtime"`
 }
 
 type Routes struct {
@@ -97,9 +97,9 @@ type Routes struct {
 }
 
 type VgwTelemetry struct {
+	OutsideIpAddress   string `json:"outside_ip_address"`
 	Status             string `json:"status"`
 	StatusMessage      string `json:"status_message"`
 	AcceptedRouteCount int    `json:"accepted_route_count"`
 	LastStatusChange   string `json:"last_status_change"`
-	OutsideIpAddress   string `json:"outside_ip_address"`
 }

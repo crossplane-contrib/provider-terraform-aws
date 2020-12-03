@@ -52,23 +52,23 @@ type ApiGatewayIntegrationSpec struct {
 
 // A ApiGatewayIntegrationParameters defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationParameters struct {
-	HttpMethod            string            `json:"http_method"`
-	PassthroughBehavior   string            `json:"passthrough_behavior"`
-	TimeoutMilliseconds   int               `json:"timeout_milliseconds"`
-	ContentHandling       string            `json:"content_handling"`
-	Uri                   string            `json:"uri"`
-	ConnectionType        string            `json:"connection_type"`
-	CacheNamespace        string            `json:"cache_namespace"`
-	ConnectionId          string            `json:"connection_id"`
 	Credentials           string            `json:"credentials"`
-	Id                    string            `json:"id"`
-	IntegrationHttpMethod string            `json:"integration_http_method"`
-	ResourceId            string            `json:"resource_id"`
-	Type                  string            `json:"type"`
-	CacheKeyParameters    []string          `json:"cache_key_parameters"`
-	RequestTemplates      map[string]string `json:"request_templates"`
 	RestApiId             string            `json:"rest_api_id"`
+	Uri                   string            `json:"uri"`
+	ConnectionId          string            `json:"connection_id"`
+	IntegrationHttpMethod string            `json:"integration_http_method"`
+	PassthroughBehavior   string            `json:"passthrough_behavior"`
+	RequestTemplates      map[string]string `json:"request_templates"`
+	CacheKeyParameters    []string          `json:"cache_key_parameters"`
+	HttpMethod            string            `json:"http_method"`
 	RequestParameters     map[string]string `json:"request_parameters"`
+	ResourceId            string            `json:"resource_id"`
+	TimeoutMilliseconds   int               `json:"timeout_milliseconds"`
+	Type                  string            `json:"type"`
+	CacheNamespace        string            `json:"cache_namespace"`
+	ConnectionType        string            `json:"connection_type"`
+	ContentHandling       string            `json:"content_handling"`
+	Id                    string            `json:"id"`
 }
 
 // A ApiGatewayIntegrationStatus defines the observed state of a ApiGatewayIntegration

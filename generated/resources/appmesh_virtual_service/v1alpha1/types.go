@@ -52,10 +52,10 @@ type AppmeshVirtualServiceSpec struct {
 
 // A AppmeshVirtualServiceParameters defines the desired state of a AppmeshVirtualService
 type AppmeshVirtualServiceParameters struct {
-	Tags      map[string]string `json:"tags"`
-	MeshName  string            `json:"mesh_name"`
 	MeshOwner string            `json:"mesh_owner"`
+	MeshName  string            `json:"mesh_name"`
 	Name      string            `json:"name"`
+	Tags      map[string]string `json:"tags"`
 	Id        string            `json:"id"`
 	Spec      Spec              `json:"spec"`
 }
@@ -85,8 +85,8 @@ type AppmeshVirtualServiceStatus struct {
 
 // A AppmeshVirtualServiceObservation records the observed state of a AppmeshVirtualService
 type AppmeshVirtualServiceObservation struct {
+	ResourceOwner   string `json:"resource_owner"`
+	LastUpdatedDate string `json:"last_updated_date"`
 	Arn             string `json:"arn"`
 	CreatedDate     string `json:"created_date"`
-	LastUpdatedDate string `json:"last_updated_date"`
-	ResourceOwner   string `json:"resource_owner"`
 }

@@ -60,14 +60,14 @@ type DefaultRouteTableParameters struct {
 }
 
 type Route struct {
-	CidrBlock              string `json:"cidr_block"`
-	GatewayId              string `json:"gateway_id"`
-	NetworkInterfaceId     string `json:"network_interface_id"`
-	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
 	EgressOnlyGatewayId    string `json:"egress_only_gateway_id"`
-	InstanceId             string `json:"instance_id"`
-	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
+	GatewayId              string `json:"gateway_id"`
+	CidrBlock              string `json:"cidr_block"`
 	NatGatewayId           string `json:"nat_gateway_id"`
+	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
+	InstanceId             string `json:"instance_id"`
+	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
+	NetworkInterfaceId     string `json:"network_interface_id"`
 	TransitGatewayId       string `json:"transit_gateway_id"`
 }
 

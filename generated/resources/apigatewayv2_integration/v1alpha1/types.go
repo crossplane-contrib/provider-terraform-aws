@@ -52,22 +52,22 @@ type Apigatewayv2IntegrationSpec struct {
 
 // A Apigatewayv2IntegrationParameters defines the desired state of a Apigatewayv2Integration
 type Apigatewayv2IntegrationParameters struct {
-	ConnectionId                string            `json:"connection_id"`
-	IntegrationMethod           string            `json:"integration_method"`
-	IntegrationSubtype          string            `json:"integration_subtype"`
-	IntegrationType             string            `json:"integration_type"`
-	TemplateSelectionExpression string            `json:"template_selection_expression"`
 	ConnectionType              string            `json:"connection_type"`
-	CredentialsArn              string            `json:"credentials_arn"`
 	Id                          string            `json:"id"`
-	TimeoutMilliseconds         int               `json:"timeout_milliseconds"`
-	ApiId                       string            `json:"api_id"`
-	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
-	IntegrationUri              string            `json:"integration_uri"`
 	PayloadFormatVersion        string            `json:"payload_format_version"`
-	RequestParameters           map[string]string `json:"request_parameters"`
+	IntegrationUri              string            `json:"integration_uri"`
+	ApiId                       string            `json:"api_id"`
+	ConnectionId                string            `json:"connection_id"`
+	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
 	Description                 string            `json:"description"`
+	IntegrationType             string            `json:"integration_type"`
+	IntegrationMethod           string            `json:"integration_method"`
+	TemplateSelectionExpression string            `json:"template_selection_expression"`
+	TimeoutMilliseconds         int               `json:"timeout_milliseconds"`
+	CredentialsArn              string            `json:"credentials_arn"`
+	IntegrationSubtype          string            `json:"integration_subtype"`
 	PassthroughBehavior         string            `json:"passthrough_behavior"`
+	RequestParameters           map[string]string `json:"request_parameters"`
 	RequestTemplates            map[string]string `json:"request_templates"`
 	TlsConfig                   TlsConfig         `json:"tls_config"`
 }

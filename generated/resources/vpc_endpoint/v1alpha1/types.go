@@ -52,17 +52,17 @@ type VpcEndpointSpec struct {
 
 // A VpcEndpointParameters defines the desired state of a VpcEndpoint
 type VpcEndpointParameters struct {
+	Tags              map[string]string `json:"tags"`
+	AutoAccept        bool              `json:"auto_accept"`
+	Id                string            `json:"id"`
+	SecurityGroupIds  []string          `json:"security_group_ids"`
 	VpcEndpointType   string            `json:"vpc_endpoint_type"`
 	VpcId             string            `json:"vpc_id"`
-	Policy            string            `json:"policy"`
-	ServiceName       string            `json:"service_name"`
-	PrivateDnsEnabled bool              `json:"private_dns_enabled"`
 	SubnetIds         []string          `json:"subnet_ids"`
-	Id                string            `json:"id"`
-	Tags              map[string]string `json:"tags"`
+	Policy            string            `json:"policy"`
+	PrivateDnsEnabled bool              `json:"private_dns_enabled"`
 	RouteTableIds     []string          `json:"route_table_ids"`
-	SecurityGroupIds  []string          `json:"security_group_ids"`
-	AutoAccept        bool              `json:"auto_accept"`
+	ServiceName       string            `json:"service_name"`
 	Timeouts          []Timeouts        `json:"timeouts"`
 }
 
@@ -80,14 +80,14 @@ type VpcEndpointStatus struct {
 
 // A VpcEndpointObservation records the observed state of a VpcEndpoint
 type VpcEndpointObservation struct {
-	PrefixListId        string     `json:"prefix_list_id"`
-	NetworkInterfaceIds []string   `json:"network_interface_ids"`
-	RequesterManaged    bool       `json:"requester_managed"`
-	State               string     `json:"state"`
-	Arn                 string     `json:"arn"`
-	CidrBlocks          []string   `json:"cidr_blocks"`
 	DnsEntry            []DnsEntry `json:"dns_entry"`
+	CidrBlocks          []string   `json:"cidr_blocks"`
+	PrefixListId        string     `json:"prefix_list_id"`
+	RequesterManaged    bool       `json:"requester_managed"`
+	Arn                 string     `json:"arn"`
+	NetworkInterfaceIds []string   `json:"network_interface_ids"`
 	OwnerId             string     `json:"owner_id"`
+	State               string     `json:"state"`
 }
 
 type DnsEntry struct {

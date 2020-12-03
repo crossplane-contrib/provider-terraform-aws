@@ -52,27 +52,27 @@ type Route53HealthCheckSpec struct {
 
 // A Route53HealthCheckParameters defines the desired state of a Route53HealthCheck
 type Route53HealthCheckParameters struct {
+	CloudwatchAlarmRegion        string            `json:"cloudwatch_alarm_region"`
 	Regions                      []string          `json:"regions"`
-	RequestInterval              int               `json:"request_interval"`
 	SearchString                 string            `json:"search_string"`
+	Tags                         map[string]string `json:"tags"`
 	ChildHealthThreshold         int               `json:"child_health_threshold"`
+	CloudwatchAlarmName          string            `json:"cloudwatch_alarm_name"`
 	EnableSni                    bool              `json:"enable_sni"`
 	InsufficientDataHealthStatus string            `json:"insufficient_data_health_status"`
-	MeasureLatency               bool              `json:"measure_latency"`
-	Port                         int               `json:"port"`
-	ReferenceName                string            `json:"reference_name"`
+	RequestInterval              int               `json:"request_interval"`
 	ChildHealthchecks            []string          `json:"child_healthchecks"`
 	Disabled                     bool              `json:"disabled"`
-	Id                           string            `json:"id"`
-	Fqdn                         string            `json:"fqdn"`
 	InvertHealthcheck            bool              `json:"invert_healthcheck"`
-	IpAddress                    string            `json:"ip_address"`
-	ResourcePath                 string            `json:"resource_path"`
-	Tags                         map[string]string `json:"tags"`
-	Type                         string            `json:"type"`
-	CloudwatchAlarmName          string            `json:"cloudwatch_alarm_name"`
-	CloudwatchAlarmRegion        string            `json:"cloudwatch_alarm_region"`
+	Port                         int               `json:"port"`
 	FailureThreshold             int               `json:"failure_threshold"`
+	Fqdn                         string            `json:"fqdn"`
+	Id                           string            `json:"id"`
+	IpAddress                    string            `json:"ip_address"`
+	MeasureLatency               bool              `json:"measure_latency"`
+	ReferenceName                string            `json:"reference_name"`
+	ResourcePath                 string            `json:"resource_path"`
+	Type                         string            `json:"type"`
 }
 
 // A Route53HealthCheckStatus defines the observed state of a Route53HealthCheck

@@ -52,23 +52,23 @@ type WorkspacesWorkspaceSpec struct {
 
 // A WorkspacesWorkspaceParameters defines the desired state of a WorkspacesWorkspace
 type WorkspacesWorkspaceParameters struct {
-	BundleId                    string              `json:"bundle_id"`
-	RootVolumeEncryptionEnabled bool                `json:"root_volume_encryption_enabled"`
 	UserName                    string              `json:"user_name"`
 	UserVolumeEncryptionEnabled bool                `json:"user_volume_encryption_enabled"`
-	DirectoryId                 string              `json:"directory_id"`
-	Id                          string              `json:"id"`
-	Tags                        map[string]string   `json:"tags"`
 	VolumeEncryptionKey         string              `json:"volume_encryption_key"`
+	DirectoryId                 string              `json:"directory_id"`
+	Tags                        map[string]string   `json:"tags"`
+	RootVolumeEncryptionEnabled bool                `json:"root_volume_encryption_enabled"`
+	BundleId                    string              `json:"bundle_id"`
+	Id                          string              `json:"id"`
 	WorkspaceProperties         WorkspaceProperties `json:"workspace_properties"`
 }
 
 type WorkspaceProperties struct {
+	UserVolumeSizeGib                   int    `json:"user_volume_size_gib"`
+	ComputeTypeName                     string `json:"compute_type_name"`
 	RootVolumeSizeGib                   int    `json:"root_volume_size_gib"`
 	RunningMode                         string `json:"running_mode"`
 	RunningModeAutoStopTimeoutInMinutes int    `json:"running_mode_auto_stop_timeout_in_minutes"`
-	UserVolumeSizeGib                   int    `json:"user_volume_size_gib"`
-	ComputeTypeName                     string `json:"compute_type_name"`
 }
 
 // A WorkspacesWorkspaceStatus defines the observed state of a WorkspacesWorkspace
@@ -79,7 +79,7 @@ type WorkspacesWorkspaceStatus struct {
 
 // A WorkspacesWorkspaceObservation records the observed state of a WorkspacesWorkspace
 type WorkspacesWorkspaceObservation struct {
-	ComputerName string `json:"computer_name"`
-	IpAddress    string `json:"ip_address"`
 	State        string `json:"state"`
+	IpAddress    string `json:"ip_address"`
+	ComputerName string `json:"computer_name"`
 }

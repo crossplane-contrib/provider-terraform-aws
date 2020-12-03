@@ -58,8 +58,8 @@ type WafregionalGeoMatchSetParameters struct {
 }
 
 type GeoMatchConstraint struct {
-	Value string `json:"value"`
 	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
 // A WafregionalGeoMatchSetStatus defines the observed state of a WafregionalGeoMatchSet

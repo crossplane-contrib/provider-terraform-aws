@@ -52,10 +52,10 @@ type QldbLedgerSpec struct {
 
 // A QldbLedgerParameters defines the desired state of a QldbLedger
 type QldbLedgerParameters struct {
-	Tags               map[string]string `json:"tags"`
 	DeletionProtection bool              `json:"deletion_protection"`
 	Id                 string            `json:"id"`
 	Name               string            `json:"name"`
+	Tags               map[string]string `json:"tags"`
 }
 
 // A QldbLedgerStatus defines the observed state of a QldbLedger

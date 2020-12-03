@@ -52,64 +52,54 @@ type AutoscalingGroupSpec struct {
 
 // A AutoscalingGroupParameters defines the desired state of a AutoscalingGroup
 type AutoscalingGroupParameters struct {
-	LaunchConfiguration    string                 `json:"launch_configuration"`
-	SuspendedProcesses     []string               `json:"suspended_processes"`
-	WaitForCapacityTimeout string                 `json:"wait_for_capacity_timeout"`
-	AvailabilityZones      []string               `json:"availability_zones"`
-	DesiredCapacity        int                    `json:"desired_capacity"`
-	MetricsGranularity     string                 `json:"metrics_granularity"`
-	VpcZoneIdentifier      []string               `json:"vpc_zone_identifier"`
-	HealthCheckGracePeriod int                    `json:"health_check_grace_period"`
-	TerminationPolicies    []string               `json:"termination_policies"`
-	LoadBalancers          []string               `json:"load_balancers"`
-	PlacementGroup         string                 `json:"placement_group"`
-	ServiceLinkedRoleArn   string                 `json:"service_linked_role_arn"`
-	DefaultCooldown        int                    `json:"default_cooldown"`
-	MaxSize                int                    `json:"max_size"`
-	ForceDelete            bool                   `json:"force_delete"`
-	HealthCheckType        string                 `json:"health_check_type"`
 	MaxInstanceLifetime    int                    `json:"max_instance_lifetime"`
+	MaxSize                int                    `json:"max_size"`
 	Name                   string                 `json:"name"`
-	ProtectFromScaleIn     bool                   `json:"protect_from_scale_in"`
-	Tags                   []map[string]string    `json:"tags"`
+	TargetGroupArns        []string               `json:"target_group_arns"`
+	VpcZoneIdentifier      []string               `json:"vpc_zone_identifier"`
+	WaitForCapacityTimeout string                 `json:"wait_for_capacity_timeout"`
+	DesiredCapacity        int                    `json:"desired_capacity"`
+	MinSize                int                    `json:"min_size"`
+	TerminationPolicies    []string               `json:"termination_policies"`
 	EnabledMetrics         []string               `json:"enabled_metrics"`
+	NamePrefix             string                 `json:"name_prefix"`
+	AvailabilityZones      []string               `json:"availability_zones"`
+	ProtectFromScaleIn     bool                   `json:"protect_from_scale_in"`
+	SuspendedProcesses     []string               `json:"suspended_processes"`
+	WaitForElbCapacity     int                    `json:"wait_for_elb_capacity"`
+	LoadBalancers          []string               `json:"load_balancers"`
+	HealthCheckGracePeriod int                    `json:"health_check_grace_period"`
+	HealthCheckType        string                 `json:"health_check_type"`
 	Id                     string                 `json:"id"`
 	MinElbCapacity         int                    `json:"min_elb_capacity"`
-	MinSize                int                    `json:"min_size"`
-	NamePrefix             string                 `json:"name_prefix"`
-	TargetGroupArns        []string               `json:"target_group_arns"`
-	WaitForElbCapacity     int                    `json:"wait_for_elb_capacity"`
-	Tag                    []Tag                  `json:"tag"`
-	Timeouts               []Timeouts             `json:"timeouts"`
+	DefaultCooldown        int                    `json:"default_cooldown"`
+	MetricsGranularity     string                 `json:"metrics_granularity"`
+	LaunchConfiguration    string                 `json:"launch_configuration"`
+	ForceDelete            bool                   `json:"force_delete"`
+	PlacementGroup         string                 `json:"placement_group"`
+	ServiceLinkedRoleArn   string                 `json:"service_linked_role_arn"`
+	Tags                   []map[string]string    `json:"tags"`
 	InitialLifecycleHook   []InitialLifecycleHook `json:"initial_lifecycle_hook"`
 	LaunchTemplate         LaunchTemplate         `json:"launch_template"`
 	MixedInstancesPolicy   MixedInstancesPolicy   `json:"mixed_instances_policy"`
-}
-
-type Tag struct {
-	Key               string `json:"key"`
-	PropagateAtLaunch bool   `json:"propagate_at_launch"`
-	Value             string `json:"value"`
-}
-
-type Timeouts struct {
-	Delete string `json:"delete"`
+	Tag                    []Tag                  `json:"tag"`
+	Timeouts               []Timeouts             `json:"timeouts"`
 }
 
 type InitialLifecycleHook struct {
-	DefaultResult         string `json:"default_result"`
 	HeartbeatTimeout      int    `json:"heartbeat_timeout"`
 	LifecycleTransition   string `json:"lifecycle_transition"`
 	Name                  string `json:"name"`
 	NotificationMetadata  string `json:"notification_metadata"`
 	NotificationTargetArn string `json:"notification_target_arn"`
 	RoleArn               string `json:"role_arn"`
+	DefaultResult         string `json:"default_result"`
 }
 
 type LaunchTemplate struct {
+	Id      string `json:"id"`
 	Name    string `json:"name"`
 	Version string `json:"version"`
-	Id      string `json:"id"`
 }
 
 type MixedInstancesPolicy struct {
@@ -118,12 +108,12 @@ type MixedInstancesPolicy struct {
 }
 
 type InstancesDistribution struct {
-	SpotInstancePools                   int    `json:"spot_instance_pools"`
-	SpotMaxPrice                        string `json:"spot_max_price"`
 	OnDemandAllocationStrategy          string `json:"on_demand_allocation_strategy"`
 	OnDemandBaseCapacity                int    `json:"on_demand_base_capacity"`
 	OnDemandPercentageAboveBaseCapacity int    `json:"on_demand_percentage_above_base_capacity"`
 	SpotAllocationStrategy              string `json:"spot_allocation_strategy"`
+	SpotInstancePools                   int    `json:"spot_instance_pools"`
+	SpotMaxPrice                        string `json:"spot_max_price"`
 }
 
 type LaunchTemplate struct {
@@ -140,6 +130,16 @@ type LaunchTemplateSpecification struct {
 type Override struct {
 	InstanceType     string `json:"instance_type"`
 	WeightedCapacity string `json:"weighted_capacity"`
+}
+
+type Tag struct {
+	Key               string `json:"key"`
+	PropagateAtLaunch bool   `json:"propagate_at_launch"`
+	Value             string `json:"value"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
 }
 
 // A AutoscalingGroupStatus defines the observed state of a AutoscalingGroup

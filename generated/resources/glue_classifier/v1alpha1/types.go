@@ -61,12 +61,12 @@ type GlueClassifierParameters struct {
 }
 
 type CsvClassifier struct {
+	AllowSingleColumn    bool     `json:"allow_single_column"`
+	ContainsHeader       string   `json:"contains_header"`
 	Delimiter            string   `json:"delimiter"`
 	DisableValueTrimming bool     `json:"disable_value_trimming"`
 	Header               []string `json:"header"`
 	QuoteSymbol          string   `json:"quote_symbol"`
-	AllowSingleColumn    bool     `json:"allow_single_column"`
-	ContainsHeader       string   `json:"contains_header"`
 }
 
 type GrokClassifier struct {

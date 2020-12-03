@@ -52,12 +52,12 @@ type SwfDomainSpec struct {
 
 // A SwfDomainParameters defines the desired state of a SwfDomain
 type SwfDomainParameters struct {
+	Id                                     string            `json:"id"`
 	Name                                   string            `json:"name"`
 	NamePrefix                             string            `json:"name_prefix"`
 	Tags                                   map[string]string `json:"tags"`
 	WorkflowExecutionRetentionPeriodInDays string            `json:"workflow_execution_retention_period_in_days"`
 	Description                            string            `json:"description"`
-	Id                                     string            `json:"id"`
 }
 
 // A SwfDomainStatus defines the observed state of a SwfDomain

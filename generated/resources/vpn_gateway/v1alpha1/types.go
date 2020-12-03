@@ -52,11 +52,11 @@ type VpnGatewaySpec struct {
 
 // A VpnGatewayParameters defines the desired state of a VpnGateway
 type VpnGatewayParameters struct {
+	AmazonSideAsn    string            `json:"amazon_side_asn"`
 	AvailabilityZone string            `json:"availability_zone"`
 	Id               string            `json:"id"`
 	Tags             map[string]string `json:"tags"`
 	VpcId            string            `json:"vpc_id"`
-	AmazonSideAsn    string            `json:"amazon_side_asn"`
 }
 
 // A VpnGatewayStatus defines the observed state of a VpnGateway

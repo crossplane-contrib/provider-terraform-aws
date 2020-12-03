@@ -52,15 +52,15 @@ type KmsKeySpec struct {
 
 // A KmsKeyParameters defines the desired state of a KmsKey
 type KmsKeyParameters struct {
-	KeyUsage              string            `json:"key_usage"`
 	CustomerMasterKeySpec string            `json:"customer_master_key_spec"`
+	DeletionWindowInDays  int               `json:"deletion_window_in_days"`
 	Description           string            `json:"description"`
 	Id                    string            `json:"id"`
 	IsEnabled             bool              `json:"is_enabled"`
+	KeyUsage              string            `json:"key_usage"`
+	EnableKeyRotation     bool              `json:"enable_key_rotation"`
 	Policy                string            `json:"policy"`
 	Tags                  map[string]string `json:"tags"`
-	DeletionWindowInDays  int               `json:"deletion_window_in_days"`
-	EnableKeyRotation     bool              `json:"enable_key_rotation"`
 }
 
 // A KmsKeyStatus defines the observed state of a KmsKey

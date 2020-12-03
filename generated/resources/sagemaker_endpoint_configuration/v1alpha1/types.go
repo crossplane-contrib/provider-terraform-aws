@@ -52,10 +52,10 @@ type SagemakerEndpointConfigurationSpec struct {
 
 // A SagemakerEndpointConfigurationParameters defines the desired state of a SagemakerEndpointConfiguration
 type SagemakerEndpointConfigurationParameters struct {
-	Tags               map[string]string    `json:"tags"`
 	Id                 string               `json:"id"`
 	KmsKeyArn          string               `json:"kms_key_arn"`
 	Name               string               `json:"name"`
+	Tags               map[string]string    `json:"tags"`
 	ProductionVariants []ProductionVariants `json:"production_variants"`
 }
 

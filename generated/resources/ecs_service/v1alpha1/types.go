@@ -52,22 +52,22 @@ type EcsServiceSpec struct {
 
 // A EcsServiceParameters defines the desired state of a EcsService
 type EcsServiceParameters struct {
-	DeploymentMaximumPercent        int                        `json:"deployment_maximum_percent"`
-	DesiredCount                    int                        `json:"desired_count"`
-	ForceNewDeployment              bool                       `json:"force_new_deployment"`
-	LaunchType                      string                     `json:"launch_type"`
-	Name                            string                     `json:"name"`
-	Tags                            map[string]string          `json:"tags"`
-	Cluster                         string                     `json:"cluster"`
-	DeploymentMinimumHealthyPercent int                        `json:"deployment_minimum_healthy_percent"`
-	IamRole                         string                     `json:"iam_role"`
-	PlatformVersion                 string                     `json:"platform_version"`
+	PropagateTags                   string                     `json:"propagate_tags"`
 	EnableEcsManagedTags            bool                       `json:"enable_ecs_managed_tags"`
-	Id                              string                     `json:"id"`
+	LaunchType                      string                     `json:"launch_type"`
+	ForceNewDeployment              bool                       `json:"force_new_deployment"`
 	SchedulingStrategy              string                     `json:"scheduling_strategy"`
 	TaskDefinition                  string                     `json:"task_definition"`
+	Cluster                         string                     `json:"cluster"`
+	DeploymentMinimumHealthyPercent int                        `json:"deployment_minimum_healthy_percent"`
+	PlatformVersion                 string                     `json:"platform_version"`
+	Tags                            map[string]string          `json:"tags"`
+	DeploymentMaximumPercent        int                        `json:"deployment_maximum_percent"`
+	Id                              string                     `json:"id"`
+	IamRole                         string                     `json:"iam_role"`
+	Name                            string                     `json:"name"`
+	DesiredCount                    int                        `json:"desired_count"`
 	HealthCheckGracePeriodSeconds   int                        `json:"health_check_grace_period_seconds"`
-	PropagateTags                   string                     `json:"propagate_tags"`
 	CapacityProviderStrategy        []CapacityProviderStrategy `json:"capacity_provider_strategy"`
 	DeploymentController            DeploymentController       `json:"deployment_controller"`
 	LoadBalancer                    []LoadBalancer             `json:"load_balancer"`
@@ -79,9 +79,9 @@ type EcsServiceParameters struct {
 }
 
 type CapacityProviderStrategy struct {
+	Base             int    `json:"base"`
 	CapacityProvider string `json:"capacity_provider"`
 	Weight           int    `json:"weight"`
-	Base             int    `json:"base"`
 }
 
 type DeploymentController struct {
@@ -96,9 +96,9 @@ type LoadBalancer struct {
 }
 
 type NetworkConfiguration struct {
-	AssignPublicIp bool     `json:"assign_public_ip"`
 	SecurityGroups []string `json:"security_groups"`
 	Subnets        []string `json:"subnets"`
+	AssignPublicIp bool     `json:"assign_public_ip"`
 }
 
 type OrderedPlacementStrategy struct {

@@ -52,11 +52,11 @@ type EksClusterSpec struct {
 
 // A EksClusterParameters defines the desired state of a EksCluster
 type EksClusterParameters struct {
-	RoleArn                string            `json:"role_arn"`
-	EnabledClusterLogTypes []string          `json:"enabled_cluster_log_types"`
-	Id                     string            `json:"id"`
 	Name                   string            `json:"name"`
+	Id                     string            `json:"id"`
+	RoleArn                string            `json:"role_arn"`
 	Tags                   map[string]string `json:"tags"`
+	EnabledClusterLogTypes []string          `json:"enabled_cluster_log_types"`
 	Version                string            `json:"version"`
 	EncryptionConfig       EncryptionConfig  `json:"encryption_config"`
 	Timeouts               []Timeouts        `json:"timeouts"`
@@ -79,13 +79,13 @@ type Timeouts struct {
 }
 
 type VpcConfig struct {
+	SecurityGroupIds       []string `json:"security_group_ids"`
 	SubnetIds              []string `json:"subnet_ids"`
 	VpcId                  string   `json:"vpc_id"`
 	ClusterSecurityGroupId string   `json:"cluster_security_group_id"`
 	EndpointPrivateAccess  bool     `json:"endpoint_private_access"`
 	EndpointPublicAccess   bool     `json:"endpoint_public_access"`
 	PublicAccessCidrs      []string `json:"public_access_cidrs"`
-	SecurityGroupIds       []string `json:"security_group_ids"`
 }
 
 // A EksClusterStatus defines the observed state of a EksCluster
@@ -96,13 +96,13 @@ type EksClusterStatus struct {
 
 // A EksClusterObservation records the observed state of a EksCluster
 type EksClusterObservation struct {
-	PlatformVersion      string                 `json:"platform_version"`
-	Arn                  string                 `json:"arn"`
+	Status               string                 `json:"status"`
+	CreatedAt            string                 `json:"created_at"`
 	Endpoint             string                 `json:"endpoint"`
 	Identity             []Identity             `json:"identity"`
+	PlatformVersion      string                 `json:"platform_version"`
+	Arn                  string                 `json:"arn"`
 	CertificateAuthority []CertificateAuthority `json:"certificate_authority"`
-	CreatedAt            string                 `json:"created_at"`
-	Status               string                 `json:"status"`
 }
 
 type Identity struct {

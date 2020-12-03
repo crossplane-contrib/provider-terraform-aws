@@ -52,11 +52,11 @@ type ServiceDiscoveryServiceSpec struct {
 
 // A ServiceDiscoveryServiceParameters defines the desired state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceParameters struct {
-	NamespaceId             string                  `json:"namespace_id"`
 	Tags                    map[string]string       `json:"tags"`
 	Description             string                  `json:"description"`
 	Id                      string                  `json:"id"`
 	Name                    string                  `json:"name"`
+	NamespaceId             string                  `json:"namespace_id"`
 	DnsConfig               DnsConfig               `json:"dns_config"`
 	HealthCheckConfig       HealthCheckConfig       `json:"health_check_config"`
 	HealthCheckCustomConfig HealthCheckCustomConfig `json:"health_check_custom_config"`

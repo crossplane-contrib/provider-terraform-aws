@@ -55,21 +55,21 @@ type GluePartitionParameters struct {
 	DatabaseName      string            `json:"database_name"`
 	Id                string            `json:"id"`
 	PartitionValues   []string          `json:"partition_values"`
+	TableName         string            `json:"table_name"`
 	CatalogId         string            `json:"catalog_id"`
 	Parameters        map[string]string `json:"parameters"`
-	TableName         string            `json:"table_name"`
 	StorageDescriptor StorageDescriptor `json:"storage_descriptor"`
 }
 
 type StorageDescriptor struct {
+	Parameters             map[string]string `json:"parameters"`
+	StoredAsSubDirectories bool              `json:"stored_as_sub_directories"`
 	BucketColumns          []string          `json:"bucket_columns"`
 	Compressed             bool              `json:"compressed"`
 	InputFormat            string            `json:"input_format"`
 	Location               string            `json:"location"`
 	NumberOfBuckets        int               `json:"number_of_buckets"`
 	OutputFormat           string            `json:"output_format"`
-	Parameters             map[string]string `json:"parameters"`
-	StoredAsSubDirectories bool              `json:"stored_as_sub_directories"`
 	Columns                []Columns         `json:"columns"`
 	SerDeInfo              SerDeInfo         `json:"ser_de_info"`
 	SkewedInfo             SkewedInfo        `json:"skewed_info"`
@@ -83,9 +83,9 @@ type Columns struct {
 }
 
 type SerDeInfo struct {
+	SerializationLibrary string            `json:"serialization_library"`
 	Name                 string            `json:"name"`
 	Parameters           map[string]string `json:"parameters"`
-	SerializationLibrary string            `json:"serialization_library"`
 }
 
 type SkewedInfo struct {
@@ -95,8 +95,8 @@ type SkewedInfo struct {
 }
 
 type SortColumns struct {
-	Column    string `json:"column"`
 	SortOrder int    `json:"sort_order"`
+	Column    string `json:"column"`
 }
 
 // A GluePartitionStatus defines the observed state of a GluePartition
@@ -108,6 +108,6 @@ type GluePartitionStatus struct {
 // A GluePartitionObservation records the observed state of a GluePartition
 type GluePartitionObservation struct {
 	LastAccessedTime string `json:"last_accessed_time"`
-	LastAnalyzedTime string `json:"last_analyzed_time"`
 	CreationTime     string `json:"creation_time"`
+	LastAnalyzedTime string `json:"last_analyzed_time"`
 }

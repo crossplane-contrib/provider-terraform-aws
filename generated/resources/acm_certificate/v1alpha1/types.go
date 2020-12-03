@@ -54,13 +54,13 @@ type AcmCertificateSpec struct {
 type AcmCertificateParameters struct {
 	Id                      string            `json:"id"`
 	PrivateKey              string            `json:"private_key"`
-	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
-	CertificateBody         string            `json:"certificate_body"`
-	ValidationMethod        string            `json:"validation_method"`
-	CertificateChain        string            `json:"certificate_chain"`
-	DomainName              string            `json:"domain_name"`
 	SubjectAlternativeNames []string          `json:"subject_alternative_names"`
 	Tags                    map[string]string `json:"tags"`
+	CertificateChain        string            `json:"certificate_chain"`
+	CertificateBody         string            `json:"certificate_body"`
+	DomainName              string            `json:"domain_name"`
+	ValidationMethod        string            `json:"validation_method"`
+	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
 	Options                 Options           `json:"options"`
 }
 
@@ -78,13 +78,13 @@ type AcmCertificateStatus struct {
 type AcmCertificateObservation struct {
 	Status                  string                    `json:"status"`
 	ValidationEmails        []string                  `json:"validation_emails"`
-	Arn                     string                    `json:"arn"`
 	DomainValidationOptions []DomainValidationOptions `json:"domain_validation_options"`
+	Arn                     string                    `json:"arn"`
 }
 
 type DomainValidationOptions struct {
+	DomainName          string `json:"domain_name"`
 	ResourceRecordName  string `json:"resource_record_name"`
 	ResourceRecordType  string `json:"resource_record_type"`
 	ResourceRecordValue string `json:"resource_record_value"`
-	DomainName          string `json:"domain_name"`
 }

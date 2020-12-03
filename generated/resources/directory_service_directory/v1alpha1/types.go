@@ -52,28 +52,28 @@ type DirectoryServiceDirectorySpec struct {
 
 // A DirectoryServiceDirectoryParameters defines the desired state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryParameters struct {
-	Alias           string            `json:"alias"`
+	Description     string            `json:"description"`
+	Edition         string            `json:"edition"`
 	Id              string            `json:"id"`
+	Alias           string            `json:"alias"`
+	EnableSso       bool              `json:"enable_sso"`
+	ShortName       string            `json:"short_name"`
+	Name            string            `json:"name"`
 	Password        string            `json:"password"`
 	Size            string            `json:"size"`
 	Tags            map[string]string `json:"tags"`
-	EnableSso       bool              `json:"enable_sso"`
-	Description     string            `json:"description"`
-	ShortName       string            `json:"short_name"`
-	Edition         string            `json:"edition"`
-	Name            string            `json:"name"`
 	Type            string            `json:"type"`
 	ConnectSettings ConnectSettings   `json:"connect_settings"`
 	VpcSettings     VpcSettings       `json:"vpc_settings"`
 }
 
 type ConnectSettings struct {
-	SubnetIds         []string `json:"subnet_ids"`
-	VpcId             string   `json:"vpc_id"`
-	AvailabilityZones []string `json:"availability_zones"`
 	ConnectIps        []string `json:"connect_ips"`
 	CustomerDnsIps    []string `json:"customer_dns_ips"`
 	CustomerUsername  string   `json:"customer_username"`
+	SubnetIds         []string `json:"subnet_ids"`
+	VpcId             string   `json:"vpc_id"`
+	AvailabilityZones []string `json:"availability_zones"`
 }
 
 type VpcSettings struct {

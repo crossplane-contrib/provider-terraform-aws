@@ -67,6 +67,6 @@ type DmsReplicationSubnetGroupStatus struct {
 
 // A DmsReplicationSubnetGroupObservation records the observed state of a DmsReplicationSubnetGroup
 type DmsReplicationSubnetGroupObservation struct {
-	VpcId                     string `json:"vpc_id"`
 	ReplicationSubnetGroupArn string `json:"replication_subnet_group_arn"`
+	VpcId                     string `json:"vpc_id"`
 }

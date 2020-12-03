@@ -52,11 +52,11 @@ type Ec2TransitGatewayVpcAttachmentAccepterSpec struct {
 
 // A Ec2TransitGatewayVpcAttachmentAccepterParameters defines the desired state of a Ec2TransitGatewayVpcAttachmentAccepter
 type Ec2TransitGatewayVpcAttachmentAccepterParameters struct {
-	Tags                                       map[string]string `json:"tags"`
 	TransitGatewayAttachmentId                 string            `json:"transit_gateway_attachment_id"`
-	Id                                         string            `json:"id"`
 	TransitGatewayDefaultRouteTableAssociation bool              `json:"transit_gateway_default_route_table_association"`
 	TransitGatewayDefaultRouteTablePropagation bool              `json:"transit_gateway_default_route_table_propagation"`
+	Tags                                       map[string]string `json:"tags"`
+	Id                                         string            `json:"id"`
 }
 
 // A Ec2TransitGatewayVpcAttachmentAccepterStatus defines the observed state of a Ec2TransitGatewayVpcAttachmentAccepter
@@ -67,10 +67,10 @@ type Ec2TransitGatewayVpcAttachmentAccepterStatus struct {
 
 // A Ec2TransitGatewayVpcAttachmentAccepterObservation records the observed state of a Ec2TransitGatewayVpcAttachmentAccepter
 type Ec2TransitGatewayVpcAttachmentAccepterObservation struct {
+	TransitGatewayId string   `json:"transit_gateway_id"`
+	VpcOwnerId       string   `json:"vpc_owner_id"`
 	DnsSupport       string   `json:"dns_support"`
+	Ipv6Support      string   `json:"ipv6_support"`
 	SubnetIds        []string `json:"subnet_ids"`
 	VpcId            string   `json:"vpc_id"`
-	VpcOwnerId       string   `json:"vpc_owner_id"`
-	Ipv6Support      string   `json:"ipv6_support"`
-	TransitGatewayId string   `json:"transit_gateway_id"`
 }

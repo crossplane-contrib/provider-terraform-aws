@@ -1,0 +1,66 @@
+/*
+	Copyright 2019 The Crossplane Authors.
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	    http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
+
+package v1alpha1func EncodeSsmResourceDataSync(r SsmResourceDataSync) cty.Value {
+	ctyVals := make(map[string]cty.Value)
+	EncodeSsmResourceDataSync_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSsmResourceDataSync_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSsmResourceDataSync_S3Destination(r.Spec.ForProvider.S3Destination, ctyVal)
+
+	return cty.ObjectVal(ctyVals)
+}
+
+func EncodeSsmResourceDataSync_Id(p *SsmResourceDataSyncParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSsmResourceDataSync_Name(p *SsmResourceDataSyncParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSsmResourceDataSync_S3Destination(p *S3Destination, vals map[string]cty.Value) {
+	valsForCollection = make([]cty.Value, 0)
+	for _, v := range p.S3Destination {
+		ctyVal = make(map[string]cty.Value)
+		EncodeSsmResourceDataSync_S3Destination_Region(v, ctyVal)
+		EncodeSsmResourceDataSync_S3Destination_SyncFormat(v, ctyVal)
+		EncodeSsmResourceDataSync_S3Destination_BucketName(v, ctyVal)
+		EncodeSsmResourceDataSync_S3Destination_KmsKeyArn(v, ctyVal)
+		EncodeSsmResourceDataSync_S3Destination_Prefix(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["s3_destination"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSsmResourceDataSync_S3Destination_Region(p *S3Destination, vals map[string]cty.Value) {
+	vals["region"] = cty.StringVal(p.Region)
+}
+
+func EncodeSsmResourceDataSync_S3Destination_SyncFormat(p *S3Destination, vals map[string]cty.Value) {
+	vals["sync_format"] = cty.StringVal(p.SyncFormat)
+}
+
+func EncodeSsmResourceDataSync_S3Destination_BucketName(p *S3Destination, vals map[string]cty.Value) {
+	vals["bucket_name"] = cty.StringVal(p.BucketName)
+}
+
+func EncodeSsmResourceDataSync_S3Destination_KmsKeyArn(p *S3Destination, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+}
+
+func EncodeSsmResourceDataSync_S3Destination_Prefix(p *S3Destination, vals map[string]cty.Value) {
+	vals["prefix"] = cty.StringVal(p.Prefix)
+}

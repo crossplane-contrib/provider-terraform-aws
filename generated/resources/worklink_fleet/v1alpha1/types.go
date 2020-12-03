@@ -53,10 +53,10 @@ type WorklinkFleetSpec struct {
 // A WorklinkFleetParameters defines the desired state of a WorklinkFleet
 type WorklinkFleetParameters struct {
 	DeviceCaCertificate        string           `json:"device_ca_certificate"`
-	DisplayName                string           `json:"display_name"`
+	Id                         string           `json:"id"`
 	OptimizeForEndUserLocation bool             `json:"optimize_for_end_user_location"`
 	AuditStreamArn             string           `json:"audit_stream_arn"`
-	Id                         string           `json:"id"`
+	DisplayName                string           `json:"display_name"`
 	Name                       string           `json:"name"`
 	IdentityProvider           IdentityProvider `json:"identity_provider"`
 	Network                    Network          `json:"network"`

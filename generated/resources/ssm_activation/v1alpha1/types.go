@@ -52,13 +52,13 @@ type SsmActivationSpec struct {
 
 // A SsmActivationParameters defines the desired state of a SsmActivation
 type SsmActivationParameters struct {
-	Description       string            `json:"description"`
-	IamRole           string            `json:"iam_role"`
-	RegistrationLimit int               `json:"registration_limit"`
-	Tags              map[string]string `json:"tags"`
-	ExpirationDate    string            `json:"expiration_date"`
 	Id                string            `json:"id"`
 	Name              string            `json:"name"`
+	RegistrationLimit int               `json:"registration_limit"`
+	Description       string            `json:"description"`
+	ExpirationDate    string            `json:"expiration_date"`
+	IamRole           string            `json:"iam_role"`
+	Tags              map[string]string `json:"tags"`
 }
 
 // A SsmActivationStatus defines the observed state of a SsmActivation
@@ -69,7 +69,7 @@ type SsmActivationStatus struct {
 
 // A SsmActivationObservation records the observed state of a SsmActivation
 type SsmActivationObservation struct {
-	ActivationCode    string `json:"activation_code"`
-	Expired           bool   `json:"expired"`
 	RegistrationCount int    `json:"registration_count"`
+	Expired           bool   `json:"expired"`
+	ActivationCode    string `json:"activation_code"`
 }

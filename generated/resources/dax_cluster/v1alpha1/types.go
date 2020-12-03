@@ -52,31 +52,31 @@ type DaxClusterSpec struct {
 
 // A DaxClusterParameters defines the desired state of a DaxCluster
 type DaxClusterParameters struct {
+	ClusterName          string               `json:"cluster_name"`
+	IamRoleArn           string               `json:"iam_role_arn"`
+	MaintenanceWindow    string               `json:"maintenance_window"`
+	ParameterGroupName   string               `json:"parameter_group_name"`
+	ReplicationFactor    int                  `json:"replication_factor"`
 	AvailabilityZones    []string             `json:"availability_zones"`
 	Id                   string               `json:"id"`
+	SubnetGroupName      string               `json:"subnet_group_name"`
 	NodeType             string               `json:"node_type"`
 	NotificationTopicArn string               `json:"notification_topic_arn"`
-	Description          string               `json:"description"`
-	MaintenanceWindow    string               `json:"maintenance_window"`
 	SecurityGroupIds     []string             `json:"security_group_ids"`
-	ClusterName          string               `json:"cluster_name"`
-	ReplicationFactor    int                  `json:"replication_factor"`
-	IamRoleArn           string               `json:"iam_role_arn"`
-	ParameterGroupName   string               `json:"parameter_group_name"`
-	SubnetGroupName      string               `json:"subnet_group_name"`
 	Tags                 map[string]string    `json:"tags"`
-	ServerSideEncryption ServerSideEncryption `json:"server_side_encryption"`
+	Description          string               `json:"description"`
 	Timeouts             []Timeouts           `json:"timeouts"`
-}
-
-type ServerSideEncryption struct {
-	Enabled bool `json:"enabled"`
+	ServerSideEncryption ServerSideEncryption `json:"server_side_encryption"`
 }
 
 type Timeouts struct {
 	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+}
+
+type ServerSideEncryption struct {
+	Enabled bool `json:"enabled"`
 }
 
 // A DaxClusterStatus defines the observed state of a DaxCluster
@@ -87,16 +87,16 @@ type DaxClusterStatus struct {
 
 // A DaxClusterObservation records the observed state of a DaxCluster
 type DaxClusterObservation struct {
-	ClusterAddress        string  `json:"cluster_address"`
-	Port                  int     `json:"port"`
-	Arn                   string  `json:"arn"`
 	ConfigurationEndpoint string  `json:"configuration_endpoint"`
+	Port                  int     `json:"port"`
 	Nodes                 []Nodes `json:"nodes"`
+	ClusterAddress        string  `json:"cluster_address"`
+	Arn                   string  `json:"arn"`
 }
 
 type Nodes struct {
-	Port             int    `json:"port"`
 	Address          string `json:"address"`
 	AvailabilityZone string `json:"availability_zone"`
 	Id               string `json:"id"`
+	Port             int    `json:"port"`
 }

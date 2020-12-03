@@ -52,8 +52,8 @@ type SecurityhubStandardsSubscriptionSpec struct {
 
 // A SecurityhubStandardsSubscriptionParameters defines the desired state of a SecurityhubStandardsSubscription
 type SecurityhubStandardsSubscriptionParameters struct {
-	StandardsArn string `json:"standards_arn"`
 	Id           string `json:"id"`
+	StandardsArn string `json:"standards_arn"`
 }
 
 // A SecurityhubStandardsSubscriptionStatus defines the observed state of a SecurityhubStandardsSubscription

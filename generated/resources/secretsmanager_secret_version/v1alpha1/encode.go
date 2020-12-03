@@ -1,0 +1,59 @@
+/*
+	Copyright 2019 The Crossplane Authors.
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	    http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
+
+package v1alpha1func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value {
+	ctyVals := make(map[string]cty.Value)
+	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_SecretBinary(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVals)
+}
+
+func EncodeSecretsmanagerSecretVersion_VersionStages(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.VersionStages {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["version_stages"] = cty.SetVal(colVals)
+}
+
+func EncodeSecretsmanagerSecretVersion_Id(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSecretsmanagerSecretVersion_SecretBinary(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["secret_binary"] = cty.StringVal(p.SecretBinary)
+}
+
+func EncodeSecretsmanagerSecretVersion_SecretId(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["secret_id"] = cty.StringVal(p.SecretId)
+}
+
+func EncodeSecretsmanagerSecretVersion_SecretString(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["secret_string"] = cty.StringVal(p.SecretString)
+}
+
+func EncodeSecretsmanagerSecretVersion_Arn(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeSecretsmanagerSecretVersion_VersionId(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	vals["version_id"] = cty.StringVal(p.VersionId)
+}

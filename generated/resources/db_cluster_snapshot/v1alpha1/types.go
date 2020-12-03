@@ -53,8 +53,8 @@ type DbClusterSnapshotSpec struct {
 // A DbClusterSnapshotParameters defines the desired state of a DbClusterSnapshot
 type DbClusterSnapshotParameters struct {
 	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
-	Id                          string            `json:"id"`
 	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
+	Id                          string            `json:"id"`
 	Tags                        map[string]string `json:"tags"`
 	Timeouts                    []Timeouts        `json:"timeouts"`
 }
@@ -71,17 +71,17 @@ type DbClusterSnapshotStatus struct {
 
 // A DbClusterSnapshotObservation records the observed state of a DbClusterSnapshot
 type DbClusterSnapshotObservation struct {
-	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
-	Port                       int      `json:"port"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	Status                     string   `json:"status"`
-	AvailabilityZones          []string `json:"availability_zones"`
-	EngineVersion              string   `json:"engine_version"`
-	KmsKeyId                   string   `json:"kms_key_id"`
-	LicenseModel               string   `json:"license_model"`
-	SnapshotType               string   `json:"snapshot_type"`
 	AllocatedStorage           int      `json:"allocated_storage"`
+	KmsKeyId                   string   `json:"kms_key_id"`
+	Port                       int      `json:"port"`
+	EngineVersion              string   `json:"engine_version"`
 	Engine                     string   `json:"engine"`
+	SnapshotType               string   `json:"snapshot_type"`
 	StorageEncrypted           bool     `json:"storage_encrypted"`
 	VpcId                      string   `json:"vpc_id"`
+	AvailabilityZones          []string `json:"availability_zones"`
+	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	LicenseModel               string   `json:"license_model"`
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	Status                     string   `json:"status"`
 }

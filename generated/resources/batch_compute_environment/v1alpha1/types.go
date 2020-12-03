@@ -52,30 +52,30 @@ type BatchComputeEnvironmentSpec struct {
 
 // A BatchComputeEnvironmentParameters defines the desired state of a BatchComputeEnvironment
 type BatchComputeEnvironmentParameters struct {
-	Id                           string           `json:"id"`
-	ServiceRole                  string           `json:"service_role"`
+	ComputeEnvironmentName       string           `json:"compute_environment_name"`
 	ComputeEnvironmentNamePrefix string           `json:"compute_environment_name_prefix"`
 	State                        string           `json:"state"`
+	Id                           string           `json:"id"`
+	ServiceRole                  string           `json:"service_role"`
 	Type                         string           `json:"type"`
-	ComputeEnvironmentName       string           `json:"compute_environment_name"`
 	ComputeResources             ComputeResources `json:"compute_resources"`
 }
 
 type ComputeResources struct {
-	BidPercentage      int               `json:"bid_percentage"`
-	MinVcpus           int               `json:"min_vcpus"`
-	SecurityGroupIds   []string          `json:"security_group_ids"`
-	SpotIamFleetRole   string            `json:"spot_iam_fleet_role"`
-	Type               string            `json:"type"`
-	InstanceType       []string          `json:"instance_type"`
-	AllocationStrategy string            `json:"allocation_strategy"`
+	InstanceRole       string            `json:"instance_role"`
 	DesiredVcpus       int               `json:"desired_vcpus"`
 	ImageId            string            `json:"image_id"`
-	InstanceRole       string            `json:"instance_role"`
 	Ec2KeyPair         string            `json:"ec2_key_pair"`
-	MaxVcpus           int               `json:"max_vcpus"`
-	Subnets            []string          `json:"subnets"`
+	InstanceType       []string          `json:"instance_type"`
+	AllocationStrategy string            `json:"allocation_strategy"`
+	BidPercentage      int               `json:"bid_percentage"`
+	SecurityGroupIds   []string          `json:"security_group_ids"`
 	Tags               map[string]string `json:"tags"`
+	SpotIamFleetRole   string            `json:"spot_iam_fleet_role"`
+	Subnets            []string          `json:"subnets"`
+	Type               string            `json:"type"`
+	MaxVcpus           int               `json:"max_vcpus"`
+	MinVcpus           int               `json:"min_vcpus"`
 	LaunchTemplate     LaunchTemplate    `json:"launch_template"`
 }
 

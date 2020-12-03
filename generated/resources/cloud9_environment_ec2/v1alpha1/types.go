@@ -53,13 +53,13 @@ type Cloud9EnvironmentEc2Spec struct {
 // A Cloud9EnvironmentEc2Parameters defines the desired state of a Cloud9EnvironmentEc2
 type Cloud9EnvironmentEc2Parameters struct {
 	Description              string            `json:"description"`
-	Id                       string            `json:"id"`
 	InstanceType             string            `json:"instance_type"`
 	OwnerArn                 string            `json:"owner_arn"`
-	AutomaticStopTimeMinutes int               `json:"automatic_stop_time_minutes"`
-	Name                     string            `json:"name"`
 	SubnetId                 string            `json:"subnet_id"`
 	Tags                     map[string]string `json:"tags"`
+	AutomaticStopTimeMinutes int               `json:"automatic_stop_time_minutes"`
+	Id                       string            `json:"id"`
+	Name                     string            `json:"name"`
 }
 
 // A Cloud9EnvironmentEc2Status defines the observed state of a Cloud9EnvironmentEc2
@@ -70,6 +70,6 @@ type Cloud9EnvironmentEc2Status struct {
 
 // A Cloud9EnvironmentEc2Observation records the observed state of a Cloud9EnvironmentEc2
 type Cloud9EnvironmentEc2Observation struct {
-	Type string `json:"type"`
 	Arn  string `json:"arn"`
+	Type string `json:"type"`
 }

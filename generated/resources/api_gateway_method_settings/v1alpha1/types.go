@@ -60,16 +60,16 @@ type ApiGatewayMethodSettingsParameters struct {
 }
 
 type Settings struct {
+	CacheTtlInSeconds                      int    `json:"cache_ttl_in_seconds"`
+	DataTraceEnabled                       bool   `json:"data_trace_enabled"`
 	MetricsEnabled                         bool   `json:"metrics_enabled"`
+	ThrottlingBurstLimit                   int    `json:"throttling_burst_limit"`
 	ThrottlingRateLimit                    int    `json:"throttling_rate_limit"`
 	UnauthorizedCacheControlHeaderStrategy string `json:"unauthorized_cache_control_header_strategy"`
-	CacheTtlInSeconds                      int    `json:"cache_ttl_in_seconds"`
-	LoggingLevel                           string `json:"logging_level"`
-	DataTraceEnabled                       bool   `json:"data_trace_enabled"`
-	RequireAuthorizationForCacheControl    bool   `json:"require_authorization_for_cache_control"`
-	ThrottlingBurstLimit                   int    `json:"throttling_burst_limit"`
 	CacheDataEncrypted                     bool   `json:"cache_data_encrypted"`
 	CachingEnabled                         bool   `json:"caching_enabled"`
+	LoggingLevel                           string `json:"logging_level"`
+	RequireAuthorizationForCacheControl    bool   `json:"require_authorization_for_cache_control"`
 }
 
 // A ApiGatewayMethodSettingsStatus defines the observed state of a ApiGatewayMethodSettings

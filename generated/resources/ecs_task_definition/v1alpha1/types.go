@@ -52,18 +52,18 @@ type EcsTaskDefinitionSpec struct {
 
 // A EcsTaskDefinitionParameters defines the desired state of a EcsTaskDefinition
 type EcsTaskDefinitionParameters struct {
-	Cpu                     string                 `json:"cpu"`
+	Family                  string                 `json:"family"`
 	RequiresCompatibilities []string               `json:"requires_compatibilities"`
 	Tags                    map[string]string      `json:"tags"`
-	ContainerDefinitions    string                 `json:"container_definitions"`
-	ExecutionRoleArn        string                 `json:"execution_role_arn"`
+	Id                      string                 `json:"id"`
 	NetworkMode             string                 `json:"network_mode"`
 	PidMode                 string                 `json:"pid_mode"`
-	Memory                  string                 `json:"memory"`
+	ExecutionRoleArn        string                 `json:"execution_role_arn"`
 	TaskRoleArn             string                 `json:"task_role_arn"`
-	Family                  string                 `json:"family"`
-	Id                      string                 `json:"id"`
+	ContainerDefinitions    string                 `json:"container_definitions"`
+	Cpu                     string                 `json:"cpu"`
 	IpcMode                 string                 `json:"ipc_mode"`
+	Memory                  string                 `json:"memory"`
 	InferenceAccelerator    []InferenceAccelerator `json:"inference_accelerator"`
 	PlacementConstraints    []PlacementConstraints `json:"placement_constraints"`
 	ProxyConfiguration      ProxyConfiguration     `json:"proxy_configuration"`
@@ -71,8 +71,8 @@ type EcsTaskDefinitionParameters struct {
 }
 
 type InferenceAccelerator struct {
-	DeviceName string `json:"device_name"`
 	DeviceType string `json:"device_type"`
+	DeviceName string `json:"device_name"`
 }
 
 type PlacementConstraints struct {
@@ -81,31 +81,31 @@ type PlacementConstraints struct {
 }
 
 type ProxyConfiguration struct {
-	Type          string            `json:"type"`
 	ContainerName string            `json:"container_name"`
 	Properties    map[string]string `json:"properties"`
+	Type          string            `json:"type"`
 }
 
 type Volume struct {
-	Name                      string                    `json:"name"`
 	HostPath                  string                    `json:"host_path"`
+	Name                      string                    `json:"name"`
 	DockerVolumeConfiguration DockerVolumeConfiguration `json:"docker_volume_configuration"`
 	EfsVolumeConfiguration    EfsVolumeConfiguration    `json:"efs_volume_configuration"`
 }
 
 type DockerVolumeConfiguration struct {
+	Autoprovision bool              `json:"autoprovision"`
 	Driver        string            `json:"driver"`
 	DriverOpts    map[string]string `json:"driver_opts"`
 	Labels        map[string]string `json:"labels"`
 	Scope         string            `json:"scope"`
-	Autoprovision bool              `json:"autoprovision"`
 }
 
 type EfsVolumeConfiguration struct {
-	FileSystemId          string              `json:"file_system_id"`
 	RootDirectory         string              `json:"root_directory"`
 	TransitEncryption     string              `json:"transit_encryption"`
 	TransitEncryptionPort int                 `json:"transit_encryption_port"`
+	FileSystemId          string              `json:"file_system_id"`
 	AuthorizationConfig   AuthorizationConfig `json:"authorization_config"`
 }
 

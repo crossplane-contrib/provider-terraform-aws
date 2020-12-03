@@ -53,30 +53,30 @@ type DbProxySpec struct {
 // A DbProxyParameters defines the desired state of a DbProxy
 type DbProxyParameters struct {
 	Id                  string            `json:"id"`
-	RequireTls          bool              `json:"require_tls"`
-	RoleArn             string            `json:"role_arn"`
 	Tags                map[string]string `json:"tags"`
+	RoleArn             string            `json:"role_arn"`
 	DebugLogging        bool              `json:"debug_logging"`
 	EngineFamily        string            `json:"engine_family"`
 	IdleClientTimeout   int               `json:"idle_client_timeout"`
 	Name                string            `json:"name"`
+	RequireTls          bool              `json:"require_tls"`
 	VpcSecurityGroupIds []string          `json:"vpc_security_group_ids"`
 	VpcSubnetIds        []string          `json:"vpc_subnet_ids"`
-	Auth                []Auth            `json:"auth"`
 	Timeouts            []Timeouts        `json:"timeouts"`
-}
-
-type Auth struct {
-	AuthScheme  string `json:"auth_scheme"`
-	Description string `json:"description"`
-	IamAuth     string `json:"iam_auth"`
-	SecretArn   string `json:"secret_arn"`
+	Auth                []Auth            `json:"auth"`
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
+}
+
+type Auth struct {
+	Description string `json:"description"`
+	IamAuth     string `json:"iam_auth"`
+	SecretArn   string `json:"secret_arn"`
+	AuthScheme  string `json:"auth_scheme"`
 }
 
 // A DbProxyStatus defines the observed state of a DbProxy

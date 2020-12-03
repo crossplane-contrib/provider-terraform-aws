@@ -67,6 +67,6 @@ type ServiceDiscoveryPrivateDnsNamespaceStatus struct {
 
 // A ServiceDiscoveryPrivateDnsNamespaceObservation records the observed state of a ServiceDiscoveryPrivateDnsNamespace
 type ServiceDiscoveryPrivateDnsNamespaceObservation struct {
-	Arn        string `json:"arn"`
 	HostedZone string `json:"hosted_zone"`
+	Arn        string `json:"arn"`
 }

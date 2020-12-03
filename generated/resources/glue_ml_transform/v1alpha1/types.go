@@ -52,17 +52,17 @@ type GlueMlTransformSpec struct {
 
 // A GlueMlTransformParameters defines the desired state of a GlueMlTransform
 type GlueMlTransformParameters struct {
+	Id                string              `json:"id"`
+	Name              string              `json:"name"`
+	Tags              map[string]string   `json:"tags"`
+	GlueVersion       string              `json:"glue_version"`
+	NumberOfWorkers   int                 `json:"number_of_workers"`
 	RoleArn           string              `json:"role_arn"`
-	WorkerType        string              `json:"worker_type"`
 	Description       string              `json:"description"`
 	MaxCapacity       int                 `json:"max_capacity"`
-	Name              string              `json:"name"`
-	NumberOfWorkers   int                 `json:"number_of_workers"`
-	Tags              map[string]string   `json:"tags"`
 	Timeout           int                 `json:"timeout"`
+	WorkerType        string              `json:"worker_type"`
 	MaxRetries        int                 `json:"max_retries"`
-	GlueVersion       string              `json:"glue_version"`
-	Id                string              `json:"id"`
 	InputRecordTables []InputRecordTables `json:"input_record_tables"`
 	Parameters        Parameters          `json:"parameters"`
 }
@@ -94,8 +94,8 @@ type GlueMlTransformStatus struct {
 
 // A GlueMlTransformObservation records the observed state of a GlueMlTransform
 type GlueMlTransformObservation struct {
-	Schema     []Schema `json:"schema"`
 	LabelCount int      `json:"label_count"`
+	Schema     []Schema `json:"schema"`
 	Arn        string   `json:"arn"`
 }
 

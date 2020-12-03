@@ -68,9 +68,9 @@ type IpAddress struct {
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A Route53ResolverEndpointStatus defines the observed state of a Route53ResolverEndpoint

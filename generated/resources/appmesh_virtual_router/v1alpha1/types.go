@@ -52,11 +52,11 @@ type AppmeshVirtualRouterSpec struct {
 
 // A AppmeshVirtualRouterParameters defines the desired state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterParameters struct {
-	MeshOwner string            `json:"mesh_owner"`
+	Name      string            `json:"name"`
 	Tags      map[string]string `json:"tags"`
 	Id        string            `json:"id"`
 	MeshName  string            `json:"mesh_name"`
-	Name      string            `json:"name"`
+	MeshOwner string            `json:"mesh_owner"`
 	Spec      Spec              `json:"spec"`
 }
 
@@ -82,7 +82,7 @@ type AppmeshVirtualRouterStatus struct {
 // A AppmeshVirtualRouterObservation records the observed state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterObservation struct {
 	Arn             string `json:"arn"`
+	ResourceOwner   string `json:"resource_owner"`
 	CreatedDate     string `json:"created_date"`
 	LastUpdatedDate string `json:"last_updated_date"`
-	ResourceOwner   string `json:"resource_owner"`
 }

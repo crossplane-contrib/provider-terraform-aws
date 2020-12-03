@@ -53,15 +53,15 @@ type CloudformationStackSetSpec struct {
 // A CloudformationStackSetParameters defines the desired state of a CloudformationStackSet
 type CloudformationStackSetParameters struct {
 	Parameters            map[string]string `json:"parameters"`
+	Tags                  map[string]string `json:"tags"`
 	TemplateBody          string            `json:"template_body"`
+	Capabilities          []string          `json:"capabilities"`
+	Description           string            `json:"description"`
+	ExecutionRoleName     string            `json:"execution_role_name"`
 	TemplateUrl           string            `json:"template_url"`
 	AdministrationRoleArn string            `json:"administration_role_arn"`
 	Id                    string            `json:"id"`
 	Name                  string            `json:"name"`
-	Capabilities          []string          `json:"capabilities"`
-	Description           string            `json:"description"`
-	ExecutionRoleName     string            `json:"execution_role_name"`
-	Tags                  map[string]string `json:"tags"`
 	Timeouts              []Timeouts        `json:"timeouts"`
 }
 
@@ -77,6 +77,6 @@ type CloudformationStackSetStatus struct {
 
 // A CloudformationStackSetObservation records the observed state of a CloudformationStackSet
 type CloudformationStackSetObservation struct {
-	StackSetId string `json:"stack_set_id"`
 	Arn        string `json:"arn"`
+	StackSetId string `json:"stack_set_id"`
 }

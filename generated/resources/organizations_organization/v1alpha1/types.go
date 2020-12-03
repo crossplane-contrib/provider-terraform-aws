@@ -52,10 +52,10 @@ type OrganizationsOrganizationSpec struct {
 
 // A OrganizationsOrganizationParameters defines the desired state of a OrganizationsOrganization
 type OrganizationsOrganizationParameters struct {
-	AwsServiceAccessPrincipals []string `json:"aws_service_access_principals"`
 	EnabledPolicyTypes         []string `json:"enabled_policy_types"`
 	Id                         string   `json:"id"`
 	FeatureSet                 string   `json:"feature_set"`
+	AwsServiceAccessPrincipals []string `json:"aws_service_access_principals"`
 }
 
 // A OrganizationsOrganizationStatus defines the observed state of a OrganizationsOrganization
@@ -67,38 +67,38 @@ type OrganizationsOrganizationStatus struct {
 // A OrganizationsOrganizationObservation records the observed state of a OrganizationsOrganization
 type OrganizationsOrganizationObservation struct {
 	Arn                string              `json:"arn"`
+	MasterAccountArn   string              `json:"master_account_arn"`
+	MasterAccountEmail string              `json:"master_account_email"`
+	Accounts           []Accounts          `json:"accounts"`
 	MasterAccountId    string              `json:"master_account_id"`
 	NonMasterAccounts  []NonMasterAccounts `json:"non_master_accounts"`
 	Roots              []Roots             `json:"roots"`
-	Accounts           []Accounts          `json:"accounts"`
-	MasterAccountArn   string              `json:"master_account_arn"`
-	MasterAccountEmail string              `json:"master_account_email"`
-}
-
-type NonMasterAccounts struct {
-	Arn    string `json:"arn"`
-	Email  string `json:"email"`
-	Id     string `json:"id"`
-	Name   string `json:"name"`
-	Status string `json:"status"`
-}
-
-type Roots struct {
-	Arn         string        `json:"arn"`
-	Id          string        `json:"id"`
-	Name        string        `json:"name"`
-	PolicyTypes []PolicyTypes `json:"policy_types"`
-}
-
-type PolicyTypes struct {
-	Status string `json:"status"`
-	Type   string `json:"type"`
 }
 
 type Accounts struct {
+	Email  string `json:"email"`
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+	Arn    string `json:"arn"`
+}
+
+type NonMasterAccounts struct {
+	Status string `json:"status"`
 	Arn    string `json:"arn"`
 	Email  string `json:"email"`
 	Id     string `json:"id"`
 	Name   string `json:"name"`
+}
+
+type Roots struct {
+	Name        string        `json:"name"`
+	PolicyTypes []PolicyTypes `json:"policy_types"`
+	Arn         string        `json:"arn"`
+	Id          string        `json:"id"`
+}
+
+type PolicyTypes struct {
+	Type   string `json:"type"`
 	Status string `json:"status"`
 }

@@ -53,9 +53,9 @@ type CloudhsmV2ClusterSpec struct {
 // A CloudhsmV2ClusterParameters defines the desired state of a CloudhsmV2Cluster
 type CloudhsmV2ClusterParameters struct {
 	HsmType                string            `json:"hsm_type"`
-	SourceBackupIdentifier string            `json:"source_backup_identifier"`
 	SubnetIds              []string          `json:"subnet_ids"`
 	Tags                   map[string]string `json:"tags"`
+	SourceBackupIdentifier string            `json:"source_backup_identifier"`
 	Id                     string            `json:"id"`
 	Timeouts               []Timeouts        `json:"timeouts"`
 }
@@ -75,16 +75,16 @@ type CloudhsmV2ClusterStatus struct {
 // A CloudhsmV2ClusterObservation records the observed state of a CloudhsmV2Cluster
 type CloudhsmV2ClusterObservation struct {
 	VpcId               string                `json:"vpc_id"`
+	SecurityGroupId     string                `json:"security_group_id"`
 	ClusterCertificates []ClusterCertificates `json:"cluster_certificates"`
 	ClusterId           string                `json:"cluster_id"`
 	ClusterState        string                `json:"cluster_state"`
-	SecurityGroupId     string                `json:"security_group_id"`
 }
 
 type ClusterCertificates struct {
+	ClusterCertificate              string `json:"cluster_certificate"`
+	ClusterCsr                      string `json:"cluster_csr"`
 	HsmCertificate                  string `json:"hsm_certificate"`
 	ManufacturerHardwareCertificate string `json:"manufacturer_hardware_certificate"`
 	AwsHardwareCertificate          string `json:"aws_hardware_certificate"`
-	ClusterCertificate              string `json:"cluster_certificate"`
-	ClusterCsr                      string `json:"cluster_csr"`
 }

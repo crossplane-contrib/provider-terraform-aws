@@ -52,50 +52,50 @@ type LaunchConfigurationSpec struct {
 
 // A LaunchConfigurationParameters defines the desired state of a LaunchConfiguration
 type LaunchConfigurationParameters struct {
-	EbsOptimized                 bool                   `json:"ebs_optimized"`
-	InstanceType                 string                 `json:"instance_type"`
+	Id                           string                 `json:"id"`
 	KeyName                      string                 `json:"key_name"`
-	SpotPrice                    string                 `json:"spot_price"`
+	VpcClassicLinkId             string                 `json:"vpc_classic_link_id"`
+	UserData                     string                 `json:"user_data"`
 	VpcClassicLinkSecurityGroups []string               `json:"vpc_classic_link_security_groups"`
 	EnableMonitoring             bool                   `json:"enable_monitoring"`
-	IamInstanceProfile           string                 `json:"iam_instance_profile"`
 	Name                         string                 `json:"name"`
-	UserDataBase64               string                 `json:"user_data_base64"`
-	ImageId                      string                 `json:"image_id"`
+	SpotPrice                    string                 `json:"spot_price"`
+	InstanceType                 string                 `json:"instance_type"`
 	NamePrefix                   string                 `json:"name_prefix"`
 	PlacementTenancy             string                 `json:"placement_tenancy"`
 	SecurityGroups               []string               `json:"security_groups"`
-	UserData                     string                 `json:"user_data"`
-	VpcClassicLinkId             string                 `json:"vpc_classic_link_id"`
 	AssociatePublicIpAddress     bool                   `json:"associate_public_ip_address"`
-	Id                           string                 `json:"id"`
+	EbsOptimized                 bool                   `json:"ebs_optimized"`
+	IamInstanceProfile           string                 `json:"iam_instance_profile"`
+	ImageId                      string                 `json:"image_id"`
+	UserDataBase64               string                 `json:"user_data_base64"`
+	EphemeralBlockDevice         []EphemeralBlockDevice `json:"ephemeral_block_device"`
 	RootBlockDevice              RootBlockDevice        `json:"root_block_device"`
 	EbsBlockDevice               []EbsBlockDevice       `json:"ebs_block_device"`
-	EphemeralBlockDevice         []EphemeralBlockDevice `json:"ephemeral_block_device"`
-}
-
-type RootBlockDevice struct {
-	DeleteOnTermination bool   `json:"delete_on_termination"`
-	Encrypted           bool   `json:"encrypted"`
-	Iops                int    `json:"iops"`
-	VolumeSize          int    `json:"volume_size"`
-	VolumeType          string `json:"volume_type"`
-}
-
-type EbsBlockDevice struct {
-	NoDevice            bool   `json:"no_device"`
-	SnapshotId          string `json:"snapshot_id"`
-	VolumeSize          int    `json:"volume_size"`
-	VolumeType          string `json:"volume_type"`
-	DeleteOnTermination bool   `json:"delete_on_termination"`
-	DeviceName          string `json:"device_name"`
-	Encrypted           bool   `json:"encrypted"`
-	Iops                int    `json:"iops"`
 }
 
 type EphemeralBlockDevice struct {
 	DeviceName  string `json:"device_name"`
 	VirtualName string `json:"virtual_name"`
+}
+
+type RootBlockDevice struct {
+	Iops                int    `json:"iops"`
+	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
+	Encrypted           bool   `json:"encrypted"`
+}
+
+type EbsBlockDevice struct {
+	DeviceName          string `json:"device_name"`
+	Encrypted           bool   `json:"encrypted"`
+	Iops                int    `json:"iops"`
+	NoDevice            bool   `json:"no_device"`
+	SnapshotId          string `json:"snapshot_id"`
+	VolumeSize          int    `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
+	DeleteOnTermination bool   `json:"delete_on_termination"`
 }
 
 // A LaunchConfigurationStatus defines the observed state of a LaunchConfiguration

@@ -52,12 +52,12 @@ type DbParameterGroupSpec struct {
 
 // A DbParameterGroupParameters defines the desired state of a DbParameterGroup
 type DbParameterGroupParameters struct {
-	Id          string            `json:"id"`
-	Name        string            `json:"name"`
 	NamePrefix  string            `json:"name_prefix"`
 	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Family      string            `json:"family"`
+	Id          string            `json:"id"`
+	Name        string            `json:"name"`
 	Parameter   []Parameter       `json:"parameter"`
 }
 

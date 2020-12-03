@@ -52,18 +52,18 @@ type DocdbClusterInstanceSpec struct {
 
 // A DocdbClusterInstanceParameters defines the desired state of a DocdbClusterInstance
 type DocdbClusterInstanceParameters struct {
-	ApplyImmediately           bool              `json:"apply_immediately"`
-	Identifier                 string            `json:"identifier"`
-	InstanceClass              string            `json:"instance_class"`
-	AutoMinorVersionUpgrade    bool              `json:"auto_minor_version_upgrade"`
-	CaCertIdentifier           string            `json:"ca_cert_identifier"`
-	Id                         string            `json:"id"`
-	PromotionTier              int               `json:"promotion_tier"`
-	ClusterIdentifier          string            `json:"cluster_identifier"`
-	Engine                     string            `json:"engine"`
 	IdentifierPrefix           string            `json:"identifier_prefix"`
-	Tags                       map[string]string `json:"tags"`
+	ApplyImmediately           bool              `json:"apply_immediately"`
 	AvailabilityZone           string            `json:"availability_zone"`
+	CaCertIdentifier           string            `json:"ca_cert_identifier"`
+	PromotionTier              int               `json:"promotion_tier"`
+	Engine                     string            `json:"engine"`
+	Identifier                 string            `json:"identifier"`
+	AutoMinorVersionUpgrade    bool              `json:"auto_minor_version_upgrade"`
+	InstanceClass              string            `json:"instance_class"`
+	Tags                       map[string]string `json:"tags"`
+	ClusterIdentifier          string            `json:"cluster_identifier"`
+	Id                         string            `json:"id"`
 	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
 	Timeouts                   []Timeouts        `json:"timeouts"`
 }
@@ -82,15 +82,15 @@ type DocdbClusterInstanceStatus struct {
 
 // A DocdbClusterInstanceObservation records the observed state of a DocdbClusterInstance
 type DocdbClusterInstanceObservation struct {
-	Port                  int    `json:"port"`
-	DbiResourceId         string `json:"dbi_resource_id"`
-	KmsKeyId              string `json:"kms_key_id"`
-	PreferredBackupWindow string `json:"preferred_backup_window"`
-	StorageEncrypted      bool   `json:"storage_encrypted"`
 	DbSubnetGroupName     string `json:"db_subnet_group_name"`
 	Endpoint              string `json:"endpoint"`
-	Arn                   string `json:"arn"`
-	EngineVersion         string `json:"engine_version"`
 	PubliclyAccessible    bool   `json:"publicly_accessible"`
+	EngineVersion         string `json:"engine_version"`
+	KmsKeyId              string `json:"kms_key_id"`
+	Port                  int    `json:"port"`
+	DbiResourceId         string `json:"dbi_resource_id"`
+	StorageEncrypted      bool   `json:"storage_encrypted"`
 	Writer                bool   `json:"writer"`
+	Arn                   string `json:"arn"`
+	PreferredBackupWindow string `json:"preferred_backup_window"`
 }

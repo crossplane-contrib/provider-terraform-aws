@@ -52,40 +52,40 @@ type StoragegatewayNfsFileShareSpec struct {
 
 // A StoragegatewayNfsFileShareParameters defines the desired state of a StoragegatewayNfsFileShare
 type StoragegatewayNfsFileShareParameters struct {
-	DefaultStorageClass  string               `json:"default_storage_class"`
-	GatewayArn           string               `json:"gateway_arn"`
-	ObjectAcl            string               `json:"object_acl"`
-	Tags                 map[string]string    `json:"tags"`
 	ClientList           []string             `json:"client_list"`
-	KmsEncrypted         bool                 `json:"kms_encrypted"`
-	LocationArn          string               `json:"location_arn"`
+	GuessMimeTypeEnabled bool                 `json:"guess_mime_type_enabled"`
 	RequesterPays        bool                 `json:"requester_pays"`
 	RoleArn              string               `json:"role_arn"`
-	Squash               string               `json:"squash"`
-	GuessMimeTypeEnabled bool                 `json:"guess_mime_type_enabled"`
-	Id                   string               `json:"id"`
-	KmsKeyArn            string               `json:"kms_key_arn"`
+	LocationArn          string               `json:"location_arn"`
+	ObjectAcl            string               `json:"object_acl"`
 	ReadOnly             bool                 `json:"read_only"`
-	CacheAttributes      CacheAttributes      `json:"cache_attributes"`
+	Squash               string               `json:"squash"`
+	Tags                 map[string]string    `json:"tags"`
+	GatewayArn           string               `json:"gateway_arn"`
+	Id                   string               `json:"id"`
+	DefaultStorageClass  string               `json:"default_storage_class"`
+	KmsEncrypted         bool                 `json:"kms_encrypted"`
+	KmsKeyArn            string               `json:"kms_key_arn"`
 	NfsFileShareDefaults NfsFileShareDefaults `json:"nfs_file_share_defaults"`
 	Timeouts             []Timeouts           `json:"timeouts"`
-}
-
-type CacheAttributes struct {
-	CacheStaleTimeoutInSeconds int `json:"cache_stale_timeout_in_seconds"`
+	CacheAttributes      CacheAttributes      `json:"cache_attributes"`
 }
 
 type NfsFileShareDefaults struct {
-	OwnerId       int    `json:"owner_id"`
 	DirectoryMode string `json:"directory_mode"`
 	FileMode      string `json:"file_mode"`
 	GroupId       int    `json:"group_id"`
+	OwnerId       int    `json:"owner_id"`
 }
 
 type Timeouts struct {
 	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+}
+
+type CacheAttributes struct {
+	CacheStaleTimeoutInSeconds int `json:"cache_stale_timeout_in_seconds"`
 }
 
 // A StoragegatewayNfsFileShareStatus defines the observed state of a StoragegatewayNfsFileShare
@@ -96,7 +96,7 @@ type StoragegatewayNfsFileShareStatus struct {
 
 // A StoragegatewayNfsFileShareObservation records the observed state of a StoragegatewayNfsFileShare
 type StoragegatewayNfsFileShareObservation struct {
+	Path        string `json:"path"`
 	Arn         string `json:"arn"`
 	FileshareId string `json:"fileshare_id"`
-	Path        string `json:"path"`
 }

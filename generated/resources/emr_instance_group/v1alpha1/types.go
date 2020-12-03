@@ -52,23 +52,23 @@ type EmrInstanceGroupSpec struct {
 
 // A EmrInstanceGroupParameters defines the desired state of a EmrInstanceGroup
 type EmrInstanceGroupParameters struct {
+	ClusterId          string      `json:"cluster_id"`
 	Id                 string      `json:"id"`
-	InstanceCount      int         `json:"instance_count"`
 	InstanceType       string      `json:"instance_type"`
-	Name               string      `json:"name"`
+	AutoscalingPolicy  string      `json:"autoscaling_policy"`
 	BidPrice           string      `json:"bid_price"`
 	ConfigurationsJson string      `json:"configurations_json"`
 	EbsOptimized       bool        `json:"ebs_optimized"`
-	AutoscalingPolicy  string      `json:"autoscaling_policy"`
-	ClusterId          string      `json:"cluster_id"`
+	InstanceCount      int         `json:"instance_count"`
+	Name               string      `json:"name"`
 	EbsConfig          []EbsConfig `json:"ebs_config"`
 }
 
 type EbsConfig struct {
+	Type               string `json:"type"`
 	VolumesPerInstance int    `json:"volumes_per_instance"`
 	Iops               int    `json:"iops"`
 	Size               int    `json:"size"`
-	Type               string `json:"type"`
 }
 
 // A EmrInstanceGroupStatus defines the observed state of a EmrInstanceGroup

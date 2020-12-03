@@ -52,29 +52,29 @@ type Apigatewayv2ApiSpec struct {
 
 // A Apigatewayv2ApiParameters defines the desired state of a Apigatewayv2Api
 type Apigatewayv2ApiParameters struct {
-	CredentialsArn            string            `json:"credentials_arn"`
-	RouteKey                  string            `json:"route_key"`
-	RouteSelectionExpression  string            `json:"route_selection_expression"`
-	Version                   string            `json:"version"`
-	Body                      string            `json:"body"`
-	Id                        string            `json:"id"`
-	Tags                      map[string]string `json:"tags"`
-	DisableExecuteApiEndpoint bool              `json:"disable_execute_api_endpoint"`
-	Name                      string            `json:"name"`
 	ProtocolType              string            `json:"protocol_type"`
+	Target                    string            `json:"target"`
 	ApiKeySelectionExpression string            `json:"api_key_selection_expression"`
 	Description               string            `json:"description"`
-	Target                    string            `json:"target"`
+	Tags                      map[string]string `json:"tags"`
+	CredentialsArn            string            `json:"credentials_arn"`
+	Name                      string            `json:"name"`
+	RouteKey                  string            `json:"route_key"`
+	Version                   string            `json:"version"`
+	DisableExecuteApiEndpoint bool              `json:"disable_execute_api_endpoint"`
+	Id                        string            `json:"id"`
+	RouteSelectionExpression  string            `json:"route_selection_expression"`
+	Body                      string            `json:"body"`
 	CorsConfiguration         CorsConfiguration `json:"cors_configuration"`
 }
 
 type CorsConfiguration struct {
-	AllowCredentials bool     `json:"allow_credentials"`
-	AllowHeaders     []string `json:"allow_headers"`
 	AllowMethods     []string `json:"allow_methods"`
 	AllowOrigins     []string `json:"allow_origins"`
 	ExposeHeaders    []string `json:"expose_headers"`
 	MaxAge           int      `json:"max_age"`
+	AllowCredentials bool     `json:"allow_credentials"`
+	AllowHeaders     []string `json:"allow_headers"`
 }
 
 // A Apigatewayv2ApiStatus defines the observed state of a Apigatewayv2Api

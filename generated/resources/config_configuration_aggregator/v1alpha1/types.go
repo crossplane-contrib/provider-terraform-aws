@@ -52,9 +52,9 @@ type ConfigConfigurationAggregatorSpec struct {
 
 // A ConfigConfigurationAggregatorParameters defines the desired state of a ConfigConfigurationAggregator
 type ConfigConfigurationAggregatorParameters struct {
-	Tags                          map[string]string             `json:"tags"`
 	Id                            string                        `json:"id"`
 	Name                          string                        `json:"name"`
+	Tags                          map[string]string             `json:"tags"`
 	AccountAggregationSource      AccountAggregationSource      `json:"account_aggregation_source"`
 	OrganizationAggregationSource OrganizationAggregationSource `json:"organization_aggregation_source"`
 }

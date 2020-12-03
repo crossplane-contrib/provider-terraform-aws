@@ -54,13 +54,13 @@ type Apigatewayv2StageSpec struct {
 type Apigatewayv2StageParameters struct {
 	Name                 string               `json:"name"`
 	StageVariables       map[string]string    `json:"stage_variables"`
-	AutoDeploy           bool                 `json:"auto_deploy"`
-	DeploymentId         string               `json:"deployment_id"`
-	Id                   string               `json:"id"`
-	Tags                 map[string]string    `json:"tags"`
 	ApiId                string               `json:"api_id"`
+	AutoDeploy           bool                 `json:"auto_deploy"`
 	ClientCertificateId  string               `json:"client_certificate_id"`
+	DeploymentId         string               `json:"deployment_id"`
 	Description          string               `json:"description"`
+	Tags                 map[string]string    `json:"tags"`
+	Id                   string               `json:"id"`
 	AccessLogSettings    AccessLogSettings    `json:"access_log_settings"`
 	DefaultRouteSettings DefaultRouteSettings `json:"default_route_settings"`
 	RouteSettings        []RouteSettings      `json:"route_settings"`
@@ -72,20 +72,20 @@ type AccessLogSettings struct {
 }
 
 type DefaultRouteSettings struct {
-	ThrottlingBurstLimit   int    `json:"throttling_burst_limit"`
-	ThrottlingRateLimit    int    `json:"throttling_rate_limit"`
 	DataTraceEnabled       bool   `json:"data_trace_enabled"`
 	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
 	LoggingLevel           string `json:"logging_level"`
+	ThrottlingBurstLimit   int    `json:"throttling_burst_limit"`
+	ThrottlingRateLimit    int    `json:"throttling_rate_limit"`
 }
 
 type RouteSettings struct {
+	DataTraceEnabled       bool   `json:"data_trace_enabled"`
+	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
 	LoggingLevel           string `json:"logging_level"`
 	RouteKey               string `json:"route_key"`
 	ThrottlingBurstLimit   int    `json:"throttling_burst_limit"`
 	ThrottlingRateLimit    int    `json:"throttling_rate_limit"`
-	DataTraceEnabled       bool   `json:"data_trace_enabled"`
-	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
 }
 
 // A Apigatewayv2StageStatus defines the observed state of a Apigatewayv2Stage
@@ -96,7 +96,7 @@ type Apigatewayv2StageStatus struct {
 
 // A Apigatewayv2StageObservation records the observed state of a Apigatewayv2Stage
 type Apigatewayv2StageObservation struct {
+	InvokeUrl    string `json:"invoke_url"`
 	Arn          string `json:"arn"`
 	ExecutionArn string `json:"execution_arn"`
-	InvokeUrl    string `json:"invoke_url"`
 }

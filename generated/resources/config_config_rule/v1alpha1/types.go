@@ -52,21 +52,14 @@ type ConfigConfigRuleSpec struct {
 
 // A ConfigConfigRuleParameters defines the desired state of a ConfigConfigRule
 type ConfigConfigRuleParameters struct {
-	Description               string            `json:"description"`
-	Id                        string            `json:"id"`
-	InputParameters           string            `json:"input_parameters"`
 	MaximumExecutionFrequency string            `json:"maximum_execution_frequency"`
 	Name                      string            `json:"name"`
 	Tags                      map[string]string `json:"tags"`
-	Scope                     Scope             `json:"scope"`
+	Description               string            `json:"description"`
+	Id                        string            `json:"id"`
+	InputParameters           string            `json:"input_parameters"`
 	Source                    Source            `json:"source"`
-}
-
-type Scope struct {
-	ComplianceResourceId    string   `json:"compliance_resource_id"`
-	ComplianceResourceTypes []string `json:"compliance_resource_types"`
-	TagKey                  string   `json:"tag_key"`
-	TagValue                string   `json:"tag_value"`
+	Scope                     Scope             `json:"scope"`
 }
 
 type Source struct {
@@ -81,6 +74,13 @@ type SourceDetail struct {
 	MessageType               string `json:"message_type"`
 }
 
+type Scope struct {
+	ComplianceResourceId    string   `json:"compliance_resource_id"`
+	ComplianceResourceTypes []string `json:"compliance_resource_types"`
+	TagKey                  string   `json:"tag_key"`
+	TagValue                string   `json:"tag_value"`
+}
+
 // A ConfigConfigRuleStatus defines the observed state of a ConfigConfigRule
 type ConfigConfigRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -89,6 +89,6 @@ type ConfigConfigRuleStatus struct {
 
 // A ConfigConfigRuleObservation records the observed state of a ConfigConfigRule
 type ConfigConfigRuleObservation struct {
-	Arn    string `json:"arn"`
 	RuleId string `json:"rule_id"`
+	Arn    string `json:"arn"`
 }

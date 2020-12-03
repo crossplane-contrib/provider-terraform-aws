@@ -52,9 +52,9 @@ type DaxParameterGroupSpec struct {
 
 // A DaxParameterGroupParameters defines the desired state of a DaxParameterGroup
 type DaxParameterGroupParameters struct {
-	Description string       `json:"description"`
 	Id          string       `json:"id"`
 	Name        string       `json:"name"`
+	Description string       `json:"description"`
 	Parameters  []Parameters `json:"parameters"`
 }
 

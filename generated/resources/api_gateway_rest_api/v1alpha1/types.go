@@ -52,15 +52,15 @@ type ApiGatewayRestApiSpec struct {
 
 // A ApiGatewayRestApiParameters defines the desired state of a ApiGatewayRestApi
 type ApiGatewayRestApiParameters struct {
-	MinimumCompressionSize int                   `json:"minimum_compression_size"`
-	Policy                 string                `json:"policy"`
-	Tags                   map[string]string     `json:"tags"`
-	ApiKeySource           string                `json:"api_key_source"`
-	BinaryMediaTypes       []string              `json:"binary_media_types"`
 	Id                     string                `json:"id"`
+	MinimumCompressionSize int                   `json:"minimum_compression_size"`
 	Name                   string                `json:"name"`
+	Policy                 string                `json:"policy"`
 	Body                   string                `json:"body"`
 	Description            string                `json:"description"`
+	BinaryMediaTypes       []string              `json:"binary_media_types"`
+	Tags                   map[string]string     `json:"tags"`
+	ApiKeySource           string                `json:"api_key_source"`
 	EndpointConfiguration  EndpointConfiguration `json:"endpoint_configuration"`
 }
 
@@ -77,8 +77,8 @@ type ApiGatewayRestApiStatus struct {
 
 // A ApiGatewayRestApiObservation records the observed state of a ApiGatewayRestApi
 type ApiGatewayRestApiObservation struct {
-	Arn            string `json:"arn"`
 	ExecutionArn   string `json:"execution_arn"`
 	RootResourceId string `json:"root_resource_id"`
 	CreatedDate    string `json:"created_date"`
+	Arn            string `json:"arn"`
 }

@@ -52,13 +52,13 @@ type Ec2FleetSpec struct {
 
 // A Ec2FleetParameters defines the desired state of a Ec2Fleet
 type Ec2FleetParameters struct {
+	TerminateInstancesWithExpiration bool                        `json:"terminate_instances_with_expiration"`
+	Type                             string                      `json:"type"`
+	ExcessCapacityTerminationPolicy  string                      `json:"excess_capacity_termination_policy"`
 	Id                               string                      `json:"id"`
 	ReplaceUnhealthyInstances        bool                        `json:"replace_unhealthy_instances"`
 	Tags                             map[string]string           `json:"tags"`
 	TerminateInstances               bool                        `json:"terminate_instances"`
-	TerminateInstancesWithExpiration bool                        `json:"terminate_instances_with_expiration"`
-	Type                             string                      `json:"type"`
-	ExcessCapacityTerminationPolicy  string                      `json:"excess_capacity_termination_policy"`
 	SpotOptions                      SpotOptions                 `json:"spot_options"`
 	TargetCapacitySpecification      TargetCapacitySpecification `json:"target_capacity_specification"`
 	Timeouts                         []Timeouts                  `json:"timeouts"`
@@ -73,16 +73,16 @@ type SpotOptions struct {
 }
 
 type TargetCapacitySpecification struct {
-	DefaultTargetCapacityType string `json:"default_target_capacity_type"`
-	OnDemandTargetCapacity    int    `json:"on_demand_target_capacity"`
 	SpotTargetCapacity        int    `json:"spot_target_capacity"`
 	TotalTargetCapacity       int    `json:"total_target_capacity"`
+	DefaultTargetCapacityType string `json:"default_target_capacity_type"`
+	OnDemandTargetCapacity    int    `json:"on_demand_target_capacity"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 type LaunchTemplateConfig struct {
@@ -97,12 +97,12 @@ type LaunchTemplateSpecification struct {
 }
 
 type Override struct {
-	AvailabilityZone string `json:"availability_zone"`
-	InstanceType     string `json:"instance_type"`
-	MaxPrice         string `json:"max_price"`
 	Priority         int    `json:"priority"`
 	SubnetId         string `json:"subnet_id"`
 	WeightedCapacity int    `json:"weighted_capacity"`
+	AvailabilityZone string `json:"availability_zone"`
+	InstanceType     string `json:"instance_type"`
+	MaxPrice         string `json:"max_price"`
 }
 
 type OnDemandOptions struct {

@@ -71,6 +71,6 @@ type DatasyncLocationS3Status struct {
 
 // A DatasyncLocationS3Observation records the observed state of a DatasyncLocationS3
 type DatasyncLocationS3Observation struct {
-	Uri string `json:"uri"`
 	Arn string `json:"arn"`
+	Uri string `json:"uri"`
 }

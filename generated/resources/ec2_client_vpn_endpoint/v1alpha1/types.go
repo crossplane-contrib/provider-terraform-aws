@@ -52,29 +52,29 @@ type Ec2ClientVpnEndpointSpec struct {
 
 // A Ec2ClientVpnEndpointParameters defines the desired state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointParameters struct {
-	ClientCidrBlock       string                  `json:"client_cidr_block"`
+	DnsServers            []string                `json:"dns_servers"`
 	Id                    string                  `json:"id"`
 	ServerCertificateArn  string                  `json:"server_certificate_arn"`
-	SplitTunnel           bool                    `json:"split_tunnel"`
 	Tags                  map[string]string       `json:"tags"`
-	DnsServers            []string                `json:"dns_servers"`
+	SplitTunnel           bool                    `json:"split_tunnel"`
 	TransportProtocol     string                  `json:"transport_protocol"`
+	ClientCidrBlock       string                  `json:"client_cidr_block"`
 	Description           string                  `json:"description"`
-	ConnectionLogOptions  ConnectionLogOptions    `json:"connection_log_options"`
 	AuthenticationOptions []AuthenticationOptions `json:"authentication_options"`
+	ConnectionLogOptions  ConnectionLogOptions    `json:"connection_log_options"`
+}
+
+type AuthenticationOptions struct {
+	SamlProviderArn         string `json:"saml_provider_arn"`
+	Type                    string `json:"type"`
+	ActiveDirectoryId       string `json:"active_directory_id"`
+	RootCertificateChainArn string `json:"root_certificate_chain_arn"`
 }
 
 type ConnectionLogOptions struct {
 	CloudwatchLogGroup  string `json:"cloudwatch_log_group"`
 	CloudwatchLogStream string `json:"cloudwatch_log_stream"`
 	Enabled             bool   `json:"enabled"`
-}
-
-type AuthenticationOptions struct {
-	ActiveDirectoryId       string `json:"active_directory_id"`
-	RootCertificateChainArn string `json:"root_certificate_chain_arn"`
-	SamlProviderArn         string `json:"saml_provider_arn"`
-	Type                    string `json:"type"`
 }
 
 // A Ec2ClientVpnEndpointStatus defines the observed state of a Ec2ClientVpnEndpoint

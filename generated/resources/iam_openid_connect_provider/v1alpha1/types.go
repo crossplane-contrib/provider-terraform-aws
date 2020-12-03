@@ -52,10 +52,10 @@ type IamOpenidConnectProviderSpec struct {
 
 // A IamOpenidConnectProviderParameters defines the desired state of a IamOpenidConnectProvider
 type IamOpenidConnectProviderParameters struct {
-	ClientIdList   []string `json:"client_id_list"`
 	Id             string   `json:"id"`
 	ThumbprintList []string `json:"thumbprint_list"`
 	Url            string   `json:"url"`
+	ClientIdList   []string `json:"client_id_list"`
 }
 
 // A IamOpenidConnectProviderStatus defines the observed state of a IamOpenidConnectProvider

@@ -65,6 +65,6 @@ type IamGroupStatus struct {
 
 // A IamGroupObservation records the observed state of a IamGroup
 type IamGroupObservation struct {
-	Arn      string `json:"arn"`
 	UniqueId string `json:"unique_id"`
+	Arn      string `json:"arn"`
 }

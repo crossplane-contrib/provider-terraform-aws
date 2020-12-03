@@ -52,27 +52,27 @@ type ElasticBeanstalkEnvironmentSpec struct {
 
 // A ElasticBeanstalkEnvironmentParameters defines the desired state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentParameters struct {
+	Application         string            `json:"application"`
 	CnamePrefix         string            `json:"cname_prefix"`
-	PollInterval        string            `json:"poll_interval"`
-	Tier                string            `json:"tier"`
-	Name                string            `json:"name"`
 	VersionLabel        string            `json:"version_label"`
 	WaitForReadyTimeout string            `json:"wait_for_ready_timeout"`
-	Description         string            `json:"description"`
-	Tags                map[string]string `json:"tags"`
-	TemplateName        string            `json:"template_name"`
-	Application         string            `json:"application"`
 	SolutionStackName   string            `json:"solution_stack_name"`
-	PlatformArn         string            `json:"platform_arn"`
+	Tags                map[string]string `json:"tags"`
+	Description         string            `json:"description"`
 	Id                  string            `json:"id"`
+	Name                string            `json:"name"`
+	PlatformArn         string            `json:"platform_arn"`
+	PollInterval        string            `json:"poll_interval"`
+	TemplateName        string            `json:"template_name"`
+	Tier                string            `json:"tier"`
 	Setting             []Setting         `json:"setting"`
 }
 
 type Setting struct {
-	Name      string `json:"name"`
-	Namespace string `json:"namespace"`
 	Resource  string `json:"resource"`
 	Value     string `json:"value"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
 }
 
 // A ElasticBeanstalkEnvironmentStatus defines the observed state of a ElasticBeanstalkEnvironment
@@ -83,21 +83,21 @@ type ElasticBeanstalkEnvironmentStatus struct {
 
 // A ElasticBeanstalkEnvironmentObservation records the observed state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentObservation struct {
+	Cname                string        `json:"cname"`
+	EndpointUrl          string        `json:"endpoint_url"`
+	LaunchConfigurations []string      `json:"launch_configurations"`
+	LoadBalancers        []string      `json:"load_balancers"`
 	Arn                  string        `json:"arn"`
 	AutoscalingGroups    []string      `json:"autoscaling_groups"`
-	Cname                string        `json:"cname"`
-	Queues               []string      `json:"queues"`
-	AllSettings          []AllSettings `json:"all_settings"`
-	LoadBalancers        []string      `json:"load_balancers"`
-	LaunchConfigurations []string      `json:"launch_configurations"`
 	Triggers             []string      `json:"triggers"`
-	EndpointUrl          string        `json:"endpoint_url"`
+	AllSettings          []AllSettings `json:"all_settings"`
 	Instances            []string      `json:"instances"`
+	Queues               []string      `json:"queues"`
 }
 
 type AllSettings struct {
-	Name      string `json:"name"`
-	Namespace string `json:"namespace"`
 	Resource  string `json:"resource"`
 	Value     string `json:"value"`
+	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
 }

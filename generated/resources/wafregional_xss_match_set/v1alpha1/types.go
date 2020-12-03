@@ -63,8 +63,8 @@ type XssMatchTuple struct {
 }
 
 type FieldToMatch struct {
-	Type string `json:"type"`
 	Data string `json:"data"`
+	Type string `json:"type"`
 }
 
 // A WafregionalXssMatchSetStatus defines the observed state of a WafregionalXssMatchSet

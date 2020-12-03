@@ -52,18 +52,18 @@ type VpcPeeringConnectionAccepterSpec struct {
 
 // A VpcPeeringConnectionAccepterParameters defines the desired state of a VpcPeeringConnectionAccepter
 type VpcPeeringConnectionAccepterParameters struct {
-	AutoAccept             bool              `json:"auto_accept"`
+	VpcPeeringConnectionId string            `json:"vpc_peering_connection_id"`
 	Id                     string            `json:"id"`
 	Tags                   map[string]string `json:"tags"`
-	VpcPeeringConnectionId string            `json:"vpc_peering_connection_id"`
+	AutoAccept             bool              `json:"auto_accept"`
 	Accepter               Accepter          `json:"accepter"`
 	Requester              Requester         `json:"requester"`
 }
 
 type Accepter struct {
+	AllowVpcToRemoteClassicLink bool `json:"allow_vpc_to_remote_classic_link"`
 	AllowClassicLinkToRemoteVpc bool `json:"allow_classic_link_to_remote_vpc"`
 	AllowRemoteVpcDnsResolution bool `json:"allow_remote_vpc_dns_resolution"`
-	AllowVpcToRemoteClassicLink bool `json:"allow_vpc_to_remote_classic_link"`
 }
 
 type Requester struct {
@@ -80,9 +80,9 @@ type VpcPeeringConnectionAccepterStatus struct {
 
 // A VpcPeeringConnectionAccepterObservation records the observed state of a VpcPeeringConnectionAccepter
 type VpcPeeringConnectionAccepterObservation struct {
-	AcceptStatus string `json:"accept_status"`
 	PeerOwnerId  string `json:"peer_owner_id"`
-	PeerRegion   string `json:"peer_region"`
-	PeerVpcId    string `json:"peer_vpc_id"`
 	VpcId        string `json:"vpc_id"`
+	AcceptStatus string `json:"accept_status"`
+	PeerVpcId    string `json:"peer_vpc_id"`
+	PeerRegion   string `json:"peer_region"`
 }

@@ -58,8 +58,8 @@ type WafregionalIpsetParameters struct {
 }
 
 type IpSetDescriptor struct {
-	Value string `json:"value"`
 	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
 // A WafregionalIpsetStatus defines the observed state of a WafregionalIpset

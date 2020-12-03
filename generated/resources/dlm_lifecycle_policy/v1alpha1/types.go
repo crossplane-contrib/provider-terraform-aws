@@ -61,15 +61,15 @@ type DlmLifecyclePolicyParameters struct {
 }
 
 type PolicyDetails struct {
-	ResourceTypes []string          `json:"resource_types"`
 	TargetTags    map[string]string `json:"target_tags"`
+	ResourceTypes []string          `json:"resource_types"`
 	Schedule      []Schedule        `json:"schedule"`
 }
 
 type Schedule struct {
+	TagsToAdd  map[string]string `json:"tags_to_add"`
 	CopyTags   bool              `json:"copy_tags"`
 	Name       string            `json:"name"`
-	TagsToAdd  map[string]string `json:"tags_to_add"`
 	CreateRule CreateRule        `json:"create_rule"`
 	RetainRule RetainRule        `json:"retain_rule"`
 }

@@ -52,8 +52,8 @@ type SesConfigurationSetSpec struct {
 
 // A SesConfigurationSetParameters defines the desired state of a SesConfigurationSet
 type SesConfigurationSetParameters struct {
-	Name string `json:"name"`
 	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // A SesConfigurationSetStatus defines the observed state of a SesConfigurationSet

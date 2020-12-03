@@ -52,38 +52,38 @@ type OpsworksStaticWebLayerSpec struct {
 
 // A OpsworksStaticWebLayerParameters defines the desired state of a OpsworksStaticWebLayer
 type OpsworksStaticWebLayerParameters struct {
-	AutoHealing              bool              `json:"auto_healing"`
 	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	Id                       string            `json:"id"`
-	Tags                     map[string]string `json:"tags"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	CustomJson               string            `json:"custom_json"`
 	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	Name                     string            `json:"name"`
-	SystemPackages           []string          `json:"system_packages"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
 	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	Name                     string            `json:"name"`
+	StackId                  string            `json:"stack_id"`
+	SystemPackages           []string          `json:"system_packages"`
+	CustomJson               string            `json:"custom_json"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	Tags                     map[string]string `json:"tags"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	Id                       string            `json:"id"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	AutoHealing              bool              `json:"auto_healing"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
 	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	StackId                  string            `json:"stack_id"`
 	EbsVolume                []EbsVolume       `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
+	NumberOfDisks int    `json:"number_of_disks"`
+	RaidLevel     string `json:"raid_level"`
+	Size          int    `json:"size"`
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
 	Iops          int    `json:"iops"`
 	MountPoint    string `json:"mount_point"`
-	NumberOfDisks int    `json:"number_of_disks"`
-	RaidLevel     string `json:"raid_level"`
-	Size          int    `json:"size"`
 }
 
 // A OpsworksStaticWebLayerStatus defines the observed state of a OpsworksStaticWebLayer

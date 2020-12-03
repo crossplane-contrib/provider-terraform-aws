@@ -60,10 +60,10 @@ type ElasticBeanstalkApplicationParameters struct {
 }
 
 type AppversionLifecycle struct {
+	DeleteSourceFromS3 bool   `json:"delete_source_from_s3"`
 	MaxAgeInDays       int    `json:"max_age_in_days"`
 	MaxCount           int    `json:"max_count"`
 	ServiceRole        string `json:"service_role"`
-	DeleteSourceFromS3 bool   `json:"delete_source_from_s3"`
 }
 
 // A ElasticBeanstalkApplicationStatus defines the observed state of a ElasticBeanstalkApplication

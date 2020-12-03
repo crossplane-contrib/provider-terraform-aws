@@ -61,9 +61,9 @@ type ServicecatalogPortfolioParameters struct {
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A ServicecatalogPortfolioStatus defines the observed state of a ServicecatalogPortfolio

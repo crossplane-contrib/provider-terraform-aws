@@ -52,39 +52,23 @@ type MqBrokerSpec struct {
 
 // A MqBrokerParameters defines the desired state of a MqBroker
 type MqBrokerParameters struct {
-	AutoMinorVersionUpgrade    bool                       `json:"auto_minor_version_upgrade"`
-	DeploymentMode             string                     `json:"deployment_mode"`
-	Tags                       map[string]string          `json:"tags"`
 	ApplyImmediately           bool                       `json:"apply_immediately"`
-	HostInstanceType           string                     `json:"host_instance_type"`
-	PubliclyAccessible         bool                       `json:"publicly_accessible"`
-	Id                         string                     `json:"id"`
-	SubnetIds                  []string                   `json:"subnet_ids"`
-	SecurityGroups             []string                   `json:"security_groups"`
 	BrokerName                 string                     `json:"broker_name"`
 	EngineType                 string                     `json:"engine_type"`
+	Tags                       map[string]string          `json:"tags"`
+	HostInstanceType           string                     `json:"host_instance_type"`
+	DeploymentMode             string                     `json:"deployment_mode"`
 	EngineVersion              string                     `json:"engine_version"`
+	PubliclyAccessible         bool                       `json:"publicly_accessible"`
+	SecurityGroups             []string                   `json:"security_groups"`
+	AutoMinorVersionUpgrade    bool                       `json:"auto_minor_version_upgrade"`
+	Id                         string                     `json:"id"`
+	SubnetIds                  []string                   `json:"subnet_ids"`
+	User                       []User                     `json:"user"`
+	Configuration              Configuration              `json:"configuration"`
 	EncryptionOptions          EncryptionOptions          `json:"encryption_options"`
 	Logs                       Logs                       `json:"logs"`
 	MaintenanceWindowStartTime MaintenanceWindowStartTime `json:"maintenance_window_start_time"`
-	User                       []User                     `json:"user"`
-	Configuration              Configuration              `json:"configuration"`
-}
-
-type EncryptionOptions struct {
-	KmsKeyId       string `json:"kms_key_id"`
-	UseAwsOwnedKey bool   `json:"use_aws_owned_key"`
-}
-
-type Logs struct {
-	Audit   bool `json:"audit"`
-	General bool `json:"general"`
-}
-
-type MaintenanceWindowStartTime struct {
-	TimeOfDay string `json:"time_of_day"`
-	TimeZone  string `json:"time_zone"`
-	DayOfWeek string `json:"day_of_week"`
 }
 
 type User struct {
@@ -99,6 +83,22 @@ type Configuration struct {
 	Revision int    `json:"revision"`
 }
 
+type EncryptionOptions struct {
+	KmsKeyId       string `json:"kms_key_id"`
+	UseAwsOwnedKey bool   `json:"use_aws_owned_key"`
+}
+
+type Logs struct {
+	Audit   bool `json:"audit"`
+	General bool `json:"general"`
+}
+
+type MaintenanceWindowStartTime struct {
+	DayOfWeek string `json:"day_of_week"`
+	TimeOfDay string `json:"time_of_day"`
+	TimeZone  string `json:"time_zone"`
+}
+
 // A MqBrokerStatus defines the observed state of a MqBroker
 type MqBrokerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -107,12 +107,12 @@ type MqBrokerStatus struct {
 
 // A MqBrokerObservation records the observed state of a MqBroker
 type MqBrokerObservation struct {
-	Arn       string      `json:"arn"`
 	Instances []Instances `json:"instances"`
+	Arn       string      `json:"arn"`
 }
 
 type Instances struct {
-	IpAddress  string   `json:"ip_address"`
 	ConsoleUrl string   `json:"console_url"`
 	Endpoints  []string `json:"endpoints"`
+	IpAddress  string   `json:"ip_address"`
 }

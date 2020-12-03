@@ -52,10 +52,10 @@ type DatasyncLocationEfsSpec struct {
 
 // A DatasyncLocationEfsParameters defines the desired state of a DatasyncLocationEfs
 type DatasyncLocationEfsParameters struct {
-	EfsFileSystemArn string            `json:"efs_file_system_arn"`
 	Id               string            `json:"id"`
 	Subdirectory     string            `json:"subdirectory"`
 	Tags             map[string]string `json:"tags"`
+	EfsFileSystemArn string            `json:"efs_file_system_arn"`
 	Ec2Config        Ec2Config         `json:"ec2_config"`
 }
 

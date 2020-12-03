@@ -52,13 +52,13 @@ type AppautoscalingTargetSpec struct {
 
 // A AppautoscalingTargetParameters defines the desired state of a AppautoscalingTarget
 type AppautoscalingTargetParameters struct {
-	MinCapacity       int    `json:"min_capacity"`
-	ResourceId        string `json:"resource_id"`
-	RoleArn           string `json:"role_arn"`
 	ScalableDimension string `json:"scalable_dimension"`
 	ServiceNamespace  string `json:"service_namespace"`
 	Id                string `json:"id"`
 	MaxCapacity       int    `json:"max_capacity"`
+	MinCapacity       int    `json:"min_capacity"`
+	ResourceId        string `json:"resource_id"`
+	RoleArn           string `json:"role_arn"`
 }
 
 // A AppautoscalingTargetStatus defines the observed state of a AppautoscalingTarget

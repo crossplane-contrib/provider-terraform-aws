@@ -52,11 +52,11 @@ type Wafv2RegexPatternSetSpec struct {
 
 // A Wafv2RegexPatternSetParameters defines the desired state of a Wafv2RegexPatternSet
 type Wafv2RegexPatternSetParameters struct {
-	Id                string              `json:"id"`
 	Name              string              `json:"name"`
 	Scope             string              `json:"scope"`
 	Tags              map[string]string   `json:"tags"`
 	Description       string              `json:"description"`
+	Id                string              `json:"id"`
 	RegularExpression []RegularExpression `json:"regular_expression"`
 }
 

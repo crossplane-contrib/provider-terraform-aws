@@ -52,28 +52,28 @@ type SagemakerModelSpec struct {
 
 // A SagemakerModelParameters defines the desired state of a SagemakerModel
 type SagemakerModelParameters struct {
+	Tags                   map[string]string `json:"tags"`
 	EnableNetworkIsolation bool              `json:"enable_network_isolation"`
 	ExecutionRoleArn       string            `json:"execution_role_arn"`
 	Id                     string            `json:"id"`
 	Name                   string            `json:"name"`
-	Tags                   map[string]string `json:"tags"`
 	Container              []Container       `json:"container"`
 	PrimaryContainer       PrimaryContainer  `json:"primary_container"`
 	VpcConfig              VpcConfig         `json:"vpc_config"`
 }
 
 type Container struct {
-	ModelDataUrl      string            `json:"model_data_url"`
 	ContainerHostname string            `json:"container_hostname"`
 	Environment       map[string]string `json:"environment"`
 	Image             string            `json:"image"`
+	ModelDataUrl      string            `json:"model_data_url"`
 }
 
 type PrimaryContainer struct {
-	Image             string            `json:"image"`
-	ModelDataUrl      string            `json:"model_data_url"`
 	ContainerHostname string            `json:"container_hostname"`
 	Environment       map[string]string `json:"environment"`
+	Image             string            `json:"image"`
+	ModelDataUrl      string            `json:"model_data_url"`
 }
 
 type VpcConfig struct {

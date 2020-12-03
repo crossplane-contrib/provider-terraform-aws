@@ -52,16 +52,16 @@ type StoragegatewayCachedIscsiVolumeSpec struct {
 
 // A StoragegatewayCachedIscsiVolumeParameters defines the desired state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeParameters struct {
-	GatewayArn         string            `json:"gateway_arn"`
-	SnapshotId         string            `json:"snapshot_id"`
-	Tags               map[string]string `json:"tags"`
-	TargetName         string            `json:"target_name"`
-	VolumeSizeInBytes  int               `json:"volume_size_in_bytes"`
-	KmsKey             string            `json:"kms_key"`
 	KmsEncrypted       bool              `json:"kms_encrypted"`
 	NetworkInterfaceId string            `json:"network_interface_id"`
+	TargetName         string            `json:"target_name"`
+	Tags               map[string]string `json:"tags"`
+	KmsKey             string            `json:"kms_key"`
+	SnapshotId         string            `json:"snapshot_id"`
+	GatewayArn         string            `json:"gateway_arn"`
 	Id                 string            `json:"id"`
 	SourceVolumeArn    string            `json:"source_volume_arn"`
+	VolumeSizeInBytes  int               `json:"volume_size_in_bytes"`
 }
 
 // A StoragegatewayCachedIscsiVolumeStatus defines the observed state of a StoragegatewayCachedIscsiVolume
@@ -72,11 +72,11 @@ type StoragegatewayCachedIscsiVolumeStatus struct {
 
 // A StoragegatewayCachedIscsiVolumeObservation records the observed state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeObservation struct {
+	LunNumber            int    `json:"lun_number"`
 	VolumeId             string `json:"volume_id"`
-	VolumeArn            string `json:"volume_arn"`
+	ChapEnabled          bool   `json:"chap_enabled"`
+	NetworkInterfacePort int    `json:"network_interface_port"`
 	TargetArn            string `json:"target_arn"`
 	Arn                  string `json:"arn"`
-	ChapEnabled          bool   `json:"chap_enabled"`
-	LunNumber            int    `json:"lun_number"`
-	NetworkInterfacePort int    `json:"network_interface_port"`
+	VolumeArn            string `json:"volume_arn"`
 }

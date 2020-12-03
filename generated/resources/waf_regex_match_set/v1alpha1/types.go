@@ -52,8 +52,8 @@ type WafRegexMatchSetSpec struct {
 
 // A WafRegexMatchSetParameters defines the desired state of a WafRegexMatchSet
 type WafRegexMatchSetParameters struct {
-	Name            string            `json:"name"`
 	Id              string            `json:"id"`
+	Name            string            `json:"name"`
 	RegexMatchTuple []RegexMatchTuple `json:"regex_match_tuple"`
 }
 

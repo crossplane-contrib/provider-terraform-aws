@@ -52,10 +52,10 @@ type MediaPackageChannelSpec struct {
 
 // A MediaPackageChannelParameters defines the desired state of a MediaPackageChannel
 type MediaPackageChannelParameters struct {
+	ChannelId   string            `json:"channel_id"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Tags        map[string]string `json:"tags"`
-	ChannelId   string            `json:"channel_id"`
 }
 
 // A MediaPackageChannelStatus defines the observed state of a MediaPackageChannel
@@ -66,8 +66,8 @@ type MediaPackageChannelStatus struct {
 
 // A MediaPackageChannelObservation records the observed state of a MediaPackageChannel
 type MediaPackageChannelObservation struct {
-	HlsIngest []HlsIngest `json:"hls_ingest"`
 	Arn       string      `json:"arn"`
+	HlsIngest []HlsIngest `json:"hls_ingest"`
 }
 
 type HlsIngest struct {
@@ -75,7 +75,7 @@ type HlsIngest struct {
 }
 
 type IngestEndpoints struct {
+	Url      string `json:"url"`
 	Username string `json:"username"`
 	Password string `json:"password"`
-	Url      string `json:"url"`
 }

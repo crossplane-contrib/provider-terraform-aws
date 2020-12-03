@@ -52,21 +52,21 @@ type SqsQueueSpec struct {
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
-	Policy                       string            `json:"policy"`
-	ReceiveWaitTimeSeconds       int               `json:"receive_wait_time_seconds"`
-	VisibilityTimeoutSeconds     int               `json:"visibility_timeout_seconds"`
-	DelaySeconds                 int               `json:"delay_seconds"`
-	Name                         string            `json:"name"`
-	NamePrefix                   string            `json:"name_prefix"`
-	Id                           string            `json:"id"`
-	KmsMasterKeyId               string            `json:"kms_master_key_id"`
-	Tags                         map[string]string `json:"tags"`
 	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
-	FifoQueue                    bool              `json:"fifo_queue"`
-	MaxMessageSize               int               `json:"max_message_size"`
+	KmsMasterKeyId               string            `json:"kms_master_key_id"`
+	Policy                       string            `json:"policy"`
 	RedrivePolicy                string            `json:"redrive_policy"`
-	KmsDataKeyReusePeriodSeconds int               `json:"kms_data_key_reuse_period_seconds"`
+	DelaySeconds                 int               `json:"delay_seconds"`
+	MaxMessageSize               int               `json:"max_message_size"`
 	MessageRetentionSeconds      int               `json:"message_retention_seconds"`
+	ReceiveWaitTimeSeconds       int               `json:"receive_wait_time_seconds"`
+	NamePrefix                   string            `json:"name_prefix"`
+	Tags                         map[string]string `json:"tags"`
+	VisibilityTimeoutSeconds     int               `json:"visibility_timeout_seconds"`
+	FifoQueue                    bool              `json:"fifo_queue"`
+	Id                           string            `json:"id"`
+	KmsDataKeyReusePeriodSeconds int               `json:"kms_data_key_reuse_period_seconds"`
+	Name                         string            `json:"name"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue

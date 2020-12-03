@@ -52,16 +52,16 @@ type GameliftFleetSpec struct {
 
 // A GameliftFleetParameters defines the desired state of a GameliftFleet
 type GameliftFleetParameters struct {
+	Name                           string                      `json:"name"`
+	Tags                           map[string]string           `json:"tags"`
 	BuildId                        string                      `json:"build_id"`
 	Ec2InstanceType                string                      `json:"ec2_instance_type"`
-	Id                             string                      `json:"id"`
-	InstanceRoleArn                string                      `json:"instance_role_arn"`
-	Description                    string                      `json:"description"`
 	FleetType                      string                      `json:"fleet_type"`
+	InstanceRoleArn                string                      `json:"instance_role_arn"`
 	MetricGroups                   []string                    `json:"metric_groups"`
-	Name                           string                      `json:"name"`
 	NewGameSessionProtectionPolicy string                      `json:"new_game_session_protection_policy"`
-	Tags                           map[string]string           `json:"tags"`
+	Description                    string                      `json:"description"`
+	Id                             string                      `json:"id"`
 	RuntimeConfiguration           RuntimeConfiguration        `json:"runtime_configuration"`
 	Timeouts                       []Timeouts                  `json:"timeouts"`
 	Ec2InboundPermission           []Ec2InboundPermission      `json:"ec2_inbound_permission"`
@@ -86,10 +86,10 @@ type Timeouts struct {
 }
 
 type Ec2InboundPermission struct {
-	Protocol string `json:"protocol"`
-	ToPort   int    `json:"to_port"`
 	FromPort int    `json:"from_port"`
 	IpRange  string `json:"ip_range"`
+	Protocol string `json:"protocol"`
+	ToPort   int    `json:"to_port"`
 }
 
 type ResourceCreationLimitPolicy struct {
@@ -105,7 +105,7 @@ type GameliftFleetStatus struct {
 
 // A GameliftFleetObservation records the observed state of a GameliftFleet
 type GameliftFleetObservation struct {
-	Arn             string   `json:"arn"`
-	OperatingSystem string   `json:"operating_system"`
 	LogPaths        []string `json:"log_paths"`
+	OperatingSystem string   `json:"operating_system"`
+	Arn             string   `json:"arn"`
 }

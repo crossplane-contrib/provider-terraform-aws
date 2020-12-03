@@ -52,11 +52,11 @@ type ApiGatewayRequestValidatorSpec struct {
 
 // A ApiGatewayRequestValidatorParameters defines the desired state of a ApiGatewayRequestValidator
 type ApiGatewayRequestValidatorParameters struct {
-	ValidateRequestBody       bool   `json:"validate_request_body"`
-	ValidateRequestParameters bool   `json:"validate_request_parameters"`
 	Id                        string `json:"id"`
 	Name                      string `json:"name"`
 	RestApiId                 string `json:"rest_api_id"`
+	ValidateRequestBody       bool   `json:"validate_request_body"`
+	ValidateRequestParameters bool   `json:"validate_request_parameters"`
 }
 
 // A ApiGatewayRequestValidatorStatus defines the observed state of a ApiGatewayRequestValidator

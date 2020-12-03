@@ -52,9 +52,9 @@ type GuarddutyOrganizationConfigurationSpec struct {
 
 // A GuarddutyOrganizationConfigurationParameters defines the desired state of a GuarddutyOrganizationConfiguration
 type GuarddutyOrganizationConfigurationParameters struct {
-	Id         string `json:"id"`
 	AutoEnable bool   `json:"auto_enable"`
 	DetectorId string `json:"detector_id"`
+	Id         string `json:"id"`
 }
 
 // A GuarddutyOrganizationConfigurationStatus defines the observed state of a GuarddutyOrganizationConfiguration

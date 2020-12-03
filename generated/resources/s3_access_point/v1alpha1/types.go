@@ -80,8 +80,8 @@ type S3AccessPointStatus struct {
 
 // A S3AccessPointObservation records the observed state of a S3AccessPoint
 type S3AccessPointObservation struct {
-	Arn                   string `json:"arn"`
-	DomainName            string `json:"domain_name"`
 	HasPublicAccessPolicy bool   `json:"has_public_access_policy"`
 	NetworkOrigin         string `json:"network_origin"`
+	Arn                   string `json:"arn"`
+	DomainName            string `json:"domain_name"`
 }

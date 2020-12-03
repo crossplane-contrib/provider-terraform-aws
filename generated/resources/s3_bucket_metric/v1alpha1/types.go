@@ -52,15 +52,15 @@ type S3BucketMetricSpec struct {
 
 // A S3BucketMetricParameters defines the desired state of a S3BucketMetric
 type S3BucketMetricParameters struct {
+	Bucket string `json:"bucket"`
 	Id     string `json:"id"`
 	Name   string `json:"name"`
-	Bucket string `json:"bucket"`
 	Filter Filter `json:"filter"`
 }
 
 type Filter struct {
-	Prefix string            `json:"prefix"`
 	Tags   map[string]string `json:"tags"`
+	Prefix string            `json:"prefix"`
 }
 
 // A S3BucketMetricStatus defines the observed state of a S3BucketMetric
