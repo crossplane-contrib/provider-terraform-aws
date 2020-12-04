@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeOpsworksUserProfile(r OpsworksUserProfile) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeOpsworksUserProfile(r OpsworksUserProfile) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeOpsworksUserProfile_SshPublicKey(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksUserProfile_SshUsername(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_UserArn(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_AllowSelfManagement(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_Id(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksUserProfile_SshPublicKey(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksUserProfile_SshUsername(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeOpsworksUserProfile_UserArn(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	vals["user_arn"] = cty.StringVal(p.UserArn)
-}
-
-func EncodeOpsworksUserProfile_AllowSelfManagement(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	vals["allow_self_management"] = cty.BoolVal(p.AllowSelfManagement)
-}
-
-func EncodeOpsworksUserProfile_Id(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeOpsworksUserProfile_SshPublicKey(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
+func EncodeOpsworksUserProfile_SshPublicKey(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
 	vals["ssh_public_key"] = cty.StringVal(p.SshPublicKey)
 }
 
-func EncodeOpsworksUserProfile_SshUsername(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
+func EncodeOpsworksUserProfile_SshUsername(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
 	vals["ssh_username"] = cty.StringVal(p.SshUsername)
+}
+
+func EncodeOpsworksUserProfile_UserArn(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
+	vals["user_arn"] = cty.StringVal(p.UserArn)
+}
+
+func EncodeOpsworksUserProfile_AllowSelfManagement(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
+	vals["allow_self_management"] = cty.BoolVal(p.AllowSelfManagement)
+}
+
+func EncodeOpsworksUserProfile_Id(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

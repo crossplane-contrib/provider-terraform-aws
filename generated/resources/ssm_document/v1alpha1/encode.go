@@ -14,66 +14,40 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSsmDocument(r SsmDocument) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSsmDocument(r SsmDocument) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeSsmDocument_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeSsmDocument_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmDocument_DocumentType(r.Spec.ForProvider, ctyVal)
-	EncodeSsmDocument_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmDocument_TargetType(r.Spec.ForProvider, ctyVal)
+	EncodeSsmDocument_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmDocument_Content(r.Spec.ForProvider, ctyVal)
 	EncodeSsmDocument_DocumentFormat(r.Spec.ForProvider, ctyVal)
-	EncodeSsmDocument_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmDocument_Permissions(r.Spec.ForProvider, ctyVal)
-	EncodeSsmDocument_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSsmDocument_AttachmentsSource(r.Spec.ForProvider.AttachmentsSource, ctyVal)
-	EncodeSsmDocument_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSsmDocument_CreatedDate(r.Status.AtProvider, ctyVal)
+	EncodeSsmDocument_DocumentVersion(r.Status.AtProvider, ctyVal)
+	EncodeSsmDocument_Owner(r.Status.AtProvider, ctyVal)
 	EncodeSsmDocument_Hash(r.Status.AtProvider, ctyVal)
+	EncodeSsmDocument_Parameter(r.Status.AtProvider.Parameter, ctyVal)
+	EncodeSsmDocument_Status(r.Status.AtProvider, ctyVal)
 	EncodeSsmDocument_HashType(r.Status.AtProvider, ctyVal)
 	EncodeSsmDocument_LatestVersion(r.Status.AtProvider, ctyVal)
+	EncodeSsmDocument_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSsmDocument_DefaultVersion(r.Status.AtProvider, ctyVal)
-	EncodeSsmDocument_Owner(r.Status.AtProvider, ctyVal)
-	EncodeSsmDocument_SchemaVersion(r.Status.AtProvider, ctyVal)
-	EncodeSsmDocument_PlatformTypes(r.Status.AtProvider, ctyVal)
-	EncodeSsmDocument_Status(r.Status.AtProvider, ctyVal)
 	EncodeSsmDocument_Description(r.Status.AtProvider, ctyVal)
-	EncodeSsmDocument_DocumentVersion(r.Status.AtProvider, ctyVal)
-	EncodeSsmDocument_Parameter(r.Status.AtProvider.Parameter, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeSsmDocument_PlatformTypes(r.Status.AtProvider, ctyVal)
+	EncodeSsmDocument_SchemaVersion(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSsmDocument_DocumentType(p *SsmDocumentParameters, vals map[string]cty.Value) {
-	vals["document_type"] = cty.StringVal(p.DocumentType)
-}
-
-func EncodeSsmDocument_Name(p *SsmDocumentParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSsmDocument_TargetType(p *SsmDocumentParameters, vals map[string]cty.Value) {
-	vals["target_type"] = cty.StringVal(p.TargetType)
-}
-
-func EncodeSsmDocument_Content(p *SsmDocumentParameters, vals map[string]cty.Value) {
-	vals["content"] = cty.StringVal(p.Content)
-}
-
-func EncodeSsmDocument_DocumentFormat(p *SsmDocumentParameters, vals map[string]cty.Value) {
-	vals["document_format"] = cty.StringVal(p.DocumentFormat)
-}
-
-func EncodeSsmDocument_Id(p *SsmDocumentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSsmDocument_Permissions(p *SsmDocumentParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Permissions {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["permissions"] = cty.MapVal(mVals)
-}
-
-func EncodeSsmDocument_Tags(p *SsmDocumentParameters, vals map[string]cty.Value) {
+func EncodeSsmDocument_Tags(p SsmDocumentParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -81,27 +55,57 @@ func EncodeSsmDocument_Tags(p *SsmDocumentParameters, vals map[string]cty.Value)
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSsmDocument_AttachmentsSource(p *AttachmentsSource, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.AttachmentsSource {
-		ctyVal = make(map[string]cty.Value)
-		EncodeSsmDocument_AttachmentsSource_Key(v, ctyVal)
-		EncodeSsmDocument_AttachmentsSource_Name(v, ctyVal)
-		EncodeSsmDocument_AttachmentsSource_Values(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["attachments_source"] = cty.ListVal(valsForCollection)
+func EncodeSsmDocument_Id(p SsmDocumentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSsmDocument_AttachmentsSource_Key(p *AttachmentsSource, vals map[string]cty.Value) {
-	vals["key"] = cty.StringVal(p.Key)
+func EncodeSsmDocument_DocumentType(p SsmDocumentParameters, vals map[string]cty.Value) {
+	vals["document_type"] = cty.StringVal(p.DocumentType)
 }
 
-func EncodeSsmDocument_AttachmentsSource_Name(p *AttachmentsSource, vals map[string]cty.Value) {
+func EncodeSsmDocument_TargetType(p SsmDocumentParameters, vals map[string]cty.Value) {
+	vals["target_type"] = cty.StringVal(p.TargetType)
+}
+
+func EncodeSsmDocument_Name(p SsmDocumentParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSsmDocument_AttachmentsSource_Values(p *AttachmentsSource, vals map[string]cty.Value) {
+func EncodeSsmDocument_Content(p SsmDocumentParameters, vals map[string]cty.Value) {
+	vals["content"] = cty.StringVal(p.Content)
+}
+
+func EncodeSsmDocument_DocumentFormat(p SsmDocumentParameters, vals map[string]cty.Value) {
+	vals["document_format"] = cty.StringVal(p.DocumentFormat)
+}
+
+func EncodeSsmDocument_Permissions(p SsmDocumentParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Permissions {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["permissions"] = cty.MapVal(mVals)
+}
+
+func EncodeSsmDocument_AttachmentsSource(p AttachmentsSource, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSsmDocument_AttachmentsSource_Key(p, ctyVal)
+	EncodeSsmDocument_AttachmentsSource_Name(p, ctyVal)
+	EncodeSsmDocument_AttachmentsSource_Values(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["attachments_source"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSsmDocument_AttachmentsSource_Key(p AttachmentsSource, vals map[string]cty.Value) {
+	vals["key"] = cty.StringVal(p.Key)
+}
+
+func EncodeSsmDocument_AttachmentsSource_Name(p AttachmentsSource, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSsmDocument_AttachmentsSource_Values(p AttachmentsSource, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Values {
 		colVals = append(colVals, cty.StringVal(value))
@@ -109,39 +113,76 @@ func EncodeSsmDocument_AttachmentsSource_Values(p *AttachmentsSource, vals map[s
 	vals["values"] = cty.ListVal(colVals)
 }
 
-func EncodeSsmDocument_Arn(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeSsmDocument_CreatedDate(p *SsmDocumentObservation, vals map[string]cty.Value) {
+func EncodeSsmDocument_CreatedDate(p SsmDocumentObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
-func EncodeSsmDocument_Hash(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["hash"] = cty.StringVal(p.Hash)
+func EncodeSsmDocument_DocumentVersion(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["document_version"] = cty.StringVal(p.DocumentVersion)
 }
 
-func EncodeSsmDocument_HashType(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["hash_type"] = cty.StringVal(p.HashType)
-}
-
-func EncodeSsmDocument_LatestVersion(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["latest_version"] = cty.StringVal(p.LatestVersion)
-}
-
-func EncodeSsmDocument_DefaultVersion(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["default_version"] = cty.StringVal(p.DefaultVersion)
-}
-
-func EncodeSsmDocument_Owner(p *SsmDocumentObservation, vals map[string]cty.Value) {
+func EncodeSsmDocument_Owner(p SsmDocumentObservation, vals map[string]cty.Value) {
 	vals["owner"] = cty.StringVal(p.Owner)
 }
 
-func EncodeSsmDocument_SchemaVersion(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["schema_version"] = cty.StringVal(p.SchemaVersion)
+func EncodeSsmDocument_Hash(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["hash"] = cty.StringVal(p.Hash)
 }
 
-func EncodeSsmDocument_PlatformTypes(p *SsmDocumentObservation, vals map[string]cty.Value) {
+func EncodeSsmDocument_Parameter(p []Parameter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeSsmDocument_Parameter_Type(v, ctyVal)
+		EncodeSsmDocument_Parameter_DefaultValue(v, ctyVal)
+		EncodeSsmDocument_Parameter_Description(v, ctyVal)
+		EncodeSsmDocument_Parameter_Name(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["parameter"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSsmDocument_Parameter_Type(p Parameter, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeSsmDocument_Parameter_DefaultValue(p Parameter, vals map[string]cty.Value) {
+	vals["default_value"] = cty.StringVal(p.DefaultValue)
+}
+
+func EncodeSsmDocument_Parameter_Description(p Parameter, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmDocument_Parameter_Name(p Parameter, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSsmDocument_Status(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeSsmDocument_HashType(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["hash_type"] = cty.StringVal(p.HashType)
+}
+
+func EncodeSsmDocument_LatestVersion(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["latest_version"] = cty.StringVal(p.LatestVersion)
+}
+
+func EncodeSsmDocument_Arn(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeSsmDocument_DefaultVersion(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["default_version"] = cty.StringVal(p.DefaultVersion)
+}
+
+func EncodeSsmDocument_Description(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmDocument_PlatformTypes(p SsmDocumentObservation, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.PlatformTypes {
 		colVals = append(colVals, cty.StringVal(value))
@@ -149,43 +190,6 @@ func EncodeSsmDocument_PlatformTypes(p *SsmDocumentObservation, vals map[string]
 	vals["platform_types"] = cty.ListVal(colVals)
 }
 
-func EncodeSsmDocument_Status(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
-func EncodeSsmDocument_Description(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSsmDocument_DocumentVersion(p *SsmDocumentObservation, vals map[string]cty.Value) {
-	vals["document_version"] = cty.StringVal(p.DocumentVersion)
-}
-
-func EncodeSsmDocument_Parameter(p *Parameter, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Parameter {
-		ctyVal = make(map[string]cty.Value)
-		EncodeSsmDocument_Parameter_DefaultValue(v, ctyVal)
-		EncodeSsmDocument_Parameter_Description(v, ctyVal)
-		EncodeSsmDocument_Parameter_Name(v, ctyVal)
-		EncodeSsmDocument_Parameter_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["parameter"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeSsmDocument_Parameter_DefaultValue(p *Parameter, vals map[string]cty.Value) {
-	vals["default_value"] = cty.StringVal(p.DefaultValue)
-}
-
-func EncodeSsmDocument_Parameter_Description(p *Parameter, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSsmDocument_Parameter_Name(p *Parameter, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSsmDocument_Parameter_Type(p *Parameter, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
+func EncodeSsmDocument_SchemaVersion(p SsmDocumentObservation, vals map[string]cty.Value) {
+	vals["schema_version"] = cty.StringVal(p.SchemaVersion)
 }

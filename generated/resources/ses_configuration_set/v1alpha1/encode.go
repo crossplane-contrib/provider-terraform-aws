@@ -14,18 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesConfigurationSet(r SesConfigurationSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesConfigurationSet(r SesConfigurationSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSesConfigurationSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesConfigurationSet_Name(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesConfigurationSet_Id(p *SesConfigurationSetParameters, vals map[string]cty.Value) {
+func EncodeSesConfigurationSet_Id(p SesConfigurationSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesConfigurationSet_Name(p *SesConfigurationSetParameters, vals map[string]cty.Value) {
+func EncodeSesConfigurationSet_Name(p SesConfigurationSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }

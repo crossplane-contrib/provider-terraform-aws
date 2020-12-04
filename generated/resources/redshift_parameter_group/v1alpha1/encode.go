@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRedshiftParameterGroup(r RedshiftParameterGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRedshiftParameterGroup(r RedshiftParameterGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRedshiftParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Id(r.Spec.ForProvider, ctyVal)
@@ -23,26 +29,26 @@ package v1alpha1func EncodeRedshiftParameterGroup(r RedshiftParameterGroup) cty.
 	EncodeRedshiftParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeRedshiftParameterGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRedshiftParameterGroup_Description(p *RedshiftParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Description(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeRedshiftParameterGroup_Family(p *RedshiftParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Family(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
 	vals["family"] = cty.StringVal(p.Family)
 }
 
-func EncodeRedshiftParameterGroup_Id(p *RedshiftParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Id(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeRedshiftParameterGroup_Name(p *RedshiftParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Name(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeRedshiftParameterGroup_Tags(p *RedshiftParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Tags(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -50,25 +56,23 @@ func EncodeRedshiftParameterGroup_Tags(p *RedshiftParameterGroupParameters, vals
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRedshiftParameterGroup_Parameter(p *Parameter, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Parameter {
-		ctyVal = make(map[string]cty.Value)
-		EncodeRedshiftParameterGroup_Parameter_Name(v, ctyVal)
-		EncodeRedshiftParameterGroup_Parameter_Value(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeRedshiftParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeRedshiftParameterGroup_Parameter_Name(p, ctyVal)
+	EncodeRedshiftParameterGroup_Parameter_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["parameter"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeRedshiftParameterGroup_Parameter_Name(p *Parameter, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Parameter_Name(p Parameter, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeRedshiftParameterGroup_Parameter_Value(p *Parameter, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Parameter_Value(p Parameter, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }
 
-func EncodeRedshiftParameterGroup_Arn(p *RedshiftParameterGroupObservation, vals map[string]cty.Value) {
+func EncodeRedshiftParameterGroup_Arn(p RedshiftParameterGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

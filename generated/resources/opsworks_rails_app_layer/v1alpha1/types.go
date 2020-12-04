@@ -52,44 +52,44 @@ type OpsworksRailsAppLayerSpec struct {
 
 // A OpsworksRailsAppLayerParameters defines the desired state of a OpsworksRailsAppLayer
 type OpsworksRailsAppLayerParameters struct {
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	Id                       string            `json:"id"`
-	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	RubyVersion              string            `json:"ruby_version"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	RubygemsVersion          string            `json:"rubygems_version"`
-	Tags                     map[string]string `json:"tags"`
 	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	SystemPackages           []string          `json:"system_packages"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	Tags                     map[string]string `json:"tags"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	RubygemsVersion          string            `json:"rubygems_version"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomJson               string            `json:"custom_json"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	Id                       string            `json:"id"`
+	RubyVersion              string            `json:"ruby_version"`
+	AppServer                string            `json:"app_server"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	StackId                  string            `json:"stack_id"`
+	ManageBundler            bool              `json:"manage_bundler"`
+	Name                     string            `json:"name"`
+	PassengerVersion         string            `json:"passenger_version"`
 	AutoHealing              bool              `json:"auto_healing"`
 	BundlerVersion           string            `json:"bundler_version"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	Name                     string            `json:"name"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	StackId                  string            `json:"stack_id"`
-	AppServer                string            `json:"app_server"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	ManageBundler            bool              `json:"manage_bundler"`
-	PassengerVersion         string            `json:"passenger_version"`
-	SystemPackages           []string          `json:"system_packages"`
 	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomJson               string            `json:"custom_json"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	EbsVolume                []EbsVolume       `json:"ebs_volume"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
-	Iops          int    `json:"iops"`
+	Iops          int64  `json:"iops"`
 	MountPoint    string `json:"mount_point"`
-	NumberOfDisks int    `json:"number_of_disks"`
+	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
-	Size          int    `json:"size"`
+	Size          int64  `json:"size"`
 }
 
 // A OpsworksRailsAppLayerStatus defines the observed state of a OpsworksRailsAppLayer

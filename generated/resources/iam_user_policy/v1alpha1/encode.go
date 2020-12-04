@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamUserPolicy(r IamUserPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamUserPolicy(r IamUserPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeIamUserPolicy_User(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserPolicy_User(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamUserPolicy_Id(p *IamUserPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamUserPolicy_User(p IamUserPolicyParameters, vals map[string]cty.Value) {
+	vals["user"] = cty.StringVal(p.User)
+}
+
+func EncodeIamUserPolicy_Id(p IamUserPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamUserPolicy_Name(p *IamUserPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamUserPolicy_Name(p IamUserPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeIamUserPolicy_NamePrefix(p *IamUserPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamUserPolicy_NamePrefix(p IamUserPolicyParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeIamUserPolicy_Policy(p *IamUserPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamUserPolicy_Policy(p IamUserPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeIamUserPolicy_User(p *IamUserPolicyParameters, vals map[string]cty.Value) {
-	vals["user"] = cty.StringVal(p.User)
 }

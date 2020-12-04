@@ -52,11 +52,11 @@ type ServiceDiscoveryServiceSpec struct {
 
 // A ServiceDiscoveryServiceParameters defines the desired state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceParameters struct {
+	Name                    string                  `json:"name"`
+	NamespaceId             string                  `json:"namespace_id"`
 	Tags                    map[string]string       `json:"tags"`
 	Description             string                  `json:"description"`
 	Id                      string                  `json:"id"`
-	Name                    string                  `json:"name"`
-	NamespaceId             string                  `json:"namespace_id"`
 	DnsConfig               DnsConfig               `json:"dns_config"`
 	HealthCheckConfig       HealthCheckConfig       `json:"health_check_config"`
 	HealthCheckCustomConfig HealthCheckCustomConfig `json:"health_check_custom_config"`
@@ -69,18 +69,18 @@ type DnsConfig struct {
 }
 
 type DnsRecords struct {
-	Ttl  int    `json:"ttl"`
+	Ttl  int64  `json:"ttl"`
 	Type string `json:"type"`
 }
 
 type HealthCheckConfig struct {
-	FailureThreshold int    `json:"failure_threshold"`
+	FailureThreshold int64  `json:"failure_threshold"`
 	ResourcePath     string `json:"resource_path"`
 	Type             string `json:"type"`
 }
 
 type HealthCheckCustomConfig struct {
-	FailureThreshold int `json:"failure_threshold"`
+	FailureThreshold int64 `json:"failure_threshold"`
 }
 
 // A ServiceDiscoveryServiceStatus defines the observed state of a ServiceDiscoveryService

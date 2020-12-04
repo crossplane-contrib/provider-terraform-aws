@@ -14,22 +14,28 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDevicefarmProject(r DevicefarmProject) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDevicefarmProject(r DevicefarmProject) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDevicefarmProject_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDevicefarmProject_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDevicefarmProject_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDevicefarmProject_Id(p *DevicefarmProjectParameters, vals map[string]cty.Value) {
+func EncodeDevicefarmProject_Id(p DevicefarmProjectParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDevicefarmProject_Name(p *DevicefarmProjectParameters, vals map[string]cty.Value) {
+func EncodeDevicefarmProject_Name(p DevicefarmProjectParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeDevicefarmProject_Arn(p *DevicefarmProjectObservation, vals map[string]cty.Value) {
+func EncodeDevicefarmProject_Arn(p DevicefarmProjectObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

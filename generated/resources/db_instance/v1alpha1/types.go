@@ -52,73 +52,73 @@ type DbInstanceSpec struct {
 
 // A DbInstanceParameters defines the desired state of a DbInstance
 type DbInstanceParameters struct {
-	Tags                               map[string]string `json:"tags"`
-	AllocatedStorage                   int               `json:"allocated_storage"`
-	Id                                 string            `json:"id"`
-	DeleteAutomatedBackups             bool              `json:"delete_automated_backups"`
-	EnabledCloudwatchLogsExports       []string          `json:"enabled_cloudwatch_logs_exports"`
+	EngineVersion                      string            `json:"engine_version"`
+	IamDatabaseAuthenticationEnabled   bool              `json:"iam_database_authentication_enabled"`
+	Password                           string            `json:"password"`
+	SkipFinalSnapshot                  bool              `json:"skip_final_snapshot"`
 	PerformanceInsightsKmsKeyId        string            `json:"performance_insights_kms_key_id"`
-	Port                               int               `json:"port"`
+	PerformanceInsightsRetentionPeriod int64             `json:"performance_insights_retention_period"`
+	Iops                               int64             `json:"iops"`
+	AllocatedStorage                   int64             `json:"allocated_storage"`
+	CopyTagsToSnapshot                 bool              `json:"copy_tags_to_snapshot"`
+	Identifier                         string            `json:"identifier"`
+	FinalSnapshotIdentifier            string            `json:"final_snapshot_identifier"`
+	MonitoringInterval                 int64             `json:"monitoring_interval"`
+	MonitoringRoleArn                  string            `json:"monitoring_role_arn"`
+	Tags                               map[string]string `json:"tags"`
+	Engine                             string            `json:"engine"`
+	Name                               string            `json:"name"`
+	AvailabilityZone                   string            `json:"availability_zone"`
+	BackupRetentionPeriod              int64             `json:"backup_retention_period"`
+	InstanceClass                      string            `json:"instance_class"`
+	ParameterGroupName                 string            `json:"parameter_group_name"`
+	Username                           string            `json:"username"`
+	BackupWindow                       string            `json:"backup_window"`
+	CharacterSetName                   string            `json:"character_set_name"`
+	MaxAllocatedStorage                int64             `json:"max_allocated_storage"`
+	MultiAz                            bool              `json:"multi_az"`
+	SecurityGroupNames                 []string          `json:"security_group_names"`
+	VpcSecurityGroupIds                []string          `json:"vpc_security_group_ids"`
+	DeletionProtection                 bool              `json:"deletion_protection"`
+	EnabledCloudwatchLogsExports       []string          `json:"enabled_cloudwatch_logs_exports"`
+	Id                                 string            `json:"id"`
+	LicenseModel                       string            `json:"license_model"`
+	DomainIamRoleName                  string            `json:"domain_iam_role_name"`
+	KmsKeyId                           string            `json:"kms_key_id"`
+	ApplyImmediately                   bool              `json:"apply_immediately"`
+	OptionGroupName                    string            `json:"option_group_name"`
+	ReplicateSourceDb                  string            `json:"replicate_source_db"`
 	StorageType                        string            `json:"storage_type"`
 	AllowMajorVersionUpgrade           bool              `json:"allow_major_version_upgrade"`
-	CopyTagsToSnapshot                 bool              `json:"copy_tags_to_snapshot"`
-	PubliclyAccessible                 bool              `json:"publicly_accessible"`
 	AutoMinorVersionUpgrade            bool              `json:"auto_minor_version_upgrade"`
-	AvailabilityZone                   string            `json:"availability_zone"`
-	IdentifierPrefix                   string            `json:"identifier_prefix"`
-	PerformanceInsightsEnabled         bool              `json:"performance_insights_enabled"`
 	StorageEncrypted                   bool              `json:"storage_encrypted"`
-	BackupRetentionPeriod              int               `json:"backup_retention_period"`
-	Identifier                         string            `json:"identifier"`
-	SkipFinalSnapshot                  bool              `json:"skip_final_snapshot"`
-	ApplyImmediately                   bool              `json:"apply_immediately"`
-	FinalSnapshotIdentifier            string            `json:"final_snapshot_identifier"`
-	Iops                               int               `json:"iops"`
-	KmsKeyId                           string            `json:"kms_key_id"`
-	MultiAz                            bool              `json:"multi_az"`
-	Name                               string            `json:"name"`
-	Password                           string            `json:"password"`
-	DomainIamRoleName                  string            `json:"domain_iam_role_name"`
-	IamDatabaseAuthenticationEnabled   bool              `json:"iam_database_authentication_enabled"`
-	SnapshotIdentifier                 string            `json:"snapshot_identifier"`
-	VpcSecurityGroupIds                []string          `json:"vpc_security_group_ids"`
-	MonitoringInterval                 int               `json:"monitoring_interval"`
-	SecurityGroupNames                 []string          `json:"security_group_names"`
-	EngineVersion                      string            `json:"engine_version"`
-	Engine                             string            `json:"engine"`
-	InstanceClass                      string            `json:"instance_class"`
-	ReplicateSourceDb                  string            `json:"replicate_source_db"`
-	Timezone                           string            `json:"timezone"`
-	CharacterSetName                   string            `json:"character_set_name"`
-	DbSubnetGroupName                  string            `json:"db_subnet_group_name"`
-	MonitoringRoleArn                  string            `json:"monitoring_role_arn"`
 	Domain                             string            `json:"domain"`
-	MaxAllocatedStorage                int               `json:"max_allocated_storage"`
-	LicenseModel                       string            `json:"license_model"`
-	OptionGroupName                    string            `json:"option_group_name"`
-	ParameterGroupName                 string            `json:"parameter_group_name"`
+	Port                               int64             `json:"port"`
+	Timezone                           string            `json:"timezone"`
+	DbSubnetGroupName                  string            `json:"db_subnet_group_name"`
+	PerformanceInsightsEnabled         bool              `json:"performance_insights_enabled"`
+	PubliclyAccessible                 bool              `json:"publicly_accessible"`
+	DeleteAutomatedBackups             bool              `json:"delete_automated_backups"`
+	IdentifierPrefix                   string            `json:"identifier_prefix"`
 	CaCertIdentifier                   string            `json:"ca_cert_identifier"`
-	DeletionProtection                 bool              `json:"deletion_protection"`
-	Username                           string            `json:"username"`
 	MaintenanceWindow                  string            `json:"maintenance_window"`
-	PerformanceInsightsRetentionPeriod int               `json:"performance_insights_retention_period"`
-	BackupWindow                       string            `json:"backup_window"`
-	Timeouts                           []Timeouts        `json:"timeouts"`
+	SnapshotIdentifier                 string            `json:"snapshot_identifier"`
 	S3Import                           S3Import          `json:"s3_import"`
-}
-
-type Timeouts struct {
-	Delete string `json:"delete"`
-	Update string `json:"update"`
-	Create string `json:"create"`
+	Timeouts                           Timeouts          `json:"timeouts"`
 }
 
 type S3Import struct {
-	SourceEngine        string `json:"source_engine"`
-	SourceEngineVersion string `json:"source_engine_version"`
 	BucketName          string `json:"bucket_name"`
 	BucketPrefix        string `json:"bucket_prefix"`
 	IngestionRole       string `json:"ingestion_role"`
+	SourceEngine        string `json:"source_engine"`
+	SourceEngineVersion string `json:"source_engine_version"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DbInstanceStatus defines the observed state of a DbInstance
@@ -129,11 +129,11 @@ type DbInstanceStatus struct {
 
 // A DbInstanceObservation records the observed state of a DbInstance
 type DbInstanceObservation struct {
-	Endpoint     string   `json:"endpoint"`
-	Status       string   `json:"status"`
-	ResourceId   string   `json:"resource_id"`
 	Arn          string   `json:"arn"`
-	Replicas     []string `json:"replicas"`
 	HostedZoneId string   `json:"hosted_zone_id"`
 	Address      string   `json:"address"`
+	ResourceId   string   `json:"resource_id"`
+	Endpoint     string   `json:"endpoint"`
+	Replicas     []string `json:"replicas"`
+	Status       string   `json:"status"`
 }

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeStoragegatewayUploadBuffer(r StoragegatewayUploadBuffer) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeStoragegatewayUploadBuffer(r StoragegatewayUploadBuffer) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeStoragegatewayUploadBuffer_DiskId(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayUploadBuffer_GatewayArn(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayUploadBuffer_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeStoragegatewayUploadBuffer_DiskId(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
+func EncodeStoragegatewayUploadBuffer_DiskId(p StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
 	vals["disk_id"] = cty.StringVal(p.DiskId)
 }
 
-func EncodeStoragegatewayUploadBuffer_GatewayArn(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
+func EncodeStoragegatewayUploadBuffer_GatewayArn(p StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
 	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
 }
 
-func EncodeStoragegatewayUploadBuffer_Id(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
+func EncodeStoragegatewayUploadBuffer_Id(p StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

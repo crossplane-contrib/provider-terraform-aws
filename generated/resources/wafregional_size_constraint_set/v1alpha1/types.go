@@ -52,15 +52,15 @@ type WafregionalSizeConstraintSetSpec struct {
 
 // A WafregionalSizeConstraintSetParameters defines the desired state of a WafregionalSizeConstraintSet
 type WafregionalSizeConstraintSetParameters struct {
-	Id              string            `json:"id"`
-	Name            string            `json:"name"`
-	SizeConstraints []SizeConstraints `json:"size_constraints"`
+	Id              string          `json:"id"`
+	Name            string          `json:"name"`
+	SizeConstraints SizeConstraints `json:"size_constraints"`
 }
 
 type SizeConstraints struct {
-	Size               int          `json:"size"`
-	TextTransformation string       `json:"text_transformation"`
 	ComparisonOperator string       `json:"comparison_operator"`
+	Size               int64        `json:"size"`
+	TextTransformation string       `json:"text_transformation"`
 	FieldToMatch       FieldToMatch `json:"field_to_match"`
 }
 

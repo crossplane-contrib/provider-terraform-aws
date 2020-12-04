@@ -52,15 +52,15 @@ type EipSpec struct {
 
 // A EipParameters defines the desired state of a Eip
 type EipParameters struct {
-	Id                     string            `json:"id"`
-	NetworkInterface       string            `json:"network_interface"`
+	PublicIpv4Pool         string            `json:"public_ipv4_pool"`
 	Tags                   map[string]string `json:"tags"`
+	Id                     string            `json:"id"`
 	AssociateWithPrivateIp string            `json:"associate_with_private_ip"`
 	CustomerOwnedIpv4Pool  string            `json:"customer_owned_ipv4_pool"`
-	PublicIpv4Pool         string            `json:"public_ipv4_pool"`
-	Vpc                    bool              `json:"vpc"`
 	Instance               string            `json:"instance"`
-	Timeouts               []Timeouts        `json:"timeouts"`
+	NetworkInterface       string            `json:"network_interface"`
+	Vpc                    bool              `json:"vpc"`
+	Timeouts               Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -77,12 +77,12 @@ type EipStatus struct {
 
 // A EipObservation records the observed state of a Eip
 type EipObservation struct {
+	PublicIp        string `json:"public_ip"`
+	AssociationId   string `json:"association_id"`
+	CustomerOwnedIp string `json:"customer_owned_ip"`
+	Domain          string `json:"domain"`
+	PrivateDns      string `json:"private_dns"`
 	PrivateIp       string `json:"private_ip"`
 	AllocationId    string `json:"allocation_id"`
-	AssociationId   string `json:"association_id"`
-	Domain          string `json:"domain"`
-	CustomerOwnedIp string `json:"customer_owned_ip"`
-	PrivateDns      string `json:"private_dns"`
 	PublicDns       string `json:"public_dns"`
-	PublicIp        string `json:"public_ip"`
 }

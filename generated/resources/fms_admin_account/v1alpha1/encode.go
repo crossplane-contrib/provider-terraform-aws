@@ -14,18 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeFmsAdminAccount(r FmsAdminAccount) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeFmsAdminAccount(r FmsAdminAccount) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeFmsAdminAccount_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeFmsAdminAccount_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeFmsAdminAccount_AccountId(p *FmsAdminAccountParameters, vals map[string]cty.Value) {
+func EncodeFmsAdminAccount_AccountId(p FmsAdminAccountParameters, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
 }
 
-func EncodeFmsAdminAccount_Id(p *FmsAdminAccountParameters, vals map[string]cty.Value) {
+func EncodeFmsAdminAccount_Id(p FmsAdminAccountParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

@@ -14,57 +14,63 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAutoscalingSchedule(r AutoscalingSchedule) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeAutoscalingSchedule_MinSize(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingSchedule_StartTime(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAutoscalingSchedule(r AutoscalingSchedule) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAutoscalingSchedule_AutoscalingGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingSchedule_EndTime(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_DesiredCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_MinSize(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_EndTime(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_MaxSize(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_Recurrence(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_ScheduledActionName(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingSchedule_DesiredCapacity(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_StartTime(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAutoscalingSchedule_MinSize(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["min_size"] = cty.IntVal(p.MinSize)
-}
-
-func EncodeAutoscalingSchedule_StartTime(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["start_time"] = cty.StringVal(p.StartTime)
-}
-
-func EncodeAutoscalingSchedule_AutoscalingGroupName(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingSchedule_AutoscalingGroupName(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
 	vals["autoscaling_group_name"] = cty.StringVal(p.AutoscalingGroupName)
 }
 
-func EncodeAutoscalingSchedule_EndTime(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["end_time"] = cty.StringVal(p.EndTime)
+func EncodeAutoscalingSchedule_DesiredCapacity(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["desired_capacity"] = cty.NumberIntVal(p.DesiredCapacity)
 }
 
-func EncodeAutoscalingSchedule_Id(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingSchedule_Id(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAutoscalingSchedule_MaxSize(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["max_size"] = cty.IntVal(p.MaxSize)
+func EncodeAutoscalingSchedule_MinSize(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["min_size"] = cty.NumberIntVal(p.MinSize)
 }
 
-func EncodeAutoscalingSchedule_Recurrence(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingSchedule_EndTime(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["end_time"] = cty.StringVal(p.EndTime)
+}
+
+func EncodeAutoscalingSchedule_MaxSize(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["max_size"] = cty.NumberIntVal(p.MaxSize)
+}
+
+func EncodeAutoscalingSchedule_Recurrence(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
 	vals["recurrence"] = cty.StringVal(p.Recurrence)
 }
 
-func EncodeAutoscalingSchedule_ScheduledActionName(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingSchedule_ScheduledActionName(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
 	vals["scheduled_action_name"] = cty.StringVal(p.ScheduledActionName)
 }
 
-func EncodeAutoscalingSchedule_DesiredCapacity(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["desired_capacity"] = cty.IntVal(p.DesiredCapacity)
+func EncodeAutoscalingSchedule_StartTime(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["start_time"] = cty.StringVal(p.StartTime)
 }
 
-func EncodeAutoscalingSchedule_Arn(p *AutoscalingScheduleObservation, vals map[string]cty.Value) {
+func EncodeAutoscalingSchedule_Arn(p AutoscalingScheduleObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

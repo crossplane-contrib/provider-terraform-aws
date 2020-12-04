@@ -52,10 +52,10 @@ type CloudwatchLogMetricFilterSpec struct {
 
 // A CloudwatchLogMetricFilterParameters defines the desired state of a CloudwatchLogMetricFilter
 type CloudwatchLogMetricFilterParameters struct {
+	Name                 string               `json:"name"`
 	Pattern              string               `json:"pattern"`
 	Id                   string               `json:"id"`
 	LogGroupName         string               `json:"log_group_name"`
-	Name                 string               `json:"name"`
 	MetricTransformation MetricTransformation `json:"metric_transformation"`
 }
 

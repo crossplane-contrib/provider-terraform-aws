@@ -14,24 +14,30 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEgressOnlyInternetGateway(r EgressOnlyInternetGateway) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEgressOnlyInternetGateway(r EgressOnlyInternetGateway) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEgressOnlyInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeEgressOnlyInternetGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEgressOnlyInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEgressOnlyInternetGateway_VpcId(p *EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
+func EncodeEgressOnlyInternetGateway_VpcId(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeEgressOnlyInternetGateway_Id(p *EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
+func EncodeEgressOnlyInternetGateway_Id(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEgressOnlyInternetGateway_Tags(p *EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
+func EncodeEgressOnlyInternetGateway_Tags(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)

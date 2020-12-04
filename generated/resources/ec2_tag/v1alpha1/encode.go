@@ -14,28 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2Tag(r Ec2Tag) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2Tag(r Ec2Tag) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeEc2Tag_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Key(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Value(r.Spec.ForProvider, ctyVal)
-	EncodeEc2Tag_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2Tag_Key(p *Ec2TagParameters, vals map[string]cty.Value) {
+func EncodeEc2Tag_Id(p Ec2TagParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2Tag_Key(p Ec2TagParameters, vals map[string]cty.Value) {
 	vals["key"] = cty.StringVal(p.Key)
 }
 
-func EncodeEc2Tag_ResourceId(p *Ec2TagParameters, vals map[string]cty.Value) {
+func EncodeEc2Tag_ResourceId(p Ec2TagParameters, vals map[string]cty.Value) {
 	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }
 
-func EncodeEc2Tag_Value(p *Ec2TagParameters, vals map[string]cty.Value) {
+func EncodeEc2Tag_Value(p Ec2TagParameters, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
-}
-
-func EncodeEc2Tag_Id(p *Ec2TagParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

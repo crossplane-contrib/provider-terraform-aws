@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVpnGatewayAttachment(r VpnGatewayAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVpnGatewayAttachment(r VpnGatewayAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVpnGatewayAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayAttachment_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayAttachment_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpnGatewayAttachment_Id(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVpnGatewayAttachment_Id(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeVpnGatewayAttachment_VpcId(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVpnGatewayAttachment_VpcId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeVpnGatewayAttachment_VpnGatewayId(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVpnGatewayAttachment_VpnGatewayId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }

@@ -52,12 +52,12 @@ type NeptuneParameterGroupSpec struct {
 
 // A NeptuneParameterGroupParameters defines the desired state of a NeptuneParameterGroup
 type NeptuneParameterGroupParameters struct {
-	Name        string            `json:"name"`
-	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Family      string            `json:"family"`
 	Id          string            `json:"id"`
-	Parameter   []Parameter       `json:"parameter"`
+	Name        string            `json:"name"`
+	Tags        map[string]string `json:"tags"`
+	Parameter   Parameter         `json:"parameter"`
 }
 
 type Parameter struct {

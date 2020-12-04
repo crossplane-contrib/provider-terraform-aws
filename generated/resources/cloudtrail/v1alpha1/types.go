@@ -52,33 +52,33 @@ type CloudtrailSpec struct {
 
 // A CloudtrailParameters defines the desired state of a Cloudtrail
 type CloudtrailParameters struct {
-	S3BucketName               string            `json:"s3_bucket_name"`
-	Tags                       map[string]string `json:"tags"`
-	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
-	IsOrganizationTrail        bool              `json:"is_organization_trail"`
-	Name                       string            `json:"name"`
-	SnsTopicName               string            `json:"sns_topic_name"`
 	CloudWatchLogsGroupArn     string            `json:"cloud_watch_logs_group_arn"`
-	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
-	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
-	S3KeyPrefix                string            `json:"s3_key_prefix"`
 	EnableLogFileValidation    bool              `json:"enable_log_file_validation"`
+	KmsKeyId                   string            `json:"kms_key_id"`
+	SnsTopicName               string            `json:"sns_topic_name"`
 	EnableLogging              bool              `json:"enable_logging"`
 	Id                         string            `json:"id"`
-	KmsKeyId                   string            `json:"kms_key_id"`
+	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
+	S3KeyPrefix                string            `json:"s3_key_prefix"`
+	Tags                       map[string]string `json:"tags"`
+	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
+	IsOrganizationTrail        bool              `json:"is_organization_trail"`
+	Name                       string            `json:"name"`
+	S3BucketName               string            `json:"s3_bucket_name"`
+	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
 	EventSelector              []EventSelector   `json:"event_selector"`
-	InsightSelector            []InsightSelector `json:"insight_selector"`
+	InsightSelector            InsightSelector   `json:"insight_selector"`
 }
 
 type EventSelector struct {
-	IncludeManagementEvents bool           `json:"include_management_events"`
-	ReadWriteType           string         `json:"read_write_type"`
-	DataResource            []DataResource `json:"data_resource"`
+	IncludeManagementEvents bool         `json:"include_management_events"`
+	ReadWriteType           string       `json:"read_write_type"`
+	DataResource            DataResource `json:"data_resource"`
 }
 
 type DataResource struct {
-	Type   string   `json:"type"`
 	Values []string `json:"values"`
+	Type   string   `json:"type"`
 }
 
 type InsightSelector struct {

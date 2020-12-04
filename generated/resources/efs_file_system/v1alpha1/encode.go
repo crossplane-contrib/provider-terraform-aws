@@ -14,31 +14,37 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEfsFileSystem(r EfsFileSystem) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeEfsFileSystem_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeEfsFileSystem_PerformanceMode(r.Spec.ForProvider, ctyVal)
-	EncodeEfsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEfsFileSystem_ThroughputMode(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEfsFileSystem(r EfsFileSystem) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEfsFileSystem_CreationToken(r.Spec.ForProvider, ctyVal)
+	EncodeEfsFileSystem_ProvisionedThroughputInMibps(r.Spec.ForProvider, ctyVal)
+	EncodeEfsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystem_Encrypted(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystem_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEfsFileSystem_ProvisionedThroughputInMibps(r.Spec.ForProvider, ctyVal)
+	EncodeEfsFileSystem_KmsKeyId(r.Spec.ForProvider, ctyVal)
+	EncodeEfsFileSystem_PerformanceMode(r.Spec.ForProvider, ctyVal)
+	EncodeEfsFileSystem_ThroughputMode(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystem_LifecyclePolicy(r.Spec.ForProvider.LifecyclePolicy, ctyVal)
 	EncodeEfsFileSystem_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEfsFileSystem_DnsName(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEfsFileSystem_KmsKeyId(p *EfsFileSystemParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+func EncodeEfsFileSystem_CreationToken(p EfsFileSystemParameters, vals map[string]cty.Value) {
+	vals["creation_token"] = cty.StringVal(p.CreationToken)
 }
 
-func EncodeEfsFileSystem_PerformanceMode(p *EfsFileSystemParameters, vals map[string]cty.Value) {
-	vals["performance_mode"] = cty.StringVal(p.PerformanceMode)
+func EncodeEfsFileSystem_ProvisionedThroughputInMibps(p EfsFileSystemParameters, vals map[string]cty.Value) {
+	vals["provisioned_throughput_in_mibps"] = cty.NumberIntVal(p.ProvisionedThroughputInMibps)
 }
 
-func EncodeEfsFileSystem_Tags(p *EfsFileSystemParameters, vals map[string]cty.Value) {
+func EncodeEfsFileSystem_Tags(p EfsFileSystemParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -46,44 +52,42 @@ func EncodeEfsFileSystem_Tags(p *EfsFileSystemParameters, vals map[string]cty.Va
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeEfsFileSystem_ThroughputMode(p *EfsFileSystemParameters, vals map[string]cty.Value) {
-	vals["throughput_mode"] = cty.StringVal(p.ThroughputMode)
-}
-
-func EncodeEfsFileSystem_CreationToken(p *EfsFileSystemParameters, vals map[string]cty.Value) {
-	vals["creation_token"] = cty.StringVal(p.CreationToken)
-}
-
-func EncodeEfsFileSystem_Encrypted(p *EfsFileSystemParameters, vals map[string]cty.Value) {
+func EncodeEfsFileSystem_Encrypted(p EfsFileSystemParameters, vals map[string]cty.Value) {
 	vals["encrypted"] = cty.BoolVal(p.Encrypted)
 }
 
-func EncodeEfsFileSystem_Id(p *EfsFileSystemParameters, vals map[string]cty.Value) {
+func EncodeEfsFileSystem_Id(p EfsFileSystemParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEfsFileSystem_ProvisionedThroughputInMibps(p *EfsFileSystemParameters, vals map[string]cty.Value) {
-	vals["provisioned_throughput_in_mibps"] = cty.IntVal(p.ProvisionedThroughputInMibps)
+func EncodeEfsFileSystem_KmsKeyId(p EfsFileSystemParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
-func EncodeEfsFileSystem_LifecyclePolicy(p *LifecyclePolicy, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.LifecyclePolicy {
-		ctyVal = make(map[string]cty.Value)
-		EncodeEfsFileSystem_LifecyclePolicy_TransitionToIa(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeEfsFileSystem_PerformanceMode(p EfsFileSystemParameters, vals map[string]cty.Value) {
+	vals["performance_mode"] = cty.StringVal(p.PerformanceMode)
+}
+
+func EncodeEfsFileSystem_ThroughputMode(p EfsFileSystemParameters, vals map[string]cty.Value) {
+	vals["throughput_mode"] = cty.StringVal(p.ThroughputMode)
+}
+
+func EncodeEfsFileSystem_LifecyclePolicy(p LifecyclePolicy, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeEfsFileSystem_LifecyclePolicy_TransitionToIa(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["lifecycle_policy"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeEfsFileSystem_LifecyclePolicy_TransitionToIa(p *LifecyclePolicy, vals map[string]cty.Value) {
+func EncodeEfsFileSystem_LifecyclePolicy_TransitionToIa(p LifecyclePolicy, vals map[string]cty.Value) {
 	vals["transition_to_ia"] = cty.StringVal(p.TransitionToIa)
 }
 
-func EncodeEfsFileSystem_Arn(p *EfsFileSystemObservation, vals map[string]cty.Value) {
+func EncodeEfsFileSystem_Arn(p EfsFileSystemObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeEfsFileSystem_DnsName(p *EfsFileSystemObservation, vals map[string]cty.Value) {
+func EncodeEfsFileSystem_DnsName(p EfsFileSystemObservation, vals map[string]cty.Value) {
 	vals["dns_name"] = cty.StringVal(p.DnsName)
 }

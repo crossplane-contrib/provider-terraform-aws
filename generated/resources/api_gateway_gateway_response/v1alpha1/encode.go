@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayGatewayResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
@@ -23,14 +29,14 @@ package v1alpha1func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse
 	EncodeApiGatewayGatewayResponse_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_StatusCode(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayGatewayResponse_Id(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayGatewayResponse_Id(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayGatewayResponse_ResponseParameters(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayGatewayResponse_ResponseParameters(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.ResponseParameters {
 		mVals[key] = cty.StringVal(value)
@@ -38,7 +44,7 @@ func EncodeApiGatewayGatewayResponse_ResponseParameters(p *ApiGatewayGatewayResp
 	vals["response_parameters"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayGatewayResponse_ResponseTemplates(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayGatewayResponse_ResponseTemplates(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.ResponseTemplates {
 		mVals[key] = cty.StringVal(value)
@@ -46,14 +52,14 @@ func EncodeApiGatewayGatewayResponse_ResponseTemplates(p *ApiGatewayGatewayRespo
 	vals["response_templates"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayGatewayResponse_ResponseType(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayGatewayResponse_ResponseType(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	vals["response_type"] = cty.StringVal(p.ResponseType)
 }
 
-func EncodeApiGatewayGatewayResponse_RestApiId(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayGatewayResponse_RestApiId(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
-func EncodeApiGatewayGatewayResponse_StatusCode(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayGatewayResponse_StatusCode(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	vals["status_code"] = cty.StringVal(p.StatusCode)
 }

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeS3BucketPolicy(r S3BucketPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeS3BucketPolicy(r S3BucketPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeS3BucketPolicy_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeS3BucketPolicy_Bucket(p *S3BucketPolicyParameters, vals map[string]cty.Value) {
+func EncodeS3BucketPolicy_Bucket(p S3BucketPolicyParameters, vals map[string]cty.Value) {
 	vals["bucket"] = cty.StringVal(p.Bucket)
 }
 
-func EncodeS3BucketPolicy_Id(p *S3BucketPolicyParameters, vals map[string]cty.Value) {
+func EncodeS3BucketPolicy_Id(p S3BucketPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeS3BucketPolicy_Policy(p *S3BucketPolicyParameters, vals map[string]cty.Value) {
+func EncodeS3BucketPolicy_Policy(p S3BucketPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }

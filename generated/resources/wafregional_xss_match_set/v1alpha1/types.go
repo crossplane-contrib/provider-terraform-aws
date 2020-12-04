@@ -52,9 +52,9 @@ type WafregionalXssMatchSetSpec struct {
 
 // A WafregionalXssMatchSetParameters defines the desired state of a WafregionalXssMatchSet
 type WafregionalXssMatchSetParameters struct {
-	Id            string          `json:"id"`
-	Name          string          `json:"name"`
-	XssMatchTuple []XssMatchTuple `json:"xss_match_tuple"`
+	Id            string        `json:"id"`
+	Name          string        `json:"name"`
+	XssMatchTuple XssMatchTuple `json:"xss_match_tuple"`
 }
 
 type XssMatchTuple struct {

@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesDomainIdentityVerification(r SesDomainIdentityVerification) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesDomainIdentityVerification(r SesDomainIdentityVerification) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSesDomainIdentityVerification_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentityVerification_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentityVerification_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeSesDomainIdentityVerification_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesDomainIdentityVerification_Domain(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
+func EncodeSesDomainIdentityVerification_Domain(p SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
 	vals["domain"] = cty.StringVal(p.Domain)
 }
 
-func EncodeSesDomainIdentityVerification_Id(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
+func EncodeSesDomainIdentityVerification_Id(p SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesDomainIdentityVerification_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeSesDomainIdentityVerification_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSesDomainIdentityVerification_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesDomainIdentityVerification_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeSesDomainIdentityVerification_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeSesDomainIdentityVerification_Arn(p *SesDomainIdentityVerificationObservation, vals map[string]cty.Value) {
+func EncodeSesDomainIdentityVerification_Arn(p SesDomainIdentityVerificationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

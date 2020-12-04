@@ -14,18 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEbsEncryptionByDefault(r EbsEncryptionByDefault) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEbsEncryptionByDefault(r EbsEncryptionByDefault) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEbsEncryptionByDefault_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeEbsEncryptionByDefault_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEbsEncryptionByDefault_Enabled(p *EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
+func EncodeEbsEncryptionByDefault_Enabled(p EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
 	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
-func EncodeEbsEncryptionByDefault_Id(p *EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
+func EncodeEbsEncryptionByDefault_Id(p EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2TransitGatewayRouteTableAssociation(r Ec2TransitGatewayRouteTableAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2TransitGatewayRouteTableAssociation(r Ec2TransitGatewayRouteTableAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_ResourceType(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_attachment_id"] = cty.StringVal(p.TransitGatewayAttachmentId)
 }
 
-func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_route_table_id"] = cty.StringVal(p.TransitGatewayRouteTableId)
 }
 
-func EncodeEc2TransitGatewayRouteTableAssociation_Id(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTableAssociation_Id(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(p *Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
-	vals["resource_id"] = cty.StringVal(p.ResourceId)
+func EncodeEc2TransitGatewayRouteTableAssociation_ResourceType(p Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
+	vals["resource_type"] = cty.StringVal(p.ResourceType)
 }
 
-func EncodeEc2TransitGatewayRouteTableAssociation_ResourceType(p *Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
-	vals["resource_type"] = cty.StringVal(p.ResourceType)
+func EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(p Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
+	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }

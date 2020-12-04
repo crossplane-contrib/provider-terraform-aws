@@ -14,28 +14,42 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafv2RegexPatternSet(r Wafv2RegexPatternSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafv2RegexPatternSet(r Wafv2RegexPatternSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafv2RegexPatternSet_Description(r.Spec.ForProvider, ctyVal)
+	EncodeWafv2RegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Scope(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeWafv2RegexPatternSet_Description(r.Spec.ForProvider, ctyVal)
-	EncodeWafv2RegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_RegularExpression(r.Spec.ForProvider.RegularExpression, ctyVal)
 	EncodeWafv2RegexPatternSet_LockToken(r.Status.AtProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafv2RegexPatternSet_Name(p *Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafv2RegexPatternSet_Description(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeWafv2RegexPatternSet_Id(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafv2RegexPatternSet_Name(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafv2RegexPatternSet_Scope(p *Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafv2RegexPatternSet_Scope(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["scope"] = cty.StringVal(p.Scope)
 }
 
-func EncodeWafv2RegexPatternSet_Tags(p *Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafv2RegexPatternSet_Tags(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -43,32 +57,24 @@ func EncodeWafv2RegexPatternSet_Tags(p *Wafv2RegexPatternSetParameters, vals map
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeWafv2RegexPatternSet_Description(p *Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeWafv2RegexPatternSet_Id(p *Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeWafv2RegexPatternSet_RegularExpression(p *RegularExpression, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.RegularExpression {
-		ctyVal = make(map[string]cty.Value)
+func EncodeWafv2RegexPatternSet_RegularExpression(p []RegularExpression, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeWafv2RegexPatternSet_RegularExpression_RegexString(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["regular_expression"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafv2RegexPatternSet_RegularExpression_RegexString(p *RegularExpression, vals map[string]cty.Value) {
+func EncodeWafv2RegexPatternSet_RegularExpression_RegexString(p RegularExpression, vals map[string]cty.Value) {
 	vals["regex_string"] = cty.StringVal(p.RegexString)
 }
 
-func EncodeWafv2RegexPatternSet_LockToken(p *Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
+func EncodeWafv2RegexPatternSet_LockToken(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
 	vals["lock_token"] = cty.StringVal(p.LockToken)
 }
 
-func EncodeWafv2RegexPatternSet_Arn(p *Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
+func EncodeWafv2RegexPatternSet_Arn(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

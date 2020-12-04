@@ -52,10 +52,10 @@ type NatGatewaySpec struct {
 
 // A NatGatewayParameters defines the desired state of a NatGateway
 type NatGatewayParameters struct {
-	AllocationId string            `json:"allocation_id"`
-	Id           string            `json:"id"`
 	SubnetId     string            `json:"subnet_id"`
 	Tags         map[string]string `json:"tags"`
+	AllocationId string            `json:"allocation_id"`
+	Id           string            `json:"id"`
 }
 
 // A NatGatewayStatus defines the observed state of a NatGateway
@@ -66,7 +66,7 @@ type NatGatewayStatus struct {
 
 // A NatGatewayObservation records the observed state of a NatGateway
 type NatGatewayObservation struct {
+	PublicIp           string `json:"public_ip"`
 	NetworkInterfaceId string `json:"network_interface_id"`
 	PrivateIp          string `json:"private_ip"`
-	PublicIp           string `json:"public_ip"`
 }

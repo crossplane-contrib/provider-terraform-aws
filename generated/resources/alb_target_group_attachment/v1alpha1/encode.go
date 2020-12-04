@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAlbTargetGroupAttachment(r AlbTargetGroupAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeAlbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAlbTargetGroupAttachment(r AlbTargetGroupAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAlbTargetGroupAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_Port(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_TargetGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_TargetId(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAlbTargetGroupAttachment_AvailabilityZone(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
-}
-
-func EncodeAlbTargetGroupAttachment_Id(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+func EncodeAlbTargetGroupAttachment_Id(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAlbTargetGroupAttachment_Port(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["port"] = cty.IntVal(p.Port)
+func EncodeAlbTargetGroupAttachment_Port(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
 }
 
-func EncodeAlbTargetGroupAttachment_TargetGroupArn(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+func EncodeAlbTargetGroupAttachment_TargetGroupArn(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_group_arn"] = cty.StringVal(p.TargetGroupArn)
 }
 
-func EncodeAlbTargetGroupAttachment_TargetId(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+func EncodeAlbTargetGroupAttachment_TargetId(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_id"] = cty.StringVal(p.TargetId)
+}
+
+func EncodeAlbTargetGroupAttachment_AvailabilityZone(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }

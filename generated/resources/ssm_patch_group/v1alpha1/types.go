@@ -52,9 +52,9 @@ type SsmPatchGroupSpec struct {
 
 // A SsmPatchGroupParameters defines the desired state of a SsmPatchGroup
 type SsmPatchGroupParameters struct {
-	BaselineId string `json:"baseline_id"`
 	Id         string `json:"id"`
 	PatchGroup string `json:"patch_group"`
+	BaselineId string `json:"baseline_id"`
 }
 
 // A SsmPatchGroupStatus defines the observed state of a SsmPatchGroup

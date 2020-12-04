@@ -52,21 +52,21 @@ type SqsQueueSpec struct {
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
-	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
-	KmsMasterKeyId               string            `json:"kms_master_key_id"`
-	Policy                       string            `json:"policy"`
-	RedrivePolicy                string            `json:"redrive_policy"`
-	DelaySeconds                 int               `json:"delay_seconds"`
-	MaxMessageSize               int               `json:"max_message_size"`
-	MessageRetentionSeconds      int               `json:"message_retention_seconds"`
-	ReceiveWaitTimeSeconds       int               `json:"receive_wait_time_seconds"`
-	NamePrefix                   string            `json:"name_prefix"`
-	Tags                         map[string]string `json:"tags"`
-	VisibilityTimeoutSeconds     int               `json:"visibility_timeout_seconds"`
-	FifoQueue                    bool              `json:"fifo_queue"`
-	Id                           string            `json:"id"`
-	KmsDataKeyReusePeriodSeconds int               `json:"kms_data_key_reuse_period_seconds"`
+	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
+	DelaySeconds                 int64             `json:"delay_seconds"`
 	Name                         string            `json:"name"`
+	KmsDataKeyReusePeriodSeconds int64             `json:"kms_data_key_reuse_period_seconds"`
+	FifoQueue                    bool              `json:"fifo_queue"`
+	Policy                       string            `json:"policy"`
+	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
+	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
+	Id                           string            `json:"id"`
+	KmsMasterKeyId               string            `json:"kms_master_key_id"`
+	MaxMessageSize               int64             `json:"max_message_size"`
+	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
+	NamePrefix                   string            `json:"name_prefix"`
+	RedrivePolicy                string            `json:"redrive_policy"`
+	Tags                         map[string]string `json:"tags"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue

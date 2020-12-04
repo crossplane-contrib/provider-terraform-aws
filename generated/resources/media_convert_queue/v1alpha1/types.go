@@ -52,19 +52,19 @@ type MediaConvertQueueSpec struct {
 
 // A MediaConvertQueueParameters defines the desired state of a MediaConvertQueue
 type MediaConvertQueueParameters struct {
-	Tags                    map[string]string       `json:"tags"`
 	Description             string                  `json:"description"`
 	Id                      string                  `json:"id"`
 	Name                    string                  `json:"name"`
 	PricingPlan             string                  `json:"pricing_plan"`
 	Status                  string                  `json:"status"`
+	Tags                    map[string]string       `json:"tags"`
 	ReservationPlanSettings ReservationPlanSettings `json:"reservation_plan_settings"`
 }
 
 type ReservationPlanSettings struct {
 	Commitment    string `json:"commitment"`
 	RenewalType   string `json:"renewal_type"`
-	ReservedSlots int    `json:"reserved_slots"`
+	ReservedSlots int64  `json:"reserved_slots"`
 }
 
 // A MediaConvertQueueStatus defines the observed state of a MediaConvertQueue

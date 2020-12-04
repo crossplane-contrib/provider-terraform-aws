@@ -52,41 +52,41 @@ type OpsworksGangliaLayerSpec struct {
 
 // A OpsworksGangliaLayerParameters defines the desired state of a OpsworksGangliaLayer
 type OpsworksGangliaLayerParameters struct {
-	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	StackId                  string            `json:"stack_id"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomJson               string            `json:"custom_json"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	Id                       string            `json:"id"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	Password                 string            `json:"password"`
 	Tags                     map[string]string `json:"tags"`
-	Url                      string            `json:"url"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
 	AutoHealing              bool              `json:"auto_healing"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
 	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	CustomJson               string            `json:"custom_json"`
 	Name                     string            `json:"name"`
+	Url                      string            `json:"url"`
 	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
 	Username                 string            `json:"username"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	Password                 string            `json:"password"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	Id                       string            `json:"id"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	StackId                  string            `json:"stack_id"`
 	SystemPackages           []string          `json:"system_packages"`
-	EbsVolume                []EbsVolume       `json:"ebs_volume"`
+	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
-	RaidLevel     string `json:"raid_level"`
-	Size          int    `json:"size"`
-	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
-	Iops          int    `json:"iops"`
+	Iops          int64  `json:"iops"`
 	MountPoint    string `json:"mount_point"`
-	NumberOfDisks int    `json:"number_of_disks"`
+	NumberOfDisks int64  `json:"number_of_disks"`
+	RaidLevel     string `json:"raid_level"`
+	Size          int64  `json:"size"`
+	Type          string `json:"type"`
 }
 
 // A OpsworksGangliaLayerStatus defines the observed state of a OpsworksGangliaLayer

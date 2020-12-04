@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVolumeAttachment_DeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_ForceDetach(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_Id(r.Spec.ForProvider, ctyVal)
@@ -23,29 +29,29 @@ package v1alpha1func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
 	EncodeVolumeAttachment_SkipDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVolumeAttachment_DeviceName(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVolumeAttachment_DeviceName(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["device_name"] = cty.StringVal(p.DeviceName)
 }
 
-func EncodeVolumeAttachment_ForceDetach(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVolumeAttachment_ForceDetach(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["force_detach"] = cty.BoolVal(p.ForceDetach)
 }
 
-func EncodeVolumeAttachment_Id(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVolumeAttachment_Id(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeVolumeAttachment_InstanceId(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVolumeAttachment_InstanceId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["instance_id"] = cty.StringVal(p.InstanceId)
 }
 
-func EncodeVolumeAttachment_SkipDestroy(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVolumeAttachment_SkipDestroy(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["skip_destroy"] = cty.BoolVal(p.SkipDestroy)
 }
 
-func EncodeVolumeAttachment_VolumeId(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+func EncodeVolumeAttachment_VolumeId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["volume_id"] = cty.StringVal(p.VolumeId)
 }

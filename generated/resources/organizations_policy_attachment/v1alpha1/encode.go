@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeOrganizationsPolicyAttachment(r OrganizationsPolicyAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeOrganizationsPolicyAttachment(r OrganizationsPolicyAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeOrganizationsPolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicyAttachment_PolicyId(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicyAttachment_TargetId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeOrganizationsPolicyAttachment_Id(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeOrganizationsPolicyAttachment_Id(p OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeOrganizationsPolicyAttachment_PolicyId(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeOrganizationsPolicyAttachment_PolicyId(p OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["policy_id"] = cty.StringVal(p.PolicyId)
 }
 
-func EncodeOrganizationsPolicyAttachment_TargetId(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeOrganizationsPolicyAttachment_TargetId(p OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_id"] = cty.StringVal(p.TargetId)
 }

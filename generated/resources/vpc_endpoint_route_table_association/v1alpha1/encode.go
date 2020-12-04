@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVpcEndpointRouteTableAssociation(r VpcEndpointRouteTableAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVpcEndpointRouteTableAssociation(r VpcEndpointRouteTableAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVpcEndpointRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointRouteTableAssociation_RouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointRouteTableAssociation_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcEndpointRouteTableAssociation_Id(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointRouteTableAssociation_Id(p VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeVpcEndpointRouteTableAssociation_RouteTableId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointRouteTableAssociation_RouteTableId(p VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["route_table_id"] = cty.StringVal(p.RouteTableId)
 }
 
-func EncodeVpcEndpointRouteTableAssociation_VpcEndpointId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointRouteTableAssociation_VpcEndpointId(p VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }

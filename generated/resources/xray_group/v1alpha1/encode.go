@@ -14,29 +14,27 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeXrayGroup(r XrayGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeXrayGroup_FilterExpression(r.Spec.ForProvider, ctyVal)
-	EncodeXrayGroup_GroupName(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeXrayGroup(r XrayGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeXrayGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeXrayGroup_FilterExpression(r.Spec.ForProvider, ctyVal)
+	EncodeXrayGroup_GroupName(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeXrayGroup_FilterExpression(p *XrayGroupParameters, vals map[string]cty.Value) {
-	vals["filter_expression"] = cty.StringVal(p.FilterExpression)
-}
-
-func EncodeXrayGroup_GroupName(p *XrayGroupParameters, vals map[string]cty.Value) {
-	vals["group_name"] = cty.StringVal(p.GroupName)
-}
-
-func EncodeXrayGroup_Id(p *XrayGroupParameters, vals map[string]cty.Value) {
+func EncodeXrayGroup_Id(p XrayGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeXrayGroup_Tags(p *XrayGroupParameters, vals map[string]cty.Value) {
+func EncodeXrayGroup_Tags(p XrayGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -44,6 +42,14 @@ func EncodeXrayGroup_Tags(p *XrayGroupParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeXrayGroup_Arn(p *XrayGroupObservation, vals map[string]cty.Value) {
+func EncodeXrayGroup_FilterExpression(p XrayGroupParameters, vals map[string]cty.Value) {
+	vals["filter_expression"] = cty.StringVal(p.FilterExpression)
+}
+
+func EncodeXrayGroup_GroupName(p XrayGroupParameters, vals map[string]cty.Value) {
+	vals["group_name"] = cty.StringVal(p.GroupName)
+}
+
+func EncodeXrayGroup_Arn(p XrayGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -14,42 +14,48 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamUserLoginProfile(r IamUserLoginProfile) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeIamUserLoginProfile_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserLoginProfile_PasswordLength(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamUserLoginProfile(r IamUserLoginProfile) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIamUserLoginProfile_PasswordResetRequired(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserLoginProfile_PgpKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserLoginProfile_User(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserLoginProfile_KeyFingerprint(r.Status.AtProvider, ctyVal)
+	EncodeIamUserLoginProfile_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamUserLoginProfile_PasswordLength(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserLoginProfile_EncryptedPassword(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeIamUserLoginProfile_KeyFingerprint(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamUserLoginProfile_Id(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamUserLoginProfile_PasswordLength(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
-	vals["password_length"] = cty.IntVal(p.PasswordLength)
-}
-
-func EncodeIamUserLoginProfile_PasswordResetRequired(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+func EncodeIamUserLoginProfile_PasswordResetRequired(p IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	vals["password_reset_required"] = cty.BoolVal(p.PasswordResetRequired)
 }
 
-func EncodeIamUserLoginProfile_PgpKey(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+func EncodeIamUserLoginProfile_PgpKey(p IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	vals["pgp_key"] = cty.StringVal(p.PgpKey)
 }
 
-func EncodeIamUserLoginProfile_User(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+func EncodeIamUserLoginProfile_User(p IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	vals["user"] = cty.StringVal(p.User)
 }
 
-func EncodeIamUserLoginProfile_KeyFingerprint(p *IamUserLoginProfileObservation, vals map[string]cty.Value) {
-	vals["key_fingerprint"] = cty.StringVal(p.KeyFingerprint)
+func EncodeIamUserLoginProfile_Id(p IamUserLoginProfileParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamUserLoginProfile_EncryptedPassword(p *IamUserLoginProfileObservation, vals map[string]cty.Value) {
+func EncodeIamUserLoginProfile_PasswordLength(p IamUserLoginProfileParameters, vals map[string]cty.Value) {
+	vals["password_length"] = cty.NumberIntVal(p.PasswordLength)
+}
+
+func EncodeIamUserLoginProfile_EncryptedPassword(p IamUserLoginProfileObservation, vals map[string]cty.Value) {
 	vals["encrypted_password"] = cty.StringVal(p.EncryptedPassword)
+}
+
+func EncodeIamUserLoginProfile_KeyFingerprint(p IamUserLoginProfileObservation, vals map[string]cty.Value) {
+	vals["key_fingerprint"] = cty.StringVal(p.KeyFingerprint)
 }

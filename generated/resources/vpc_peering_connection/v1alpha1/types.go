@@ -52,16 +52,22 @@ type VpcPeeringConnectionSpec struct {
 
 // A VpcPeeringConnectionParameters defines the desired state of a VpcPeeringConnection
 type VpcPeeringConnectionParameters struct {
+	PeerVpcId   string            `json:"peer_vpc_id"`
 	Tags        map[string]string `json:"tags"`
 	VpcId       string            `json:"vpc_id"`
 	AutoAccept  bool              `json:"auto_accept"`
 	Id          string            `json:"id"`
 	PeerOwnerId string            `json:"peer_owner_id"`
 	PeerRegion  string            `json:"peer_region"`
-	PeerVpcId   string            `json:"peer_vpc_id"`
-	Requester   Requester         `json:"requester"`
-	Timeouts    []Timeouts        `json:"timeouts"`
 	Accepter    Accepter          `json:"accepter"`
+	Requester   Requester         `json:"requester"`
+	Timeouts    Timeouts          `json:"timeouts"`
+}
+
+type Accepter struct {
+	AllowClassicLinkToRemoteVpc bool `json:"allow_classic_link_to_remote_vpc"`
+	AllowRemoteVpcDnsResolution bool `json:"allow_remote_vpc_dns_resolution"`
+	AllowVpcToRemoteClassicLink bool `json:"allow_vpc_to_remote_classic_link"`
 }
 
 type Requester struct {
@@ -74,12 +80,6 @@ type Timeouts struct {
 	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-}
-
-type Accepter struct {
-	AllowVpcToRemoteClassicLink bool `json:"allow_vpc_to_remote_classic_link"`
-	AllowClassicLinkToRemoteVpc bool `json:"allow_classic_link_to_remote_vpc"`
-	AllowRemoteVpcDnsResolution bool `json:"allow_remote_vpc_dns_resolution"`
 }
 
 // A VpcPeeringConnectionStatus defines the observed state of a VpcPeeringConnection

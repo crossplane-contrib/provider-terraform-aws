@@ -14,18 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSecurityhubStandardsSubscription(r SecurityhubStandardsSubscription) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSecurityhubStandardsSubscription(r SecurityhubStandardsSubscription) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSecurityhubStandardsSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubStandardsSubscription_StandardsArn(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSecurityhubStandardsSubscription_Id(p *SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeSecurityhubStandardsSubscription_Id(p SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSecurityhubStandardsSubscription_StandardsArn(p *SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeSecurityhubStandardsSubscription_StandardsArn(p SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {
 	vals["standards_arn"] = cty.StringVal(p.StandardsArn)
 }

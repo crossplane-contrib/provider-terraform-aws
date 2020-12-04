@@ -52,22 +52,22 @@ type EmrInstanceFleetSpec struct {
 
 // A EmrInstanceFleetParameters defines the desired state of a EmrInstanceFleet
 type EmrInstanceFleetParameters struct {
-	ClusterId              string                `json:"cluster_id"`
-	Id                     string                `json:"id"`
-	Name                   string                `json:"name"`
-	TargetOnDemandCapacity int                   `json:"target_on_demand_capacity"`
-	TargetSpotCapacity     int                   `json:"target_spot_capacity"`
-	InstanceTypeConfigs    []InstanceTypeConfigs `json:"instance_type_configs"`
-	LaunchSpecifications   LaunchSpecifications  `json:"launch_specifications"`
+	TargetSpotCapacity     int64                `json:"target_spot_capacity"`
+	ClusterId              string               `json:"cluster_id"`
+	Id                     string               `json:"id"`
+	Name                   string               `json:"name"`
+	TargetOnDemandCapacity int64                `json:"target_on_demand_capacity"`
+	InstanceTypeConfigs    InstanceTypeConfigs  `json:"instance_type_configs"`
+	LaunchSpecifications   LaunchSpecifications `json:"launch_specifications"`
 }
 
 type InstanceTypeConfigs struct {
-	BidPrice                            string           `json:"bid_price"`
-	BidPriceAsPercentageOfOnDemandPrice int              `json:"bid_price_as_percentage_of_on_demand_price"`
-	InstanceType                        string           `json:"instance_type"`
-	WeightedCapacity                    int              `json:"weighted_capacity"`
-	Configurations                      []Configurations `json:"configurations"`
-	EbsConfig                           []EbsConfig      `json:"ebs_config"`
+	InstanceType                        string         `json:"instance_type"`
+	WeightedCapacity                    int64          `json:"weighted_capacity"`
+	BidPrice                            string         `json:"bid_price"`
+	BidPriceAsPercentageOfOnDemandPrice int64          `json:"bid_price_as_percentage_of_on_demand_price"`
+	Configurations                      Configurations `json:"configurations"`
+	EbsConfig                           EbsConfig      `json:"ebs_config"`
 }
 
 type Configurations struct {
@@ -76,15 +76,15 @@ type Configurations struct {
 }
 
 type EbsConfig struct {
-	Iops               int    `json:"iops"`
-	Size               int    `json:"size"`
+	Iops               int64  `json:"iops"`
+	Size               int64  `json:"size"`
 	Type               string `json:"type"`
-	VolumesPerInstance int    `json:"volumes_per_instance"`
+	VolumesPerInstance int64  `json:"volumes_per_instance"`
 }
 
 type LaunchSpecifications struct {
-	OnDemandSpecification []OnDemandSpecification `json:"on_demand_specification"`
-	SpotSpecification     []SpotSpecification     `json:"spot_specification"`
+	OnDemandSpecification OnDemandSpecification `json:"on_demand_specification"`
+	SpotSpecification     SpotSpecification     `json:"spot_specification"`
 }
 
 type OnDemandSpecification struct {
@@ -92,10 +92,10 @@ type OnDemandSpecification struct {
 }
 
 type SpotSpecification struct {
-	BlockDurationMinutes   int    `json:"block_duration_minutes"`
-	TimeoutAction          string `json:"timeout_action"`
-	TimeoutDurationMinutes int    `json:"timeout_duration_minutes"`
+	TimeoutDurationMinutes int64  `json:"timeout_duration_minutes"`
 	AllocationStrategy     string `json:"allocation_strategy"`
+	BlockDurationMinutes   int64  `json:"block_duration_minutes"`
+	TimeoutAction          string `json:"timeout_action"`
 }
 
 // A EmrInstanceFleetStatus defines the observed state of a EmrInstanceFleet
@@ -106,6 +106,6 @@ type EmrInstanceFleetStatus struct {
 
 // A EmrInstanceFleetObservation records the observed state of a EmrInstanceFleet
 type EmrInstanceFleetObservation struct {
-	ProvisionedOnDemandCapacity int `json:"provisioned_on_demand_capacity"`
-	ProvisionedSpotCapacity     int `json:"provisioned_spot_capacity"`
+	ProvisionedOnDemandCapacity int64 `json:"provisioned_on_demand_capacity"`
+	ProvisionedSpotCapacity     int64 `json:"provisioned_spot_capacity"`
 }

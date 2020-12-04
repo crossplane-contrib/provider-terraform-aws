@@ -14,26 +14,28 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCustomerGateway(r CustomerGateway) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeCustomerGateway_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCustomerGateway(r CustomerGateway) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeCustomerGateway_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Type(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_BgpAsn(r.Spec.ForProvider, ctyVal)
+	EncodeCustomerGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCustomerGateway_Id(p *CustomerGatewayParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCustomerGateway_IpAddress(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+func EncodeCustomerGateway_IpAddress(p CustomerGatewayParameters, vals map[string]cty.Value) {
 	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
-func EncodeCustomerGateway_Tags(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+func EncodeCustomerGateway_Tags(p CustomerGatewayParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -41,14 +43,18 @@ func EncodeCustomerGateway_Tags(p *CustomerGatewayParameters, vals map[string]ct
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeCustomerGateway_Type(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+func EncodeCustomerGateway_Type(p CustomerGatewayParameters, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeCustomerGateway_BgpAsn(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+func EncodeCustomerGateway_BgpAsn(p CustomerGatewayParameters, vals map[string]cty.Value) {
 	vals["bgp_asn"] = cty.StringVal(p.BgpAsn)
 }
 
-func EncodeCustomerGateway_Arn(p *CustomerGatewayObservation, vals map[string]cty.Value) {
+func EncodeCustomerGateway_Id(p CustomerGatewayParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCustomerGateway_Arn(p CustomerGatewayObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

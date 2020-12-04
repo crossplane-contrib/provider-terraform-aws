@@ -57,7 +57,7 @@ type ApiGatewayUsagePlanParameters struct {
 	Name             string            `json:"name"`
 	ProductCode      string            `json:"product_code"`
 	Tags             map[string]string `json:"tags"`
-	ApiStages        []ApiStages       `json:"api_stages"`
+	ApiStages        ApiStages         `json:"api_stages"`
 	QuotaSettings    QuotaSettings     `json:"quota_settings"`
 	ThrottleSettings ThrottleSettings  `json:"throttle_settings"`
 }
@@ -68,14 +68,14 @@ type ApiStages struct {
 }
 
 type QuotaSettings struct {
-	Limit  int    `json:"limit"`
-	Offset int    `json:"offset"`
+	Limit  int64  `json:"limit"`
+	Offset int64  `json:"offset"`
 	Period string `json:"period"`
 }
 
 type ThrottleSettings struct {
-	BurstLimit int `json:"burst_limit"`
-	RateLimit  int `json:"rate_limit"`
+	BurstLimit int64 `json:"burst_limit"`
+	RateLimit  int64 `json:"rate_limit"`
 }
 
 // A ApiGatewayUsagePlanStatus defines the observed state of a ApiGatewayUsagePlan

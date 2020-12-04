@@ -52,16 +52,16 @@ type GlobalacceleratorListenerSpec struct {
 
 // A GlobalacceleratorListenerParameters defines the desired state of a GlobalacceleratorListener
 type GlobalacceleratorListenerParameters struct {
-	Protocol       string      `json:"protocol"`
 	AcceleratorArn string      `json:"accelerator_arn"`
 	ClientAffinity string      `json:"client_affinity"`
 	Id             string      `json:"id"`
+	Protocol       string      `json:"protocol"`
 	PortRange      []PortRange `json:"port_range"`
 }
 
 type PortRange struct {
-	FromPort int `json:"from_port"`
-	ToPort   int `json:"to_port"`
+	FromPort int64 `json:"from_port"`
+	ToPort   int64 `json:"to_port"`
 }
 
 // A GlobalacceleratorListenerStatus defines the observed state of a GlobalacceleratorListener

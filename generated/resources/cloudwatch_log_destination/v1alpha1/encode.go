@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCloudwatchLogDestination(r CloudwatchLogDestination) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeCloudwatchLogDestination_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogDestination_TargetArn(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCloudwatchLogDestination(r CloudwatchLogDestination) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchLogDestination_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestination_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogDestination_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogDestination_TargetArn(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestination_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudwatchLogDestination_RoleArn(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeCloudwatchLogDestination_TargetArn(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
-	vals["target_arn"] = cty.StringVal(p.TargetArn)
-}
-
-func EncodeCloudwatchLogDestination_Id(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogDestination_Id(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCloudwatchLogDestination_Name(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogDestination_Name(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeCloudwatchLogDestination_Arn(p *CloudwatchLogDestinationObservation, vals map[string]cty.Value) {
+func EncodeCloudwatchLogDestination_RoleArn(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeCloudwatchLogDestination_TargetArn(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
+	vals["target_arn"] = cty.StringVal(p.TargetArn)
+}
+
+func EncodeCloudwatchLogDestination_Arn(p CloudwatchLogDestinationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

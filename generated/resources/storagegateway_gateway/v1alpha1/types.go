@@ -52,23 +52,23 @@ type StoragegatewayGatewaySpec struct {
 
 // A StoragegatewayGatewayParameters defines the desired state of a StoragegatewayGateway
 type StoragegatewayGatewayParameters struct {
-	GatewayName                          string                     `json:"gateway_name"`
-	MediumChangerType                    string                     `json:"medium_changer_type"`
-	GatewayTimezone                      string                     `json:"gateway_timezone"`
-	GatewayType                          string                     `json:"gateway_type"`
+	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
 	SmbGuestPassword                     string                     `json:"smb_guest_password"`
 	SmbSecurityStrategy                  string                     `json:"smb_security_strategy"`
-	TapeDriveType                        string                     `json:"tape_drive_type"`
 	ActivationKey                        string                     `json:"activation_key"`
-	AverageDownloadRateLimitInBitsPerSec int                        `json:"average_download_rate_limit_in_bits_per_sec"`
-	AverageUploadRateLimitInBitsPerSec   int                        `json:"average_upload_rate_limit_in_bits_per_sec"`
+	AverageUploadRateLimitInBitsPerSec   int64                      `json:"average_upload_rate_limit_in_bits_per_sec"`
 	Tags                                 map[string]string          `json:"tags"`
-	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
+	TapeDriveType                        string                     `json:"tape_drive_type"`
 	GatewayIpAddress                     string                     `json:"gateway_ip_address"`
-	Id                                   string                     `json:"id"`
+	GatewayName                          string                     `json:"gateway_name"`
+	GatewayType                          string                     `json:"gateway_type"`
 	GatewayVpcEndpoint                   string                     `json:"gateway_vpc_endpoint"`
+	MediumChangerType                    string                     `json:"medium_changer_type"`
+	AverageDownloadRateLimitInBitsPerSec int64                      `json:"average_download_rate_limit_in_bits_per_sec"`
+	GatewayTimezone                      string                     `json:"gateway_timezone"`
+	Id                                   string                     `json:"id"`
 	SmbActiveDirectorySettings           SmbActiveDirectorySettings `json:"smb_active_directory_settings"`
-	Timeouts                             []Timeouts                 `json:"timeouts"`
+	Timeouts                             Timeouts                   `json:"timeouts"`
 }
 
 type SmbActiveDirectorySettings struct {
@@ -89,6 +89,6 @@ type StoragegatewayGatewayStatus struct {
 
 // A StoragegatewayGatewayObservation records the observed state of a StoragegatewayGateway
 type StoragegatewayGatewayObservation struct {
-	Arn       string `json:"arn"`
 	GatewayId string `json:"gateway_id"`
+	Arn       string `json:"arn"`
 }

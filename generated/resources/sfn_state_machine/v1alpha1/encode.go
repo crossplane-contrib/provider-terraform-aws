@@ -14,36 +14,26 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Definition(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSfnStateMachine_CreationDate(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_Status(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeSfnStateMachine_CreationDate(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSfnStateMachine_Definition(p *SfnStateMachineParameters, vals map[string]cty.Value) {
-	vals["definition"] = cty.StringVal(p.Definition)
-}
-
-func EncodeSfnStateMachine_Id(p *SfnStateMachineParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSfnStateMachine_Name(p *SfnStateMachineParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSfnStateMachine_RoleArn(p *SfnStateMachineParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeSfnStateMachine_Tags(p *SfnStateMachineParameters, vals map[string]cty.Value) {
+func EncodeSfnStateMachine_Tags(p SfnStateMachineParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -51,14 +41,30 @@ func EncodeSfnStateMachine_Tags(p *SfnStateMachineParameters, vals map[string]ct
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSfnStateMachine_CreationDate(p *SfnStateMachineObservation, vals map[string]cty.Value) {
-	vals["creation_date"] = cty.StringVal(p.CreationDate)
+func EncodeSfnStateMachine_Definition(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	vals["definition"] = cty.StringVal(p.Definition)
 }
 
-func EncodeSfnStateMachine_Status(p *SfnStateMachineObservation, vals map[string]cty.Value) {
+func EncodeSfnStateMachine_Id(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSfnStateMachine_Name(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSfnStateMachine_RoleArn(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeSfnStateMachine_Status(p SfnStateMachineObservation, vals map[string]cty.Value) {
 	vals["status"] = cty.StringVal(p.Status)
 }
 
-func EncodeSfnStateMachine_Arn(p *SfnStateMachineObservation, vals map[string]cty.Value) {
+func EncodeSfnStateMachine_Arn(p SfnStateMachineObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeSfnStateMachine_CreationDate(p SfnStateMachineObservation, vals map[string]cty.Value) {
+	vals["creation_date"] = cty.StringVal(p.CreationDate)
 }

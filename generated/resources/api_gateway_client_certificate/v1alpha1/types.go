@@ -65,8 +65,8 @@ type ApiGatewayClientCertificateStatus struct {
 
 // A ApiGatewayClientCertificateObservation records the observed state of a ApiGatewayClientCertificate
 type ApiGatewayClientCertificateObservation struct {
-	Arn                   string `json:"arn"`
 	CreatedDate           string `json:"created_date"`
 	ExpirationDate        string `json:"expiration_date"`
 	PemEncodedCertificate string `json:"pem_encoded_certificate"`
+	Arn                   string `json:"arn"`
 }

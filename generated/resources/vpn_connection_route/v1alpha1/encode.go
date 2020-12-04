@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVpnConnectionRoute(r VpnConnectionRoute) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVpnConnectionRoute(r VpnConnectionRoute) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVpnConnectionRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeVpnConnectionRoute_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnConnectionRoute_VpnConnectionId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpnConnectionRoute_DestinationCidrBlock(p *VpnConnectionRouteParameters, vals map[string]cty.Value) {
+func EncodeVpnConnectionRoute_DestinationCidrBlock(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
 	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
 }
 
-func EncodeVpnConnectionRoute_Id(p *VpnConnectionRouteParameters, vals map[string]cty.Value) {
+func EncodeVpnConnectionRoute_Id(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeVpnConnectionRoute_VpnConnectionId(p *VpnConnectionRouteParameters, vals map[string]cty.Value) {
+func EncodeVpnConnectionRoute_VpnConnectionId(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
 	vals["vpn_connection_id"] = cty.StringVal(p.VpnConnectionId)
 }

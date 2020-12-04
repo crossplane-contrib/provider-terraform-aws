@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVpcEndpointServiceAllowedPrincipal(r VpcEndpointServiceAllowedPrincipal) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVpcEndpointServiceAllowedPrincipal(r VpcEndpointServiceAllowedPrincipal) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointServiceAllowedPrincipal_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(p *VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
 	vals["principal_arn"] = cty.StringVal(p.PrincipalArn)
 }
 
-func EncodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(p *VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_service_id"] = cty.StringVal(p.VpcEndpointServiceId)
 }
 
-func EncodeVpcEndpointServiceAllowedPrincipal_Id(p *VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointServiceAllowedPrincipal_Id(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

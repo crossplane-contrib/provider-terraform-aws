@@ -52,22 +52,22 @@ type GlobalacceleratorEndpointGroupSpec struct {
 
 // A GlobalacceleratorEndpointGroupParameters defines the desired state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupParameters struct {
-	EndpointGroupRegion        string                  `json:"endpoint_group_region"`
-	HealthCheckPort            int                     `json:"health_check_port"`
-	Id                         string                  `json:"id"`
-	ThresholdCount             int                     `json:"threshold_count"`
-	TrafficDialPercentage      int                     `json:"traffic_dial_percentage"`
-	HealthCheckIntervalSeconds int                     `json:"health_check_interval_seconds"`
-	HealthCheckPath            string                  `json:"health_check_path"`
 	HealthCheckProtocol        string                  `json:"health_check_protocol"`
 	ListenerArn                string                  `json:"listener_arn"`
+	EndpointGroupRegion        string                  `json:"endpoint_group_region"`
+	HealthCheckIntervalSeconds int64                   `json:"health_check_interval_seconds"`
+	HealthCheckPath            string                  `json:"health_check_path"`
+	HealthCheckPort            int64                   `json:"health_check_port"`
+	Id                         string                  `json:"id"`
+	ThresholdCount             int64                   `json:"threshold_count"`
+	TrafficDialPercentage      int64                   `json:"traffic_dial_percentage"`
 	EndpointConfiguration      []EndpointConfiguration `json:"endpoint_configuration"`
 }
 
 type EndpointConfiguration struct {
-	ClientIpPreservationEnabled bool   `json:"client_ip_preservation_enabled"`
 	EndpointId                  string `json:"endpoint_id"`
-	Weight                      int    `json:"weight"`
+	Weight                      int64  `json:"weight"`
+	ClientIpPreservationEnabled bool   `json:"client_ip_preservation_enabled"`
 }
 
 // A GlobalacceleratorEndpointGroupStatus defines the observed state of a GlobalacceleratorEndpointGroup

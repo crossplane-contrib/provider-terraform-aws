@@ -14,30 +14,36 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodePlacementGroup(r PlacementGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodePlacementGroup(r PlacementGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodePlacementGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Strategy(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Arn(r.Status.AtProvider, ctyVal)
 	EncodePlacementGroup_PlacementGroupId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodePlacementGroup_Id(p *PlacementGroupParameters, vals map[string]cty.Value) {
+func EncodePlacementGroup_Id(p PlacementGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodePlacementGroup_Name(p *PlacementGroupParameters, vals map[string]cty.Value) {
+func EncodePlacementGroup_Name(p PlacementGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodePlacementGroup_Strategy(p *PlacementGroupParameters, vals map[string]cty.Value) {
+func EncodePlacementGroup_Strategy(p PlacementGroupParameters, vals map[string]cty.Value) {
 	vals["strategy"] = cty.StringVal(p.Strategy)
 }
 
-func EncodePlacementGroup_Tags(p *PlacementGroupParameters, vals map[string]cty.Value) {
+func EncodePlacementGroup_Tags(p PlacementGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -45,10 +51,10 @@ func EncodePlacementGroup_Tags(p *PlacementGroupParameters, vals map[string]cty.
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodePlacementGroup_Arn(p *PlacementGroupObservation, vals map[string]cty.Value) {
+func EncodePlacementGroup_Arn(p PlacementGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodePlacementGroup_PlacementGroupId(p *PlacementGroupObservation, vals map[string]cty.Value) {
+func EncodePlacementGroup_PlacementGroupId(p PlacementGroupObservation, vals map[string]cty.Value) {
 	vals["placement_group_id"] = cty.StringVal(p.PlacementGroupId)
 }

@@ -14,32 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayMethodResponse(r ApiGatewayMethodResponse) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeApiGatewayMethodResponse_HttpMethod(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayMethodResponse(r ApiGatewayMethodResponse) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayMethodResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResponseModels(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_StatusCode(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayMethodResponse_HttpMethod(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayMethodResponse_HttpMethod(p *ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
-	vals["http_method"] = cty.StringVal(p.HttpMethod)
-}
-
-func EncodeApiGatewayMethodResponse_Id(p *ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayMethodResponse_Id(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayMethodResponse_ResourceId(p *ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayMethodResponse_ResourceId(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }
 
-func EncodeApiGatewayMethodResponse_ResponseModels(p *ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayMethodResponse_ResponseModels(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.ResponseModels {
 		mVals[key] = cty.StringVal(value)
@@ -47,7 +49,7 @@ func EncodeApiGatewayMethodResponse_ResponseModels(p *ApiGatewayMethodResponsePa
 	vals["response_models"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayMethodResponse_ResponseParameters(p *ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayMethodResponse_ResponseParameters(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.ResponseParameters {
 		mVals[key] = cty.BoolVal(value)
@@ -55,10 +57,14 @@ func EncodeApiGatewayMethodResponse_ResponseParameters(p *ApiGatewayMethodRespon
 	vals["response_parameters"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayMethodResponse_RestApiId(p *ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayMethodResponse_RestApiId(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
-func EncodeApiGatewayMethodResponse_StatusCode(p *ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayMethodResponse_StatusCode(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	vals["status_code"] = cty.StringVal(p.StatusCode)
+}
+
+func EncodeApiGatewayMethodResponse_HttpMethod(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+	vals["http_method"] = cty.StringVal(p.HttpMethod)
 }

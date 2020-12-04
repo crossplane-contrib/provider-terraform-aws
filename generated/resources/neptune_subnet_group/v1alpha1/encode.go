@@ -14,27 +14,37 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeNeptuneSubnetGroup(r NeptuneSubnetGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeNeptuneSubnetGroup(r NeptuneSubnetGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeNeptuneSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNeptuneSubnetGroup_Name(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneSubnetGroup_Id(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeNeptuneSubnetGroup_Name(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeNeptuneSubnetGroup_NamePrefix(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneSubnetGroup_NamePrefix(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeNeptuneSubnetGroup_SubnetIds(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneSubnetGroup_SubnetIds(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SubnetIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -42,7 +52,7 @@ func EncodeNeptuneSubnetGroup_SubnetIds(p *NeptuneSubnetGroupParameters, vals ma
 	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeNeptuneSubnetGroup_Tags(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneSubnetGroup_Tags(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -50,14 +60,10 @@ func EncodeNeptuneSubnetGroup_Tags(p *NeptuneSubnetGroupParameters, vals map[str
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeNeptuneSubnetGroup_Description(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneSubnetGroup_Description(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeNeptuneSubnetGroup_Id(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeNeptuneSubnetGroup_Arn(p *NeptuneSubnetGroupObservation, vals map[string]cty.Value) {
+func EncodeNeptuneSubnetGroup_Arn(p NeptuneSubnetGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

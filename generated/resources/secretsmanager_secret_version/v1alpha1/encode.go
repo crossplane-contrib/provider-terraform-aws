@@ -14,19 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretBinary(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSecretsmanagerSecretVersion_VersionStages(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecretVersion_SecretString(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["secret_string"] = cty.StringVal(p.SecretString)
+}
+
+func EncodeSecretsmanagerSecretVersion_VersionStages(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.VersionStages {
 		colVals = append(colVals, cty.StringVal(value))
@@ -34,26 +44,22 @@ func EncodeSecretsmanagerSecretVersion_VersionStages(p *SecretsmanagerSecretVers
 	vals["version_stages"] = cty.SetVal(colVals)
 }
 
-func EncodeSecretsmanagerSecretVersion_Id(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecretVersion_Id(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSecretsmanagerSecretVersion_SecretBinary(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecretVersion_SecretBinary(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	vals["secret_binary"] = cty.StringVal(p.SecretBinary)
 }
 
-func EncodeSecretsmanagerSecretVersion_SecretId(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecretVersion_SecretId(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	vals["secret_id"] = cty.StringVal(p.SecretId)
 }
 
-func EncodeSecretsmanagerSecretVersion_SecretString(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
-	vals["secret_string"] = cty.StringVal(p.SecretString)
-}
-
-func EncodeSecretsmanagerSecretVersion_Arn(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeSecretsmanagerSecretVersion_VersionId(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecretVersion_VersionId(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
 	vals["version_id"] = cty.StringVal(p.VersionId)
+}
+
+func EncodeSecretsmanagerSecretVersion_Arn(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

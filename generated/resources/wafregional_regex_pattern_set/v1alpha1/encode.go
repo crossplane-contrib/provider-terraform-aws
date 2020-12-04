@@ -14,24 +14,30 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafregionalRegexPatternSet(r WafregionalRegexPatternSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafregionalRegexPatternSet(r WafregionalRegexPatternSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafregionalRegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRegexPatternSet_RegexPatternStrings(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafregionalRegexPatternSet_Id(p *WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalRegexPatternSet_Id(p WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafregionalRegexPatternSet_Name(p *WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalRegexPatternSet_Name(p WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafregionalRegexPatternSet_RegexPatternStrings(p *WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalRegexPatternSet_RegexPatternStrings(p WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.RegexPatternStrings {
 		colVals = append(colVals, cty.StringVal(value))

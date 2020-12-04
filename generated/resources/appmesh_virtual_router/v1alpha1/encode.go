@@ -14,26 +14,40 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAppmeshVirtualRouter(r AppmeshVirtualRouter) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAppmeshVirtualRouter(r AppmeshVirtualRouter) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAppmeshVirtualRouter_Name(r.Spec.ForProvider, ctyVal)
-	EncodeAppmeshVirtualRouter_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeAppmeshVirtualRouter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_MeshName(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_MeshOwner(r.Spec.ForProvider, ctyVal)
+	EncodeAppmeshVirtualRouter_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeAppmeshVirtualRouter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_Spec(r.Spec.ForProvider.Spec, ctyVal)
-	EncodeAppmeshVirtualRouter_Arn(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshVirtualRouter_ResourceOwner(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_LastUpdatedDate(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeAppmeshVirtualRouter_Arn(r.Status.AtProvider, ctyVal)
+	EncodeAppmeshVirtualRouter_ResourceOwner(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAppmeshVirtualRouter_Name(p *AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+func EncodeAppmeshVirtualRouter_Name(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeAppmeshVirtualRouter_Tags(p *AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+func EncodeAppmeshVirtualRouter_MeshName(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+	vals["mesh_name"] = cty.StringVal(p.MeshName)
+}
+
+func EncodeAppmeshVirtualRouter_MeshOwner(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
+}
+
+func EncodeAppmeshVirtualRouter_Tags(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -41,69 +55,55 @@ func EncodeAppmeshVirtualRouter_Tags(p *AppmeshVirtualRouterParameters, vals map
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeAppmeshVirtualRouter_Id(p *AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+func EncodeAppmeshVirtualRouter_Id(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAppmeshVirtualRouter_MeshName(p *AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
-	vals["mesh_name"] = cty.StringVal(p.MeshName)
-}
-
-func EncodeAppmeshVirtualRouter_MeshOwner(p *AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
-	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
-}
-
-func EncodeAppmeshVirtualRouter_Spec(p *Spec, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Spec {
-		ctyVal = make(map[string]cty.Value)
-		EncodeAppmeshVirtualRouter_Spec_Listener(v.Listener, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeAppmeshVirtualRouter_Spec(p Spec, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshVirtualRouter_Spec_Listener(p.Listener, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["spec"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeAppmeshVirtualRouter_Spec_Listener(p *Listener, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Listener {
-		ctyVal = make(map[string]cty.Value)
-		EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping(v.PortMapping, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeAppmeshVirtualRouter_Spec_Listener(p Listener, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping(p.PortMapping, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["listener"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping(p *PortMapping, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.PortMapping {
-		ctyVal = make(map[string]cty.Value)
-		EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Port(v, ctyVal)
-		EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Protocol(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping(p PortMapping, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Port(p, ctyVal)
+	EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Protocol(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["port_mapping"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Port(p *PortMapping, vals map[string]cty.Value) {
-	vals["port"] = cty.IntVal(p.Port)
+func EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Port(p PortMapping, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
 }
 
-func EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Protocol(p *PortMapping, vals map[string]cty.Value) {
+func EncodeAppmeshVirtualRouter_Spec_Listener_PortMapping_Protocol(p PortMapping, vals map[string]cty.Value) {
 	vals["protocol"] = cty.StringVal(p.Protocol)
 }
 
-func EncodeAppmeshVirtualRouter_Arn(p *AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeAppmeshVirtualRouter_ResourceOwner(p *AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
-	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
-}
-
-func EncodeAppmeshVirtualRouter_CreatedDate(p *AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
+func EncodeAppmeshVirtualRouter_CreatedDate(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
-func EncodeAppmeshVirtualRouter_LastUpdatedDate(p *AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
+func EncodeAppmeshVirtualRouter_LastUpdatedDate(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
 	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
+}
+
+func EncodeAppmeshVirtualRouter_Arn(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeAppmeshVirtualRouter_ResourceOwner(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
+	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
 }

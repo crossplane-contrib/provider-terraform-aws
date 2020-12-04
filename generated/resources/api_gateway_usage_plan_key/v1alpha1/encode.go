@@ -14,37 +14,43 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayUsagePlanKey(r ApiGatewayUsagePlanKey) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeApiGatewayUsagePlanKey_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayUsagePlanKey_KeyId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayUsagePlanKey(r ApiGatewayUsagePlanKey) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayUsagePlanKey_KeyType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_UsagePlanId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayUsagePlanKey_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayUsagePlanKey_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Name(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Value(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayUsagePlanKey_Id(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayUsagePlanKey_KeyId(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	vals["key_id"] = cty.StringVal(p.KeyId)
-}
-
-func EncodeApiGatewayUsagePlanKey_KeyType(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlanKey_KeyType(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	vals["key_type"] = cty.StringVal(p.KeyType)
 }
 
-func EncodeApiGatewayUsagePlanKey_UsagePlanId(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlanKey_UsagePlanId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	vals["usage_plan_id"] = cty.StringVal(p.UsagePlanId)
 }
 
-func EncodeApiGatewayUsagePlanKey_Name(p *ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlanKey_Id(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApiGatewayUsagePlanKey_KeyId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	vals["key_id"] = cty.StringVal(p.KeyId)
+}
+
+func EncodeApiGatewayUsagePlanKey_Name(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeApiGatewayUsagePlanKey_Value(p *ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlanKey_Value(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }

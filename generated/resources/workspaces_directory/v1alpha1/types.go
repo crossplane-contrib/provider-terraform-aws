@@ -52,8 +52,8 @@ type WorkspacesDirectorySpec struct {
 
 // A WorkspacesDirectoryParameters defines the desired state of a WorkspacesDirectory
 type WorkspacesDirectoryParameters struct {
-	Tags                   map[string]string      `json:"tags"`
 	SubnetIds              []string               `json:"subnet_ids"`
+	Tags                   map[string]string      `json:"tags"`
 	DirectoryId            string                 `json:"directory_id"`
 	Id                     string                 `json:"id"`
 	SelfServicePermissions SelfServicePermissions `json:"self_service_permissions"`
@@ -75,13 +75,13 @@ type WorkspacesDirectoryStatus struct {
 
 // A WorkspacesDirectoryObservation records the observed state of a WorkspacesDirectory
 type WorkspacesDirectoryObservation struct {
+	RegistrationCode         string   `json:"registration_code"`
+	DirectoryType            string   `json:"directory_type"`
+	IpGroupIds               []string `json:"ip_group_ids"`
+	DnsIpAddresses           []string `json:"dns_ip_addresses"`
+	IamRoleId                string   `json:"iam_role_id"`
 	WorkspaceSecurityGroupId string   `json:"workspace_security_group_id"`
 	Alias                    string   `json:"alias"`
-	DirectoryType            string   `json:"directory_type"`
-	IamRoleId                string   `json:"iam_role_id"`
-	RegistrationCode         string   `json:"registration_code"`
-	IpGroupIds               []string `json:"ip_group_ids"`
 	CustomerUserName         string   `json:"customer_user_name"`
 	DirectoryName            string   `json:"directory_name"`
-	DnsIpAddresses           []string `json:"dns_ip_addresses"`
 }

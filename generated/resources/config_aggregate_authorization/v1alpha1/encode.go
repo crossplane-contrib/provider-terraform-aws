@@ -14,21 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeConfigAggregateAuthorization(r ConfigAggregateAuthorization) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeConfigAggregateAuthorization(r ConfigAggregateAuthorization) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeConfigAggregateAuthorization_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Region(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_AccountId(r.Spec.ForProvider, ctyVal)
-	EncodeConfigAggregateAuthorization_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeConfigAggregateAuthorization_Region(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
+func EncodeConfigAggregateAuthorization_Id(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeConfigAggregateAuthorization_Region(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
 	vals["region"] = cty.StringVal(p.Region)
 }
 
-func EncodeConfigAggregateAuthorization_Tags(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
+func EncodeConfigAggregateAuthorization_Tags(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -36,14 +46,10 @@ func EncodeConfigAggregateAuthorization_Tags(p *ConfigAggregateAuthorizationPara
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeConfigAggregateAuthorization_AccountId(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
+func EncodeConfigAggregateAuthorization_AccountId(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
 }
 
-func EncodeConfigAggregateAuthorization_Id(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeConfigAggregateAuthorization_Arn(p *ConfigAggregateAuthorizationObservation, vals map[string]cty.Value) {
+func EncodeConfigAggregateAuthorization_Arn(p ConfigAggregateAuthorizationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -52,38 +52,38 @@ type OpsworksStackSpec struct {
 
 // A OpsworksStackParameters defines the desired state of a OpsworksStack
 type OpsworksStackParameters struct {
-	UseCustomCookbooks          bool                    `json:"use_custom_cookbooks"`
-	BerkshelfVersion            string                  `json:"berkshelf_version"`
-	DefaultAvailabilityZone     string                  `json:"default_availability_zone"`
-	HostnameTheme               string                  `json:"hostname_theme"`
-	Id                          string                  `json:"id"`
-	ServiceRoleArn              string                  `json:"service_role_arn"`
-	Tags                        map[string]string       `json:"tags"`
-	VpcId                       string                  `json:"vpc_id"`
-	AgentVersion                string                  `json:"agent_version"`
-	Color                       string                  `json:"color"`
-	DefaultSubnetId             string                  `json:"default_subnet_id"`
-	ManageBerkshelf             bool                    `json:"manage_berkshelf"`
-	Name                        string                  `json:"name"`
-	ConfigurationManagerName    string                  `json:"configuration_manager_name"`
-	ConfigurationManagerVersion string                  `json:"configuration_manager_version"`
-	DefaultInstanceProfileArn   string                  `json:"default_instance_profile_arn"`
-	DefaultSshKeyName           string                  `json:"default_ssh_key_name"`
-	UseOpsworksSecurityGroups   bool                    `json:"use_opsworks_security_groups"`
-	CustomJson                  string                  `json:"custom_json"`
-	DefaultOs                   string                  `json:"default_os"`
-	DefaultRootDeviceType       string                  `json:"default_root_device_type"`
-	Region                      string                  `json:"region"`
-	CustomCookbooksSource       []CustomCookbooksSource `json:"custom_cookbooks_source"`
+	BerkshelfVersion            string                `json:"berkshelf_version"`
+	Color                       string                `json:"color"`
+	DefaultRootDeviceType       string                `json:"default_root_device_type"`
+	ServiceRoleArn              string                `json:"service_role_arn"`
+	AgentVersion                string                `json:"agent_version"`
+	ConfigurationManagerName    string                `json:"configuration_manager_name"`
+	CustomJson                  string                `json:"custom_json"`
+	DefaultInstanceProfileArn   string                `json:"default_instance_profile_arn"`
+	DefaultSshKeyName           string                `json:"default_ssh_key_name"`
+	Id                          string                `json:"id"`
+	ManageBerkshelf             bool                  `json:"manage_berkshelf"`
+	ConfigurationManagerVersion string                `json:"configuration_manager_version"`
+	DefaultOs                   string                `json:"default_os"`
+	HostnameTheme               string                `json:"hostname_theme"`
+	Tags                        map[string]string     `json:"tags"`
+	UseCustomCookbooks          bool                  `json:"use_custom_cookbooks"`
+	UseOpsworksSecurityGroups   bool                  `json:"use_opsworks_security_groups"`
+	VpcId                       string                `json:"vpc_id"`
+	DefaultAvailabilityZone     string                `json:"default_availability_zone"`
+	DefaultSubnetId             string                `json:"default_subnet_id"`
+	Name                        string                `json:"name"`
+	Region                      string                `json:"region"`
+	CustomCookbooksSource       CustomCookbooksSource `json:"custom_cookbooks_source"`
 }
 
 type CustomCookbooksSource struct {
+	Url      string `json:"url"`
+	Username string `json:"username"`
 	Password string `json:"password"`
 	Revision string `json:"revision"`
 	SshKey   string `json:"ssh_key"`
 	Type     string `json:"type"`
-	Url      string `json:"url"`
-	Username string `json:"username"`
 }
 
 // A OpsworksStackStatus defines the observed state of a OpsworksStack
@@ -94,6 +94,6 @@ type OpsworksStackStatus struct {
 
 // A OpsworksStackObservation records the observed state of a OpsworksStack
 type OpsworksStackObservation struct {
-	StackEndpoint string `json:"stack_endpoint"`
 	Arn           string `json:"arn"`
+	StackEndpoint string `json:"stack_endpoint"`
 }

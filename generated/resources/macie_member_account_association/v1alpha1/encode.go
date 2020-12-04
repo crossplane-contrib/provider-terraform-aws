@@ -14,18 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeMacieMemberAccountAssociation(r MacieMemberAccountAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeMacieMemberAccountAssociation_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeMacieMemberAccountAssociation(r MacieMemberAccountAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeMacieMemberAccountAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
+	EncodeMacieMemberAccountAssociation_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMacieMemberAccountAssociation_Id(p *MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeMacieMemberAccountAssociation_MemberAccountId(p *MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
+func EncodeMacieMemberAccountAssociation_MemberAccountId(p MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
 	vals["member_account_id"] = cty.StringVal(p.MemberAccountId)
+}
+
+func EncodeMacieMemberAccountAssociation_Id(p MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

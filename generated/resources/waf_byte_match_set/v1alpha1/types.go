@@ -52,9 +52,9 @@ type WafByteMatchSetSpec struct {
 
 // A WafByteMatchSetParameters defines the desired state of a WafByteMatchSet
 type WafByteMatchSetParameters struct {
-	Name            string            `json:"name"`
-	Id              string            `json:"id"`
-	ByteMatchTuples []ByteMatchTuples `json:"byte_match_tuples"`
+	Id              string          `json:"id"`
+	Name            string          `json:"name"`
+	ByteMatchTuples ByteMatchTuples `json:"byte_match_tuples"`
 }
 
 type ByteMatchTuples struct {

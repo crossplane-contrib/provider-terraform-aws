@@ -14,18 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSimpledbDomain(r SimpledbDomain) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSimpledbDomain(r SimpledbDomain) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSimpledbDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSimpledbDomain_Name(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSimpledbDomain_Id(p *SimpledbDomainParameters, vals map[string]cty.Value) {
+func EncodeSimpledbDomain_Id(p SimpledbDomainParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSimpledbDomain_Name(p *SimpledbDomainParameters, vals map[string]cty.Value) {
+func EncodeSimpledbDomain_Name(p SimpledbDomainParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }

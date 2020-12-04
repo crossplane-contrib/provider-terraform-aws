@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamGroupPolicy(r IamGroupPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeIamGroupPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroupPolicy_Policy(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamGroupPolicy(r IamGroupPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIamGroupPolicy_Group(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_Name(r.Spec.ForProvider, ctyVal)
+	EncodeIamGroupPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeIamGroupPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamGroupPolicy_NamePrefix(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeIamGroupPolicy_Policy(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeIamGroupPolicy_Group(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamGroupPolicy_Group(p IamGroupPolicyParameters, vals map[string]cty.Value) {
 	vals["group"] = cty.StringVal(p.Group)
 }
 
-func EncodeIamGroupPolicy_Id(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamGroupPolicy_Id(p IamGroupPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamGroupPolicy_Name(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamGroupPolicy_Name(p IamGroupPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeIamGroupPolicy_NamePrefix(p IamGroupPolicyParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeIamGroupPolicy_Policy(p IamGroupPolicyParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
 }

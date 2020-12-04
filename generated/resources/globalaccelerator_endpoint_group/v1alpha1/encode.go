@@ -14,78 +14,84 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeGlobalacceleratorEndpointGroup(r GlobalacceleratorEndpointGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeGlobalacceleratorEndpointGroup(r GlobalacceleratorEndpointGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorEndpointGroup_ListenerArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_EndpointGroupRegion(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorEndpointGroup_HealthCheckPath(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_HealthCheckPort(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_ThresholdCount(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_TrafficDialPercentage(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorEndpointGroup_HealthCheckPath(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorEndpointGroup_ListenerArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration(r.Spec.ForProvider.EndpointConfiguration, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlobalacceleratorEndpointGroup_EndpointGroupRegion(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["endpoint_group_region"] = cty.StringVal(p.EndpointGroupRegion)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_HealthCheckPort(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["health_check_port"] = cty.IntVal(p.HealthCheckPort)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_Id(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_ThresholdCount(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["threshold_count"] = cty.IntVal(p.ThresholdCount)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_TrafficDialPercentage(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["traffic_dial_percentage"] = cty.IntVal(p.TrafficDialPercentage)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["health_check_interval_seconds"] = cty.IntVal(p.HealthCheckIntervalSeconds)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_HealthCheckPath(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["health_check_path"] = cty.StringVal(p.HealthCheckPath)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+func EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
 	vals["health_check_protocol"] = cty.StringVal(p.HealthCheckProtocol)
 }
 
-func EncodeGlobalacceleratorEndpointGroup_ListenerArn(p *GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+func EncodeGlobalacceleratorEndpointGroup_ListenerArn(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
 	vals["listener_arn"] = cty.StringVal(p.ListenerArn)
 }
 
-func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration(p *EndpointConfiguration, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.EndpointConfiguration {
-		ctyVal = make(map[string]cty.Value)
-		EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_ClientIpPreservationEnabled(v, ctyVal)
+func EncodeGlobalacceleratorEndpointGroup_EndpointGroupRegion(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["endpoint_group_region"] = cty.StringVal(p.EndpointGroupRegion)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["health_check_interval_seconds"] = cty.NumberIntVal(p.HealthCheckIntervalSeconds)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_HealthCheckPath(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["health_check_path"] = cty.StringVal(p.HealthCheckPath)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_HealthCheckPort(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["health_check_port"] = cty.NumberIntVal(p.HealthCheckPort)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_Id(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_ThresholdCount(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["threshold_count"] = cty.NumberIntVal(p.ThresholdCount)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_TrafficDialPercentage(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["traffic_dial_percentage"] = cty.NumberIntVal(p.TrafficDialPercentage)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration(p []EndpointConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_EndpointId(v, ctyVal)
 		EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_Weight(v, ctyVal)
+		EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_ClientIpPreservationEnabled(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["endpoint_configuration"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_ClientIpPreservationEnabled(p *EndpointConfiguration, vals map[string]cty.Value) {
-	vals["client_ip_preservation_enabled"] = cty.BoolVal(p.ClientIpPreservationEnabled)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_EndpointId(p *EndpointConfiguration, vals map[string]cty.Value) {
+func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_EndpointId(p EndpointConfiguration, vals map[string]cty.Value) {
 	vals["endpoint_id"] = cty.StringVal(p.EndpointId)
 }
 
-func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_Weight(p *EndpointConfiguration, vals map[string]cty.Value) {
-	vals["weight"] = cty.IntVal(p.Weight)
+func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_Weight(p EndpointConfiguration, vals map[string]cty.Value) {
+	vals["weight"] = cty.NumberIntVal(p.Weight)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration_ClientIpPreservationEnabled(p EndpointConfiguration, vals map[string]cty.Value) {
+	vals["client_ip_preservation_enabled"] = cty.BoolVal(p.ClientIpPreservationEnabled)
 }

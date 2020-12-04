@@ -14,19 +14,25 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeInspectorResourceGroup(r InspectorResourceGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeInspectorResourceGroup(r InspectorResourceGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeInspectorResourceGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeInspectorResourceGroup_Id(p *InspectorResourceGroupParameters, vals map[string]cty.Value) {
+func EncodeInspectorResourceGroup_Id(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeInspectorResourceGroup_Tags(p *InspectorResourceGroupParameters, vals map[string]cty.Value) {
+func EncodeInspectorResourceGroup_Tags(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -34,6 +40,6 @@ func EncodeInspectorResourceGroup_Tags(p *InspectorResourceGroupParameters, vals
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeInspectorResourceGroup_Arn(p *InspectorResourceGroupObservation, vals map[string]cty.Value) {
+func EncodeInspectorResourceGroup_Arn(p InspectorResourceGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

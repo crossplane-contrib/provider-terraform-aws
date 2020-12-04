@@ -65,6 +65,6 @@ type IamSamlProviderStatus struct {
 
 // A IamSamlProviderObservation records the observed state of a IamSamlProvider
 type IamSamlProviderObservation struct {
-	Arn        string `json:"arn"`
 	ValidUntil string `json:"valid_until"`
+	Arn        string `json:"arn"`
 }

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeStoragegatewayCache(r StoragegatewayCache) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeStoragegatewayCache(r StoragegatewayCache) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeStoragegatewayCache_DiskId(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCache_GatewayArn(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCache_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeStoragegatewayCache_DiskId(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
+func EncodeStoragegatewayCache_DiskId(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	vals["disk_id"] = cty.StringVal(p.DiskId)
 }
 
-func EncodeStoragegatewayCache_GatewayArn(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
+func EncodeStoragegatewayCache_GatewayArn(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
 }
 
-func EncodeStoragegatewayCache_Id(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
+func EncodeStoragegatewayCache_Id(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

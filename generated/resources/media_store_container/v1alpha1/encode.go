@@ -14,25 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeMediaStoreContainer(r MediaStoreContainer) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeMediaStoreContainer(r MediaStoreContainer) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeMediaStoreContainer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainer_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainer_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMediaStoreContainer_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMediaStoreContainer_Endpoint(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeMediaStoreContainer_Arn(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMediaStoreContainer_Id(p *MediaStoreContainerParameters, vals map[string]cty.Value) {
+func EncodeMediaStoreContainer_Id(p MediaStoreContainerParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeMediaStoreContainer_Name(p *MediaStoreContainerParameters, vals map[string]cty.Value) {
+func EncodeMediaStoreContainer_Name(p MediaStoreContainerParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeMediaStoreContainer_Tags(p *MediaStoreContainerParameters, vals map[string]cty.Value) {
+func EncodeMediaStoreContainer_Tags(p MediaStoreContainerParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -40,10 +46,10 @@ func EncodeMediaStoreContainer_Tags(p *MediaStoreContainerParameters, vals map[s
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeMediaStoreContainer_Arn(p *MediaStoreContainerObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeMediaStoreContainer_Endpoint(p MediaStoreContainerObservation, vals map[string]cty.Value) {
+	vals["endpoint"] = cty.StringVal(p.Endpoint)
 }
 
-func EncodeMediaStoreContainer_Endpoint(p *MediaStoreContainerObservation, vals map[string]cty.Value) {
-	vals["endpoint"] = cty.StringVal(p.Endpoint)
+func EncodeMediaStoreContainer_Arn(p MediaStoreContainerObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

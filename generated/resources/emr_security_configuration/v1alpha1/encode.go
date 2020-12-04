@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEmrSecurityConfiguration(r EmrSecurityConfiguration) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEmrSecurityConfiguration(r EmrSecurityConfiguration) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEmrSecurityConfiguration_Configuration(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_CreationDate(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEmrSecurityConfiguration_Configuration(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+func EncodeEmrSecurityConfiguration_Configuration(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["configuration"] = cty.StringVal(p.Configuration)
 }
 
-func EncodeEmrSecurityConfiguration_Id(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+func EncodeEmrSecurityConfiguration_Id(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEmrSecurityConfiguration_Name(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+func EncodeEmrSecurityConfiguration_Name(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeEmrSecurityConfiguration_NamePrefix(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+func EncodeEmrSecurityConfiguration_NamePrefix(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeEmrSecurityConfiguration_CreationDate(p *EmrSecurityConfigurationObservation, vals map[string]cty.Value) {
+func EncodeEmrSecurityConfiguration_CreationDate(p EmrSecurityConfigurationObservation, vals map[string]cty.Value) {
 	vals["creation_date"] = cty.StringVal(p.CreationDate)
 }

@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesReceiptFilter(r SesReceiptFilter) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesReceiptFilter(r SesReceiptFilter) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSesReceiptFilter_Cidr(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesReceiptFilter_Cidr(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
+func EncodeSesReceiptFilter_Cidr(p SesReceiptFilterParameters, vals map[string]cty.Value) {
 	vals["cidr"] = cty.StringVal(p.Cidr)
 }
 
-func EncodeSesReceiptFilter_Id(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
+func EncodeSesReceiptFilter_Id(p SesReceiptFilterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesReceiptFilter_Name(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
+func EncodeSesReceiptFilter_Name(p SesReceiptFilterParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSesReceiptFilter_Policy(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
+func EncodeSesReceiptFilter_Policy(p SesReceiptFilterParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }
 
-func EncodeSesReceiptFilter_Arn(p *SesReceiptFilterObservation, vals map[string]cty.Value) {
+func EncodeSesReceiptFilter_Arn(p SesReceiptFilterObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -14,18 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamAccountAlias(r IamAccountAlias) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeIamAccountAlias_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamAccountAlias(r IamAccountAlias) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIamAccountAlias_AccountAlias(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccountAlias_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamAccountAlias_Id(p *IamAccountAliasParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamAccountAlias_AccountAlias(p *IamAccountAliasParameters, vals map[string]cty.Value) {
+func EncodeIamAccountAlias_AccountAlias(p IamAccountAliasParameters, vals map[string]cty.Value) {
 	vals["account_alias"] = cty.StringVal(p.AccountAlias)
+}
+
+func EncodeIamAccountAlias_Id(p IamAccountAliasParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

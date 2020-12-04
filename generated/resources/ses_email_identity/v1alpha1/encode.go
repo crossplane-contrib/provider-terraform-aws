@@ -14,22 +14,28 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesEmailIdentity(r SesEmailIdentity) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesEmailIdentity(r SesEmailIdentity) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSesEmailIdentity_Email(r.Spec.ForProvider, ctyVal)
 	EncodeSesEmailIdentity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesEmailIdentity_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesEmailIdentity_Email(p *SesEmailIdentityParameters, vals map[string]cty.Value) {
+func EncodeSesEmailIdentity_Email(p SesEmailIdentityParameters, vals map[string]cty.Value) {
 	vals["email"] = cty.StringVal(p.Email)
 }
 
-func EncodeSesEmailIdentity_Id(p *SesEmailIdentityParameters, vals map[string]cty.Value) {
+func EncodeSesEmailIdentity_Id(p SesEmailIdentityParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesEmailIdentity_Arn(p *SesEmailIdentityObservation, vals map[string]cty.Value) {
+func EncodeSesEmailIdentity_Arn(p SesEmailIdentityObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

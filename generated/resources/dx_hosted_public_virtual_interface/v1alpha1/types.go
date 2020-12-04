@@ -52,18 +52,18 @@ type DxHostedPublicVirtualInterfaceSpec struct {
 
 // A DxHostedPublicVirtualInterfaceParameters defines the desired state of a DxHostedPublicVirtualInterface
 type DxHostedPublicVirtualInterfaceParameters struct {
-	BgpAuthKey          string     `json:"bgp_auth_key"`
-	AddressFamily       string     `json:"address_family"`
-	AmazonAddress       string     `json:"amazon_address"`
-	ConnectionId        string     `json:"connection_id"`
-	BgpAsn              int        `json:"bgp_asn"`
-	Id                  string     `json:"id"`
-	Name                string     `json:"name"`
-	OwnerAccountId      string     `json:"owner_account_id"`
-	Vlan                int        `json:"vlan"`
-	CustomerAddress     string     `json:"customer_address"`
-	RouteFilterPrefixes []string   `json:"route_filter_prefixes"`
-	Timeouts            []Timeouts `json:"timeouts"`
+	RouteFilterPrefixes []string `json:"route_filter_prefixes"`
+	AmazonAddress       string   `json:"amazon_address"`
+	BgpAuthKey          string   `json:"bgp_auth_key"`
+	Name                string   `json:"name"`
+	Vlan                int64    `json:"vlan"`
+	CustomerAddress     string   `json:"customer_address"`
+	Id                  string   `json:"id"`
+	OwnerAccountId      string   `json:"owner_account_id"`
+	BgpAsn              int64    `json:"bgp_asn"`
+	ConnectionId        string   `json:"connection_id"`
+	AddressFamily       string   `json:"address_family"`
+	Timeouts            Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -79,7 +79,7 @@ type DxHostedPublicVirtualInterfaceStatus struct {
 
 // A DxHostedPublicVirtualInterfaceObservation records the observed state of a DxHostedPublicVirtualInterface
 type DxHostedPublicVirtualInterfaceObservation struct {
-	AmazonSideAsn string `json:"amazon_side_asn"`
 	Arn           string `json:"arn"`
 	AwsDevice     string `json:"aws_device"`
+	AmazonSideAsn string `json:"amazon_side_asn"`
 }

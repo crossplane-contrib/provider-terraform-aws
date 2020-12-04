@@ -14,42 +14,46 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafregionalIpset(r WafregionalIpset) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafregionalIpset(r WafregionalIpset) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafregionalIpset_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalIpset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalIpset_IpSetDescriptor(r.Spec.ForProvider.IpSetDescriptor, ctyVal)
 	EncodeWafregionalIpset_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafregionalIpset_Id(p *WafregionalIpsetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalIpset_Id(p WafregionalIpsetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafregionalIpset_Name(p *WafregionalIpsetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalIpset_Name(p WafregionalIpsetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafregionalIpset_IpSetDescriptor(p *IpSetDescriptor, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.IpSetDescriptor {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafregionalIpset_IpSetDescriptor_Type(v, ctyVal)
-		EncodeWafregionalIpset_IpSetDescriptor_Value(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafregionalIpset_IpSetDescriptor(p IpSetDescriptor, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalIpset_IpSetDescriptor_Type(p, ctyVal)
+	EncodeWafregionalIpset_IpSetDescriptor_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["ip_set_descriptor"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafregionalIpset_IpSetDescriptor_Type(p *IpSetDescriptor, vals map[string]cty.Value) {
+func EncodeWafregionalIpset_IpSetDescriptor_Type(p IpSetDescriptor, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeWafregionalIpset_IpSetDescriptor_Value(p *IpSetDescriptor, vals map[string]cty.Value) {
+func EncodeWafregionalIpset_IpSetDescriptor_Value(p IpSetDescriptor, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }
 
-func EncodeWafregionalIpset_Arn(p *WafregionalIpsetObservation, vals map[string]cty.Value) {
+func EncodeWafregionalIpset_Arn(p WafregionalIpsetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

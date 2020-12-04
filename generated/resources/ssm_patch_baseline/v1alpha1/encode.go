@@ -14,27 +14,49 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSsmPatchBaseline(r SsmPatchBaseline) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeSsmPatchBaseline_OperatingSystem(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_RejectedPatches(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_ApprovedPatches(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSsmPatchBaseline(r SsmPatchBaseline) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSsmPatchBaseline_ApprovedPatchesComplianceLevel(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_ApprovalRule(r.Spec.ForProvider.ApprovalRule, ctyVal)
+	EncodeSsmPatchBaseline_OperatingSystem(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchBaseline_RejectedPatches(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchBaseline_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchBaseline_ApprovedPatches(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_GlobalFilter(r.Spec.ForProvider.GlobalFilter, ctyVal)
+	EncodeSsmPatchBaseline_ApprovalRule(r.Spec.ForProvider.ApprovalRule, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSsmPatchBaseline_OperatingSystem(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
+func EncodeSsmPatchBaseline_ApprovedPatchesComplianceLevel(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	vals["approved_patches_compliance_level"] = cty.StringVal(p.ApprovedPatchesComplianceLevel)
+}
+
+func EncodeSsmPatchBaseline_Description(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmPatchBaseline_Id(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSsmPatchBaseline_Name(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSsmPatchBaseline_OperatingSystem(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
 	vals["operating_system"] = cty.StringVal(p.OperatingSystem)
 }
 
-func EncodeSsmPatchBaseline_RejectedPatches(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
+func EncodeSsmPatchBaseline_RejectedPatches(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.RejectedPatches {
 		colVals = append(colVals, cty.StringVal(value))
@@ -42,7 +64,7 @@ func EncodeSsmPatchBaseline_RejectedPatches(p *SsmPatchBaselineParameters, vals 
 	vals["rejected_patches"] = cty.SetVal(colVals)
 }
 
-func EncodeSsmPatchBaseline_Tags(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
+func EncodeSsmPatchBaseline_Tags(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -50,7 +72,7 @@ func EncodeSsmPatchBaseline_Tags(p *SsmPatchBaselineParameters, vals map[string]
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSsmPatchBaseline_ApprovedPatches(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
+func EncodeSsmPatchBaseline_ApprovedPatches(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ApprovedPatches {
 		colVals = append(colVals, cty.StringVal(value))
@@ -58,74 +80,10 @@ func EncodeSsmPatchBaseline_ApprovedPatches(p *SsmPatchBaselineParameters, vals 
 	vals["approved_patches"] = cty.SetVal(colVals)
 }
 
-func EncodeSsmPatchBaseline_ApprovedPatchesComplianceLevel(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	vals["approved_patches_compliance_level"] = cty.StringVal(p.ApprovedPatchesComplianceLevel)
-}
-
-func EncodeSsmPatchBaseline_Description(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSsmPatchBaseline_Id(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSsmPatchBaseline_Name(p *SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSsmPatchBaseline_ApprovalRule(p *ApprovalRule, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.ApprovalRule {
-		ctyVal = make(map[string]cty.Value)
-		EncodeSsmPatchBaseline_ApprovalRule_ApproveAfterDays(v, ctyVal)
-		EncodeSsmPatchBaseline_ApprovalRule_ComplianceLevel(v, ctyVal)
-		EncodeSsmPatchBaseline_ApprovalRule_EnableNonSecurity(v, ctyVal)
-		EncodeSsmPatchBaseline_ApprovalRule_PatchFilter(v.PatchFilter, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["approval_rule"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeSsmPatchBaseline_ApprovalRule_ApproveAfterDays(p *ApprovalRule, vals map[string]cty.Value) {
-	vals["approve_after_days"] = cty.IntVal(p.ApproveAfterDays)
-}
-
-func EncodeSsmPatchBaseline_ApprovalRule_ComplianceLevel(p *ApprovalRule, vals map[string]cty.Value) {
-	vals["compliance_level"] = cty.StringVal(p.ComplianceLevel)
-}
-
-func EncodeSsmPatchBaseline_ApprovalRule_EnableNonSecurity(p *ApprovalRule, vals map[string]cty.Value) {
-	vals["enable_non_security"] = cty.BoolVal(p.EnableNonSecurity)
-}
-
-func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter(p *PatchFilter, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.PatchFilter {
-		ctyVal = make(map[string]cty.Value)
-		EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Key(v, ctyVal)
-		EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Values(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["patch_filter"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Key(p *PatchFilter, vals map[string]cty.Value) {
-	vals["key"] = cty.StringVal(p.Key)
-}
-
-func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Values(p *PatchFilter, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Values {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["values"] = cty.ListVal(colVals)
-}
-
-func EncodeSsmPatchBaseline_GlobalFilter(p *GlobalFilter, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.GlobalFilter {
-		ctyVal = make(map[string]cty.Value)
+func EncodeSsmPatchBaseline_GlobalFilter(p []GlobalFilter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeSsmPatchBaseline_GlobalFilter_Key(v, ctyVal)
 		EncodeSsmPatchBaseline_GlobalFilter_Values(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
@@ -133,11 +91,57 @@ func EncodeSsmPatchBaseline_GlobalFilter(p *GlobalFilter, vals map[string]cty.Va
 	vals["global_filter"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeSsmPatchBaseline_GlobalFilter_Key(p *GlobalFilter, vals map[string]cty.Value) {
+func EncodeSsmPatchBaseline_GlobalFilter_Key(p GlobalFilter, vals map[string]cty.Value) {
 	vals["key"] = cty.StringVal(p.Key)
 }
 
-func EncodeSsmPatchBaseline_GlobalFilter_Values(p *GlobalFilter, vals map[string]cty.Value) {
+func EncodeSsmPatchBaseline_GlobalFilter_Values(p GlobalFilter, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Values {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["values"] = cty.ListVal(colVals)
+}
+
+func EncodeSsmPatchBaseline_ApprovalRule(p ApprovalRule, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSsmPatchBaseline_ApprovalRule_ApproveAfterDays(p, ctyVal)
+	EncodeSsmPatchBaseline_ApprovalRule_ComplianceLevel(p, ctyVal)
+	EncodeSsmPatchBaseline_ApprovalRule_EnableNonSecurity(p, ctyVal)
+	EncodeSsmPatchBaseline_ApprovalRule_PatchFilter(p.PatchFilter, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["approval_rule"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSsmPatchBaseline_ApprovalRule_ApproveAfterDays(p ApprovalRule, vals map[string]cty.Value) {
+	vals["approve_after_days"] = cty.NumberIntVal(p.ApproveAfterDays)
+}
+
+func EncodeSsmPatchBaseline_ApprovalRule_ComplianceLevel(p ApprovalRule, vals map[string]cty.Value) {
+	vals["compliance_level"] = cty.StringVal(p.ComplianceLevel)
+}
+
+func EncodeSsmPatchBaseline_ApprovalRule_EnableNonSecurity(p ApprovalRule, vals map[string]cty.Value) {
+	vals["enable_non_security"] = cty.BoolVal(p.EnableNonSecurity)
+}
+
+func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter(p []PatchFilter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Key(v, ctyVal)
+		EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Values(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["patch_filter"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Key(p PatchFilter, vals map[string]cty.Value) {
+	vals["key"] = cty.StringVal(p.Key)
+}
+
+func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Values(p PatchFilter, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Values {
 		colVals = append(colVals, cty.StringVal(value))

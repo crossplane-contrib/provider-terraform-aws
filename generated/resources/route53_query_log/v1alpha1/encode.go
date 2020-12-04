@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRoute53QueryLog(r Route53QueryLog) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRoute53QueryLog(r Route53QueryLog) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRoute53QueryLog_CloudwatchLogGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53QueryLog_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53QueryLog_ZoneId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRoute53QueryLog_CloudwatchLogGroupArn(p *Route53QueryLogParameters, vals map[string]cty.Value) {
+func EncodeRoute53QueryLog_CloudwatchLogGroupArn(p Route53QueryLogParameters, vals map[string]cty.Value) {
 	vals["cloudwatch_log_group_arn"] = cty.StringVal(p.CloudwatchLogGroupArn)
 }
 
-func EncodeRoute53QueryLog_Id(p *Route53QueryLogParameters, vals map[string]cty.Value) {
+func EncodeRoute53QueryLog_Id(p Route53QueryLogParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeRoute53QueryLog_ZoneId(p *Route53QueryLogParameters, vals map[string]cty.Value) {
+func EncodeRoute53QueryLog_ZoneId(p Route53QueryLogParameters, vals map[string]cty.Value) {
 	vals["zone_id"] = cty.StringVal(p.ZoneId)
 }

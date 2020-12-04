@@ -14,26 +14,32 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayAccount(r ApiGatewayAccount) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayAccount(r ApiGatewayAccount) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayAccount_CloudwatchRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAccount_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAccount_ThrottleSettings(r.Status.AtProvider.ThrottleSettings, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayAccount_CloudwatchRoleArn(p *ApiGatewayAccountParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayAccount_CloudwatchRoleArn(p ApiGatewayAccountParameters, vals map[string]cty.Value) {
 	vals["cloudwatch_role_arn"] = cty.StringVal(p.CloudwatchRoleArn)
 }
 
-func EncodeApiGatewayAccount_Id(p *ApiGatewayAccountParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayAccount_Id(p ApiGatewayAccountParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayAccount_ThrottleSettings(p *ThrottleSettings, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.ThrottleSettings {
-		ctyVal = make(map[string]cty.Value)
+func EncodeApiGatewayAccount_ThrottleSettings(p []ThrottleSettings, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(v, ctyVal)
 		EncodeApiGatewayAccount_ThrottleSettings_RateLimit(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
@@ -41,10 +47,10 @@ func EncodeApiGatewayAccount_ThrottleSettings(p *ThrottleSettings, vals map[stri
 	vals["throttle_settings"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(p *ThrottleSettings, vals map[string]cty.Value) {
-	vals["burst_limit"] = cty.IntVal(p.BurstLimit)
+func EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(p ThrottleSettings, vals map[string]cty.Value) {
+	vals["burst_limit"] = cty.NumberIntVal(p.BurstLimit)
 }
 
-func EncodeApiGatewayAccount_ThrottleSettings_RateLimit(p *ThrottleSettings, vals map[string]cty.Value) {
-	vals["rate_limit"] = cty.IntVal(p.RateLimit)
+func EncodeApiGatewayAccount_ThrottleSettings_RateLimit(p ThrottleSettings, vals map[string]cty.Value) {
+	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
 }

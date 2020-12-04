@@ -64,6 +64,6 @@ type SesDomainIdentityStatus struct {
 
 // A SesDomainIdentityObservation records the observed state of a SesDomainIdentity
 type SesDomainIdentityObservation struct {
-	Arn               string `json:"arn"`
 	VerificationToken string `json:"verification_token"`
+	Arn               string `json:"arn"`
 }

@@ -14,21 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDxConnection(r DxConnection) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeDxConnection_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDxConnection_Bandwidth(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDxConnection(r DxConnection) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDxConnection_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnection_Location(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnection_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDxConnection_JumboFrameCapable(r.Status.AtProvider, ctyVal)
+	EncodeDxConnection_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDxConnection_Bandwidth(r.Spec.ForProvider, ctyVal)
+	EncodeDxConnection_AwsDevice(r.Status.AtProvider, ctyVal)
 	EncodeDxConnection_HasLogicalRedundancy(r.Status.AtProvider, ctyVal)
 	EncodeDxConnection_Arn(r.Status.AtProvider, ctyVal)
-	EncodeDxConnection_AwsDevice(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeDxConnection_JumboFrameCapable(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDxConnection_Tags(p *DxConnectionParameters, vals map[string]cty.Value) {
+func EncodeDxConnection_Id(p DxConnectionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDxConnection_Location(p DxConnectionParameters, vals map[string]cty.Value) {
+	vals["location"] = cty.StringVal(p.Location)
+}
+
+func EncodeDxConnection_Name(p DxConnectionParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDxConnection_Tags(p DxConnectionParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -36,34 +54,22 @@ func EncodeDxConnection_Tags(p *DxConnectionParameters, vals map[string]cty.Valu
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDxConnection_Bandwidth(p *DxConnectionParameters, vals map[string]cty.Value) {
+func EncodeDxConnection_Bandwidth(p DxConnectionParameters, vals map[string]cty.Value) {
 	vals["bandwidth"] = cty.StringVal(p.Bandwidth)
 }
 
-func EncodeDxConnection_Id(p *DxConnectionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeDxConnection_AwsDevice(p DxConnectionObservation, vals map[string]cty.Value) {
+	vals["aws_device"] = cty.StringVal(p.AwsDevice)
 }
 
-func EncodeDxConnection_Location(p *DxConnectionParameters, vals map[string]cty.Value) {
-	vals["location"] = cty.StringVal(p.Location)
-}
-
-func EncodeDxConnection_Name(p *DxConnectionParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDxConnection_JumboFrameCapable(p *DxConnectionObservation, vals map[string]cty.Value) {
-	vals["jumbo_frame_capable"] = cty.BoolVal(p.JumboFrameCapable)
-}
-
-func EncodeDxConnection_HasLogicalRedundancy(p *DxConnectionObservation, vals map[string]cty.Value) {
+func EncodeDxConnection_HasLogicalRedundancy(p DxConnectionObservation, vals map[string]cty.Value) {
 	vals["has_logical_redundancy"] = cty.StringVal(p.HasLogicalRedundancy)
 }
 
-func EncodeDxConnection_Arn(p *DxConnectionObservation, vals map[string]cty.Value) {
+func EncodeDxConnection_Arn(p DxConnectionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeDxConnection_AwsDevice(p *DxConnectionObservation, vals map[string]cty.Value) {
-	vals["aws_device"] = cty.StringVal(p.AwsDevice)
+func EncodeDxConnection_JumboFrameCapable(p DxConnectionObservation, vals map[string]cty.Value) {
+	vals["jumbo_frame_capable"] = cty.BoolVal(p.JumboFrameCapable)
 }

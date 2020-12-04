@@ -14,27 +14,33 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeInspectorAssessmentTarget(r InspectorAssessmentTarget) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeInspectorAssessmentTarget_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeInspectorAssessmentTarget(r InspectorAssessmentTarget) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeInspectorAssessmentTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_ResourceGroupArn(r.Spec.ForProvider, ctyVal)
+	EncodeInspectorAssessmentTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeInspectorAssessmentTarget_Id(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeInspectorAssessmentTarget_Name(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
+func EncodeInspectorAssessmentTarget_Name(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeInspectorAssessmentTarget_ResourceGroupArn(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
+func EncodeInspectorAssessmentTarget_ResourceGroupArn(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
 	vals["resource_group_arn"] = cty.StringVal(p.ResourceGroupArn)
 }
 
-func EncodeInspectorAssessmentTarget_Arn(p *InspectorAssessmentTargetObservation, vals map[string]cty.Value) {
+func EncodeInspectorAssessmentTarget_Id(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeInspectorAssessmentTarget_Arn(p InspectorAssessmentTargetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

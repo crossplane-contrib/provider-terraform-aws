@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAppCookieStickinessPolicy(r AppCookieStickinessPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeAppCookieStickinessPolicy_CookieName(r.Spec.ForProvider, ctyVal)
-	EncodeAppCookieStickinessPolicy_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAppCookieStickinessPolicy(r AppCookieStickinessPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAppCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAppCookieStickinessPolicy_CookieName(r.Spec.ForProvider, ctyVal)
+	EncodeAppCookieStickinessPolicy_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAppCookieStickinessPolicy_CookieName(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["cookie_name"] = cty.StringVal(p.CookieName)
+func EncodeAppCookieStickinessPolicy_LbPort(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["lb_port"] = cty.NumberIntVal(p.LbPort)
 }
 
-func EncodeAppCookieStickinessPolicy_Id(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAppCookieStickinessPolicy_LbPort(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["lb_port"] = cty.IntVal(p.LbPort)
-}
-
-func EncodeAppCookieStickinessPolicy_LoadBalancer(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+func EncodeAppCookieStickinessPolicy_LoadBalancer(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
 }
 
-func EncodeAppCookieStickinessPolicy_Name(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+func EncodeAppCookieStickinessPolicy_Name(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeAppCookieStickinessPolicy_CookieName(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["cookie_name"] = cty.StringVal(p.CookieName)
+}
+
+func EncodeAppCookieStickinessPolicy_Id(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

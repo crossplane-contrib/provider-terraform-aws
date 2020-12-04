@@ -52,12 +52,12 @@ type DxLagSpec struct {
 
 // A DxLagParameters defines the desired state of a DxLag
 type DxLagParameters struct {
+	Tags                 map[string]string `json:"tags"`
 	ConnectionsBandwidth string            `json:"connections_bandwidth"`
-	ForceDestroy         bool              `json:"force_destroy"`
-	Id                   string            `json:"id"`
 	Location             string            `json:"location"`
 	Name                 string            `json:"name"`
-	Tags                 map[string]string `json:"tags"`
+	ForceDestroy         bool              `json:"force_destroy"`
+	Id                   string            `json:"id"`
 }
 
 // A DxLagStatus defines the observed state of a DxLag

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeNetworkInterfaceSgAttachment(r NetworkInterfaceSgAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeNetworkInterfaceSgAttachment(r NetworkInterfaceSgAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeNetworkInterfaceSgAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceSgAttachment_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceSgAttachment_SecurityGroupId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNetworkInterfaceSgAttachment_Id(p *NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
+func EncodeNetworkInterfaceSgAttachment_Id(p NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeNetworkInterfaceSgAttachment_NetworkInterfaceId(p *NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
+func EncodeNetworkInterfaceSgAttachment_NetworkInterfaceId(p NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
 	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
 }
 
-func EncodeNetworkInterfaceSgAttachment_SecurityGroupId(p *NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
+func EncodeNetworkInterfaceSgAttachment_SecurityGroupId(p NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
 	vals["security_group_id"] = cty.StringVal(p.SecurityGroupId)
 }

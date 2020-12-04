@@ -52,20 +52,20 @@ type BackupPlanSpec struct {
 
 // A BackupPlanParameters defines the desired state of a BackupPlan
 type BackupPlanParameters struct {
-	Tags map[string]string `json:"tags"`
 	Id   string            `json:"id"`
 	Name string            `json:"name"`
+	Tags map[string]string `json:"tags"`
 	Rule []Rule            `json:"rule"`
 }
 
 type Rule struct {
-	CompletionWindow  int               `json:"completion_window"`
+	TargetVaultName   string            `json:"target_vault_name"`
+	CompletionWindow  int64             `json:"completion_window"`
 	RecoveryPointTags map[string]string `json:"recovery_point_tags"`
 	RuleName          string            `json:"rule_name"`
 	Schedule          string            `json:"schedule"`
-	StartWindow       int               `json:"start_window"`
-	TargetVaultName   string            `json:"target_vault_name"`
-	CopyAction        []CopyAction      `json:"copy_action"`
+	StartWindow       int64             `json:"start_window"`
+	CopyAction        CopyAction        `json:"copy_action"`
 	Lifecycle         Lifecycle         `json:"lifecycle"`
 }
 
@@ -75,13 +75,13 @@ type CopyAction struct {
 }
 
 type Lifecycle struct {
-	ColdStorageAfter int `json:"cold_storage_after"`
-	DeleteAfter      int `json:"delete_after"`
+	ColdStorageAfter int64 `json:"cold_storage_after"`
+	DeleteAfter      int64 `json:"delete_after"`
 }
 
 type Lifecycle struct {
-	ColdStorageAfter int `json:"cold_storage_after"`
-	DeleteAfter      int `json:"delete_after"`
+	ColdStorageAfter int64 `json:"cold_storage_after"`
+	DeleteAfter      int64 `json:"delete_after"`
 }
 
 // A BackupPlanStatus defines the observed state of a BackupPlan
@@ -92,6 +92,6 @@ type BackupPlanStatus struct {
 
 // A BackupPlanObservation records the observed state of a BackupPlan
 type BackupPlanObservation struct {
-	Version string `json:"version"`
 	Arn     string `json:"arn"`
+	Version string `json:"version"`
 }

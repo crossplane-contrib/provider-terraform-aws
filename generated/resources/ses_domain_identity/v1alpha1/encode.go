@@ -14,27 +14,33 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesDomainIdentity(r SesDomainIdentity) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesDomainIdentity(r SesDomainIdentity) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSesDomainIdentity_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentity_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSesDomainIdentity_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSesDomainIdentity_VerificationToken(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeSesDomainIdentity_Arn(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesDomainIdentity_Domain(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
+func EncodeSesDomainIdentity_Domain(p SesDomainIdentityParameters, vals map[string]cty.Value) {
 	vals["domain"] = cty.StringVal(p.Domain)
 }
 
-func EncodeSesDomainIdentity_Id(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
+func EncodeSesDomainIdentity_Id(p SesDomainIdentityParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesDomainIdentity_Arn(p *SesDomainIdentityObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeSesDomainIdentity_VerificationToken(p SesDomainIdentityObservation, vals map[string]cty.Value) {
+	vals["verification_token"] = cty.StringVal(p.VerificationToken)
 }
 
-func EncodeSesDomainIdentity_VerificationToken(p *SesDomainIdentityObservation, vals map[string]cty.Value) {
-	vals["verification_token"] = cty.StringVal(p.VerificationToken)
+func EncodeSesDomainIdentity_Arn(p SesDomainIdentityObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -14,44 +14,48 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIotThingType(r IotThingType) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIotThingType(r IotThingType) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIotThingType_Deprecated(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingType_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingType_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingType_Properties(r.Spec.ForProvider.Properties, ctyVal)
 	EncodeIotThingType_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIotThingType_Deprecated(p *IotThingTypeParameters, vals map[string]cty.Value) {
+func EncodeIotThingType_Deprecated(p IotThingTypeParameters, vals map[string]cty.Value) {
 	vals["deprecated"] = cty.BoolVal(p.Deprecated)
 }
 
-func EncodeIotThingType_Id(p *IotThingTypeParameters, vals map[string]cty.Value) {
+func EncodeIotThingType_Id(p IotThingTypeParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIotThingType_Name(p *IotThingTypeParameters, vals map[string]cty.Value) {
+func EncodeIotThingType_Name(p IotThingTypeParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeIotThingType_Properties(p *Properties, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Properties {
-		ctyVal = make(map[string]cty.Value)
-		EncodeIotThingType_Properties_Description(v, ctyVal)
-		EncodeIotThingType_Properties_SearchableAttributes(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeIotThingType_Properties(p Properties, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeIotThingType_Properties_Description(p, ctyVal)
+	EncodeIotThingType_Properties_SearchableAttributes(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["properties"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeIotThingType_Properties_Description(p *Properties, vals map[string]cty.Value) {
+func EncodeIotThingType_Properties_Description(p Properties, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeIotThingType_Properties_SearchableAttributes(p *Properties, vals map[string]cty.Value) {
+func EncodeIotThingType_Properties_SearchableAttributes(p Properties, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SearchableAttributes {
 		colVals = append(colVals, cty.StringVal(value))
@@ -59,6 +63,6 @@ func EncodeIotThingType_Properties_SearchableAttributes(p *Properties, vals map[
 	vals["searchable_attributes"] = cty.SetVal(colVals)
 }
 
-func EncodeIotThingType_Arn(p *IotThingTypeObservation, vals map[string]cty.Value) {
+func EncodeIotThingType_Arn(p IotThingTypeObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

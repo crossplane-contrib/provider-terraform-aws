@@ -65,6 +65,6 @@ type MediaStoreContainerStatus struct {
 
 // A MediaStoreContainerObservation records the observed state of a MediaStoreContainer
 type MediaStoreContainerObservation struct {
-	Arn      string `json:"arn"`
 	Endpoint string `json:"endpoint"`
+	Arn      string `json:"arn"`
 }

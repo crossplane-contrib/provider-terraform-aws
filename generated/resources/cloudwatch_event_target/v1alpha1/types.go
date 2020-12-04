@@ -52,13 +52,13 @@ type CloudwatchEventTargetSpec struct {
 
 // A CloudwatchEventTargetParameters defines the desired state of a CloudwatchEventTarget
 type CloudwatchEventTargetParameters struct {
+	TargetId          string              `json:"target_id"`
 	Arn               string              `json:"arn"`
 	Id                string              `json:"id"`
 	Input             string              `json:"input"`
 	InputPath         string              `json:"input_path"`
 	RoleArn           string              `json:"role_arn"`
 	Rule              string              `json:"rule"`
-	TargetId          string              `json:"target_id"`
 	BatchTarget       BatchTarget         `json:"batch_target"`
 	EcsTarget         EcsTarget           `json:"ecs_target"`
 	InputTransformer  InputTransformer    `json:"input_transformer"`
@@ -68,25 +68,25 @@ type CloudwatchEventTargetParameters struct {
 }
 
 type BatchTarget struct {
-	JobName       string `json:"job_name"`
-	ArraySize     int    `json:"array_size"`
-	JobAttempts   int    `json:"job_attempts"`
+	ArraySize     int64  `json:"array_size"`
+	JobAttempts   int64  `json:"job_attempts"`
 	JobDefinition string `json:"job_definition"`
+	JobName       string `json:"job_name"`
 }
 
 type EcsTarget struct {
+	TaskCount            int64                `json:"task_count"`
+	TaskDefinitionArn    string               `json:"task_definition_arn"`
 	Group                string               `json:"group"`
 	LaunchType           string               `json:"launch_type"`
 	PlatformVersion      string               `json:"platform_version"`
-	TaskCount            int                  `json:"task_count"`
-	TaskDefinitionArn    string               `json:"task_definition_arn"`
 	NetworkConfiguration NetworkConfiguration `json:"network_configuration"`
 }
 
 type NetworkConfiguration struct {
-	SecurityGroups []string `json:"security_groups"`
 	Subnets        []string `json:"subnets"`
 	AssignPublicIp bool     `json:"assign_public_ip"`
+	SecurityGroups []string `json:"security_groups"`
 }
 
 type InputTransformer struct {

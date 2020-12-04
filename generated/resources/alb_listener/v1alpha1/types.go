@@ -52,18 +52,18 @@ type AlbListenerSpec struct {
 
 // A AlbListenerParameters defines the desired state of a AlbListener
 type AlbListenerParameters struct {
+	CertificateArn  string          `json:"certificate_arn"`
 	Id              string          `json:"id"`
 	LoadBalancerArn string          `json:"load_balancer_arn"`
-	Port            int             `json:"port"`
+	Port            int64           `json:"port"`
 	Protocol        string          `json:"protocol"`
 	SslPolicy       string          `json:"ssl_policy"`
-	CertificateArn  string          `json:"certificate_arn"`
 	DefaultAction   []DefaultAction `json:"default_action"`
-	Timeouts        []Timeouts      `json:"timeouts"`
+	Timeouts        Timeouts        `json:"timeouts"`
 }
 
 type DefaultAction struct {
-	Order               int                 `json:"order"`
+	Order               int64               `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
 	Type                string              `json:"type"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
@@ -74,24 +74,24 @@ type DefaultAction struct {
 }
 
 type FixedResponse struct {
+	MessageBody string `json:"message_body"`
 	StatusCode  string `json:"status_code"`
 	ContentType string `json:"content_type"`
-	MessageBody string `json:"message_body"`
 }
 
 type Forward struct {
-	TargetGroup []TargetGroup `json:"target_group"`
 	Stickiness  Stickiness    `json:"stickiness"`
+	TargetGroup []TargetGroup `json:"target_group"`
+}
+
+type Stickiness struct {
+	Duration int64 `json:"duration"`
+	Enabled  bool  `json:"enabled"`
 }
 
 type TargetGroup struct {
 	Arn    string `json:"arn"`
-	Weight int    `json:"weight"`
-}
-
-type Stickiness struct {
-	Duration int  `json:"duration"`
-	Enabled  bool `json:"enabled"`
+	Weight int64  `json:"weight"`
 }
 
 type Redirect struct {
@@ -104,28 +104,28 @@ type Redirect struct {
 }
 
 type AuthenticateCognito struct {
-	SessionTimeout                   int               `json:"session_timeout"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
 	UserPoolArn                      string            `json:"user_pool_arn"`
 	UserPoolClientId                 string            `json:"user_pool_client_id"`
 	UserPoolDomain                   string            `json:"user_pool_domain"`
 	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
 	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 	Scope                            string            `json:"scope"`
-	SessionCookieName                string            `json:"session_cookie_name"`
 }
 
 type AuthenticateOidc struct {
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
+	ClientId                         string            `json:"client_id"`
 	ClientSecret                     string            `json:"client_secret"`
-	Issuer                           string            `json:"issuer"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
 	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 	Scope                            string            `json:"scope"`
 	SessionCookieName                string            `json:"session_cookie_name"`
 	TokenEndpoint                    string            `json:"token_endpoint"`
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	ClientId                         string            `json:"client_id"`
 	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	SessionTimeout                   int               `json:"session_timeout"`
+	Issuer                           string            `json:"issuer"`
 }
 
 type Timeouts struct {

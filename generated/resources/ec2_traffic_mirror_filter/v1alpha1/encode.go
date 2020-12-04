@@ -14,17 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2TrafficMirrorFilter(r Ec2TrafficMirrorFilter) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeEc2TrafficMirrorFilter_NetworkServices(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorFilter_Tags(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2TrafficMirrorFilter(r Ec2TrafficMirrorFilter) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2TrafficMirrorFilter_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilter_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TrafficMirrorFilter_NetworkServices(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TrafficMirrorFilter_Tags(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TrafficMirrorFilter_NetworkServices(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+func EncodeEc2TrafficMirrorFilter_Description(p Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeEc2TrafficMirrorFilter_Id(p Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2TrafficMirrorFilter_NetworkServices(p Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.NetworkServices {
 		colVals = append(colVals, cty.StringVal(value))
@@ -32,18 +46,10 @@ func EncodeEc2TrafficMirrorFilter_NetworkServices(p *Ec2TrafficMirrorFilterParam
 	vals["network_services"] = cty.SetVal(colVals)
 }
 
-func EncodeEc2TrafficMirrorFilter_Tags(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+func EncodeEc2TrafficMirrorFilter_Tags(p Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeEc2TrafficMirrorFilter_Description(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeEc2TrafficMirrorFilter_Id(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

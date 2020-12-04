@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2TransitGatewayRouteTablePropagation(r Ec2TransitGatewayRouteTablePropagation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayRouteTablePropagation_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2TransitGatewayRouteTablePropagation(r Ec2TransitGatewayRouteTablePropagation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayRouteTablePropagation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTablePropagation_ResourceId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTablePropagation_ResourceType(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayRouteTablePropagation_Id(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(p Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_attachment_id"] = cty.StringVal(p.TransitGatewayAttachmentId)
 }
 
-func EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayRouteTableId(p Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_route_table_id"] = cty.StringVal(p.TransitGatewayRouteTableId)
 }
 
-func EncodeEc2TransitGatewayRouteTablePropagation_ResourceId(p *Ec2TransitGatewayRouteTablePropagationObservation, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTablePropagation_Id(p Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2TransitGatewayRouteTablePropagation_ResourceId(p Ec2TransitGatewayRouteTablePropagationObservation, vals map[string]cty.Value) {
 	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }
 
-func EncodeEc2TransitGatewayRouteTablePropagation_ResourceType(p *Ec2TransitGatewayRouteTablePropagationObservation, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTablePropagation_ResourceType(p Ec2TransitGatewayRouteTablePropagationObservation, vals map[string]cty.Value) {
 	vals["resource_type"] = cty.StringVal(p.ResourceType)
 }

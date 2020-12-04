@@ -52,9 +52,9 @@ type AmiLaunchPermissionSpec struct {
 
 // A AmiLaunchPermissionParameters defines the desired state of a AmiLaunchPermission
 type AmiLaunchPermissionParameters struct {
-	AccountId string `json:"account_id"`
 	Id        string `json:"id"`
 	ImageId   string `json:"image_id"`
+	AccountId string `json:"account_id"`
 }
 
 // A AmiLaunchPermissionStatus defines the observed state of a AmiLaunchPermission

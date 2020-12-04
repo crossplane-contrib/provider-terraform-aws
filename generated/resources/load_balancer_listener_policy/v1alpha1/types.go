@@ -54,7 +54,7 @@ type LoadBalancerListenerPolicySpec struct {
 type LoadBalancerListenerPolicyParameters struct {
 	Id               string   `json:"id"`
 	LoadBalancerName string   `json:"load_balancer_name"`
-	LoadBalancerPort int      `json:"load_balancer_port"`
+	LoadBalancerPort int64    `json:"load_balancer_port"`
 	PolicyNames      []string `json:"policy_names"`
 }
 

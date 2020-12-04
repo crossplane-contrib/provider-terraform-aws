@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDmsCertificate(r DmsCertificate) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDmsCertificate(r DmsCertificate) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeDmsCertificate_CertificateWallet(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificateId(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificatePem(r.Spec.ForProvider, ctyVal)
-	EncodeDmsCertificate_CertificateWallet(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificateArn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDmsCertificate_Id(p *DmsCertificateParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDmsCertificate_CertificateId(p *DmsCertificateParameters, vals map[string]cty.Value) {
-	vals["certificate_id"] = cty.StringVal(p.CertificateId)
-}
-
-func EncodeDmsCertificate_CertificatePem(p *DmsCertificateParameters, vals map[string]cty.Value) {
-	vals["certificate_pem"] = cty.StringVal(p.CertificatePem)
-}
-
-func EncodeDmsCertificate_CertificateWallet(p *DmsCertificateParameters, vals map[string]cty.Value) {
+func EncodeDmsCertificate_CertificateWallet(p DmsCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_wallet"] = cty.StringVal(p.CertificateWallet)
 }
 
-func EncodeDmsCertificate_CertificateArn(p *DmsCertificateObservation, vals map[string]cty.Value) {
+func EncodeDmsCertificate_Id(p DmsCertificateParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDmsCertificate_CertificateId(p DmsCertificateParameters, vals map[string]cty.Value) {
+	vals["certificate_id"] = cty.StringVal(p.CertificateId)
+}
+
+func EncodeDmsCertificate_CertificatePem(p DmsCertificateParameters, vals map[string]cty.Value) {
+	vals["certificate_pem"] = cty.StringVal(p.CertificatePem)
+}
+
+func EncodeDmsCertificate_CertificateArn(p DmsCertificateObservation, vals map[string]cty.Value) {
 	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }

@@ -14,25 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeServiceDiscoveryHttpNamespace(r ServiceDiscoveryHttpNamespace) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeServiceDiscoveryHttpNamespace(r ServiceDiscoveryHttpNamespace) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryHttpNamespace_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryHttpNamespace_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeServiceDiscoveryHttpNamespace_Id(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryHttpNamespace_Description(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeServiceDiscoveryHttpNamespace_Id(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeServiceDiscoveryHttpNamespace_Name(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryHttpNamespace_Name(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeServiceDiscoveryHttpNamespace_Tags(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryHttpNamespace_Tags(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -40,10 +50,6 @@ func EncodeServiceDiscoveryHttpNamespace_Tags(p *ServiceDiscoveryHttpNamespacePa
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeServiceDiscoveryHttpNamespace_Description(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeServiceDiscoveryHttpNamespace_Arn(p *ServiceDiscoveryHttpNamespaceObservation, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryHttpNamespace_Arn(p ServiceDiscoveryHttpNamespaceObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

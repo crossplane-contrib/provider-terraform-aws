@@ -52,38 +52,38 @@ type FsxWindowsFileSystemSpec struct {
 
 // A FsxWindowsFileSystemParameters defines the desired state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemParameters struct {
-	DailyAutomaticBackupStartTime string                     `json:"daily_automatic_backup_start_time"`
-	AutomaticBackupRetentionDays  int                        `json:"automatic_backup_retention_days"`
-	Id                            string                     `json:"id"`
-	SkipFinalBackup               bool                       `json:"skip_final_backup"`
-	Tags                          map[string]string          `json:"tags"`
-	PreferredSubnetId             string                     `json:"preferred_subnet_id"`
 	SecurityGroupIds              []string                   `json:"security_group_ids"`
-	StorageCapacity               int                        `json:"storage_capacity"`
-	StorageType                   string                     `json:"storage_type"`
-	SubnetIds                     []string                   `json:"subnet_ids"`
-	ActiveDirectoryId             string                     `json:"active_directory_id"`
-	CopyTagsToBackups             bool                       `json:"copy_tags_to_backups"`
-	DeploymentType                string                     `json:"deployment_type"`
+	SkipFinalBackup               bool                       `json:"skip_final_backup"`
+	StorageCapacity               int64                      `json:"storage_capacity"`
+	PreferredSubnetId             string                     `json:"preferred_subnet_id"`
 	KmsKeyId                      string                     `json:"kms_key_id"`
-	ThroughputCapacity            int                        `json:"throughput_capacity"`
+	Tags                          map[string]string          `json:"tags"`
+	ThroughputCapacity            int64                      `json:"throughput_capacity"`
+	DailyAutomaticBackupStartTime string                     `json:"daily_automatic_backup_start_time"`
+	DeploymentType                string                     `json:"deployment_type"`
+	Id                            string                     `json:"id"`
+	SubnetIds                     []string                   `json:"subnet_ids"`
 	WeeklyMaintenanceStartTime    string                     `json:"weekly_maintenance_start_time"`
+	AutomaticBackupRetentionDays  int64                      `json:"automatic_backup_retention_days"`
+	CopyTagsToBackups             bool                       `json:"copy_tags_to_backups"`
+	StorageType                   string                     `json:"storage_type"`
+	ActiveDirectoryId             string                     `json:"active_directory_id"`
 	SelfManagedActiveDirectory    SelfManagedActiveDirectory `json:"self_managed_active_directory"`
-	Timeouts                      []Timeouts                 `json:"timeouts"`
+	Timeouts                      Timeouts                   `json:"timeouts"`
 }
 
 type SelfManagedActiveDirectory struct {
-	DnsIps                              []string `json:"dns_ips"`
-	DomainName                          string   `json:"domain_name"`
-	FileSystemAdministratorsGroup       string   `json:"file_system_administrators_group"`
 	OrganizationalUnitDistinguishedName string   `json:"organizational_unit_distinguished_name"`
 	Password                            string   `json:"password"`
 	Username                            string   `json:"username"`
+	DnsIps                              []string `json:"dns_ips"`
+	DomainName                          string   `json:"domain_name"`
+	FileSystemAdministratorsGroup       string   `json:"file_system_administrators_group"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A FsxWindowsFileSystemStatus defines the observed state of a FsxWindowsFileSystem
@@ -94,11 +94,11 @@ type FsxWindowsFileSystemStatus struct {
 
 // A FsxWindowsFileSystemObservation records the observed state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemObservation struct {
-	Arn                          string   `json:"arn"`
-	DnsName                      string   `json:"dns_name"`
-	PreferredFileServerIp        string   `json:"preferred_file_server_ip"`
-	VpcId                        string   `json:"vpc_id"`
-	NetworkInterfaceIds          []string `json:"network_interface_ids"`
 	RemoteAdministrationEndpoint string   `json:"remote_administration_endpoint"`
+	VpcId                        string   `json:"vpc_id"`
+	Arn                          string   `json:"arn"`
+	NetworkInterfaceIds          []string `json:"network_interface_ids"`
 	OwnerId                      string   `json:"owner_id"`
+	PreferredFileServerIp        string   `json:"preferred_file_server_ip"`
+	DnsName                      string   `json:"dns_name"`
 }

@@ -52,20 +52,20 @@ type SecretsmanagerSecretSpec struct {
 
 // A SecretsmanagerSecretParameters defines the desired state of a SecretsmanagerSecret
 type SecretsmanagerSecretParameters struct {
-	Name                 string            `json:"name"`
 	RotationLambdaArn    string            `json:"rotation_lambda_arn"`
+	Id                   string            `json:"id"`
 	KmsKeyId             string            `json:"kms_key_id"`
-	NamePrefix           string            `json:"name_prefix"`
 	Policy               string            `json:"policy"`
-	RecoveryWindowInDays int               `json:"recovery_window_in_days"`
+	NamePrefix           string            `json:"name_prefix"`
+	RecoveryWindowInDays int64             `json:"recovery_window_in_days"`
 	Tags                 map[string]string `json:"tags"`
 	Description          string            `json:"description"`
-	Id                   string            `json:"id"`
+	Name                 string            `json:"name"`
 	RotationRules        RotationRules     `json:"rotation_rules"`
 }
 
 type RotationRules struct {
-	AutomaticallyAfterDays int `json:"automatically_after_days"`
+	AutomaticallyAfterDays int64 `json:"automatically_after_days"`
 }
 
 // A SecretsmanagerSecretStatus defines the observed state of a SecretsmanagerSecret
@@ -76,6 +76,6 @@ type SecretsmanagerSecretStatus struct {
 
 // A SecretsmanagerSecretObservation records the observed state of a SecretsmanagerSecret
 type SecretsmanagerSecretObservation struct {
-	Arn             string `json:"arn"`
 	RotationEnabled bool   `json:"rotation_enabled"`
+	Arn             string `json:"arn"`
 }

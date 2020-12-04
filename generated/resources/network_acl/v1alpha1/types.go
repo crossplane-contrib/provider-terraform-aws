@@ -52,36 +52,36 @@ type NetworkAclSpec struct {
 
 // A NetworkAclParameters defines the desired state of a NetworkAcl
 type NetworkAclParameters struct {
-	Ingress   []Ingress         `json:"ingress"`
-	SubnetIds []string          `json:"subnet_ids"`
-	Tags      map[string]string `json:"tags"`
 	VpcId     string            `json:"vpc_id"`
 	Egress    []Egress          `json:"egress"`
 	Id        string            `json:"id"`
-}
-
-type Ingress struct {
-	RuleNo        int    `json:"rule_no"`
-	Action        string `json:"action"`
-	FromPort      int    `json:"from_port"`
-	IcmpCode      int    `json:"icmp_code"`
-	IcmpType      int    `json:"icmp_type"`
-	Protocol      string `json:"protocol"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
-	ToPort        int    `json:"to_port"`
-	CidrBlock     string `json:"cidr_block"`
+	Ingress   []Ingress         `json:"ingress"`
+	SubnetIds []string          `json:"subnet_ids"`
+	Tags      map[string]string `json:"tags"`
 }
 
 type Egress struct {
-	ToPort        int    `json:"to_port"`
-	IcmpType      int    `json:"icmp_type"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	ToPort        int64  `json:"to_port"`
 	CidrBlock     string `json:"cidr_block"`
-	FromPort      int    `json:"from_port"`
-	RuleNo        int    `json:"rule_no"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	Action        string `json:"action"`
-	IcmpCode      int    `json:"icmp_code"`
+	RuleNo        int64  `json:"rule_no"`
+	IcmpCode      int64  `json:"icmp_code"`
+	IcmpType      int64  `json:"icmp_type"`
 	Protocol      string `json:"protocol"`
+	FromPort      int64  `json:"from_port"`
+}
+
+type Ingress struct {
+	Protocol      string `json:"protocol"`
+	RuleNo        int64  `json:"rule_no"`
+	CidrBlock     string `json:"cidr_block"`
+	ToPort        int64  `json:"to_port"`
+	Action        string `json:"action"`
+	IcmpCode      int64  `json:"icmp_code"`
+	FromPort      int64  `json:"from_port"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	IcmpType      int64  `json:"icmp_type"`
 }
 
 // A NetworkAclStatus defines the observed state of a NetworkAcl
@@ -92,6 +92,6 @@ type NetworkAclStatus struct {
 
 // A NetworkAclObservation records the observed state of a NetworkAcl
 type NetworkAclObservation struct {
-	OwnerId string `json:"owner_id"`
 	Arn     string `json:"arn"`
+	OwnerId string `json:"owner_id"`
 }

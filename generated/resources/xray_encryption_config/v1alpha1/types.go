@@ -52,9 +52,9 @@ type XrayEncryptionConfigSpec struct {
 
 // A XrayEncryptionConfigParameters defines the desired state of a XrayEncryptionConfig
 type XrayEncryptionConfigParameters struct {
-	Type  string `json:"type"`
 	Id    string `json:"id"`
 	KeyId string `json:"key_id"`
+	Type  string `json:"type"`
 }
 
 // A XrayEncryptionConfigStatus defines the observed state of a XrayEncryptionConfig

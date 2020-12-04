@@ -52,44 +52,44 @@ type OpsworksHaproxyLayerSpec struct {
 
 // A OpsworksHaproxyLayerParameters defines the desired state of a OpsworksHaproxyLayer
 type OpsworksHaproxyLayerParameters struct {
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	StatsPassword            string            `json:"stats_password"`
-	StatsUser                string            `json:"stats_user"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
 	HealthcheckUrl           string            `json:"healthcheck_url"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	StatsEnabled             bool              `json:"stats_enabled"`
 	StatsUrl                 string            `json:"stats_url"`
-	SystemPackages           []string          `json:"system_packages"`
-	Tags                     map[string]string `json:"tags"`
-	AutoHealing              bool              `json:"auto_healing"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomJson               string            `json:"custom_json"`
+	StatsPassword            string            `json:"stats_password"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
 	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	Name                     string            `json:"name"`
-	StackId                  string            `json:"stack_id"`
 	HealthcheckMethod        string            `json:"healthcheck_method"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	StackId                  string            `json:"stack_id"`
+	StatsUser                string            `json:"stats_user"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomJson               string            `json:"custom_json"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
 	Id                       string            `json:"id"`
-	EbsVolume                []EbsVolume       `json:"ebs_volume"`
+	Name                     string            `json:"name"`
+	StatsEnabled             bool              `json:"stats_enabled"`
+	SystemPackages           []string          `json:"system_packages"`
+	AutoHealing              bool              `json:"auto_healing"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	Tags                     map[string]string `json:"tags"`
+	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
-	MountPoint    string `json:"mount_point"`
-	NumberOfDisks int    `json:"number_of_disks"`
+	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
-	Size          int    `json:"size"`
+	Size          int64  `json:"size"`
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
-	Iops          int    `json:"iops"`
+	Iops          int64  `json:"iops"`
+	MountPoint    string `json:"mount_point"`
 }
 
 // A OpsworksHaproxyLayerStatus defines the observed state of a OpsworksHaproxyLayer

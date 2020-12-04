@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSnsTopicPolicy(r SnsTopicPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSnsTopicPolicy(r SnsTopicPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSnsTopicPolicy_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSnsTopicPolicy_Arn(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
+func EncodeSnsTopicPolicy_Arn(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeSnsTopicPolicy_Id(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
+func EncodeSnsTopicPolicy_Id(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSnsTopicPolicy_Policy(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
+func EncodeSnsTopicPolicy_Policy(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }

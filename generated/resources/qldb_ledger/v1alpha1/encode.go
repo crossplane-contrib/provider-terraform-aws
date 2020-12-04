@@ -14,29 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeQldbLedger(r QldbLedger) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeQldbLedger(r QldbLedger) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeQldbLedger_DeletionProtection(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Id(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Name(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeQldbLedger_DeletionProtection(p *QldbLedgerParameters, vals map[string]cty.Value) {
+func EncodeQldbLedger_DeletionProtection(p QldbLedgerParameters, vals map[string]cty.Value) {
 	vals["deletion_protection"] = cty.BoolVal(p.DeletionProtection)
 }
 
-func EncodeQldbLedger_Id(p *QldbLedgerParameters, vals map[string]cty.Value) {
+func EncodeQldbLedger_Id(p QldbLedgerParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeQldbLedger_Name(p *QldbLedgerParameters, vals map[string]cty.Value) {
+func EncodeQldbLedger_Name(p QldbLedgerParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeQldbLedger_Tags(p *QldbLedgerParameters, vals map[string]cty.Value) {
+func EncodeQldbLedger_Tags(p QldbLedgerParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -44,6 +50,6 @@ func EncodeQldbLedger_Tags(p *QldbLedgerParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeQldbLedger_Arn(p *QldbLedgerObservation, vals map[string]cty.Value) {
+func EncodeQldbLedger_Arn(p QldbLedgerObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -52,10 +52,10 @@ type GameliftAliasSpec struct {
 
 // A GameliftAliasParameters defines the desired state of a GameliftAlias
 type GameliftAliasParameters struct {
-	Description     string            `json:"description"`
-	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	Tags            map[string]string `json:"tags"`
+	Description     string            `json:"description"`
+	Id              string            `json:"id"`
 	RoutingStrategy RoutingStrategy   `json:"routing_strategy"`
 }
 

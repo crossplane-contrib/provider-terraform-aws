@@ -65,6 +65,6 @@ type Ec2TransitGatewayRouteTableAssociationStatus struct {
 
 // A Ec2TransitGatewayRouteTableAssociationObservation records the observed state of a Ec2TransitGatewayRouteTableAssociation
 type Ec2TransitGatewayRouteTableAssociationObservation struct {
-	ResourceId   string `json:"resource_id"`
 	ResourceType string `json:"resource_type"`
+	ResourceId   string `json:"resource_id"`
 }

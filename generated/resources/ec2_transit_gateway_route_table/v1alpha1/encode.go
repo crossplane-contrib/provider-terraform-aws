@@ -14,21 +14,27 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2TransitGatewayRouteTable(r Ec2TransitGatewayRouteTable) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2TransitGatewayRouteTable(r Ec2TransitGatewayRouteTable) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2TransitGatewayRouteTable_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTable_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTable_TransitGatewayId(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayRouteTable_Id(p *Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTable_Id(p Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2TransitGatewayRouteTable_Tags(p *Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTable_Tags(p Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -36,14 +42,14 @@ func EncodeEc2TransitGatewayRouteTable_Tags(p *Ec2TransitGatewayRouteTableParame
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeEc2TransitGatewayRouteTable_TransitGatewayId(p *Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
+func EncodeEc2TransitGatewayRouteTable_TransitGatewayId(p Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }
 
-func EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
-	vals["default_propagation_route_table"] = cty.BoolVal(p.DefaultPropagationRouteTable)
+func EncodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(p Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
+	vals["default_association_route_table"] = cty.BoolVal(p.DefaultAssociationRouteTable)
 }
 
-func EncodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
-	vals["default_association_route_table"] = cty.BoolVal(p.DefaultAssociationRouteTable)
+func EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(p Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
+	vals["default_propagation_route_table"] = cty.BoolVal(p.DefaultPropagationRouteTable)
 }

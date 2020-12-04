@@ -14,29 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeElasticacheSecurityGroup(r ElasticacheSecurityGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeElasticacheSecurityGroup(r ElasticacheSecurityGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeElasticacheSecurityGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSecurityGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSecurityGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSecurityGroup_SecurityGroupNames(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeElasticacheSecurityGroup_Description(p *ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheSecurityGroup_Description(p ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeElasticacheSecurityGroup_Id(p *ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheSecurityGroup_Id(p ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeElasticacheSecurityGroup_Name(p *ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheSecurityGroup_Name(p ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeElasticacheSecurityGroup_SecurityGroupNames(p *ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheSecurityGroup_SecurityGroupNames(p ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SecurityGroupNames {
 		colVals = append(colVals, cty.StringVal(value))

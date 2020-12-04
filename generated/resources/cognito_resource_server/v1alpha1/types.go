@@ -52,10 +52,10 @@ type CognitoResourceServerSpec struct {
 
 // A CognitoResourceServerParameters defines the desired state of a CognitoResourceServer
 type CognitoResourceServerParameters struct {
-	Id         string  `json:"id"`
-	Identifier string  `json:"identifier"`
 	Name       string  `json:"name"`
 	UserPoolId string  `json:"user_pool_id"`
+	Id         string  `json:"id"`
+	Identifier string  `json:"identifier"`
 	Scope      []Scope `json:"scope"`
 }
 

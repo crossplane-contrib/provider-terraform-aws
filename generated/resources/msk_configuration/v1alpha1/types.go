@@ -52,11 +52,11 @@ type MskConfigurationSpec struct {
 
 // A MskConfigurationParameters defines the desired state of a MskConfiguration
 type MskConfigurationParameters struct {
+	Name             string   `json:"name"`
 	ServerProperties string   `json:"server_properties"`
 	Description      string   `json:"description"`
 	Id               string   `json:"id"`
 	KafkaVersions    []string `json:"kafka_versions"`
-	Name             string   `json:"name"`
 }
 
 // A MskConfigurationStatus defines the observed state of a MskConfiguration
@@ -68,5 +68,5 @@ type MskConfigurationStatus struct {
 // A MskConfigurationObservation records the observed state of a MskConfiguration
 type MskConfigurationObservation struct {
 	Arn            string `json:"arn"`
-	LatestRevision int    `json:"latest_revision"`
+	LatestRevision int64  `json:"latest_revision"`
 }

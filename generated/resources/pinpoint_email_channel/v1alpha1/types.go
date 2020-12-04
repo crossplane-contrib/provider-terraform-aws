@@ -52,12 +52,12 @@ type PinpointEmailChannelSpec struct {
 
 // A PinpointEmailChannelParameters defines the desired state of a PinpointEmailChannel
 type PinpointEmailChannelParameters struct {
+	ApplicationId string `json:"application_id"`
+	Enabled       bool   `json:"enabled"`
 	FromAddress   string `json:"from_address"`
 	Id            string `json:"id"`
 	Identity      string `json:"identity"`
 	RoleArn       string `json:"role_arn"`
-	ApplicationId string `json:"application_id"`
-	Enabled       bool   `json:"enabled"`
 }
 
 // A PinpointEmailChannelStatus defines the observed state of a PinpointEmailChannel
@@ -68,5 +68,5 @@ type PinpointEmailChannelStatus struct {
 
 // A PinpointEmailChannelObservation records the observed state of a PinpointEmailChannel
 type PinpointEmailChannelObservation struct {
-	MessagesPerSecond int `json:"messages_per_second"`
+	MessagesPerSecond int64 `json:"messages_per_second"`
 }

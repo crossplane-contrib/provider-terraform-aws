@@ -14,47 +14,53 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamAccessKey(r IamAccessKey) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamAccessKey(r IamAccessKey) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeIamAccessKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_PgpKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_Status(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_User(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccessKey_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccessKey_EncryptedSecret(r.Status.AtProvider, ctyVal)
 	EncodeIamAccessKey_KeyFingerprint(r.Status.AtProvider, ctyVal)
 	EncodeIamAccessKey_Secret(r.Status.AtProvider, ctyVal)
 	EncodeIamAccessKey_SesSmtpPasswordV4(r.Status.AtProvider, ctyVal)
-	EncodeIamAccessKey_EncryptedSecret(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamAccessKey_PgpKey(p *IamAccessKeyParameters, vals map[string]cty.Value) {
-	vals["pgp_key"] = cty.StringVal(p.PgpKey)
-}
-
-func EncodeIamAccessKey_Status(p *IamAccessKeyParameters, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
-func EncodeIamAccessKey_User(p *IamAccessKeyParameters, vals map[string]cty.Value) {
-	vals["user"] = cty.StringVal(p.User)
-}
-
-func EncodeIamAccessKey_Id(p *IamAccessKeyParameters, vals map[string]cty.Value) {
+func EncodeIamAccessKey_Id(p IamAccessKeyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamAccessKey_KeyFingerprint(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+func EncodeIamAccessKey_PgpKey(p IamAccessKeyParameters, vals map[string]cty.Value) {
+	vals["pgp_key"] = cty.StringVal(p.PgpKey)
+}
+
+func EncodeIamAccessKey_Status(p IamAccessKeyParameters, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeIamAccessKey_User(p IamAccessKeyParameters, vals map[string]cty.Value) {
+	vals["user"] = cty.StringVal(p.User)
+}
+
+func EncodeIamAccessKey_EncryptedSecret(p IamAccessKeyObservation, vals map[string]cty.Value) {
+	vals["encrypted_secret"] = cty.StringVal(p.EncryptedSecret)
+}
+
+func EncodeIamAccessKey_KeyFingerprint(p IamAccessKeyObservation, vals map[string]cty.Value) {
 	vals["key_fingerprint"] = cty.StringVal(p.KeyFingerprint)
 }
 
-func EncodeIamAccessKey_Secret(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+func EncodeIamAccessKey_Secret(p IamAccessKeyObservation, vals map[string]cty.Value) {
 	vals["secret"] = cty.StringVal(p.Secret)
 }
 
-func EncodeIamAccessKey_SesSmtpPasswordV4(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+func EncodeIamAccessKey_SesSmtpPasswordV4(p IamAccessKeyObservation, vals map[string]cty.Value) {
 	vals["ses_smtp_password_v4"] = cty.StringVal(p.SesSmtpPasswordV4)
-}
-
-func EncodeIamAccessKey_EncryptedSecret(p *IamAccessKeyObservation, vals map[string]cty.Value) {
-	vals["encrypted_secret"] = cty.StringVal(p.EncryptedSecret)
 }

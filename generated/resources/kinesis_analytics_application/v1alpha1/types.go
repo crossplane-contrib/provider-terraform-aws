@@ -53,21 +53,27 @@ type KinesisAnalyticsApplicationSpec struct {
 // A KinesisAnalyticsApplicationParameters defines the desired state of a KinesisAnalyticsApplication
 type KinesisAnalyticsApplicationParameters struct {
 	Code                     string                   `json:"code"`
+	Description              string                   `json:"description"`
 	Id                       string                   `json:"id"`
 	Name                     string                   `json:"name"`
-	Description              string                   `json:"description"`
 	Tags                     map[string]string        `json:"tags"`
+	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
 	Inputs                   Inputs                   `json:"inputs"`
 	Outputs                  []Outputs                `json:"outputs"`
 	ReferenceDataSources     ReferenceDataSources     `json:"reference_data_sources"`
-	CloudwatchLoggingOptions CloudwatchLoggingOptions `json:"cloudwatch_logging_options"`
+}
+
+type CloudwatchLoggingOptions struct {
+	Id           string `json:"id"`
+	LogStreamArn string `json:"log_stream_arn"`
+	RoleArn      string `json:"role_arn"`
 }
 
 type Inputs struct {
-	Id                            string                          `json:"id"`
 	NamePrefix                    string                          `json:"name_prefix"`
 	StartingPositionConfiguration []StartingPositionConfiguration `json:"starting_position_configuration"`
 	StreamNames                   []string                        `json:"stream_names"`
+	Id                            string                          `json:"id"`
 	KinesisFirehose               KinesisFirehose                 `json:"kinesis_firehose"`
 	KinesisStream                 KinesisStream                   `json:"kinesis_stream"`
 	Parallelism                   Parallelism                     `json:"parallelism"`
@@ -90,7 +96,7 @@ type KinesisStream struct {
 }
 
 type Parallelism struct {
-	Count int `json:"count"`
+	Count int64 `json:"count"`
 }
 
 type ProcessingConfiguration struct {
@@ -98,8 +104,8 @@ type ProcessingConfiguration struct {
 }
 
 type Lambda struct {
-	ResourceArn string `json:"resource_arn"`
 	RoleArn     string `json:"role_arn"`
+	ResourceArn string `json:"resource_arn"`
 }
 
 type Schema struct {
@@ -109,9 +115,9 @@ type Schema struct {
 }
 
 type RecordColumns struct {
-	SqlType string `json:"sql_type"`
 	Mapping string `json:"mapping"`
 	Name    string `json:"name"`
+	SqlType string `json:"sql_type"`
 }
 
 type RecordFormat struct {
@@ -143,8 +149,8 @@ type Outputs struct {
 }
 
 type KinesisFirehose struct {
-	RoleArn     string `json:"role_arn"`
 	ResourceArn string `json:"resource_arn"`
+	RoleArn     string `json:"role_arn"`
 }
 
 type KinesisStream struct {
@@ -169,15 +175,21 @@ type ReferenceDataSources struct {
 }
 
 type S3 struct {
+	RoleArn   string `json:"role_arn"`
 	BucketArn string `json:"bucket_arn"`
 	FileKey   string `json:"file_key"`
-	RoleArn   string `json:"role_arn"`
 }
 
 type Schema struct {
 	RecordEncoding string          `json:"record_encoding"`
-	RecordFormat   RecordFormat    `json:"record_format"`
 	RecordColumns  []RecordColumns `json:"record_columns"`
+	RecordFormat   RecordFormat    `json:"record_format"`
+}
+
+type RecordColumns struct {
+	Mapping string `json:"mapping"`
+	Name    string `json:"name"`
+	SqlType string `json:"sql_type"`
 }
 
 type RecordFormat struct {
@@ -199,18 +211,6 @@ type Json struct {
 	RecordRowPath string `json:"record_row_path"`
 }
 
-type RecordColumns struct {
-	Mapping string `json:"mapping"`
-	Name    string `json:"name"`
-	SqlType string `json:"sql_type"`
-}
-
-type CloudwatchLoggingOptions struct {
-	LogStreamArn string `json:"log_stream_arn"`
-	RoleArn      string `json:"role_arn"`
-	Id           string `json:"id"`
-}
-
 // A KinesisAnalyticsApplicationStatus defines the observed state of a KinesisAnalyticsApplication
 type KinesisAnalyticsApplicationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -219,7 +219,7 @@ type KinesisAnalyticsApplicationStatus struct {
 
 // A KinesisAnalyticsApplicationObservation records the observed state of a KinesisAnalyticsApplication
 type KinesisAnalyticsApplicationObservation struct {
-	Version             int    `json:"version"`
+	Version             int64  `json:"version"`
 	CreateTimestamp     string `json:"create_timestamp"`
 	LastUpdateTimestamp string `json:"last_update_timestamp"`
 	Status              string `json:"status"`

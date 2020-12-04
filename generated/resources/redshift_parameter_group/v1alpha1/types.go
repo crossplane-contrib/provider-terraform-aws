@@ -57,7 +57,7 @@ type RedshiftParameterGroupParameters struct {
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
-	Parameter   []Parameter       `json:"parameter"`
+	Parameter   Parameter         `json:"parameter"`
 }
 
 type Parameter struct {

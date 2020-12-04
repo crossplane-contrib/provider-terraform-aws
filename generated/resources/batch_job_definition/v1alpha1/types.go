@@ -52,21 +52,21 @@ type BatchJobDefinitionSpec struct {
 
 // A BatchJobDefinitionParameters defines the desired state of a BatchJobDefinition
 type BatchJobDefinitionParameters struct {
+	Type                string            `json:"type"`
 	ContainerProperties string            `json:"container_properties"`
 	Id                  string            `json:"id"`
 	Name                string            `json:"name"`
 	Parameters          map[string]string `json:"parameters"`
-	Type                string            `json:"type"`
 	RetryStrategy       RetryStrategy     `json:"retry_strategy"`
 	Timeout             Timeout           `json:"timeout"`
 }
 
 type RetryStrategy struct {
-	Attempts int `json:"attempts"`
+	Attempts int64 `json:"attempts"`
 }
 
 type Timeout struct {
-	AttemptDurationSeconds int `json:"attempt_duration_seconds"`
+	AttemptDurationSeconds int64 `json:"attempt_duration_seconds"`
 }
 
 // A BatchJobDefinitionStatus defines the observed state of a BatchJobDefinition
@@ -77,6 +77,6 @@ type BatchJobDefinitionStatus struct {
 
 // A BatchJobDefinitionObservation records the observed state of a BatchJobDefinition
 type BatchJobDefinitionObservation struct {
+	Revision int64  `json:"revision"`
 	Arn      string `json:"arn"`
-	Revision int    `json:"revision"`
 }

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeShieldProtection(r ShieldProtection) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeShieldProtection_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeShieldProtection(r ShieldProtection) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeShieldProtection_Name(r.Spec.ForProvider, ctyVal)
 	EncodeShieldProtection_ResourceArn(r.Spec.ForProvider, ctyVal)
+	EncodeShieldProtection_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeShieldProtection_Id(p *ShieldProtectionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeShieldProtection_Name(p *ShieldProtectionParameters, vals map[string]cty.Value) {
+func EncodeShieldProtection_Name(p ShieldProtectionParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeShieldProtection_ResourceArn(p *ShieldProtectionParameters, vals map[string]cty.Value) {
+func EncodeShieldProtection_ResourceArn(p ShieldProtectionParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
+}
+
+func EncodeShieldProtection_Id(p ShieldProtectionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

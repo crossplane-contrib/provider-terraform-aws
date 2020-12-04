@@ -52,10 +52,10 @@ type DynamodbGlobalTableSpec struct {
 
 // A DynamodbGlobalTableParameters defines the desired state of a DynamodbGlobalTable
 type DynamodbGlobalTableParameters struct {
-	Id       string     `json:"id"`
-	Name     string     `json:"name"`
-	Replica  []Replica  `json:"replica"`
-	Timeouts []Timeouts `json:"timeouts"`
+	Id       string    `json:"id"`
+	Name     string    `json:"name"`
+	Replica  []Replica `json:"replica"`
+	Timeouts Timeouts  `json:"timeouts"`
 }
 
 type Replica struct {

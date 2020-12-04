@@ -14,58 +14,64 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLambdaPermission(r LambdaPermission) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeLambdaPermission_SourceArn(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_FunctionName(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_Id(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_Principal(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_SourceAccount(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_StatementId(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_StatementIdPrefix(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLambdaPermission(r LambdaPermission) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeLambdaPermission_Action(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaPermission_EventSourceToken(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_Principal(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_SourceArn(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_StatementIdPrefix(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaPermission_Qualifier(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_SourceAccount(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_StatementId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLambdaPermission_SourceArn(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["source_arn"] = cty.StringVal(p.SourceArn)
-}
-
-func EncodeLambdaPermission_FunctionName(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["function_name"] = cty.StringVal(p.FunctionName)
-}
-
-func EncodeLambdaPermission_Id(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeLambdaPermission_Principal(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["principal"] = cty.StringVal(p.Principal)
-}
-
-func EncodeLambdaPermission_SourceAccount(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["source_account"] = cty.StringVal(p.SourceAccount)
-}
-
-func EncodeLambdaPermission_StatementId(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["statement_id"] = cty.StringVal(p.StatementId)
-}
-
-func EncodeLambdaPermission_StatementIdPrefix(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["statement_id_prefix"] = cty.StringVal(p.StatementIdPrefix)
-}
-
-func EncodeLambdaPermission_Action(p *LambdaPermissionParameters, vals map[string]cty.Value) {
+func EncodeLambdaPermission_Action(p LambdaPermissionParameters, vals map[string]cty.Value) {
 	vals["action"] = cty.StringVal(p.Action)
 }
 
-func EncodeLambdaPermission_EventSourceToken(p *LambdaPermissionParameters, vals map[string]cty.Value) {
+func EncodeLambdaPermission_EventSourceToken(p LambdaPermissionParameters, vals map[string]cty.Value) {
 	vals["event_source_token"] = cty.StringVal(p.EventSourceToken)
 }
 
-func EncodeLambdaPermission_Qualifier(p *LambdaPermissionParameters, vals map[string]cty.Value) {
+func EncodeLambdaPermission_Id(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLambdaPermission_Principal(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["principal"] = cty.StringVal(p.Principal)
+}
+
+func EncodeLambdaPermission_SourceArn(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["source_arn"] = cty.StringVal(p.SourceArn)
+}
+
+func EncodeLambdaPermission_StatementIdPrefix(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["statement_id_prefix"] = cty.StringVal(p.StatementIdPrefix)
+}
+
+func EncodeLambdaPermission_FunctionName(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["function_name"] = cty.StringVal(p.FunctionName)
+}
+
+func EncodeLambdaPermission_Qualifier(p LambdaPermissionParameters, vals map[string]cty.Value) {
 	vals["qualifier"] = cty.StringVal(p.Qualifier)
+}
+
+func EncodeLambdaPermission_SourceAccount(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["source_account"] = cty.StringVal(p.SourceAccount)
+}
+
+func EncodeLambdaPermission_StatementId(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["statement_id"] = cty.StringVal(p.StatementId)
 }

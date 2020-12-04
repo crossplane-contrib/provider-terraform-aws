@@ -52,10 +52,10 @@ type CodebuildReportGroupSpec struct {
 
 // A CodebuildReportGroupParameters defines the desired state of a CodebuildReportGroup
 type CodebuildReportGroupParameters struct {
-	Tags         map[string]string `json:"tags"`
-	Type         string            `json:"type"`
 	Id           string            `json:"id"`
 	Name         string            `json:"name"`
+	Tags         map[string]string `json:"tags"`
+	Type         string            `json:"type"`
 	ExportConfig ExportConfig      `json:"export_config"`
 }
 

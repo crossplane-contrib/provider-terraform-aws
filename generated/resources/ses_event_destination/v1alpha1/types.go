@@ -52,14 +52,14 @@ type SesEventDestinationSpec struct {
 
 // A SesEventDestinationParameters defines the desired state of a SesEventDestination
 type SesEventDestinationParameters struct {
-	ConfigurationSetName  string                  `json:"configuration_set_name"`
-	Enabled               bool                    `json:"enabled"`
-	Id                    string                  `json:"id"`
-	MatchingTypes         []string                `json:"matching_types"`
-	Name                  string                  `json:"name"`
-	CloudwatchDestination []CloudwatchDestination `json:"cloudwatch_destination"`
-	KinesisDestination    KinesisDestination      `json:"kinesis_destination"`
-	SnsDestination        SnsDestination          `json:"sns_destination"`
+	ConfigurationSetName  string                `json:"configuration_set_name"`
+	Enabled               bool                  `json:"enabled"`
+	Id                    string                `json:"id"`
+	MatchingTypes         []string              `json:"matching_types"`
+	Name                  string                `json:"name"`
+	CloudwatchDestination CloudwatchDestination `json:"cloudwatch_destination"`
+	KinesisDestination    KinesisDestination    `json:"kinesis_destination"`
+	SnsDestination        SnsDestination        `json:"sns_destination"`
 }
 
 type CloudwatchDestination struct {

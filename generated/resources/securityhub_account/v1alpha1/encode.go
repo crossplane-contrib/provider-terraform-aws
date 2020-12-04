@@ -14,13 +14,19 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSecurityhubAccount(r SecurityhubAccount) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSecurityhubAccount(r SecurityhubAccount) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSecurityhubAccount_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSecurityhubAccount_Id(p *SecurityhubAccountParameters, vals map[string]cty.Value) {
+func EncodeSecurityhubAccount_Id(p SecurityhubAccountParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

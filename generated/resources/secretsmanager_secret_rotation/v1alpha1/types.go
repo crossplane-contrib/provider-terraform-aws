@@ -52,15 +52,15 @@ type SecretsmanagerSecretRotationSpec struct {
 
 // A SecretsmanagerSecretRotationParameters defines the desired state of a SecretsmanagerSecretRotation
 type SecretsmanagerSecretRotationParameters struct {
-	Id                string            `json:"id"`
-	RotationLambdaArn string            `json:"rotation_lambda_arn"`
 	SecretId          string            `json:"secret_id"`
 	Tags              map[string]string `json:"tags"`
+	Id                string            `json:"id"`
+	RotationLambdaArn string            `json:"rotation_lambda_arn"`
 	RotationRules     RotationRules     `json:"rotation_rules"`
 }
 
 type RotationRules struct {
-	AutomaticallyAfterDays int `json:"automatically_after_days"`
+	AutomaticallyAfterDays int64 `json:"automatically_after_days"`
 }
 
 // A SecretsmanagerSecretRotationStatus defines the observed state of a SecretsmanagerSecretRotation

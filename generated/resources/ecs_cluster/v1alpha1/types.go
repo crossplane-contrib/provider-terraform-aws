@@ -52,18 +52,18 @@ type EcsClusterSpec struct {
 
 // A EcsClusterParameters defines the desired state of a EcsCluster
 type EcsClusterParameters struct {
-	Tags                            map[string]string                 `json:"tags"`
-	CapacityProviders               []string                          `json:"capacity_providers"`
-	Id                              string                            `json:"id"`
-	Name                            string                            `json:"name"`
-	DefaultCapacityProviderStrategy []DefaultCapacityProviderStrategy `json:"default_capacity_provider_strategy"`
-	Setting                         []Setting                         `json:"setting"`
+	Tags                            map[string]string               `json:"tags"`
+	CapacityProviders               []string                        `json:"capacity_providers"`
+	Id                              string                          `json:"id"`
+	Name                            string                          `json:"name"`
+	DefaultCapacityProviderStrategy DefaultCapacityProviderStrategy `json:"default_capacity_provider_strategy"`
+	Setting                         Setting                         `json:"setting"`
 }
 
 type DefaultCapacityProviderStrategy struct {
-	Base             int    `json:"base"`
+	Base             int64  `json:"base"`
 	CapacityProvider string `json:"capacity_provider"`
-	Weight           int    `json:"weight"`
+	Weight           int64  `json:"weight"`
 }
 
 type Setting struct {

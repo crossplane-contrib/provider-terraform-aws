@@ -14,37 +14,43 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeGlobalacceleratorListener(r GlobalacceleratorListener) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeGlobalacceleratorListener_Protocol(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeGlobalacceleratorListener(r GlobalacceleratorListener) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeGlobalacceleratorListener_AcceleratorArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_ClientAffinity(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorListener_Protocol(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_PortRange(r.Spec.ForProvider.PortRange, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlobalacceleratorListener_Protocol(p *GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
-	vals["protocol"] = cty.StringVal(p.Protocol)
-}
-
-func EncodeGlobalacceleratorListener_AcceleratorArn(p *GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
+func EncodeGlobalacceleratorListener_AcceleratorArn(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
 	vals["accelerator_arn"] = cty.StringVal(p.AcceleratorArn)
 }
 
-func EncodeGlobalacceleratorListener_ClientAffinity(p *GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
+func EncodeGlobalacceleratorListener_ClientAffinity(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
 	vals["client_affinity"] = cty.StringVal(p.ClientAffinity)
 }
 
-func EncodeGlobalacceleratorListener_Id(p *GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
+func EncodeGlobalacceleratorListener_Id(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeGlobalacceleratorListener_PortRange(p *PortRange, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.PortRange {
-		ctyVal = make(map[string]cty.Value)
+func EncodeGlobalacceleratorListener_Protocol(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
+	vals["protocol"] = cty.StringVal(p.Protocol)
+}
+
+func EncodeGlobalacceleratorListener_PortRange(p []PortRange, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeGlobalacceleratorListener_PortRange_FromPort(v, ctyVal)
 		EncodeGlobalacceleratorListener_PortRange_ToPort(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
@@ -52,10 +58,10 @@ func EncodeGlobalacceleratorListener_PortRange(p *PortRange, vals map[string]cty
 	vals["port_range"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeGlobalacceleratorListener_PortRange_FromPort(p *PortRange, vals map[string]cty.Value) {
-	vals["from_port"] = cty.IntVal(p.FromPort)
+func EncodeGlobalacceleratorListener_PortRange_FromPort(p PortRange, vals map[string]cty.Value) {
+	vals["from_port"] = cty.NumberIntVal(p.FromPort)
 }
 
-func EncodeGlobalacceleratorListener_PortRange_ToPort(p *PortRange, vals map[string]cty.Value) {
-	vals["to_port"] = cty.IntVal(p.ToPort)
+func EncodeGlobalacceleratorListener_PortRange_ToPort(p PortRange, vals map[string]cty.Value) {
+	vals["to_port"] = cty.NumberIntVal(p.ToPort)
 }

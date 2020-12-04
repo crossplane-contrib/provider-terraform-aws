@@ -14,42 +14,46 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafGeoMatchSet(r WafGeoMatchSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeWafGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafGeoMatchSet(r WafGeoMatchSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafGeoMatchSet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafGeoMatchSet_GeoMatchConstraint(r.Spec.ForProvider.GeoMatchConstraint, ctyVal)
 	EncodeWafGeoMatchSet_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafGeoMatchSet_Name(p *WafGeoMatchSetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeWafGeoMatchSet_Id(p *WafGeoMatchSetParameters, vals map[string]cty.Value) {
+func EncodeWafGeoMatchSet_Id(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafGeoMatchSet_GeoMatchConstraint(p *GeoMatchConstraint, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.GeoMatchConstraint {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafGeoMatchSet_GeoMatchConstraint_Type(v, ctyVal)
-		EncodeWafGeoMatchSet_GeoMatchConstraint_Value(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafGeoMatchSet_Name(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafGeoMatchSet_GeoMatchConstraint(p GeoMatchConstraint, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafGeoMatchSet_GeoMatchConstraint_Type(p, ctyVal)
+	EncodeWafGeoMatchSet_GeoMatchConstraint_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["geo_match_constraint"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafGeoMatchSet_GeoMatchConstraint_Type(p *GeoMatchConstraint, vals map[string]cty.Value) {
+func EncodeWafGeoMatchSet_GeoMatchConstraint_Type(p GeoMatchConstraint, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeWafGeoMatchSet_GeoMatchConstraint_Value(p *GeoMatchConstraint, vals map[string]cty.Value) {
+func EncodeWafGeoMatchSet_GeoMatchConstraint_Value(p GeoMatchConstraint, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }
 
-func EncodeWafGeoMatchSet_Arn(p *WafGeoMatchSetObservation, vals map[string]cty.Value) {
+func EncodeWafGeoMatchSet_Arn(p WafGeoMatchSetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

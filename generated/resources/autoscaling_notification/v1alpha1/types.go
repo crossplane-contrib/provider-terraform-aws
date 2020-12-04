@@ -52,10 +52,10 @@ type AutoscalingNotificationSpec struct {
 
 // A AutoscalingNotificationParameters defines the desired state of a AutoscalingNotification
 type AutoscalingNotificationParameters struct {
+	GroupNames    []string `json:"group_names"`
 	Id            string   `json:"id"`
 	Notifications []string `json:"notifications"`
 	TopicArn      string   `json:"topic_arn"`
-	GroupNames    []string `json:"group_names"`
 }
 
 // A AutoscalingNotificationStatus defines the observed state of a AutoscalingNotification

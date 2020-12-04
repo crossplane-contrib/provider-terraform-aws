@@ -52,30 +52,42 @@ type GameliftFleetSpec struct {
 
 // A GameliftFleetParameters defines the desired state of a GameliftFleet
 type GameliftFleetParameters struct {
-	Name                           string                      `json:"name"`
-	Tags                           map[string]string           `json:"tags"`
-	BuildId                        string                      `json:"build_id"`
 	Ec2InstanceType                string                      `json:"ec2_instance_type"`
 	FleetType                      string                      `json:"fleet_type"`
 	InstanceRoleArn                string                      `json:"instance_role_arn"`
+	Name                           string                      `json:"name"`
+	BuildId                        string                      `json:"build_id"`
+	Description                    string                      `json:"description"`
 	MetricGroups                   []string                    `json:"metric_groups"`
 	NewGameSessionProtectionPolicy string                      `json:"new_game_session_protection_policy"`
-	Description                    string                      `json:"description"`
+	Tags                           map[string]string           `json:"tags"`
 	Id                             string                      `json:"id"`
-	RuntimeConfiguration           RuntimeConfiguration        `json:"runtime_configuration"`
-	Timeouts                       []Timeouts                  `json:"timeouts"`
 	Ec2InboundPermission           []Ec2InboundPermission      `json:"ec2_inbound_permission"`
 	ResourceCreationLimitPolicy    ResourceCreationLimitPolicy `json:"resource_creation_limit_policy"`
+	RuntimeConfiguration           RuntimeConfiguration        `json:"runtime_configuration"`
+	Timeouts                       Timeouts                    `json:"timeouts"`
+}
+
+type Ec2InboundPermission struct {
+	IpRange  string `json:"ip_range"`
+	Protocol string `json:"protocol"`
+	ToPort   int64  `json:"to_port"`
+	FromPort int64  `json:"from_port"`
+}
+
+type ResourceCreationLimitPolicy struct {
+	PolicyPeriodInMinutes     int64 `json:"policy_period_in_minutes"`
+	NewGameSessionsPerCreator int64 `json:"new_game_sessions_per_creator"`
 }
 
 type RuntimeConfiguration struct {
-	GameSessionActivationTimeoutSeconds int             `json:"game_session_activation_timeout_seconds"`
-	MaxConcurrentGameSessionActivations int             `json:"max_concurrent_game_session_activations"`
+	GameSessionActivationTimeoutSeconds int64           `json:"game_session_activation_timeout_seconds"`
+	MaxConcurrentGameSessionActivations int64           `json:"max_concurrent_game_session_activations"`
 	ServerProcess                       []ServerProcess `json:"server_process"`
 }
 
 type ServerProcess struct {
-	ConcurrentExecutions int    `json:"concurrent_executions"`
+	ConcurrentExecutions int64  `json:"concurrent_executions"`
 	LaunchPath           string `json:"launch_path"`
 	Parameters           string `json:"parameters"`
 }
@@ -83,18 +95,6 @@ type ServerProcess struct {
 type Timeouts struct {
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-}
-
-type Ec2InboundPermission struct {
-	FromPort int    `json:"from_port"`
-	IpRange  string `json:"ip_range"`
-	Protocol string `json:"protocol"`
-	ToPort   int    `json:"to_port"`
-}
-
-type ResourceCreationLimitPolicy struct {
-	NewGameSessionsPerCreator int `json:"new_game_sessions_per_creator"`
-	PolicyPeriodInMinutes     int `json:"policy_period_in_minutes"`
 }
 
 // A GameliftFleetStatus defines the observed state of a GameliftFleet

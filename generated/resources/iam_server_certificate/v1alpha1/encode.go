@@ -14,8 +14,15 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
@@ -23,39 +30,38 @@ package v1alpha1func EncodeIamServerCertificate(r IamServerCertificate) cty.Valu
 	EncodeIamServerCertificate_CertificateChain(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Name(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamServerCertificate_Path(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+func EncodeIamServerCertificate_NamePrefix(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeIamServerCertificate_Path(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
 }
 
-func EncodeIamServerCertificate_PrivateKey(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+func EncodeIamServerCertificate_PrivateKey(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["private_key"] = cty.StringVal(p.PrivateKey)
 }
 
-func EncodeIamServerCertificate_Arn(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeIamServerCertificate_CertificateBody(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+func EncodeIamServerCertificate_CertificateBody(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
 }
 
-func EncodeIamServerCertificate_CertificateChain(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+func EncodeIamServerCertificate_CertificateChain(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_chain"] = cty.StringVal(p.CertificateChain)
 }
 
-func EncodeIamServerCertificate_Id(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+func EncodeIamServerCertificate_Id(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamServerCertificate_Name(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+func EncodeIamServerCertificate_Name(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeIamServerCertificate_NamePrefix(p *IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeXrayEncryptionConfig(r XrayEncryptionConfig) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeXrayEncryptionConfig_Type(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeXrayEncryptionConfig(r XrayEncryptionConfig) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeXrayEncryptionConfig_Id(r.Spec.ForProvider, ctyVal)
 	EncodeXrayEncryptionConfig_KeyId(r.Spec.ForProvider, ctyVal)
+	EncodeXrayEncryptionConfig_Type(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeXrayEncryptionConfig_Type(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeXrayEncryptionConfig_Id(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
+func EncodeXrayEncryptionConfig_Id(p XrayEncryptionConfigParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeXrayEncryptionConfig_KeyId(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
+func EncodeXrayEncryptionConfig_KeyId(p XrayEncryptionConfigParameters, vals map[string]cty.Value) {
 	vals["key_id"] = cty.StringVal(p.KeyId)
+}
+
+func EncodeXrayEncryptionConfig_Type(p XrayEncryptionConfigParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }

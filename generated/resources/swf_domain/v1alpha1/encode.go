@@ -14,31 +14,45 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSwfDomain(r SwfDomain) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSwfDomain(r SwfDomain) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(r.Spec.ForProvider, ctyVal)
+	EncodeSwfDomain_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(r.Spec.ForProvider, ctyVal)
-	EncodeSwfDomain_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSwfDomain_Id(p *SwfDomainParameters, vals map[string]cty.Value) {
+func EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p SwfDomainParameters, vals map[string]cty.Value) {
+	vals["workflow_execution_retention_period_in_days"] = cty.StringVal(p.WorkflowExecutionRetentionPeriodInDays)
+}
+
+func EncodeSwfDomain_Description(p SwfDomainParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSwfDomain_Id(p SwfDomainParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSwfDomain_Name(p *SwfDomainParameters, vals map[string]cty.Value) {
+func EncodeSwfDomain_Name(p SwfDomainParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSwfDomain_NamePrefix(p *SwfDomainParameters, vals map[string]cty.Value) {
+func EncodeSwfDomain_NamePrefix(p SwfDomainParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeSwfDomain_Tags(p *SwfDomainParameters, vals map[string]cty.Value) {
+func EncodeSwfDomain_Tags(p SwfDomainParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -46,14 +60,6 @@ func EncodeSwfDomain_Tags(p *SwfDomainParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p *SwfDomainParameters, vals map[string]cty.Value) {
-	vals["workflow_execution_retention_period_in_days"] = cty.StringVal(p.WorkflowExecutionRetentionPeriodInDays)
-}
-
-func EncodeSwfDomain_Description(p *SwfDomainParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSwfDomain_Arn(p *SwfDomainObservation, vals map[string]cty.Value) {
+func EncodeSwfDomain_Arn(p SwfDomainObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

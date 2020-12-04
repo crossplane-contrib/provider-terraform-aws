@@ -52,44 +52,44 @@ type ElbSpec struct {
 
 // A ElbParameters defines the desired state of a Elb
 type ElbParameters struct {
-	ConnectionDraining        bool              `json:"connection_draining"`
-	Internal                  bool              `json:"internal"`
-	SourceSecurityGroup       string            `json:"source_security_group"`
-	Subnets                   []string          `json:"subnets"`
-	AvailabilityZones         []string          `json:"availability_zones"`
 	NamePrefix                string            `json:"name_prefix"`
+	Subnets                   []string          `json:"subnets"`
+	SecurityGroups            []string          `json:"security_groups"`
+	SourceSecurityGroup       string            `json:"source_security_group"`
+	Tags                      map[string]string `json:"tags"`
+	AvailabilityZones         []string          `json:"availability_zones"`
+	ConnectionDraining        bool              `json:"connection_draining"`
+	Name                      string            `json:"name"`
+	Internal                  bool              `json:"internal"`
+	ConnectionDrainingTimeout int64             `json:"connection_draining_timeout"`
 	CrossZoneLoadBalancing    bool              `json:"cross_zone_load_balancing"`
 	Id                        string            `json:"id"`
-	Name                      string            `json:"name"`
-	Tags                      map[string]string `json:"tags"`
-	ConnectionDrainingTimeout int               `json:"connection_draining_timeout"`
-	IdleTimeout               int               `json:"idle_timeout"`
+	IdleTimeout               int64             `json:"idle_timeout"`
 	Instances                 []string          `json:"instances"`
-	SecurityGroups            []string          `json:"security_groups"`
 	AccessLogs                AccessLogs        `json:"access_logs"`
 	HealthCheck               HealthCheck       `json:"health_check"`
 	Listener                  []Listener        `json:"listener"`
 }
 
 type AccessLogs struct {
+	Bucket       string `json:"bucket"`
 	BucketPrefix string `json:"bucket_prefix"`
 	Enabled      bool   `json:"enabled"`
-	Interval     int    `json:"interval"`
-	Bucket       string `json:"bucket"`
+	Interval     int64  `json:"interval"`
 }
 
 type HealthCheck struct {
-	HealthyThreshold   int    `json:"healthy_threshold"`
-	Interval           int    `json:"interval"`
+	HealthyThreshold   int64  `json:"healthy_threshold"`
+	Interval           int64  `json:"interval"`
 	Target             string `json:"target"`
-	Timeout            int    `json:"timeout"`
-	UnhealthyThreshold int    `json:"unhealthy_threshold"`
+	Timeout            int64  `json:"timeout"`
+	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
 }
 
 type Listener struct {
-	InstancePort     int    `json:"instance_port"`
+	InstancePort     int64  `json:"instance_port"`
 	InstanceProtocol string `json:"instance_protocol"`
-	LbPort           int    `json:"lb_port"`
+	LbPort           int64  `json:"lb_port"`
 	LbProtocol       string `json:"lb_protocol"`
 	SslCertificateId string `json:"ssl_certificate_id"`
 }
@@ -102,8 +102,8 @@ type ElbStatus struct {
 
 // A ElbObservation records the observed state of a Elb
 type ElbObservation struct {
-	SourceSecurityGroupId string `json:"source_security_group_id"`
 	ZoneId                string `json:"zone_id"`
 	DnsName               string `json:"dns_name"`
 	Arn                   string `json:"arn"`
+	SourceSecurityGroupId string `json:"source_security_group_id"`
 }

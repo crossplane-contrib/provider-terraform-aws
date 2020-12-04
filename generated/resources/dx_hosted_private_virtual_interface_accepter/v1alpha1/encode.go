@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPrivateVirtualInterfaceAccepter) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPrivateVirtualInterfaceAccepter) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(r.Spec.ForProvider, ctyVal)
@@ -23,18 +29,18 @@ package v1alpha1func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPri
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -42,29 +48,29 @@ func EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(p *DxHostedPrivateVirtua
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts_Create(p, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Arn(p *DxHostedPrivateVirtualInterfaceAccepterObservation, vals map[string]cty.Value) {
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_Arn(p DxHostedPrivateVirtualInterfaceAccepterObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

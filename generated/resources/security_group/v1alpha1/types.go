@@ -52,39 +52,39 @@ type SecurityGroupSpec struct {
 
 // A SecurityGroupParameters defines the desired state of a SecurityGroup
 type SecurityGroupParameters struct {
+	NamePrefix          string            `json:"name_prefix"`
+	Id                  string            `json:"id"`
+	Name                string            `json:"name"`
+	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
 	Tags                map[string]string `json:"tags"`
 	VpcId               string            `json:"vpc_id"`
-	Id                  string            `json:"id"`
-	Ingress             []Ingress         `json:"ingress"`
-	NamePrefix          string            `json:"name_prefix"`
-	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
 	Description         string            `json:"description"`
 	Egress              []Egress          `json:"egress"`
-	Name                string            `json:"name"`
-	Timeouts            []Timeouts        `json:"timeouts"`
-}
-
-type Ingress struct {
-	ToPort         int      `json:"to_port"`
-	CidrBlocks     []string `json:"cidr_blocks"`
-	Protocol       string   `json:"protocol"`
-	SecurityGroups []string `json:"security_groups"`
-	Self           bool     `json:"self"`
-	Description    string   `json:"description"`
-	FromPort       int      `json:"from_port"`
-	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
-	PrefixListIds  []string `json:"prefix_list_ids"`
+	Ingress             []Ingress         `json:"ingress"`
+	Timeouts            Timeouts          `json:"timeouts"`
 }
 
 type Egress struct {
+	CidrBlocks     []string `json:"cidr_blocks"`
+	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
+	PrefixListIds  []string `json:"prefix_list_ids"`
 	Protocol       string   `json:"protocol"`
+	ToPort         int64    `json:"to_port"`
+	SecurityGroups []string `json:"security_groups"`
+	Self           bool     `json:"self"`
+	Description    string   `json:"description"`
+	FromPort       int64    `json:"from_port"`
+}
+
+type Ingress struct {
+	FromPort       int64    `json:"from_port"`
+	ToPort         int64    `json:"to_port"`
+	CidrBlocks     []string `json:"cidr_blocks"`
 	SecurityGroups []string `json:"security_groups"`
 	Description    string   `json:"description"`
 	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
-	CidrBlocks     []string `json:"cidr_blocks"`
 	PrefixListIds  []string `json:"prefix_list_ids"`
-	ToPort         int      `json:"to_port"`
-	FromPort       int      `json:"from_port"`
+	Protocol       string   `json:"protocol"`
 	Self           bool     `json:"self"`
 }
 

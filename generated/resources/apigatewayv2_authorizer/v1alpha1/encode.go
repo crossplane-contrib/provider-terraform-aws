@@ -14,36 +14,46 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApigatewayv2Authorizer(r Apigatewayv2Authorizer) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeApigatewayv2Authorizer_ApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Authorizer_EnableSimpleResponses(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Authorizer_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Authorizer_IdentitySources(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Authorizer_Name(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Authorizer_AuthorizerCredentialsArn(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApigatewayv2Authorizer(r Apigatewayv2Authorizer) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApigatewayv2Authorizer_AuthorizerPayloadFormatVersion(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Authorizer_AuthorizerResultTtlInSeconds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Authorizer_AuthorizerType(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Authorizer_EnableSimpleResponses(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Authorizer_IdentitySources(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Authorizer_AuthorizerCredentialsArn(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Authorizer_AuthorizerUri(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Authorizer_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Authorizer_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Authorizer_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Authorizer_JwtConfiguration(r.Spec.ForProvider.JwtConfiguration, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2Authorizer_ApiId(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
+func EncodeApigatewayv2Authorizer_AuthorizerPayloadFormatVersion(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+	vals["authorizer_payload_format_version"] = cty.StringVal(p.AuthorizerPayloadFormatVersion)
 }
 
-func EncodeApigatewayv2Authorizer_EnableSimpleResponses(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Authorizer_AuthorizerResultTtlInSeconds(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+	vals["authorizer_result_ttl_in_seconds"] = cty.NumberIntVal(p.AuthorizerResultTtlInSeconds)
+}
+
+func EncodeApigatewayv2Authorizer_AuthorizerType(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+	vals["authorizer_type"] = cty.StringVal(p.AuthorizerType)
+}
+
+func EncodeApigatewayv2Authorizer_EnableSimpleResponses(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
 	vals["enable_simple_responses"] = cty.BoolVal(p.EnableSimpleResponses)
 }
 
-func EncodeApigatewayv2Authorizer_Id(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApigatewayv2Authorizer_IdentitySources(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Authorizer_IdentitySources(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.IdentitySources {
 		colVals = append(colVals, cty.StringVal(value))
@@ -51,42 +61,36 @@ func EncodeApigatewayv2Authorizer_IdentitySources(p *Apigatewayv2AuthorizerParam
 	vals["identity_sources"] = cty.SetVal(colVals)
 }
 
-func EncodeApigatewayv2Authorizer_Name(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeApigatewayv2Authorizer_AuthorizerCredentialsArn(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Authorizer_AuthorizerCredentialsArn(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
 	vals["authorizer_credentials_arn"] = cty.StringVal(p.AuthorizerCredentialsArn)
 }
 
-func EncodeApigatewayv2Authorizer_AuthorizerPayloadFormatVersion(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
-	vals["authorizer_payload_format_version"] = cty.StringVal(p.AuthorizerPayloadFormatVersion)
-}
-
-func EncodeApigatewayv2Authorizer_AuthorizerResultTtlInSeconds(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
-	vals["authorizer_result_ttl_in_seconds"] = cty.IntVal(p.AuthorizerResultTtlInSeconds)
-}
-
-func EncodeApigatewayv2Authorizer_AuthorizerType(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
-	vals["authorizer_type"] = cty.StringVal(p.AuthorizerType)
-}
-
-func EncodeApigatewayv2Authorizer_AuthorizerUri(p *Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Authorizer_AuthorizerUri(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
 	vals["authorizer_uri"] = cty.StringVal(p.AuthorizerUri)
 }
 
-func EncodeApigatewayv2Authorizer_JwtConfiguration(p *JwtConfiguration, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.JwtConfiguration {
-		ctyVal = make(map[string]cty.Value)
-		EncodeApigatewayv2Authorizer_JwtConfiguration_Audience(v, ctyVal)
-		EncodeApigatewayv2Authorizer_JwtConfiguration_Issuer(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeApigatewayv2Authorizer_Id(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApigatewayv2Authorizer_Name(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeApigatewayv2Authorizer_ApiId(p Apigatewayv2AuthorizerParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
+}
+
+func EncodeApigatewayv2Authorizer_JwtConfiguration(p JwtConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeApigatewayv2Authorizer_JwtConfiguration_Audience(p, ctyVal)
+	EncodeApigatewayv2Authorizer_JwtConfiguration_Issuer(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["jwt_configuration"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApigatewayv2Authorizer_JwtConfiguration_Audience(p *JwtConfiguration, vals map[string]cty.Value) {
+func EncodeApigatewayv2Authorizer_JwtConfiguration_Audience(p JwtConfiguration, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Audience {
 		colVals = append(colVals, cty.StringVal(value))
@@ -94,6 +98,6 @@ func EncodeApigatewayv2Authorizer_JwtConfiguration_Audience(p *JwtConfiguration,
 	vals["audience"] = cty.SetVal(colVals)
 }
 
-func EncodeApigatewayv2Authorizer_JwtConfiguration_Issuer(p *JwtConfiguration, vals map[string]cty.Value) {
+func EncodeApigatewayv2Authorizer_JwtConfiguration_Issuer(p JwtConfiguration, vals map[string]cty.Value) {
 	vals["issuer"] = cty.StringVal(p.Issuer)
 }

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLicensemanagerAssociation(r LicensemanagerAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLicensemanagerAssociation(r LicensemanagerAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeLicensemanagerAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerAssociation_LicenseConfigurationArn(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLicensemanagerAssociation_Id(p *LicensemanagerAssociationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerAssociation_Id(p LicensemanagerAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeLicensemanagerAssociation_LicenseConfigurationArn(p *LicensemanagerAssociationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerAssociation_LicenseConfigurationArn(p LicensemanagerAssociationParameters, vals map[string]cty.Value) {
 	vals["license_configuration_arn"] = cty.StringVal(p.LicenseConfigurationArn)
 }
 
-func EncodeLicensemanagerAssociation_ResourceArn(p *LicensemanagerAssociationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerAssociation_ResourceArn(p LicensemanagerAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }

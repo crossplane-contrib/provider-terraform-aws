@@ -52,11 +52,11 @@ type WorkspacesIpGroupSpec struct {
 
 // A WorkspacesIpGroupParameters defines the desired state of a WorkspacesIpGroup
 type WorkspacesIpGroupParameters struct {
-	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
-	Rules       []Rules           `json:"rules"`
+	Tags        map[string]string `json:"tags"`
+	Rules       Rules             `json:"rules"`
 }
 
 type Rules struct {

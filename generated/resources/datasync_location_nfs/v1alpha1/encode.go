@@ -14,27 +14,37 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDatasyncLocationNfs(r DatasyncLocationNfs) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDatasyncLocationNfs(r DatasyncLocationNfs) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeDatasyncLocationNfs_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_ServerHostname(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Subdirectory(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationNfs_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_OnPremConfig(r.Spec.ForProvider.OnPremConfig, ctyVal)
-	EncodeDatasyncLocationNfs_Uri(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeDatasyncLocationNfs_Uri(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDatasyncLocationNfs_ServerHostname(p *DatasyncLocationNfsParameters, vals map[string]cty.Value) {
+func EncodeDatasyncLocationNfs_Id(p DatasyncLocationNfsParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDatasyncLocationNfs_ServerHostname(p DatasyncLocationNfsParameters, vals map[string]cty.Value) {
 	vals["server_hostname"] = cty.StringVal(p.ServerHostname)
 }
 
-func EncodeDatasyncLocationNfs_Subdirectory(p *DatasyncLocationNfsParameters, vals map[string]cty.Value) {
+func EncodeDatasyncLocationNfs_Subdirectory(p DatasyncLocationNfsParameters, vals map[string]cty.Value) {
 	vals["subdirectory"] = cty.StringVal(p.Subdirectory)
 }
 
-func EncodeDatasyncLocationNfs_Tags(p *DatasyncLocationNfsParameters, vals map[string]cty.Value) {
+func EncodeDatasyncLocationNfs_Tags(p DatasyncLocationNfsParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -42,21 +52,15 @@ func EncodeDatasyncLocationNfs_Tags(p *DatasyncLocationNfsParameters, vals map[s
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDatasyncLocationNfs_Id(p *DatasyncLocationNfsParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDatasyncLocationNfs_OnPremConfig(p *OnPremConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.OnPremConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeDatasyncLocationNfs_OnPremConfig_AgentArns(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeDatasyncLocationNfs_OnPremConfig(p OnPremConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeDatasyncLocationNfs_OnPremConfig_AgentArns(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["on_prem_config"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeDatasyncLocationNfs_OnPremConfig_AgentArns(p *OnPremConfig, vals map[string]cty.Value) {
+func EncodeDatasyncLocationNfs_OnPremConfig_AgentArns(p OnPremConfig, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.AgentArns {
 		colVals = append(colVals, cty.StringVal(value))
@@ -64,10 +68,10 @@ func EncodeDatasyncLocationNfs_OnPremConfig_AgentArns(p *OnPremConfig, vals map[
 	vals["agent_arns"] = cty.SetVal(colVals)
 }
 
-func EncodeDatasyncLocationNfs_Uri(p *DatasyncLocationNfsObservation, vals map[string]cty.Value) {
-	vals["uri"] = cty.StringVal(p.Uri)
+func EncodeDatasyncLocationNfs_Arn(p DatasyncLocationNfsObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeDatasyncLocationNfs_Arn(p *DatasyncLocationNfsObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeDatasyncLocationNfs_Uri(p DatasyncLocationNfsObservation, vals map[string]cty.Value) {
+	vals["uri"] = cty.StringVal(p.Uri)
 }

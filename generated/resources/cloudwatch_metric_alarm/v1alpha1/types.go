@@ -52,46 +52,46 @@ type CloudwatchMetricAlarmSpec struct {
 
 // A CloudwatchMetricAlarmParameters defines the desired state of a CloudwatchMetricAlarm
 type CloudwatchMetricAlarmParameters struct {
-	Threshold                         int               `json:"threshold"`
-	Unit                              string            `json:"unit"`
-	EvaluationPeriods                 int               `json:"evaluation_periods"`
-	ExtendedStatistic                 string            `json:"extended_statistic"`
-	MetricName                        string            `json:"metric_name"`
-	Period                            int               `json:"period"`
-	OkActions                         []string          `json:"ok_actions"`
-	ThresholdMetricId                 string            `json:"threshold_metric_id"`
-	TreatMissingData                  string            `json:"treat_missing_data"`
-	AlarmName                         string            `json:"alarm_name"`
-	DatapointsToAlarm                 int               `json:"datapoints_to_alarm"`
-	InsufficientDataActions           []string          `json:"insufficient_data_actions"`
-	Namespace                         string            `json:"namespace"`
-	EvaluateLowSampleCountPercentiles string            `json:"evaluate_low_sample_count_percentiles"`
-	Tags                              map[string]string `json:"tags"`
-	ActionsEnabled                    bool              `json:"actions_enabled"`
-	AlarmDescription                  string            `json:"alarm_description"`
 	ComparisonOperator                string            `json:"comparison_operator"`
-	AlarmActions                      []string          `json:"alarm_actions"`
+	Threshold                         int64             `json:"threshold"`
+	ThresholdMetricId                 string            `json:"threshold_metric_id"`
+	Period                            int64             `json:"period"`
+	TreatMissingData                  string            `json:"treat_missing_data"`
+	ActionsEnabled                    bool              `json:"actions_enabled"`
+	DatapointsToAlarm                 int64             `json:"datapoints_to_alarm"`
 	Dimensions                        map[string]string `json:"dimensions"`
 	Id                                string            `json:"id"`
+	MetricName                        string            `json:"metric_name"`
 	Statistic                         string            `json:"statistic"`
-	MetricQuery                       []MetricQuery     `json:"metric_query"`
+	Tags                              map[string]string `json:"tags"`
+	AlarmActions                      []string          `json:"alarm_actions"`
+	EvaluateLowSampleCountPercentiles string            `json:"evaluate_low_sample_count_percentiles"`
+	InsufficientDataActions           []string          `json:"insufficient_data_actions"`
+	OkActions                         []string          `json:"ok_actions"`
+	Unit                              string            `json:"unit"`
+	AlarmDescription                  string            `json:"alarm_description"`
+	AlarmName                         string            `json:"alarm_name"`
+	EvaluationPeriods                 int64             `json:"evaluation_periods"`
+	ExtendedStatistic                 string            `json:"extended_statistic"`
+	Namespace                         string            `json:"namespace"`
+	MetricQuery                       MetricQuery       `json:"metric_query"`
 }
 
 type MetricQuery struct {
+	ReturnData bool   `json:"return_data"`
 	Expression string `json:"expression"`
 	Id         string `json:"id"`
 	Label      string `json:"label"`
-	ReturnData bool   `json:"return_data"`
 	Metric     Metric `json:"metric"`
 }
 
 type Metric struct {
-	MetricName string            `json:"metric_name"`
-	Namespace  string            `json:"namespace"`
-	Period     int               `json:"period"`
+	Period     int64             `json:"period"`
 	Stat       string            `json:"stat"`
 	Unit       string            `json:"unit"`
 	Dimensions map[string]string `json:"dimensions"`
+	MetricName string            `json:"metric_name"`
+	Namespace  string            `json:"namespace"`
 }
 
 // A CloudwatchMetricAlarmStatus defines the observed state of a CloudwatchMetricAlarm

@@ -14,53 +14,55 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafregionalXssMatchSet(r WafregionalXssMatchSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafregionalXssMatchSet(r WafregionalXssMatchSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafregionalXssMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalXssMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalXssMatchSet_XssMatchTuple(r.Spec.ForProvider.XssMatchTuple, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafregionalXssMatchSet_Id(p *WafregionalXssMatchSetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalXssMatchSet_Id(p WafregionalXssMatchSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafregionalXssMatchSet_Name(p *WafregionalXssMatchSetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalXssMatchSet_Name(p WafregionalXssMatchSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafregionalXssMatchSet_XssMatchTuple(p *XssMatchTuple, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.XssMatchTuple {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafregionalXssMatchSet_XssMatchTuple_TextTransformation(v, ctyVal)
-		EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch(v.FieldToMatch, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafregionalXssMatchSet_XssMatchTuple(p XssMatchTuple, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalXssMatchSet_XssMatchTuple_TextTransformation(p, ctyVal)
+	EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch(p.FieldToMatch, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["xss_match_tuple"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafregionalXssMatchSet_XssMatchTuple_TextTransformation(p *XssMatchTuple, vals map[string]cty.Value) {
+func EncodeWafregionalXssMatchSet_XssMatchTuple_TextTransformation(p XssMatchTuple, vals map[string]cty.Value) {
 	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
 }
 
-func EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch(p *FieldToMatch, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.FieldToMatch {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Data(v, ctyVal)
-		EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch(p FieldToMatch, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Data(p, ctyVal)
+	EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["field_to_match"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Data(p *FieldToMatch, vals map[string]cty.Value) {
+func EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Data(p FieldToMatch, vals map[string]cty.Value) {
 	vals["data"] = cty.StringVal(p.Data)
 }
 
-func EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Type(p *FieldToMatch, vals map[string]cty.Value) {
+func EncodeWafregionalXssMatchSet_XssMatchTuple_FieldToMatch_Type(p FieldToMatch, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }

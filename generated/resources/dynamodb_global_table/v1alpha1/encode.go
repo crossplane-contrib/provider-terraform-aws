@@ -14,58 +14,64 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDynamodbGlobalTable(r DynamodbGlobalTable) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDynamodbGlobalTable(r DynamodbGlobalTable) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDynamodbGlobalTable_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbGlobalTable_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbGlobalTable_Replica(r.Spec.ForProvider.Replica, ctyVal)
 	EncodeDynamodbGlobalTable_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDynamodbGlobalTable_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDynamodbGlobalTable_Id(p *DynamodbGlobalTableParameters, vals map[string]cty.Value) {
+func EncodeDynamodbGlobalTable_Id(p DynamodbGlobalTableParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDynamodbGlobalTable_Name(p *DynamodbGlobalTableParameters, vals map[string]cty.Value) {
+func EncodeDynamodbGlobalTable_Name(p DynamodbGlobalTableParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeDynamodbGlobalTable_Replica(p *Replica, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Replica {
-		ctyVal = make(map[string]cty.Value)
+func EncodeDynamodbGlobalTable_Replica(p []Replica, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeDynamodbGlobalTable_Replica_RegionName(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["replica"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeDynamodbGlobalTable_Replica_RegionName(p *Replica, vals map[string]cty.Value) {
+func EncodeDynamodbGlobalTable_Replica_RegionName(p Replica, vals map[string]cty.Value) {
 	vals["region_name"] = cty.StringVal(p.RegionName)
 }
 
-func EncodeDynamodbGlobalTable_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeDynamodbGlobalTable_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDynamodbGlobalTable_Timeouts_Create(p, ctyVal)
 	EncodeDynamodbGlobalTable_Timeouts_Delete(p, ctyVal)
 	EncodeDynamodbGlobalTable_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeDynamodbGlobalTable_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeDynamodbGlobalTable_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeDynamodbGlobalTable_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+func EncodeDynamodbGlobalTable_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeDynamodbGlobalTable_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+func EncodeDynamodbGlobalTable_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeDynamodbGlobalTable_Arn(p *DynamodbGlobalTableObservation, vals map[string]cty.Value) {
+func EncodeDynamodbGlobalTable_Arn(p DynamodbGlobalTableObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSpotDatafeedSubscription(r SpotDatafeedSubscription) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSpotDatafeedSubscription(r SpotDatafeedSubscription) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeSpotDatafeedSubscription_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeSpotDatafeedSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSpotDatafeedSubscription_Prefix(r.Spec.ForProvider, ctyVal)
-	EncodeSpotDatafeedSubscription_Bucket(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSpotDatafeedSubscription_Id(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeSpotDatafeedSubscription_Bucket(p SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
+}
+
+func EncodeSpotDatafeedSubscription_Id(p SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSpotDatafeedSubscription_Prefix(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeSpotDatafeedSubscription_Prefix(p SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
 	vals["prefix"] = cty.StringVal(p.Prefix)
-}
-
-func EncodeSpotDatafeedSubscription_Bucket(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
 }

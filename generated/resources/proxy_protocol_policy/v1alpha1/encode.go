@@ -14,27 +14,33 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeProxyProtocolPolicy(r ProxyProtocolPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeProxyProtocolPolicy(r ProxyProtocolPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeProxyProtocolPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_InstancePorts(r.Spec.ForProvider, ctyVal)
-	EncodeProxyProtocolPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeProxyProtocolPolicy_Id(p *ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
+func EncodeProxyProtocolPolicy_LoadBalancer(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
+	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
+}
+
+func EncodeProxyProtocolPolicy_Id(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeProxyProtocolPolicy_InstancePorts(p *ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
+func EncodeProxyProtocolPolicy_InstancePorts(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.InstancePorts {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["instance_ports"] = cty.SetVal(colVals)
-}
-
-func EncodeProxyProtocolPolicy_LoadBalancer(p *ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
-	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
 }

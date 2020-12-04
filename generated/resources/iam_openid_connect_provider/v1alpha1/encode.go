@@ -14,33 +14,23 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamOpenidConnectProvider(r IamOpenidConnectProvider) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamOpenidConnectProvider(r IamOpenidConnectProvider) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_ThumbprintList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Url(r.Spec.ForProvider, ctyVal)
-	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamOpenidConnectProvider_Id(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamOpenidConnectProvider_ThumbprintList(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.ThumbprintList {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["thumbprint_list"] = cty.ListVal(colVals)
-}
-
-func EncodeIamOpenidConnectProvider_Url(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	vals["url"] = cty.StringVal(p.Url)
-}
-
-func EncodeIamOpenidConnectProvider_ClientIdList(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ClientIdList {
 		colVals = append(colVals, cty.StringVal(value))
@@ -48,6 +38,22 @@ func EncodeIamOpenidConnectProvider_ClientIdList(p *IamOpenidConnectProviderPara
 	vals["client_id_list"] = cty.ListVal(colVals)
 }
 
-func EncodeIamOpenidConnectProvider_Arn(p *IamOpenidConnectProviderObservation, vals map[string]cty.Value) {
+func EncodeIamOpenidConnectProvider_Id(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeIamOpenidConnectProvider_ThumbprintList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ThumbprintList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["thumbprint_list"] = cty.ListVal(colVals)
+}
+
+func EncodeIamOpenidConnectProvider_Url(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	vals["url"] = cty.StringVal(p.Url)
+}
+
+func EncodeIamOpenidConnectProvider_Arn(p IamOpenidConnectProviderObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

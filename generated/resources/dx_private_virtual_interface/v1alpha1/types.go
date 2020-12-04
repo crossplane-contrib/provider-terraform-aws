@@ -52,20 +52,20 @@ type DxPrivateVirtualInterfaceSpec struct {
 
 // A DxPrivateVirtualInterfaceParameters defines the desired state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceParameters struct {
-	Vlan            int               `json:"vlan"`
-	AmazonAddress   string            `json:"amazon_address"`
-	ConnectionId    string            `json:"connection_id"`
-	Mtu             int               `json:"mtu"`
-	AddressFamily   string            `json:"address_family"`
-	BgpAsn          int               `json:"bgp_asn"`
-	BgpAuthKey      string            `json:"bgp_auth_key"`
 	DxGatewayId     string            `json:"dx_gateway_id"`
-	Tags            map[string]string `json:"tags"`
-	CustomerAddress string            `json:"customer_address"`
-	Id              string            `json:"id"`
+	BgpAsn          int64             `json:"bgp_asn"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
 	Name            string            `json:"name"`
+	AddressFamily   string            `json:"address_family"`
+	Mtu             int64             `json:"mtu"`
+	CustomerAddress string            `json:"customer_address"`
+	Vlan            int64             `json:"vlan"`
+	ConnectionId    string            `json:"connection_id"`
+	Id              string            `json:"id"`
+	Tags            map[string]string `json:"tags"`
 	VpnGatewayId    string            `json:"vpn_gateway_id"`
-	Timeouts        []Timeouts        `json:"timeouts"`
+	AmazonAddress   string            `json:"amazon_address"`
+	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -82,8 +82,8 @@ type DxPrivateVirtualInterfaceStatus struct {
 
 // A DxPrivateVirtualInterfaceObservation records the observed state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceObservation struct {
-	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
-	AmazonSideAsn     string `json:"amazon_side_asn"`
 	Arn               string `json:"arn"`
 	AwsDevice         string `json:"aws_device"`
+	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
+	AmazonSideAsn     string `json:"amazon_side_asn"`
 }

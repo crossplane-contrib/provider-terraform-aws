@@ -14,28 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAutoscalingAttachment(r AutoscalingAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAutoscalingAttachment(r AutoscalingAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAutoscalingAttachment_AlbTargetGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingAttachment_AutoscalingGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingAttachment_Elb(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingAttachment_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAutoscalingAttachment_AlbTargetGroupArn(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingAttachment_AlbTargetGroupArn(p AutoscalingAttachmentParameters, vals map[string]cty.Value) {
 	vals["alb_target_group_arn"] = cty.StringVal(p.AlbTargetGroupArn)
 }
 
-func EncodeAutoscalingAttachment_AutoscalingGroupName(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingAttachment_AutoscalingGroupName(p AutoscalingAttachmentParameters, vals map[string]cty.Value) {
 	vals["autoscaling_group_name"] = cty.StringVal(p.AutoscalingGroupName)
 }
 
-func EncodeAutoscalingAttachment_Elb(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingAttachment_Elb(p AutoscalingAttachmentParameters, vals map[string]cty.Value) {
 	vals["elb"] = cty.StringVal(p.Elb)
 }
 
-func EncodeAutoscalingAttachment_Id(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingAttachment_Id(p AutoscalingAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

@@ -14,35 +14,25 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeGameliftGameSessionQueue(r GameliftGameSessionQueue) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeGameliftGameSessionQueue(r GameliftGameSessionQueue) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeGameliftGameSessionQueue_Destinations(r.Spec.ForProvider, ctyVal)
+	EncodeGameliftGameSessionQueue_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftGameSessionQueue_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftGameSessionQueue_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftGameSessionQueue_TimeoutInSeconds(r.Spec.ForProvider, ctyVal)
-	EncodeGameliftGameSessionQueue_Destinations(r.Spec.ForProvider, ctyVal)
-	EncodeGameliftGameSessionQueue_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftGameSessionQueue_PlayerLatencyPolicy(r.Spec.ForProvider.PlayerLatencyPolicy, ctyVal)
 	EncodeGameliftGameSessionQueue_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGameliftGameSessionQueue_Name(p *GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeGameliftGameSessionQueue_Tags(p *GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeGameliftGameSessionQueue_TimeoutInSeconds(p *GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
-	vals["timeout_in_seconds"] = cty.IntVal(p.TimeoutInSeconds)
-}
-
-func EncodeGameliftGameSessionQueue_Destinations(p *GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
+func EncodeGameliftGameSessionQueue_Destinations(p GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Destinations {
 		colVals = append(colVals, cty.StringVal(value))
@@ -50,29 +40,43 @@ func EncodeGameliftGameSessionQueue_Destinations(p *GameliftGameSessionQueuePara
 	vals["destinations"] = cty.ListVal(colVals)
 }
 
-func EncodeGameliftGameSessionQueue_Id(p *GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
+func EncodeGameliftGameSessionQueue_Id(p GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeGameliftGameSessionQueue_PlayerLatencyPolicy(p *PlayerLatencyPolicy, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.PlayerLatencyPolicy {
-		ctyVal = make(map[string]cty.Value)
-		EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_PolicyDurationSeconds(v, ctyVal)
-		EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_MaximumIndividualPlayerLatencyMilliseconds(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+func EncodeGameliftGameSessionQueue_Name(p GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeGameliftGameSessionQueue_Tags(p GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
 	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeGameliftGameSessionQueue_TimeoutInSeconds(p GameliftGameSessionQueueParameters, vals map[string]cty.Value) {
+	vals["timeout_in_seconds"] = cty.NumberIntVal(p.TimeoutInSeconds)
+}
+
+func EncodeGameliftGameSessionQueue_PlayerLatencyPolicy(p PlayerLatencyPolicy, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_MaximumIndividualPlayerLatencyMilliseconds(p, ctyVal)
+	EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_PolicyDurationSeconds(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["player_latency_policy"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_PolicyDurationSeconds(p *PlayerLatencyPolicy, vals map[string]cty.Value) {
-	vals["policy_duration_seconds"] = cty.IntVal(p.PolicyDurationSeconds)
+func EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_MaximumIndividualPlayerLatencyMilliseconds(p PlayerLatencyPolicy, vals map[string]cty.Value) {
+	vals["maximum_individual_player_latency_milliseconds"] = cty.NumberIntVal(p.MaximumIndividualPlayerLatencyMilliseconds)
 }
 
-func EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_MaximumIndividualPlayerLatencyMilliseconds(p *PlayerLatencyPolicy, vals map[string]cty.Value) {
-	vals["maximum_individual_player_latency_milliseconds"] = cty.IntVal(p.MaximumIndividualPlayerLatencyMilliseconds)
+func EncodeGameliftGameSessionQueue_PlayerLatencyPolicy_PolicyDurationSeconds(p PlayerLatencyPolicy, vals map[string]cty.Value) {
+	vals["policy_duration_seconds"] = cty.NumberIntVal(p.PolicyDurationSeconds)
 }
 
-func EncodeGameliftGameSessionQueue_Arn(p *GameliftGameSessionQueueObservation, vals map[string]cty.Value) {
+func EncodeGameliftGameSessionQueue_Arn(p GameliftGameSessionQueueObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

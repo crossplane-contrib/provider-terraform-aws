@@ -52,21 +52,21 @@ type DmsEndpointSpec struct {
 
 // A DmsEndpointParameters defines the desired state of a DmsEndpoint
 type DmsEndpointParameters struct {
-	SslMode                   string                `json:"ssl_mode"`
-	EndpointType              string                `json:"endpoint_type"`
-	EngineName                string                `json:"engine_name"`
-	ServerName                string                `json:"server_name"`
-	ServiceAccessRole         string                `json:"service_access_role"`
-	EndpointId                string                `json:"endpoint_id"`
-	Tags                      map[string]string     `json:"tags"`
-	Username                  string                `json:"username"`
 	CertificateArn            string                `json:"certificate_arn"`
+	EndpointId                string                `json:"endpoint_id"`
+	EndpointType              string                `json:"endpoint_type"`
+	ExtraConnectionAttributes string                `json:"extra_connection_attributes"`
+	ServerName                string                `json:"server_name"`
+	Tags                      map[string]string     `json:"tags"`
 	DatabaseName              string                `json:"database_name"`
+	ServiceAccessRole         string                `json:"service_access_role"`
+	Username                  string                `json:"username"`
+	Id                        string                `json:"id"`
+	SslMode                   string                `json:"ssl_mode"`
+	EngineName                string                `json:"engine_name"`
 	KmsKeyArn                 string                `json:"kms_key_arn"`
 	Password                  string                `json:"password"`
-	Port                      int                   `json:"port"`
-	ExtraConnectionAttributes string                `json:"extra_connection_attributes"`
-	Id                        string                `json:"id"`
+	Port                      int64                 `json:"port"`
 	ElasticsearchSettings     ElasticsearchSettings `json:"elasticsearch_settings"`
 	KafkaSettings             KafkaSettings         `json:"kafka_settings"`
 	KinesisSettings           KinesisSettings       `json:"kinesis_settings"`
@@ -75,10 +75,10 @@ type DmsEndpointParameters struct {
 }
 
 type ElasticsearchSettings struct {
-	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
 	EndpointUri             string `json:"endpoint_uri"`
-	ErrorRetryDuration      int    `json:"error_retry_duration"`
-	FullLoadErrorPercentage int    `json:"full_load_error_percentage"`
+	ErrorRetryDuration      int64  `json:"error_retry_duration"`
+	FullLoadErrorPercentage int64  `json:"full_load_error_percentage"`
+	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
 }
 
 type KafkaSettings struct {
@@ -87,18 +87,18 @@ type KafkaSettings struct {
 }
 
 type KinesisSettings struct {
+	StreamArn            string `json:"stream_arn"`
 	MessageFormat        string `json:"message_format"`
 	ServiceAccessRoleArn string `json:"service_access_role_arn"`
-	StreamArn            string `json:"stream_arn"`
 }
 
 type MongodbSettings struct {
-	AuthMechanism     string `json:"auth_mechanism"`
-	AuthSource        string `json:"auth_source"`
-	AuthType          string `json:"auth_type"`
 	DocsToInvestigate string `json:"docs_to_investigate"`
 	ExtractDocId      string `json:"extract_doc_id"`
 	NestingLevel      string `json:"nesting_level"`
+	AuthMechanism     string `json:"auth_mechanism"`
+	AuthSource        string `json:"auth_source"`
+	AuthType          string `json:"auth_type"`
 }
 
 type S3Settings struct {

@@ -14,68 +14,72 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeElasticBeanstalkConfigurationTemplate(r ElasticBeanstalkConfigurationTemplate) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeElasticBeanstalkConfigurationTemplate(r ElasticBeanstalkConfigurationTemplate) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeElasticBeanstalkConfigurationTemplate_Application(r.Spec.ForProvider, ctyVal)
+	EncodeElasticBeanstalkConfigurationTemplate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_EnvironmentId(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(r.Spec.ForProvider, ctyVal)
-	EncodeElasticBeanstalkConfigurationTemplate_Application(r.Spec.ForProvider, ctyVal)
-	EncodeElasticBeanstalkConfigurationTemplate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Setting(r.Spec.ForProvider.Setting, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_EnvironmentId(p *ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
-	vals["environment_id"] = cty.StringVal(p.EnvironmentId)
-}
-
-func EncodeElasticBeanstalkConfigurationTemplate_Id(p *ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeElasticBeanstalkConfigurationTemplate_Name(p *ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(p *ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
-	vals["solution_stack_name"] = cty.StringVal(p.SolutionStackName)
-}
-
-func EncodeElasticBeanstalkConfigurationTemplate_Application(p *ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkConfigurationTemplate_Application(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
 	vals["application"] = cty.StringVal(p.Application)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_Description(p *ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkConfigurationTemplate_Description(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_Setting(p *Setting, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Setting {
-		ctyVal = make(map[string]cty.Value)
-		EncodeElasticBeanstalkConfigurationTemplate_Setting_Value(v, ctyVal)
-		EncodeElasticBeanstalkConfigurationTemplate_Setting_Name(v, ctyVal)
-		EncodeElasticBeanstalkConfigurationTemplate_Setting_Namespace(v, ctyVal)
-		EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["setting"] = cty.SetVal(valsForCollection)
+func EncodeElasticBeanstalkConfigurationTemplate_EnvironmentId(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
+	vals["environment_id"] = cty.StringVal(p.EnvironmentId)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_Setting_Value(p *Setting, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
+func EncodeElasticBeanstalkConfigurationTemplate_Id(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_Setting_Name(p *Setting, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkConfigurationTemplate_Name(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_Setting_Namespace(p *Setting, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
+	vals["solution_stack_name"] = cty.StringVal(p.SolutionStackName)
+}
+
+func EncodeElasticBeanstalkConfigurationTemplate_Setting(p Setting, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeElasticBeanstalkConfigurationTemplate_Setting_Name(p, ctyVal)
+	EncodeElasticBeanstalkConfigurationTemplate_Setting_Namespace(p, ctyVal)
+	EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(p, ctyVal)
+	EncodeElasticBeanstalkConfigurationTemplate_Setting_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["setting"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeElasticBeanstalkConfigurationTemplate_Setting_Name(p Setting, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeElasticBeanstalkConfigurationTemplate_Setting_Namespace(p Setting, vals map[string]cty.Value) {
 	vals["namespace"] = cty.StringVal(p.Namespace)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(p *Setting, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(p Setting, vals map[string]cty.Value) {
 	vals["resource"] = cty.StringVal(p.Resource)
+}
+
+func EncodeElasticBeanstalkConfigurationTemplate_Setting_Value(p Setting, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }

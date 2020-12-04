@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodePinpointAdmChannel(r PinpointAdmChannel) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodePinpointAdmChannel_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodePinpointAdmChannel(r PinpointAdmChannel) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodePinpointAdmChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointAdmChannel_ClientId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointAdmChannel_ClientSecret(r.Spec.ForProvider, ctyVal)
 	EncodePinpointAdmChannel_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodePinpointAdmChannel_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodePinpointAdmChannel_Id(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodePinpointAdmChannel_ApplicationId(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+func EncodePinpointAdmChannel_ApplicationId(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }
 
-func EncodePinpointAdmChannel_ClientId(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+func EncodePinpointAdmChannel_ClientId(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	vals["client_id"] = cty.StringVal(p.ClientId)
 }
 
-func EncodePinpointAdmChannel_ClientSecret(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+func EncodePinpointAdmChannel_ClientSecret(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	vals["client_secret"] = cty.StringVal(p.ClientSecret)
 }
 
-func EncodePinpointAdmChannel_Enabled(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+func EncodePinpointAdmChannel_Enabled(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodePinpointAdmChannel_Id(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

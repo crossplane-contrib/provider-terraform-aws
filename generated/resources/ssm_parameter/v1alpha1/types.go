@@ -52,18 +52,18 @@ type SsmParameterSpec struct {
 
 // A SsmParameterParameters defines the desired state of a SsmParameter
 type SsmParameterParameters struct {
-	DataType       string            `json:"data_type"`
-	Id             string            `json:"id"`
-	KeyId          string            `json:"key_id"`
-	Name           string            `json:"name"`
-	Type           string            `json:"type"`
-	Value          string            `json:"value"`
-	AllowedPattern string            `json:"allowed_pattern"`
-	Description    string            `json:"description"`
-	Overwrite      bool              `json:"overwrite"`
-	Tags           map[string]string `json:"tags"`
 	Tier           string            `json:"tier"`
+	AllowedPattern string            `json:"allowed_pattern"`
+	DataType       string            `json:"data_type"`
+	Description    string            `json:"description"`
+	KeyId          string            `json:"key_id"`
+	Overwrite      bool              `json:"overwrite"`
+	Value          string            `json:"value"`
 	Arn            string            `json:"arn"`
+	Id             string            `json:"id"`
+	Name           string            `json:"name"`
+	Tags           map[string]string `json:"tags"`
+	Type           string            `json:"type"`
 }
 
 // A SsmParameterStatus defines the observed state of a SsmParameter
@@ -74,5 +74,5 @@ type SsmParameterStatus struct {
 
 // A SsmParameterObservation records the observed state of a SsmParameter
 type SsmParameterObservation struct {
-	Version int `json:"version"`
+	Version int64 `json:"version"`
 }

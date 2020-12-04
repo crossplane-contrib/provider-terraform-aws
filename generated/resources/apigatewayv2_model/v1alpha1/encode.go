@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApigatewayv2Model(r Apigatewayv2Model) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApigatewayv2Model(r Apigatewayv2Model) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApigatewayv2Model_ContentType(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_Id(r.Spec.ForProvider, ctyVal)
@@ -23,29 +29,29 @@ package v1alpha1func EncodeApigatewayv2Model(r Apigatewayv2Model) cty.Value {
 	EncodeApigatewayv2Model_Schema(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_ApiId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2Model_ContentType(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Model_ContentType(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
 	vals["content_type"] = cty.StringVal(p.ContentType)
 }
 
-func EncodeApigatewayv2Model_Description(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Model_Description(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApigatewayv2Model_Id(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Model_Id(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApigatewayv2Model_Name(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Model_Name(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeApigatewayv2Model_Schema(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Model_Schema(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
 	vals["schema"] = cty.StringVal(p.Schema)
 }
 
-func EncodeApigatewayv2Model_ApiId(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2Model_ApiId(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
 	vals["api_id"] = cty.StringVal(p.ApiId)
 }

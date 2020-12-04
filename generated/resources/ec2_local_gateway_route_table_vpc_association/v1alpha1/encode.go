@@ -14,21 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2LocalGatewayRouteTableVpcAssociation(r Ec2LocalGatewayRouteTableVpcAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2LocalGatewayRouteTableVpcAssociation(r Ec2LocalGatewayRouteTableVpcAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_VpcId(r.Spec.ForProvider, ctyVal)
-	EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayRouteTableId(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
+func EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayRouteTableId(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
 	vals["local_gateway_route_table_id"] = cty.StringVal(p.LocalGatewayRouteTableId)
 }
 
-func EncodeEc2LocalGatewayRouteTableVpcAssociation_Tags(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
+func EncodeEc2LocalGatewayRouteTableVpcAssociation_Tags(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -36,14 +46,10 @@ func EncodeEc2LocalGatewayRouteTableVpcAssociation_Tags(p *Ec2LocalGatewayRouteT
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeEc2LocalGatewayRouteTableVpcAssociation_VpcId(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
+func EncodeEc2LocalGatewayRouteTableVpcAssociation_VpcId(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayId(p *Ec2LocalGatewayRouteTableVpcAssociationObservation, vals map[string]cty.Value) {
+func EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayId(p Ec2LocalGatewayRouteTableVpcAssociationObservation, vals map[string]cty.Value) {
 	vals["local_gateway_id"] = cty.StringVal(p.LocalGatewayId)
 }

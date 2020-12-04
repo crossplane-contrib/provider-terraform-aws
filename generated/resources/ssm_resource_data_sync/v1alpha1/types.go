@@ -58,11 +58,11 @@ type SsmResourceDataSyncParameters struct {
 }
 
 type S3Destination struct {
-	Region     string `json:"region"`
-	SyncFormat string `json:"sync_format"`
 	BucketName string `json:"bucket_name"`
 	KmsKeyArn  string `json:"kms_key_arn"`
 	Prefix     string `json:"prefix"`
+	Region     string `json:"region"`
+	SyncFormat string `json:"sync_format"`
 }
 
 // A SsmResourceDataSyncStatus defines the observed state of a SsmResourceDataSync

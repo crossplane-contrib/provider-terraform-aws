@@ -52,10 +52,10 @@ type ServicequotasServiceQuotaSpec struct {
 
 // A ServicequotasServiceQuotaParameters defines the desired state of a ServicequotasServiceQuota
 type ServicequotasServiceQuotaParameters struct {
-	ServiceCode string `json:"service_code"`
-	Value       int    `json:"value"`
+	Value       int64  `json:"value"`
 	QuotaCode   string `json:"quota_code"`
 	Id          string `json:"id"`
+	ServiceCode string `json:"service_code"`
 }
 
 // A ServicequotasServiceQuotaStatus defines the observed state of a ServicequotasServiceQuota
@@ -70,7 +70,7 @@ type ServicequotasServiceQuotaObservation struct {
 	Adjustable    bool   `json:"adjustable"`
 	Arn           string `json:"arn"`
 	QuotaName     string `json:"quota_name"`
-	RequestStatus string `json:"request_status"`
-	DefaultValue  int    `json:"default_value"`
 	RequestId     string `json:"request_id"`
+	DefaultValue  int64  `json:"default_value"`
+	RequestStatus string `json:"request_status"`
 }

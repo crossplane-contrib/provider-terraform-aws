@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRamPrincipalAssociation(r RamPrincipalAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRamPrincipalAssociation(r RamPrincipalAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeRamPrincipalAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRamPrincipalAssociation_Principal(r.Spec.ForProvider, ctyVal)
 	EncodeRamPrincipalAssociation_ResourceShareArn(r.Spec.ForProvider, ctyVal)
-	EncodeRamPrincipalAssociation_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRamPrincipalAssociation_Principal(p *RamPrincipalAssociationParameters, vals map[string]cty.Value) {
+func EncodeRamPrincipalAssociation_Id(p RamPrincipalAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeRamPrincipalAssociation_Principal(p RamPrincipalAssociationParameters, vals map[string]cty.Value) {
 	vals["principal"] = cty.StringVal(p.Principal)
 }
 
-func EncodeRamPrincipalAssociation_ResourceShareArn(p *RamPrincipalAssociationParameters, vals map[string]cty.Value) {
+func EncodeRamPrincipalAssociation_ResourceShareArn(p RamPrincipalAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_share_arn"] = cty.StringVal(p.ResourceShareArn)
-}
-
-func EncodeRamPrincipalAssociation_Id(p *RamPrincipalAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

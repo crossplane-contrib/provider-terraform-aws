@@ -14,27 +14,33 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCloudwatchLogStream(r CloudwatchLogStream) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCloudwatchLogStream(r CloudwatchLogStream) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchLogStream_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudwatchLogStream_Id(p *CloudwatchLogStreamParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogStream_Id(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCloudwatchLogStream_LogGroupName(p *CloudwatchLogStreamParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogStream_LogGroupName(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
 }
 
-func EncodeCloudwatchLogStream_Name(p *CloudwatchLogStreamParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogStream_Name(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeCloudwatchLogStream_Arn(p *CloudwatchLogStreamObservation, vals map[string]cty.Value) {
+func EncodeCloudwatchLogStream_Arn(p CloudwatchLogStreamObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

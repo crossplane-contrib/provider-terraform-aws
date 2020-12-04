@@ -14,98 +14,96 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLambdaFunction(r LambdaFunction) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLambdaFunction(r LambdaFunction) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunction_Description(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_FunctionName(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_Handler(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_KmsKeyArn(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_S3Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_S3Key(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_Id(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_Role(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_Timeout(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_MemorySize(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_Publish(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_ReservedConcurrentExecutions(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_Filename(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_KmsKeyArn(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_MemorySize(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_Runtime(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_S3ObjectVersion(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_SourceCodeHash(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_Description(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_Handler(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_Layers(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_Filename(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_Role(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunction_S3ObjectVersion(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunction_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_Timeout(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_FunctionName(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunction_FileSystemConfig(r.Spec.ForProvider.FileSystemConfig, ctyVal)
-	EncodeLambdaFunction_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeLambdaFunction_TracingConfig(r.Spec.ForProvider.TracingConfig, ctyVal)
 	EncodeLambdaFunction_VpcConfig(r.Spec.ForProvider.VpcConfig, ctyVal)
 	EncodeLambdaFunction_DeadLetterConfig(r.Spec.ForProvider.DeadLetterConfig, ctyVal)
 	EncodeLambdaFunction_Environment(r.Spec.ForProvider.Environment, ctyVal)
+	EncodeLambdaFunction_FileSystemConfig(r.Spec.ForProvider.FileSystemConfig, ctyVal)
+	EncodeLambdaFunction_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
+	EncodeLambdaFunction_TracingConfig(r.Spec.ForProvider.TracingConfig, ctyVal)
+	EncodeLambdaFunction_InvokeArn(r.Status.AtProvider, ctyVal)
 	EncodeLambdaFunction_LastModified(r.Status.AtProvider, ctyVal)
 	EncodeLambdaFunction_QualifiedArn(r.Status.AtProvider, ctyVal)
-	EncodeLambdaFunction_InvokeArn(r.Status.AtProvider, ctyVal)
-	EncodeLambdaFunction_Version(r.Status.AtProvider, ctyVal)
-	EncodeLambdaFunction_SourceCodeSize(r.Status.AtProvider, ctyVal)
 	EncodeLambdaFunction_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeLambdaFunction_SourceCodeSize(r.Status.AtProvider, ctyVal)
+	EncodeLambdaFunction_Version(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLambdaFunction_S3Bucket(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["s3_bucket"] = cty.StringVal(p.S3Bucket)
-}
-
-func EncodeLambdaFunction_S3Key(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["s3_key"] = cty.StringVal(p.S3Key)
-}
-
-func EncodeLambdaFunction_Id(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeLambdaFunction_Role(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["role"] = cty.StringVal(p.Role)
-}
-
-func EncodeLambdaFunction_Publish(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["publish"] = cty.BoolVal(p.Publish)
-}
-
-func EncodeLambdaFunction_ReservedConcurrentExecutions(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["reserved_concurrent_executions"] = cty.IntVal(p.ReservedConcurrentExecutions)
-}
-
-func EncodeLambdaFunction_Filename(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["filename"] = cty.StringVal(p.Filename)
-}
-
-func EncodeLambdaFunction_KmsKeyArn(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
-}
-
-func EncodeLambdaFunction_MemorySize(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["memory_size"] = cty.IntVal(p.MemorySize)
-}
-
-func EncodeLambdaFunction_Runtime(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["runtime"] = cty.StringVal(p.Runtime)
-}
-
-func EncodeLambdaFunction_S3ObjectVersion(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["s3_object_version"] = cty.StringVal(p.S3ObjectVersion)
-}
-
-func EncodeLambdaFunction_SourceCodeHash(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["source_code_hash"] = cty.StringVal(p.SourceCodeHash)
-}
-
-func EncodeLambdaFunction_Description(p *LambdaFunctionParameters, vals map[string]cty.Value) {
+func EncodeLambdaFunction_Description(p LambdaFunctionParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeLambdaFunction_Handler(p *LambdaFunctionParameters, vals map[string]cty.Value) {
+func EncodeLambdaFunction_FunctionName(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["function_name"] = cty.StringVal(p.FunctionName)
+}
+
+func EncodeLambdaFunction_Handler(p LambdaFunctionParameters, vals map[string]cty.Value) {
 	vals["handler"] = cty.StringVal(p.Handler)
 }
 
-func EncodeLambdaFunction_Layers(p *LambdaFunctionParameters, vals map[string]cty.Value) {
+func EncodeLambdaFunction_KmsKeyArn(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+}
+
+func EncodeLambdaFunction_S3Bucket(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["s3_bucket"] = cty.StringVal(p.S3Bucket)
+}
+
+func EncodeLambdaFunction_S3Key(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["s3_key"] = cty.StringVal(p.S3Key)
+}
+
+func EncodeLambdaFunction_Timeout(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["timeout"] = cty.NumberIntVal(p.Timeout)
+}
+
+func EncodeLambdaFunction_MemorySize(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["memory_size"] = cty.NumberIntVal(p.MemorySize)
+}
+
+func EncodeLambdaFunction_Publish(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["publish"] = cty.BoolVal(p.Publish)
+}
+
+func EncodeLambdaFunction_ReservedConcurrentExecutions(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["reserved_concurrent_executions"] = cty.NumberIntVal(p.ReservedConcurrentExecutions)
+}
+
+func EncodeLambdaFunction_Runtime(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["runtime"] = cty.StringVal(p.Runtime)
+}
+
+func EncodeLambdaFunction_SourceCodeHash(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["source_code_hash"] = cty.StringVal(p.SourceCodeHash)
+}
+
+func EncodeLambdaFunction_Layers(p LambdaFunctionParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Layers {
 		colVals = append(colVals, cty.StringVal(value))
@@ -113,7 +111,23 @@ func EncodeLambdaFunction_Layers(p *LambdaFunctionParameters, vals map[string]ct
 	vals["layers"] = cty.ListVal(colVals)
 }
 
-func EncodeLambdaFunction_Tags(p *LambdaFunctionParameters, vals map[string]cty.Value) {
+func EncodeLambdaFunction_Filename(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["filename"] = cty.StringVal(p.Filename)
+}
+
+func EncodeLambdaFunction_Id(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLambdaFunction_Role(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["role"] = cty.StringVal(p.Role)
+}
+
+func EncodeLambdaFunction_S3ObjectVersion(p LambdaFunctionParameters, vals map[string]cty.Value) {
+	vals["s3_object_version"] = cty.StringVal(p.S3ObjectVersion)
+}
+
+func EncodeLambdaFunction_Tags(p LambdaFunctionParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -121,70 +135,17 @@ func EncodeLambdaFunction_Tags(p *LambdaFunctionParameters, vals map[string]cty.
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeLambdaFunction_Timeout(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["timeout"] = cty.IntVal(p.Timeout)
-}
-
-func EncodeLambdaFunction_FunctionName(p *LambdaFunctionParameters, vals map[string]cty.Value) {
-	vals["function_name"] = cty.StringVal(p.FunctionName)
-}
-
-func EncodeLambdaFunction_FileSystemConfig(p *FileSystemConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.FileSystemConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeLambdaFunction_FileSystemConfig_Arn(v, ctyVal)
-		EncodeLambdaFunction_FileSystemConfig_LocalMountPath(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["file_system_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeLambdaFunction_FileSystemConfig_Arn(p *FileSystemConfig, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeLambdaFunction_FileSystemConfig_LocalMountPath(p *FileSystemConfig, vals map[string]cty.Value) {
-	vals["local_mount_path"] = cty.StringVal(p.LocalMountPath)
-}
-
-func EncodeLambdaFunction_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
-	EncodeLambdaFunction_Timeouts_Create(p, ctyVal)
-	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeLambdaFunction_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
-}
-
-func EncodeLambdaFunction_TracingConfig(p *TracingConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.TracingConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeLambdaFunction_TracingConfig_Mode(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["tracing_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeLambdaFunction_TracingConfig_Mode(p *TracingConfig, vals map[string]cty.Value) {
-	vals["mode"] = cty.StringVal(p.Mode)
-}
-
-func EncodeLambdaFunction_VpcConfig(p *VpcConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.VpcConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeLambdaFunction_VpcConfig_SecurityGroupIds(v, ctyVal)
-		EncodeLambdaFunction_VpcConfig_SubnetIds(v, ctyVal)
-		EncodeLambdaFunction_VpcConfig_VpcId(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeLambdaFunction_VpcConfig(p VpcConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunction_VpcConfig_SecurityGroupIds(p, ctyVal)
+	EncodeLambdaFunction_VpcConfig_SubnetIds(p, ctyVal)
+	EncodeLambdaFunction_VpcConfig_VpcId(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["vpc_config"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeLambdaFunction_VpcConfig_SecurityGroupIds(p *VpcConfig, vals map[string]cty.Value) {
+func EncodeLambdaFunction_VpcConfig_SecurityGroupIds(p VpcConfig, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SecurityGroupIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -192,7 +153,7 @@ func EncodeLambdaFunction_VpcConfig_SecurityGroupIds(p *VpcConfig, vals map[stri
 	vals["security_group_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeLambdaFunction_VpcConfig_SubnetIds(p *VpcConfig, vals map[string]cty.Value) {
+func EncodeLambdaFunction_VpcConfig_SubnetIds(p VpcConfig, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SubnetIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -200,35 +161,31 @@ func EncodeLambdaFunction_VpcConfig_SubnetIds(p *VpcConfig, vals map[string]cty.
 	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeLambdaFunction_VpcConfig_VpcId(p *VpcConfig, vals map[string]cty.Value) {
+func EncodeLambdaFunction_VpcConfig_VpcId(p VpcConfig, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeLambdaFunction_DeadLetterConfig(p *DeadLetterConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.DeadLetterConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeLambdaFunction_DeadLetterConfig_TargetArn(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeLambdaFunction_DeadLetterConfig(p DeadLetterConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunction_DeadLetterConfig_TargetArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["dead_letter_config"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeLambdaFunction_DeadLetterConfig_TargetArn(p *DeadLetterConfig, vals map[string]cty.Value) {
+func EncodeLambdaFunction_DeadLetterConfig_TargetArn(p DeadLetterConfig, vals map[string]cty.Value) {
 	vals["target_arn"] = cty.StringVal(p.TargetArn)
 }
 
-func EncodeLambdaFunction_Environment(p *Environment, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Environment {
-		ctyVal = make(map[string]cty.Value)
-		EncodeLambdaFunction_Environment_Variables(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeLambdaFunction_Environment(p Environment, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunction_Environment_Variables(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["environment"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeLambdaFunction_Environment_Variables(p *Environment, vals map[string]cty.Value) {
+func EncodeLambdaFunction_Environment_Variables(p Environment, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Variables {
 		mVals[key] = cty.StringVal(value)
@@ -236,26 +193,65 @@ func EncodeLambdaFunction_Environment_Variables(p *Environment, vals map[string]
 	vals["variables"] = cty.MapVal(mVals)
 }
 
-func EncodeLambdaFunction_LastModified(p *LambdaFunctionObservation, vals map[string]cty.Value) {
-	vals["last_modified"] = cty.StringVal(p.LastModified)
+func EncodeLambdaFunction_FileSystemConfig(p FileSystemConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunction_FileSystemConfig_Arn(p, ctyVal)
+	EncodeLambdaFunction_FileSystemConfig_LocalMountPath(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["file_system_config"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeLambdaFunction_QualifiedArn(p *LambdaFunctionObservation, vals map[string]cty.Value) {
-	vals["qualified_arn"] = cty.StringVal(p.QualifiedArn)
+func EncodeLambdaFunction_FileSystemConfig_Arn(p FileSystemConfig, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeLambdaFunction_InvokeArn(p *LambdaFunctionObservation, vals map[string]cty.Value) {
+func EncodeLambdaFunction_FileSystemConfig_LocalMountPath(p FileSystemConfig, vals map[string]cty.Value) {
+	vals["local_mount_path"] = cty.StringVal(p.LocalMountPath)
+}
+
+func EncodeLambdaFunction_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunction_Timeouts_Create(p, ctyVal)
+	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeLambdaFunction_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
+}
+
+func EncodeLambdaFunction_TracingConfig(p TracingConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunction_TracingConfig_Mode(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["tracing_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeLambdaFunction_TracingConfig_Mode(p TracingConfig, vals map[string]cty.Value) {
+	vals["mode"] = cty.StringVal(p.Mode)
+}
+
+func EncodeLambdaFunction_InvokeArn(p LambdaFunctionObservation, vals map[string]cty.Value) {
 	vals["invoke_arn"] = cty.StringVal(p.InvokeArn)
 }
 
-func EncodeLambdaFunction_Version(p *LambdaFunctionObservation, vals map[string]cty.Value) {
-	vals["version"] = cty.StringVal(p.Version)
+func EncodeLambdaFunction_LastModified(p LambdaFunctionObservation, vals map[string]cty.Value) {
+	vals["last_modified"] = cty.StringVal(p.LastModified)
 }
 
-func EncodeLambdaFunction_SourceCodeSize(p *LambdaFunctionObservation, vals map[string]cty.Value) {
-	vals["source_code_size"] = cty.IntVal(p.SourceCodeSize)
+func EncodeLambdaFunction_QualifiedArn(p LambdaFunctionObservation, vals map[string]cty.Value) {
+	vals["qualified_arn"] = cty.StringVal(p.QualifiedArn)
 }
 
-func EncodeLambdaFunction_Arn(p *LambdaFunctionObservation, vals map[string]cty.Value) {
+func EncodeLambdaFunction_Arn(p LambdaFunctionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeLambdaFunction_SourceCodeSize(p LambdaFunctionObservation, vals map[string]cty.Value) {
+	vals["source_code_size"] = cty.NumberIntVal(p.SourceCodeSize)
+}
+
+func EncodeLambdaFunction_Version(p LambdaFunctionObservation, vals map[string]cty.Value) {
+	vals["version"] = cty.StringVal(p.Version)
 }

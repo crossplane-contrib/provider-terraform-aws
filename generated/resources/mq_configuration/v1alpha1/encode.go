@@ -14,45 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeMqConfiguration(r MqConfiguration) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeMqConfiguration(r MqConfiguration) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeMqConfiguration_EngineType(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_EngineVersion(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_Id(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Data(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Description(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_Name(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_EngineVersion(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMqConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMqConfiguration_EngineType(p *MqConfigurationParameters, vals map[string]cty.Value) {
+func EncodeMqConfiguration_EngineType(p MqConfigurationParameters, vals map[string]cty.Value) {
 	vals["engine_type"] = cty.StringVal(p.EngineType)
 }
 
-func EncodeMqConfiguration_EngineVersion(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
-}
-
-func EncodeMqConfiguration_Id(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeMqConfiguration_Data(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["data"] = cty.StringVal(p.Data)
-}
-
-func EncodeMqConfiguration_Description(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeMqConfiguration_Name(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeMqConfiguration_Tags(p *MqConfigurationParameters, vals map[string]cty.Value) {
+func EncodeMqConfiguration_Tags(p MqConfigurationParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -60,10 +46,30 @@ func EncodeMqConfiguration_Tags(p *MqConfigurationParameters, vals map[string]ct
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeMqConfiguration_Arn(p *MqConfigurationObservation, vals map[string]cty.Value) {
+func EncodeMqConfiguration_Name(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeMqConfiguration_Data(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["data"] = cty.StringVal(p.Data)
+}
+
+func EncodeMqConfiguration_Description(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeMqConfiguration_EngineVersion(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+}
+
+func EncodeMqConfiguration_Id(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeMqConfiguration_Arn(p MqConfigurationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeMqConfiguration_LatestRevision(p *MqConfigurationObservation, vals map[string]cty.Value) {
-	vals["latest_revision"] = cty.IntVal(p.LatestRevision)
+func EncodeMqConfiguration_LatestRevision(p MqConfigurationObservation, vals map[string]cty.Value) {
+	vals["latest_revision"] = cty.NumberIntVal(p.LatestRevision)
 }

@@ -14,26 +14,28 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApigatewayv2VpcLink(r Apigatewayv2VpcLink) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeApigatewayv2VpcLink_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApigatewayv2VpcLink(r Apigatewayv2VpcLink) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApigatewayv2VpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2VpcLink_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2VpcLink_Id(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApigatewayv2VpcLink_Name(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2VpcLink_Name(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeApigatewayv2VpcLink_SecurityGroupIds(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2VpcLink_SecurityGroupIds(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SecurityGroupIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -41,7 +43,7 @@ func EncodeApigatewayv2VpcLink_SecurityGroupIds(p *Apigatewayv2VpcLinkParameters
 	vals["security_group_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeApigatewayv2VpcLink_SubnetIds(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2VpcLink_SubnetIds(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SubnetIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -49,7 +51,7 @@ func EncodeApigatewayv2VpcLink_SubnetIds(p *Apigatewayv2VpcLinkParameters, vals 
 	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeApigatewayv2VpcLink_Tags(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2VpcLink_Tags(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -57,6 +59,10 @@ func EncodeApigatewayv2VpcLink_Tags(p *Apigatewayv2VpcLinkParameters, vals map[s
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApigatewayv2VpcLink_Arn(p *Apigatewayv2VpcLinkObservation, vals map[string]cty.Value) {
+func EncodeApigatewayv2VpcLink_Id(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApigatewayv2VpcLink_Arn(p Apigatewayv2VpcLinkObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -52,29 +52,29 @@ type SsmAssociationSpec struct {
 
 // A SsmAssociationParameters defines the desired state of a SsmAssociation
 type SsmAssociationParameters struct {
-	InstanceId                    string            `json:"instance_id"`
-	MaxErrors                     string            `json:"max_errors"`
 	Parameters                    map[string]string `json:"parameters"`
-	ScheduleExpression            string            `json:"schedule_expression"`
-	DocumentVersion               string            `json:"document_version"`
 	AssociationName               string            `json:"association_name"`
 	AutomationTargetParameterName string            `json:"automation_target_parameter_name"`
 	ComplianceSeverity            string            `json:"compliance_severity"`
 	Id                            string            `json:"id"`
-	MaxConcurrency                string            `json:"max_concurrency"`
+	InstanceId                    string            `json:"instance_id"`
+	MaxErrors                     string            `json:"max_errors"`
 	Name                          string            `json:"name"`
-	Targets                       []Targets         `json:"targets"`
+	DocumentVersion               string            `json:"document_version"`
+	MaxConcurrency                string            `json:"max_concurrency"`
+	ScheduleExpression            string            `json:"schedule_expression"`
 	OutputLocation                OutputLocation    `json:"output_location"`
+	Targets                       []Targets         `json:"targets"`
+}
+
+type OutputLocation struct {
+	S3KeyPrefix  string `json:"s3_key_prefix"`
+	S3BucketName string `json:"s3_bucket_name"`
 }
 
 type Targets struct {
 	Key    string   `json:"key"`
 	Values []string `json:"values"`
-}
-
-type OutputLocation struct {
-	S3BucketName string `json:"s3_bucket_name"`
-	S3KeyPrefix  string `json:"s3_key_prefix"`
 }
 
 // A SsmAssociationStatus defines the observed state of a SsmAssociation

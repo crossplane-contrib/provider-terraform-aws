@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesTemplate(r SesTemplate) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesTemplate(r SesTemplate) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeSesTemplate_Html(r.Spec.ForProvider, ctyVal)
+	EncodeSesTemplate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesTemplate_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSesTemplate_Subject(r.Spec.ForProvider, ctyVal)
 	EncodeSesTemplate_Text(r.Spec.ForProvider, ctyVal)
-	EncodeSesTemplate_Html(r.Spec.ForProvider, ctyVal)
-	EncodeSesTemplate_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesTemplate_Name(p *SesTemplateParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSesTemplate_Subject(p *SesTemplateParameters, vals map[string]cty.Value) {
-	vals["subject"] = cty.StringVal(p.Subject)
-}
-
-func EncodeSesTemplate_Text(p *SesTemplateParameters, vals map[string]cty.Value) {
-	vals["text"] = cty.StringVal(p.Text)
-}
-
-func EncodeSesTemplate_Html(p *SesTemplateParameters, vals map[string]cty.Value) {
+func EncodeSesTemplate_Html(p SesTemplateParameters, vals map[string]cty.Value) {
 	vals["html"] = cty.StringVal(p.Html)
 }
 
-func EncodeSesTemplate_Id(p *SesTemplateParameters, vals map[string]cty.Value) {
+func EncodeSesTemplate_Id(p SesTemplateParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSesTemplate_Name(p SesTemplateParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSesTemplate_Subject(p SesTemplateParameters, vals map[string]cty.Value) {
+	vals["subject"] = cty.StringVal(p.Subject)
+}
+
+func EncodeSesTemplate_Text(p SesTemplateParameters, vals map[string]cty.Value) {
+	vals["text"] = cty.StringVal(p.Text)
 }

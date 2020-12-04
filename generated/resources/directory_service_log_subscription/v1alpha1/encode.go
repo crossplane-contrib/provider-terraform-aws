@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDirectoryServiceLogSubscription(r DirectoryServiceLogSubscription) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDirectoryServiceLogSubscription(r DirectoryServiceLogSubscription) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDirectoryServiceLogSubscription_DirectoryId(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceLogSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceLogSubscription_LogGroupName(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDirectoryServiceLogSubscription_DirectoryId(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeDirectoryServiceLogSubscription_DirectoryId(p DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
 	vals["directory_id"] = cty.StringVal(p.DirectoryId)
 }
 
-func EncodeDirectoryServiceLogSubscription_Id(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeDirectoryServiceLogSubscription_Id(p DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDirectoryServiceLogSubscription_LogGroupName(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeDirectoryServiceLogSubscription_LogGroupName(p DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
 	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
 }

@@ -52,56 +52,25 @@ type LbListenerSpec struct {
 
 // A LbListenerParameters defines the desired state of a LbListener
 type LbListenerParameters struct {
+	CertificateArn  string          `json:"certificate_arn"`
 	Id              string          `json:"id"`
 	LoadBalancerArn string          `json:"load_balancer_arn"`
-	Port            int             `json:"port"`
+	Port            int64           `json:"port"`
 	Protocol        string          `json:"protocol"`
 	SslPolicy       string          `json:"ssl_policy"`
-	CertificateArn  string          `json:"certificate_arn"`
 	DefaultAction   []DefaultAction `json:"default_action"`
-	Timeouts        []Timeouts      `json:"timeouts"`
+	Timeouts        Timeouts        `json:"timeouts"`
 }
 
 type DefaultAction struct {
-	Order               int                 `json:"order"`
+	Order               int64               `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
 	Type                string              `json:"type"`
+	Forward             Forward             `json:"forward"`
+	Redirect            Redirect            `json:"redirect"`
 	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
 	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
-	Forward             Forward             `json:"forward"`
-	Redirect            Redirect            `json:"redirect"`
-}
-
-type AuthenticateCognito struct {
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int               `json:"session_timeout"`
-	UserPoolArn                      string            `json:"user_pool_arn"`
-	UserPoolClientId                 string            `json:"user_pool_client_id"`
-	UserPoolDomain                   string            `json:"user_pool_domain"`
-}
-
-type AuthenticateOidc struct {
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	ClientId                         string            `json:"client_id"`
-	Issuer                           string            `json:"issuer"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	ClientSecret                     string            `json:"client_secret"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int               `json:"session_timeout"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
-}
-
-type FixedResponse struct {
-	ContentType string `json:"content_type"`
-	MessageBody string `json:"message_body"`
-	StatusCode  string `json:"status_code"`
 }
 
 type Forward struct {
@@ -110,22 +79,53 @@ type Forward struct {
 }
 
 type Stickiness struct {
-	Duration int  `json:"duration"`
-	Enabled  bool `json:"enabled"`
+	Enabled  bool  `json:"enabled"`
+	Duration int64 `json:"duration"`
 }
 
 type TargetGroup struct {
 	Arn    string `json:"arn"`
-	Weight int    `json:"weight"`
+	Weight int64  `json:"weight"`
 }
 
 type Redirect struct {
-	Path       string `json:"path"`
-	Port       string `json:"port"`
 	Protocol   string `json:"protocol"`
 	Query      string `json:"query"`
 	StatusCode string `json:"status_code"`
 	Host       string `json:"host"`
+	Path       string `json:"path"`
+	Port       string `json:"port"`
+}
+
+type AuthenticateCognito struct {
+	UserPoolDomain                   string            `json:"user_pool_domain"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	UserPoolArn                      string            `json:"user_pool_arn"`
+	UserPoolClientId                 string            `json:"user_pool_client_id"`
+}
+
+type AuthenticateOidc struct {
+	ClientSecret                     string            `json:"client_secret"`
+	Issuer                           string            `json:"issuer"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
+	ClientId                         string            `json:"client_id"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+}
+
+type FixedResponse struct {
+	ContentType string `json:"content_type"`
+	MessageBody string `json:"message_body"`
+	StatusCode  string `json:"status_code"`
 }
 
 type Timeouts struct {

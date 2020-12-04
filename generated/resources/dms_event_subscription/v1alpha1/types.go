@@ -54,13 +54,13 @@ type DmsEventSubscriptionSpec struct {
 type DmsEventSubscriptionParameters struct {
 	EventCategories []string          `json:"event_categories"`
 	Name            string            `json:"name"`
-	SourceIds       []string          `json:"source_ids"`
-	SourceType      string            `json:"source_type"`
+	Tags            map[string]string `json:"tags"`
 	Enabled         bool              `json:"enabled"`
 	Id              string            `json:"id"`
 	SnsTopicArn     string            `json:"sns_topic_arn"`
-	Tags            map[string]string `json:"tags"`
-	Timeouts        []Timeouts        `json:"timeouts"`
+	SourceIds       []string          `json:"source_ids"`
+	SourceType      string            `json:"source_type"`
+	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {

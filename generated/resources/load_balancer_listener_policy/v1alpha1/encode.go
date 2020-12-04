@@ -14,29 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLoadBalancerListenerPolicy(r LoadBalancerListenerPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLoadBalancerListenerPolicy(r LoadBalancerListenerPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeLoadBalancerListenerPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerListenerPolicy_LoadBalancerName(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerListenerPolicy_LoadBalancerPort(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerListenerPolicy_PolicyNames(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLoadBalancerListenerPolicy_Id(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
+func EncodeLoadBalancerListenerPolicy_Id(p LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeLoadBalancerListenerPolicy_LoadBalancerName(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
+func EncodeLoadBalancerListenerPolicy_LoadBalancerName(p LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
 	vals["load_balancer_name"] = cty.StringVal(p.LoadBalancerName)
 }
 
-func EncodeLoadBalancerListenerPolicy_LoadBalancerPort(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
-	vals["load_balancer_port"] = cty.IntVal(p.LoadBalancerPort)
+func EncodeLoadBalancerListenerPolicy_LoadBalancerPort(p LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
+	vals["load_balancer_port"] = cty.NumberIntVal(p.LoadBalancerPort)
 }
 
-func EncodeLoadBalancerListenerPolicy_PolicyNames(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
+func EncodeLoadBalancerListenerPolicy_PolicyNames(p LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.PolicyNames {
 		colVals = append(colVals, cty.StringVal(value))

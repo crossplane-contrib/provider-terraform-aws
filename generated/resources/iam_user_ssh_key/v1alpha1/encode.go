@@ -14,42 +14,48 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamUserSshKey(r IamUserSshKey) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeIamUserSshKey_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamUserSshKey(r IamUserSshKey) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIamUserSshKey_PublicKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Status(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Username(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Encoding(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserSshKey_Fingerprint(r.Status.AtProvider, ctyVal)
+	EncodeIamUserSshKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_SshPublicKeyId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeIamUserSshKey_Fingerprint(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamUserSshKey_Id(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamUserSshKey_PublicKey(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+func EncodeIamUserSshKey_PublicKey(p IamUserSshKeyParameters, vals map[string]cty.Value) {
 	vals["public_key"] = cty.StringVal(p.PublicKey)
 }
 
-func EncodeIamUserSshKey_Status(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+func EncodeIamUserSshKey_Status(p IamUserSshKeyParameters, vals map[string]cty.Value) {
 	vals["status"] = cty.StringVal(p.Status)
 }
 
-func EncodeIamUserSshKey_Username(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+func EncodeIamUserSshKey_Username(p IamUserSshKeyParameters, vals map[string]cty.Value) {
 	vals["username"] = cty.StringVal(p.Username)
 }
 
-func EncodeIamUserSshKey_Encoding(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+func EncodeIamUserSshKey_Encoding(p IamUserSshKeyParameters, vals map[string]cty.Value) {
 	vals["encoding"] = cty.StringVal(p.Encoding)
 }
 
-func EncodeIamUserSshKey_Fingerprint(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
-	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
+func EncodeIamUserSshKey_Id(p IamUserSshKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamUserSshKey_SshPublicKeyId(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
+func EncodeIamUserSshKey_SshPublicKeyId(p IamUserSshKeyObservation, vals map[string]cty.Value) {
 	vals["ssh_public_key_id"] = cty.StringVal(p.SshPublicKeyId)
+}
+
+func EncodeIamUserSshKey_Fingerprint(p IamUserSshKeyObservation, vals map[string]cty.Value) {
+	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
 }

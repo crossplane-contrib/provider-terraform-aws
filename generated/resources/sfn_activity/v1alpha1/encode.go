@@ -14,24 +14,30 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSfnActivity(r SfnActivity) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSfnActivity(r SfnActivity) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSfnActivity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSfnActivity_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSfnActivity_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSfnActivity_CreationDate(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSfnActivity_Id(p *SfnActivityParameters, vals map[string]cty.Value) {
+func EncodeSfnActivity_Id(p SfnActivityParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSfnActivity_Name(p *SfnActivityParameters, vals map[string]cty.Value) {
+func EncodeSfnActivity_Name(p SfnActivityParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSfnActivity_Tags(p *SfnActivityParameters, vals map[string]cty.Value) {
+func EncodeSfnActivity_Tags(p SfnActivityParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -39,6 +45,6 @@ func EncodeSfnActivity_Tags(p *SfnActivityParameters, vals map[string]cty.Value)
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSfnActivity_CreationDate(p *SfnActivityObservation, vals map[string]cty.Value) {
+func EncodeSfnActivity_CreationDate(p SfnActivityObservation, vals map[string]cty.Value) {
 	vals["creation_date"] = cty.StringVal(p.CreationDate)
 }

@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApigatewayv2ApiMapping(r Apigatewayv2ApiMapping) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApigatewayv2ApiMapping(r Apigatewayv2ApiMapping) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApigatewayv2ApiMapping_Stage(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_ApiMappingKey(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2ApiMapping_Stage(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2ApiMapping_Stage(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	vals["stage"] = cty.StringVal(p.Stage)
 }
 
-func EncodeApigatewayv2ApiMapping_ApiId(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2ApiMapping_ApiId(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
-func EncodeApigatewayv2ApiMapping_ApiMappingKey(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2ApiMapping_ApiMappingKey(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	vals["api_mapping_key"] = cty.StringVal(p.ApiMappingKey)
 }
 
-func EncodeApigatewayv2ApiMapping_DomainName(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2ApiMapping_DomainName(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
-func EncodeApigatewayv2ApiMapping_Id(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2ApiMapping_Id(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }

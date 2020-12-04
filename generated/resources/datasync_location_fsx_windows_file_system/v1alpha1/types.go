@@ -52,14 +52,14 @@ type DatasyncLocationFsxWindowsFileSystemSpec struct {
 
 // A DatasyncLocationFsxWindowsFileSystemParameters defines the desired state of a DatasyncLocationFsxWindowsFileSystem
 type DatasyncLocationFsxWindowsFileSystemParameters struct {
+	User              string            `json:"user"`
 	FsxFilesystemArn  string            `json:"fsx_filesystem_arn"`
-	Id                string            `json:"id"`
 	Password          string            `json:"password"`
 	SecurityGroupArns []string          `json:"security_group_arns"`
-	Domain            string            `json:"domain"`
 	Subdirectory      string            `json:"subdirectory"`
+	Domain            string            `json:"domain"`
+	Id                string            `json:"id"`
 	Tags              map[string]string `json:"tags"`
-	User              string            `json:"user"`
 }
 
 // A DatasyncLocationFsxWindowsFileSystemStatus defines the observed state of a DatasyncLocationFsxWindowsFileSystem
@@ -70,7 +70,7 @@ type DatasyncLocationFsxWindowsFileSystemStatus struct {
 
 // A DatasyncLocationFsxWindowsFileSystemObservation records the observed state of a DatasyncLocationFsxWindowsFileSystem
 type DatasyncLocationFsxWindowsFileSystemObservation struct {
-	CreationTime string `json:"creation_time"`
-	Arn          string `json:"arn"`
 	Uri          string `json:"uri"`
+	Arn          string `json:"arn"`
+	CreationTime string `json:"creation_time"`
 }

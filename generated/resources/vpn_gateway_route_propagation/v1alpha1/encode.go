@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVpnGatewayRoutePropagation(r VpnGatewayRoutePropagation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVpnGatewayRoutePropagation(r VpnGatewayRoutePropagation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVpnGatewayRoutePropagation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayRoutePropagation_RouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayRoutePropagation_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpnGatewayRoutePropagation_Id(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
+func EncodeVpnGatewayRoutePropagation_Id(p VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeVpnGatewayRoutePropagation_RouteTableId(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
+func EncodeVpnGatewayRoutePropagation_RouteTableId(p VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	vals["route_table_id"] = cty.StringVal(p.RouteTableId)
 }
 
-func EncodeVpnGatewayRoutePropagation_VpnGatewayId(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
+func EncodeVpnGatewayRoutePropagation_VpnGatewayId(p VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }

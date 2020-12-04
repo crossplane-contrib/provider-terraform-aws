@@ -52,45 +52,45 @@ type RdsClusterSpec struct {
 
 // A RdsClusterParameters defines the desired state of a RdsCluster
 type RdsClusterParameters struct {
-	DbClusterParameterGroupName      string               `json:"db_cluster_parameter_group_name"`
-	ReplicationSourceIdentifier      string               `json:"replication_source_identifier"`
-	SkipFinalSnapshot                bool                 `json:"skip_final_snapshot"`
-	PreferredBackupWindow            string               `json:"preferred_backup_window"`
-	VpcSecurityGroupIds              []string             `json:"vpc_security_group_ids"`
-	BacktrackWindow                  int                  `json:"backtrack_window"`
-	ClusterMembers                   []string             `json:"cluster_members"`
-	CopyTagsToSnapshot               bool                 `json:"copy_tags_to_snapshot"`
-	DbSubnetGroupName                string               `json:"db_subnet_group_name"`
-	IamRoles                         []string             `json:"iam_roles"`
-	AvailabilityZones                []string             `json:"availability_zones"`
-	GlobalClusterIdentifier          string               `json:"global_cluster_identifier"`
-	IamDatabaseAuthenticationEnabled bool                 `json:"iam_database_authentication_enabled"`
-	Port                             int                  `json:"port"`
-	StorageEncrypted                 bool                 `json:"storage_encrypted"`
-	AllowMajorVersionUpgrade         bool                 `json:"allow_major_version_upgrade"`
-	DatabaseName                     string               `json:"database_name"`
-	FinalSnapshotIdentifier          string               `json:"final_snapshot_identifier"`
-	SnapshotIdentifier               string               `json:"snapshot_identifier"`
-	PreferredMaintenanceWindow       string               `json:"preferred_maintenance_window"`
-	SourceRegion                     string               `json:"source_region"`
-	ClusterIdentifier                string               `json:"cluster_identifier"`
-	ClusterIdentifierPrefix          string               `json:"cluster_identifier_prefix"`
-	MasterUsername                   string               `json:"master_username"`
-	Tags                             map[string]string    `json:"tags"`
-	EnabledCloudwatchLogsExports     []string             `json:"enabled_cloudwatch_logs_exports"`
-	EngineMode                       string               `json:"engine_mode"`
-	EngineVersion                    string               `json:"engine_version"`
 	MasterPassword                   string               `json:"master_password"`
-	ApplyImmediately                 bool                 `json:"apply_immediately"`
-	BackupRetentionPeriod            int                  `json:"backup_retention_period"`
-	EnableHttpEndpoint               bool                 `json:"enable_http_endpoint"`
-	Engine                           string               `json:"engine"`
-	Id                               string               `json:"id"`
+	Port                             int64                `json:"port"`
+	VpcSecurityGroupIds              []string             `json:"vpc_security_group_ids"`
+	ClusterIdentifier                string               `json:"cluster_identifier"`
+	CopyTagsToSnapshot               bool                 `json:"copy_tags_to_snapshot"`
+	MasterUsername                   string               `json:"master_username"`
+	SkipFinalSnapshot                bool                 `json:"skip_final_snapshot"`
+	BackupRetentionPeriod            int64                `json:"backup_retention_period"`
+	DbClusterParameterGroupName      string               `json:"db_cluster_parameter_group_name"`
 	DeletionProtection               bool                 `json:"deletion_protection"`
+	EnableHttpEndpoint               bool                 `json:"enable_http_endpoint"`
+	EnabledCloudwatchLogsExports     []string             `json:"enabled_cloudwatch_logs_exports"`
+	PreferredBackupWindow            string               `json:"preferred_backup_window"`
+	BacktrackWindow                  int64                `json:"backtrack_window"`
+	StorageEncrypted                 bool                 `json:"storage_encrypted"`
+	SnapshotIdentifier               string               `json:"snapshot_identifier"`
+	GlobalClusterIdentifier          string               `json:"global_cluster_identifier"`
+	IamRoles                         []string             `json:"iam_roles"`
+	SourceRegion                     string               `json:"source_region"`
+	Tags                             map[string]string    `json:"tags"`
+	ClusterIdentifierPrefix          string               `json:"cluster_identifier_prefix"`
+	AvailabilityZones                []string             `json:"availability_zones"`
+	DatabaseName                     string               `json:"database_name"`
+	EngineMode                       string               `json:"engine_mode"`
+	ReplicationSourceIdentifier      string               `json:"replication_source_identifier"`
+	ApplyImmediately                 bool                 `json:"apply_immediately"`
+	Engine                           string               `json:"engine"`
+	IamDatabaseAuthenticationEnabled bool                 `json:"iam_database_authentication_enabled"`
+	Id                               string               `json:"id"`
+	PreferredMaintenanceWindow       string               `json:"preferred_maintenance_window"`
+	DbSubnetGroupName                string               `json:"db_subnet_group_name"`
+	AllowMajorVersionUpgrade         bool                 `json:"allow_major_version_upgrade"`
+	EngineVersion                    string               `json:"engine_version"`
+	FinalSnapshotIdentifier          string               `json:"final_snapshot_identifier"`
 	KmsKeyId                         string               `json:"kms_key_id"`
+	ClusterMembers                   []string             `json:"cluster_members"`
 	S3Import                         S3Import             `json:"s3_import"`
 	ScalingConfiguration             ScalingConfiguration `json:"scaling_configuration"`
-	Timeouts                         []Timeouts           `json:"timeouts"`
+	Timeouts                         Timeouts             `json:"timeouts"`
 }
 
 type S3Import struct {
@@ -103,9 +103,9 @@ type S3Import struct {
 
 type ScalingConfiguration struct {
 	AutoPause             bool   `json:"auto_pause"`
-	MaxCapacity           int    `json:"max_capacity"`
-	MinCapacity           int    `json:"min_capacity"`
-	SecondsUntilAutoPause int    `json:"seconds_until_auto_pause"`
+	MaxCapacity           int64  `json:"max_capacity"`
+	MinCapacity           int64  `json:"min_capacity"`
+	SecondsUntilAutoPause int64  `json:"seconds_until_auto_pause"`
 	TimeoutAction         string `json:"timeout_action"`
 }
 
@@ -124,8 +124,8 @@ type RdsClusterStatus struct {
 // A RdsClusterObservation records the observed state of a RdsCluster
 type RdsClusterObservation struct {
 	ClusterResourceId string `json:"cluster_resource_id"`
-	HostedZoneId      string `json:"hosted_zone_id"`
-	Arn               string `json:"arn"`
 	ReaderEndpoint    string `json:"reader_endpoint"`
+	Arn               string `json:"arn"`
 	Endpoint          string `json:"endpoint"`
+	HostedZoneId      string `json:"hosted_zone_id"`
 }

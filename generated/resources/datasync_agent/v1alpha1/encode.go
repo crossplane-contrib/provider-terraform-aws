@@ -14,35 +14,33 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDatasyncAgent(r DatasyncAgent) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeDatasyncAgent_ActivationKey(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncAgent_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDatasyncAgent(r DatasyncAgent) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDatasyncAgent_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncAgent_ActivationKey(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncAgent_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDatasyncAgent_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDatasyncAgent_ActivationKey(p *DatasyncAgentParameters, vals map[string]cty.Value) {
-	vals["activation_key"] = cty.StringVal(p.ActivationKey)
-}
-
-func EncodeDatasyncAgent_Id(p *DatasyncAgentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDatasyncAgent_IpAddress(p *DatasyncAgentParameters, vals map[string]cty.Value) {
+func EncodeDatasyncAgent_IpAddress(p DatasyncAgentParameters, vals map[string]cty.Value) {
 	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
-func EncodeDatasyncAgent_Name(p *DatasyncAgentParameters, vals map[string]cty.Value) {
+func EncodeDatasyncAgent_Name(p DatasyncAgentParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeDatasyncAgent_Tags(p *DatasyncAgentParameters, vals map[string]cty.Value) {
+func EncodeDatasyncAgent_Tags(p DatasyncAgentParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -50,16 +48,24 @@ func EncodeDatasyncAgent_Tags(p *DatasyncAgentParameters, vals map[string]cty.Va
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDatasyncAgent_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeDatasyncAgent_ActivationKey(p DatasyncAgentParameters, vals map[string]cty.Value) {
+	vals["activation_key"] = cty.StringVal(p.ActivationKey)
+}
+
+func EncodeDatasyncAgent_Id(p DatasyncAgentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDatasyncAgent_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDatasyncAgent_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeDatasyncAgent_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeDatasyncAgent_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeDatasyncAgent_Arn(p *DatasyncAgentObservation, vals map[string]cty.Value) {
+func EncodeDatasyncAgent_Arn(p DatasyncAgentObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

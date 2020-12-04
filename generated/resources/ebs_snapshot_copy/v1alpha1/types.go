@@ -52,12 +52,12 @@ type EbsSnapshotCopySpec struct {
 
 // A EbsSnapshotCopyParameters defines the desired state of a EbsSnapshotCopy
 type EbsSnapshotCopyParameters struct {
-	Id               string            `json:"id"`
 	Description      string            `json:"description"`
 	Encrypted        bool              `json:"encrypted"`
 	KmsKeyId         string            `json:"kms_key_id"`
 	SourceRegion     string            `json:"source_region"`
 	SourceSnapshotId string            `json:"source_snapshot_id"`
+	Id               string            `json:"id"`
 	Tags             map[string]string `json:"tags"`
 }
 
@@ -69,10 +69,10 @@ type EbsSnapshotCopyStatus struct {
 
 // A EbsSnapshotCopyObservation records the observed state of a EbsSnapshotCopy
 type EbsSnapshotCopyObservation struct {
+	OwnerAlias          string `json:"owner_alias"`
+	VolumeSize          int64  `json:"volume_size"`
 	Arn                 string `json:"arn"`
 	DataEncryptionKeyId string `json:"data_encryption_key_id"`
-	OwnerAlias          string `json:"owner_alias"`
-	VolumeId            string `json:"volume_id"`
 	OwnerId             string `json:"owner_id"`
-	VolumeSize          int    `json:"volume_size"`
+	VolumeId            string `json:"volume_id"`
 }

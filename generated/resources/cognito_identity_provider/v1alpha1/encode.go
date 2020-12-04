@@ -14,20 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCognitoIdentityProvider(r CognitoIdentityProvider) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCognitoIdentityProvider(r CognitoIdentityProvider) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoIdentityProvider_ProviderName(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoIdentityProvider_ProviderType(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoIdentityProvider_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_AttributeMapping(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_IdpIdentifiers(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_ProviderDetails(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_ProviderName(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_ProviderType(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_UserPoolId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCognitoIdentityProvider_AttributeMapping(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+func EncodeCognitoIdentityProvider_ProviderName(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	vals["provider_name"] = cty.StringVal(p.ProviderName)
+}
+
+func EncodeCognitoIdentityProvider_ProviderType(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	vals["provider_type"] = cty.StringVal(p.ProviderType)
+}
+
+func EncodeCognitoIdentityProvider_UserPoolId(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
+}
+
+func EncodeCognitoIdentityProvider_AttributeMapping(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.AttributeMapping {
 		mVals[key] = cty.StringVal(value)
@@ -35,11 +53,11 @@ func EncodeCognitoIdentityProvider_AttributeMapping(p *CognitoIdentityProviderPa
 	vals["attribute_mapping"] = cty.MapVal(mVals)
 }
 
-func EncodeCognitoIdentityProvider_Id(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+func EncodeCognitoIdentityProvider_Id(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCognitoIdentityProvider_IdpIdentifiers(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+func EncodeCognitoIdentityProvider_IdpIdentifiers(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.IdpIdentifiers {
 		colVals = append(colVals, cty.StringVal(value))
@@ -47,22 +65,10 @@ func EncodeCognitoIdentityProvider_IdpIdentifiers(p *CognitoIdentityProviderPara
 	vals["idp_identifiers"] = cty.ListVal(colVals)
 }
 
-func EncodeCognitoIdentityProvider_ProviderDetails(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+func EncodeCognitoIdentityProvider_ProviderDetails(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.ProviderDetails {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["provider_details"] = cty.MapVal(mVals)
-}
-
-func EncodeCognitoIdentityProvider_ProviderName(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	vals["provider_name"] = cty.StringVal(p.ProviderName)
-}
-
-func EncodeCognitoIdentityProvider_ProviderType(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	vals["provider_type"] = cty.StringVal(p.ProviderType)
-}
-
-func EncodeCognitoIdentityProvider_UserPoolId(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
 }

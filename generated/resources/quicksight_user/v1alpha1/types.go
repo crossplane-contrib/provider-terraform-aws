@@ -52,15 +52,15 @@ type QuicksightUserSpec struct {
 
 // A QuicksightUserParameters defines the desired state of a QuicksightUser
 type QuicksightUserParameters struct {
-	AwsAccountId string `json:"aws_account_id"`
-	IamArn       string `json:"iam_arn"`
-	UserName     string `json:"user_name"`
 	Id           string `json:"id"`
+	UserName     string `json:"user_name"`
 	IdentityType string `json:"identity_type"`
 	Namespace    string `json:"namespace"`
 	SessionName  string `json:"session_name"`
 	UserRole     string `json:"user_role"`
+	AwsAccountId string `json:"aws_account_id"`
 	Email        string `json:"email"`
+	IamArn       string `json:"iam_arn"`
 }
 
 // A QuicksightUserStatus defines the observed state of a QuicksightUser

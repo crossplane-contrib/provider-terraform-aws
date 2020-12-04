@@ -20,13 +20,17 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
+	//"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/client"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
+	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane/terraform-provider-runtime/pkg/client"
-	"github.com/crossplane/terraform-provider-runtime/pkg/plugin"
+	"github.com/crossplane/provider-aws/apis/v1beta1"
+	xpaws "github.com/crossplane/provider-aws/pkg/clients"
 	"github.com/pkg/errors"
 	"github.com/zclconf/go-cty/cty"
-	v1 "k8s.io/api/core/v1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	kubeclient "sigs.k8s.io/controller-runtime/pkg/client"
@@ -47,30 +51,25 @@ var (
 	// SchemeGroupVersion is group version used to register these objects
 	SchemeGroupVersion = schema.GroupVersion{Group: Group, Version: Version}
 	// Provider type metadata.
-	ProviderKind             = reflect.TypeOf(Provider{}).Name()
+	ProviderKind             = reflect.TypeOf(ProviderConfig{}).Name()
 	ProviderGroupKind        = schema.GroupKind{Group: Group, Kind: ProviderKind}.String()
 	ProviderKindAPIVersion   = ProviderKind + "." + SchemeGroupVersion.String()
 	ProviderGroupVersionKind = SchemeGroupVersion.WithKind(ProviderKind)
 )
 
 func initializeProvider(ctx context.Context, mr resource.Managed, ropts *client.RuntimeOptions, kube kubeclient.Client) (*client.Provider, error) {
-	provider := &Provider{}
-	nn := meta.NamespacedNameOf(mr.GetProviderReference())
-	if err := kube.Get(ctx, nn, provider); err != nil {
-		return nil, errors.Wrap(err, errProviderNotRetrieved)
+	pc := &ProviderConfig{}
+	if err := kube.Get(ctx, types.NamespacedName{Name: mr.GetProviderConfigReference().Name}, pc); err != nil {
+		return nil, errors.Wrap(err, "cannot get referenced Provider")
 	}
 
-	if provider.GetCredentialsSecretReference() == nil {
-		return nil, errors.New(errProviderSecretNil)
+	t := resource.NewProviderConfigUsageTracker(kube, &v1beta1.ProviderConfigUsage{})
+	if err := t.Track(ctx, mr); err != nil {
+		return nil, errors.Wrap(err, "cannot track ProviderConfig usage")
 	}
 
-	secret := &v1.Secret{}
-	n := types.NamespacedName{Namespace: provider.Spec.CredentialsSecretRef.Namespace, Name: provider.Spec.CredentialsSecretRef.Name}
-	if err := kube.Get(ctx, n, secret); err != nil {
-		return nil, errors.Wrap(err, errProviderSecretNotRetrieved)
-	}
-	credentialString := string(secret.Data[provider.Spec.CredentialsSecretRef.Key])
-	cfg := populateConfig(provider, credentialString)
+	creds, err := providerConfigCredentials(ctx, kube, pc)
+	cfg := populateConfig(pc, creds)
 
 	p, err := client.NewProvider(ProviderName, ropts.PluginPath)
 	if err != nil {
@@ -80,26 +79,52 @@ func initializeProvider(ctx context.Context, mr resource.Managed, ropts *client.
 	return p, err
 }
 
-// Note that this config still needs to have null values filled in with the correct structure
-func populateConfig(p *Provider, credentials string) map[string]cty.Value {
-	merged := make(map[string]cty.Value)
-	merged["project"] = cty.StringVal(p.Spec.Project)
-	merged["region"] = cty.StringVal(p.Spec.Region)
-	merged["zone"] = cty.StringVal(p.Spec.Zone)
-	merged["credentials"] = cty.StringVal(credentials)
+// providerConfigCredentials encapsulates the flow for finding credentials based on the credential source
+// TODO: if/when this project merges with provider-aws, we'll want to refactor UseProviderConfig to separate
+// retrieving credentials and constructing an aws.Config object, because the generated code doesn't want an aws.Config object
+func providerConfigCredentials(ctx context.Context, c kubeclient.Client, pc *ProviderConfig) (aws.Credentials, error) {
+	switch s := pc.Spec.Credentials.Source; s { //nolint:exhaustive
+	case runtimev1alpha1.CredentialsSourceSecret:
+		csr := pc.Spec.Credentials.SecretRef
+		if csr == nil {
+			return aws.Credentials{}, errors.New("no credentials secret referenced")
+		}
+		s := &corev1.Secret{}
+		if err := c.Get(ctx, types.NamespacedName{Namespace: csr.Namespace, Name: csr.Name}, s); err != nil {
+			return aws.Credentials{}, errors.Wrap(err, "cannot get credentials secret")
+		}
+		creds, err := xpaws.CredentialsIDSecret(s.Data[csr.Key], xpaws.DefaultSection)
+		if err != nil {
+			return aws.Credentials{}, errors.Wrap(err, "cannot parse credentials secret")
+		}
+		return creds, nil
+	default:
+		return aws.Credentials{}, errors.Errorf("credentials source %s is not currently supported", s)
+	}
+}
 
-	batching := make(map[string]cty.Value)
-	batching["enable_batching"] = cty.BoolVal(false)
-	batching["send_after"] = cty.StringVal("3s")
-	batchList := []cty.Value{cty.ObjectVal(batching)}
-	merged["batching"] = cty.ListVal(batchList)
+// Note that this config still needs to have null values filled in with the correct structure
+func populateConfig(p *ProviderConfig, credentials aws.Credentials) map[string]cty.Value {
+	merged := make(map[string]cty.Value)
+	merged["region"] = cty.StringVal(p.Spec.Region)
+	merged["access_key"] = cty.StringVal(credentials.AccessKeyID)
+	merged["secret_key"] = cty.StringVal(credentials.SecretAccessKey)
+
+	// This might be gcp specific, leaving commented while testing
+	/*
+		batching := make(map[string]cty.Value)
+		batching["enable_batching"] = cty.BoolVal(false)
+		batching["send_after"] = cty.StringVal("3s")
+		batchList := []cty.Value{cty.ObjectVal(batching)}
+		merged["batching"] = cty.ListVal(batchList)
+	*/
 
 	return merged
 }
 
 func GetProviderInit() *plugin.ProviderInit {
 	schemeBuilder := &scheme.Builder{GroupVersion: SchemeGroupVersion}
-	schemeBuilder.Register(&Provider{}, &ProviderList{})
+	schemeBuilder.Register(&ProviderConfig{}, &ProviderConfigList{})
 	return &plugin.ProviderInit{
 		SchemeBuilder: schemeBuilder,
 		Initializer:   initializeProvider,

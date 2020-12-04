@@ -52,9 +52,9 @@ type Wafv2WebAclLoggingConfigurationSpec struct {
 
 // A Wafv2WebAclLoggingConfigurationParameters defines the desired state of a Wafv2WebAclLoggingConfiguration
 type Wafv2WebAclLoggingConfigurationParameters struct {
-	Id                    string           `json:"id"`
 	LogDestinationConfigs []string         `json:"log_destination_configs"`
 	ResourceArn           string           `json:"resource_arn"`
+	Id                    string           `json:"id"`
 	RedactedFields        []RedactedFields `json:"redacted_fields"`
 }
 

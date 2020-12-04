@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2ClientVpnAuthorizationRule(r Ec2ClientVpnAuthorizationRule) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2ClientVpnAuthorizationRule(r Ec2ClientVpnAuthorizationRule) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2ClientVpnAuthorizationRule_AccessGroupId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnAuthorizationRule_AuthorizeAllGroups(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(r.Spec.ForProvider, ctyVal)
@@ -23,29 +29,29 @@ package v1alpha1func EncodeEc2ClientVpnAuthorizationRule(r Ec2ClientVpnAuthoriza
 	EncodeEc2ClientVpnAuthorizationRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2ClientVpnAuthorizationRule_AccessGroupId(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnAuthorizationRule_AccessGroupId(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	vals["access_group_id"] = cty.StringVal(p.AccessGroupId)
 }
 
-func EncodeEc2ClientVpnAuthorizationRule_AuthorizeAllGroups(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnAuthorizationRule_AuthorizeAllGroups(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	vals["authorize_all_groups"] = cty.BoolVal(p.AuthorizeAllGroups)
 }
 
-func EncodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	vals["client_vpn_endpoint_id"] = cty.StringVal(p.ClientVpnEndpointId)
 }
 
-func EncodeEc2ClientVpnAuthorizationRule_Description(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnAuthorizationRule_Description(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeEc2ClientVpnAuthorizationRule_Id(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnAuthorizationRule_Id(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	vals["target_network_cidr"] = cty.StringVal(p.TargetNetworkCidr)
 }

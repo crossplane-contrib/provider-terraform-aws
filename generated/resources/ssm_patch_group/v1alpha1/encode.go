@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSsmPatchGroup(r SsmPatchGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeSsmPatchGroup_BaselineId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSsmPatchGroup(r SsmPatchGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSsmPatchGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchGroup_PatchGroup(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchGroup_BaselineId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSsmPatchGroup_BaselineId(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
-	vals["baseline_id"] = cty.StringVal(p.BaselineId)
-}
-
-func EncodeSsmPatchGroup_Id(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
+func EncodeSsmPatchGroup_Id(p SsmPatchGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSsmPatchGroup_PatchGroup(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
+func EncodeSsmPatchGroup_PatchGroup(p SsmPatchGroupParameters, vals map[string]cty.Value) {
 	vals["patch_group"] = cty.StringVal(p.PatchGroup)
+}
+
+func EncodeSsmPatchGroup_BaselineId(p SsmPatchGroupParameters, vals map[string]cty.Value) {
+	vals["baseline_id"] = cty.StringVal(p.BaselineId)
 }

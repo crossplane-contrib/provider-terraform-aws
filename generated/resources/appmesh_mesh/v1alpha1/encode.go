@@ -14,29 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAppmeshMesh(r AppmeshMesh) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeAppmeshMesh_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAppmeshMesh(r AppmeshMesh) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAppmeshMesh_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeAppmeshMesh_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Spec(r.Spec.ForProvider.Spec, ctyVal)
+	EncodeAppmeshMesh_ResourceOwner(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_Arn(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_LastUpdatedDate(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_MeshOwner(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshMesh_ResourceOwner(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAppmeshMesh_Id(p *AppmeshMeshParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAppmeshMesh_Name(p *AppmeshMeshParameters, vals map[string]cty.Value) {
+func EncodeAppmeshMesh_Name(p AppmeshMeshParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeAppmeshMesh_Tags(p *AppmeshMeshParameters, vals map[string]cty.Value) {
+func EncodeAppmeshMesh_Tags(p AppmeshMeshParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -44,46 +46,46 @@ func EncodeAppmeshMesh_Tags(p *AppmeshMeshParameters, vals map[string]cty.Value)
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeAppmeshMesh_Spec(p *Spec, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Spec {
-		ctyVal = make(map[string]cty.Value)
-		EncodeAppmeshMesh_Spec_EgressFilter(v.EgressFilter, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeAppmeshMesh_Id(p AppmeshMeshParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAppmeshMesh_Spec(p Spec, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshMesh_Spec_EgressFilter(p.EgressFilter, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["spec"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeAppmeshMesh_Spec_EgressFilter(p *EgressFilter, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.EgressFilter {
-		ctyVal = make(map[string]cty.Value)
-		EncodeAppmeshMesh_Spec_EgressFilter_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeAppmeshMesh_Spec_EgressFilter(p EgressFilter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshMesh_Spec_EgressFilter_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["egress_filter"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeAppmeshMesh_Spec_EgressFilter_Type(p *EgressFilter, vals map[string]cty.Value) {
+func EncodeAppmeshMesh_Spec_EgressFilter_Type(p EgressFilter, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeAppmeshMesh_Arn(p *AppmeshMeshObservation, vals map[string]cty.Value) {
+func EncodeAppmeshMesh_ResourceOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
+	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
+}
+
+func EncodeAppmeshMesh_Arn(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeAppmeshMesh_CreatedDate(p *AppmeshMeshObservation, vals map[string]cty.Value) {
+func EncodeAppmeshMesh_CreatedDate(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
-func EncodeAppmeshMesh_LastUpdatedDate(p *AppmeshMeshObservation, vals map[string]cty.Value) {
+func EncodeAppmeshMesh_LastUpdatedDate(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
 }
 
-func EncodeAppmeshMesh_MeshOwner(p *AppmeshMeshObservation, vals map[string]cty.Value) {
+func EncodeAppmeshMesh_MeshOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
-}
-
-func EncodeAppmeshMesh_ResourceOwner(p *AppmeshMeshObservation, vals map[string]cty.Value) {
-	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
 }

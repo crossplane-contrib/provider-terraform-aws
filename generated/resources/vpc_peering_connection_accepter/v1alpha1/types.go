@@ -53,9 +53,9 @@ type VpcPeeringConnectionAccepterSpec struct {
 // A VpcPeeringConnectionAccepterParameters defines the desired state of a VpcPeeringConnectionAccepter
 type VpcPeeringConnectionAccepterParameters struct {
 	VpcPeeringConnectionId string            `json:"vpc_peering_connection_id"`
-	Id                     string            `json:"id"`
-	Tags                   map[string]string `json:"tags"`
 	AutoAccept             bool              `json:"auto_accept"`
+	Tags                   map[string]string `json:"tags"`
+	Id                     string            `json:"id"`
 	Accepter               Accepter          `json:"accepter"`
 	Requester              Requester         `json:"requester"`
 }
@@ -80,9 +80,9 @@ type VpcPeeringConnectionAccepterStatus struct {
 
 // A VpcPeeringConnectionAccepterObservation records the observed state of a VpcPeeringConnectionAccepter
 type VpcPeeringConnectionAccepterObservation struct {
-	PeerOwnerId  string `json:"peer_owner_id"`
 	VpcId        string `json:"vpc_id"`
-	AcceptStatus string `json:"accept_status"`
 	PeerVpcId    string `json:"peer_vpc_id"`
+	PeerOwnerId  string `json:"peer_owner_id"`
 	PeerRegion   string `json:"peer_region"`
+	AcceptStatus string `json:"accept_status"`
 }

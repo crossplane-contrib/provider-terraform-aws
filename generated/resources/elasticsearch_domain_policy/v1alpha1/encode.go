@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeElasticsearchDomainPolicy(r ElasticsearchDomainPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeElasticsearchDomainPolicy_AccessPolicies(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeElasticsearchDomainPolicy(r ElasticsearchDomainPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeElasticsearchDomainPolicy_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeElasticsearchDomainPolicy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeElasticsearchDomainPolicy_AccessPolicies(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeElasticsearchDomainPolicy_AccessPolicies(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
-	vals["access_policies"] = cty.StringVal(p.AccessPolicies)
-}
-
-func EncodeElasticsearchDomainPolicy_DomainName(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
+func EncodeElasticsearchDomainPolicy_DomainName(p ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
-func EncodeElasticsearchDomainPolicy_Id(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
+func EncodeElasticsearchDomainPolicy_Id(p ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeElasticsearchDomainPolicy_AccessPolicies(p ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
+	vals["access_policies"] = cty.StringVal(p.AccessPolicies)
 }

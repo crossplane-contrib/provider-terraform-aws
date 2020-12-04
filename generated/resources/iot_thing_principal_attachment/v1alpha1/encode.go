@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIotThingPrincipalAttachment(r IotThingPrincipalAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIotThingPrincipalAttachment(r IotThingPrincipalAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIotThingPrincipalAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingPrincipalAttachment_Principal(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingPrincipalAttachment_Thing(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIotThingPrincipalAttachment_Id(p *IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIotThingPrincipalAttachment_Id(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIotThingPrincipalAttachment_Principal(p *IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIotThingPrincipalAttachment_Principal(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
 	vals["principal"] = cty.StringVal(p.Principal)
 }
 
-func EncodeIotThingPrincipalAttachment_Thing(p *IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIotThingPrincipalAttachment_Thing(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
 	vals["thing"] = cty.StringVal(p.Thing)
 }

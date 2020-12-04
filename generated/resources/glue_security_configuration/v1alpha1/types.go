@@ -74,8 +74,8 @@ type JobBookmarksEncryption struct {
 }
 
 type S3Encryption struct {
-	KmsKeyArn        string `json:"kms_key_arn"`
 	S3EncryptionMode string `json:"s3_encryption_mode"`
+	KmsKeyArn        string `json:"kms_key_arn"`
 }
 
 // A GlueSecurityConfigurationStatus defines the observed state of a GlueSecurityConfiguration

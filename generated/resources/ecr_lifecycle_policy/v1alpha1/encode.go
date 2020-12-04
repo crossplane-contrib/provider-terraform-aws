@@ -14,27 +14,33 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEcrLifecyclePolicy(r EcrLifecyclePolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEcrLifecyclePolicy(r EcrLifecyclePolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEcrLifecyclePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEcrLifecyclePolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeEcrLifecyclePolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrLifecyclePolicy_RegistryId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEcrLifecyclePolicy_Id(p *EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
+func EncodeEcrLifecyclePolicy_Id(p EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEcrLifecyclePolicy_Policy(p *EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
+func EncodeEcrLifecyclePolicy_Policy(p EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }
 
-func EncodeEcrLifecyclePolicy_Repository(p *EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
+func EncodeEcrLifecyclePolicy_Repository(p EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
 	vals["repository"] = cty.StringVal(p.Repository)
 }
 
-func EncodeEcrLifecyclePolicy_RegistryId(p *EcrLifecyclePolicyObservation, vals map[string]cty.Value) {
+func EncodeEcrLifecyclePolicy_RegistryId(p EcrLifecyclePolicyObservation, vals map[string]cty.Value) {
 	vals["registry_id"] = cty.StringVal(p.RegistryId)
 }

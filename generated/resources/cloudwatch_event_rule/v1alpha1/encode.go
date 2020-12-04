@@ -14,42 +14,60 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCloudwatchEventRule(r CloudwatchEventRule) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeCloudwatchEventRule_Description(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_IsEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_ScheduleExpression(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_Tags(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCloudwatchEventRule(r CloudwatchEventRule) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchEventRule_EventPattern(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_ScheduleExpression(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_Description(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_IsEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudwatchEventRule_Description(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
+func EncodeCloudwatchEventRule_EventPattern(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["event_pattern"] = cty.StringVal(p.EventPattern)
 }
 
-func EncodeCloudwatchEventRule_Id(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchEventRule_Id(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCloudwatchEventRule_IsEnabled(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["is_enabled"] = cty.BoolVal(p.IsEnabled)
+func EncodeCloudwatchEventRule_NamePrefix(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeCloudwatchEventRule_RoleArn(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeCloudwatchEventRule_ScheduleExpression(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchEventRule_ScheduleExpression(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
 	vals["schedule_expression"] = cty.StringVal(p.ScheduleExpression)
 }
 
-func EncodeCloudwatchEventRule_Tags(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchEventRule_Description(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeCloudwatchEventRule_IsEnabled(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["is_enabled"] = cty.BoolVal(p.IsEnabled)
+}
+
+func EncodeCloudwatchEventRule_Name(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCloudwatchEventRule_RoleArn(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeCloudwatchEventRule_Tags(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -57,18 +75,6 @@ func EncodeCloudwatchEventRule_Tags(p *CloudwatchEventRuleParameters, vals map[s
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeCloudwatchEventRule_EventPattern(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["event_pattern"] = cty.StringVal(p.EventPattern)
-}
-
-func EncodeCloudwatchEventRule_Name(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeCloudwatchEventRule_NamePrefix(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeCloudwatchEventRule_Arn(p *CloudwatchEventRuleObservation, vals map[string]cty.Value) {
+func EncodeCloudwatchEventRule_Arn(p CloudwatchEventRuleObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

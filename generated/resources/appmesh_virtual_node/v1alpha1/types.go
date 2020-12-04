@@ -52,10 +52,10 @@ type AppmeshVirtualNodeSpec struct {
 
 // A AppmeshVirtualNodeParameters defines the desired state of a AppmeshVirtualNode
 type AppmeshVirtualNodeParameters struct {
-	Tags      map[string]string `json:"tags"`
 	Id        string            `json:"id"`
 	MeshName  string            `json:"mesh_name"`
 	MeshOwner string            `json:"mesh_owner"`
+	Tags      map[string]string `json:"tags"`
 	Name      string            `json:"name"`
 	Spec      Spec              `json:"spec"`
 }
@@ -82,8 +82,8 @@ type ClientPolicy struct {
 }
 
 type Tls struct {
+	Ports      []int64    `json:"ports"`
 	Enforce    bool       `json:"enforce"`
-	Ports      []int      `json:"ports"`
 	Validation Validation `json:"validation"`
 }
 
@@ -114,7 +114,7 @@ type ClientPolicy struct {
 
 type Tls struct {
 	Enforce    bool       `json:"enforce"`
-	Ports      []int      `json:"ports"`
+	Ports      []int64    `json:"ports"`
 	Validation Validation `json:"validation"`
 }
 
@@ -123,16 +123,16 @@ type Validation struct {
 }
 
 type Trust struct {
-	File File `json:"file"`
 	Acm  Acm  `json:"acm"`
-}
-
-type File struct {
-	CertificateChain string `json:"certificate_chain"`
+	File File `json:"file"`
 }
 
 type Acm struct {
 	CertificateAuthorityArns []string `json:"certificate_authority_arns"`
+}
+
+type File struct {
+	CertificateChain string `json:"certificate_chain"`
 }
 
 type Listener struct {
@@ -142,18 +142,18 @@ type Listener struct {
 }
 
 type HealthCheck struct {
-	HealthyThreshold   int    `json:"healthy_threshold"`
-	IntervalMillis     int    `json:"interval_millis"`
-	Path               string `json:"path"`
-	Port               int    `json:"port"`
+	Port               int64  `json:"port"`
 	Protocol           string `json:"protocol"`
-	TimeoutMillis      int    `json:"timeout_millis"`
-	UnhealthyThreshold int    `json:"unhealthy_threshold"`
+	TimeoutMillis      int64  `json:"timeout_millis"`
+	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
+	HealthyThreshold   int64  `json:"healthy_threshold"`
+	IntervalMillis     int64  `json:"interval_millis"`
+	Path               string `json:"path"`
 }
 
 type PortMapping struct {
-	Port     int    `json:"port"`
 	Protocol string `json:"protocol"`
+	Port     int64  `json:"port"`
 }
 
 type Tls struct {
@@ -188,18 +188,18 @@ type File struct {
 }
 
 type ServiceDiscovery struct {
-	Dns         Dns         `json:"dns"`
 	AwsCloudMap AwsCloudMap `json:"aws_cloud_map"`
-}
-
-type Dns struct {
-	Hostname string `json:"hostname"`
+	Dns         Dns         `json:"dns"`
 }
 
 type AwsCloudMap struct {
 	Attributes    map[string]string `json:"attributes"`
 	NamespaceName string            `json:"namespace_name"`
 	ServiceName   string            `json:"service_name"`
+}
+
+type Dns struct {
+	Hostname string `json:"hostname"`
 }
 
 // A AppmeshVirtualNodeStatus defines the observed state of a AppmeshVirtualNode
@@ -212,6 +212,6 @@ type AppmeshVirtualNodeStatus struct {
 type AppmeshVirtualNodeObservation struct {
 	ResourceOwner   string `json:"resource_owner"`
 	Arn             string `json:"arn"`
-	LastUpdatedDate string `json:"last_updated_date"`
 	CreatedDate     string `json:"created_date"`
+	LastUpdatedDate string `json:"last_updated_date"`
 }

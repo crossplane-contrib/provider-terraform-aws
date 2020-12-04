@@ -52,15 +52,15 @@ type AcmCertificateSpec struct {
 
 // A AcmCertificateParameters defines the desired state of a AcmCertificate
 type AcmCertificateParameters struct {
+	DomainName              string            `json:"domain_name"`
 	Id                      string            `json:"id"`
 	PrivateKey              string            `json:"private_key"`
 	SubjectAlternativeNames []string          `json:"subject_alternative_names"`
 	Tags                    map[string]string `json:"tags"`
 	CertificateChain        string            `json:"certificate_chain"`
-	CertificateBody         string            `json:"certificate_body"`
-	DomainName              string            `json:"domain_name"`
 	ValidationMethod        string            `json:"validation_method"`
 	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
+	CertificateBody         string            `json:"certificate_body"`
 	Options                 Options           `json:"options"`
 }
 
@@ -76,10 +76,10 @@ type AcmCertificateStatus struct {
 
 // A AcmCertificateObservation records the observed state of a AcmCertificate
 type AcmCertificateObservation struct {
-	Status                  string                    `json:"status"`
 	ValidationEmails        []string                  `json:"validation_emails"`
-	DomainValidationOptions []DomainValidationOptions `json:"domain_validation_options"`
 	Arn                     string                    `json:"arn"`
+	DomainValidationOptions []DomainValidationOptions `json:"domain_validation_options"`
+	Status                  string                    `json:"status"`
 }
 
 type DomainValidationOptions struct {

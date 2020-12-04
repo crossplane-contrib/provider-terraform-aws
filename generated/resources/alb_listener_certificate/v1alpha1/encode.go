@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAlbListenerCertificate(r AlbListenerCertificate) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAlbListenerCertificate(r AlbListenerCertificate) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAlbListenerCertificate_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListenerCertificate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListenerCertificate_ListenerArn(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAlbListenerCertificate_CertificateArn(p *AlbListenerCertificateParameters, vals map[string]cty.Value) {
+func EncodeAlbListenerCertificate_CertificateArn(p AlbListenerCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
-func EncodeAlbListenerCertificate_Id(p *AlbListenerCertificateParameters, vals map[string]cty.Value) {
+func EncodeAlbListenerCertificate_Id(p AlbListenerCertificateParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAlbListenerCertificate_ListenerArn(p *AlbListenerCertificateParameters, vals map[string]cty.Value) {
+func EncodeAlbListenerCertificate_ListenerArn(p AlbListenerCertificateParameters, vals map[string]cty.Value) {
 	vals["listener_arn"] = cty.StringVal(p.ListenerArn)
 }

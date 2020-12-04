@@ -14,53 +14,57 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCloudwatchEventPermission(r CloudwatchEventPermission) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCloudwatchEventPermission(r CloudwatchEventPermission) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchEventPermission_Action(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_Principal(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_StatementId(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventPermission_Action(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_Condition(r.Spec.ForProvider.Condition, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudwatchEventPermission_Id(p *CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudwatchEventPermission_Principal(p *CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
-	vals["principal"] = cty.StringVal(p.Principal)
-}
-
-func EncodeCloudwatchEventPermission_StatementId(p *CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
-	vals["statement_id"] = cty.StringVal(p.StatementId)
-}
-
-func EncodeCloudwatchEventPermission_Action(p *CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchEventPermission_Action(p CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
 	vals["action"] = cty.StringVal(p.Action)
 }
 
-func EncodeCloudwatchEventPermission_Condition(p *Condition, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Condition {
-		ctyVal = make(map[string]cty.Value)
-		EncodeCloudwatchEventPermission_Condition_Key(v, ctyVal)
-		EncodeCloudwatchEventPermission_Condition_Type(v, ctyVal)
-		EncodeCloudwatchEventPermission_Condition_Value(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeCloudwatchEventPermission_Id(p CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCloudwatchEventPermission_Principal(p CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
+	vals["principal"] = cty.StringVal(p.Principal)
+}
+
+func EncodeCloudwatchEventPermission_StatementId(p CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
+	vals["statement_id"] = cty.StringVal(p.StatementId)
+}
+
+func EncodeCloudwatchEventPermission_Condition(p Condition, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchEventPermission_Condition_Key(p, ctyVal)
+	EncodeCloudwatchEventPermission_Condition_Type(p, ctyVal)
+	EncodeCloudwatchEventPermission_Condition_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["condition"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeCloudwatchEventPermission_Condition_Key(p *Condition, vals map[string]cty.Value) {
+func EncodeCloudwatchEventPermission_Condition_Key(p Condition, vals map[string]cty.Value) {
 	vals["key"] = cty.StringVal(p.Key)
 }
 
-func EncodeCloudwatchEventPermission_Condition_Type(p *Condition, vals map[string]cty.Value) {
+func EncodeCloudwatchEventPermission_Condition_Type(p Condition, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeCloudwatchEventPermission_Condition_Value(p *Condition, vals map[string]cty.Value) {
+func EncodeCloudwatchEventPermission_Condition_Value(p Condition, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }

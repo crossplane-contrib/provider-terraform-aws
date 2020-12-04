@@ -52,16 +52,16 @@ type DbEventSubscriptionSpec struct {
 
 // A DbEventSubscriptionParameters defines the desired state of a DbEventSubscription
 type DbEventSubscriptionParameters struct {
-	EventCategories []string          `json:"event_categories"`
 	Name            string            `json:"name"`
-	NamePrefix      string            `json:"name_prefix"`
 	SnsTopic        string            `json:"sns_topic"`
-	SourceIds       []string          `json:"source_ids"`
-	Enabled         bool              `json:"enabled"`
-	Id              string            `json:"id"`
-	SourceType      string            `json:"source_type"`
 	Tags            map[string]string `json:"tags"`
-	Timeouts        []Timeouts        `json:"timeouts"`
+	Id              string            `json:"id"`
+	SourceIds       []string          `json:"source_ids"`
+	SourceType      string            `json:"source_type"`
+	Enabled         bool              `json:"enabled"`
+	EventCategories []string          `json:"event_categories"`
+	NamePrefix      string            `json:"name_prefix"`
+	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {

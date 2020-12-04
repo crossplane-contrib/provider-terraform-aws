@@ -14,50 +14,44 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayRestApi(r ApiGatewayRestApi) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayRestApi(r ApiGatewayRestApi) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayRestApi_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRestApi_MinimumCompressionSize(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Name(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRestApi_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayRestApi_ApiKeySource(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayRestApi_BinaryMediaTypes(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Body(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRestApi_BinaryMediaTypes(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayRestApi_MinimumCompressionSize(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayRestApi_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRestApi_ApiKeySource(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_EndpointConfiguration(r.Spec.ForProvider.EndpointConfiguration, ctyVal)
+	EncodeApiGatewayRestApi_Arn(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayRestApi_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayRestApi_ExecutionArn(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayRestApi_RootResourceId(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayRestApi_CreatedDate(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayRestApi_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayRestApi_Id(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayRestApi_Id(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayRestApi_MinimumCompressionSize(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["minimum_compression_size"] = cty.IntVal(p.MinimumCompressionSize)
-}
-
-func EncodeApiGatewayRestApi_Name(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayRestApi_Name(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeApiGatewayRestApi_Policy(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
+func EncodeApiGatewayRestApi_ApiKeySource(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["api_key_source"] = cty.StringVal(p.ApiKeySource)
 }
 
-func EncodeApiGatewayRestApi_Body(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["body"] = cty.StringVal(p.Body)
-}
-
-func EncodeApiGatewayRestApi_Description(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeApiGatewayRestApi_BinaryMediaTypes(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayRestApi_BinaryMediaTypes(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.BinaryMediaTypes {
 		colVals = append(colVals, cty.StringVal(value))
@@ -65,7 +59,23 @@ func EncodeApiGatewayRestApi_BinaryMediaTypes(p *ApiGatewayRestApiParameters, va
 	vals["binary_media_types"] = cty.ListVal(colVals)
 }
 
-func EncodeApiGatewayRestApi_Tags(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayRestApi_Body(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["body"] = cty.StringVal(p.Body)
+}
+
+func EncodeApiGatewayRestApi_Description(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeApiGatewayRestApi_MinimumCompressionSize(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["minimum_compression_size"] = cty.NumberIntVal(p.MinimumCompressionSize)
+}
+
+func EncodeApiGatewayRestApi_Policy(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeApiGatewayRestApi_Tags(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -73,22 +83,16 @@ func EncodeApiGatewayRestApi_Tags(p *ApiGatewayRestApiParameters, vals map[strin
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayRestApi_ApiKeySource(p *ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["api_key_source"] = cty.StringVal(p.ApiKeySource)
-}
-
-func EncodeApiGatewayRestApi_EndpointConfiguration(p *EndpointConfiguration, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.EndpointConfiguration {
-		ctyVal = make(map[string]cty.Value)
-		EncodeApiGatewayRestApi_EndpointConfiguration_Types(v, ctyVal)
-		EncodeApiGatewayRestApi_EndpointConfiguration_VpcEndpointIds(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeApiGatewayRestApi_EndpointConfiguration(p EndpointConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayRestApi_EndpointConfiguration_Types(p, ctyVal)
+	EncodeApiGatewayRestApi_EndpointConfiguration_VpcEndpointIds(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["endpoint_configuration"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApiGatewayRestApi_EndpointConfiguration_Types(p *EndpointConfiguration, vals map[string]cty.Value) {
+func EncodeApiGatewayRestApi_EndpointConfiguration_Types(p EndpointConfiguration, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Types {
 		colVals = append(colVals, cty.StringVal(value))
@@ -96,7 +100,7 @@ func EncodeApiGatewayRestApi_EndpointConfiguration_Types(p *EndpointConfiguratio
 	vals["types"] = cty.ListVal(colVals)
 }
 
-func EncodeApiGatewayRestApi_EndpointConfiguration_VpcEndpointIds(p *EndpointConfiguration, vals map[string]cty.Value) {
+func EncodeApiGatewayRestApi_EndpointConfiguration_VpcEndpointIds(p EndpointConfiguration, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.VpcEndpointIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -104,18 +108,18 @@ func EncodeApiGatewayRestApi_EndpointConfiguration_VpcEndpointIds(p *EndpointCon
 	vals["vpc_endpoint_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeApiGatewayRestApi_ExecutionArn(p *ApiGatewayRestApiObservation, vals map[string]cty.Value) {
-	vals["execution_arn"] = cty.StringVal(p.ExecutionArn)
+func EncodeApiGatewayRestApi_Arn(p ApiGatewayRestApiObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeApiGatewayRestApi_RootResourceId(p *ApiGatewayRestApiObservation, vals map[string]cty.Value) {
-	vals["root_resource_id"] = cty.StringVal(p.RootResourceId)
-}
-
-func EncodeApiGatewayRestApi_CreatedDate(p *ApiGatewayRestApiObservation, vals map[string]cty.Value) {
+func EncodeApiGatewayRestApi_CreatedDate(p ApiGatewayRestApiObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
-func EncodeApiGatewayRestApi_Arn(p *ApiGatewayRestApiObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeApiGatewayRestApi_ExecutionArn(p ApiGatewayRestApiObservation, vals map[string]cty.Value) {
+	vals["execution_arn"] = cty.StringVal(p.ExecutionArn)
+}
+
+func EncodeApiGatewayRestApi_RootResourceId(p ApiGatewayRestApiObservation, vals map[string]cty.Value) {
+	vals["root_resource_id"] = cty.StringVal(p.RootResourceId)
 }

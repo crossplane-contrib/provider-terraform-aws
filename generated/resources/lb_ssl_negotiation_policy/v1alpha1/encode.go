@@ -14,48 +14,52 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLbSslNegotiationPolicy(r LbSslNegotiationPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeLbSslNegotiationPolicy_Name(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLbSslNegotiationPolicy(r LbSslNegotiationPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeLbSslNegotiationPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLbSslNegotiationPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 	EncodeLbSslNegotiationPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
+	EncodeLbSslNegotiationPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeLbSslNegotiationPolicy_Attribute(r.Spec.ForProvider.Attribute, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLbSslNegotiationPolicy_Name(p *LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeLbSslNegotiationPolicy_Id(p *LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
+func EncodeLbSslNegotiationPolicy_Id(p LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeLbSslNegotiationPolicy_LbPort(p *LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
-	vals["lb_port"] = cty.IntVal(p.LbPort)
+func EncodeLbSslNegotiationPolicy_LbPort(p LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
+	vals["lb_port"] = cty.NumberIntVal(p.LbPort)
 }
 
-func EncodeLbSslNegotiationPolicy_LoadBalancer(p *LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
+func EncodeLbSslNegotiationPolicy_LoadBalancer(p LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
 	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
 }
 
-func EncodeLbSslNegotiationPolicy_Attribute(p *Attribute, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Attribute {
-		ctyVal = make(map[string]cty.Value)
-		EncodeLbSslNegotiationPolicy_Attribute_Name(v, ctyVal)
-		EncodeLbSslNegotiationPolicy_Attribute_Value(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["attribute"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeLbSslNegotiationPolicy_Attribute_Name(p *Attribute, vals map[string]cty.Value) {
+func EncodeLbSslNegotiationPolicy_Name(p LbSslNegotiationPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeLbSslNegotiationPolicy_Attribute_Value(p *Attribute, vals map[string]cty.Value) {
+func EncodeLbSslNegotiationPolicy_Attribute(p Attribute, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeLbSslNegotiationPolicy_Attribute_Name(p, ctyVal)
+	EncodeLbSslNegotiationPolicy_Attribute_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["attribute"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeLbSslNegotiationPolicy_Attribute_Name(p Attribute, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeLbSslNegotiationPolicy_Attribute_Value(p Attribute, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }

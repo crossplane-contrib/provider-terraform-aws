@@ -52,14 +52,14 @@ type WafRegexMatchSetSpec struct {
 
 // A WafRegexMatchSetParameters defines the desired state of a WafRegexMatchSet
 type WafRegexMatchSetParameters struct {
-	Id              string            `json:"id"`
-	Name            string            `json:"name"`
-	RegexMatchTuple []RegexMatchTuple `json:"regex_match_tuple"`
+	Id              string          `json:"id"`
+	Name            string          `json:"name"`
+	RegexMatchTuple RegexMatchTuple `json:"regex_match_tuple"`
 }
 
 type RegexMatchTuple struct {
-	RegexPatternSetId  string       `json:"regex_pattern_set_id"`
 	TextTransformation string       `json:"text_transformation"`
+	RegexPatternSetId  string       `json:"regex_pattern_set_id"`
 	FieldToMatch       FieldToMatch `json:"field_to_match"`
 }
 

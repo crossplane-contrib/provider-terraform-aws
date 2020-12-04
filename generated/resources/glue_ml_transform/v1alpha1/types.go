@@ -52,17 +52,17 @@ type GlueMlTransformSpec struct {
 
 // A GlueMlTransformParameters defines the desired state of a GlueMlTransform
 type GlueMlTransformParameters struct {
-	Id                string              `json:"id"`
-	Name              string              `json:"name"`
-	Tags              map[string]string   `json:"tags"`
-	GlueVersion       string              `json:"glue_version"`
-	NumberOfWorkers   int                 `json:"number_of_workers"`
-	RoleArn           string              `json:"role_arn"`
 	Description       string              `json:"description"`
-	MaxCapacity       int                 `json:"max_capacity"`
-	Timeout           int                 `json:"timeout"`
 	WorkerType        string              `json:"worker_type"`
-	MaxRetries        int                 `json:"max_retries"`
+	MaxCapacity       int64               `json:"max_capacity"`
+	RoleArn           string              `json:"role_arn"`
+	Timeout           int64               `json:"timeout"`
+	GlueVersion       string              `json:"glue_version"`
+	NumberOfWorkers   int64               `json:"number_of_workers"`
+	Tags              map[string]string   `json:"tags"`
+	Id                string              `json:"id"`
+	MaxRetries        int64               `json:"max_retries"`
+	Name              string              `json:"name"`
 	InputRecordTables []InputRecordTables `json:"input_record_tables"`
 	Parameters        Parameters          `json:"parameters"`
 }
@@ -80,10 +80,10 @@ type Parameters struct {
 }
 
 type FindMatchesParameters struct {
-	PrecisionRecallTradeOff int    `json:"precision_recall_trade_off"`
-	PrimaryKeyColumnName    string `json:"primary_key_column_name"`
-	AccuracyCostTradeOff    int    `json:"accuracy_cost_trade_off"`
+	AccuracyCostTradeOff    int64  `json:"accuracy_cost_trade_off"`
 	EnforceProvidedLabels   bool   `json:"enforce_provided_labels"`
+	PrecisionRecallTradeOff int64  `json:"precision_recall_trade_off"`
+	PrimaryKeyColumnName    string `json:"primary_key_column_name"`
 }
 
 // A GlueMlTransformStatus defines the observed state of a GlueMlTransform
@@ -94,9 +94,9 @@ type GlueMlTransformStatus struct {
 
 // A GlueMlTransformObservation records the observed state of a GlueMlTransform
 type GlueMlTransformObservation struct {
-	LabelCount int      `json:"label_count"`
-	Schema     []Schema `json:"schema"`
 	Arn        string   `json:"arn"`
+	Schema     []Schema `json:"schema"`
+	LabelCount int64    `json:"label_count"`
 }
 
 type Schema struct {

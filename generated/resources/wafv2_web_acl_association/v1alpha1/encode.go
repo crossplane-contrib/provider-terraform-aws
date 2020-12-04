@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafv2WebAclAssociation(r Wafv2WebAclAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafv2WebAclAssociation(r Wafv2WebAclAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafv2WebAclAssociation_WebAclArn(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2WebAclAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2WebAclAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
-	EncodeWafv2WebAclAssociation_WebAclArn(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafv2WebAclAssociation_Id(p *Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
+func EncodeWafv2WebAclAssociation_WebAclArn(p Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
+	vals["web_acl_arn"] = cty.StringVal(p.WebAclArn)
+}
+
+func EncodeWafv2WebAclAssociation_Id(p Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafv2WebAclAssociation_ResourceArn(p *Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
+func EncodeWafv2WebAclAssociation_ResourceArn(p Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
-}
-
-func EncodeWafv2WebAclAssociation_WebAclArn(p *Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
-	vals["web_acl_arn"] = cty.StringVal(p.WebAclArn)
 }

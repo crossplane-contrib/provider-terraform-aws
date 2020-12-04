@@ -56,7 +56,7 @@ type WafRuleParameters struct {
 	MetricName string            `json:"metric_name"`
 	Name       string            `json:"name"`
 	Tags       map[string]string `json:"tags"`
-	Predicates []Predicates      `json:"predicates"`
+	Predicates Predicates        `json:"predicates"`
 }
 
 type Predicates struct {

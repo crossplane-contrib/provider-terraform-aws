@@ -52,23 +52,23 @@ type DmsReplicationInstanceSpec struct {
 
 // A DmsReplicationInstanceParameters defines the desired state of a DmsReplicationInstance
 type DmsReplicationInstanceParameters struct {
-	PubliclyAccessible         bool              `json:"publicly_accessible"`
-	AllocatedStorage           int               `json:"allocated_storage"`
-	AllowMajorVersionUpgrade   bool              `json:"allow_major_version_upgrade"`
-	ApplyImmediately           bool              `json:"apply_immediately"`
 	AutoMinorVersionUpgrade    bool              `json:"auto_minor_version_upgrade"`
-	AvailabilityZone           string            `json:"availability_zone"`
-	EngineVersion              string            `json:"engine_version"`
-	ReplicationSubnetGroupId   string            `json:"replication_subnet_group_id"`
-	Tags                       map[string]string `json:"tags"`
-	MultiAz                    bool              `json:"multi_az"`
+	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
+	PubliclyAccessible         bool              `json:"publicly_accessible"`
+	ReplicationInstanceClass   string            `json:"replication_instance_class"`
 	VpcSecurityGroupIds        []string          `json:"vpc_security_group_ids"`
-	ReplicationInstanceId      string            `json:"replication_instance_id"`
+	EngineVersion              string            `json:"engine_version"`
 	Id                         string            `json:"id"`
 	KmsKeyArn                  string            `json:"kms_key_arn"`
-	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
-	ReplicationInstanceClass   string            `json:"replication_instance_class"`
-	Timeouts                   []Timeouts        `json:"timeouts"`
+	AllocatedStorage           int64             `json:"allocated_storage"`
+	MultiAz                    bool              `json:"multi_az"`
+	ReplicationInstanceId      string            `json:"replication_instance_id"`
+	ReplicationSubnetGroupId   string            `json:"replication_subnet_group_id"`
+	Tags                       map[string]string `json:"tags"`
+	AllowMajorVersionUpgrade   bool              `json:"allow_major_version_upgrade"`
+	ApplyImmediately           bool              `json:"apply_immediately"`
+	AvailabilityZone           string            `json:"availability_zone"`
+	Timeouts                   Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -86,6 +86,6 @@ type DmsReplicationInstanceStatus struct {
 // A DmsReplicationInstanceObservation records the observed state of a DmsReplicationInstance
 type DmsReplicationInstanceObservation struct {
 	ReplicationInstancePrivateIps []string `json:"replication_instance_private_ips"`
-	ReplicationInstancePublicIps  []string `json:"replication_instance_public_ips"`
 	ReplicationInstanceArn        string   `json:"replication_instance_arn"`
+	ReplicationInstancePublicIps  []string `json:"replication_instance_public_ips"`
 }

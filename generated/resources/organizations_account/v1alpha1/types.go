@@ -52,13 +52,13 @@ type OrganizationsAccountSpec struct {
 
 // A OrganizationsAccountParameters defines the desired state of a OrganizationsAccount
 type OrganizationsAccountParameters struct {
-	Email                  string            `json:"email"`
-	Name                   string            `json:"name"`
-	ParentId               string            `json:"parent_id"`
+	Tags                   map[string]string `json:"tags"`
 	IamUserAccessToBilling string            `json:"iam_user_access_to_billing"`
 	Id                     string            `json:"id"`
+	Name                   string            `json:"name"`
+	ParentId               string            `json:"parent_id"`
+	Email                  string            `json:"email"`
 	RoleName               string            `json:"role_name"`
-	Tags                   map[string]string `json:"tags"`
 }
 
 // A OrganizationsAccountStatus defines the observed state of a OrganizationsAccount

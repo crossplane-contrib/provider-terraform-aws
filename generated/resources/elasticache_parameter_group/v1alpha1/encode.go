@@ -14,48 +14,52 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeElasticacheParameterGroup(r ElasticacheParameterGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeElasticacheParameterGroup(r ElasticacheParameterGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeElasticacheParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeElasticacheParameterGroup_Description(p *ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheParameterGroup_Description(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeElasticacheParameterGroup_Family(p *ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheParameterGroup_Family(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
 	vals["family"] = cty.StringVal(p.Family)
 }
 
-func EncodeElasticacheParameterGroup_Id(p *ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheParameterGroup_Id(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeElasticacheParameterGroup_Name(p *ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeElasticacheParameterGroup_Name(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeElasticacheParameterGroup_Parameter(p *Parameter, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Parameter {
-		ctyVal = make(map[string]cty.Value)
-		EncodeElasticacheParameterGroup_Parameter_Name(v, ctyVal)
-		EncodeElasticacheParameterGroup_Parameter_Value(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeElasticacheParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeElasticacheParameterGroup_Parameter_Name(p, ctyVal)
+	EncodeElasticacheParameterGroup_Parameter_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["parameter"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeElasticacheParameterGroup_Parameter_Name(p *Parameter, vals map[string]cty.Value) {
+func EncodeElasticacheParameterGroup_Parameter_Name(p Parameter, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeElasticacheParameterGroup_Parameter_Value(p *Parameter, vals map[string]cty.Value) {
+func EncodeElasticacheParameterGroup_Parameter_Value(p Parameter, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }

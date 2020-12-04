@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCloudwatchLogResourcePolicy(r CloudwatchLogResourcePolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCloudwatchLogResourcePolicy(r CloudwatchLogResourcePolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchLogResourcePolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogResourcePolicy_PolicyName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogResourcePolicy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogResourcePolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudwatchLogResourcePolicy_PolicyName(p *CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogResourcePolicy_PolicyDocument(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
+	vals["policy_document"] = cty.StringVal(p.PolicyDocument)
+}
+
+func EncodeCloudwatchLogResourcePolicy_PolicyName(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
 	vals["policy_name"] = cty.StringVal(p.PolicyName)
 }
 
-func EncodeCloudwatchLogResourcePolicy_Id(p *CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogResourcePolicy_Id(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudwatchLogResourcePolicy_PolicyDocument(p *CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
-	vals["policy_document"] = cty.StringVal(p.PolicyDocument)
 }

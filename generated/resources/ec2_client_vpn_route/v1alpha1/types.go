@@ -67,6 +67,6 @@ type Ec2ClientVpnRouteStatus struct {
 
 // A Ec2ClientVpnRouteObservation records the observed state of a Ec2ClientVpnRoute
 type Ec2ClientVpnRouteObservation struct {
-	Origin string `json:"origin"`
 	Type   string `json:"type"`
+	Origin string `json:"origin"`
 }

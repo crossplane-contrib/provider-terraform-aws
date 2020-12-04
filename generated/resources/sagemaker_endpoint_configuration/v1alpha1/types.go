@@ -61,8 +61,8 @@ type SagemakerEndpointConfigurationParameters struct {
 
 type ProductionVariants struct {
 	AcceleratorType      string `json:"accelerator_type"`
-	InitialInstanceCount int    `json:"initial_instance_count"`
-	InitialVariantWeight int    `json:"initial_variant_weight"`
+	InitialInstanceCount int64  `json:"initial_instance_count"`
+	InitialVariantWeight int64  `json:"initial_variant_weight"`
 	InstanceType         string `json:"instance_type"`
 	ModelName            string `json:"model_name"`
 	VariantName          string `json:"variant_name"`

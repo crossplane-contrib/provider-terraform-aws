@@ -52,38 +52,38 @@ type GlueJobSpec struct {
 
 // A GlueJobParameters defines the desired state of a GlueJob
 type GlueJobParameters struct {
-	MaxRetries              int                  `json:"max_retries"`
-	NonOverridableArguments map[string]string    `json:"non_overridable_arguments"`
-	SecurityConfiguration   string               `json:"security_configuration"`
-	MaxCapacity             int                  `json:"max_capacity"`
-	GlueVersion             string               `json:"glue_version"`
-	Id                      string               `json:"id"`
-	RoleArn                 string               `json:"role_arn"`
-	WorkerType              string               `json:"worker_type"`
 	DefaultArguments        map[string]string    `json:"default_arguments"`
+	Id                      string               `json:"id"`
+	MaxRetries              int64                `json:"max_retries"`
+	SecurityConfiguration   string               `json:"security_configuration"`
+	Timeout                 int64                `json:"timeout"`
 	Description             string               `json:"description"`
 	Name                    string               `json:"name"`
-	NumberOfWorkers         int                  `json:"number_of_workers"`
-	Tags                    map[string]string    `json:"tags"`
-	Timeout                 int                  `json:"timeout"`
+	RoleArn                 string               `json:"role_arn"`
 	Connections             []string             `json:"connections"`
+	MaxCapacity             int64                `json:"max_capacity"`
+	WorkerType              string               `json:"worker_type"`
+	GlueVersion             string               `json:"glue_version"`
+	NonOverridableArguments map[string]string    `json:"non_overridable_arguments"`
+	NumberOfWorkers         int64                `json:"number_of_workers"`
+	Tags                    map[string]string    `json:"tags"`
 	Command                 Command              `json:"command"`
 	ExecutionProperty       ExecutionProperty    `json:"execution_property"`
 	NotificationProperty    NotificationProperty `json:"notification_property"`
 }
 
 type Command struct {
-	Name           string `json:"name"`
 	PythonVersion  string `json:"python_version"`
 	ScriptLocation string `json:"script_location"`
+	Name           string `json:"name"`
 }
 
 type ExecutionProperty struct {
-	MaxConcurrentRuns int `json:"max_concurrent_runs"`
+	MaxConcurrentRuns int64 `json:"max_concurrent_runs"`
 }
 
 type NotificationProperty struct {
-	NotifyDelayAfter int `json:"notify_delay_after"`
+	NotifyDelayAfter int64 `json:"notify_delay_after"`
 }
 
 // A GlueJobStatus defines the observed state of a GlueJob

@@ -68,7 +68,7 @@ type IamServiceLinkedRoleStatus struct {
 type IamServiceLinkedRoleObservation struct {
 	Arn        string `json:"arn"`
 	CreateDate string `json:"create_date"`
-	Name       string `json:"name"`
 	Path       string `json:"path"`
+	Name       string `json:"name"`
 	UniqueId   string `json:"unique_id"`
 }

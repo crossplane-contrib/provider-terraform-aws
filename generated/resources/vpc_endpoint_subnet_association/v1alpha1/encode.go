@@ -14,39 +14,45 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVpcEndpointSubnetAssociation(r VpcEndpointSubnetAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVpcEndpointSubnetAssociation(r VpcEndpointSubnetAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeVpcEndpointSubnetAssociation_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointSubnetAssociation_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcEndpointSubnetAssociation_Id(p *VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeVpcEndpointSubnetAssociation_SubnetId(p *VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
-}
-
-func EncodeVpcEndpointSubnetAssociation_VpcEndpointId(p *VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointSubnetAssociation_VpcEndpointId(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }
 
-func EncodeVpcEndpointSubnetAssociation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
-	EncodeVpcEndpointSubnetAssociation_Timeouts_Delete(p, ctyVal)
+func EncodeVpcEndpointSubnetAssociation_Id(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeVpcEndpointSubnetAssociation_SubnetId(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+}
+
+func EncodeVpcEndpointSubnetAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVpcEndpointSubnetAssociation_Timeouts_Create(p, ctyVal)
+	EncodeVpcEndpointSubnetAssociation_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcEndpointSubnetAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
+func EncodeVpcEndpointSubnetAssociation_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeVpcEndpointSubnetAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
+func EncodeVpcEndpointSubnetAssociation_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }

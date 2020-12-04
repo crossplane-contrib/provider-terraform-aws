@@ -52,39 +52,39 @@ type OpsworksNodejsAppLayerSpec struct {
 
 // A OpsworksNodejsAppLayerParameters defines the desired state of a OpsworksNodejsAppLayer
 type OpsworksNodejsAppLayerParameters struct {
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	Id                       string            `json:"id"`
-	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	StackId                  string            `json:"stack_id"`
-	SystemPackages           []string          `json:"system_packages"`
-	AutoHealing              bool              `json:"auto_healing"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	Name                     string            `json:"name"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
 	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	Name                     string            `json:"name"`
 	NodejsVersion            string            `json:"nodejs_version"`
-	Tags                     map[string]string `json:"tags"`
 	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	StackId                  string            `json:"stack_id"`
+	SystemPackages           []string          `json:"system_packages"`
+	Tags                     map[string]string `json:"tags"`
+	AutoHealing              bool              `json:"auto_healing"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
 	CustomJson               string            `json:"custom_json"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	EbsVolume                []EbsVolume       `json:"ebs_volume"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	Id                       string            `json:"id"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
-	MountPoint    string `json:"mount_point"`
-	NumberOfDisks int    `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
-	Size          int    `json:"size"`
+	Size          int64  `json:"size"`
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
-	Iops          int    `json:"iops"`
+	Iops          int64  `json:"iops"`
+	MountPoint    string `json:"mount_point"`
+	NumberOfDisks int64  `json:"number_of_disks"`
 }
 
 // A OpsworksNodejsAppLayerStatus defines the observed state of a OpsworksNodejsAppLayer

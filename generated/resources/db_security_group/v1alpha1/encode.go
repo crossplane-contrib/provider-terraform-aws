@@ -14,22 +14,36 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDbSecurityGroup(r DbSecurityGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeDbSecurityGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDbSecurityGroup_Tags(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDbSecurityGroup(r DbSecurityGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDbSecurityGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDbSecurityGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDbSecurityGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDbSecurityGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbSecurityGroup_Ingress(r.Spec.ForProvider.Ingress, ctyVal)
 	EncodeDbSecurityGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDbSecurityGroup_Name(p *DbSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeDbSecurityGroup_Description(p DbSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeDbSecurityGroup_Id(p DbSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDbSecurityGroup_Name(p DbSecurityGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeDbSecurityGroup_Tags(p *DbSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeDbSecurityGroup_Tags(p DbSecurityGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -37,43 +51,35 @@ func EncodeDbSecurityGroup_Tags(p *DbSecurityGroupParameters, vals map[string]ct
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDbSecurityGroup_Description(p *DbSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDbSecurityGroup_Id(p *DbSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDbSecurityGroup_Ingress(p *Ingress, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Ingress {
-		ctyVal = make(map[string]cty.Value)
-		EncodeDbSecurityGroup_Ingress_Cidr(v, ctyVal)
+func EncodeDbSecurityGroup_Ingress(p []Ingress, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeDbSecurityGroup_Ingress_SecurityGroupId(v, ctyVal)
 		EncodeDbSecurityGroup_Ingress_SecurityGroupName(v, ctyVal)
 		EncodeDbSecurityGroup_Ingress_SecurityGroupOwnerId(v, ctyVal)
+		EncodeDbSecurityGroup_Ingress_Cidr(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["ingress"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeDbSecurityGroup_Ingress_Cidr(p *Ingress, vals map[string]cty.Value) {
-	vals["cidr"] = cty.StringVal(p.Cidr)
-}
-
-func EncodeDbSecurityGroup_Ingress_SecurityGroupId(p *Ingress, vals map[string]cty.Value) {
+func EncodeDbSecurityGroup_Ingress_SecurityGroupId(p Ingress, vals map[string]cty.Value) {
 	vals["security_group_id"] = cty.StringVal(p.SecurityGroupId)
 }
 
-func EncodeDbSecurityGroup_Ingress_SecurityGroupName(p *Ingress, vals map[string]cty.Value) {
+func EncodeDbSecurityGroup_Ingress_SecurityGroupName(p Ingress, vals map[string]cty.Value) {
 	vals["security_group_name"] = cty.StringVal(p.SecurityGroupName)
 }
 
-func EncodeDbSecurityGroup_Ingress_SecurityGroupOwnerId(p *Ingress, vals map[string]cty.Value) {
+func EncodeDbSecurityGroup_Ingress_SecurityGroupOwnerId(p Ingress, vals map[string]cty.Value) {
 	vals["security_group_owner_id"] = cty.StringVal(p.SecurityGroupOwnerId)
 }
 
-func EncodeDbSecurityGroup_Arn(p *DbSecurityGroupObservation, vals map[string]cty.Value) {
+func EncodeDbSecurityGroup_Ingress_Cidr(p Ingress, vals map[string]cty.Value) {
+	vals["cidr"] = cty.StringVal(p.Cidr)
+}
+
+func EncodeDbSecurityGroup_Arn(p DbSecurityGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

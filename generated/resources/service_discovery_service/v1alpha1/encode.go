@@ -14,21 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeServiceDiscoveryService(r ServiceDiscoveryService) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeServiceDiscoveryService(r ServiceDiscoveryService) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_Name(r.Spec.ForProvider, ctyVal)
+	EncodeServiceDiscoveryService_NamespaceId(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Id(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryService_Name(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryService_NamespaceId(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_DnsConfig(r.Spec.ForProvider.DnsConfig, ctyVal)
 	EncodeServiceDiscoveryService_HealthCheckConfig(r.Spec.ForProvider.HealthCheckConfig, ctyVal)
 	EncodeServiceDiscoveryService_HealthCheckCustomConfig(r.Spec.ForProvider.HealthCheckCustomConfig, ctyVal)
 	EncodeServiceDiscoveryService_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeServiceDiscoveryService_Tags(p *ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_Name(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeServiceDiscoveryService_NamespaceId(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+	vals["namespace_id"] = cty.StringVal(p.NamespaceId)
+}
+
+func EncodeServiceDiscoveryService_Tags(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -36,46 +50,36 @@ func EncodeServiceDiscoveryService_Tags(p *ServiceDiscoveryServiceParameters, va
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeServiceDiscoveryService_Description(p *ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_Description(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeServiceDiscoveryService_Id(p *ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_Id(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeServiceDiscoveryService_Name(p *ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeServiceDiscoveryService_NamespaceId(p *ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
-	vals["namespace_id"] = cty.StringVal(p.NamespaceId)
-}
-
-func EncodeServiceDiscoveryService_DnsConfig(p *DnsConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.DnsConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeServiceDiscoveryService_DnsConfig_NamespaceId(v, ctyVal)
-		EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(v, ctyVal)
-		EncodeServiceDiscoveryService_DnsConfig_DnsRecords(v.DnsRecords, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeServiceDiscoveryService_DnsConfig(p DnsConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_DnsConfig_NamespaceId(p, ctyVal)
+	EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(p, ctyVal)
+	EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p.DnsRecords, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["dns_config"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeServiceDiscoveryService_DnsConfig_NamespaceId(p *DnsConfig, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_DnsConfig_NamespaceId(p DnsConfig, vals map[string]cty.Value) {
 	vals["namespace_id"] = cty.StringVal(p.NamespaceId)
 }
 
-func EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(p *DnsConfig, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(p DnsConfig, vals map[string]cty.Value) {
 	vals["routing_policy"] = cty.StringVal(p.RoutingPolicy)
 }
 
-func EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p *DnsRecords, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.DnsRecords {
-		ctyVal = make(map[string]cty.Value)
+func EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p []DnsRecords, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(v, ctyVal)
 		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
@@ -83,52 +87,48 @@ func EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p *DnsRecords, vals map[
 	vals["dns_records"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(p *DnsRecords, vals map[string]cty.Value) {
-	vals["ttl"] = cty.IntVal(p.Ttl)
+func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(p DnsRecords, vals map[string]cty.Value) {
+	vals["ttl"] = cty.NumberIntVal(p.Ttl)
 }
 
-func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(p *DnsRecords, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(p DnsRecords, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeServiceDiscoveryService_HealthCheckConfig(p *HealthCheckConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.HealthCheckConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(v, ctyVal)
-		EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(v, ctyVal)
-		EncodeServiceDiscoveryService_HealthCheckConfig_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeServiceDiscoveryService_HealthCheckConfig(p HealthCheckConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(p, ctyVal)
+	EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(p, ctyVal)
+	EncodeServiceDiscoveryService_HealthCheckConfig_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["health_check_config"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(p *HealthCheckConfig, vals map[string]cty.Value) {
-	vals["failure_threshold"] = cty.IntVal(p.FailureThreshold)
+func EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(p HealthCheckConfig, vals map[string]cty.Value) {
+	vals["failure_threshold"] = cty.NumberIntVal(p.FailureThreshold)
 }
 
-func EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(p *HealthCheckConfig, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(p HealthCheckConfig, vals map[string]cty.Value) {
 	vals["resource_path"] = cty.StringVal(p.ResourcePath)
 }
 
-func EncodeServiceDiscoveryService_HealthCheckConfig_Type(p *HealthCheckConfig, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_HealthCheckConfig_Type(p HealthCheckConfig, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeServiceDiscoveryService_HealthCheckCustomConfig(p *HealthCheckCustomConfig, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.HealthCheckCustomConfig {
-		ctyVal = make(map[string]cty.Value)
-		EncodeServiceDiscoveryService_HealthCheckCustomConfig_FailureThreshold(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeServiceDiscoveryService_HealthCheckCustomConfig(p HealthCheckCustomConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_HealthCheckCustomConfig_FailureThreshold(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["health_check_custom_config"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeServiceDiscoveryService_HealthCheckCustomConfig_FailureThreshold(p *HealthCheckCustomConfig, vals map[string]cty.Value) {
-	vals["failure_threshold"] = cty.IntVal(p.FailureThreshold)
+func EncodeServiceDiscoveryService_HealthCheckCustomConfig_FailureThreshold(p HealthCheckCustomConfig, vals map[string]cty.Value) {
+	vals["failure_threshold"] = cty.NumberIntVal(p.FailureThreshold)
 }
 
-func EncodeServiceDiscoveryService_Arn(p *ServiceDiscoveryServiceObservation, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryService_Arn(p ServiceDiscoveryServiceObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

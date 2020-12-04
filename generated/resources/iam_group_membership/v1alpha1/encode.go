@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamGroupMembership(r IamGroupMembership) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamGroupMembership(r IamGroupMembership) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeIamGroupMembership_Group(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Users(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroupMembership_Group(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamGroupMembership_Id(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
+func EncodeIamGroupMembership_Group(p IamGroupMembershipParameters, vals map[string]cty.Value) {
+	vals["group"] = cty.StringVal(p.Group)
+}
+
+func EncodeIamGroupMembership_Id(p IamGroupMembershipParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamGroupMembership_Name(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
+func EncodeIamGroupMembership_Name(p IamGroupMembershipParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeIamGroupMembership_Users(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
+func EncodeIamGroupMembership_Users(p IamGroupMembershipParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Users {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["users"] = cty.SetVal(colVals)
-}
-
-func EncodeIamGroupMembership_Group(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
-	vals["group"] = cty.StringVal(p.Group)
 }

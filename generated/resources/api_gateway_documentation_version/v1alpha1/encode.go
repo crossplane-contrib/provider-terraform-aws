@@ -14,28 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayDocumentationVersion(r ApiGatewayDocumentationVersion) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeApiGatewayDocumentationVersion_Version(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayDocumentationVersion(r ApiGatewayDocumentationVersion) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayDocumentationVersion_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDocumentationVersion_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDocumentationVersion_RestApiId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDocumentationVersion_Version(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayDocumentationVersion_Version(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
-	vals["version"] = cty.StringVal(p.Version)
-}
-
-func EncodeApiGatewayDocumentationVersion_Description(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayDocumentationVersion_Description(p ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApiGatewayDocumentationVersion_Id(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayDocumentationVersion_Id(p ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayDocumentationVersion_RestApiId(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayDocumentationVersion_RestApiId(p ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
+}
+
+func EncodeApiGatewayDocumentationVersion_Version(p ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
+	vals["version"] = cty.StringVal(p.Version)
 }

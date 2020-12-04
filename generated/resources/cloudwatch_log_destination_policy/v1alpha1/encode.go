@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCloudwatchLogDestinationPolicy(r CloudwatchLogDestinationPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeCloudwatchLogDestinationPolicy_AccessPolicy(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCloudwatchLogDestinationPolicy(r CloudwatchLogDestinationPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchLogDestinationPolicy_DestinationName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestinationPolicy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogDestinationPolicy_AccessPolicy(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudwatchLogDestinationPolicy_AccessPolicy(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
-	vals["access_policy"] = cty.StringVal(p.AccessPolicy)
-}
-
-func EncodeCloudwatchLogDestinationPolicy_DestinationName(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogDestinationPolicy_DestinationName(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	vals["destination_name"] = cty.StringVal(p.DestinationName)
 }
 
-func EncodeCloudwatchLogDestinationPolicy_Id(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogDestinationPolicy_Id(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCloudwatchLogDestinationPolicy_AccessPolicy(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
+	vals["access_policy"] = cty.StringVal(p.AccessPolicy)
 }

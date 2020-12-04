@@ -14,27 +14,33 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeVpcEndpointConnectionNotification(r VpcEndpointConnectionNotification) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeVpcEndpointConnectionNotification(r VpcEndpointConnectionNotification) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeVpcEndpointConnectionNotification_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_ConnectionEvents(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_ConnectionNotificationArn(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointConnectionNotification_State(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_NotificationType(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeVpcEndpointConnectionNotification_State(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcEndpointConnectionNotification_VpcEndpointId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointConnectionNotification_VpcEndpointId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }
 
-func EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_service_id"] = cty.StringVal(p.VpcEndpointServiceId)
 }
 
-func EncodeVpcEndpointConnectionNotification_ConnectionEvents(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointConnectionNotification_ConnectionEvents(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ConnectionEvents {
 		colVals = append(colVals, cty.StringVal(value))
@@ -42,18 +48,18 @@ func EncodeVpcEndpointConnectionNotification_ConnectionEvents(p *VpcEndpointConn
 	vals["connection_events"] = cty.SetVal(colVals)
 }
 
-func EncodeVpcEndpointConnectionNotification_ConnectionNotificationArn(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointConnectionNotification_ConnectionNotificationArn(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
 	vals["connection_notification_arn"] = cty.StringVal(p.ConnectionNotificationArn)
 }
 
-func EncodeVpcEndpointConnectionNotification_Id(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+func EncodeVpcEndpointConnectionNotification_Id(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeVpcEndpointConnectionNotification_State(p *VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {
-	vals["state"] = cty.StringVal(p.State)
+func EncodeVpcEndpointConnectionNotification_NotificationType(p VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {
+	vals["notification_type"] = cty.StringVal(p.NotificationType)
 }
 
-func EncodeVpcEndpointConnectionNotification_NotificationType(p *VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {
-	vals["notification_type"] = cty.StringVal(p.NotificationType)
+func EncodeVpcEndpointConnectionNotification_State(p VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {
+	vals["state"] = cty.StringVal(p.State)
 }

@@ -14,22 +14,32 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRamResourceShare(r RamResourceShare) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRamResourceShare(r RamResourceShare) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeRamResourceShare_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_AllowExternalPrincipals(r.Spec.ForProvider, ctyVal)
-	EncodeRamResourceShare_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeRamResourceShare_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRamResourceShare_Name(p *RamResourceShareParameters, vals map[string]cty.Value) {
+func EncodeRamResourceShare_Id(p RamResourceShareParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeRamResourceShare_Name(p RamResourceShareParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeRamResourceShare_Tags(p *RamResourceShareParameters, vals map[string]cty.Value) {
+func EncodeRamResourceShare_Tags(p RamResourceShareParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -37,29 +47,25 @@ func EncodeRamResourceShare_Tags(p *RamResourceShareParameters, vals map[string]
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRamResourceShare_AllowExternalPrincipals(p *RamResourceShareParameters, vals map[string]cty.Value) {
+func EncodeRamResourceShare_AllowExternalPrincipals(p RamResourceShareParameters, vals map[string]cty.Value) {
 	vals["allow_external_principals"] = cty.BoolVal(p.AllowExternalPrincipals)
 }
 
-func EncodeRamResourceShare_Id(p *RamResourceShareParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRamResourceShare_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeRamResourceShare_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRamResourceShare_Timeouts_Create(p, ctyVal)
 	EncodeRamResourceShare_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeRamResourceShare_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeRamResourceShare_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeRamResourceShare_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+func EncodeRamResourceShare_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeRamResourceShare_Arn(p *RamResourceShareObservation, vals map[string]cty.Value) {
+func EncodeRamResourceShare_Arn(p RamResourceShareObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

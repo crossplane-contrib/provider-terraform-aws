@@ -14,21 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeInternetGateway(r InternetGateway) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeInternetGateway(r InternetGateway) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeInternetGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeInternetGateway_Arn(r.Status.AtProvider, ctyVal)
 	EncodeInternetGateway_OwnerId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeInternetGateway_Id(p *InternetGatewayParameters, vals map[string]cty.Value) {
+func EncodeInternetGateway_VpcId(p InternetGatewayParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeInternetGateway_Id(p InternetGatewayParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeInternetGateway_Tags(p *InternetGatewayParameters, vals map[string]cty.Value) {
+func EncodeInternetGateway_Tags(p InternetGatewayParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -36,14 +46,10 @@ func EncodeInternetGateway_Tags(p *InternetGatewayParameters, vals map[string]ct
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeInternetGateway_VpcId(p *InternetGatewayParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeInternetGateway_Arn(p *InternetGatewayObservation, vals map[string]cty.Value) {
+func EncodeInternetGateway_Arn(p InternetGatewayObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeInternetGateway_OwnerId(p *InternetGatewayObservation, vals map[string]cty.Value) {
+func EncodeInternetGateway_OwnerId(p InternetGatewayObservation, vals map[string]cty.Value) {
 	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }

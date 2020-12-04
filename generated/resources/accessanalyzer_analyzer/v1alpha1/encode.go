@@ -14,17 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAccessanalyzerAnalyzer(r AccessanalyzerAnalyzer) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeAccessanalyzerAnalyzer_Tags(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAccessanalyzerAnalyzer(r AccessanalyzerAnalyzer) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAccessanalyzerAnalyzer_Type(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_AnalyzerName(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAccessanalyzerAnalyzer_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAccessanalyzerAnalyzer_Tags(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
+func EncodeAccessanalyzerAnalyzer_Type(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeAccessanalyzerAnalyzer_AnalyzerName(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
+	vals["analyzer_name"] = cty.StringVal(p.AnalyzerName)
+}
+
+func EncodeAccessanalyzerAnalyzer_Id(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAccessanalyzerAnalyzer_Tags(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -32,18 +50,6 @@ func EncodeAccessanalyzerAnalyzer_Tags(p *AccessanalyzerAnalyzerParameters, vals
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeAccessanalyzerAnalyzer_Type(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeAccessanalyzerAnalyzer_AnalyzerName(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
-	vals["analyzer_name"] = cty.StringVal(p.AnalyzerName)
-}
-
-func EncodeAccessanalyzerAnalyzer_Id(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAccessanalyzerAnalyzer_Arn(p *AccessanalyzerAnalyzerObservation, vals map[string]cty.Value) {
+func EncodeAccessanalyzerAnalyzer_Arn(p AccessanalyzerAnalyzerObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

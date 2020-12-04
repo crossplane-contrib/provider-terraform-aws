@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesDomainDkim(r SesDomainDkim) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesDomainDkim(r SesDomainDkim) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSesDomainDkim_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainDkim_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainDkim_DkimTokens(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesDomainDkim_Domain(p *SesDomainDkimParameters, vals map[string]cty.Value) {
+func EncodeSesDomainDkim_Domain(p SesDomainDkimParameters, vals map[string]cty.Value) {
 	vals["domain"] = cty.StringVal(p.Domain)
 }
 
-func EncodeSesDomainDkim_Id(p *SesDomainDkimParameters, vals map[string]cty.Value) {
+func EncodeSesDomainDkim_Id(p SesDomainDkimParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesDomainDkim_DkimTokens(p *SesDomainDkimObservation, vals map[string]cty.Value) {
+func EncodeSesDomainDkim_DkimTokens(p SesDomainDkimObservation, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.DkimTokens {
 		colVals = append(colVals, cty.StringVal(value))

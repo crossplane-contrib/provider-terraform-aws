@@ -67,6 +67,6 @@ type VpcEndpointConnectionNotificationStatus struct {
 
 // A VpcEndpointConnectionNotificationObservation records the observed state of a VpcEndpointConnectionNotification
 type VpcEndpointConnectionNotificationObservation struct {
-	State            string `json:"state"`
 	NotificationType string `json:"notification_type"`
+	State            string `json:"state"`
 }

@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSagemakerNotebookInstanceLifecycleConfiguration(r SagemakerNotebookInstanceLifecycleConfiguration) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration(r SagemakerNotebookInstanceLifecycleConfiguration) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Id(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Id(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Name(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Name(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	vals["on_create"] = cty.StringVal(p.OnCreate)
 }
 
-func EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	vals["on_start"] = cty.StringVal(p.OnStart)
 }
 
-func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Arn(p *SagemakerNotebookInstanceLifecycleConfigurationObservation, vals map[string]cty.Value) {
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Arn(p SagemakerNotebookInstanceLifecycleConfigurationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

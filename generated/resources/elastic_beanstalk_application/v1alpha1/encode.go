@@ -14,30 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeElasticBeanstalkApplication(r ElasticBeanstalkApplication) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeElasticBeanstalkApplication(r ElasticBeanstalkApplication) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeElasticBeanstalkApplication_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkApplication_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkApplication_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkApplication_Name(r.Spec.ForProvider, ctyVal)
-	EncodeElasticBeanstalkApplication_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkApplication_AppversionLifecycle(r.Spec.ForProvider.AppversionLifecycle, ctyVal)
 	EncodeElasticBeanstalkApplication_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeElasticBeanstalkApplication_Description(p *ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeElasticBeanstalkApplication_Id(p *ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeElasticBeanstalkApplication_Name(p *ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeElasticBeanstalkApplication_Tags(p *ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkApplication_Tags(p ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -45,35 +39,45 @@ func EncodeElasticBeanstalkApplication_Tags(p *ElasticBeanstalkApplicationParame
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeElasticBeanstalkApplication_AppversionLifecycle(p *AppversionLifecycle, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.AppversionLifecycle {
-		ctyVal = make(map[string]cty.Value)
-		EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(v, ctyVal)
-		EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxAgeInDays(v, ctyVal)
-		EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxCount(v, ctyVal)
-		EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeElasticBeanstalkApplication_Description(p ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeElasticBeanstalkApplication_Id(p ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeElasticBeanstalkApplication_Name(p ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeElasticBeanstalkApplication_AppversionLifecycle(p AppversionLifecycle, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(p, ctyVal)
+	EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxAgeInDays(p, ctyVal)
+	EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxCount(p, ctyVal)
+	EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["appversion_lifecycle"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(p *AppversionLifecycle, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(p AppversionLifecycle, vals map[string]cty.Value) {
 	vals["delete_source_from_s3"] = cty.BoolVal(p.DeleteSourceFromS3)
 }
 
-func EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxAgeInDays(p *AppversionLifecycle, vals map[string]cty.Value) {
-	vals["max_age_in_days"] = cty.IntVal(p.MaxAgeInDays)
+func EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxAgeInDays(p AppversionLifecycle, vals map[string]cty.Value) {
+	vals["max_age_in_days"] = cty.NumberIntVal(p.MaxAgeInDays)
 }
 
-func EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxCount(p *AppversionLifecycle, vals map[string]cty.Value) {
-	vals["max_count"] = cty.IntVal(p.MaxCount)
+func EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxCount(p AppversionLifecycle, vals map[string]cty.Value) {
+	vals["max_count"] = cty.NumberIntVal(p.MaxCount)
 }
 
-func EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(p *AppversionLifecycle, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(p AppversionLifecycle, vals map[string]cty.Value) {
 	vals["service_role"] = cty.StringVal(p.ServiceRole)
 }
 
-func EncodeElasticBeanstalkApplication_Arn(p *ElasticBeanstalkApplicationObservation, vals map[string]cty.Value) {
+func EncodeElasticBeanstalkApplication_Arn(p ElasticBeanstalkApplicationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

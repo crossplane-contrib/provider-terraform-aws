@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLbTargetGroupAttachment(r LbTargetGroupAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLbTargetGroupAttachment(r LbTargetGroupAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeLbTargetGroupAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_Port(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_TargetGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_TargetId(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLbTargetGroupAttachment_Id(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+func EncodeLbTargetGroupAttachment_Id(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeLbTargetGroupAttachment_Port(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["port"] = cty.IntVal(p.Port)
+func EncodeLbTargetGroupAttachment_Port(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
 }
 
-func EncodeLbTargetGroupAttachment_TargetGroupArn(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+func EncodeLbTargetGroupAttachment_TargetGroupArn(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_group_arn"] = cty.StringVal(p.TargetGroupArn)
 }
 
-func EncodeLbTargetGroupAttachment_TargetId(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+func EncodeLbTargetGroupAttachment_TargetId(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_id"] = cty.StringVal(p.TargetId)
 }
 
-func EncodeLbTargetGroupAttachment_AvailabilityZone(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+func EncodeLbTargetGroupAttachment_AvailabilityZone(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }

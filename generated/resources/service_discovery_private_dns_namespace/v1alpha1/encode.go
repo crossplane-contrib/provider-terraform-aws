@@ -14,27 +14,37 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeServiceDiscoveryPrivateDnsNamespace(r ServiceDiscoveryPrivateDnsNamespace) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeServiceDiscoveryPrivateDnsNamespace(r ServiceDiscoveryPrivateDnsNamespace) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryPrivateDnsNamespace_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Vpc(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryPrivateDnsNamespace_Description(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryPrivateDnsNamespace_HostedZone(r.Status.AtProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeServiceDiscoveryPrivateDnsNamespace_HostedZone(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeServiceDiscoveryPrivateDnsNamespace_Id(p *ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPrivateDnsNamespace_Description(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeServiceDiscoveryPrivateDnsNamespace_Id(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeServiceDiscoveryPrivateDnsNamespace_Name(p *ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPrivateDnsNamespace_Name(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeServiceDiscoveryPrivateDnsNamespace_Tags(p *ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPrivateDnsNamespace_Tags(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -42,18 +52,14 @@ func EncodeServiceDiscoveryPrivateDnsNamespace_Tags(p *ServiceDiscoveryPrivateDn
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeServiceDiscoveryPrivateDnsNamespace_Vpc(p *ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPrivateDnsNamespace_Vpc(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
 	vals["vpc"] = cty.StringVal(p.Vpc)
 }
 
-func EncodeServiceDiscoveryPrivateDnsNamespace_Description(p *ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeServiceDiscoveryPrivateDnsNamespace_HostedZone(p *ServiceDiscoveryPrivateDnsNamespaceObservation, vals map[string]cty.Value) {
-	vals["hosted_zone"] = cty.StringVal(p.HostedZone)
-}
-
-func EncodeServiceDiscoveryPrivateDnsNamespace_Arn(p *ServiceDiscoveryPrivateDnsNamespaceObservation, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPrivateDnsNamespace_Arn(p ServiceDiscoveryPrivateDnsNamespaceObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeServiceDiscoveryPrivateDnsNamespace_HostedZone(p ServiceDiscoveryPrivateDnsNamespaceObservation, vals map[string]cty.Value) {
+	vals["hosted_zone"] = cty.StringVal(p.HostedZone)
 }

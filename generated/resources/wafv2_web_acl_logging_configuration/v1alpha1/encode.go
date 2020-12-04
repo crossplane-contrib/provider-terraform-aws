@@ -14,21 +14,23 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafv2WebAclLoggingConfiguration(r Wafv2WebAclLoggingConfiguration) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeWafv2WebAclLoggingConfiguration_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafv2WebAclLoggingConfiguration(r Wafv2WebAclLoggingConfiguration) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafv2WebAclLoggingConfiguration_LogDestinationConfigs(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2WebAclLoggingConfiguration_ResourceArn(r.Spec.ForProvider, ctyVal)
+	EncodeWafv2WebAclLoggingConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2WebAclLoggingConfiguration_RedactedFields(r.Spec.ForProvider.RedactedFields, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_Id(p *Wafv2WebAclLoggingConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeWafv2WebAclLoggingConfiguration_LogDestinationConfigs(p *Wafv2WebAclLoggingConfigurationParameters, vals map[string]cty.Value) {
+func EncodeWafv2WebAclLoggingConfiguration_LogDestinationConfigs(p Wafv2WebAclLoggingConfigurationParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.LogDestinationConfigs {
 		colVals = append(colVals, cty.StringVal(value))
@@ -36,14 +38,18 @@ func EncodeWafv2WebAclLoggingConfiguration_LogDestinationConfigs(p *Wafv2WebAclL
 	vals["log_destination_configs"] = cty.SetVal(colVals)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_ResourceArn(p *Wafv2WebAclLoggingConfigurationParameters, vals map[string]cty.Value) {
+func EncodeWafv2WebAclLoggingConfiguration_ResourceArn(p Wafv2WebAclLoggingConfigurationParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields(p *RedactedFields, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.RedactedFields {
-		ctyVal = make(map[string]cty.Value)
+func EncodeWafv2WebAclLoggingConfiguration_Id(p Wafv2WebAclLoggingConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields(p []RedactedFields, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader(v.SingleHeader, ctyVal)
 		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument(v.SingleQueryArgument, ctyVal)
 		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_UriPath(v.UriPath, ctyVal)
@@ -56,80 +62,66 @@ func EncodeWafv2WebAclLoggingConfiguration_RedactedFields(p *RedactedFields, val
 	vals["redacted_fields"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader(p *SingleHeader, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.SingleHeader {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader_Name(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader(p SingleHeader, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader_Name(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["single_header"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader_Name(p *SingleHeader, vals map[string]cty.Value) {
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader_Name(p SingleHeader, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument(p *SingleQueryArgument, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.SingleQueryArgument {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument_Name(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument(p SingleQueryArgument, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument_Name(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["single_query_argument"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument_Name(p *SingleQueryArgument, vals map[string]cty.Value) {
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument_Name(p SingleQueryArgument, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_UriPath(p *UriPath, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.UriPath {
-		ctyVal = make(map[string]cty.Value)
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_UriPath(p UriPath, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
 
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["uri_path"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_AllQueryArguments(p *AllQueryArguments, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.AllQueryArguments {
-		ctyVal = make(map[string]cty.Value)
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_AllQueryArguments(p AllQueryArguments, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
 
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["all_query_arguments"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Body(p *Body, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Body {
-		ctyVal = make(map[string]cty.Value)
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Body(p Body, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
 
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["body"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Method(p *Method, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Method {
-		ctyVal = make(map[string]cty.Value)
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Method(p Method, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
 
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["method"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_QueryString(p *QueryString, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.QueryString {
-		ctyVal = make(map[string]cty.Value)
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_QueryString(p QueryString, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
 
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["query_string"] = cty.ListVal(valsForCollection)
 }

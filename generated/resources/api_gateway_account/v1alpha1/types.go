@@ -68,6 +68,6 @@ type ApiGatewayAccountObservation struct {
 }
 
 type ThrottleSettings struct {
-	BurstLimit int `json:"burst_limit"`
-	RateLimit  int `json:"rate_limit"`
+	BurstLimit int64 `json:"burst_limit"`
+	RateLimit  int64 `json:"rate_limit"`
 }

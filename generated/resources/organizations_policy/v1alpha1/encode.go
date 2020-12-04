@@ -14,39 +14,25 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeOrganizationsPolicy(r OrganizationsPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeOrganizationsPolicy(r OrganizationsPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeOrganizationsPolicy_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Type(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Content(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Name(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsPolicy_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeOrganizationsPolicy_Type(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeOrganizationsPolicy_Content(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["content"] = cty.StringVal(p.Content)
-}
-
-func EncodeOrganizationsPolicy_Description(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeOrganizationsPolicy_Id(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeOrganizationsPolicy_Name(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeOrganizationsPolicy_Tags(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
+func EncodeOrganizationsPolicy_Tags(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -54,6 +40,26 @@ func EncodeOrganizationsPolicy_Tags(p *OrganizationsPolicyParameters, vals map[s
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeOrganizationsPolicy_Arn(p *OrganizationsPolicyObservation, vals map[string]cty.Value) {
+func EncodeOrganizationsPolicy_Type(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeOrganizationsPolicy_Content(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["content"] = cty.StringVal(p.Content)
+}
+
+func EncodeOrganizationsPolicy_Description(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeOrganizationsPolicy_Id(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeOrganizationsPolicy_Name(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeOrganizationsPolicy_Arn(p OrganizationsPolicyObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

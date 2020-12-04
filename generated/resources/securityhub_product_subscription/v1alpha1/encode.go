@@ -14,22 +14,28 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSecurityhubProductSubscription(r SecurityhubProductSubscription) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSecurityhubProductSubscription(r SecurityhubProductSubscription) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSecurityhubProductSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubProductSubscription_ProductArn(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubProductSubscription_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSecurityhubProductSubscription_Id(p *SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeSecurityhubProductSubscription_Id(p SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSecurityhubProductSubscription_ProductArn(p *SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
+func EncodeSecurityhubProductSubscription_ProductArn(p SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
 	vals["product_arn"] = cty.StringVal(p.ProductArn)
 }
 
-func EncodeSecurityhubProductSubscription_Arn(p *SecurityhubProductSubscriptionObservation, vals map[string]cty.Value) {
+func EncodeSecurityhubProductSubscription_Arn(p SecurityhubProductSubscriptionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

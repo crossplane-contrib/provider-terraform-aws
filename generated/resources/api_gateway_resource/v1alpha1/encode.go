@@ -14,32 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayResource(r ApiGatewayResource) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayResource(r ApiGatewayResource) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayResource_ParentId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayResource_PathPart(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayResource_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayResource_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayResource_ParentId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayResource_Path(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayResource_PathPart(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
-	vals["path_part"] = cty.StringVal(p.PathPart)
-}
-
-func EncodeApiGatewayResource_RestApiId(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
-}
-
-func EncodeApiGatewayResource_Id(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayResource_ParentId(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayResource_ParentId(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
 	vals["parent_id"] = cty.StringVal(p.ParentId)
 }
 
-func EncodeApiGatewayResource_Path(p *ApiGatewayResourceObservation, vals map[string]cty.Value) {
+func EncodeApiGatewayResource_PathPart(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	vals["path_part"] = cty.StringVal(p.PathPart)
+}
+
+func EncodeApiGatewayResource_RestApiId(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
+}
+
+func EncodeApiGatewayResource_Id(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApiGatewayResource_Path(p ApiGatewayResourceObservation, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
 }

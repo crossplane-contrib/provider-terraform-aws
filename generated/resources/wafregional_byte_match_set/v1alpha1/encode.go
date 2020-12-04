@@ -14,63 +14,65 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafregionalByteMatchSet(r WafregionalByteMatchSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafregionalByteMatchSet(r WafregionalByteMatchSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafregionalByteMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalByteMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalByteMatchSet_ByteMatchTuples(r.Spec.ForProvider.ByteMatchTuples, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafregionalByteMatchSet_Id(p *WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalByteMatchSet_Id(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafregionalByteMatchSet_Name(p *WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
+func EncodeWafregionalByteMatchSet_Name(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafregionalByteMatchSet_ByteMatchTuples(p *ByteMatchTuples, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.ByteMatchTuples {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafregionalByteMatchSet_ByteMatchTuples_PositionalConstraint(v, ctyVal)
-		EncodeWafregionalByteMatchSet_ByteMatchTuples_TargetString(v, ctyVal)
-		EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(v, ctyVal)
-		EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch(v.FieldToMatch, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafregionalByteMatchSet_ByteMatchTuples(p ByteMatchTuples, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(p, ctyVal)
+	EncodeWafregionalByteMatchSet_ByteMatchTuples_PositionalConstraint(p, ctyVal)
+	EncodeWafregionalByteMatchSet_ByteMatchTuples_TargetString(p, ctyVal)
+	EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch(p.FieldToMatch, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["byte_match_tuples"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafregionalByteMatchSet_ByteMatchTuples_PositionalConstraint(p *ByteMatchTuples, vals map[string]cty.Value) {
-	vals["positional_constraint"] = cty.StringVal(p.PositionalConstraint)
-}
-
-func EncodeWafregionalByteMatchSet_ByteMatchTuples_TargetString(p *ByteMatchTuples, vals map[string]cty.Value) {
-	vals["target_string"] = cty.StringVal(p.TargetString)
-}
-
-func EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(p *ByteMatchTuples, vals map[string]cty.Value) {
+func EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(p ByteMatchTuples, vals map[string]cty.Value) {
 	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
 }
 
-func EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch(p *FieldToMatch, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.FieldToMatch {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Data(v, ctyVal)
-		EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafregionalByteMatchSet_ByteMatchTuples_PositionalConstraint(p ByteMatchTuples, vals map[string]cty.Value) {
+	vals["positional_constraint"] = cty.StringVal(p.PositionalConstraint)
+}
+
+func EncodeWafregionalByteMatchSet_ByteMatchTuples_TargetString(p ByteMatchTuples, vals map[string]cty.Value) {
+	vals["target_string"] = cty.StringVal(p.TargetString)
+}
+
+func EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch(p FieldToMatch, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Data(p, ctyVal)
+	EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["field_to_match"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Data(p *FieldToMatch, vals map[string]cty.Value) {
+func EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Data(p FieldToMatch, vals map[string]cty.Value) {
 	vals["data"] = cty.StringVal(p.Data)
 }
 
-func EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Type(p *FieldToMatch, vals map[string]cty.Value) {
+func EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch_Type(p FieldToMatch, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }

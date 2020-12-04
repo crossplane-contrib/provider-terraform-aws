@@ -52,16 +52,16 @@ type RedshiftSecurityGroupSpec struct {
 
 // A RedshiftSecurityGroupParameters defines the desired state of a RedshiftSecurityGroup
 type RedshiftSecurityGroupParameters struct {
-	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Id          string    `json:"id"`
+	Name        string    `json:"name"`
 	Ingress     []Ingress `json:"ingress"`
 }
 
 type Ingress struct {
+	SecurityGroupName    string `json:"security_group_name"`
 	SecurityGroupOwnerId string `json:"security_group_owner_id"`
 	Cidr                 string `json:"cidr"`
-	SecurityGroupName    string `json:"security_group_name"`
 }
 
 // A RedshiftSecurityGroupStatus defines the observed state of a RedshiftSecurityGroup

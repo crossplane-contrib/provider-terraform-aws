@@ -52,18 +52,18 @@ type ApiGatewayStageSpec struct {
 
 // A ApiGatewayStageParameters defines the desired state of a ApiGatewayStage
 type ApiGatewayStageParameters struct {
-	Id                   string            `json:"id"`
 	DeploymentId         string            `json:"deployment_id"`
-	Description          string            `json:"description"`
-	DocumentationVersion string            `json:"documentation_version"`
-	ClientCertificateId  string            `json:"client_certificate_id"`
 	StageName            string            `json:"stage_name"`
-	CacheClusterEnabled  bool              `json:"cache_cluster_enabled"`
+	Tags                 map[string]string `json:"tags"`
+	ClientCertificateId  string            `json:"client_certificate_id"`
+	DocumentationVersion string            `json:"documentation_version"`
+	Id                   string            `json:"id"`
+	RestApiId            string            `json:"rest_api_id"`
+	Description          string            `json:"description"`
 	CacheClusterSize     string            `json:"cache_cluster_size"`
 	Variables            map[string]string `json:"variables"`
 	XrayTracingEnabled   bool              `json:"xray_tracing_enabled"`
-	RestApiId            string            `json:"rest_api_id"`
-	Tags                 map[string]string `json:"tags"`
+	CacheClusterEnabled  bool              `json:"cache_cluster_enabled"`
 	AccessLogSettings    AccessLogSettings `json:"access_log_settings"`
 }
 
@@ -80,7 +80,7 @@ type ApiGatewayStageStatus struct {
 
 // A ApiGatewayStageObservation records the observed state of a ApiGatewayStage
 type ApiGatewayStageObservation struct {
+	Arn          string `json:"arn"`
 	InvokeUrl    string `json:"invoke_url"`
 	ExecutionArn string `json:"execution_arn"`
-	Arn          string `json:"arn"`
 }

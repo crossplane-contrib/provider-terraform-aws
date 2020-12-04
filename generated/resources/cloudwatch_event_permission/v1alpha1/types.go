@@ -52,10 +52,10 @@ type CloudwatchEventPermissionSpec struct {
 
 // A CloudwatchEventPermissionParameters defines the desired state of a CloudwatchEventPermission
 type CloudwatchEventPermissionParameters struct {
+	Action      string    `json:"action"`
 	Id          string    `json:"id"`
 	Principal   string    `json:"principal"`
 	StatementId string    `json:"statement_id"`
-	Action      string    `json:"action"`
 	Condition   Condition `json:"condition"`
 }
 

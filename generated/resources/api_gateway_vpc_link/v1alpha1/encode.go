@@ -14,30 +14,36 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayVpcLink(r ApiGatewayVpcLink) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayVpcLink(r ApiGatewayVpcLink) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayVpcLink_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_TargetArns(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayVpcLink_Description(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayVpcLink_Description(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApiGatewayVpcLink_Id(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayVpcLink_Id(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayVpcLink_Name(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayVpcLink_Name(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeApiGatewayVpcLink_Tags(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayVpcLink_Tags(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -45,7 +51,7 @@ func EncodeApiGatewayVpcLink_Tags(p *ApiGatewayVpcLinkParameters, vals map[strin
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayVpcLink_TargetArns(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayVpcLink_TargetArns(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.TargetArns {
 		colVals = append(colVals, cty.StringVal(value))
@@ -53,6 +59,6 @@ func EncodeApiGatewayVpcLink_TargetArns(p *ApiGatewayVpcLinkParameters, vals map
 	vals["target_arns"] = cty.ListVal(colVals)
 }
 
-func EncodeApiGatewayVpcLink_Arn(p *ApiGatewayVpcLinkObservation, vals map[string]cty.Value) {
+func EncodeApiGatewayVpcLink_Arn(p ApiGatewayVpcLinkObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

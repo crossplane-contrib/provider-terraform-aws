@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRedshiftSnapshotSchedule_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Identifier(r.Spec.ForProvider, ctyVal)
@@ -24,26 +30,26 @@ package v1alpha1func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) 
 	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRedshiftSnapshotSchedule_ForceDestroy(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_ForceDestroy(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
-func EncodeRedshiftSnapshotSchedule_Id(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_Id(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeRedshiftSnapshotSchedule_Identifier(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_Identifier(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["identifier"] = cty.StringVal(p.Identifier)
 }
 
-func EncodeRedshiftSnapshotSchedule_IdentifierPrefix(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_IdentifierPrefix(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["identifier_prefix"] = cty.StringVal(p.IdentifierPrefix)
 }
 
-func EncodeRedshiftSnapshotSchedule_Tags(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_Tags(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -51,7 +57,7 @@ func EncodeRedshiftSnapshotSchedule_Tags(p *RedshiftSnapshotScheduleParameters, 
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRedshiftSnapshotSchedule_Definitions(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_Definitions(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Definitions {
 		colVals = append(colVals, cty.StringVal(value))
@@ -59,10 +65,10 @@ func EncodeRedshiftSnapshotSchedule_Definitions(p *RedshiftSnapshotScheduleParam
 	vals["definitions"] = cty.SetVal(colVals)
 }
 
-func EncodeRedshiftSnapshotSchedule_Description(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_Description(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeRedshiftSnapshotSchedule_Arn(p *RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotSchedule_Arn(p RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

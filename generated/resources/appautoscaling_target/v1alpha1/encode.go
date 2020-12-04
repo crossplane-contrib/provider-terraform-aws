@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAppautoscalingTarget_ScalableDimension(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ServiceNamespace(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_Id(r.Spec.ForProvider, ctyVal)
@@ -24,33 +30,33 @@ package v1alpha1func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Valu
 	EncodeAppautoscalingTarget_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_RoleArn(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAppautoscalingTarget_ScalableDimension(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
+func EncodeAppautoscalingTarget_ScalableDimension(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["scalable_dimension"] = cty.StringVal(p.ScalableDimension)
 }
 
-func EncodeAppautoscalingTarget_ServiceNamespace(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
+func EncodeAppautoscalingTarget_ServiceNamespace(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["service_namespace"] = cty.StringVal(p.ServiceNamespace)
 }
 
-func EncodeAppautoscalingTarget_Id(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
+func EncodeAppautoscalingTarget_Id(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAppautoscalingTarget_MaxCapacity(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["max_capacity"] = cty.IntVal(p.MaxCapacity)
+func EncodeAppautoscalingTarget_MaxCapacity(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
+	vals["max_capacity"] = cty.NumberIntVal(p.MaxCapacity)
 }
 
-func EncodeAppautoscalingTarget_MinCapacity(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["min_capacity"] = cty.IntVal(p.MinCapacity)
+func EncodeAppautoscalingTarget_MinCapacity(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
+	vals["min_capacity"] = cty.NumberIntVal(p.MinCapacity)
 }
 
-func EncodeAppautoscalingTarget_ResourceId(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
+func EncodeAppautoscalingTarget_ResourceId(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }
 
-func EncodeAppautoscalingTarget_RoleArn(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
+func EncodeAppautoscalingTarget_RoleArn(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }

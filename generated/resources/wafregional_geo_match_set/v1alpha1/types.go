@@ -52,9 +52,9 @@ type WafregionalGeoMatchSetSpec struct {
 
 // A WafregionalGeoMatchSetParameters defines the desired state of a WafregionalGeoMatchSet
 type WafregionalGeoMatchSetParameters struct {
-	Id                 string               `json:"id"`
-	Name               string               `json:"name"`
-	GeoMatchConstraint []GeoMatchConstraint `json:"geo_match_constraint"`
+	Id                 string             `json:"id"`
+	Name               string             `json:"name"`
+	GeoMatchConstraint GeoMatchConstraint `json:"geo_match_constraint"`
 }
 
 type GeoMatchConstraint struct {

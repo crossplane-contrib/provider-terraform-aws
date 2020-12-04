@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafregionalWebAclAssociation(r WafregionalWebAclAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafregionalWebAclAssociation(r WafregionalWebAclAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafregionalWebAclAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAclAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAclAssociation_WebAclId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafregionalWebAclAssociation_Id(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+func EncodeWafregionalWebAclAssociation_Id(p WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafregionalWebAclAssociation_ResourceArn(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+func EncodeWafregionalWebAclAssociation_ResourceArn(p WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }
 
-func EncodeWafregionalWebAclAssociation_WebAclId(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+func EncodeWafregionalWebAclAssociation_WebAclId(p WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
 	vals["web_acl_id"] = cty.StringVal(p.WebAclId)
 }

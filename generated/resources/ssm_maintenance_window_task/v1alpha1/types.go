@@ -52,16 +52,16 @@ type SsmMaintenanceWindowTaskSpec struct {
 
 // A SsmMaintenanceWindowTaskParameters defines the desired state of a SsmMaintenanceWindowTask
 type SsmMaintenanceWindowTaskParameters struct {
-	Name                     string                   `json:"name"`
+	Description              string                   `json:"description"`
 	Id                       string                   `json:"id"`
 	MaxConcurrency           string                   `json:"max_concurrency"`
-	Priority                 int                      `json:"priority"`
+	Priority                 int64                    `json:"priority"`
+	WindowId                 string                   `json:"window_id"`
+	MaxErrors                string                   `json:"max_errors"`
+	Name                     string                   `json:"name"`
 	ServiceRoleArn           string                   `json:"service_role_arn"`
 	TaskArn                  string                   `json:"task_arn"`
 	TaskType                 string                   `json:"task_type"`
-	WindowId                 string                   `json:"window_id"`
-	Description              string                   `json:"description"`
-	MaxErrors                string                   `json:"max_errors"`
 	Targets                  []Targets                `json:"targets"`
 	TaskInvocationParameters TaskInvocationParameters `json:"task_invocation_parameters"`
 }
@@ -72,39 +72,10 @@ type Targets struct {
 }
 
 type TaskInvocationParameters struct {
-	LambdaParameters        LambdaParameters        `json:"lambda_parameters"`
-	RunCommandParameters    RunCommandParameters    `json:"run_command_parameters"`
 	StepFunctionsParameters StepFunctionsParameters `json:"step_functions_parameters"`
 	AutomationParameters    AutomationParameters    `json:"automation_parameters"`
-}
-
-type LambdaParameters struct {
-	Qualifier     string `json:"qualifier"`
-	ClientContext string `json:"client_context"`
-	Payload       string `json:"payload"`
-}
-
-type RunCommandParameters struct {
-	TimeoutSeconds     int                `json:"timeout_seconds"`
-	Comment            string             `json:"comment"`
-	DocumentHash       string             `json:"document_hash"`
-	DocumentHashType   string             `json:"document_hash_type"`
-	OutputS3Bucket     string             `json:"output_s3_bucket"`
-	OutputS3KeyPrefix  string             `json:"output_s3_key_prefix"`
-	ServiceRoleArn     string             `json:"service_role_arn"`
-	NotificationConfig NotificationConfig `json:"notification_config"`
-	Parameter          []Parameter        `json:"parameter"`
-}
-
-type NotificationConfig struct {
-	NotificationEvents []string `json:"notification_events"`
-	NotificationType   string   `json:"notification_type"`
-	NotificationArn    string   `json:"notification_arn"`
-}
-
-type Parameter struct {
-	Name   string   `json:"name"`
-	Values []string `json:"values"`
+	LambdaParameters        LambdaParameters        `json:"lambda_parameters"`
+	RunCommandParameters    RunCommandParameters    `json:"run_command_parameters"`
 }
 
 type StepFunctionsParameters struct {
@@ -113,8 +84,37 @@ type StepFunctionsParameters struct {
 }
 
 type AutomationParameters struct {
-	DocumentVersion string      `json:"document_version"`
-	Parameter       []Parameter `json:"parameter"`
+	DocumentVersion string    `json:"document_version"`
+	Parameter       Parameter `json:"parameter"`
+}
+
+type Parameter struct {
+	Name   string   `json:"name"`
+	Values []string `json:"values"`
+}
+
+type LambdaParameters struct {
+	ClientContext string `json:"client_context"`
+	Payload       string `json:"payload"`
+	Qualifier     string `json:"qualifier"`
+}
+
+type RunCommandParameters struct {
+	TimeoutSeconds     int64              `json:"timeout_seconds"`
+	Comment            string             `json:"comment"`
+	DocumentHash       string             `json:"document_hash"`
+	DocumentHashType   string             `json:"document_hash_type"`
+	OutputS3Bucket     string             `json:"output_s3_bucket"`
+	OutputS3KeyPrefix  string             `json:"output_s3_key_prefix"`
+	ServiceRoleArn     string             `json:"service_role_arn"`
+	NotificationConfig NotificationConfig `json:"notification_config"`
+	Parameter          Parameter          `json:"parameter"`
+}
+
+type NotificationConfig struct {
+	NotificationArn    string   `json:"notification_arn"`
+	NotificationEvents []string `json:"notification_events"`
+	NotificationType   string   `json:"notification_type"`
 }
 
 type Parameter struct {

@@ -14,48 +14,54 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSecretsmanagerSecret(r SecretsmanagerSecret) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeSecretsmanagerSecret_Name(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSecretsmanagerSecret(r SecretsmanagerSecret) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSecretsmanagerSecret_RotationLambdaArn(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecret_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecret_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecret_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_RecoveryWindowInDays(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_Description(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecret_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecret_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_RotationRules(r.Spec.ForProvider.RotationRules, ctyVal)
-	EncodeSecretsmanagerSecret_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSecretsmanagerSecret_RotationEnabled(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeSecretsmanagerSecret_Arn(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSecretsmanagerSecret_Name(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSecretsmanagerSecret_RotationLambdaArn(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecret_RotationLambdaArn(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	vals["rotation_lambda_arn"] = cty.StringVal(p.RotationLambdaArn)
 }
 
-func EncodeSecretsmanagerSecret_KmsKeyId(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecret_Id(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSecretsmanagerSecret_KmsKeyId(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
-func EncodeSecretsmanagerSecret_NamePrefix(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeSecretsmanagerSecret_Policy(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecret_Policy(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }
 
-func EncodeSecretsmanagerSecret_RecoveryWindowInDays(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["recovery_window_in_days"] = cty.IntVal(p.RecoveryWindowInDays)
+func EncodeSecretsmanagerSecret_NamePrefix(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeSecretsmanagerSecret_Tags(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecret_RecoveryWindowInDays(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["recovery_window_in_days"] = cty.NumberIntVal(p.RecoveryWindowInDays)
+}
+
+func EncodeSecretsmanagerSecret_Tags(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -63,32 +69,30 @@ func EncodeSecretsmanagerSecret_Tags(p *SecretsmanagerSecretParameters, vals map
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSecretsmanagerSecret_Description(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecret_Description(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeSecretsmanagerSecret_Id(p *SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeSecretsmanagerSecret_Name(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSecretsmanagerSecret_RotationRules(p *RotationRules, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.RotationRules {
-		ctyVal = make(map[string]cty.Value)
-		EncodeSecretsmanagerSecret_RotationRules_AutomaticallyAfterDays(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeSecretsmanagerSecret_RotationRules(p RotationRules, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSecretsmanagerSecret_RotationRules_AutomaticallyAfterDays(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["rotation_rules"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeSecretsmanagerSecret_RotationRules_AutomaticallyAfterDays(p *RotationRules, vals map[string]cty.Value) {
-	vals["automatically_after_days"] = cty.IntVal(p.AutomaticallyAfterDays)
+func EncodeSecretsmanagerSecret_RotationRules_AutomaticallyAfterDays(p RotationRules, vals map[string]cty.Value) {
+	vals["automatically_after_days"] = cty.NumberIntVal(p.AutomaticallyAfterDays)
 }
 
-func EncodeSecretsmanagerSecret_Arn(p *SecretsmanagerSecretObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeSecretsmanagerSecret_RotationEnabled(p *SecretsmanagerSecretObservation, vals map[string]cty.Value) {
+func EncodeSecretsmanagerSecret_RotationEnabled(p SecretsmanagerSecretObservation, vals map[string]cty.Value) {
 	vals["rotation_enabled"] = cty.BoolVal(p.RotationEnabled)
+}
+
+func EncodeSecretsmanagerSecret_Arn(p SecretsmanagerSecretObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

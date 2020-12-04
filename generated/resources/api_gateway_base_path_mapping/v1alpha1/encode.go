@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayBasePathMapping(r ApiGatewayBasePathMapping) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeApiGatewayBasePathMapping_ApiId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayBasePathMapping(r ApiGatewayBasePathMapping) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayBasePathMapping_BasePath(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_StageName(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayBasePathMapping_ApiId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayBasePathMapping_ApiId(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
-}
-
-func EncodeApiGatewayBasePathMapping_BasePath(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayBasePathMapping_BasePath(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	vals["base_path"] = cty.StringVal(p.BasePath)
 }
 
-func EncodeApiGatewayBasePathMapping_DomainName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayBasePathMapping_DomainName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
-func EncodeApiGatewayBasePathMapping_Id(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayBasePathMapping_Id(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayBasePathMapping_StageName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayBasePathMapping_StageName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	vals["stage_name"] = cty.StringVal(p.StageName)
+}
+
+func EncodeApiGatewayBasePathMapping_ApiId(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }

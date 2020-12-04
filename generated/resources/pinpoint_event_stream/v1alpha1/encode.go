@@ -14,28 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodePinpointEventStream(r PinpointEventStream) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodePinpointEventStream_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodePinpointEventStream(r PinpointEventStream) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodePinpointEventStream_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEventStream_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEventStream_DestinationStreamArn(r.Spec.ForProvider, ctyVal)
+	EncodePinpointEventStream_Id(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodePinpointEventStream_Id(p *PinpointEventStreamParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodePinpointEventStream_RoleArn(p *PinpointEventStreamParameters, vals map[string]cty.Value) {
+func EncodePinpointEventStream_RoleArn(p PinpointEventStreamParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
-func EncodePinpointEventStream_ApplicationId(p *PinpointEventStreamParameters, vals map[string]cty.Value) {
+func EncodePinpointEventStream_ApplicationId(p PinpointEventStreamParameters, vals map[string]cty.Value) {
 	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }
 
-func EncodePinpointEventStream_DestinationStreamArn(p *PinpointEventStreamParameters, vals map[string]cty.Value) {
+func EncodePinpointEventStream_DestinationStreamArn(p PinpointEventStreamParameters, vals map[string]cty.Value) {
 	vals["destination_stream_arn"] = cty.StringVal(p.DestinationStreamArn)
+}
+
+func EncodePinpointEventStream_Id(p PinpointEventStreamParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

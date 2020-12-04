@@ -52,41 +52,68 @@ type IotTopicRuleSpec struct {
 
 // A IotTopicRuleParameters defines the desired state of a IotTopicRule
 type IotTopicRuleParameters struct {
-	Sql              string             `json:"sql"`
-	SqlVersion       string             `json:"sql_version"`
-	Tags             map[string]string  `json:"tags"`
-	Description      string             `json:"description"`
-	Enabled          bool               `json:"enabled"`
-	Id               string             `json:"id"`
-	Name             string             `json:"name"`
-	Sqs              []Sqs              `json:"sqs"`
-	StepFunctions    []StepFunctions    `json:"step_functions"`
-	CloudwatchAlarm  []CloudwatchAlarm  `json:"cloudwatch_alarm"`
-	Lambda           []Lambda           `json:"lambda"`
-	S3               []S3               `json:"s3"`
-	ErrorAction      ErrorAction        `json:"error_action"`
-	Sns              []Sns              `json:"sns"`
-	Elasticsearch    []Elasticsearch    `json:"elasticsearch"`
-	Firehose         []Firehose         `json:"firehose"`
-	IotAnalytics     []IotAnalytics     `json:"iot_analytics"`
-	IotEvents        []IotEvents        `json:"iot_events"`
-	Kinesis          []Kinesis          `json:"kinesis"`
-	CloudwatchMetric []CloudwatchMetric `json:"cloudwatch_metric"`
-	Dynamodb         []Dynamodb         `json:"dynamodb"`
-	Dynamodbv2       []Dynamodbv2       `json:"dynamodbv2"`
-	Republish        []Republish        `json:"republish"`
+	SqlVersion       string            `json:"sql_version"`
+	Tags             map[string]string `json:"tags"`
+	Description      string            `json:"description"`
+	Enabled          bool              `json:"enabled"`
+	Id               string            `json:"id"`
+	Name             string            `json:"name"`
+	Sql              string            `json:"sql"`
+	Lambda           Lambda            `json:"lambda"`
+	CloudwatchMetric CloudwatchMetric  `json:"cloudwatch_metric"`
+	Dynamodb         Dynamodb          `json:"dynamodb"`
+	Elasticsearch    Elasticsearch     `json:"elasticsearch"`
+	IotAnalytics     IotAnalytics      `json:"iot_analytics"`
+	CloudwatchAlarm  CloudwatchAlarm   `json:"cloudwatch_alarm"`
+	Republish        Republish         `json:"republish"`
+	Sns              Sns               `json:"sns"`
+	StepFunctions    StepFunctions     `json:"step_functions"`
+	Dynamodbv2       Dynamodbv2        `json:"dynamodbv2"`
+	Firehose         Firehose          `json:"firehose"`
+	IotEvents        IotEvents         `json:"iot_events"`
+	Kinesis          Kinesis           `json:"kinesis"`
+	ErrorAction      ErrorAction       `json:"error_action"`
+	S3               S3                `json:"s3"`
+	Sqs              Sqs               `json:"sqs"`
 }
 
-type Sqs struct {
-	UseBase64 bool   `json:"use_base64"`
-	QueueUrl  string `json:"queue_url"`
-	RoleArn   string `json:"role_arn"`
+type Lambda struct {
+	FunctionArn string `json:"function_arn"`
 }
 
-type StepFunctions struct {
-	ExecutionNamePrefix string `json:"execution_name_prefix"`
-	RoleArn             string `json:"role_arn"`
-	StateMachineName    string `json:"state_machine_name"`
+type CloudwatchMetric struct {
+	MetricName      string `json:"metric_name"`
+	MetricNamespace string `json:"metric_namespace"`
+	MetricTimestamp string `json:"metric_timestamp"`
+	MetricUnit      string `json:"metric_unit"`
+	MetricValue     string `json:"metric_value"`
+	RoleArn         string `json:"role_arn"`
+}
+
+type Dynamodb struct {
+	HashKeyType   string `json:"hash_key_type"`
+	HashKeyValue  string `json:"hash_key_value"`
+	Operation     string `json:"operation"`
+	RangeKeyField string `json:"range_key_field"`
+	RangeKeyType  string `json:"range_key_type"`
+	TableName     string `json:"table_name"`
+	HashKeyField  string `json:"hash_key_field"`
+	RangeKeyValue string `json:"range_key_value"`
+	RoleArn       string `json:"role_arn"`
+	PayloadField  string `json:"payload_field"`
+}
+
+type Elasticsearch struct {
+	Index    string `json:"index"`
+	RoleArn  string `json:"role_arn"`
+	Type     string `json:"type"`
+	Endpoint string `json:"endpoint"`
+	Id       string `json:"id"`
+}
+
+type IotAnalytics struct {
+	ChannelName string `json:"channel_name"`
+	RoleArn     string `json:"role_arn"`
 }
 
 type CloudwatchAlarm struct {
@@ -96,38 +123,114 @@ type CloudwatchAlarm struct {
 	StateValue  string `json:"state_value"`
 }
 
-type Lambda struct {
-	FunctionArn string `json:"function_arn"`
+type Republish struct {
+	Qos     int64  `json:"qos"`
+	RoleArn string `json:"role_arn"`
+	Topic   string `json:"topic"`
 }
 
-type S3 struct {
-	BucketName string `json:"bucket_name"`
-	Key        string `json:"key"`
-	RoleArn    string `json:"role_arn"`
+type Sns struct {
+	MessageFormat string `json:"message_format"`
+	RoleArn       string `json:"role_arn"`
+	TargetArn     string `json:"target_arn"`
+}
+
+type StepFunctions struct {
+	ExecutionNamePrefix string `json:"execution_name_prefix"`
+	RoleArn             string `json:"role_arn"`
+	StateMachineName    string `json:"state_machine_name"`
+}
+
+type Dynamodbv2 struct {
+	RoleArn string  `json:"role_arn"`
+	PutItem PutItem `json:"put_item"`
+}
+
+type PutItem struct {
+	TableName string `json:"table_name"`
+}
+
+type Firehose struct {
+	DeliveryStreamName string `json:"delivery_stream_name"`
+	RoleArn            string `json:"role_arn"`
+	Separator          string `json:"separator"`
+}
+
+type IotEvents struct {
+	RoleArn   string `json:"role_arn"`
+	InputName string `json:"input_name"`
+	MessageId string `json:"message_id"`
+}
+
+type Kinesis struct {
+	PartitionKey string `json:"partition_key"`
+	RoleArn      string `json:"role_arn"`
+	StreamName   string `json:"stream_name"`
 }
 
 type ErrorAction struct {
+	Firehose         Firehose         `json:"firehose"`
+	IotEvents        IotEvents        `json:"iot_events"`
+	CloudwatchAlarm  CloudwatchAlarm  `json:"cloudwatch_alarm"`
+	CloudwatchMetric CloudwatchMetric `json:"cloudwatch_metric"`
+	Dynamodb         Dynamodb         `json:"dynamodb"`
 	Republish        Republish        `json:"republish"`
 	S3               S3               `json:"s3"`
 	Dynamodbv2       Dynamodbv2       `json:"dynamodbv2"`
 	Elasticsearch    Elasticsearch    `json:"elasticsearch"`
-	Kinesis          Kinesis          `json:"kinesis"`
 	Lambda           Lambda           `json:"lambda"`
-	Sns              Sns              `json:"sns"`
-	StepFunctions    StepFunctions    `json:"step_functions"`
-	Firehose         Firehose         `json:"firehose"`
 	IotAnalytics     IotAnalytics     `json:"iot_analytics"`
+	Sns              Sns              `json:"sns"`
 	Sqs              Sqs              `json:"sqs"`
-	CloudwatchMetric CloudwatchMetric `json:"cloudwatch_metric"`
-	Dynamodb         Dynamodb         `json:"dynamodb"`
-	CloudwatchAlarm  CloudwatchAlarm  `json:"cloudwatch_alarm"`
-	IotEvents        IotEvents        `json:"iot_events"`
+	Kinesis          Kinesis          `json:"kinesis"`
+	StepFunctions    StepFunctions    `json:"step_functions"`
+}
+
+type Firehose struct {
+	DeliveryStreamName string `json:"delivery_stream_name"`
+	RoleArn            string `json:"role_arn"`
+	Separator          string `json:"separator"`
+}
+
+type IotEvents struct {
+	InputName string `json:"input_name"`
+	MessageId string `json:"message_id"`
+	RoleArn   string `json:"role_arn"`
+}
+
+type CloudwatchAlarm struct {
+	StateValue  string `json:"state_value"`
+	AlarmName   string `json:"alarm_name"`
+	RoleArn     string `json:"role_arn"`
+	StateReason string `json:"state_reason"`
+}
+
+type CloudwatchMetric struct {
+	MetricName      string `json:"metric_name"`
+	MetricNamespace string `json:"metric_namespace"`
+	MetricTimestamp string `json:"metric_timestamp"`
+	MetricUnit      string `json:"metric_unit"`
+	MetricValue     string `json:"metric_value"`
+	RoleArn         string `json:"role_arn"`
+}
+
+type Dynamodb struct {
+	RoleArn       string `json:"role_arn"`
+	HashKeyType   string `json:"hash_key_type"`
+	HashKeyValue  string `json:"hash_key_value"`
+	Operation     string `json:"operation"`
+	PayloadField  string `json:"payload_field"`
+	RangeKeyField string `json:"range_key_field"`
+	RangeKeyValue string `json:"range_key_value"`
+	HashKeyField  string `json:"hash_key_field"`
+	RangeKeyType  string `json:"range_key_type"`
+	TableName     string `json:"table_name"`
 }
 
 type Republish struct {
-	Qos     int    `json:"qos"`
 	RoleArn string `json:"role_arn"`
 	Topic   string `json:"topic"`
+	Qos     int64  `json:"qos"`
 }
 
 type S3 struct {
@@ -153,37 +256,19 @@ type Elasticsearch struct {
 	Type     string `json:"type"`
 }
 
-type Kinesis struct {
-	StreamName   string `json:"stream_name"`
-	PartitionKey string `json:"partition_key"`
-	RoleArn      string `json:"role_arn"`
-}
-
 type Lambda struct {
 	FunctionArn string `json:"function_arn"`
-}
-
-type Sns struct {
-	MessageFormat string `json:"message_format"`
-	RoleArn       string `json:"role_arn"`
-	TargetArn     string `json:"target_arn"`
-}
-
-type StepFunctions struct {
-	ExecutionNamePrefix string `json:"execution_name_prefix"`
-	RoleArn             string `json:"role_arn"`
-	StateMachineName    string `json:"state_machine_name"`
-}
-
-type Firehose struct {
-	DeliveryStreamName string `json:"delivery_stream_name"`
-	RoleArn            string `json:"role_arn"`
-	Separator          string `json:"separator"`
 }
 
 type IotAnalytics struct {
 	ChannelName string `json:"channel_name"`
 	RoleArn     string `json:"role_arn"`
+}
+
+type Sns struct {
+	TargetArn     string `json:"target_arn"`
+	MessageFormat string `json:"message_format"`
+	RoleArn       string `json:"role_arn"`
 }
 
 type Sqs struct {
@@ -192,113 +277,28 @@ type Sqs struct {
 	UseBase64 bool   `json:"use_base64"`
 }
 
-type CloudwatchMetric struct {
-	MetricValue     string `json:"metric_value"`
-	RoleArn         string `json:"role_arn"`
-	MetricName      string `json:"metric_name"`
-	MetricNamespace string `json:"metric_namespace"`
-	MetricTimestamp string `json:"metric_timestamp"`
-	MetricUnit      string `json:"metric_unit"`
-}
-
-type Dynamodb struct {
-	HashKeyType   string `json:"hash_key_type"`
-	HashKeyValue  string `json:"hash_key_value"`
-	Operation     string `json:"operation"`
-	RangeKeyField string `json:"range_key_field"`
-	RangeKeyType  string `json:"range_key_type"`
-	TableName     string `json:"table_name"`
-	HashKeyField  string `json:"hash_key_field"`
-	PayloadField  string `json:"payload_field"`
-	RangeKeyValue string `json:"range_key_value"`
-	RoleArn       string `json:"role_arn"`
-}
-
-type CloudwatchAlarm struct {
-	StateValue  string `json:"state_value"`
-	AlarmName   string `json:"alarm_name"`
-	RoleArn     string `json:"role_arn"`
-	StateReason string `json:"state_reason"`
-}
-
-type IotEvents struct {
-	InputName string `json:"input_name"`
-	MessageId string `json:"message_id"`
-	RoleArn   string `json:"role_arn"`
-}
-
-type Sns struct {
-	RoleArn       string `json:"role_arn"`
-	TargetArn     string `json:"target_arn"`
-	MessageFormat string `json:"message_format"`
-}
-
-type Elasticsearch struct {
-	Id       string `json:"id"`
-	Index    string `json:"index"`
-	RoleArn  string `json:"role_arn"`
-	Type     string `json:"type"`
-	Endpoint string `json:"endpoint"`
-}
-
-type Firehose struct {
-	DeliveryStreamName string `json:"delivery_stream_name"`
-	RoleArn            string `json:"role_arn"`
-	Separator          string `json:"separator"`
-}
-
-type IotAnalytics struct {
-	RoleArn     string `json:"role_arn"`
-	ChannelName string `json:"channel_name"`
-}
-
-type IotEvents struct {
-	InputName string `json:"input_name"`
-	MessageId string `json:"message_id"`
-	RoleArn   string `json:"role_arn"`
-}
-
 type Kinesis struct {
 	PartitionKey string `json:"partition_key"`
 	RoleArn      string `json:"role_arn"`
 	StreamName   string `json:"stream_name"`
 }
 
-type CloudwatchMetric struct {
-	RoleArn         string `json:"role_arn"`
-	MetricName      string `json:"metric_name"`
-	MetricNamespace string `json:"metric_namespace"`
-	MetricTimestamp string `json:"metric_timestamp"`
-	MetricUnit      string `json:"metric_unit"`
-	MetricValue     string `json:"metric_value"`
+type StepFunctions struct {
+	ExecutionNamePrefix string `json:"execution_name_prefix"`
+	RoleArn             string `json:"role_arn"`
+	StateMachineName    string `json:"state_machine_name"`
 }
 
-type Dynamodb struct {
-	HashKeyType   string `json:"hash_key_type"`
-	HashKeyValue  string `json:"hash_key_value"`
-	Operation     string `json:"operation"`
-	RangeKeyType  string `json:"range_key_type"`
-	RangeKeyValue string `json:"range_key_value"`
-	HashKeyField  string `json:"hash_key_field"`
-	RangeKeyField string `json:"range_key_field"`
-	RoleArn       string `json:"role_arn"`
-	TableName     string `json:"table_name"`
-	PayloadField  string `json:"payload_field"`
+type S3 struct {
+	BucketName string `json:"bucket_name"`
+	Key        string `json:"key"`
+	RoleArn    string `json:"role_arn"`
 }
 
-type Dynamodbv2 struct {
-	RoleArn string  `json:"role_arn"`
-	PutItem PutItem `json:"put_item"`
-}
-
-type PutItem struct {
-	TableName string `json:"table_name"`
-}
-
-type Republish struct {
-	Qos     int    `json:"qos"`
-	RoleArn string `json:"role_arn"`
-	Topic   string `json:"topic"`
+type Sqs struct {
+	QueueUrl  string `json:"queue_url"`
+	RoleArn   string `json:"role_arn"`
+	UseBase64 bool   `json:"use_base64"`
 }
 
 // A IotTopicRuleStatus defines the observed state of a IotTopicRule

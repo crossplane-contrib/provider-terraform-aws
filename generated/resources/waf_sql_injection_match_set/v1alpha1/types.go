@@ -52,9 +52,9 @@ type WafSqlInjectionMatchSetSpec struct {
 
 // A WafSqlInjectionMatchSetParameters defines the desired state of a WafSqlInjectionMatchSet
 type WafSqlInjectionMatchSetParameters struct {
-	Id                      string                    `json:"id"`
-	Name                    string                    `json:"name"`
-	SqlInjectionMatchTuples []SqlInjectionMatchTuples `json:"sql_injection_match_tuples"`
+	Id                      string                  `json:"id"`
+	Name                    string                  `json:"name"`
+	SqlInjectionMatchTuples SqlInjectionMatchTuples `json:"sql_injection_match_tuples"`
 }
 
 type SqlInjectionMatchTuples struct {

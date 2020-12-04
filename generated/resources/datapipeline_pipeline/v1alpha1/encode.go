@@ -14,29 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDatapipelinePipeline(r DatapipelinePipeline) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDatapipelinePipeline(r DatapipelinePipeline) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDatapipelinePipeline_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Tags(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDatapipelinePipeline_Description(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
+func EncodeDatapipelinePipeline_Description(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeDatapipelinePipeline_Id(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
+func EncodeDatapipelinePipeline_Id(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDatapipelinePipeline_Name(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
+func EncodeDatapipelinePipeline_Name(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeDatapipelinePipeline_Tags(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
+func EncodeDatapipelinePipeline_Tags(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)

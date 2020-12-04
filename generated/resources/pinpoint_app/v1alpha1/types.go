@@ -52,31 +52,31 @@ type PinpointAppSpec struct {
 
 // A PinpointAppParameters defines the desired state of a PinpointApp
 type PinpointAppParameters struct {
-	NamePrefix   string            `json:"name_prefix"`
-	Tags         map[string]string `json:"tags"`
 	Id           string            `json:"id"`
 	Name         string            `json:"name"`
+	NamePrefix   string            `json:"name_prefix"`
+	Tags         map[string]string `json:"tags"`
+	CampaignHook CampaignHook      `json:"campaign_hook"`
 	Limits       Limits            `json:"limits"`
 	QuietTime    QuietTime         `json:"quiet_time"`
-	CampaignHook CampaignHook      `json:"campaign_hook"`
-}
-
-type Limits struct {
-	Daily             int `json:"daily"`
-	MaximumDuration   int `json:"maximum_duration"`
-	MessagesPerSecond int `json:"messages_per_second"`
-	Total             int `json:"total"`
-}
-
-type QuietTime struct {
-	End   string `json:"end"`
-	Start string `json:"start"`
 }
 
 type CampaignHook struct {
 	LambdaFunctionName string `json:"lambda_function_name"`
 	Mode               string `json:"mode"`
 	WebUrl             string `json:"web_url"`
+}
+
+type Limits struct {
+	MessagesPerSecond int64 `json:"messages_per_second"`
+	Total             int64 `json:"total"`
+	Daily             int64 `json:"daily"`
+	MaximumDuration   int64 `json:"maximum_duration"`
+}
+
+type QuietTime struct {
+	End   string `json:"end"`
+	Start string `json:"start"`
 }
 
 // A PinpointAppStatus defines the observed state of a PinpointApp

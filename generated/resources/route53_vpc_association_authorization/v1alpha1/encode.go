@@ -14,28 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRoute53VpcAssociationAuthorization(r Route53VpcAssociationAuthorization) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRoute53VpcAssociationAuthorization(r Route53VpcAssociationAuthorization) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRoute53VpcAssociationAuthorization_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53VpcAssociationAuthorization_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53VpcAssociationAuthorization_VpcRegion(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53VpcAssociationAuthorization_ZoneId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRoute53VpcAssociationAuthorization_Id(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
+func EncodeRoute53VpcAssociationAuthorization_Id(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeRoute53VpcAssociationAuthorization_VpcId(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
+func EncodeRoute53VpcAssociationAuthorization_VpcId(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeRoute53VpcAssociationAuthorization_VpcRegion(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
+func EncodeRoute53VpcAssociationAuthorization_VpcRegion(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
 	vals["vpc_region"] = cty.StringVal(p.VpcRegion)
 }
 
-func EncodeRoute53VpcAssociationAuthorization_ZoneId(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
+func EncodeRoute53VpcAssociationAuthorization_ZoneId(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
 	vals["zone_id"] = cty.StringVal(p.ZoneId)
 }

@@ -59,7 +59,7 @@ type EksClusterParameters struct {
 	EnabledClusterLogTypes []string          `json:"enabled_cluster_log_types"`
 	Version                string            `json:"version"`
 	EncryptionConfig       EncryptionConfig  `json:"encryption_config"`
-	Timeouts               []Timeouts        `json:"timeouts"`
+	Timeouts               Timeouts          `json:"timeouts"`
 	VpcConfig              VpcConfig         `json:"vpc_config"`
 }
 
@@ -96,13 +96,13 @@ type EksClusterStatus struct {
 
 // A EksClusterObservation records the observed state of a EksCluster
 type EksClusterObservation struct {
-	Status               string                 `json:"status"`
-	CreatedAt            string                 `json:"created_at"`
-	Endpoint             string                 `json:"endpoint"`
-	Identity             []Identity             `json:"identity"`
 	PlatformVersion      string                 `json:"platform_version"`
 	Arn                  string                 `json:"arn"`
+	Endpoint             string                 `json:"endpoint"`
+	Identity             []Identity             `json:"identity"`
+	Status               string                 `json:"status"`
 	CertificateAuthority []CertificateAuthority `json:"certificate_authority"`
+	CreatedAt            string                 `json:"created_at"`
 }
 
 type Identity struct {

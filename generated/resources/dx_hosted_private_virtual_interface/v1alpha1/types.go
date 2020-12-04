@@ -52,24 +52,24 @@ type DxHostedPrivateVirtualInterfaceSpec struct {
 
 // A DxHostedPrivateVirtualInterfaceParameters defines the desired state of a DxHostedPrivateVirtualInterface
 type DxHostedPrivateVirtualInterfaceParameters struct {
-	Mtu             int        `json:"mtu"`
-	Name            string     `json:"name"`
-	BgpAsn          int        `json:"bgp_asn"`
-	CustomerAddress string     `json:"customer_address"`
-	Vlan            int        `json:"vlan"`
-	BgpAuthKey      string     `json:"bgp_auth_key"`
-	ConnectionId    string     `json:"connection_id"`
-	AddressFamily   string     `json:"address_family"`
-	AmazonAddress   string     `json:"amazon_address"`
-	Id              string     `json:"id"`
-	OwnerAccountId  string     `json:"owner_account_id"`
-	Timeouts        []Timeouts `json:"timeouts"`
+	Vlan            int64    `json:"vlan"`
+	AddressFamily   string   `json:"address_family"`
+	AmazonAddress   string   `json:"amazon_address"`
+	Id              string   `json:"id"`
+	OwnerAccountId  string   `json:"owner_account_id"`
+	Name            string   `json:"name"`
+	BgpAuthKey      string   `json:"bgp_auth_key"`
+	ConnectionId    string   `json:"connection_id"`
+	CustomerAddress string   `json:"customer_address"`
+	Mtu             int64    `json:"mtu"`
+	BgpAsn          int64    `json:"bgp_asn"`
+	Timeouts        Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A DxHostedPrivateVirtualInterfaceStatus defines the observed state of a DxHostedPrivateVirtualInterface
@@ -80,8 +80,8 @@ type DxHostedPrivateVirtualInterfaceStatus struct {
 
 // A DxHostedPrivateVirtualInterfaceObservation records the observed state of a DxHostedPrivateVirtualInterface
 type DxHostedPrivateVirtualInterfaceObservation struct {
+	AmazonSideAsn     string `json:"amazon_side_asn"`
+	Arn               string `json:"arn"`
 	AwsDevice         string `json:"aws_device"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
-	Arn               string `json:"arn"`
-	AmazonSideAsn     string `json:"amazon_side_asn"`
 }

@@ -52,10 +52,10 @@ type NeptuneClusterSnapshotSpec struct {
 
 // A NeptuneClusterSnapshotParameters defines the desired state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotParameters struct {
-	DbClusterIdentifier         string     `json:"db_cluster_identifier"`
-	DbClusterSnapshotIdentifier string     `json:"db_cluster_snapshot_identifier"`
-	Id                          string     `json:"id"`
-	Timeouts                    []Timeouts `json:"timeouts"`
+	DbClusterIdentifier         string   `json:"db_cluster_identifier"`
+	DbClusterSnapshotIdentifier string   `json:"db_cluster_snapshot_identifier"`
+	Id                          string   `json:"id"`
+	Timeouts                    Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -70,17 +70,17 @@ type NeptuneClusterSnapshotStatus struct {
 
 // A NeptuneClusterSnapshotObservation records the observed state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotObservation struct {
-	VpcId                      string   `json:"vpc_id"`
-	AllocatedStorage           int      `json:"allocated_storage"`
 	LicenseModel               string   `json:"license_model"`
-	Port                       int      `json:"port"`
-	SnapshotType               string   `json:"snapshot_type"`
+	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
 	Engine                     string   `json:"engine"`
-	EngineVersion              string   `json:"engine_version"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
+	VpcId                      string   `json:"vpc_id"`
+	AllocatedStorage           int64    `json:"allocated_storage"`
 	KmsKeyId                   string   `json:"kms_key_id"`
+	Port                       int64    `json:"port"`
+	SnapshotType               string   `json:"snapshot_type"`
 	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
 	Status                     string   `json:"status"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
 	AvailabilityZones          []string `json:"availability_zones"`
-	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	EngineVersion              string   `json:"engine_version"`
 }

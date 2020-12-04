@@ -52,13 +52,13 @@ type Route53ResolverEndpointSpec struct {
 
 // A Route53ResolverEndpointParameters defines the desired state of a Route53ResolverEndpoint
 type Route53ResolverEndpointParameters struct {
-	SecurityGroupIds []string          `json:"security_group_ids"`
-	Tags             map[string]string `json:"tags"`
 	Direction        string            `json:"direction"`
 	Id               string            `json:"id"`
 	Name             string            `json:"name"`
+	SecurityGroupIds []string          `json:"security_group_ids"`
+	Tags             map[string]string `json:"tags"`
 	IpAddress        []IpAddress       `json:"ip_address"`
-	Timeouts         []Timeouts        `json:"timeouts"`
+	Timeouts         Timeouts          `json:"timeouts"`
 }
 
 type IpAddress struct {

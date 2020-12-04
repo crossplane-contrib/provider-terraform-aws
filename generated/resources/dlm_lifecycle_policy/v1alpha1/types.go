@@ -61,27 +61,27 @@ type DlmLifecyclePolicyParameters struct {
 }
 
 type PolicyDetails struct {
-	TargetTags    map[string]string `json:"target_tags"`
 	ResourceTypes []string          `json:"resource_types"`
+	TargetTags    map[string]string `json:"target_tags"`
 	Schedule      []Schedule        `json:"schedule"`
 }
 
 type Schedule struct {
-	TagsToAdd  map[string]string `json:"tags_to_add"`
 	CopyTags   bool              `json:"copy_tags"`
 	Name       string            `json:"name"`
+	TagsToAdd  map[string]string `json:"tags_to_add"`
 	CreateRule CreateRule        `json:"create_rule"`
 	RetainRule RetainRule        `json:"retain_rule"`
 }
 
 type CreateRule struct {
-	Interval     int      `json:"interval"`
+	Interval     int64    `json:"interval"`
 	IntervalUnit string   `json:"interval_unit"`
 	Times        []string `json:"times"`
 }
 
 type RetainRule struct {
-	Count int `json:"count"`
+	Count int64 `json:"count"`
 }
 
 // A DlmLifecyclePolicyStatus defines the observed state of a DlmLifecyclePolicy

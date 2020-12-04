@@ -52,30 +52,30 @@ type RdsClusterInstanceSpec struct {
 
 // A RdsClusterInstanceParameters defines the desired state of a RdsClusterInstance
 type RdsClusterInstanceParameters struct {
-	ApplyImmediately            bool              `json:"apply_immediately"`
-	CopyTagsToSnapshot          bool              `json:"copy_tags_to_snapshot"`
-	Identifier                  string            `json:"identifier"`
-	MonitoringRoleArn           string            `json:"monitoring_role_arn"`
-	PerformanceInsightsKmsKeyId string            `json:"performance_insights_kms_key_id"`
-	PubliclyAccessible          bool              `json:"publicly_accessible"`
-	DbParameterGroupName        string            `json:"db_parameter_group_name"`
-	PerformanceInsightsEnabled  bool              `json:"performance_insights_enabled"`
-	CaCertIdentifier            string            `json:"ca_cert_identifier"`
-	ClusterIdentifier           string            `json:"cluster_identifier"`
-	PreferredBackupWindow       string            `json:"preferred_backup_window"`
-	InstanceClass               string            `json:"instance_class"`
-	PromotionTier               int               `json:"promotion_tier"`
-	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
-	DbSubnetGroupName           string            `json:"db_subnet_group_name"`
-	Id                          string            `json:"id"`
-	IdentifierPrefix            string            `json:"identifier_prefix"`
-	Tags                        map[string]string `json:"tags"`
 	AvailabilityZone            string            `json:"availability_zone"`
-	MonitoringInterval          int               `json:"monitoring_interval"`
+	DbParameterGroupName        string            `json:"db_parameter_group_name"`
+	CopyTagsToSnapshot          bool              `json:"copy_tags_to_snapshot"`
+	PerformanceInsightsKmsKeyId string            `json:"performance_insights_kms_key_id"`
+	CaCertIdentifier            string            `json:"ca_cert_identifier"`
+	Id                          string            `json:"id"`
+	PreferredBackupWindow       string            `json:"preferred_backup_window"`
+	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
+	IdentifierPrefix            string            `json:"identifier_prefix"`
+	MonitoringInterval          int64             `json:"monitoring_interval"`
 	PreferredMaintenanceWindow  string            `json:"preferred_maintenance_window"`
-	Engine                      string            `json:"engine"`
+	PubliclyAccessible          bool              `json:"publicly_accessible"`
+	Tags                        map[string]string `json:"tags"`
+	Identifier                  string            `json:"identifier"`
 	EngineVersion               string            `json:"engine_version"`
-	Timeouts                    []Timeouts        `json:"timeouts"`
+	MonitoringRoleArn           string            `json:"monitoring_role_arn"`
+	PerformanceInsightsEnabled  bool              `json:"performance_insights_enabled"`
+	PromotionTier               int64             `json:"promotion_tier"`
+	ApplyImmediately            bool              `json:"apply_immediately"`
+	InstanceClass               string            `json:"instance_class"`
+	Engine                      string            `json:"engine"`
+	ClusterIdentifier           string            `json:"cluster_identifier"`
+	DbSubnetGroupName           string            `json:"db_subnet_group_name"`
+	Timeouts                    Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -92,11 +92,11 @@ type RdsClusterInstanceStatus struct {
 
 // A RdsClusterInstanceObservation records the observed state of a RdsClusterInstance
 type RdsClusterInstanceObservation struct {
-	DbiResourceId    string `json:"dbi_resource_id"`
+	Port             int64  `json:"port"`
 	StorageEncrypted bool   `json:"storage_encrypted"`
-	Writer           bool   `json:"writer"`
 	Arn              string `json:"arn"`
 	Endpoint         string `json:"endpoint"`
-	Port             int    `json:"port"`
 	KmsKeyId         string `json:"kms_key_id"`
+	DbiResourceId    string `json:"dbi_resource_id"`
+	Writer           bool   `json:"writer"`
 }

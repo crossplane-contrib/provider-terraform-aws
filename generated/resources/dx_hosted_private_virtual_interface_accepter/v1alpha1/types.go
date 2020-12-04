@@ -57,7 +57,7 @@ type DxHostedPrivateVirtualInterfaceAccepterParameters struct {
 	Tags               map[string]string `json:"tags"`
 	VirtualInterfaceId string            `json:"virtual_interface_id"`
 	VpnGatewayId       string            `json:"vpn_gateway_id"`
-	Timeouts           []Timeouts        `json:"timeouts"`
+	Timeouts           Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {

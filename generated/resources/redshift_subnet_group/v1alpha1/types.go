@@ -52,11 +52,11 @@ type RedshiftSubnetGroupSpec struct {
 
 // A RedshiftSubnetGroupParameters defines the desired state of a RedshiftSubnetGroup
 type RedshiftSubnetGroupParameters struct {
-	SubnetIds   []string          `json:"subnet_ids"`
-	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
+	SubnetIds   []string          `json:"subnet_ids"`
+	Tags        map[string]string `json:"tags"`
 }
 
 // A RedshiftSubnetGroupStatus defines the observed state of a RedshiftSubnetGroup

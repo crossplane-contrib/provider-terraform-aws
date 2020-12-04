@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeConfigConfigurationRecorderStatus(r ConfigConfigurationRecorderStatus) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeConfigConfigurationRecorderStatus(r ConfigConfigurationRecorderStatus) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeConfigConfigurationRecorderStatus_Name(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorderStatus_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorderStatus_IsEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeConfigConfigurationRecorderStatus_Name(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeConfigConfigurationRecorderStatus_Id(p *ConfigConfigurationRecorderStatusParameters, vals map[string]cty.Value) {
+func EncodeConfigConfigurationRecorderStatus_Name(p ConfigConfigurationRecorderStatusParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeConfigConfigurationRecorderStatus_Id(p ConfigConfigurationRecorderStatusParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeConfigConfigurationRecorderStatus_IsEnabled(p *ConfigConfigurationRecorderStatusParameters, vals map[string]cty.Value) {
+func EncodeConfigConfigurationRecorderStatus_IsEnabled(p ConfigConfigurationRecorderStatusParameters, vals map[string]cty.Value) {
 	vals["is_enabled"] = cty.BoolVal(p.IsEnabled)
-}
-
-func EncodeConfigConfigurationRecorderStatus_Name(p *ConfigConfigurationRecorderStatusParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }

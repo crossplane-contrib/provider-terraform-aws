@@ -52,23 +52,23 @@ type ConfigConfigurationAggregatorSpec struct {
 
 // A ConfigConfigurationAggregatorParameters defines the desired state of a ConfigConfigurationAggregator
 type ConfigConfigurationAggregatorParameters struct {
+	Tags                          map[string]string             `json:"tags"`
 	Id                            string                        `json:"id"`
 	Name                          string                        `json:"name"`
-	Tags                          map[string]string             `json:"tags"`
 	AccountAggregationSource      AccountAggregationSource      `json:"account_aggregation_source"`
 	OrganizationAggregationSource OrganizationAggregationSource `json:"organization_aggregation_source"`
 }
 
 type AccountAggregationSource struct {
-	AccountIds []string `json:"account_ids"`
 	AllRegions bool     `json:"all_regions"`
 	Regions    []string `json:"regions"`
+	AccountIds []string `json:"account_ids"`
 }
 
 type OrganizationAggregationSource struct {
-	AllRegions bool     `json:"all_regions"`
 	Regions    []string `json:"regions"`
 	RoleArn    string   `json:"role_arn"`
+	AllRegions bool     `json:"all_regions"`
 }
 
 // A ConfigConfigurationAggregatorStatus defines the observed state of a ConfigConfigurationAggregator

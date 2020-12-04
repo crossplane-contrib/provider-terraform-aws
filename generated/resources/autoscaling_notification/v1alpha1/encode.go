@@ -14,21 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAutoscalingNotification(r AutoscalingNotification) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAutoscalingNotification(r AutoscalingNotification) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeAutoscalingNotification_GroupNames(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_Notifications(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_TopicArn(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingNotification_GroupNames(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAutoscalingNotification_Id(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingNotification_GroupNames(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.GroupNames {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["group_names"] = cty.SetVal(colVals)
+}
+
+func EncodeAutoscalingNotification_Id(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAutoscalingNotification_Notifications(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingNotification_Notifications(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Notifications {
 		colVals = append(colVals, cty.StringVal(value))
@@ -36,14 +50,6 @@ func EncodeAutoscalingNotification_Notifications(p *AutoscalingNotificationParam
 	vals["notifications"] = cty.SetVal(colVals)
 }
 
-func EncodeAutoscalingNotification_TopicArn(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
+func EncodeAutoscalingNotification_TopicArn(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
 	vals["topic_arn"] = cty.StringVal(p.TopicArn)
-}
-
-func EncodeAutoscalingNotification_GroupNames(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.GroupNames {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["group_names"] = cty.SetVal(colVals)
 }

@@ -14,88 +14,86 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeGlueSecurityConfiguration(r GlueSecurityConfiguration) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeGlueSecurityConfiguration(r GlueSecurityConfiguration) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeGlueSecurityConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueSecurityConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueSecurityConfiguration_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlueSecurityConfiguration_Id(p *GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
+func EncodeGlueSecurityConfiguration_Id(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeGlueSecurityConfiguration_Name(p *GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
+func EncodeGlueSecurityConfiguration_Name(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration(p *EncryptionConfiguration, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.EncryptionConfiguration {
-		ctyVal = make(map[string]cty.Value)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption(v.CloudwatchEncryption, ctyVal)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption(v.JobBookmarksEncryption, ctyVal)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption(v.S3Encryption, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration(p EncryptionConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption(p.CloudwatchEncryption, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption(p.JobBookmarksEncryption, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption(p.S3Encryption, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["encryption_configuration"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption(p *CloudwatchEncryption, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.CloudwatchEncryption {
-		ctyVal = make(map[string]cty.Value)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(v, ctyVal)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption(p CloudwatchEncryption, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["cloudwatch_encryption"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p *CloudwatchEncryption, vals map[string]cty.Value) {
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p CloudwatchEncryption, vals map[string]cty.Value) {
 	vals["cloudwatch_encryption_mode"] = cty.StringVal(p.CloudwatchEncryptionMode)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p *CloudwatchEncryption, vals map[string]cty.Value) {
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p CloudwatchEncryption, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption(p *JobBookmarksEncryption, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.JobBookmarksEncryption {
-		ctyVal = make(map[string]cty.Value)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_JobBookmarksEncryptionMode(v, ctyVal)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_KmsKeyArn(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption(p JobBookmarksEncryption, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_JobBookmarksEncryptionMode(p, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_KmsKeyArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["job_bookmarks_encryption"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_JobBookmarksEncryptionMode(p *JobBookmarksEncryption, vals map[string]cty.Value) {
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_JobBookmarksEncryptionMode(p JobBookmarksEncryption, vals map[string]cty.Value) {
 	vals["job_bookmarks_encryption_mode"] = cty.StringVal(p.JobBookmarksEncryptionMode)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_KmsKeyArn(p *JobBookmarksEncryption, vals map[string]cty.Value) {
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption_KmsKeyArn(p JobBookmarksEncryption, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption(p *S3Encryption, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.S3Encryption {
-		ctyVal = make(map[string]cty.Value)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_KmsKeyArn(v, ctyVal)
-		EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption(p S3Encryption, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(p, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_KmsKeyArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["s3_encryption"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_KmsKeyArn(p *S3Encryption, vals map[string]cty.Value) {
-	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(p S3Encryption, vals map[string]cty.Value) {
+	vals["s3_encryption_mode"] = cty.StringVal(p.S3EncryptionMode)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(p *S3Encryption, vals map[string]cty.Value) {
-	vals["s3_encryption_mode"] = cty.StringVal(p.S3EncryptionMode)
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_KmsKeyArn(p S3Encryption, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }

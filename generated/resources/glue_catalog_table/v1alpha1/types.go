@@ -52,40 +52,40 @@ type GlueCatalogTableSpec struct {
 
 // A GlueCatalogTableParameters defines the desired state of a GlueCatalogTable
 type GlueCatalogTableParameters struct {
-	ViewExpandedText  string            `json:"view_expanded_text"`
-	CatalogId         string            `json:"catalog_id"`
 	DatabaseName      string            `json:"database_name"`
 	Description       string            `json:"description"`
-	Parameters        map[string]string `json:"parameters"`
-	Retention         int               `json:"retention"`
-	TableType         string            `json:"table_type"`
-	Id                string            `json:"id"`
 	Name              string            `json:"name"`
-	Owner             string            `json:"owner"`
+	Parameters        map[string]string `json:"parameters"`
+	Retention         int64             `json:"retention"`
+	ViewExpandedText  string            `json:"view_expanded_text"`
 	ViewOriginalText  string            `json:"view_original_text"`
-	PartitionKeys     []PartitionKeys   `json:"partition_keys"`
+	CatalogId         string            `json:"catalog_id"`
+	Id                string            `json:"id"`
+	Owner             string            `json:"owner"`
+	TableType         string            `json:"table_type"`
+	PartitionKeys     PartitionKeys     `json:"partition_keys"`
 	StorageDescriptor StorageDescriptor `json:"storage_descriptor"`
 }
 
 type PartitionKeys struct {
+	Comment string `json:"comment"`
 	Name    string `json:"name"`
 	Type    string `json:"type"`
-	Comment string `json:"comment"`
 }
 
 type StorageDescriptor struct {
-	BucketColumns          []string          `json:"bucket_columns"`
-	Compressed             bool              `json:"compressed"`
 	InputFormat            string            `json:"input_format"`
 	Location               string            `json:"location"`
-	NumberOfBuckets        int               `json:"number_of_buckets"`
+	NumberOfBuckets        int64             `json:"number_of_buckets"`
 	OutputFormat           string            `json:"output_format"`
 	Parameters             map[string]string `json:"parameters"`
 	StoredAsSubDirectories bool              `json:"stored_as_sub_directories"`
-	Columns                []Columns         `json:"columns"`
+	BucketColumns          []string          `json:"bucket_columns"`
+	Compressed             bool              `json:"compressed"`
+	Columns                Columns           `json:"columns"`
 	SerDeInfo              SerDeInfo         `json:"ser_de_info"`
 	SkewedInfo             SkewedInfo        `json:"skewed_info"`
-	SortColumns            []SortColumns     `json:"sort_columns"`
+	SortColumns            SortColumns       `json:"sort_columns"`
 }
 
 type Columns struct {
@@ -95,9 +95,9 @@ type Columns struct {
 }
 
 type SerDeInfo struct {
+	SerializationLibrary string            `json:"serialization_library"`
 	Name                 string            `json:"name"`
 	Parameters           map[string]string `json:"parameters"`
-	SerializationLibrary string            `json:"serialization_library"`
 }
 
 type SkewedInfo struct {
@@ -108,7 +108,7 @@ type SkewedInfo struct {
 
 type SortColumns struct {
 	Column    string `json:"column"`
-	SortOrder int    `json:"sort_order"`
+	SortOrder int64  `json:"sort_order"`
 }
 
 // A GlueCatalogTableStatus defines the observed state of a GlueCatalogTable

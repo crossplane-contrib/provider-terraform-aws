@@ -14,67 +14,69 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafSizeConstraintSet(r WafSizeConstraintSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafSizeConstraintSet(r WafSizeConstraintSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafSizeConstraintSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafSizeConstraintSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafSizeConstraintSet_SizeConstraints(r.Spec.ForProvider.SizeConstraints, ctyVal)
 	EncodeWafSizeConstraintSet_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafSizeConstraintSet_Id(p *WafSizeConstraintSetParameters, vals map[string]cty.Value) {
+func EncodeWafSizeConstraintSet_Id(p WafSizeConstraintSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeWafSizeConstraintSet_Name(p *WafSizeConstraintSetParameters, vals map[string]cty.Value) {
+func EncodeWafSizeConstraintSet_Name(p WafSizeConstraintSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafSizeConstraintSet_SizeConstraints(p *SizeConstraints, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.SizeConstraints {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(v, ctyVal)
-		EncodeWafSizeConstraintSet_SizeConstraints_ComparisonOperator(v, ctyVal)
-		EncodeWafSizeConstraintSet_SizeConstraints_Size(v, ctyVal)
-		EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch(v.FieldToMatch, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafSizeConstraintSet_SizeConstraints(p SizeConstraints, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(p, ctyVal)
+	EncodeWafSizeConstraintSet_SizeConstraints_ComparisonOperator(p, ctyVal)
+	EncodeWafSizeConstraintSet_SizeConstraints_Size(p, ctyVal)
+	EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch(p.FieldToMatch, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["size_constraints"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(p *SizeConstraints, vals map[string]cty.Value) {
+func EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(p SizeConstraints, vals map[string]cty.Value) {
 	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
 }
 
-func EncodeWafSizeConstraintSet_SizeConstraints_ComparisonOperator(p *SizeConstraints, vals map[string]cty.Value) {
+func EncodeWafSizeConstraintSet_SizeConstraints_ComparisonOperator(p SizeConstraints, vals map[string]cty.Value) {
 	vals["comparison_operator"] = cty.StringVal(p.ComparisonOperator)
 }
 
-func EncodeWafSizeConstraintSet_SizeConstraints_Size(p *SizeConstraints, vals map[string]cty.Value) {
-	vals["size"] = cty.IntVal(p.Size)
+func EncodeWafSizeConstraintSet_SizeConstraints_Size(p SizeConstraints, vals map[string]cty.Value) {
+	vals["size"] = cty.NumberIntVal(p.Size)
 }
 
-func EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch(p *FieldToMatch, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.FieldToMatch {
-		ctyVal = make(map[string]cty.Value)
-		EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Data(v, ctyVal)
-		EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch(p FieldToMatch, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Data(p, ctyVal)
+	EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["field_to_match"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Data(p *FieldToMatch, vals map[string]cty.Value) {
+func EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Data(p FieldToMatch, vals map[string]cty.Value) {
 	vals["data"] = cty.StringVal(p.Data)
 }
 
-func EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Type(p *FieldToMatch, vals map[string]cty.Value) {
+func EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch_Type(p FieldToMatch, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeWafSizeConstraintSet_Arn(p *WafSizeConstraintSetObservation, vals map[string]cty.Value) {
+func EncodeWafSizeConstraintSet_Arn(p WafSizeConstraintSetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

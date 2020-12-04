@@ -14,42 +14,48 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2ClientVpnRoute(r Ec2ClientVpnRoute) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2ClientVpnRoute(r Ec2ClientVpnRoute) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2ClientVpnRoute_TargetVpcSubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_ClientVpnEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnRoute_Origin(r.Status.AtProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_Type(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeEc2ClientVpnRoute_Origin(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2ClientVpnRoute_TargetVpcSubnetId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnRoute_TargetVpcSubnetId(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	vals["target_vpc_subnet_id"] = cty.StringVal(p.TargetVpcSubnetId)
 }
 
-func EncodeEc2ClientVpnRoute_ClientVpnEndpointId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnRoute_ClientVpnEndpointId(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	vals["client_vpn_endpoint_id"] = cty.StringVal(p.ClientVpnEndpointId)
 }
 
-func EncodeEc2ClientVpnRoute_Description(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnRoute_Description(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeEc2ClientVpnRoute_DestinationCidrBlock(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnRoute_DestinationCidrBlock(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
 }
 
-func EncodeEc2ClientVpnRoute_Id(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+func EncodeEc2ClientVpnRoute_Id(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2ClientVpnRoute_Origin(p *Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
-	vals["origin"] = cty.StringVal(p.Origin)
+func EncodeEc2ClientVpnRoute_Type(p Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeEc2ClientVpnRoute_Type(p *Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
+func EncodeEc2ClientVpnRoute_Origin(p Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
+	vals["origin"] = cty.StringVal(p.Origin)
 }

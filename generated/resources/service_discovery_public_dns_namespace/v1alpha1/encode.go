@@ -14,30 +14,32 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeServiceDiscoveryPublicDnsNamespace(r ServiceDiscoveryPublicDnsNamespace) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeServiceDiscoveryPublicDnsNamespace_Description(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeServiceDiscoveryPublicDnsNamespace(r ServiceDiscoveryPublicDnsNamespace) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeServiceDiscoveryPublicDnsNamespace_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryPublicDnsNamespace_Arn(r.Status.AtProvider, ctyVal)
+	EncodeServiceDiscoveryPublicDnsNamespace_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeServiceDiscoveryPublicDnsNamespace_Arn(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeServiceDiscoveryPublicDnsNamespace_Description(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeServiceDiscoveryPublicDnsNamespace_Id(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPublicDnsNamespace_Id(p ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeServiceDiscoveryPublicDnsNamespace_Name(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPublicDnsNamespace_Name(p ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeServiceDiscoveryPublicDnsNamespace_Tags(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPublicDnsNamespace_Tags(p ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -45,10 +47,14 @@ func EncodeServiceDiscoveryPublicDnsNamespace_Tags(p *ServiceDiscoveryPublicDnsN
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeServiceDiscoveryPublicDnsNamespace_Arn(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeServiceDiscoveryPublicDnsNamespace_Description(p ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+func EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
 	vals["hosted_zone"] = cty.StringVal(p.HostedZone)
+}
+
+func EncodeServiceDiscoveryPublicDnsNamespace_Arn(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

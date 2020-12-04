@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRoute53DelegationSet(r Route53DelegationSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeRoute53DelegationSet_ReferenceName(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRoute53DelegationSet(r Route53DelegationSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRoute53DelegationSet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53DelegationSet_ReferenceName(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53DelegationSet_NameServers(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRoute53DelegationSet_ReferenceName(p *Route53DelegationSetParameters, vals map[string]cty.Value) {
-	vals["reference_name"] = cty.StringVal(p.ReferenceName)
-}
-
-func EncodeRoute53DelegationSet_Id(p *Route53DelegationSetParameters, vals map[string]cty.Value) {
+func EncodeRoute53DelegationSet_Id(p Route53DelegationSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeRoute53DelegationSet_NameServers(p *Route53DelegationSetObservation, vals map[string]cty.Value) {
+func EncodeRoute53DelegationSet_ReferenceName(p Route53DelegationSetParameters, vals map[string]cty.Value) {
+	vals["reference_name"] = cty.StringVal(p.ReferenceName)
+}
+
+func EncodeRoute53DelegationSet_NameServers(p Route53DelegationSetObservation, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.NameServers {
 		colVals = append(colVals, cty.StringVal(value))

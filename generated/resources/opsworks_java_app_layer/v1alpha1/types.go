@@ -52,43 +52,43 @@ type OpsworksJavaAppLayerSpec struct {
 
 // A OpsworksJavaAppLayerParameters defines the desired state of a OpsworksJavaAppLayer
 type OpsworksJavaAppLayerParameters struct {
-	CustomJson               string            `json:"custom_json"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	Tags                     map[string]string `json:"tags"`
-	AppServerVersion         string            `json:"app_server_version"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	JvmType                  string            `json:"jvm_type"`
-	StackId                  string            `json:"stack_id"`
-	Name                     string            `json:"name"`
-	JvmVersion               string            `json:"jvm_version"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	InstanceShutdownTimeout  int               `json:"instance_shutdown_timeout"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	JvmOptions               string            `json:"jvm_options"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	SystemPackages           []string          `json:"system_packages"`
+	AutoHealing              bool              `json:"auto_healing"`
 	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	JvmOptions               string            `json:"jvm_options"`
 	Id                       string            `json:"id"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	StackId                  string            `json:"stack_id"`
 	AppServer                string            `json:"app_server"`
-	AutoHealing              bool              `json:"auto_healing"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomJson               string            `json:"custom_json"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	Tags                     map[string]string `json:"tags"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	JvmVersion               string            `json:"jvm_version"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	JvmType                  string            `json:"jvm_type"`
+	AppServerVersion         string            `json:"app_server_version"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
-	EbsVolume                []EbsVolume       `json:"ebs_volume"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	Name                     string            `json:"name"`
+	SystemPackages           []string          `json:"system_packages"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
-	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
-	Iops          int    `json:"iops"`
+	Iops          int64  `json:"iops"`
 	MountPoint    string `json:"mount_point"`
-	NumberOfDisks int    `json:"number_of_disks"`
+	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
-	Size          int    `json:"size"`
+	Size          int64  `json:"size"`
+	Type          string `json:"type"`
 }
 
 // A OpsworksJavaAppLayerStatus defines the observed state of a OpsworksJavaAppLayer

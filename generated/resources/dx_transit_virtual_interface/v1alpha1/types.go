@@ -52,25 +52,25 @@ type DxTransitVirtualInterfaceSpec struct {
 
 // A DxTransitVirtualInterfaceParameters defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceParameters struct {
-	AddressFamily   string            `json:"address_family"`
-	CustomerAddress string            `json:"customer_address"`
-	Name            string            `json:"name"`
-	Tags            map[string]string `json:"tags"`
-	AmazonAddress   string            `json:"amazon_address"`
-	Mtu             int               `json:"mtu"`
-	BgpAsn          int               `json:"bgp_asn"`
 	BgpAuthKey      string            `json:"bgp_auth_key"`
-	DxGatewayId     string            `json:"dx_gateway_id"`
-	Vlan            int               `json:"vlan"`
-	ConnectionId    string            `json:"connection_id"`
 	Id              string            `json:"id"`
-	Timeouts        []Timeouts        `json:"timeouts"`
+	Mtu             int64             `json:"mtu"`
+	Name            string            `json:"name"`
+	BgpAsn          int64             `json:"bgp_asn"`
+	AmazonAddress   string            `json:"amazon_address"`
+	DxGatewayId     string            `json:"dx_gateway_id"`
+	Vlan            int64             `json:"vlan"`
+	AddressFamily   string            `json:"address_family"`
+	ConnectionId    string            `json:"connection_id"`
+	CustomerAddress string            `json:"customer_address"`
+	Tags            map[string]string `json:"tags"`
+	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DxTransitVirtualInterfaceStatus defines the observed state of a DxTransitVirtualInterface

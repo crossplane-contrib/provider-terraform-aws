@@ -14,31 +14,41 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeMskConfiguration(r MskConfiguration) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeMskConfiguration(r MskConfiguration) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeMskConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_ServerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_KafkaVersions(r.Spec.ForProvider, ctyVal)
-	EncodeMskConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMskConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMskConfiguration_ServerProperties(p *MskConfigurationParameters, vals map[string]cty.Value) {
+func EncodeMskConfiguration_Name(p MskConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeMskConfiguration_ServerProperties(p MskConfigurationParameters, vals map[string]cty.Value) {
 	vals["server_properties"] = cty.StringVal(p.ServerProperties)
 }
 
-func EncodeMskConfiguration_Description(p *MskConfigurationParameters, vals map[string]cty.Value) {
+func EncodeMskConfiguration_Description(p MskConfigurationParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeMskConfiguration_Id(p *MskConfigurationParameters, vals map[string]cty.Value) {
+func EncodeMskConfiguration_Id(p MskConfigurationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeMskConfiguration_KafkaVersions(p *MskConfigurationParameters, vals map[string]cty.Value) {
+func EncodeMskConfiguration_KafkaVersions(p MskConfigurationParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.KafkaVersions {
 		colVals = append(colVals, cty.StringVal(value))
@@ -46,14 +56,10 @@ func EncodeMskConfiguration_KafkaVersions(p *MskConfigurationParameters, vals ma
 	vals["kafka_versions"] = cty.SetVal(colVals)
 }
 
-func EncodeMskConfiguration_Name(p *MskConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeMskConfiguration_Arn(p *MskConfigurationObservation, vals map[string]cty.Value) {
+func EncodeMskConfiguration_Arn(p MskConfigurationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeMskConfiguration_LatestRevision(p *MskConfigurationObservation, vals map[string]cty.Value) {
-	vals["latest_revision"] = cty.IntVal(p.LatestRevision)
+func EncodeMskConfiguration_LatestRevision(p MskConfigurationObservation, vals map[string]cty.Value) {
+	vals["latest_revision"] = cty.NumberIntVal(p.LatestRevision)
 }

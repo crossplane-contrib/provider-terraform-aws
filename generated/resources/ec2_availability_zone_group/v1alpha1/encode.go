@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2AvailabilityZoneGroup(r Ec2AvailabilityZoneGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2AvailabilityZoneGroup(r Ec2AvailabilityZoneGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2AvailabilityZoneGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2AvailabilityZoneGroup_OptInStatus(r.Spec.ForProvider, ctyVal)
 	EncodeEc2AvailabilityZoneGroup_GroupName(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2AvailabilityZoneGroup_Id(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
+func EncodeEc2AvailabilityZoneGroup_Id(p Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2AvailabilityZoneGroup_OptInStatus(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
+func EncodeEc2AvailabilityZoneGroup_OptInStatus(p Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
 	vals["opt_in_status"] = cty.StringVal(p.OptInStatus)
 }
 
-func EncodeEc2AvailabilityZoneGroup_GroupName(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
+func EncodeEc2AvailabilityZoneGroup_GroupName(p Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
 	vals["group_name"] = cty.StringVal(p.GroupName)
 }

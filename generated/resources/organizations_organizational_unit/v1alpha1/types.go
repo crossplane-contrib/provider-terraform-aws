@@ -70,8 +70,8 @@ type OrganizationsOrganizationalUnitObservation struct {
 }
 
 type Accounts struct {
-	Id    string `json:"id"`
-	Name  string `json:"name"`
 	Arn   string `json:"arn"`
 	Email string `json:"email"`
+	Id    string `json:"id"`
+	Name  string `json:"name"`
 }

@@ -14,30 +14,32 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeMediaPackageChannel(r MediaPackageChannel) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeMediaPackageChannel_ChannelId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeMediaPackageChannel(r MediaPackageChannel) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeMediaPackageChannel_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMediaPackageChannel_Arn(r.Status.AtProvider, ctyVal)
+	EncodeMediaPackageChannel_ChannelId(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_HlsIngest(r.Status.AtProvider.HlsIngest, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeMediaPackageChannel_Arn(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMediaPackageChannel_ChannelId(p *MediaPackageChannelParameters, vals map[string]cty.Value) {
-	vals["channel_id"] = cty.StringVal(p.ChannelId)
-}
-
-func EncodeMediaPackageChannel_Description(p *MediaPackageChannelParameters, vals map[string]cty.Value) {
+func EncodeMediaPackageChannel_Description(p MediaPackageChannelParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeMediaPackageChannel_Id(p *MediaPackageChannelParameters, vals map[string]cty.Value) {
+func EncodeMediaPackageChannel_Id(p MediaPackageChannelParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeMediaPackageChannel_Tags(p *MediaPackageChannelParameters, vals map[string]cty.Value) {
+func EncodeMediaPackageChannel_Tags(p MediaPackageChannelParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -45,40 +47,44 @@ func EncodeMediaPackageChannel_Tags(p *MediaPackageChannelParameters, vals map[s
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeMediaPackageChannel_Arn(p *MediaPackageChannelObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeMediaPackageChannel_ChannelId(p MediaPackageChannelParameters, vals map[string]cty.Value) {
+	vals["channel_id"] = cty.StringVal(p.ChannelId)
 }
 
-func EncodeMediaPackageChannel_HlsIngest(p *HlsIngest, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.HlsIngest {
-		ctyVal = make(map[string]cty.Value)
+func EncodeMediaPackageChannel_HlsIngest(p []HlsIngest, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints(v.IngestEndpoints, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["hls_ingest"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints(p *IngestEndpoints, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.IngestEndpoints {
-		ctyVal = make(map[string]cty.Value)
+func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints(p []IngestEndpoints, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(v, ctyVal)
 		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Url(v, ctyVal)
 		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Username(v, ctyVal)
-		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["ingest_endpoints"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Url(p *IngestEndpoints, vals map[string]cty.Value) {
+func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(p IngestEndpoints, vals map[string]cty.Value) {
+	vals["password"] = cty.StringVal(p.Password)
+}
+
+func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Url(p IngestEndpoints, vals map[string]cty.Value) {
 	vals["url"] = cty.StringVal(p.Url)
 }
 
-func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Username(p *IngestEndpoints, vals map[string]cty.Value) {
+func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Username(p IngestEndpoints, vals map[string]cty.Value) {
 	vals["username"] = cty.StringVal(p.Username)
 }
 
-func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(p *IngestEndpoints, vals map[string]cty.Value) {
-	vals["password"] = cty.StringVal(p.Password)
+func EncodeMediaPackageChannel_Arn(p MediaPackageChannelObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -52,23 +52,23 @@ type Apigatewayv2IntegrationSpec struct {
 
 // A Apigatewayv2IntegrationParameters defines the desired state of a Apigatewayv2Integration
 type Apigatewayv2IntegrationParameters struct {
-	ConnectionType              string            `json:"connection_type"`
-	Id                          string            `json:"id"`
 	PayloadFormatVersion        string            `json:"payload_format_version"`
-	IntegrationUri              string            `json:"integration_uri"`
+	TemplateSelectionExpression string            `json:"template_selection_expression"`
+	TimeoutMilliseconds         int64             `json:"timeout_milliseconds"`
 	ApiId                       string            `json:"api_id"`
-	ConnectionId                string            `json:"connection_id"`
-	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
+	ConnectionType              string            `json:"connection_type"`
 	Description                 string            `json:"description"`
 	IntegrationType             string            `json:"integration_type"`
-	IntegrationMethod           string            `json:"integration_method"`
-	TemplateSelectionExpression string            `json:"template_selection_expression"`
-	TimeoutMilliseconds         int               `json:"timeout_milliseconds"`
-	CredentialsArn              string            `json:"credentials_arn"`
 	IntegrationSubtype          string            `json:"integration_subtype"`
 	PassthroughBehavior         string            `json:"passthrough_behavior"`
-	RequestParameters           map[string]string `json:"request_parameters"`
 	RequestTemplates            map[string]string `json:"request_templates"`
+	ConnectionId                string            `json:"connection_id"`
+	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
+	CredentialsArn              string            `json:"credentials_arn"`
+	Id                          string            `json:"id"`
+	IntegrationMethod           string            `json:"integration_method"`
+	IntegrationUri              string            `json:"integration_uri"`
+	RequestParameters           map[string]string `json:"request_parameters"`
 	TlsConfig                   TlsConfig         `json:"tls_config"`
 }
 

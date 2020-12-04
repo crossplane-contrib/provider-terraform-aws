@@ -14,53 +14,57 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSsmResourceDataSync(r SsmResourceDataSync) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSsmResourceDataSync(r SsmResourceDataSync) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSsmResourceDataSync_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmResourceDataSync_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmResourceDataSync_S3Destination(r.Spec.ForProvider.S3Destination, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSsmResourceDataSync_Id(p *SsmResourceDataSyncParameters, vals map[string]cty.Value) {
+func EncodeSsmResourceDataSync_Id(p SsmResourceDataSyncParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSsmResourceDataSync_Name(p *SsmResourceDataSyncParameters, vals map[string]cty.Value) {
+func EncodeSsmResourceDataSync_Name(p SsmResourceDataSyncParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSsmResourceDataSync_S3Destination(p *S3Destination, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.S3Destination {
-		ctyVal = make(map[string]cty.Value)
-		EncodeSsmResourceDataSync_S3Destination_Region(v, ctyVal)
-		EncodeSsmResourceDataSync_S3Destination_SyncFormat(v, ctyVal)
-		EncodeSsmResourceDataSync_S3Destination_BucketName(v, ctyVal)
-		EncodeSsmResourceDataSync_S3Destination_KmsKeyArn(v, ctyVal)
-		EncodeSsmResourceDataSync_S3Destination_Prefix(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeSsmResourceDataSync_S3Destination(p S3Destination, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSsmResourceDataSync_S3Destination_BucketName(p, ctyVal)
+	EncodeSsmResourceDataSync_S3Destination_KmsKeyArn(p, ctyVal)
+	EncodeSsmResourceDataSync_S3Destination_Prefix(p, ctyVal)
+	EncodeSsmResourceDataSync_S3Destination_Region(p, ctyVal)
+	EncodeSsmResourceDataSync_S3Destination_SyncFormat(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["s3_destination"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeSsmResourceDataSync_S3Destination_Region(p *S3Destination, vals map[string]cty.Value) {
-	vals["region"] = cty.StringVal(p.Region)
-}
-
-func EncodeSsmResourceDataSync_S3Destination_SyncFormat(p *S3Destination, vals map[string]cty.Value) {
-	vals["sync_format"] = cty.StringVal(p.SyncFormat)
-}
-
-func EncodeSsmResourceDataSync_S3Destination_BucketName(p *S3Destination, vals map[string]cty.Value) {
+func EncodeSsmResourceDataSync_S3Destination_BucketName(p S3Destination, vals map[string]cty.Value) {
 	vals["bucket_name"] = cty.StringVal(p.BucketName)
 }
 
-func EncodeSsmResourceDataSync_S3Destination_KmsKeyArn(p *S3Destination, vals map[string]cty.Value) {
+func EncodeSsmResourceDataSync_S3Destination_KmsKeyArn(p S3Destination, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
-func EncodeSsmResourceDataSync_S3Destination_Prefix(p *S3Destination, vals map[string]cty.Value) {
+func EncodeSsmResourceDataSync_S3Destination_Prefix(p S3Destination, vals map[string]cty.Value) {
 	vals["prefix"] = cty.StringVal(p.Prefix)
+}
+
+func EncodeSsmResourceDataSync_S3Destination_Region(p S3Destination, vals map[string]cty.Value) {
+	vals["region"] = cty.StringVal(p.Region)
+}
+
+func EncodeSsmResourceDataSync_S3Destination_SyncFormat(p S3Destination, vals map[string]cty.Value) {
+	vals["sync_format"] = cty.StringVal(p.SyncFormat)
 }

@@ -56,7 +56,7 @@ type Apigatewayv2DomainNameParameters struct {
 	Id                      string                  `json:"id"`
 	Tags                    map[string]string       `json:"tags"`
 	DomainNameConfiguration DomainNameConfiguration `json:"domain_name_configuration"`
-	Timeouts                []Timeouts              `json:"timeouts"`
+	Timeouts                Timeouts                `json:"timeouts"`
 }
 
 type DomainNameConfiguration struct {

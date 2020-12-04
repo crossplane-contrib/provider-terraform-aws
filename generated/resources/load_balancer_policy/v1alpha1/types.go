@@ -52,11 +52,11 @@ type LoadBalancerPolicySpec struct {
 
 // A LoadBalancerPolicyParameters defines the desired state of a LoadBalancerPolicy
 type LoadBalancerPolicyParameters struct {
-	Id               string            `json:"id"`
-	LoadBalancerName string            `json:"load_balancer_name"`
-	PolicyName       string            `json:"policy_name"`
-	PolicyTypeName   string            `json:"policy_type_name"`
-	PolicyAttribute  []PolicyAttribute `json:"policy_attribute"`
+	Id               string          `json:"id"`
+	LoadBalancerName string          `json:"load_balancer_name"`
+	PolicyName       string          `json:"policy_name"`
+	PolicyTypeName   string          `json:"policy_type_name"`
+	PolicyAttribute  PolicyAttribute `json:"policy_attribute"`
 }
 
 type PolicyAttribute struct {

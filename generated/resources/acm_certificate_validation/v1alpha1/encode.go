@@ -14,25 +14,31 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAcmCertificateValidation(r AcmCertificateValidation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAcmCertificateValidation(r AcmCertificateValidation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAcmCertificateValidation_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_ValidationRecordFqdns(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAcmCertificateValidation_CertificateArn(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
+func EncodeAcmCertificateValidation_CertificateArn(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
 	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
-func EncodeAcmCertificateValidation_Id(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
+func EncodeAcmCertificateValidation_Id(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAcmCertificateValidation_ValidationRecordFqdns(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
+func EncodeAcmCertificateValidation_ValidationRecordFqdns(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ValidationRecordFqdns {
 		colVals = append(colVals, cty.StringVal(value))
@@ -40,12 +46,12 @@ func EncodeAcmCertificateValidation_ValidationRecordFqdns(p *AcmCertificateValid
 	vals["validation_record_fqdns"] = cty.SetVal(colVals)
 }
 
-func EncodeAcmCertificateValidation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeAcmCertificateValidation_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAcmCertificateValidation_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeAcmCertificateValidation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeAcmCertificateValidation_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }

@@ -14,174 +14,32 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDefaultSecurityGroup(r DefaultSecurityGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeDefaultSecurityGroup_Egress(r.Spec.ForProvider.Egress, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDefaultSecurityGroup(r DefaultSecurityGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeDefaultSecurityGroup_RevokeRulesOnDelete(r.Spec.ForProvider, ctyVal)
+	EncodeDefaultSecurityGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultSecurityGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultSecurityGroup_Ingress(r.Spec.ForProvider.Ingress, ctyVal)
-	EncodeDefaultSecurityGroup_RevokeRulesOnDelete(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultSecurityGroup_VpcId(r.Spec.ForProvider, ctyVal)
-	EncodeDefaultSecurityGroup_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDefaultSecurityGroup_Description(r.Status.AtProvider, ctyVal)
+	EncodeDefaultSecurityGroup_Egress(r.Spec.ForProvider.Egress, ctyVal)
 	EncodeDefaultSecurityGroup_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeDefaultSecurityGroup_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDefaultSecurityGroup_Name(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeDefaultSecurityGroup_Description(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDefaultSecurityGroup_Egress(p *Egress, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Egress {
-		ctyVal = make(map[string]cty.Value)
-		EncodeDefaultSecurityGroup_Egress_Description(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_FromPort(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_Ipv6CidrBlocks(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_Self(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_Protocol(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_SecurityGroups(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_ToPort(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_CidrBlocks(v, ctyVal)
-		EncodeDefaultSecurityGroup_Egress_PrefixListIds(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["egress"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeDefaultSecurityGroup_Egress_Description(p *Egress, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDefaultSecurityGroup_Egress_FromPort(p *Egress, vals map[string]cty.Value) {
-	vals["from_port"] = cty.IntVal(p.FromPort)
-}
-
-func EncodeDefaultSecurityGroup_Egress_Ipv6CidrBlocks(p *Egress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Ipv6CidrBlocks {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["ipv6_cidr_blocks"] = cty.ListVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Egress_Self(p *Egress, vals map[string]cty.Value) {
-	vals["self"] = cty.BoolVal(p.Self)
-}
-
-func EncodeDefaultSecurityGroup_Egress_Protocol(p *Egress, vals map[string]cty.Value) {
-	vals["protocol"] = cty.StringVal(p.Protocol)
-}
-
-func EncodeDefaultSecurityGroup_Egress_SecurityGroups(p *Egress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SecurityGroups {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["security_groups"] = cty.SetVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Egress_ToPort(p *Egress, vals map[string]cty.Value) {
-	vals["to_port"] = cty.IntVal(p.ToPort)
-}
-
-func EncodeDefaultSecurityGroup_Egress_CidrBlocks(p *Egress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CidrBlocks {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["cidr_blocks"] = cty.ListVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Egress_PrefixListIds(p *Egress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.PrefixListIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["prefix_list_ids"] = cty.ListVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Id(p *DefaultSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDefaultSecurityGroup_Ingress(p *Ingress, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Ingress {
-		ctyVal = make(map[string]cty.Value)
-		EncodeDefaultSecurityGroup_Ingress_PrefixListIds(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_Description(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_Ipv6CidrBlocks(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_CidrBlocks(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_Self(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_ToPort(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_Protocol(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_SecurityGroups(v, ctyVal)
-		EncodeDefaultSecurityGroup_Ingress_FromPort(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["ingress"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_PrefixListIds(p *Ingress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.PrefixListIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["prefix_list_ids"] = cty.ListVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_Description(p *Ingress, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_Ipv6CidrBlocks(p *Ingress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Ipv6CidrBlocks {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["ipv6_cidr_blocks"] = cty.ListVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_CidrBlocks(p *Ingress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CidrBlocks {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["cidr_blocks"] = cty.ListVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_Self(p *Ingress, vals map[string]cty.Value) {
-	vals["self"] = cty.BoolVal(p.Self)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_ToPort(p *Ingress, vals map[string]cty.Value) {
-	vals["to_port"] = cty.IntVal(p.ToPort)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_Protocol(p *Ingress, vals map[string]cty.Value) {
-	vals["protocol"] = cty.StringVal(p.Protocol)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_SecurityGroups(p *Ingress, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SecurityGroups {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["security_groups"] = cty.SetVal(colVals)
-}
-
-func EncodeDefaultSecurityGroup_Ingress_FromPort(p *Ingress, vals map[string]cty.Value) {
-	vals["from_port"] = cty.IntVal(p.FromPort)
-}
-
-func EncodeDefaultSecurityGroup_RevokeRulesOnDelete(p *DefaultSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeDefaultSecurityGroup_RevokeRulesOnDelete(p DefaultSecurityGroupParameters, vals map[string]cty.Value) {
 	vals["revoke_rules_on_delete"] = cty.BoolVal(p.RevokeRulesOnDelete)
 }
 
-func EncodeDefaultSecurityGroup_VpcId(p *DefaultSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeDefaultSecurityGroup_Tags(p *DefaultSecurityGroupParameters, vals map[string]cty.Value) {
+func EncodeDefaultSecurityGroup_Tags(p DefaultSecurityGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -189,18 +47,166 @@ func EncodeDefaultSecurityGroup_Tags(p *DefaultSecurityGroupParameters, vals map
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDefaultSecurityGroup_Description(p *DefaultSecurityGroupObservation, vals map[string]cty.Value) {
+func EncodeDefaultSecurityGroup_Id(p DefaultSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDefaultSecurityGroup_Ingress(p []Ingress, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeDefaultSecurityGroup_Ingress_Self(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_CidrBlocks(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_Ipv6CidrBlocks(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_SecurityGroups(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_Description(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_Protocol(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_ToPort(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_FromPort(v, ctyVal)
+		EncodeDefaultSecurityGroup_Ingress_PrefixListIds(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["ingress"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_Self(p Ingress, vals map[string]cty.Value) {
+	vals["self"] = cty.BoolVal(p.Self)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_CidrBlocks(p Ingress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.CidrBlocks {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["cidr_blocks"] = cty.ListVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_Ipv6CidrBlocks(p Ingress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Ipv6CidrBlocks {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["ipv6_cidr_blocks"] = cty.ListVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_SecurityGroups(p Ingress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SecurityGroups {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["security_groups"] = cty.SetVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_Description(p Ingress, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeDefaultSecurityGroup_OwnerId(p *DefaultSecurityGroupObservation, vals map[string]cty.Value) {
+func EncodeDefaultSecurityGroup_Ingress_Protocol(p Ingress, vals map[string]cty.Value) {
+	vals["protocol"] = cty.StringVal(p.Protocol)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_ToPort(p Ingress, vals map[string]cty.Value) {
+	vals["to_port"] = cty.NumberIntVal(p.ToPort)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_FromPort(p Ingress, vals map[string]cty.Value) {
+	vals["from_port"] = cty.NumberIntVal(p.FromPort)
+}
+
+func EncodeDefaultSecurityGroup_Ingress_PrefixListIds(p Ingress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.PrefixListIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["prefix_list_ids"] = cty.ListVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_VpcId(p DefaultSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeDefaultSecurityGroup_Egress(p []Egress, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeDefaultSecurityGroup_Egress_FromPort(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_Ipv6CidrBlocks(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_Self(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_ToPort(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_Description(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_CidrBlocks(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_PrefixListIds(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_Protocol(v, ctyVal)
+		EncodeDefaultSecurityGroup_Egress_SecurityGroups(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["egress"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeDefaultSecurityGroup_Egress_FromPort(p Egress, vals map[string]cty.Value) {
+	vals["from_port"] = cty.NumberIntVal(p.FromPort)
+}
+
+func EncodeDefaultSecurityGroup_Egress_Ipv6CidrBlocks(p Egress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Ipv6CidrBlocks {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["ipv6_cidr_blocks"] = cty.ListVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_Egress_Self(p Egress, vals map[string]cty.Value) {
+	vals["self"] = cty.BoolVal(p.Self)
+}
+
+func EncodeDefaultSecurityGroup_Egress_ToPort(p Egress, vals map[string]cty.Value) {
+	vals["to_port"] = cty.NumberIntVal(p.ToPort)
+}
+
+func EncodeDefaultSecurityGroup_Egress_Description(p Egress, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeDefaultSecurityGroup_Egress_CidrBlocks(p Egress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.CidrBlocks {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["cidr_blocks"] = cty.ListVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_Egress_PrefixListIds(p Egress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.PrefixListIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["prefix_list_ids"] = cty.ListVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_Egress_Protocol(p Egress, vals map[string]cty.Value) {
+	vals["protocol"] = cty.StringVal(p.Protocol)
+}
+
+func EncodeDefaultSecurityGroup_Egress_SecurityGroups(p Egress, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SecurityGroups {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["security_groups"] = cty.SetVal(colVals)
+}
+
+func EncodeDefaultSecurityGroup_OwnerId(p DefaultSecurityGroupObservation, vals map[string]cty.Value) {
 	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }
 
-func EncodeDefaultSecurityGroup_Arn(p *DefaultSecurityGroupObservation, vals map[string]cty.Value) {
+func EncodeDefaultSecurityGroup_Arn(p DefaultSecurityGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeDefaultSecurityGroup_Name(p *DefaultSecurityGroupObservation, vals map[string]cty.Value) {
+func EncodeDefaultSecurityGroup_Name(p DefaultSecurityGroupObservation, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDefaultSecurityGroup_Description(p DefaultSecurityGroupObservation, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }

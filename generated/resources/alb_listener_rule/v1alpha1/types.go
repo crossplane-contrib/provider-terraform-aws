@@ -52,28 +52,62 @@ type AlbListenerRuleSpec struct {
 
 // A AlbListenerRuleParameters defines the desired state of a AlbListenerRule
 type AlbListenerRuleParameters struct {
-	ListenerArn string      `json:"listener_arn"`
-	Priority    int         `json:"priority"`
 	Id          string      `json:"id"`
+	ListenerArn string      `json:"listener_arn"`
+	Priority    int64       `json:"priority"`
 	Action      []Action    `json:"action"`
 	Condition   []Condition `json:"condition"`
 }
 
 type Action struct {
-	Order               int                 `json:"order"`
+	Order               int64               `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
 	Type                string              `json:"type"`
-	FixedResponse       FixedResponse       `json:"fixed_response"`
-	Forward             Forward             `json:"forward"`
 	Redirect            Redirect            `json:"redirect"`
 	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
 	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
+	FixedResponse       FixedResponse       `json:"fixed_response"`
+	Forward             Forward             `json:"forward"`
+}
+
+type Redirect struct {
+	Protocol   string `json:"protocol"`
+	Query      string `json:"query"`
+	StatusCode string `json:"status_code"`
+	Host       string `json:"host"`
+	Path       string `json:"path"`
+	Port       string `json:"port"`
+}
+
+type AuthenticateCognito struct {
+	SessionTimeout                   int64             `json:"session_timeout"`
+	UserPoolArn                      string            `json:"user_pool_arn"`
+	UserPoolClientId                 string            `json:"user_pool_client_id"`
+	UserPoolDomain                   string            `json:"user_pool_domain"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+}
+
+type AuthenticateOidc struct {
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	ClientId                         string            `json:"client_id"`
+	ClientSecret                     string            `json:"client_secret"`
+	Issuer                           string            `json:"issuer"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
 }
 
 type FixedResponse struct {
+	ContentType string `json:"content_type"`
 	MessageBody string `json:"message_body"`
 	StatusCode  string `json:"status_code"`
-	ContentType string `json:"content_type"`
 }
 
 type Forward struct {
@@ -82,56 +116,31 @@ type Forward struct {
 }
 
 type Stickiness struct {
-	Duration int  `json:"duration"`
-	Enabled  bool `json:"enabled"`
+	Duration int64 `json:"duration"`
+	Enabled  bool  `json:"enabled"`
 }
 
 type TargetGroup struct {
 	Arn    string `json:"arn"`
-	Weight int    `json:"weight"`
-}
-
-type Redirect struct {
-	StatusCode string `json:"status_code"`
-	Host       string `json:"host"`
-	Path       string `json:"path"`
-	Port       string `json:"port"`
-	Protocol   string `json:"protocol"`
-	Query      string `json:"query"`
-}
-
-type AuthenticateCognito struct {
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int               `json:"session_timeout"`
-	UserPoolArn                      string            `json:"user_pool_arn"`
-	UserPoolClientId                 string            `json:"user_pool_client_id"`
-	UserPoolDomain                   string            `json:"user_pool_domain"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-}
-
-type AuthenticateOidc struct {
-	ClientId                         string            `json:"client_id"`
-	Issuer                           string            `json:"issuer"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int               `json:"session_timeout"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	ClientSecret                     string            `json:"client_secret"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	Weight int64  `json:"weight"`
 }
 
 type Condition struct {
+	QueryString       QueryString       `json:"query_string"`
+	SourceIp          SourceIp          `json:"source_ip"`
 	HostHeader        HostHeader        `json:"host_header"`
 	HttpHeader        HttpHeader        `json:"http_header"`
 	HttpRequestMethod HttpRequestMethod `json:"http_request_method"`
 	PathPattern       PathPattern       `json:"path_pattern"`
-	QueryString       []QueryString     `json:"query_string"`
-	SourceIp          SourceIp          `json:"source_ip"`
+}
+
+type QueryString struct {
+	Value string `json:"value"`
+	Key   string `json:"key"`
+}
+
+type SourceIp struct {
+	Values []string `json:"values"`
 }
 
 type HostHeader struct {
@@ -148,15 +157,6 @@ type HttpRequestMethod struct {
 }
 
 type PathPattern struct {
-	Values []string `json:"values"`
-}
-
-type QueryString struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
-}
-
-type SourceIp struct {
 	Values []string `json:"values"`
 }
 

@@ -14,56 +14,62 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLicensemanagerLicenseConfiguration(r LicensemanagerLicenseConfiguration) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeLicensemanagerLicenseConfiguration_Name(r.Spec.ForProvider, ctyVal)
-	EncodeLicensemanagerLicenseConfiguration_Tags(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLicensemanagerLicenseConfiguration(r LicensemanagerLicenseConfiguration) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeLicensemanagerLicenseConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseCount(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseCountingType(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseRules(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerLicenseConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerLicenseConfiguration_Tags(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLicensemanagerLicenseConfiguration_Name(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_Tags(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_Description(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerLicenseConfiguration_Description(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeLicensemanagerLicenseConfiguration_Id(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerLicenseConfiguration_Id(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeLicensemanagerLicenseConfiguration_LicenseCount(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	vals["license_count"] = cty.IntVal(p.LicenseCount)
+func EncodeLicensemanagerLicenseConfiguration_LicenseCount(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	vals["license_count"] = cty.NumberIntVal(p.LicenseCount)
 }
 
-func EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
 	vals["license_count_hard_limit"] = cty.BoolVal(p.LicenseCountHardLimit)
 }
 
-func EncodeLicensemanagerLicenseConfiguration_LicenseCountingType(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerLicenseConfiguration_LicenseCountingType(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
 	vals["license_counting_type"] = cty.StringVal(p.LicenseCountingType)
 }
 
-func EncodeLicensemanagerLicenseConfiguration_LicenseRules(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+func EncodeLicensemanagerLicenseConfiguration_LicenseRules(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.LicenseRules {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["license_rules"] = cty.ListVal(colVals)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_Name(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_Tags(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }

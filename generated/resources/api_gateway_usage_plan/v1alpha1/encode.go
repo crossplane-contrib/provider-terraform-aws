@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayUsagePlan(r ApiGatewayUsagePlan) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayUsagePlan(r ApiGatewayUsagePlan) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayUsagePlan_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Name(r.Spec.ForProvider, ctyVal)
@@ -25,26 +31,26 @@ package v1alpha1func EncodeApiGatewayUsagePlan(r ApiGatewayUsagePlan) cty.Value 
 	EncodeApiGatewayUsagePlan_QuotaSettings(r.Spec.ForProvider.QuotaSettings, ctyVal)
 	EncodeApiGatewayUsagePlan_ThrottleSettings(r.Spec.ForProvider.ThrottleSettings, ctyVal)
 	EncodeApiGatewayUsagePlan_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayUsagePlan_Description(p *ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_Description(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApiGatewayUsagePlan_Id(p *ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_Id(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayUsagePlan_Name(p *ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_Name(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeApiGatewayUsagePlan_ProductCode(p *ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_ProductCode(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
 	vals["product_code"] = cty.StringVal(p.ProductCode)
 }
 
-func EncodeApiGatewayUsagePlan_Tags(p *ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_Tags(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -52,68 +58,62 @@ func EncodeApiGatewayUsagePlan_Tags(p *ApiGatewayUsagePlanParameters, vals map[s
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayUsagePlan_ApiStages(p *ApiStages, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.ApiStages {
-		ctyVal = make(map[string]cty.Value)
-		EncodeApiGatewayUsagePlan_ApiStages_ApiId(v, ctyVal)
-		EncodeApiGatewayUsagePlan_ApiStages_Stage(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeApiGatewayUsagePlan_ApiStages(p ApiStages, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayUsagePlan_ApiStages_ApiId(p, ctyVal)
+	EncodeApiGatewayUsagePlan_ApiStages_Stage(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["api_stages"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApiGatewayUsagePlan_ApiStages_ApiId(p *ApiStages, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_ApiStages_ApiId(p ApiStages, vals map[string]cty.Value) {
 	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
-func EncodeApiGatewayUsagePlan_ApiStages_Stage(p *ApiStages, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_ApiStages_Stage(p ApiStages, vals map[string]cty.Value) {
 	vals["stage"] = cty.StringVal(p.Stage)
 }
 
-func EncodeApiGatewayUsagePlan_QuotaSettings(p *QuotaSettings, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.QuotaSettings {
-		ctyVal = make(map[string]cty.Value)
-		EncodeApiGatewayUsagePlan_QuotaSettings_Limit(v, ctyVal)
-		EncodeApiGatewayUsagePlan_QuotaSettings_Offset(v, ctyVal)
-		EncodeApiGatewayUsagePlan_QuotaSettings_Period(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeApiGatewayUsagePlan_QuotaSettings(p QuotaSettings, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayUsagePlan_QuotaSettings_Limit(p, ctyVal)
+	EncodeApiGatewayUsagePlan_QuotaSettings_Offset(p, ctyVal)
+	EncodeApiGatewayUsagePlan_QuotaSettings_Period(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["quota_settings"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApiGatewayUsagePlan_QuotaSettings_Limit(p *QuotaSettings, vals map[string]cty.Value) {
-	vals["limit"] = cty.IntVal(p.Limit)
+func EncodeApiGatewayUsagePlan_QuotaSettings_Limit(p QuotaSettings, vals map[string]cty.Value) {
+	vals["limit"] = cty.NumberIntVal(p.Limit)
 }
 
-func EncodeApiGatewayUsagePlan_QuotaSettings_Offset(p *QuotaSettings, vals map[string]cty.Value) {
-	vals["offset"] = cty.IntVal(p.Offset)
+func EncodeApiGatewayUsagePlan_QuotaSettings_Offset(p QuotaSettings, vals map[string]cty.Value) {
+	vals["offset"] = cty.NumberIntVal(p.Offset)
 }
 
-func EncodeApiGatewayUsagePlan_QuotaSettings_Period(p *QuotaSettings, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_QuotaSettings_Period(p QuotaSettings, vals map[string]cty.Value) {
 	vals["period"] = cty.StringVal(p.Period)
 }
 
-func EncodeApiGatewayUsagePlan_ThrottleSettings(p *ThrottleSettings, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.ThrottleSettings {
-		ctyVal = make(map[string]cty.Value)
-		EncodeApiGatewayUsagePlan_ThrottleSettings_BurstLimit(v, ctyVal)
-		EncodeApiGatewayUsagePlan_ThrottleSettings_RateLimit(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeApiGatewayUsagePlan_ThrottleSettings(p ThrottleSettings, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayUsagePlan_ThrottleSettings_BurstLimit(p, ctyVal)
+	EncodeApiGatewayUsagePlan_ThrottleSettings_RateLimit(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["throttle_settings"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApiGatewayUsagePlan_ThrottleSettings_BurstLimit(p *ThrottleSettings, vals map[string]cty.Value) {
-	vals["burst_limit"] = cty.IntVal(p.BurstLimit)
+func EncodeApiGatewayUsagePlan_ThrottleSettings_BurstLimit(p ThrottleSettings, vals map[string]cty.Value) {
+	vals["burst_limit"] = cty.NumberIntVal(p.BurstLimit)
 }
 
-func EncodeApiGatewayUsagePlan_ThrottleSettings_RateLimit(p *ThrottleSettings, vals map[string]cty.Value) {
-	vals["rate_limit"] = cty.IntVal(p.RateLimit)
+func EncodeApiGatewayUsagePlan_ThrottleSettings_RateLimit(p ThrottleSettings, vals map[string]cty.Value) {
+	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
 }
 
-func EncodeApiGatewayUsagePlan_Arn(p *ApiGatewayUsagePlanObservation, vals map[string]cty.Value) {
+func EncodeApiGatewayUsagePlan_Arn(p ApiGatewayUsagePlanObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

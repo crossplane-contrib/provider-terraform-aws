@@ -52,22 +52,17 @@ type ElastictranscoderPipelineSpec struct {
 
 // A ElastictranscoderPipelineParameters defines the desired state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineParameters struct {
-	Name                       string                       `json:"name"`
-	OutputBucket               string                       `json:"output_bucket"`
-	Role                       string                       `json:"role"`
-	AwsKmsKeyArn               string                       `json:"aws_kms_key_arn"`
-	Id                         string                       `json:"id"`
-	InputBucket                string                       `json:"input_bucket"`
-	ContentConfig              ContentConfig                `json:"content_config"`
-	ContentConfigPermissions   []ContentConfigPermissions   `json:"content_config_permissions"`
-	Notifications              Notifications                `json:"notifications"`
-	ThumbnailConfig            ThumbnailConfig              `json:"thumbnail_config"`
-	ThumbnailConfigPermissions []ThumbnailConfigPermissions `json:"thumbnail_config_permissions"`
-}
-
-type ContentConfig struct {
-	Bucket       string `json:"bucket"`
-	StorageClass string `json:"storage_class"`
+	Role                       string                     `json:"role"`
+	AwsKmsKeyArn               string                     `json:"aws_kms_key_arn"`
+	Id                         string                     `json:"id"`
+	InputBucket                string                     `json:"input_bucket"`
+	Name                       string                     `json:"name"`
+	OutputBucket               string                     `json:"output_bucket"`
+	ContentConfigPermissions   ContentConfigPermissions   `json:"content_config_permissions"`
+	Notifications              Notifications              `json:"notifications"`
+	ThumbnailConfig            ThumbnailConfig            `json:"thumbnail_config"`
+	ThumbnailConfigPermissions ThumbnailConfigPermissions `json:"thumbnail_config_permissions"`
+	ContentConfig              ContentConfig              `json:"content_config"`
 }
 
 type ContentConfigPermissions struct {
@@ -92,6 +87,11 @@ type ThumbnailConfigPermissions struct {
 	Access      []string `json:"access"`
 	Grantee     string   `json:"grantee"`
 	GranteeType string   `json:"grantee_type"`
+}
+
+type ContentConfig struct {
+	StorageClass string `json:"storage_class"`
+	Bucket       string `json:"bucket"`
 }
 
 // A ElastictranscoderPipelineStatus defines the observed state of a ElastictranscoderPipeline

@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCloudwatchLogSubscriptionFilter(r CloudwatchLogSubscriptionFilter) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCloudwatchLogSubscriptionFilter(r CloudwatchLogSubscriptionFilter) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchLogSubscriptionFilter_DestinationArn(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_Distribution(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_FilterPattern(r.Spec.ForProvider, ctyVal)
@@ -24,33 +30,33 @@ package v1alpha1func EncodeCloudwatchLogSubscriptionFilter(r CloudwatchLogSubscr
 	EncodeCloudwatchLogSubscriptionFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_RoleArn(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudwatchLogSubscriptionFilter_DestinationArn(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogSubscriptionFilter_DestinationArn(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
 }
 
-func EncodeCloudwatchLogSubscriptionFilter_Distribution(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogSubscriptionFilter_Distribution(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["distribution"] = cty.StringVal(p.Distribution)
 }
 
-func EncodeCloudwatchLogSubscriptionFilter_FilterPattern(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogSubscriptionFilter_FilterPattern(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["filter_pattern"] = cty.StringVal(p.FilterPattern)
 }
 
-func EncodeCloudwatchLogSubscriptionFilter_Id(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogSubscriptionFilter_Id(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCloudwatchLogSubscriptionFilter_LogGroupName(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogSubscriptionFilter_LogGroupName(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
 }
 
-func EncodeCloudwatchLogSubscriptionFilter_Name(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogSubscriptionFilter_Name(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeCloudwatchLogSubscriptionFilter_RoleArn(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+func EncodeCloudwatchLogSubscriptionFilter_RoleArn(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }

@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApigatewayv2DomainName(r Apigatewayv2DomainName) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApigatewayv2DomainName(r Apigatewayv2DomainName) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApigatewayv2DomainName_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2DomainName_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2DomainName_Tags(r.Spec.ForProvider, ctyVal)
@@ -23,18 +29,18 @@ package v1alpha1func EncodeApigatewayv2DomainName(r Apigatewayv2DomainName) cty.
 	EncodeApigatewayv2DomainName_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeApigatewayv2DomainName_ApiMappingSelectionExpression(r.Status.AtProvider, ctyVal)
 	EncodeApigatewayv2DomainName_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2DomainName_DomainName(p *Apigatewayv2DomainNameParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_DomainName(p Apigatewayv2DomainNameParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
-func EncodeApigatewayv2DomainName_Id(p *Apigatewayv2DomainNameParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_Id(p Apigatewayv2DomainNameParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApigatewayv2DomainName_Tags(p *Apigatewayv2DomainNameParameters, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_Tags(p Apigatewayv2DomainNameParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -42,54 +48,52 @@ func EncodeApigatewayv2DomainName_Tags(p *Apigatewayv2DomainNameParameters, vals
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApigatewayv2DomainName_DomainNameConfiguration(p *DomainNameConfiguration, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.DomainNameConfiguration {
-		ctyVal = make(map[string]cty.Value)
-		EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(v, ctyVal)
-		EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(v, ctyVal)
-		EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(v, ctyVal)
-		EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(v, ctyVal)
-		EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeApigatewayv2DomainName_DomainNameConfiguration(p DomainNameConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["domain_name_configuration"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p *DomainNameConfiguration, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p *DomainNameConfiguration, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["endpoint_type"] = cty.StringVal(p.EndpointType)
 }
 
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p *DomainNameConfiguration, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["hosted_zone_id"] = cty.StringVal(p.HostedZoneId)
 }
 
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p *DomainNameConfiguration, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
 }
 
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p *DomainNameConfiguration, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["target_domain_name"] = cty.StringVal(p.TargetDomainName)
 }
 
-func EncodeApigatewayv2DomainName_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeApigatewayv2DomainName_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApigatewayv2DomainName_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2DomainName_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeApigatewayv2DomainName_ApiMappingSelectionExpression(p *Apigatewayv2DomainNameObservation, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_ApiMappingSelectionExpression(p Apigatewayv2DomainNameObservation, vals map[string]cty.Value) {
 	vals["api_mapping_selection_expression"] = cty.StringVal(p.ApiMappingSelectionExpression)
 }
 
-func EncodeApigatewayv2DomainName_Arn(p *Apigatewayv2DomainNameObservation, vals map[string]cty.Value) {
+func EncodeApigatewayv2DomainName_Arn(p Apigatewayv2DomainNameObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

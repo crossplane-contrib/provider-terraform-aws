@@ -14,37 +14,43 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSecurityhubMember(r SecurityhubMember) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeSecurityhubMember_Invite(r.Spec.ForProvider, ctyVal)
-	EncodeSecurityhubMember_AccountId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSecurityhubMember(r SecurityhubMember) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeSecurityhubMember_Email(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSecurityhubMember_Invite(r.Spec.ForProvider, ctyVal)
+	EncodeSecurityhubMember_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_MasterId(r.Status.AtProvider, ctyVal)
 	EncodeSecurityhubMember_MemberStatus(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSecurityhubMember_Invite(p *SecurityhubMemberParameters, vals map[string]cty.Value) {
-	vals["invite"] = cty.BoolVal(p.Invite)
-}
-
-func EncodeSecurityhubMember_AccountId(p *SecurityhubMemberParameters, vals map[string]cty.Value) {
-	vals["account_id"] = cty.StringVal(p.AccountId)
-}
-
-func EncodeSecurityhubMember_Email(p *SecurityhubMemberParameters, vals map[string]cty.Value) {
+func EncodeSecurityhubMember_Email(p SecurityhubMemberParameters, vals map[string]cty.Value) {
 	vals["email"] = cty.StringVal(p.Email)
 }
 
-func EncodeSecurityhubMember_Id(p *SecurityhubMemberParameters, vals map[string]cty.Value) {
+func EncodeSecurityhubMember_Id(p SecurityhubMemberParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSecurityhubMember_MasterId(p *SecurityhubMemberObservation, vals map[string]cty.Value) {
+func EncodeSecurityhubMember_Invite(p SecurityhubMemberParameters, vals map[string]cty.Value) {
+	vals["invite"] = cty.BoolVal(p.Invite)
+}
+
+func EncodeSecurityhubMember_AccountId(p SecurityhubMemberParameters, vals map[string]cty.Value) {
+	vals["account_id"] = cty.StringVal(p.AccountId)
+}
+
+func EncodeSecurityhubMember_MasterId(p SecurityhubMemberObservation, vals map[string]cty.Value) {
 	vals["master_id"] = cty.StringVal(p.MasterId)
 }
 
-func EncodeSecurityhubMember_MemberStatus(p *SecurityhubMemberObservation, vals map[string]cty.Value) {
+func EncodeSecurityhubMember_MemberStatus(p SecurityhubMemberObservation, vals map[string]cty.Value) {
 	vals["member_status"] = cty.StringVal(p.MemberStatus)
 }

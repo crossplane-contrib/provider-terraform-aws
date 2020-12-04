@@ -52,9 +52,9 @@ type DefaultVpcDhcpOptionsSpec struct {
 
 // A DefaultVpcDhcpOptionsParameters defines the desired state of a DefaultVpcDhcpOptions
 type DefaultVpcDhcpOptionsParameters struct {
+	Id                 string            `json:"id"`
 	NetbiosNodeType    string            `json:"netbios_node_type"`
 	Tags               map[string]string `json:"tags"`
-	Id                 string            `json:"id"`
 	NetbiosNameServers []string          `json:"netbios_name_servers"`
 }
 
@@ -66,9 +66,9 @@ type DefaultVpcDhcpOptionsStatus struct {
 
 // A DefaultVpcDhcpOptionsObservation records the observed state of a DefaultVpcDhcpOptions
 type DefaultVpcDhcpOptionsObservation struct {
-	OwnerId           string `json:"owner_id"`
-	DomainNameServers string `json:"domain_name_servers"`
+	Arn               string `json:"arn"`
 	DomainName        string `json:"domain_name"`
 	NtpServers        string `json:"ntp_servers"`
-	Arn               string `json:"arn"`
+	OwnerId           string `json:"owner_id"`
+	DomainNameServers string `json:"domain_name_servers"`
 }

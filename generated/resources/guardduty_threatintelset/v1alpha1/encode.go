@@ -14,32 +14,50 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeGuarddutyThreatintelset(r GuarddutyThreatintelset) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeGuarddutyThreatintelset(r GuarddutyThreatintelset) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyThreatintelset_Activate(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyThreatintelset_DetectorId(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyThreatintelset_Format(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Location(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyThreatintelset_Activate(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyThreatintelset_DetectorId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyThreatintelset_Format(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGuarddutyThreatintelset_Id(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyThreatintelset_Activate(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	vals["activate"] = cty.BoolVal(p.Activate)
+}
+
+func EncodeGuarddutyThreatintelset_DetectorId(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	vals["detector_id"] = cty.StringVal(p.DetectorId)
+}
+
+func EncodeGuarddutyThreatintelset_Format(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	vals["format"] = cty.StringVal(p.Format)
+}
+
+func EncodeGuarddutyThreatintelset_Id(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeGuarddutyThreatintelset_Location(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyThreatintelset_Location(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	vals["location"] = cty.StringVal(p.Location)
 }
 
-func EncodeGuarddutyThreatintelset_Name(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyThreatintelset_Name(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeGuarddutyThreatintelset_Tags(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyThreatintelset_Tags(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -47,18 +65,6 @@ func EncodeGuarddutyThreatintelset_Tags(p *GuarddutyThreatintelsetParameters, va
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeGuarddutyThreatintelset_Activate(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
-	vals["activate"] = cty.BoolVal(p.Activate)
-}
-
-func EncodeGuarddutyThreatintelset_DetectorId(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
-	vals["detector_id"] = cty.StringVal(p.DetectorId)
-}
-
-func EncodeGuarddutyThreatintelset_Format(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
-	vals["format"] = cty.StringVal(p.Format)
-}
-
-func EncodeGuarddutyThreatintelset_Arn(p *GuarddutyThreatintelsetObservation, vals map[string]cty.Value) {
+func EncodeGuarddutyThreatintelset_Arn(p GuarddutyThreatintelsetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

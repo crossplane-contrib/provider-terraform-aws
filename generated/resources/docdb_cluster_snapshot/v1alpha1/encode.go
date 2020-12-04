@@ -14,81 +14,59 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDocdbClusterSnapshot(r DocdbClusterSnapshot) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDocdbClusterSnapshot(r DocdbClusterSnapshot) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDocdbClusterSnapshot_DbClusterSnapshotIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_DbClusterIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeDocdbClusterSnapshot_EngineVersion(r.Status.AtProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_VpcId(r.Status.AtProvider, ctyVal)
+	EncodeDocdbClusterSnapshot_AvailabilityZones(r.Status.AtProvider, ctyVal)
+	EncodeDocdbClusterSnapshot_Port(r.Status.AtProvider, ctyVal)
+	EncodeDocdbClusterSnapshot_SnapshotType(r.Status.AtProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_SourceDbClusterSnapshotArn(r.Status.AtProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_Status(r.Status.AtProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_StorageEncrypted(r.Status.AtProvider, ctyVal)
-	EncodeDocdbClusterSnapshot_Engine(r.Status.AtProvider, ctyVal)
-	EncodeDocdbClusterSnapshot_KmsKeyId(r.Status.AtProvider, ctyVal)
-	EncodeDocdbClusterSnapshot_SnapshotType(r.Status.AtProvider, ctyVal)
-	EncodeDocdbClusterSnapshot_AvailabilityZones(r.Status.AtProvider, ctyVal)
 	EncodeDocdbClusterSnapshot_DbClusterSnapshotArn(r.Status.AtProvider, ctyVal)
-	EncodeDocdbClusterSnapshot_Port(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeDocdbClusterSnapshot_Engine(r.Status.AtProvider, ctyVal)
+	EncodeDocdbClusterSnapshot_EngineVersion(r.Status.AtProvider, ctyVal)
+	EncodeDocdbClusterSnapshot_KmsKeyId(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDocdbClusterSnapshot_DbClusterSnapshotIdentifier(p *DocdbClusterSnapshotParameters, vals map[string]cty.Value) {
+func EncodeDocdbClusterSnapshot_DbClusterSnapshotIdentifier(p DocdbClusterSnapshotParameters, vals map[string]cty.Value) {
 	vals["db_cluster_snapshot_identifier"] = cty.StringVal(p.DbClusterSnapshotIdentifier)
 }
 
-func EncodeDocdbClusterSnapshot_Id(p *DocdbClusterSnapshotParameters, vals map[string]cty.Value) {
+func EncodeDocdbClusterSnapshot_Id(p DocdbClusterSnapshotParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDocdbClusterSnapshot_DbClusterIdentifier(p *DocdbClusterSnapshotParameters, vals map[string]cty.Value) {
+func EncodeDocdbClusterSnapshot_DbClusterIdentifier(p DocdbClusterSnapshotParameters, vals map[string]cty.Value) {
 	vals["db_cluster_identifier"] = cty.StringVal(p.DbClusterIdentifier)
 }
 
-func EncodeDocdbClusterSnapshot_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeDocdbClusterSnapshot_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDocdbClusterSnapshot_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeDocdbClusterSnapshot_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeDocdbClusterSnapshot_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeDocdbClusterSnapshot_EngineVersion(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
-}
-
-func EncodeDocdbClusterSnapshot_VpcId(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+func EncodeDocdbClusterSnapshot_VpcId(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeDocdbClusterSnapshot_SourceDbClusterSnapshotArn(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["source_db_cluster_snapshot_arn"] = cty.StringVal(p.SourceDbClusterSnapshotArn)
-}
-
-func EncodeDocdbClusterSnapshot_Status(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
-func EncodeDocdbClusterSnapshot_StorageEncrypted(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["storage_encrypted"] = cty.BoolVal(p.StorageEncrypted)
-}
-
-func EncodeDocdbClusterSnapshot_Engine(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["engine"] = cty.StringVal(p.Engine)
-}
-
-func EncodeDocdbClusterSnapshot_KmsKeyId(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
-func EncodeDocdbClusterSnapshot_SnapshotType(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["snapshot_type"] = cty.StringVal(p.SnapshotType)
-}
-
-func EncodeDocdbClusterSnapshot_AvailabilityZones(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+func EncodeDocdbClusterSnapshot_AvailabilityZones(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.AvailabilityZones {
 		colVals = append(colVals, cty.StringVal(value))
@@ -96,10 +74,38 @@ func EncodeDocdbClusterSnapshot_AvailabilityZones(p *DocdbClusterSnapshotObserva
 	vals["availability_zones"] = cty.ListVal(colVals)
 }
 
-func EncodeDocdbClusterSnapshot_DbClusterSnapshotArn(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+func EncodeDocdbClusterSnapshot_Port(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
+}
+
+func EncodeDocdbClusterSnapshot_SnapshotType(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["snapshot_type"] = cty.StringVal(p.SnapshotType)
+}
+
+func EncodeDocdbClusterSnapshot_SourceDbClusterSnapshotArn(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["source_db_cluster_snapshot_arn"] = cty.StringVal(p.SourceDbClusterSnapshotArn)
+}
+
+func EncodeDocdbClusterSnapshot_Status(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeDocdbClusterSnapshot_StorageEncrypted(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["storage_encrypted"] = cty.BoolVal(p.StorageEncrypted)
+}
+
+func EncodeDocdbClusterSnapshot_DbClusterSnapshotArn(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
 	vals["db_cluster_snapshot_arn"] = cty.StringVal(p.DbClusterSnapshotArn)
 }
 
-func EncodeDocdbClusterSnapshot_Port(p *DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
-	vals["port"] = cty.IntVal(p.Port)
+func EncodeDocdbClusterSnapshot_Engine(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["engine"] = cty.StringVal(p.Engine)
+}
+
+func EncodeDocdbClusterSnapshot_EngineVersion(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+}
+
+func EncodeDocdbClusterSnapshot_KmsKeyId(p DocdbClusterSnapshotObservation, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }

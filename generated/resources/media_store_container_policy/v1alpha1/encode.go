@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeMediaStoreContainerPolicy(r MediaStoreContainerPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeMediaStoreContainerPolicy(r MediaStoreContainerPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeMediaStoreContainerPolicy_ContainerName(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainerPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainerPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMediaStoreContainerPolicy_ContainerName(p *MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
+func EncodeMediaStoreContainerPolicy_ContainerName(p MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
 	vals["container_name"] = cty.StringVal(p.ContainerName)
 }
 
-func EncodeMediaStoreContainerPolicy_Id(p *MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
+func EncodeMediaStoreContainerPolicy_Id(p MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeMediaStoreContainerPolicy_Policy(p *MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
+func EncodeMediaStoreContainerPolicy_Policy(p MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }

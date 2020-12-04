@@ -52,17 +52,17 @@ type GameliftGameSessionQueueSpec struct {
 
 // A GameliftGameSessionQueueParameters defines the desired state of a GameliftGameSessionQueue
 type GameliftGameSessionQueueParameters struct {
-	Name                string                `json:"name"`
-	Tags                map[string]string     `json:"tags"`
-	TimeoutInSeconds    int                   `json:"timeout_in_seconds"`
-	Destinations        []string              `json:"destinations"`
-	Id                  string                `json:"id"`
-	PlayerLatencyPolicy []PlayerLatencyPolicy `json:"player_latency_policy"`
+	Destinations        []string            `json:"destinations"`
+	Id                  string              `json:"id"`
+	Name                string              `json:"name"`
+	Tags                map[string]string   `json:"tags"`
+	TimeoutInSeconds    int64               `json:"timeout_in_seconds"`
+	PlayerLatencyPolicy PlayerLatencyPolicy `json:"player_latency_policy"`
 }
 
 type PlayerLatencyPolicy struct {
-	PolicyDurationSeconds                      int `json:"policy_duration_seconds"`
-	MaximumIndividualPlayerLatencyMilliseconds int `json:"maximum_individual_player_latency_milliseconds"`
+	MaximumIndividualPlayerLatencyMilliseconds int64 `json:"maximum_individual_player_latency_milliseconds"`
+	PolicyDurationSeconds                      int64 `json:"policy_duration_seconds"`
 }
 
 // A GameliftGameSessionQueueStatus defines the observed state of a GameliftGameSessionQueue

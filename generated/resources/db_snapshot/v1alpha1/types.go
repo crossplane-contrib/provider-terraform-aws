@@ -52,11 +52,11 @@ type DbSnapshotSpec struct {
 
 // A DbSnapshotParameters defines the desired state of a DbSnapshot
 type DbSnapshotParameters struct {
-	Id                   string            `json:"id"`
-	DbSnapshotIdentifier string            `json:"db_snapshot_identifier"`
-	Tags                 map[string]string `json:"tags"`
 	DbInstanceIdentifier string            `json:"db_instance_identifier"`
-	Timeouts             []Timeouts        `json:"timeouts"`
+	DbSnapshotIdentifier string            `json:"db_snapshot_identifier"`
+	Id                   string            `json:"id"`
+	Tags                 map[string]string `json:"tags"`
+	Timeouts             Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
@@ -71,21 +71,21 @@ type DbSnapshotStatus struct {
 
 // A DbSnapshotObservation records the observed state of a DbSnapshot
 type DbSnapshotObservation struct {
-	Encrypted                  bool   `json:"encrypted"`
-	Engine                     string `json:"engine"`
-	Port                       int    `json:"port"`
-	SourceRegion               string `json:"source_region"`
+	Iops                       int64  `json:"iops"`
+	Status                     string `json:"status"`
 	StorageType                string `json:"storage_type"`
+	SourceRegion               string `json:"source_region"`
 	VpcId                      string `json:"vpc_id"`
-	EngineVersion              string `json:"engine_version"`
-	Iops                       int    `json:"iops"`
-	LicenseModel               string `json:"license_model"`
 	OptionGroupName            string `json:"option_group_name"`
+	Port                       int64  `json:"port"`
+	AvailabilityZone           string `json:"availability_zone"`
+	Encrypted                  bool   `json:"encrypted"`
+	EngineVersion              string `json:"engine_version"`
 	SnapshotType               string `json:"snapshot_type"`
 	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
-	KmsKeyId                   string `json:"kms_key_id"`
-	Status                     string `json:"status"`
-	AllocatedStorage           int    `json:"allocated_storage"`
-	AvailabilityZone           string `json:"availability_zone"`
+	AllocatedStorage           int64  `json:"allocated_storage"`
 	DbSnapshotArn              string `json:"db_snapshot_arn"`
+	Engine                     string `json:"engine"`
+	KmsKeyId                   string `json:"kms_key_id"`
+	LicenseModel               string `json:"license_model"`
 }

@@ -58,11 +58,11 @@ type CodecommitTriggerParameters struct {
 }
 
 type Trigger struct {
+	Branches       []string `json:"branches"`
+	CustomData     string   `json:"custom_data"`
 	DestinationArn string   `json:"destination_arn"`
 	Events         []string `json:"events"`
 	Name           string   `json:"name"`
-	Branches       []string `json:"branches"`
-	CustomData     string   `json:"custom_data"`
 }
 
 // A CodecommitTriggerStatus defines the observed state of a CodecommitTrigger

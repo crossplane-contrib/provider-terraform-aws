@@ -52,21 +52,21 @@ type AppsyncResolverSpec struct {
 
 // A AppsyncResolverParameters defines the desired state of a AppsyncResolver
 type AppsyncResolverParameters struct {
-	Field            string         `json:"field"`
-	Id               string         `json:"id"`
 	Kind             string         `json:"kind"`
-	RequestTemplate  string         `json:"request_template"`
 	ResponseTemplate string         `json:"response_template"`
+	Id               string         `json:"id"`
+	RequestTemplate  string         `json:"request_template"`
 	Type             string         `json:"type"`
 	ApiId            string         `json:"api_id"`
 	DataSource       string         `json:"data_source"`
+	Field            string         `json:"field"`
 	CachingConfig    CachingConfig  `json:"caching_config"`
 	PipelineConfig   PipelineConfig `json:"pipeline_config"`
 }
 
 type CachingConfig struct {
-	Ttl         int      `json:"ttl"`
 	CachingKeys []string `json:"caching_keys"`
+	Ttl         int64    `json:"ttl"`
 }
 
 type PipelineConfig struct {

@@ -14,22 +14,28 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeLightsailDomain(r LightsailDomain) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeLightsailDomain(r LightsailDomain) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeLightsailDomain_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailDomain_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLightsailDomain_DomainName(p *LightsailDomainParameters, vals map[string]cty.Value) {
+func EncodeLightsailDomain_DomainName(p LightsailDomainParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
-func EncodeLightsailDomain_Id(p *LightsailDomainParameters, vals map[string]cty.Value) {
+func EncodeLightsailDomain_Id(p LightsailDomainParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeLightsailDomain_Arn(p *LightsailDomainObservation, vals map[string]cty.Value) {
+func EncodeLightsailDomain_Arn(p LightsailDomainObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

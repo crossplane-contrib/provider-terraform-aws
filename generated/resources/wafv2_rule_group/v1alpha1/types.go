@@ -52,19 +52,19 @@ type Wafv2RuleGroupSpec struct {
 
 // A Wafv2RuleGroupParameters defines the desired state of a Wafv2RuleGroup
 type Wafv2RuleGroupParameters struct {
-	Scope            string            `json:"scope"`
-	Tags             map[string]string `json:"tags"`
-	Capacity         int               `json:"capacity"`
+	Capacity         int64             `json:"capacity"`
 	Description      string            `json:"description"`
 	Id               string            `json:"id"`
 	Name             string            `json:"name"`
-	Rule             []Rule            `json:"rule"`
+	Scope            string            `json:"scope"`
+	Tags             map[string]string `json:"tags"`
+	Rule             Rule              `json:"rule"`
 	VisibilityConfig VisibilityConfig  `json:"visibility_config"`
 }
 
 type Rule struct {
 	Name             string           `json:"name"`
-	Priority         int              `json:"priority"`
+	Priority         int64            `json:"priority"`
 	Action           Action           `json:"action"`
 	Statement        Statement        `json:"statement"`
 	VisibilityConfig VisibilityConfig `json:"visibility_config"`
@@ -83,1412 +83,17 @@ type Block struct{}
 type Count struct{}
 
 type Statement struct {
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	NotStatement                      NotStatement                      `json:"not_statement"`
-	OrStatement                       OrStatement                       `json:"or_statement"`
-	AndStatement                      AndStatement                      `json:"and_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SqliMatchStatement struct {
-	TextTransformation []TextTransformation `json:"text_transformation"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type XssMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-}
-
-type NotStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	NotStatement                      NotStatement                      `json:"not_statement"`
-	OrStatement                       OrStatement                       `json:"or_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-	AndStatement                      AndStatement                      `json:"and_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-}
-
-type XssMatchStatement struct {
-	TextTransformation []TextTransformation `json:"text_transformation"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type FieldToMatch struct {
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-}
-
-type NotStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Type     string `json:"type"`
-	Priority int    `json:"priority"`
-}
-
-type XssMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type ByteMatchStatement struct {
-	SearchString         string               `json:"search_string"`
-	PositionalConstraint string               `json:"positional_constraint"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type OrStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type XssMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type AndStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type XssMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-	FallbackBehavior string `json:"fallback_behavior"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-}
-
-type TextTransformation struct {
-	Type     string `json:"type"`
-	Priority int    `json:"priority"`
-}
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type OrStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-	AndStatement                      AndStatement                      `json:"and_statement"`
 	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
 	NotStatement                      NotStatement                      `json:"not_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	AndStatement                      AndStatement                      `json:"and_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
 	OrStatement                       OrStatement                       `json:"or_statement"`
 	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type AndStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
 	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
 }
-
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	Position         string `json:"position"`
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Type     string `json:"type"`
-	Priority int    `json:"priority"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type XssMatchStatement struct {
-	TextTransformation []TextTransformation `json:"text_transformation"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type FieldToMatch struct {
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
 
 type GeoMatchStatement struct {
 	CountryCodes      []string          `json:"country_codes"`
@@ -1505,647 +110,54 @@ type NotStatement struct {
 }
 
 type Statement struct {
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
 	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type XssMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type OrStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
 	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-}
-
-type XssMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Type     string `json:"type"`
-	Priority int    `json:"priority"`
-}
-
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type GeoMatchStatement struct {
-	CountryCodes      []string          `json:"country_codes"`
-	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
-}
-
-type ForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SqliMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type TextTransformation struct {
-	Type     string `json:"type"`
-	Priority int    `json:"priority"`
-}
-
-type RegexPatternSetReferenceStatement struct {
-	Arn                string               `json:"arn"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SizeConstraintStatement struct {
-	Size               int                  `json:"size"`
-	ComparisonOperator string               `json:"comparison_operator"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type XssMatchStatement struct {
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type TextTransformation struct {
-	Type     string `json:"type"`
-	Priority int    `json:"priority"`
-}
-
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type AndStatement struct {
-	Statement []Statement `json:"statement"`
-}
-
-type Statement struct {
 	OrStatement                       OrStatement                       `json:"or_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
 	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	NotStatement                      NotStatement                      `json:"not_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
 	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
 	AndStatement                      AndStatement                      `json:"and_statement"`
 	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
 	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	NotStatement                      NotStatement                      `json:"not_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
 }
 
-type OrStatement struct {
-	Statement []Statement `json:"statement"`
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
 }
 
-type Statement struct {
-	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
-	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
-	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
-	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
-	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
-	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
-	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
 }
 
 type GeoMatchStatement struct {
@@ -2154,8 +166,72 @@ type GeoMatchStatement struct {
 }
 
 type ForwardedIpConfig struct {
-	HeaderName       string `json:"header_name"`
 	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+}
+
+type OrStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+}
+
+type ByteMatchStatement struct {
+	PositionalConstraint string               `json:"positional_constraint"`
+	SearchString         string               `json:"search_string"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
 }
 
 type IpSetReferenceStatement struct {
@@ -2164,66 +240,35 @@ type IpSetReferenceStatement struct {
 }
 
 type IpSetForwardedIpConfig struct {
+	Position         string `json:"position"`
 	FallbackBehavior string `json:"fallback_behavior"`
 	HeaderName       string `json:"header_name"`
-	Position         string `json:"position"`
 }
 
 type RegexPatternSetReferenceStatement struct {
 	Arn                string               `json:"arn"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
 	TextTransformation []TextTransformation `json:"text_transformation"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
 }
-
-type FieldToMatch struct {
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-}
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
 
 type TextTransformation struct {
 	Type     string `json:"type"`
-	Priority int    `json:"priority"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
+	Priority int64  `json:"priority"`
 }
 
 type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
 }
+
+type Body struct{}
+
+type Method struct{}
 
 type QueryString struct{}
 
@@ -2239,12 +284,43 @@ type UriPath struct{}
 
 type AllQueryArguments struct{}
 
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+}
+
 type Body struct{}
 
 type Method struct{}
 
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
@@ -2254,6 +330,148 @@ type SqliMatchStatement struct {
 }
 
 type FieldToMatch struct {
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type NotStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	Position         string `json:"position"`
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
@@ -2282,18 +500,20 @@ type SingleQueryArgument struct {
 type UriPath struct{}
 
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
-type XssMatchStatement struct {
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
 	TextTransformation []TextTransformation `json:"text_transformation"`
 	FieldToMatch       FieldToMatch         `json:"field_to_match"`
 }
 
 type TextTransformation struct {
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
-	Priority int    `json:"priority"`
 }
 
 type FieldToMatch struct {
@@ -2322,6 +542,82 @@ type QueryString struct{}
 
 type SingleHeader struct {
 	Name string `json:"name"`
+}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
 }
 
 type ByteMatchStatement struct {
@@ -2332,21 +628,19 @@ type ByteMatchStatement struct {
 }
 
 type TextTransformation struct {
-	Priority int    `json:"priority"`
 	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
 }
 
 type FieldToMatch struct {
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 }
-
-type AllQueryArguments struct{}
 
 type Body struct{}
 
@@ -2363,6 +657,18 @@ type SingleQueryArgument struct {
 }
 
 type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+}
 
 type RegexPatternSetReferenceStatement struct {
 	Arn                string               `json:"arn"`
@@ -2371,54 +677,18 @@ type RegexPatternSetReferenceStatement struct {
 }
 
 type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
 }
-
-type QueryString struct{}
-
-type SingleHeader struct {
-	Name string `json:"name"`
-}
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
 
 type AllQueryArguments struct{}
 
 type Body struct{}
-
-type Method struct{}
-
-type TextTransformation struct {
-	Priority int    `json:"priority"`
-	Type     string `json:"type"`
-}
-
-type SizeConstraintStatement struct {
-	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
-	FieldToMatch       FieldToMatch         `json:"field_to_match"`
-	TextTransformation []TextTransformation `json:"text_transformation"`
-}
-
-type FieldToMatch struct {
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-}
 
 type Method struct{}
 
@@ -2434,13 +704,9 @@ type SingleQueryArgument struct {
 
 type UriPath struct{}
 
-type AllQueryArguments struct{}
-
-type Body struct{}
-
 type TextTransformation struct {
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
-	Priority int    `json:"priority"`
 }
 
 type SqliMatchStatement struct {
@@ -2449,14 +715,20 @@ type SqliMatchStatement struct {
 }
 
 type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
 }
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
 
 type AllQueryArguments struct{}
 
@@ -2470,14 +742,8 @@ type SingleHeader struct {
 	Name string `json:"name"`
 }
 
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
@@ -2529,13 +795,1325 @@ type SingleQueryArgument struct {
 type UriPath struct{}
 
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
 type ByteMatchStatement struct {
 	PositionalConstraint string               `json:"positional_constraint"`
 	SearchString         string               `json:"search_string"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type ByteMatchStatement struct {
+	PositionalConstraint string               `json:"positional_constraint"`
+	SearchString         string               `json:"search_string"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type TextTransformation struct {
+	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type SizeConstraintStatement struct {
+	Size               int64                `json:"size"`
+	ComparisonOperator string               `json:"comparison_operator"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type AndStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	AndStatement                      AndStatement                      `json:"and_statement"`
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	NotStatement                      NotStatement                      `json:"not_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+	OrStatement                       OrStatement                       `json:"or_statement"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type AndStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+	FallbackBehavior string `json:"fallback_behavior"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type ByteMatchStatement struct {
+	SearchString         string               `json:"search_string"`
+	PositionalConstraint string               `json:"positional_constraint"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type TextTransformation struct {
+	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
+}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type NotStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type ByteMatchStatement struct {
+	PositionalConstraint string               `json:"positional_constraint"`
+	SearchString         string               `json:"search_string"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type ByteMatchStatement struct {
+	PositionalConstraint string               `json:"positional_constraint"`
+	SearchString         string               `json:"search_string"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	HeaderName       string `json:"header_name"`
+	FallbackBehavior string `json:"fallback_behavior"`
+}
+
+type OrStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+}
+
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type ByteMatchStatement struct {
+	SearchString         string               `json:"search_string"`
+	PositionalConstraint string               `json:"positional_constraint"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type ByteMatchStatement struct {
+	SearchString         string               `json:"search_string"`
+	PositionalConstraint string               `json:"positional_constraint"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type OrStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	AndStatement                      AndStatement                      `json:"and_statement"`
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+	NotStatement                      NotStatement                      `json:"not_statement"`
+	OrStatement                       OrStatement                       `json:"or_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+}
+
+type AndStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+}
+
+type ByteMatchStatement struct {
+	SearchString         string               `json:"search_string"`
+	PositionalConstraint string               `json:"positional_constraint"`
 	FieldToMatch         FieldToMatch         `json:"field_to_match"`
 	TextTransformation   []TextTransformation `json:"text_transformation"`
 }
@@ -2569,8 +2147,8 @@ type SingleQueryArgument struct {
 }
 
 type TextTransformation struct {
-	Priority int    `json:"priority"`
 	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
 }
 
 type GeoMatchStatement struct {
@@ -2581,6 +2159,323 @@ type GeoMatchStatement struct {
 type ForwardedIpConfig struct {
 	FallbackBehavior string `json:"fallback_behavior"`
 	HeaderName       string `json:"header_name"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SqliMatchStatement struct {
+	TextTransformation []TextTransformation `json:"text_transformation"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+}
+
+type TextTransformation struct {
+	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
+}
+
+type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type IpSetReferenceStatement struct {
+	Arn                    string                 `json:"arn"`
+	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
+}
+
+type IpSetForwardedIpConfig struct {
+	FallbackBehavior string `json:"fallback_behavior"`
+	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
+}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type TextTransformation struct {
+	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type ByteMatchStatement struct {
+	SearchString         string               `json:"search_string"`
+	PositionalConstraint string               `json:"positional_constraint"`
+	FieldToMatch         FieldToMatch         `json:"field_to_match"`
+	TextTransformation   []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type GeoMatchStatement struct {
+	CountryCodes      []string          `json:"country_codes"`
+	ForwardedIpConfig ForwardedIpConfig `json:"forwarded_ip_config"`
+}
+
+type ForwardedIpConfig struct {
+	HeaderName       string `json:"header_name"`
+	FallbackBehavior string `json:"fallback_behavior"`
+}
+
+type NotStatement struct {
+	Statement []Statement `json:"statement"`
+}
+
+type Statement struct {
+	IpSetReferenceStatement           IpSetReferenceStatement           `json:"ip_set_reference_statement"`
+	RegexPatternSetReferenceStatement RegexPatternSetReferenceStatement `json:"regex_pattern_set_reference_statement"`
+	SizeConstraintStatement           SizeConstraintStatement           `json:"size_constraint_statement"`
+	SqliMatchStatement                SqliMatchStatement                `json:"sqli_match_statement"`
+	XssMatchStatement                 XssMatchStatement                 `json:"xss_match_statement"`
+	ByteMatchStatement                ByteMatchStatement                `json:"byte_match_statement"`
+	GeoMatchStatement                 GeoMatchStatement                 `json:"geo_match_statement"`
 }
 
 type IpSetReferenceStatement struct {
@@ -2629,26 +2524,30 @@ type SingleHeader struct {
 }
 
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
 type SizeConstraintStatement struct {
 	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
+	Size               int64                `json:"size"`
 	FieldToMatch       FieldToMatch         `json:"field_to_match"`
 	TextTransformation []TextTransformation `json:"text_transformation"`
 }
 
 type FieldToMatch struct {
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
 }
+
+type Body struct{}
+
+type Method struct{}
 
 type QueryString struct{}
 
@@ -2664,12 +2563,8 @@ type UriPath struct{}
 
 type AllQueryArguments struct{}
 
-type Body struct{}
-
-type Method struct{}
-
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
@@ -2679,16 +2574,52 @@ type SqliMatchStatement struct {
 }
 
 type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
+}
+
+type XssMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
 }
-
-type QueryString struct{}
 
 type SingleHeader struct {
 	Name string `json:"name"`
@@ -2706,32 +2637,42 @@ type Body struct{}
 
 type Method struct{}
 
+type QueryString struct{}
+
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
 type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
 	SearchString         string               `json:"search_string"`
+	PositionalConstraint string               `json:"positional_constraint"`
 	TextTransformation   []TextTransformation `json:"text_transformation"`
 	FieldToMatch         FieldToMatch         `json:"field_to_match"`
 }
 
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
 type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 }
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
 
 type Body struct{}
 
@@ -2742,14 +2683,6 @@ type QueryString struct{}
 type SingleHeader struct {
 	Name string `json:"name"`
 }
-
-type SingleQueryArgument struct {
-	Name string `json:"name"`
-}
-
-type UriPath struct{}
-
-type AllQueryArguments struct{}
 
 type GeoMatchStatement struct {
 	CountryCodes      []string          `json:"country_codes"`
@@ -2761,18 +2694,7 @@ type ForwardedIpConfig struct {
 	HeaderName       string `json:"header_name"`
 }
 
-type IpSetReferenceStatement struct {
-	Arn                    string                 `json:"arn"`
-	IpSetForwardedIpConfig IpSetForwardedIpConfig `json:"ip_set_forwarded_ip_config"`
-}
-
-type IpSetForwardedIpConfig struct {
-	Position         string `json:"position"`
-	FallbackBehavior string `json:"fallback_behavior"`
-	HeaderName       string `json:"header_name"`
-}
-
-type NotStatement struct {
+type OrStatement struct {
 	Statement []Statement `json:"statement"`
 }
 
@@ -2792,14 +2714,18 @@ type SqliMatchStatement struct {
 }
 
 type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
 }
+
+type AllQueryArguments struct{}
+
+type Body struct{}
 
 type Method struct{}
 
@@ -2815,12 +2741,8 @@ type SingleQueryArgument struct {
 
 type UriPath struct{}
 
-type AllQueryArguments struct{}
-
-type Body struct{}
-
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
@@ -2830,14 +2752,18 @@ type XssMatchStatement struct {
 }
 
 type FieldToMatch struct {
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
-	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
-	Body                Body                `json:"body"`
 }
+
+type AllQueryArguments struct{}
+
+type Body struct{}
 
 type Method struct{}
 
@@ -2853,12 +2779,8 @@ type SingleQueryArgument struct {
 
 type UriPath struct{}
 
-type AllQueryArguments struct{}
-
-type Body struct{}
-
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
@@ -2898,8 +2820,8 @@ type SingleQueryArgument struct {
 type UriPath struct{}
 
 type TextTransformation struct {
-	Priority int    `json:"priority"`
 	Type     string `json:"type"`
+	Priority int64  `json:"priority"`
 }
 
 type GeoMatchStatement struct {
@@ -2918,9 +2840,9 @@ type IpSetReferenceStatement struct {
 }
 
 type IpSetForwardedIpConfig struct {
-	Position         string `json:"position"`
 	FallbackBehavior string `json:"fallback_behavior"`
 	HeaderName       string `json:"header_name"`
+	Position         string `json:"position"`
 }
 
 type RegexPatternSetReferenceStatement struct {
@@ -2930,14 +2852,18 @@ type RegexPatternSetReferenceStatement struct {
 }
 
 type FieldToMatch struct {
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
-	Method              Method              `json:"method"`
-	QueryString         QueryString         `json:"query_string"`
 }
+
+type Method struct{}
+
+type QueryString struct{}
 
 type SingleHeader struct {
 	Name string `json:"name"`
@@ -2953,31 +2879,35 @@ type AllQueryArguments struct{}
 
 type Body struct{}
 
-type Method struct{}
-
-type QueryString struct{}
-
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
 type SizeConstraintStatement struct {
 	ComparisonOperator string               `json:"comparison_operator"`
-	Size               int                  `json:"size"`
+	Size               int64                `json:"size"`
 	FieldToMatch       FieldToMatch         `json:"field_to_match"`
 	TextTransformation []TextTransformation `json:"text_transformation"`
 }
 
 type FieldToMatch struct {
-	SingleHeader        SingleHeader        `json:"single_header"`
-	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
 }
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
 
 type SingleHeader struct {
 	Name string `json:"name"`
@@ -2989,35 +2919,26 @@ type SingleQueryArgument struct {
 
 type UriPath struct{}
 
-type AllQueryArguments struct{}
-
-type Body struct{}
-
-type Method struct{}
-
-type QueryString struct{}
-
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
-type XssMatchStatement struct {
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
 	FieldToMatch       FieldToMatch         `json:"field_to_match"`
 	TextTransformation []TextTransformation `json:"text_transformation"`
 }
 
 type FieldToMatch struct {
-	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
 	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
 }
-
-type Method struct{}
 
 type QueryString struct{}
 
@@ -3035,27 +2956,70 @@ type AllQueryArguments struct{}
 
 type Body struct{}
 
+type Method struct{}
+
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
-type ByteMatchStatement struct {
-	PositionalConstraint string               `json:"positional_constraint"`
-	SearchString         string               `json:"search_string"`
-	FieldToMatch         FieldToMatch         `json:"field_to_match"`
-	TextTransformation   []TextTransformation `json:"text_transformation"`
+type SizeConstraintStatement struct {
+	ComparisonOperator string               `json:"comparison_operator"`
+	Size               int64                `json:"size"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
 }
 
 type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
+type UriPath struct{}
+
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type RegexPatternSetReferenceStatement struct {
+	Arn                string               `json:"arn"`
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
 }
+
+type UriPath struct{}
 
 type AllQueryArguments struct{}
 
@@ -3073,10 +3037,46 @@ type SingleQueryArgument struct {
 	Name string `json:"name"`
 }
 
+type TextTransformation struct {
+	Priority int64  `json:"priority"`
+	Type     string `json:"type"`
+}
+
+type SqliMatchStatement struct {
+	FieldToMatch       FieldToMatch         `json:"field_to_match"`
+	TextTransformation []TextTransformation `json:"text_transformation"`
+}
+
+type FieldToMatch struct {
+	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
+	UriPath             UriPath             `json:"uri_path"`
+	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
+	Body                Body                `json:"body"`
+	Method              Method              `json:"method"`
+	QueryString         QueryString         `json:"query_string"`
+	SingleHeader        SingleHeader        `json:"single_header"`
+}
+
+type SingleQueryArgument struct {
+	Name string `json:"name"`
+}
+
 type UriPath struct{}
 
+type AllQueryArguments struct{}
+
+type Body struct{}
+
+type Method struct{}
+
+type QueryString struct{}
+
+type SingleHeader struct {
+	Name string `json:"name"`
+}
+
 type TextTransformation struct {
-	Priority int    `json:"priority"`
+	Priority int64  `json:"priority"`
 	Type     string `json:"type"`
 }
 
@@ -3100,6 +3100,6 @@ type Wafv2RuleGroupStatus struct {
 
 // A Wafv2RuleGroupObservation records the observed state of a Wafv2RuleGroup
 type Wafv2RuleGroupObservation struct {
-	Arn       string `json:"arn"`
 	LockToken string `json:"lock_token"`
+	Arn       string `json:"arn"`
 }

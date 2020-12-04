@@ -52,28 +52,28 @@ type DirectoryServiceDirectorySpec struct {
 
 // A DirectoryServiceDirectoryParameters defines the desired state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryParameters struct {
-	Description     string            `json:"description"`
 	Edition         string            `json:"edition"`
-	Id              string            `json:"id"`
-	Alias           string            `json:"alias"`
 	EnableSso       bool              `json:"enable_sso"`
-	ShortName       string            `json:"short_name"`
 	Name            string            `json:"name"`
-	Password        string            `json:"password"`
 	Size            string            `json:"size"`
-	Tags            map[string]string `json:"tags"`
+	Description     string            `json:"description"`
+	ShortName       string            `json:"short_name"`
 	Type            string            `json:"type"`
+	Alias           string            `json:"alias"`
+	Id              string            `json:"id"`
+	Password        string            `json:"password"`
+	Tags            map[string]string `json:"tags"`
 	ConnectSettings ConnectSettings   `json:"connect_settings"`
 	VpcSettings     VpcSettings       `json:"vpc_settings"`
 }
 
 type ConnectSettings struct {
+	VpcId             string   `json:"vpc_id"`
+	AvailabilityZones []string `json:"availability_zones"`
 	ConnectIps        []string `json:"connect_ips"`
 	CustomerDnsIps    []string `json:"customer_dns_ips"`
 	CustomerUsername  string   `json:"customer_username"`
 	SubnetIds         []string `json:"subnet_ids"`
-	VpcId             string   `json:"vpc_id"`
-	AvailabilityZones []string `json:"availability_zones"`
 }
 
 type VpcSettings struct {
@@ -91,6 +91,6 @@ type DirectoryServiceDirectoryStatus struct {
 // A DirectoryServiceDirectoryObservation records the observed state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryObservation struct {
 	AccessUrl       string   `json:"access_url"`
-	DnsIpAddresses  []string `json:"dns_ip_addresses"`
 	SecurityGroupId string   `json:"security_group_id"`
+	DnsIpAddresses  []string `json:"dns_ip_addresses"`
 }

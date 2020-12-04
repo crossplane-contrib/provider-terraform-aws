@@ -14,37 +14,43 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeCognitoResourceServer(r CognitoResourceServer) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeCognitoResourceServer_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoResourceServer_Identifier(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeCognitoResourceServer(r CognitoResourceServer) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeCognitoResourceServer_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_UserPoolId(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoResourceServer_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoResourceServer_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Scope(r.Spec.ForProvider.Scope, ctyVal)
 	EncodeCognitoResourceServer_ScopeIdentifiers(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCognitoResourceServer_Id(p *CognitoResourceServerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCognitoResourceServer_Identifier(p *CognitoResourceServerParameters, vals map[string]cty.Value) {
-	vals["identifier"] = cty.StringVal(p.Identifier)
-}
-
-func EncodeCognitoResourceServer_Name(p *CognitoResourceServerParameters, vals map[string]cty.Value) {
+func EncodeCognitoResourceServer_Name(p CognitoResourceServerParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeCognitoResourceServer_UserPoolId(p *CognitoResourceServerParameters, vals map[string]cty.Value) {
+func EncodeCognitoResourceServer_UserPoolId(p CognitoResourceServerParameters, vals map[string]cty.Value) {
 	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
 }
 
-func EncodeCognitoResourceServer_Scope(p *Scope, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Scope {
-		ctyVal = make(map[string]cty.Value)
+func EncodeCognitoResourceServer_Id(p CognitoResourceServerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCognitoResourceServer_Identifier(p CognitoResourceServerParameters, vals map[string]cty.Value) {
+	vals["identifier"] = cty.StringVal(p.Identifier)
+}
+
+func EncodeCognitoResourceServer_Scope(p []Scope, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeCognitoResourceServer_Scope_ScopeDescription(v, ctyVal)
 		EncodeCognitoResourceServer_Scope_ScopeName(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
@@ -52,15 +58,15 @@ func EncodeCognitoResourceServer_Scope(p *Scope, vals map[string]cty.Value) {
 	vals["scope"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeCognitoResourceServer_Scope_ScopeDescription(p *Scope, vals map[string]cty.Value) {
+func EncodeCognitoResourceServer_Scope_ScopeDescription(p Scope, vals map[string]cty.Value) {
 	vals["scope_description"] = cty.StringVal(p.ScopeDescription)
 }
 
-func EncodeCognitoResourceServer_Scope_ScopeName(p *Scope, vals map[string]cty.Value) {
+func EncodeCognitoResourceServer_Scope_ScopeName(p Scope, vals map[string]cty.Value) {
 	vals["scope_name"] = cty.StringVal(p.ScopeName)
 }
 
-func EncodeCognitoResourceServer_ScopeIdentifiers(p *CognitoResourceServerObservation, vals map[string]cty.Value) {
+func EncodeCognitoResourceServer_ScopeIdentifiers(p CognitoResourceServerObservation, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ScopeIdentifiers {
 		colVals = append(colVals, cty.StringVal(value))

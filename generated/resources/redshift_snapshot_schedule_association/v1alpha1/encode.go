@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRedshiftSnapshotScheduleAssociation(r RedshiftSnapshotScheduleAssociation) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRedshiftSnapshotScheduleAssociation(r RedshiftSnapshotScheduleAssociation) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotScheduleAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(p *RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
 	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
 }
 
-func EncodeRedshiftSnapshotScheduleAssociation_Id(p *RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotScheduleAssociation_Id(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(p *RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
+func EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
 	vals["schedule_identifier"] = cty.StringVal(p.ScheduleIdentifier)
 }

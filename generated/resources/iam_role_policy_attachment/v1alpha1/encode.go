@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamRolePolicyAttachment(r IamRolePolicyAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamRolePolicyAttachment(r IamRolePolicyAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIamRolePolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicyAttachment_Role(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamRolePolicyAttachment_Id(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIamRolePolicyAttachment_Id(p IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamRolePolicyAttachment_PolicyArn(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIamRolePolicyAttachment_PolicyArn(p IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["policy_arn"] = cty.StringVal(p.PolicyArn)
 }
 
-func EncodeIamRolePolicyAttachment_Role(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIamRolePolicyAttachment_Role(p IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["role"] = cty.StringVal(p.Role)
 }

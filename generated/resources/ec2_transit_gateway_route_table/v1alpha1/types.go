@@ -65,6 +65,6 @@ type Ec2TransitGatewayRouteTableStatus struct {
 
 // A Ec2TransitGatewayRouteTableObservation records the observed state of a Ec2TransitGatewayRouteTable
 type Ec2TransitGatewayRouteTableObservation struct {
-	DefaultPropagationRouteTable bool `json:"default_propagation_route_table"`
 	DefaultAssociationRouteTable bool `json:"default_association_route_table"`
+	DefaultPropagationRouteTable bool `json:"default_propagation_route_table"`
 }

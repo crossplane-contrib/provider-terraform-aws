@@ -14,28 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEc2LocalGatewayRoute(r Ec2LocalGatewayRoute) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeEc2LocalGatewayRoute_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEc2LocalGatewayRoute(r Ec2LocalGatewayRoute) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
+	EncodeEc2LocalGatewayRoute_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2LocalGatewayRoute_Id(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
-	vals["local_gateway_route_table_id"] = cty.StringVal(p.LocalGatewayRouteTableId)
-}
-
-func EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+func EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	vals["local_gateway_virtual_interface_group_id"] = cty.StringVal(p.LocalGatewayVirtualInterfaceGroupId)
 }
 
-func EncodeEc2LocalGatewayRoute_DestinationCidrBlock(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+func EncodeEc2LocalGatewayRoute_DestinationCidrBlock(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
+}
+
+func EncodeEc2LocalGatewayRoute_Id(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	vals["local_gateway_route_table_id"] = cty.StringVal(p.LocalGatewayRouteTableId)
 }

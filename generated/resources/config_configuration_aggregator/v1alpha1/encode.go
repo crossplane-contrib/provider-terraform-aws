@@ -14,26 +14,24 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeConfigConfigurationAggregator(r ConfigConfigurationAggregator) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeConfigConfigurationAggregator(r ConfigConfigurationAggregator) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeConfigConfigurationAggregator_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationAggregator_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationAggregator_Name(r.Spec.ForProvider, ctyVal)
-	EncodeConfigConfigurationAggregator_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationAggregator_AccountAggregationSource(r.Spec.ForProvider.AccountAggregationSource, ctyVal)
 	EncodeConfigConfigurationAggregator_OrganizationAggregationSource(r.Spec.ForProvider.OrganizationAggregationSource, ctyVal)
 	EncodeConfigConfigurationAggregator_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeConfigConfigurationAggregator_Id(p *ConfigConfigurationAggregatorParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeConfigConfigurationAggregator_Name(p *ConfigConfigurationAggregatorParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeConfigConfigurationAggregator_Tags(p *ConfigConfigurationAggregatorParameters, vals map[string]cty.Value) {
+func EncodeConfigConfigurationAggregator_Tags(p ConfigConfigurationAggregatorParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -41,19 +39,37 @@ func EncodeConfigConfigurationAggregator_Tags(p *ConfigConfigurationAggregatorPa
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeConfigConfigurationAggregator_AccountAggregationSource(p *AccountAggregationSource, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.AccountAggregationSource {
-		ctyVal = make(map[string]cty.Value)
-		EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(v, ctyVal)
-		EncodeConfigConfigurationAggregator_AccountAggregationSource_AllRegions(v, ctyVal)
-		EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeConfigConfigurationAggregator_Id(p ConfigConfigurationAggregatorParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeConfigConfigurationAggregator_Name(p ConfigConfigurationAggregatorParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeConfigConfigurationAggregator_AccountAggregationSource(p AccountAggregationSource, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeConfigConfigurationAggregator_AccountAggregationSource_AllRegions(p, ctyVal)
+	EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(p, ctyVal)
+	EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["account_aggregation_source"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(p *AccountAggregationSource, vals map[string]cty.Value) {
+func EncodeConfigConfigurationAggregator_AccountAggregationSource_AllRegions(p AccountAggregationSource, vals map[string]cty.Value) {
+	vals["all_regions"] = cty.BoolVal(p.AllRegions)
+}
+
+func EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(p AccountAggregationSource, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Regions {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["regions"] = cty.ListVal(colVals)
+}
+
+func EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(p AccountAggregationSource, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.AccountIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -61,35 +77,17 @@ func EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(p *
 	vals["account_ids"] = cty.ListVal(colVals)
 }
 
-func EncodeConfigConfigurationAggregator_AccountAggregationSource_AllRegions(p *AccountAggregationSource, vals map[string]cty.Value) {
-	vals["all_regions"] = cty.BoolVal(p.AllRegions)
-}
-
-func EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(p *AccountAggregationSource, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Regions {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["regions"] = cty.ListVal(colVals)
-}
-
-func EncodeConfigConfigurationAggregator_OrganizationAggregationSource(p *OrganizationAggregationSource, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.OrganizationAggregationSource {
-		ctyVal = make(map[string]cty.Value)
-		EncodeConfigConfigurationAggregator_OrganizationAggregationSource_AllRegions(v, ctyVal)
-		EncodeConfigConfigurationAggregator_OrganizationAggregationSource_Regions(v, ctyVal)
-		EncodeConfigConfigurationAggregator_OrganizationAggregationSource_RoleArn(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeConfigConfigurationAggregator_OrganizationAggregationSource(p OrganizationAggregationSource, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeConfigConfigurationAggregator_OrganizationAggregationSource_Regions(p, ctyVal)
+	EncodeConfigConfigurationAggregator_OrganizationAggregationSource_RoleArn(p, ctyVal)
+	EncodeConfigConfigurationAggregator_OrganizationAggregationSource_AllRegions(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["organization_aggregation_source"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeConfigConfigurationAggregator_OrganizationAggregationSource_AllRegions(p *OrganizationAggregationSource, vals map[string]cty.Value) {
-	vals["all_regions"] = cty.BoolVal(p.AllRegions)
-}
-
-func EncodeConfigConfigurationAggregator_OrganizationAggregationSource_Regions(p *OrganizationAggregationSource, vals map[string]cty.Value) {
+func EncodeConfigConfigurationAggregator_OrganizationAggregationSource_Regions(p OrganizationAggregationSource, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Regions {
 		colVals = append(colVals, cty.StringVal(value))
@@ -97,10 +95,14 @@ func EncodeConfigConfigurationAggregator_OrganizationAggregationSource_Regions(p
 	vals["regions"] = cty.ListVal(colVals)
 }
 
-func EncodeConfigConfigurationAggregator_OrganizationAggregationSource_RoleArn(p *OrganizationAggregationSource, vals map[string]cty.Value) {
+func EncodeConfigConfigurationAggregator_OrganizationAggregationSource_RoleArn(p OrganizationAggregationSource, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
-func EncodeConfigConfigurationAggregator_Arn(p *ConfigConfigurationAggregatorObservation, vals map[string]cty.Value) {
+func EncodeConfigConfigurationAggregator_OrganizationAggregationSource_AllRegions(p OrganizationAggregationSource, vals map[string]cty.Value) {
+	vals["all_regions"] = cty.BoolVal(p.AllRegions)
+}
+
+func EncodeConfigConfigurationAggregator_Arn(p ConfigConfigurationAggregatorObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

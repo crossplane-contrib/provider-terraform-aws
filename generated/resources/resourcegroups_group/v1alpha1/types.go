@@ -60,8 +60,8 @@ type ResourcegroupsGroupParameters struct {
 }
 
 type ResourceQuery struct {
-	Type  string `json:"type"`
 	Query string `json:"query"`
+	Type  string `json:"type"`
 }
 
 // A ResourcegroupsGroupStatus defines the observed state of a ResourcegroupsGroup

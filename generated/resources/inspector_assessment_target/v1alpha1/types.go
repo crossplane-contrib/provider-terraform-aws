@@ -52,9 +52,9 @@ type InspectorAssessmentTargetSpec struct {
 
 // A InspectorAssessmentTargetParameters defines the desired state of a InspectorAssessmentTarget
 type InspectorAssessmentTargetParameters struct {
-	Id               string `json:"id"`
 	Name             string `json:"name"`
 	ResourceGroupArn string `json:"resource_group_arn"`
+	Id               string `json:"id"`
 }
 
 // A InspectorAssessmentTargetStatus defines the observed state of a InspectorAssessmentTarget

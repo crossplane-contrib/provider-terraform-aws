@@ -14,34 +14,40 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeGuarddutyInviteAccepter(r GuarddutyInviteAccepter) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeGuarddutyInviteAccepter(r GuarddutyInviteAccepter) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeGuarddutyInviteAccepter_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_MasterAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGuarddutyInviteAccepter_DetectorId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyInviteAccepter_DetectorId(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
 }
 
-func EncodeGuarddutyInviteAccepter_Id(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyInviteAccepter_Id(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeGuarddutyInviteAccepter_MasterAccountId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyInviteAccepter_MasterAccountId(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	vals["master_account_id"] = cty.StringVal(p.MasterAccountId)
 }
 
-func EncodeGuarddutyInviteAccepter_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeGuarddutyInviteAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeGuarddutyInviteAccepter_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeGuarddutyInviteAccepter_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeGuarddutyInviteAccepter_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }

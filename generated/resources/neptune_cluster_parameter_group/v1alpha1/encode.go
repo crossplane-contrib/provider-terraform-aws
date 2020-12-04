@@ -14,36 +14,38 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeNeptuneClusterParameterGroup(r NeptuneClusterParameterGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeNeptuneClusterParameterGroup_Family(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeNeptuneClusterParameterGroup(r NeptuneClusterParameterGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeNeptuneClusterParameterGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Description(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneClusterParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNeptuneClusterParameterGroup_Family(p *NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["family"] = cty.StringVal(p.Family)
-}
-
-func EncodeNeptuneClusterParameterGroup_Id(p *NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Id(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeNeptuneClusterParameterGroup_Name(p *NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Name(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeNeptuneClusterParameterGroup_NamePrefix(p *NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_NamePrefix(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeNeptuneClusterParameterGroup_Tags(p *NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Tags(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -51,34 +53,36 @@ func EncodeNeptuneClusterParameterGroup_Tags(p *NeptuneClusterParameterGroupPara
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeNeptuneClusterParameterGroup_Description(p *NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Description(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeNeptuneClusterParameterGroup_Parameter(p *Parameter, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Parameter {
-		ctyVal = make(map[string]cty.Value)
-		EncodeNeptuneClusterParameterGroup_Parameter_ApplyMethod(v, ctyVal)
-		EncodeNeptuneClusterParameterGroup_Parameter_Name(v, ctyVal)
-		EncodeNeptuneClusterParameterGroup_Parameter_Value(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeNeptuneClusterParameterGroup_Family(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["family"] = cty.StringVal(p.Family)
+}
+
+func EncodeNeptuneClusterParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeNeptuneClusterParameterGroup_Parameter_ApplyMethod(p, ctyVal)
+	EncodeNeptuneClusterParameterGroup_Parameter_Name(p, ctyVal)
+	EncodeNeptuneClusterParameterGroup_Parameter_Value(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["parameter"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeNeptuneClusterParameterGroup_Parameter_ApplyMethod(p *Parameter, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Parameter_ApplyMethod(p Parameter, vals map[string]cty.Value) {
 	vals["apply_method"] = cty.StringVal(p.ApplyMethod)
 }
 
-func EncodeNeptuneClusterParameterGroup_Parameter_Name(p *Parameter, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Parameter_Name(p Parameter, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeNeptuneClusterParameterGroup_Parameter_Value(p *Parameter, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Parameter_Value(p Parameter, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
 }
 
-func EncodeNeptuneClusterParameterGroup_Arn(p *NeptuneClusterParameterGroupObservation, vals map[string]cty.Value) {
+func EncodeNeptuneClusterParameterGroup_Arn(p NeptuneClusterParameterGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -52,13 +52,13 @@ type WafWebAclSpec struct {
 
 // A WafWebAclParameters defines the desired state of a WafWebAcl
 type WafWebAclParameters struct {
-	Id                   string               `json:"id"`
 	MetricName           string               `json:"metric_name"`
 	Name                 string               `json:"name"`
 	Tags                 map[string]string    `json:"tags"`
+	Id                   string               `json:"id"`
 	DefaultAction        DefaultAction        `json:"default_action"`
 	LoggingConfiguration LoggingConfiguration `json:"logging_configuration"`
-	Rules                []Rules              `json:"rules"`
+	Rules                Rules                `json:"rules"`
 }
 
 type DefaultAction struct {
@@ -80,7 +80,7 @@ type FieldToMatch struct {
 }
 
 type Rules struct {
-	Priority       int            `json:"priority"`
+	Priority       int64          `json:"priority"`
 	RuleId         string         `json:"rule_id"`
 	Type           string         `json:"type"`
 	Action         Action         `json:"action"`

@@ -52,24 +52,33 @@ type OpsworksApplicationSpec struct {
 
 // A OpsworksApplicationParameters defines the desired state of a OpsworksApplication
 type OpsworksApplicationParameters struct {
-	StackId                string             `json:"stack_id"`
-	AwsFlowRubySettings    string             `json:"aws_flow_ruby_settings"`
-	Domains                []string           `json:"domains"`
-	EnableSsl              bool               `json:"enable_ssl"`
-	Id                     string             `json:"id"`
-	Type                   string             `json:"type"`
-	Description            string             `json:"description"`
-	DocumentRoot           string             `json:"document_root"`
-	Name                   string             `json:"name"`
-	DataSourceType         string             `json:"data_source_type"`
-	DataSourceArn          string             `json:"data_source_arn"`
-	DataSourceDatabaseName string             `json:"data_source_database_name"`
-	RailsEnv               string             `json:"rails_env"`
-	ShortName              string             `json:"short_name"`
-	AutoBundleOnDeploy     string             `json:"auto_bundle_on_deploy"`
-	Environment            []Environment      `json:"environment"`
-	SslConfiguration       []SslConfiguration `json:"ssl_configuration"`
-	AppSource              []AppSource        `json:"app_source"`
+	DataSourceType         string           `json:"data_source_type"`
+	Description            string           `json:"description"`
+	StackId                string           `json:"stack_id"`
+	AutoBundleOnDeploy     string           `json:"auto_bundle_on_deploy"`
+	AwsFlowRubySettings    string           `json:"aws_flow_ruby_settings"`
+	DataSourceDatabaseName string           `json:"data_source_database_name"`
+	ShortName              string           `json:"short_name"`
+	DataSourceArn          string           `json:"data_source_arn"`
+	DocumentRoot           string           `json:"document_root"`
+	EnableSsl              bool             `json:"enable_ssl"`
+	Type                   string           `json:"type"`
+	Domains                []string         `json:"domains"`
+	Id                     string           `json:"id"`
+	Name                   string           `json:"name"`
+	RailsEnv               string           `json:"rails_env"`
+	AppSource              AppSource        `json:"app_source"`
+	Environment            Environment      `json:"environment"`
+	SslConfiguration       SslConfiguration `json:"ssl_configuration"`
+}
+
+type AppSource struct {
+	Type     string `json:"type"`
+	Url      string `json:"url"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Revision string `json:"revision"`
+	SshKey   string `json:"ssh_key"`
 }
 
 type Environment struct {
@@ -79,18 +88,9 @@ type Environment struct {
 }
 
 type SslConfiguration struct {
-	Certificate string `json:"certificate"`
 	Chain       string `json:"chain"`
 	PrivateKey  string `json:"private_key"`
-}
-
-type AppSource struct {
-	SshKey   string `json:"ssh_key"`
-	Type     string `json:"type"`
-	Url      string `json:"url"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Revision string `json:"revision"`
+	Certificate string `json:"certificate"`
 }
 
 // A OpsworksApplicationStatus defines the observed state of a OpsworksApplication

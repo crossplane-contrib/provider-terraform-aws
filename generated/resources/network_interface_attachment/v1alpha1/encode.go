@@ -14,37 +14,43 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeNetworkInterfaceAttachment(r NetworkInterfaceAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeNetworkInterfaceAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkInterfaceAttachment_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeNetworkInterfaceAttachment(r NetworkInterfaceAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeNetworkInterfaceAttachment_DeviceIndex(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceAttachment_Id(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkInterfaceAttachment_Status(r.Status.AtProvider, ctyVal)
+	EncodeNetworkInterfaceAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkInterfaceAttachment_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceAttachment_AttachmentId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeNetworkInterfaceAttachment_Status(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNetworkInterfaceAttachment_InstanceId(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
-	vals["instance_id"] = cty.StringVal(p.InstanceId)
+func EncodeNetworkInterfaceAttachment_DeviceIndex(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	vals["device_index"] = cty.NumberIntVal(p.DeviceIndex)
 }
 
-func EncodeNetworkInterfaceAttachment_NetworkInterfaceId(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
-	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
-}
-
-func EncodeNetworkInterfaceAttachment_DeviceIndex(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
-	vals["device_index"] = cty.IntVal(p.DeviceIndex)
-}
-
-func EncodeNetworkInterfaceAttachment_Id(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+func EncodeNetworkInterfaceAttachment_Id(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeNetworkInterfaceAttachment_Status(p *NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
+func EncodeNetworkInterfaceAttachment_InstanceId(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	vals["instance_id"] = cty.StringVal(p.InstanceId)
 }
 
-func EncodeNetworkInterfaceAttachment_AttachmentId(p *NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
+func EncodeNetworkInterfaceAttachment_NetworkInterfaceId(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
+}
+
+func EncodeNetworkInterfaceAttachment_AttachmentId(p NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
 	vals["attachment_id"] = cty.StringVal(p.AttachmentId)
+}
+
+func EncodeNetworkInterfaceAttachment_Status(p NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
 }

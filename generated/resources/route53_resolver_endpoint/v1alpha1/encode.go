@@ -14,21 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeRoute53ResolverEndpoint(r Route53ResolverEndpoint) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeRoute53ResolverEndpoint_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ResolverEndpoint_Tags(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeRoute53ResolverEndpoint(r Route53ResolverEndpoint) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRoute53ResolverEndpoint_Direction(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_Name(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverEndpoint_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_IpAddress(r.Spec.ForProvider.IpAddress, ctyVal)
 	EncodeRoute53ResolverEndpoint_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeRoute53ResolverEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_HostVpcId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRoute53ResolverEndpoint_SecurityGroupIds(p *Route53ResolverEndpointParameters, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_Direction(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
+	vals["direction"] = cty.StringVal(p.Direction)
+}
+
+func EncodeRoute53ResolverEndpoint_Id(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeRoute53ResolverEndpoint_Name(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeRoute53ResolverEndpoint_SecurityGroupIds(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SecurityGroupIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -36,7 +54,7 @@ func EncodeRoute53ResolverEndpoint_SecurityGroupIds(p *Route53ResolverEndpointPa
 	vals["security_group_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeRoute53ResolverEndpoint_Tags(p *Route53ResolverEndpointParameters, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_Tags(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -44,22 +62,10 @@ func EncodeRoute53ResolverEndpoint_Tags(p *Route53ResolverEndpointParameters, va
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRoute53ResolverEndpoint_Direction(p *Route53ResolverEndpointParameters, vals map[string]cty.Value) {
-	vals["direction"] = cty.StringVal(p.Direction)
-}
-
-func EncodeRoute53ResolverEndpoint_Id(p *Route53ResolverEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRoute53ResolverEndpoint_Name(p *Route53ResolverEndpointParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeRoute53ResolverEndpoint_IpAddress(p *IpAddress, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.IpAddress {
-		ctyVal = make(map[string]cty.Value)
+func EncodeRoute53ResolverEndpoint_IpAddress(p []IpAddress, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
 		EncodeRoute53ResolverEndpoint_IpAddress_Ip(v, ctyVal)
 		EncodeRoute53ResolverEndpoint_IpAddress_IpId(v, ctyVal)
 		EncodeRoute53ResolverEndpoint_IpAddress_SubnetId(v, ctyVal)
@@ -68,42 +74,42 @@ func EncodeRoute53ResolverEndpoint_IpAddress(p *IpAddress, vals map[string]cty.V
 	vals["ip_address"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeRoute53ResolverEndpoint_IpAddress_Ip(p *IpAddress, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_IpAddress_Ip(p IpAddress, vals map[string]cty.Value) {
 	vals["ip"] = cty.StringVal(p.Ip)
 }
 
-func EncodeRoute53ResolverEndpoint_IpAddress_IpId(p *IpAddress, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_IpAddress_IpId(p IpAddress, vals map[string]cty.Value) {
 	vals["ip_id"] = cty.StringVal(p.IpId)
 }
 
-func EncodeRoute53ResolverEndpoint_IpAddress_SubnetId(p *IpAddress, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_IpAddress_SubnetId(p IpAddress, vals map[string]cty.Value) {
 	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
-func EncodeRoute53ResolverEndpoint_Timeouts(p *Timeouts, vals map[string]cty.Value) {
-	ctyVal = make(map[string]cty.Value)
+func EncodeRoute53ResolverEndpoint_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
 	EncodeRoute53ResolverEndpoint_Timeouts_Create(p, ctyVal)
 	EncodeRoute53ResolverEndpoint_Timeouts_Delete(p, ctyVal)
 	EncodeRoute53ResolverEndpoint_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
-func EncodeRoute53ResolverEndpoint_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeRoute53ResolverEndpoint_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeRoute53ResolverEndpoint_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeRoute53ResolverEndpoint_Arn(p *Route53ResolverEndpointObservation, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_Arn(p Route53ResolverEndpointObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeRoute53ResolverEndpoint_HostVpcId(p *Route53ResolverEndpointObservation, vals map[string]cty.Value) {
+func EncodeRoute53ResolverEndpoint_HostVpcId(p Route53ResolverEndpointObservation, vals map[string]cty.Value) {
 	vals["host_vpc_id"] = cty.StringVal(p.HostVpcId)
 }

@@ -14,38 +14,44 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAthenaNamedQuery(r AthenaNamedQuery) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeAthenaNamedQuery_Query(r.Spec.ForProvider, ctyVal)
-	EncodeAthenaNamedQuery_Workgroup(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAthenaNamedQuery(r AthenaNamedQuery) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAthenaNamedQuery_Database(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaNamedQuery_Description(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaNamedQuery_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaNamedQuery_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaNamedQuery_Query(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaNamedQuery_Workgroup(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAthenaNamedQuery_Query(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
-	vals["query"] = cty.StringVal(p.Query)
-}
-
-func EncodeAthenaNamedQuery_Workgroup(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
-	vals["workgroup"] = cty.StringVal(p.Workgroup)
-}
-
-func EncodeAthenaNamedQuery_Database(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+func EncodeAthenaNamedQuery_Database(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
 	vals["database"] = cty.StringVal(p.Database)
 }
 
-func EncodeAthenaNamedQuery_Description(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+func EncodeAthenaNamedQuery_Description(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeAthenaNamedQuery_Id(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+func EncodeAthenaNamedQuery_Id(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAthenaNamedQuery_Name(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+func EncodeAthenaNamedQuery_Name(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeAthenaNamedQuery_Query(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	vals["query"] = cty.StringVal(p.Query)
+}
+
+func EncodeAthenaNamedQuery_Workgroup(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	vals["workgroup"] = cty.StringVal(p.Workgroup)
 }

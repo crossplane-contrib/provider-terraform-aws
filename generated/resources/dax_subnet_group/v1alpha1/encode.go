@@ -14,17 +14,35 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeDaxSubnetGroup(r DaxSubnetGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeDaxSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeDaxSubnetGroup(r DaxSubnetGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeDaxSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDaxSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_VpcId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDaxSubnetGroup_SubnetIds(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
+func EncodeDaxSubnetGroup_Description(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeDaxSubnetGroup_Id(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDaxSubnetGroup_Name(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDaxSubnetGroup_SubnetIds(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.SubnetIds {
 		colVals = append(colVals, cty.StringVal(value))
@@ -32,18 +50,6 @@ func EncodeDaxSubnetGroup_SubnetIds(p *DaxSubnetGroupParameters, vals map[string
 	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeDaxSubnetGroup_Description(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDaxSubnetGroup_Id(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDaxSubnetGroup_Name(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDaxSubnetGroup_VpcId(p *DaxSubnetGroupObservation, vals map[string]cty.Value) {
+func EncodeDaxSubnetGroup_VpcId(p DaxSubnetGroupObservation, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }

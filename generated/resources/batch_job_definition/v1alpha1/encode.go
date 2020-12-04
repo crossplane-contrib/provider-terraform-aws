@@ -14,33 +14,43 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeBatchJobDefinition(r BatchJobDefinition) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeBatchJobDefinition(r BatchJobDefinition) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeBatchJobDefinition_Type(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_ContainerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Id(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Name(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Parameters(r.Spec.ForProvider, ctyVal)
-	EncodeBatchJobDefinition_Type(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_RetryStrategy(r.Spec.ForProvider.RetryStrategy, ctyVal)
 	EncodeBatchJobDefinition_Timeout(r.Spec.ForProvider.Timeout, ctyVal)
-	EncodeBatchJobDefinition_Arn(r.Status.AtProvider, ctyVal)
 	EncodeBatchJobDefinition_Revision(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	EncodeBatchJobDefinition_Arn(r.Status.AtProvider, ctyVal)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeBatchJobDefinition_ContainerProperties(p *BatchJobDefinitionParameters, vals map[string]cty.Value) {
+func EncodeBatchJobDefinition_Type(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeBatchJobDefinition_ContainerProperties(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
 	vals["container_properties"] = cty.StringVal(p.ContainerProperties)
 }
 
-func EncodeBatchJobDefinition_Id(p *BatchJobDefinitionParameters, vals map[string]cty.Value) {
+func EncodeBatchJobDefinition_Id(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeBatchJobDefinition_Name(p *BatchJobDefinitionParameters, vals map[string]cty.Value) {
+func EncodeBatchJobDefinition_Name(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeBatchJobDefinition_Parameters(p *BatchJobDefinitionParameters, vals map[string]cty.Value) {
+func EncodeBatchJobDefinition_Parameters(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Parameters {
 		mVals[key] = cty.StringVal(value)
@@ -48,42 +58,34 @@ func EncodeBatchJobDefinition_Parameters(p *BatchJobDefinitionParameters, vals m
 	vals["parameters"] = cty.MapVal(mVals)
 }
 
-func EncodeBatchJobDefinition_Type(p *BatchJobDefinitionParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeBatchJobDefinition_RetryStrategy(p *RetryStrategy, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.RetryStrategy {
-		ctyVal = make(map[string]cty.Value)
-		EncodeBatchJobDefinition_RetryStrategy_Attempts(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeBatchJobDefinition_RetryStrategy(p RetryStrategy, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeBatchJobDefinition_RetryStrategy_Attempts(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["retry_strategy"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeBatchJobDefinition_RetryStrategy_Attempts(p *RetryStrategy, vals map[string]cty.Value) {
-	vals["attempts"] = cty.IntVal(p.Attempts)
+func EncodeBatchJobDefinition_RetryStrategy_Attempts(p RetryStrategy, vals map[string]cty.Value) {
+	vals["attempts"] = cty.NumberIntVal(p.Attempts)
 }
 
-func EncodeBatchJobDefinition_Timeout(p *Timeout, vals map[string]cty.Value) {
-	valsForCollection = make([]cty.Value, 0)
-	for _, v := range p.Timeout {
-		ctyVal = make(map[string]cty.Value)
-		EncodeBatchJobDefinition_Timeout_AttemptDurationSeconds(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
+func EncodeBatchJobDefinition_Timeout(p Timeout, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeBatchJobDefinition_Timeout_AttemptDurationSeconds(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["timeout"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeBatchJobDefinition_Timeout_AttemptDurationSeconds(p *Timeout, vals map[string]cty.Value) {
-	vals["attempt_duration_seconds"] = cty.IntVal(p.AttemptDurationSeconds)
+func EncodeBatchJobDefinition_Timeout_AttemptDurationSeconds(p Timeout, vals map[string]cty.Value) {
+	vals["attempt_duration_seconds"] = cty.NumberIntVal(p.AttemptDurationSeconds)
 }
 
-func EncodeBatchJobDefinition_Arn(p *BatchJobDefinitionObservation, vals map[string]cty.Value) {
+func EncodeBatchJobDefinition_Revision(p BatchJobDefinitionObservation, vals map[string]cty.Value) {
+	vals["revision"] = cty.NumberIntVal(p.Revision)
+}
+
+func EncodeBatchJobDefinition_Arn(p BatchJobDefinitionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeBatchJobDefinition_Revision(p *BatchJobDefinitionObservation, vals map[string]cty.Value) {
-	vals["revision"] = cty.IntVal(p.Revision)
 }

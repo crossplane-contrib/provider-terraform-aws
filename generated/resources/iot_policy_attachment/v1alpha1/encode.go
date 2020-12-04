@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIotPolicyAttachment(r IotPolicyAttachment) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIotPolicyAttachment(r IotPolicyAttachment) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeIotPolicyAttachment_Target(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicyAttachment_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeIotPolicyAttachment_Target(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIotPolicyAttachment_Id(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIotPolicyAttachment_Target(p IotPolicyAttachmentParameters, vals map[string]cty.Value) {
+	vals["target"] = cty.StringVal(p.Target)
+}
+
+func EncodeIotPolicyAttachment_Id(p IotPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIotPolicyAttachment_Policy(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
+func EncodeIotPolicyAttachment_Policy(p IotPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeIotPolicyAttachment_Target(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["target"] = cty.StringVal(p.Target)
 }

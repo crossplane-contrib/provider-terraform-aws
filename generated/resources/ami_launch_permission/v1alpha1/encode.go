@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeAmiLaunchPermission(r AmiLaunchPermission) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeAmiLaunchPermission_AccountId(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeAmiLaunchPermission(r AmiLaunchPermission) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeAmiLaunchPermission_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAmiLaunchPermission_ImageId(r.Spec.ForProvider, ctyVal)
+	EncodeAmiLaunchPermission_AccountId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAmiLaunchPermission_AccountId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
-	vals["account_id"] = cty.StringVal(p.AccountId)
-}
-
-func EncodeAmiLaunchPermission_Id(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
+func EncodeAmiLaunchPermission_Id(p AmiLaunchPermissionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAmiLaunchPermission_ImageId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
+func EncodeAmiLaunchPermission_ImageId(p AmiLaunchPermissionParameters, vals map[string]cty.Value) {
 	vals["image_id"] = cty.StringVal(p.ImageId)
+}
+
+func EncodeAmiLaunchPermission_AccountId(p AmiLaunchPermissionParameters, vals map[string]cty.Value) {
+	vals["account_id"] = cty.StringVal(p.AccountId)
 }

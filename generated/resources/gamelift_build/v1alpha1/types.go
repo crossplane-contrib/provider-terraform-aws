@@ -52,18 +52,18 @@ type GameliftBuildSpec struct {
 
 // A GameliftBuildParameters defines the desired state of a GameliftBuild
 type GameliftBuildParameters struct {
+	Version         string            `json:"version"`
 	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	OperatingSystem string            `json:"operating_system"`
 	Tags            map[string]string `json:"tags"`
-	Version         string            `json:"version"`
 	StorageLocation StorageLocation   `json:"storage_location"`
 }
 
 type StorageLocation struct {
-	Key     string `json:"key"`
 	RoleArn string `json:"role_arn"`
 	Bucket  string `json:"bucket"`
+	Key     string `json:"key"`
 }
 
 // A GameliftBuildStatus defines the observed state of a GameliftBuild

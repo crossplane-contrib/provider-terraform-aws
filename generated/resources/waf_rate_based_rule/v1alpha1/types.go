@@ -56,9 +56,9 @@ type WafRateBasedRuleParameters struct {
 	MetricName string            `json:"metric_name"`
 	Name       string            `json:"name"`
 	RateKey    string            `json:"rate_key"`
-	RateLimit  int               `json:"rate_limit"`
+	RateLimit  int64             `json:"rate_limit"`
 	Tags       map[string]string `json:"tags"`
-	Predicates []Predicates      `json:"predicates"`
+	Predicates Predicates        `json:"predicates"`
 }
 
 type Predicates struct {

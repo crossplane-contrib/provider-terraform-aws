@@ -14,33 +14,39 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeSesIdentityNotificationTopic(r SesIdentityNotificationTopic) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeSesIdentityNotificationTopic(r SesIdentityNotificationTopic) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeSesIdentityNotificationTopic_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSesIdentityNotificationTopic_Identity(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityNotificationTopic_IncludeOriginalHeaders(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityNotificationTopic_NotificationType(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityNotificationTopic_TopicArn(r.Spec.ForProvider, ctyVal)
-	EncodeSesIdentityNotificationTopic_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSesIdentityNotificationTopic_Identity(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesIdentityNotificationTopic_IncludeOriginalHeaders(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
-	vals["include_original_headers"] = cty.BoolVal(p.IncludeOriginalHeaders)
-}
-
-func EncodeSesIdentityNotificationTopic_NotificationType(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
-	vals["notification_type"] = cty.StringVal(p.NotificationType)
-}
-
-func EncodeSesIdentityNotificationTopic_TopicArn(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
-	vals["topic_arn"] = cty.StringVal(p.TopicArn)
-}
-
-func EncodeSesIdentityNotificationTopic_Id(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
+func EncodeSesIdentityNotificationTopic_Id(p SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesIdentityNotificationTopic_Identity(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
+func EncodeSesIdentityNotificationTopic_Identity(p SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
 	vals["identity"] = cty.StringVal(p.Identity)
+}
+
+func EncodeSesIdentityNotificationTopic_IncludeOriginalHeaders(p SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
+	vals["include_original_headers"] = cty.BoolVal(p.IncludeOriginalHeaders)
+}
+
+func EncodeSesIdentityNotificationTopic_NotificationType(p SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
+	vals["notification_type"] = cty.StringVal(p.NotificationType)
+}
+
+func EncodeSesIdentityNotificationTopic_TopicArn(p SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
+	vals["topic_arn"] = cty.StringVal(p.TopicArn)
 }

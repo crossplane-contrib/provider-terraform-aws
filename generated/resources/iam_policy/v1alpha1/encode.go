@@ -14,8 +14,14 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeIamPolicy(r IamPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeIamPolicy(r IamPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeIamPolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeIamPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamPolicy_Name(r.Spec.ForProvider, ctyVal)
@@ -23,33 +29,33 @@ package v1alpha1func EncodeIamPolicy(r IamPolicy) cty.Value {
 	EncodeIamPolicy_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamPolicy_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamPolicy_Description(p *IamPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamPolicy_Description(p IamPolicyParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeIamPolicy_Id(p *IamPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamPolicy_Id(p IamPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamPolicy_Name(p *IamPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamPolicy_Name(p IamPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeIamPolicy_NamePrefix(p *IamPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamPolicy_NamePrefix(p IamPolicyParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeIamPolicy_Path(p *IamPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamPolicy_Path(p IamPolicyParameters, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
 }
 
-func EncodeIamPolicy_Policy(p *IamPolicyParameters, vals map[string]cty.Value) {
+func EncodeIamPolicy_Policy(p IamPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }
 
-func EncodeIamPolicy_Arn(p *IamPolicyObservation, vals map[string]cty.Value) {
+func EncodeIamPolicy_Arn(p IamPolicyObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

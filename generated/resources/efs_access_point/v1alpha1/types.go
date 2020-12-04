@@ -52,17 +52,17 @@ type EfsAccessPointSpec struct {
 
 // A EfsAccessPointParameters defines the desired state of a EfsAccessPoint
 type EfsAccessPointParameters struct {
+	Tags          map[string]string `json:"tags"`
 	FileSystemId  string            `json:"file_system_id"`
 	Id            string            `json:"id"`
-	Tags          map[string]string `json:"tags"`
 	PosixUser     PosixUser         `json:"posix_user"`
 	RootDirectory RootDirectory     `json:"root_directory"`
 }
 
 type PosixUser struct {
-	SecondaryGids []int `json:"secondary_gids"`
-	Uid           int   `json:"uid"`
-	Gid           int   `json:"gid"`
+	Gid           int64   `json:"gid"`
+	SecondaryGids []int64 `json:"secondary_gids"`
+	Uid           int64   `json:"uid"`
 }
 
 type RootDirectory struct {
@@ -71,8 +71,8 @@ type RootDirectory struct {
 }
 
 type CreationInfo struct {
-	OwnerGid    int    `json:"owner_gid"`
-	OwnerUid    int    `json:"owner_uid"`
+	OwnerGid    int64  `json:"owner_gid"`
+	OwnerUid    int64  `json:"owner_uid"`
 	Permissions string `json:"permissions"`
 }
 
@@ -84,7 +84,7 @@ type EfsAccessPointStatus struct {
 
 // A EfsAccessPointObservation records the observed state of a EfsAccessPoint
 type EfsAccessPointObservation struct {
-	OwnerId       string `json:"owner_id"`
 	Arn           string `json:"arn"`
 	FileSystemArn string `json:"file_system_arn"`
+	OwnerId       string `json:"owner_id"`
 }

@@ -55,8 +55,8 @@ type AppautoscalingTargetParameters struct {
 	ScalableDimension string `json:"scalable_dimension"`
 	ServiceNamespace  string `json:"service_namespace"`
 	Id                string `json:"id"`
-	MaxCapacity       int    `json:"max_capacity"`
-	MinCapacity       int    `json:"min_capacity"`
+	MaxCapacity       int64  `json:"max_capacity"`
+	MinCapacity       int64  `json:"min_capacity"`
 	ResourceId        string `json:"resource_id"`
 	RoleArn           string `json:"role_arn"`
 }

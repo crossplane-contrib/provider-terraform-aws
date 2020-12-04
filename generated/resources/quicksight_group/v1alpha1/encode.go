@@ -14,37 +14,43 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeQuicksightGroup(r QuicksightGroup) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeQuicksightGroup(r QuicksightGroup) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeQuicksightGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_GroupName(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Namespace(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_AwsAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeQuicksightGroup_Description(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+func EncodeQuicksightGroup_Description(p QuicksightGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeQuicksightGroup_GroupName(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+func EncodeQuicksightGroup_GroupName(p QuicksightGroupParameters, vals map[string]cty.Value) {
 	vals["group_name"] = cty.StringVal(p.GroupName)
 }
 
-func EncodeQuicksightGroup_Id(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+func EncodeQuicksightGroup_Id(p QuicksightGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeQuicksightGroup_Namespace(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+func EncodeQuicksightGroup_Namespace(p QuicksightGroupParameters, vals map[string]cty.Value) {
 	vals["namespace"] = cty.StringVal(p.Namespace)
 }
 
-func EncodeQuicksightGroup_AwsAccountId(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+func EncodeQuicksightGroup_AwsAccountId(p QuicksightGroupParameters, vals map[string]cty.Value) {
 	vals["aws_account_id"] = cty.StringVal(p.AwsAccountId)
 }
 
-func EncodeQuicksightGroup_Arn(p *QuicksightGroupObservation, vals map[string]cty.Value) {
+func EncodeQuicksightGroup_Arn(p QuicksightGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

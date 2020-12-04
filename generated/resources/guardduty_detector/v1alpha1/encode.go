@@ -14,18 +14,32 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeGuarddutyDetector(r GuarddutyDetector) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeGuarddutyDetector_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyDetector_Enable(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeGuarddutyDetector(r GuarddutyDetector) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeGuarddutyDetector_FindingPublishingFrequency(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyDetector_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyDetector_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyDetector_Enable(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyDetector_AccountId(r.Status.AtProvider, ctyVal)
 	EncodeGuarddutyDetector_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGuarddutyDetector_Tags(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyDetector_FindingPublishingFrequency(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	vals["finding_publishing_frequency"] = cty.StringVal(p.FindingPublishingFrequency)
+}
+
+func EncodeGuarddutyDetector_Id(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGuarddutyDetector_Tags(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -33,22 +47,14 @@ func EncodeGuarddutyDetector_Tags(p *GuarddutyDetectorParameters, vals map[strin
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeGuarddutyDetector_Enable(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
+func EncodeGuarddutyDetector_Enable(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	vals["enable"] = cty.BoolVal(p.Enable)
 }
 
-func EncodeGuarddutyDetector_FindingPublishingFrequency(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
-	vals["finding_publishing_frequency"] = cty.StringVal(p.FindingPublishingFrequency)
-}
-
-func EncodeGuarddutyDetector_Id(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGuarddutyDetector_AccountId(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
+func EncodeGuarddutyDetector_AccountId(p GuarddutyDetectorObservation, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
 }
 
-func EncodeGuarddutyDetector_Arn(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
+func EncodeGuarddutyDetector_Arn(p GuarddutyDetectorObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

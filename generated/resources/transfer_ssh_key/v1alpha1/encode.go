@@ -14,28 +14,34 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeTransferSshKey(r TransferSshKey) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeTransferSshKey(r TransferSshKey) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeTransferSshKey_Body(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_ServerId(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_UserName(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeTransferSshKey_Body(p *TransferSshKeyParameters, vals map[string]cty.Value) {
+func EncodeTransferSshKey_Body(p TransferSshKeyParameters, vals map[string]cty.Value) {
 	vals["body"] = cty.StringVal(p.Body)
 }
 
-func EncodeTransferSshKey_Id(p *TransferSshKeyParameters, vals map[string]cty.Value) {
+func EncodeTransferSshKey_Id(p TransferSshKeyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeTransferSshKey_ServerId(p *TransferSshKeyParameters, vals map[string]cty.Value) {
+func EncodeTransferSshKey_ServerId(p TransferSshKeyParameters, vals map[string]cty.Value) {
 	vals["server_id"] = cty.StringVal(p.ServerId)
 }
 
-func EncodeTransferSshKey_UserName(p *TransferSshKeyParameters, vals map[string]cty.Value) {
+func EncodeTransferSshKey_UserName(p TransferSshKeyParameters, vals map[string]cty.Value) {
 	vals["user_name"] = cty.StringVal(p.UserName)
 }

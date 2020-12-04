@@ -14,23 +14,29 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeEfsFileSystemPolicy(r EfsFileSystemPolicy) cty.Value {
-	ctyVals := make(map[string]cty.Value)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeEfsFileSystemPolicy(r EfsFileSystemPolicy) cty.Value {
+	ctyVal := make(map[string]cty.Value)
+	EncodeEfsFileSystemPolicy_FileSystemId(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystemPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystemPolicy_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeEfsFileSystemPolicy_FileSystemId(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEfsFileSystemPolicy_Id(p *EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
+func EncodeEfsFileSystemPolicy_FileSystemId(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
+	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
+}
+
+func EncodeEfsFileSystemPolicy_Id(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEfsFileSystemPolicy_Policy(p *EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
+func EncodeEfsFileSystemPolicy_Policy(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeEfsFileSystemPolicy_FileSystemId(p *EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
-	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
 }

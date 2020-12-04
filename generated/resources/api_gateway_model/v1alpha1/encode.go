@@ -14,38 +14,44 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeApiGatewayModel(r ApiGatewayModel) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeApiGatewayModel_ContentType(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayModel_Description(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeApiGatewayModel(r ApiGatewayModel) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayModel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayModel_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayModel_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayModel_Schema(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayModel_ContentType(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayModel_Description(r.Spec.ForProvider, ctyVal)
 
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayModel_ContentType(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
-	vals["content_type"] = cty.StringVal(p.ContentType)
-}
-
-func EncodeApiGatewayModel_Description(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeApiGatewayModel_Id(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayModel_Id(p ApiGatewayModelParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayModel_Name(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayModel_Name(p ApiGatewayModelParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeApiGatewayModel_RestApiId(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayModel_RestApiId(p ApiGatewayModelParameters, vals map[string]cty.Value) {
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
-func EncodeApiGatewayModel_Schema(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
+func EncodeApiGatewayModel_Schema(p ApiGatewayModelParameters, vals map[string]cty.Value) {
 	vals["schema"] = cty.StringVal(p.Schema)
+}
+
+func EncodeApiGatewayModel_ContentType(p ApiGatewayModelParameters, vals map[string]cty.Value) {
+	vals["content_type"] = cty.StringVal(p.ContentType)
+}
+
+func EncodeApiGatewayModel_Description(p ApiGatewayModelParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }

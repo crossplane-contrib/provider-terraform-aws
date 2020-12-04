@@ -59,11 +59,11 @@ type ApiGatewayDocumentationPartParameters struct {
 }
 
 type Location struct {
+	Method     string `json:"method"`
+	Name       string `json:"name"`
 	Path       string `json:"path"`
 	StatusCode string `json:"status_code"`
 	Type       string `json:"type"`
-	Method     string `json:"method"`
-	Name       string `json:"name"`
 }
 
 // A ApiGatewayDocumentationPartStatus defines the observed state of a ApiGatewayDocumentationPart

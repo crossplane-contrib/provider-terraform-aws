@@ -14,18 +14,40 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeBatchJobQueue(r BatchJobQueue) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeBatchJobQueue_ComputeEnvironments(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeBatchJobQueue(r BatchJobQueue) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeBatchJobQueue_Id(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobQueue_Name(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobQueue_Priority(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobQueue_State(r.Spec.ForProvider, ctyVal)
+	EncodeBatchJobQueue_ComputeEnvironments(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobQueue_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeBatchJobQueue_ComputeEnvironments(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+func EncodeBatchJobQueue_Id(p BatchJobQueueParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeBatchJobQueue_Name(p BatchJobQueueParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeBatchJobQueue_Priority(p BatchJobQueueParameters, vals map[string]cty.Value) {
+	vals["priority"] = cty.NumberIntVal(p.Priority)
+}
+
+func EncodeBatchJobQueue_State(p BatchJobQueueParameters, vals map[string]cty.Value) {
+	vals["state"] = cty.StringVal(p.State)
+}
+
+func EncodeBatchJobQueue_ComputeEnvironments(p BatchJobQueueParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ComputeEnvironments {
 		colVals = append(colVals, cty.StringVal(value))
@@ -33,22 +55,6 @@ func EncodeBatchJobQueue_ComputeEnvironments(p *BatchJobQueueParameters, vals ma
 	vals["compute_environments"] = cty.ListVal(colVals)
 }
 
-func EncodeBatchJobQueue_Id(p *BatchJobQueueParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeBatchJobQueue_Name(p *BatchJobQueueParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeBatchJobQueue_Priority(p *BatchJobQueueParameters, vals map[string]cty.Value) {
-	vals["priority"] = cty.IntVal(p.Priority)
-}
-
-func EncodeBatchJobQueue_State(p *BatchJobQueueParameters, vals map[string]cty.Value) {
-	vals["state"] = cty.StringVal(p.State)
-}
-
-func EncodeBatchJobQueue_Arn(p *BatchJobQueueObservation, vals map[string]cty.Value) {
+func EncodeBatchJobQueue_Arn(p BatchJobQueueObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

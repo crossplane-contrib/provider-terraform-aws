@@ -14,24 +14,26 @@
 	limitations under the License.
 */
 
-package v1alpha1func EncodeWafRegexPatternSet(r WafRegexPatternSet) cty.Value {
-	ctyVals := make(map[string]cty.Value)
-	EncodeWafRegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
+package v1alpha1
+
+import (
+	"github.com/zclconf/go-cty/cty"
+)
+
+func EncodeWafRegexPatternSet(r WafRegexPatternSet) cty.Value {
+	ctyVal := make(map[string]cty.Value)
 	EncodeWafRegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_RegexPatternStrings(r.Spec.ForProvider, ctyVal)
+	EncodeWafRegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVals)
+	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafRegexPatternSet_Id(p *WafRegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeWafRegexPatternSet_Name(p *WafRegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafRegexPatternSet_Name(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafRegexPatternSet_RegexPatternStrings(p *WafRegexPatternSetParameters, vals map[string]cty.Value) {
+func EncodeWafRegexPatternSet_RegexPatternStrings(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.RegexPatternStrings {
 		colVals = append(colVals, cty.StringVal(value))
@@ -39,6 +41,10 @@ func EncodeWafRegexPatternSet_RegexPatternStrings(p *WafRegexPatternSetParameter
 	vals["regex_pattern_strings"] = cty.SetVal(colVals)
 }
 
-func EncodeWafRegexPatternSet_Arn(p *WafRegexPatternSetObservation, vals map[string]cty.Value) {
+func EncodeWafRegexPatternSet_Id(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafRegexPatternSet_Arn(p WafRegexPatternSetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -59,8 +59,8 @@ type S3BucketMetricParameters struct {
 }
 
 type Filter struct {
-	Tags   map[string]string `json:"tags"`
 	Prefix string            `json:"prefix"`
+	Tags   map[string]string `json:"tags"`
 }
 
 // A S3BucketMetricStatus defines the observed state of a S3BucketMetric
