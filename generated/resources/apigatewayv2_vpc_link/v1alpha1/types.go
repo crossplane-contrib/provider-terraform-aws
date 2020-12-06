@@ -52,11 +52,11 @@ type Apigatewayv2VpcLinkSpec struct {
 
 // A Apigatewayv2VpcLinkParameters defines the desired state of a Apigatewayv2VpcLink
 type Apigatewayv2VpcLinkParameters struct {
-	Name             string            `json:"name"`
 	SecurityGroupIds []string          `json:"security_group_ids"`
 	SubnetIds        []string          `json:"subnet_ids"`
 	Tags             map[string]string `json:"tags"`
 	Id               string            `json:"id"`
+	Name             string            `json:"name"`
 }
 
 // A Apigatewayv2VpcLinkStatus defines the observed state of a Apigatewayv2VpcLink

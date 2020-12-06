@@ -50,15 +50,11 @@ func EncodeCloudwatchEventPermission_StatementId(p CloudwatchEventPermissionPara
 func EncodeCloudwatchEventPermission_Condition(p Condition, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchEventPermission_Condition_Key(p, ctyVal)
 	EncodeCloudwatchEventPermission_Condition_Type(p, ctyVal)
 	EncodeCloudwatchEventPermission_Condition_Value(p, ctyVal)
+	EncodeCloudwatchEventPermission_Condition_Key(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["condition"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCloudwatchEventPermission_Condition_Key(p Condition, vals map[string]cty.Value) {
-	vals["key"] = cty.StringVal(p.Key)
 }
 
 func EncodeCloudwatchEventPermission_Condition_Type(p Condition, vals map[string]cty.Value) {
@@ -67,4 +63,8 @@ func EncodeCloudwatchEventPermission_Condition_Type(p Condition, vals map[string
 
 func EncodeCloudwatchEventPermission_Condition_Value(p Condition, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeCloudwatchEventPermission_Condition_Key(p Condition, vals map[string]cty.Value) {
+	vals["key"] = cty.StringVal(p.Key)
 }

@@ -53,28 +53,29 @@ type LaunchConfigurationSpec struct {
 // A LaunchConfigurationParameters defines the desired state of a LaunchConfiguration
 type LaunchConfigurationParameters struct {
 	AssociatePublicIpAddress     bool                 `json:"associate_public_ip_address"`
-	Id                           string               `json:"id"`
-	InstanceType                 string               `json:"instance_type"`
 	KeyName                      string               `json:"key_name"`
-	Name                         string               `json:"name"`
-	PlacementTenancy             string               `json:"placement_tenancy"`
-	SecurityGroups               []string             `json:"security_groups"`
+	VpcClassicLinkSecurityGroups []string             `json:"vpc_classic_link_security_groups"`
 	EbsOptimized                 bool                 `json:"ebs_optimized"`
+	IamInstanceProfile           string               `json:"iam_instance_profile"`
+	NamePrefix                   string               `json:"name_prefix"`
 	SpotPrice                    string               `json:"spot_price"`
 	EnableMonitoring             bool                 `json:"enable_monitoring"`
-	IamInstanceProfile           string               `json:"iam_instance_profile"`
-	VpcClassicLinkId             string               `json:"vpc_classic_link_id"`
-	VpcClassicLinkSecurityGroups []string             `json:"vpc_classic_link_security_groups"`
 	ImageId                      string               `json:"image_id"`
-	NamePrefix                   string               `json:"name_prefix"`
+	Name                         string               `json:"name"`
+	SecurityGroups               []string             `json:"security_groups"`
 	UserData                     string               `json:"user_data"`
 	UserDataBase64               string               `json:"user_data_base64"`
+	Id                           string               `json:"id"`
+	InstanceType                 string               `json:"instance_type"`
+	PlacementTenancy             string               `json:"placement_tenancy"`
+	VpcClassicLinkId             string               `json:"vpc_classic_link_id"`
 	EbsBlockDevice               EbsBlockDevice       `json:"ebs_block_device"`
 	EphemeralBlockDevice         EphemeralBlockDevice `json:"ephemeral_block_device"`
 	RootBlockDevice              RootBlockDevice      `json:"root_block_device"`
 }
 
 type EbsBlockDevice struct {
+	DeviceName          string `json:"device_name"`
 	Encrypted           bool   `json:"encrypted"`
 	Iops                int64  `json:"iops"`
 	NoDevice            bool   `json:"no_device"`
@@ -82,7 +83,6 @@ type EbsBlockDevice struct {
 	VolumeSize          int64  `json:"volume_size"`
 	VolumeType          string `json:"volume_type"`
 	DeleteOnTermination bool   `json:"delete_on_termination"`
-	DeviceName          string `json:"device_name"`
 }
 
 type EphemeralBlockDevice struct {

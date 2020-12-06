@@ -22,28 +22,28 @@ import (
 
 func EncodeCognitoUserPool(r CognitoUserPool) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPool_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_EmailVerificationMessage(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_AutoVerifiedAttributes(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_UsernameAttributes(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_EmailVerificationSubject(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPool_MfaConfiguration(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_SmsVerificationMessage(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_AliasAttributes(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPool_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPool_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPool_SmsAuthenticationMessage(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_AutoVerifiedAttributes(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_AliasAttributes(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_EmailVerificationSubject(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_EmailVerificationMessage(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_SmsVerificationMessage(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_UsernameAttributes(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPool_SmsConfiguration(r.Spec.ForProvider.SmsConfiguration, ctyVal)
-	EncodeCognitoUserPool_SoftwareTokenMfaConfiguration(r.Spec.ForProvider.SoftwareTokenMfaConfiguration, ctyVal)
-	EncodeCognitoUserPool_UsernameConfiguration(r.Spec.ForProvider.UsernameConfiguration, ctyVal)
-	EncodeCognitoUserPool_VerificationMessageTemplate(r.Spec.ForProvider.VerificationMessageTemplate, ctyVal)
 	EncodeCognitoUserPool_AdminCreateUserConfig(r.Spec.ForProvider.AdminCreateUserConfig, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig(r.Spec.ForProvider.LambdaConfig, ctyVal)
 	EncodeCognitoUserPool_PasswordPolicy(r.Spec.ForProvider.PasswordPolicy, ctyVal)
 	EncodeCognitoUserPool_Schema(r.Spec.ForProvider.Schema, ctyVal)
+	EncodeCognitoUserPool_SmsConfiguration(r.Spec.ForProvider.SmsConfiguration, ctyVal)
+	EncodeCognitoUserPool_SoftwareTokenMfaConfiguration(r.Spec.ForProvider.SoftwareTokenMfaConfiguration, ctyVal)
 	EncodeCognitoUserPool_UserPoolAddOns(r.Spec.ForProvider.UserPoolAddOns, ctyVal)
+	EncodeCognitoUserPool_UsernameConfiguration(r.Spec.ForProvider.UsernameConfiguration, ctyVal)
 	EncodeCognitoUserPool_DeviceConfiguration(r.Spec.ForProvider.DeviceConfiguration, ctyVal)
 	EncodeCognitoUserPool_EmailConfiguration(r.Spec.ForProvider.EmailConfiguration, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig(r.Spec.ForProvider.LambdaConfig, ctyVal)
+	EncodeCognitoUserPool_VerificationMessageTemplate(r.Spec.ForProvider.VerificationMessageTemplate, ctyVal)
 	EncodeCognitoUserPool_LastModifiedDate(r.Status.AtProvider, ctyVal)
 	EncodeCognitoUserPool_Arn(r.Status.AtProvider, ctyVal)
 	EncodeCognitoUserPool_CreationDate(r.Status.AtProvider, ctyVal)
@@ -51,20 +51,8 @@ func EncodeCognitoUserPool(r CognitoUserPool) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCognitoUserPool_Id(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCognitoUserPool_MfaConfiguration(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	vals["mfa_configuration"] = cty.StringVal(p.MfaConfiguration)
-}
-
-func EncodeCognitoUserPool_Name(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeCognitoUserPool_SmsAuthenticationMessage(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	vals["sms_authentication_message"] = cty.StringVal(p.SmsAuthenticationMessage)
+func EncodeCognitoUserPool_EmailVerificationMessage(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	vals["email_verification_message"] = cty.StringVal(p.EmailVerificationMessage)
 }
 
 func EncodeCognitoUserPool_AutoVerifiedAttributes(p CognitoUserPoolParameters, vals map[string]cty.Value) {
@@ -75,32 +63,12 @@ func EncodeCognitoUserPool_AutoVerifiedAttributes(p CognitoUserPoolParameters, v
 	vals["auto_verified_attributes"] = cty.SetVal(colVals)
 }
 
-func EncodeCognitoUserPool_AliasAttributes(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.AliasAttributes {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["alias_attributes"] = cty.SetVal(colVals)
-}
-
-func EncodeCognitoUserPool_EmailVerificationSubject(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	vals["email_verification_subject"] = cty.StringVal(p.EmailVerificationSubject)
-}
-
 func EncodeCognitoUserPool_Tags(p CognitoUserPoolParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeCognitoUserPool_EmailVerificationMessage(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	vals["email_verification_message"] = cty.StringVal(p.EmailVerificationMessage)
-}
-
-func EncodeCognitoUserPool_SmsVerificationMessage(p CognitoUserPoolParameters, vals map[string]cty.Value) {
-	vals["sms_verification_message"] = cty.StringVal(p.SmsVerificationMessage)
 }
 
 func EncodeCognitoUserPool_UsernameAttributes(p CognitoUserPoolParameters, vals map[string]cty.Value) {
@@ -111,82 +79,36 @@ func EncodeCognitoUserPool_UsernameAttributes(p CognitoUserPoolParameters, vals 
 	vals["username_attributes"] = cty.ListVal(colVals)
 }
 
-func EncodeCognitoUserPool_SmsConfiguration(p SmsConfiguration, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPool_SmsConfiguration_ExternalId(p, ctyVal)
-	EncodeCognitoUserPool_SmsConfiguration_SnsCallerArn(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["sms_configuration"] = cty.ListVal(valsForCollection)
+func EncodeCognitoUserPool_EmailVerificationSubject(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	vals["email_verification_subject"] = cty.StringVal(p.EmailVerificationSubject)
 }
 
-func EncodeCognitoUserPool_SmsConfiguration_ExternalId(p SmsConfiguration, vals map[string]cty.Value) {
-	vals["external_id"] = cty.StringVal(p.ExternalId)
+func EncodeCognitoUserPool_MfaConfiguration(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	vals["mfa_configuration"] = cty.StringVal(p.MfaConfiguration)
 }
 
-func EncodeCognitoUserPool_SmsConfiguration_SnsCallerArn(p SmsConfiguration, vals map[string]cty.Value) {
-	vals["sns_caller_arn"] = cty.StringVal(p.SnsCallerArn)
+func EncodeCognitoUserPool_SmsVerificationMessage(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	vals["sms_verification_message"] = cty.StringVal(p.SmsVerificationMessage)
 }
 
-func EncodeCognitoUserPool_SoftwareTokenMfaConfiguration(p SoftwareTokenMfaConfiguration, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPool_SoftwareTokenMfaConfiguration_Enabled(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["software_token_mfa_configuration"] = cty.ListVal(valsForCollection)
+func EncodeCognitoUserPool_AliasAttributes(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.AliasAttributes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["alias_attributes"] = cty.SetVal(colVals)
 }
 
-func EncodeCognitoUserPool_SoftwareTokenMfaConfiguration_Enabled(p SoftwareTokenMfaConfiguration, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
+func EncodeCognitoUserPool_Id(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCognitoUserPool_UsernameConfiguration(p UsernameConfiguration, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPool_UsernameConfiguration_CaseSensitive(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["username_configuration"] = cty.ListVal(valsForCollection)
+func EncodeCognitoUserPool_Name(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeCognitoUserPool_UsernameConfiguration_CaseSensitive(p UsernameConfiguration, vals map[string]cty.Value) {
-	vals["case_sensitive"] = cty.BoolVal(p.CaseSensitive)
-}
-
-func EncodeCognitoUserPool_VerificationMessageTemplate(p VerificationMessageTemplate, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubjectByLink(p, ctyVal)
-	EncodeCognitoUserPool_VerificationMessageTemplate_SmsMessage(p, ctyVal)
-	EncodeCognitoUserPool_VerificationMessageTemplate_DefaultEmailOption(p, ctyVal)
-	EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessage(p, ctyVal)
-	EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessageByLink(p, ctyVal)
-	EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubject(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["verification_message_template"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubjectByLink(p VerificationMessageTemplate, vals map[string]cty.Value) {
-	vals["email_subject_by_link"] = cty.StringVal(p.EmailSubjectByLink)
-}
-
-func EncodeCognitoUserPool_VerificationMessageTemplate_SmsMessage(p VerificationMessageTemplate, vals map[string]cty.Value) {
-	vals["sms_message"] = cty.StringVal(p.SmsMessage)
-}
-
-func EncodeCognitoUserPool_VerificationMessageTemplate_DefaultEmailOption(p VerificationMessageTemplate, vals map[string]cty.Value) {
-	vals["default_email_option"] = cty.StringVal(p.DefaultEmailOption)
-}
-
-func EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessage(p VerificationMessageTemplate, vals map[string]cty.Value) {
-	vals["email_message"] = cty.StringVal(p.EmailMessage)
-}
-
-func EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessageByLink(p VerificationMessageTemplate, vals map[string]cty.Value) {
-	vals["email_message_by_link"] = cty.StringVal(p.EmailMessageByLink)
-}
-
-func EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubject(p VerificationMessageTemplate, vals map[string]cty.Value) {
-	vals["email_subject"] = cty.StringVal(p.EmailSubject)
+func EncodeCognitoUserPool_SmsAuthenticationMessage(p CognitoUserPoolParameters, vals map[string]cty.Value) {
+	vals["sms_authentication_message"] = cty.StringVal(p.SmsAuthenticationMessage)
 }
 
 func EncodeCognitoUserPool_AdminCreateUserConfig(p AdminCreateUserConfig, vals map[string]cty.Value) {
@@ -222,63 +144,6 @@ func EncodeCognitoUserPool_AdminCreateUserConfig_InviteMessageTemplate_EmailSubj
 
 func EncodeCognitoUserPool_AdminCreateUserConfig_InviteMessageTemplate_SmsMessage(p InviteMessageTemplate, vals map[string]cty.Value) {
 	vals["sms_message"] = cty.StringVal(p.SmsMessage)
-}
-
-func EncodeCognitoUserPool_LambdaConfig(p LambdaConfig, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPool_LambdaConfig_CustomMessage(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_DefineAuthChallenge(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_PreSignUp(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_UserMigration(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_CreateAuthChallenge(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_PostConfirmation(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_PreAuthentication(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_PreTokenGeneration(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_VerifyAuthChallengeResponse(p, ctyVal)
-	EncodeCognitoUserPool_LambdaConfig_PostAuthentication(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["lambda_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_CustomMessage(p LambdaConfig, vals map[string]cty.Value) {
-	vals["custom_message"] = cty.StringVal(p.CustomMessage)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_DefineAuthChallenge(p LambdaConfig, vals map[string]cty.Value) {
-	vals["define_auth_challenge"] = cty.StringVal(p.DefineAuthChallenge)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_PreSignUp(p LambdaConfig, vals map[string]cty.Value) {
-	vals["pre_sign_up"] = cty.StringVal(p.PreSignUp)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_UserMigration(p LambdaConfig, vals map[string]cty.Value) {
-	vals["user_migration"] = cty.StringVal(p.UserMigration)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_CreateAuthChallenge(p LambdaConfig, vals map[string]cty.Value) {
-	vals["create_auth_challenge"] = cty.StringVal(p.CreateAuthChallenge)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_PostConfirmation(p LambdaConfig, vals map[string]cty.Value) {
-	vals["post_confirmation"] = cty.StringVal(p.PostConfirmation)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_PreAuthentication(p LambdaConfig, vals map[string]cty.Value) {
-	vals["pre_authentication"] = cty.StringVal(p.PreAuthentication)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_PreTokenGeneration(p LambdaConfig, vals map[string]cty.Value) {
-	vals["pre_token_generation"] = cty.StringVal(p.PreTokenGeneration)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_VerifyAuthChallengeResponse(p LambdaConfig, vals map[string]cty.Value) {
-	vals["verify_auth_challenge_response"] = cty.StringVal(p.VerifyAuthChallengeResponse)
-}
-
-func EncodeCognitoUserPool_LambdaConfig_PostAuthentication(p LambdaConfig, vals map[string]cty.Value) {
-	vals["post_authentication"] = cty.StringVal(p.PostAuthentication)
 }
 
 func EncodeCognitoUserPool_PasswordPolicy(p PasswordPolicy, vals map[string]cty.Value) {
@@ -322,16 +187,20 @@ func EncodeCognitoUserPool_Schema(p []Schema, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeCognitoUserPool_Schema_Required(v, ctyVal)
 		EncodeCognitoUserPool_Schema_AttributeDataType(v, ctyVal)
 		EncodeCognitoUserPool_Schema_DeveloperOnlyAttribute(v, ctyVal)
 		EncodeCognitoUserPool_Schema_Mutable(v, ctyVal)
 		EncodeCognitoUserPool_Schema_Name(v, ctyVal)
-		EncodeCognitoUserPool_Schema_Required(v, ctyVal)
 		EncodeCognitoUserPool_Schema_NumberAttributeConstraints(v.NumberAttributeConstraints, ctyVal)
 		EncodeCognitoUserPool_Schema_StringAttributeConstraints(v.StringAttributeConstraints, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["schema"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeCognitoUserPool_Schema_Required(p Schema, vals map[string]cty.Value) {
+	vals["required"] = cty.BoolVal(p.Required)
 }
 
 func EncodeCognitoUserPool_Schema_AttributeDataType(p Schema, vals map[string]cty.Value) {
@@ -348,10 +217,6 @@ func EncodeCognitoUserPool_Schema_Mutable(p Schema, vals map[string]cty.Value) {
 
 func EncodeCognitoUserPool_Schema_Name(p Schema, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeCognitoUserPool_Schema_Required(p Schema, vals map[string]cty.Value) {
-	vals["required"] = cty.BoolVal(p.Required)
 }
 
 func EncodeCognitoUserPool_Schema_NumberAttributeConstraints(p NumberAttributeConstraints, vals map[string]cty.Value) {
@@ -374,18 +239,47 @@ func EncodeCognitoUserPool_Schema_NumberAttributeConstraints_MinValue(p NumberAt
 func EncodeCognitoUserPool_Schema_StringAttributeConstraints(p StringAttributeConstraints, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPool_Schema_StringAttributeConstraints_MaxLength(p, ctyVal)
 	EncodeCognitoUserPool_Schema_StringAttributeConstraints_MinLength(p, ctyVal)
+	EncodeCognitoUserPool_Schema_StringAttributeConstraints_MaxLength(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["string_attribute_constraints"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCognitoUserPool_Schema_StringAttributeConstraints_MinLength(p StringAttributeConstraints, vals map[string]cty.Value) {
+	vals["min_length"] = cty.StringVal(p.MinLength)
 }
 
 func EncodeCognitoUserPool_Schema_StringAttributeConstraints_MaxLength(p StringAttributeConstraints, vals map[string]cty.Value) {
 	vals["max_length"] = cty.StringVal(p.MaxLength)
 }
 
-func EncodeCognitoUserPool_Schema_StringAttributeConstraints_MinLength(p StringAttributeConstraints, vals map[string]cty.Value) {
-	vals["min_length"] = cty.StringVal(p.MinLength)
+func EncodeCognitoUserPool_SmsConfiguration(p SmsConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoUserPool_SmsConfiguration_ExternalId(p, ctyVal)
+	EncodeCognitoUserPool_SmsConfiguration_SnsCallerArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["sms_configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCognitoUserPool_SmsConfiguration_ExternalId(p SmsConfiguration, vals map[string]cty.Value) {
+	vals["external_id"] = cty.StringVal(p.ExternalId)
+}
+
+func EncodeCognitoUserPool_SmsConfiguration_SnsCallerArn(p SmsConfiguration, vals map[string]cty.Value) {
+	vals["sns_caller_arn"] = cty.StringVal(p.SnsCallerArn)
+}
+
+func EncodeCognitoUserPool_SoftwareTokenMfaConfiguration(p SoftwareTokenMfaConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoUserPool_SoftwareTokenMfaConfiguration_Enabled(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["software_token_mfa_configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCognitoUserPool_SoftwareTokenMfaConfiguration_Enabled(p SoftwareTokenMfaConfiguration, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeCognitoUserPool_UserPoolAddOns(p UserPoolAddOns, vals map[string]cty.Value) {
@@ -398,6 +292,18 @@ func EncodeCognitoUserPool_UserPoolAddOns(p UserPoolAddOns, vals map[string]cty.
 
 func EncodeCognitoUserPool_UserPoolAddOns_AdvancedSecurityMode(p UserPoolAddOns, vals map[string]cty.Value) {
 	vals["advanced_security_mode"] = cty.StringVal(p.AdvancedSecurityMode)
+}
+
+func EncodeCognitoUserPool_UsernameConfiguration(p UsernameConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoUserPool_UsernameConfiguration_CaseSensitive(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["username_configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCognitoUserPool_UsernameConfiguration_CaseSensitive(p UsernameConfiguration, vals map[string]cty.Value) {
+	vals["case_sensitive"] = cty.BoolVal(p.CaseSensitive)
 }
 
 func EncodeCognitoUserPool_DeviceConfiguration(p DeviceConfiguration, vals map[string]cty.Value) {
@@ -442,6 +348,100 @@ func EncodeCognitoUserPool_EmailConfiguration_ReplyToEmailAddress(p EmailConfigu
 
 func EncodeCognitoUserPool_EmailConfiguration_SourceArn(p EmailConfiguration, vals map[string]cty.Value) {
 	vals["source_arn"] = cty.StringVal(p.SourceArn)
+}
+
+func EncodeCognitoUserPool_LambdaConfig(p LambdaConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoUserPool_LambdaConfig_PreSignUp(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_CreateAuthChallenge(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_DefineAuthChallenge(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_PostAuthentication(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_PostConfirmation(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_PreAuthentication(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_CustomMessage(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_PreTokenGeneration(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_UserMigration(p, ctyVal)
+	EncodeCognitoUserPool_LambdaConfig_VerifyAuthChallengeResponse(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["lambda_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_PreSignUp(p LambdaConfig, vals map[string]cty.Value) {
+	vals["pre_sign_up"] = cty.StringVal(p.PreSignUp)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_CreateAuthChallenge(p LambdaConfig, vals map[string]cty.Value) {
+	vals["create_auth_challenge"] = cty.StringVal(p.CreateAuthChallenge)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_DefineAuthChallenge(p LambdaConfig, vals map[string]cty.Value) {
+	vals["define_auth_challenge"] = cty.StringVal(p.DefineAuthChallenge)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_PostAuthentication(p LambdaConfig, vals map[string]cty.Value) {
+	vals["post_authentication"] = cty.StringVal(p.PostAuthentication)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_PostConfirmation(p LambdaConfig, vals map[string]cty.Value) {
+	vals["post_confirmation"] = cty.StringVal(p.PostConfirmation)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_PreAuthentication(p LambdaConfig, vals map[string]cty.Value) {
+	vals["pre_authentication"] = cty.StringVal(p.PreAuthentication)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_CustomMessage(p LambdaConfig, vals map[string]cty.Value) {
+	vals["custom_message"] = cty.StringVal(p.CustomMessage)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_PreTokenGeneration(p LambdaConfig, vals map[string]cty.Value) {
+	vals["pre_token_generation"] = cty.StringVal(p.PreTokenGeneration)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_UserMigration(p LambdaConfig, vals map[string]cty.Value) {
+	vals["user_migration"] = cty.StringVal(p.UserMigration)
+}
+
+func EncodeCognitoUserPool_LambdaConfig_VerifyAuthChallengeResponse(p LambdaConfig, vals map[string]cty.Value) {
+	vals["verify_auth_challenge_response"] = cty.StringVal(p.VerifyAuthChallengeResponse)
+}
+
+func EncodeCognitoUserPool_VerificationMessageTemplate(p VerificationMessageTemplate, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessageByLink(p, ctyVal)
+	EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubject(p, ctyVal)
+	EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubjectByLink(p, ctyVal)
+	EncodeCognitoUserPool_VerificationMessageTemplate_SmsMessage(p, ctyVal)
+	EncodeCognitoUserPool_VerificationMessageTemplate_DefaultEmailOption(p, ctyVal)
+	EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessage(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["verification_message_template"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessageByLink(p VerificationMessageTemplate, vals map[string]cty.Value) {
+	vals["email_message_by_link"] = cty.StringVal(p.EmailMessageByLink)
+}
+
+func EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubject(p VerificationMessageTemplate, vals map[string]cty.Value) {
+	vals["email_subject"] = cty.StringVal(p.EmailSubject)
+}
+
+func EncodeCognitoUserPool_VerificationMessageTemplate_EmailSubjectByLink(p VerificationMessageTemplate, vals map[string]cty.Value) {
+	vals["email_subject_by_link"] = cty.StringVal(p.EmailSubjectByLink)
+}
+
+func EncodeCognitoUserPool_VerificationMessageTemplate_SmsMessage(p VerificationMessageTemplate, vals map[string]cty.Value) {
+	vals["sms_message"] = cty.StringVal(p.SmsMessage)
+}
+
+func EncodeCognitoUserPool_VerificationMessageTemplate_DefaultEmailOption(p VerificationMessageTemplate, vals map[string]cty.Value) {
+	vals["default_email_option"] = cty.StringVal(p.DefaultEmailOption)
+}
+
+func EncodeCognitoUserPool_VerificationMessageTemplate_EmailMessage(p VerificationMessageTemplate, vals map[string]cty.Value) {
+	vals["email_message"] = cty.StringVal(p.EmailMessage)
 }
 
 func EncodeCognitoUserPool_LastModifiedDate(p CognitoUserPoolObservation, vals map[string]cty.Value) {

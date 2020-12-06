@@ -52,10 +52,10 @@ type AppsyncApiKeySpec struct {
 
 // A AppsyncApiKeyParameters defines the desired state of a AppsyncApiKey
 type AppsyncApiKeyParameters struct {
+	ApiId       string `json:"api_id"`
 	Description string `json:"description"`
 	Expires     string `json:"expires"`
 	Id          string `json:"id"`
-	ApiId       string `json:"api_id"`
 }
 
 // A AppsyncApiKeyStatus defines the observed state of a AppsyncApiKey

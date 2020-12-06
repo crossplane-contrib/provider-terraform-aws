@@ -22,13 +22,17 @@ import (
 
 func EncodeLbTargetGroupAttachment(r LbTargetGroupAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_Port(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_TargetGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeLbTargetGroupAttachment_TargetId(r.Spec.ForProvider, ctyVal)
-	EncodeLbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLbTargetGroupAttachment_AvailabilityZone(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeLbTargetGroupAttachment_Id(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
@@ -45,8 +49,4 @@ func EncodeLbTargetGroupAttachment_TargetGroupArn(p LbTargetGroupAttachmentParam
 
 func EncodeLbTargetGroupAttachment_TargetId(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_id"] = cty.StringVal(p.TargetId)
-}
-
-func EncodeLbTargetGroupAttachment_AvailabilityZone(p LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }

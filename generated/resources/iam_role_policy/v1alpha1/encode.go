@@ -22,13 +22,17 @@ import (
 
 func EncodeIamRolePolicy(r IamRolePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Role(r.Spec.ForProvider, ctyVal)
-	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamRolePolicy_Name(p IamRolePolicyParameters, vals map[string]cty.Value) {
@@ -45,8 +49,4 @@ func EncodeIamRolePolicy_Policy(p IamRolePolicyParameters, vals map[string]cty.V
 
 func EncodeIamRolePolicy_Role(p IamRolePolicyParameters, vals map[string]cty.Value) {
 	vals["role"] = cty.StringVal(p.Role)
-}
-
-func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

@@ -22,16 +22,12 @@ import (
 
 func EncodeConfigConfigurationRecorder(r ConfigConfigurationRecorder) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigConfigurationRecorder_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorder_Name(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorder_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeConfigConfigurationRecorder_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorder_RecordingGroup(r.Spec.ForProvider.RecordingGroup, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeConfigConfigurationRecorder_Id(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigConfigurationRecorder_Name(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
@@ -40,6 +36,10 @@ func EncodeConfigConfigurationRecorder_Name(p ConfigConfigurationRecorderParamet
 
 func EncodeConfigConfigurationRecorder_RoleArn(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeConfigConfigurationRecorder_Id(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigConfigurationRecorder_RecordingGroup(p RecordingGroup, vals map[string]cty.Value) {

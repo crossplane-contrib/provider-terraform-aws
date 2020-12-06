@@ -22,34 +22,22 @@ import (
 
 func EncodeGlobalacceleratorEndpointGroup(r GlobalacceleratorEndpointGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorEndpointGroup_ListenerArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_EndpointGroupRegion(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_HealthCheckPath(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_HealthCheckPort(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorEndpointGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorEndpointGroup_ListenerArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_ThresholdCount(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorEndpointGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_TrafficDialPercentage(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorEndpointGroup_EndpointConfiguration(r.Spec.ForProvider.EndpointConfiguration, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["health_check_protocol"] = cty.StringVal(p.HealthCheckProtocol)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_ListenerArn(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["listener_arn"] = cty.StringVal(p.ListenerArn)
-}
-
 func EncodeGlobalacceleratorEndpointGroup_EndpointGroupRegion(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
 	vals["endpoint_group_region"] = cty.StringVal(p.EndpointGroupRegion)
-}
-
-func EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["health_check_interval_seconds"] = cty.NumberIntVal(p.HealthCheckIntervalSeconds)
 }
 
 func EncodeGlobalacceleratorEndpointGroup_HealthCheckPath(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
@@ -60,12 +48,24 @@ func EncodeGlobalacceleratorEndpointGroup_HealthCheckPort(p GlobalacceleratorEnd
 	vals["health_check_port"] = cty.NumberIntVal(p.HealthCheckPort)
 }
 
-func EncodeGlobalacceleratorEndpointGroup_Id(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeGlobalacceleratorEndpointGroup_ListenerArn(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["listener_arn"] = cty.StringVal(p.ListenerArn)
 }
 
 func EncodeGlobalacceleratorEndpointGroup_ThresholdCount(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
 	vals["threshold_count"] = cty.NumberIntVal(p.ThresholdCount)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_HealthCheckIntervalSeconds(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["health_check_interval_seconds"] = cty.NumberIntVal(p.HealthCheckIntervalSeconds)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_HealthCheckProtocol(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["health_check_protocol"] = cty.StringVal(p.HealthCheckProtocol)
+}
+
+func EncodeGlobalacceleratorEndpointGroup_Id(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGlobalacceleratorEndpointGroup_TrafficDialPercentage(p GlobalacceleratorEndpointGroupParameters, vals map[string]cty.Value) {

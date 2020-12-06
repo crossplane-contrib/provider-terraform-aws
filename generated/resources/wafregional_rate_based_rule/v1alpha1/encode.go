@@ -22,27 +22,15 @@ import (
 
 func EncodeWafregionalRateBasedRule(r WafregionalRateBasedRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalRateBasedRule_Name(r.Spec.ForProvider, ctyVal)
-	EncodeWafregionalRateBasedRule_RateKey(r.Spec.ForProvider, ctyVal)
-	EncodeWafregionalRateBasedRule_RateLimit(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRateBasedRule_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRateBasedRule_RateKey(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRateBasedRule_RateLimit(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Predicate(r.Spec.ForProvider.Predicate, ctyVal)
 	EncodeWafregionalRateBasedRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalRateBasedRule_Name(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeWafregionalRateBasedRule_RateKey(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["rate_key"] = cty.StringVal(p.RateKey)
-}
-
-func EncodeWafregionalRateBasedRule_RateLimit(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
 }
 
 func EncodeWafregionalRateBasedRule_Tags(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
@@ -59,6 +47,18 @@ func EncodeWafregionalRateBasedRule_Id(p WafregionalRateBasedRuleParameters, val
 
 func EncodeWafregionalRateBasedRule_MetricName(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
 	vals["metric_name"] = cty.StringVal(p.MetricName)
+}
+
+func EncodeWafregionalRateBasedRule_Name(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafregionalRateBasedRule_RateKey(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["rate_key"] = cty.StringVal(p.RateKey)
+}
+
+func EncodeWafregionalRateBasedRule_RateLimit(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
 }
 
 func EncodeWafregionalRateBasedRule_Predicate(p Predicate, vals map[string]cty.Value) {

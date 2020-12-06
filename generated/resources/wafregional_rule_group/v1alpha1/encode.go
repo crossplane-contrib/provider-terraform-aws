@@ -22,21 +22,13 @@ import (
 
 func EncodeWafregionalRuleGroup(r WafregionalRuleGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalRuleGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRuleGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRuleGroup_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRuleGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRuleGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRuleGroup_ActivatedRule(r.Spec.ForProvider.ActivatedRule, ctyVal)
 	EncodeWafregionalRuleGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalRuleGroup_Tags(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafregionalRuleGroup_Id(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
@@ -49,6 +41,14 @@ func EncodeWafregionalRuleGroup_MetricName(p WafregionalRuleGroupParameters, val
 
 func EncodeWafregionalRuleGroup_Name(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafregionalRuleGroup_Tags(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafregionalRuleGroup_ActivatedRule(p ActivatedRule, vals map[string]cty.Value) {

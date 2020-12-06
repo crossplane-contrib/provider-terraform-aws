@@ -22,16 +22,12 @@ import (
 
 func EncodeSecurityhubActionTarget(r SecurityhubActionTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecurityhubActionTarget_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSecurityhubActionTarget_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecurityhubActionTarget_Description(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeSecurityhubActionTarget_Id(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
@@ -44,6 +40,10 @@ func EncodeSecurityhubActionTarget_Identifier(p SecurityhubActionTargetParameter
 
 func EncodeSecurityhubActionTarget_Name(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSecurityhubActionTarget_Description(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeSecurityhubActionTarget_Arn(p SecurityhubActionTargetObservation, vals map[string]cty.Value) {

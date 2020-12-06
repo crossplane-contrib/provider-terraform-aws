@@ -52,42 +52,42 @@ type BudgetsBudgetSpec struct {
 
 // A BudgetsBudgetParameters defines the desired state of a BudgetsBudget
 type BudgetsBudgetParameters struct {
+	AccountId       string            `json:"account_id"`
+	CostFilters     map[string]string `json:"cost_filters"`
+	Id              string            `json:"id"`
+	LimitAmount     string            `json:"limit_amount"`
 	Name            string            `json:"name"`
 	TimePeriodStart string            `json:"time_period_start"`
-	TimeUnit        string            `json:"time_unit"`
-	LimitAmount     string            `json:"limit_amount"`
+	BudgetType      string            `json:"budget_type"`
 	LimitUnit       string            `json:"limit_unit"`
 	NamePrefix      string            `json:"name_prefix"`
 	TimePeriodEnd   string            `json:"time_period_end"`
-	AccountId       string            `json:"account_id"`
-	BudgetType      string            `json:"budget_type"`
-	CostFilters     map[string]string `json:"cost_filters"`
-	Id              string            `json:"id"`
+	TimeUnit        string            `json:"time_unit"`
 	CostTypes       CostTypes         `json:"cost_types"`
 	Notification    Notification      `json:"notification"`
 }
 
 type CostTypes struct {
+	IncludeUpfront           bool `json:"include_upfront"`
+	UseBlended               bool `json:"use_blended"`
+	IncludeCredit            bool `json:"include_credit"`
+	IncludeOtherSubscription bool `json:"include_other_subscription"`
 	IncludeRefund            bool `json:"include_refund"`
 	IncludeSubscription      bool `json:"include_subscription"`
-	IncludeTax               bool `json:"include_tax"`
-	IncludeUpfront           bool `json:"include_upfront"`
-	IncludeCredit            bool `json:"include_credit"`
-	IncludeRecurring         bool `json:"include_recurring"`
 	IncludeSupport           bool `json:"include_support"`
-	UseAmortized             bool `json:"use_amortized"`
-	UseBlended               bool `json:"use_blended"`
 	IncludeDiscount          bool `json:"include_discount"`
-	IncludeOtherSubscription bool `json:"include_other_subscription"`
+	IncludeRecurring         bool `json:"include_recurring"`
+	IncludeTax               bool `json:"include_tax"`
+	UseAmortized             bool `json:"use_amortized"`
 }
 
 type Notification struct {
+	ThresholdType            string   `json:"threshold_type"`
 	ComparisonOperator       string   `json:"comparison_operator"`
 	NotificationType         string   `json:"notification_type"`
 	SubscriberEmailAddresses []string `json:"subscriber_email_addresses"`
 	SubscriberSnsTopicArns   []string `json:"subscriber_sns_topic_arns"`
 	Threshold                int64    `json:"threshold"`
-	ThresholdType            string   `json:"threshold_type"`
 }
 
 // A BudgetsBudgetStatus defines the observed state of a BudgetsBudget

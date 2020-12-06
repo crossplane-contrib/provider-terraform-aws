@@ -23,16 +23,16 @@ import (
 func EncodeSagemakerNotebookInstance(r SagemakerNotebookInstance) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSagemakerNotebookInstance_SecurityGroups(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_LifecycleConfigName(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstance_DirectInternetAccess(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstance_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_RootAccess(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstance_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_DirectInternetAccess(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_InstanceType(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_SubnetId(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstance_LifecycleConfigName(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
@@ -45,8 +45,12 @@ func EncodeSagemakerNotebookInstance_SecurityGroups(p SagemakerNotebookInstanceP
 	vals["security_groups"] = cty.SetVal(colVals)
 }
 
-func EncodeSagemakerNotebookInstance_LifecycleConfigName(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["lifecycle_config_name"] = cty.StringVal(p.LifecycleConfigName)
+func EncodeSagemakerNotebookInstance_DirectInternetAccess(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["direct_internet_access"] = cty.StringVal(p.DirectInternetAccess)
+}
+
+func EncodeSagemakerNotebookInstance_KmsKeyId(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
 func EncodeSagemakerNotebookInstance_Name(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
@@ -61,16 +65,16 @@ func EncodeSagemakerNotebookInstance_RootAccess(p SagemakerNotebookInstanceParam
 	vals["root_access"] = cty.StringVal(p.RootAccess)
 }
 
+func EncodeSagemakerNotebookInstance_SubnetId(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+}
+
 func EncodeSagemakerNotebookInstance_Tags(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSagemakerNotebookInstance_DirectInternetAccess(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["direct_internet_access"] = cty.StringVal(p.DirectInternetAccess)
 }
 
 func EncodeSagemakerNotebookInstance_Id(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
@@ -81,12 +85,8 @@ func EncodeSagemakerNotebookInstance_InstanceType(p SagemakerNotebookInstancePar
 	vals["instance_type"] = cty.StringVal(p.InstanceType)
 }
 
-func EncodeSagemakerNotebookInstance_KmsKeyId(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
-func EncodeSagemakerNotebookInstance_SubnetId(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+func EncodeSagemakerNotebookInstance_LifecycleConfigName(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["lifecycle_config_name"] = cty.StringVal(p.LifecycleConfigName)
 }
 
 func EncodeSagemakerNotebookInstance_Arn(p SagemakerNotebookInstanceObservation, vals map[string]cty.Value) {

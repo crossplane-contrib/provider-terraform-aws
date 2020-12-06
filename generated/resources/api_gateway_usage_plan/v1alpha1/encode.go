@@ -22,20 +22,16 @@ import (
 
 func EncodeApiGatewayUsagePlan(r ApiGatewayUsagePlan) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayUsagePlan_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_ProductCode(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayUsagePlan_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_ApiStages(r.Spec.ForProvider.ApiStages, ctyVal)
 	EncodeApiGatewayUsagePlan_QuotaSettings(r.Spec.ForProvider.QuotaSettings, ctyVal)
 	EncodeApiGatewayUsagePlan_ThrottleSettings(r.Spec.ForProvider.ThrottleSettings, ctyVal)
 	EncodeApiGatewayUsagePlan_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayUsagePlan_Description(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayUsagePlan_Id(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
@@ -56,6 +52,10 @@ func EncodeApiGatewayUsagePlan_Tags(p ApiGatewayUsagePlanParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeApiGatewayUsagePlan_Description(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayUsagePlan_ApiStages(p ApiStages, vals map[string]cty.Value) {

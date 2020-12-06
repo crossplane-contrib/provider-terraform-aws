@@ -22,16 +22,12 @@ import (
 
 func EncodeRouteTableAssociation(r RouteTableAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRouteTableAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_GatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_RouteTableId(r.Spec.ForProvider, ctyVal)
+	EncodeRouteTableAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRouteTableAssociation_SubnetId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
 func EncodeRouteTableAssociation_GatewayId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
@@ -44,4 +40,8 @@ func EncodeRouteTableAssociation_Id(p RouteTableAssociationParameters, vals map[
 
 func EncodeRouteTableAssociation_RouteTableId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["route_table_id"] = cty.StringVal(p.RouteTableId)
+}
+
+func EncodeRouteTableAssociation_SubnetId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }

@@ -22,21 +22,13 @@ import (
 
 func EncodeMacieS3BucketAssociation(r MacieS3BucketAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMacieS3BucketAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
-	EncodeMacieS3BucketAssociation_Prefix(r.Spec.ForProvider, ctyVal)
 	EncodeMacieS3BucketAssociation_BucketName(r.Spec.ForProvider, ctyVal)
 	EncodeMacieS3BucketAssociation_Id(r.Spec.ForProvider, ctyVal)
+	EncodeMacieS3BucketAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
+	EncodeMacieS3BucketAssociation_Prefix(r.Spec.ForProvider, ctyVal)
 	EncodeMacieS3BucketAssociation_ClassificationType(r.Spec.ForProvider.ClassificationType, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeMacieS3BucketAssociation_MemberAccountId(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
-	vals["member_account_id"] = cty.StringVal(p.MemberAccountId)
-}
-
-func EncodeMacieS3BucketAssociation_Prefix(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
-	vals["prefix"] = cty.StringVal(p.Prefix)
 }
 
 func EncodeMacieS3BucketAssociation_BucketName(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
@@ -45,6 +37,14 @@ func EncodeMacieS3BucketAssociation_BucketName(p MacieS3BucketAssociationParamet
 
 func EncodeMacieS3BucketAssociation_Id(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeMacieS3BucketAssociation_MemberAccountId(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
+	vals["member_account_id"] = cty.StringVal(p.MemberAccountId)
+}
+
+func EncodeMacieS3BucketAssociation_Prefix(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
+	vals["prefix"] = cty.StringVal(p.Prefix)
 }
 
 func EncodeMacieS3BucketAssociation_ClassificationType(p ClassificationType, vals map[string]cty.Value) {

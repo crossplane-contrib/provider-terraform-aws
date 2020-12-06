@@ -22,13 +22,17 @@ import (
 
 func EncodeRamResourceShare(r RamResourceShare) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRamResourceShare_AllowExternalPrincipals(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRamResourceShare_AllowExternalPrincipals(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeRamResourceShare_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRamResourceShare_AllowExternalPrincipals(p RamResourceShareParameters, vals map[string]cty.Value) {
+	vals["allow_external_principals"] = cty.BoolVal(p.AllowExternalPrincipals)
 }
 
 func EncodeRamResourceShare_Id(p RamResourceShareParameters, vals map[string]cty.Value) {
@@ -45,10 +49,6 @@ func EncodeRamResourceShare_Tags(p RamResourceShareParameters, vals map[string]c
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeRamResourceShare_AllowExternalPrincipals(p RamResourceShareParameters, vals map[string]cty.Value) {
-	vals["allow_external_principals"] = cty.BoolVal(p.AllowExternalPrincipals)
 }
 
 func EncodeRamResourceShare_Timeouts(p Timeouts, vals map[string]cty.Value) {

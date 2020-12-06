@@ -99,14 +99,10 @@ func EncodeEc2Fleet_TargetCapacitySpecification_TotalTargetCapacity(p TargetCapa
 
 func EncodeEc2Fleet_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2Fleet_Timeouts_Update(p, ctyVal)
 	EncodeEc2Fleet_Timeouts_Create(p, ctyVal)
 	EncodeEc2Fleet_Timeouts_Delete(p, ctyVal)
+	EncodeEc2Fleet_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2Fleet_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
-	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeEc2Fleet_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
@@ -115,6 +111,10 @@ func EncodeEc2Fleet_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 
 func EncodeEc2Fleet_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
+}
+
+func EncodeEc2Fleet_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
+	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeEc2Fleet_LaunchTemplateConfig(p LaunchTemplateConfig, vals map[string]cty.Value) {
@@ -152,15 +152,19 @@ func EncodeEc2Fleet_LaunchTemplateConfig_Override(p []Override, vals map[string]
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(v, ctyVal)
 		EncodeEc2Fleet_LaunchTemplateConfig_Override_InstanceType(v, ctyVal)
 		EncodeEc2Fleet_LaunchTemplateConfig_Override_MaxPrice(v, ctyVal)
 		EncodeEc2Fleet_LaunchTemplateConfig_Override_Priority(v, ctyVal)
 		EncodeEc2Fleet_LaunchTemplateConfig_Override_SubnetId(v, ctyVal)
 		EncodeEc2Fleet_LaunchTemplateConfig_Override_WeightedCapacity(v, ctyVal)
-		EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["override"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(p Override, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeEc2Fleet_LaunchTemplateConfig_Override_InstanceType(p Override, vals map[string]cty.Value) {
@@ -183,10 +187,6 @@ func EncodeEc2Fleet_LaunchTemplateConfig_Override_WeightedCapacity(p Override, v
 	vals["weighted_capacity"] = cty.NumberIntVal(p.WeightedCapacity)
 }
 
-func EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(p Override, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
-}
-
 func EncodeEc2Fleet_OnDemandOptions(p OnDemandOptions, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
@@ -202,11 +202,15 @@ func EncodeEc2Fleet_OnDemandOptions_AllocationStrategy(p OnDemandOptions, vals m
 func EncodeEc2Fleet_SpotOptions(p SpotOptions, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeEc2Fleet_SpotOptions_InstancePoolsToUseCount(p, ctyVal)
 	EncodeEc2Fleet_SpotOptions_AllocationStrategy(p, ctyVal)
 	EncodeEc2Fleet_SpotOptions_InstanceInterruptionBehavior(p, ctyVal)
-	EncodeEc2Fleet_SpotOptions_InstancePoolsToUseCount(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["spot_options"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeEc2Fleet_SpotOptions_InstancePoolsToUseCount(p SpotOptions, vals map[string]cty.Value) {
+	vals["instance_pools_to_use_count"] = cty.NumberIntVal(p.InstancePoolsToUseCount)
 }
 
 func EncodeEc2Fleet_SpotOptions_AllocationStrategy(p SpotOptions, vals map[string]cty.Value) {
@@ -215,8 +219,4 @@ func EncodeEc2Fleet_SpotOptions_AllocationStrategy(p SpotOptions, vals map[strin
 
 func EncodeEc2Fleet_SpotOptions_InstanceInterruptionBehavior(p SpotOptions, vals map[string]cty.Value) {
 	vals["instance_interruption_behavior"] = cty.StringVal(p.InstanceInterruptionBehavior)
-}
-
-func EncodeEc2Fleet_SpotOptions_InstancePoolsToUseCount(p SpotOptions, vals map[string]cty.Value) {
-	vals["instance_pools_to_use_count"] = cty.NumberIntVal(p.InstancePoolsToUseCount)
 }

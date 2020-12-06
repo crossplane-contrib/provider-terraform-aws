@@ -52,23 +52,22 @@ type EcsServiceSpec struct {
 
 // A EcsServiceParameters defines the desired state of a EcsService
 type EcsServiceParameters struct {
-	EnableEcsManagedTags            bool                       `json:"enable_ecs_managed_tags"`
-	IamRole                         string                     `json:"iam_role"`
-	Id                              string                     `json:"id"`
-	PlatformVersion                 string                     `json:"platform_version"`
 	PropagateTags                   string                     `json:"propagate_tags"`
-	Tags                            map[string]string          `json:"tags"`
-	HealthCheckGracePeriodSeconds   int64                      `json:"health_check_grace_period_seconds"`
 	TaskDefinition                  string                     `json:"task_definition"`
 	Cluster                         string                     `json:"cluster"`
 	DeploymentMaximumPercent        int64                      `json:"deployment_maximum_percent"`
+	IamRole                         string                     `json:"iam_role"`
+	Id                              string                     `json:"id"`
 	DeploymentMinimumHealthyPercent int64                      `json:"deployment_minimum_healthy_percent"`
+	HealthCheckGracePeriodSeconds   int64                      `json:"health_check_grace_period_seconds"`
+	Tags                            map[string]string          `json:"tags"`
+	PlatformVersion                 string                     `json:"platform_version"`
+	SchedulingStrategy              string                     `json:"scheduling_strategy"`
 	DesiredCount                    int64                      `json:"desired_count"`
+	EnableEcsManagedTags            bool                       `json:"enable_ecs_managed_tags"`
 	ForceNewDeployment              bool                       `json:"force_new_deployment"`
 	LaunchType                      string                     `json:"launch_type"`
 	Name                            string                     `json:"name"`
-	SchedulingStrategy              string                     `json:"scheduling_strategy"`
-	OrderedPlacementStrategy        []OrderedPlacementStrategy `json:"ordered_placement_strategy"`
 	PlacementConstraints            []PlacementConstraints     `json:"placement_constraints"`
 	ServiceRegistries               ServiceRegistries          `json:"service_registries"`
 	Timeouts                        Timeouts                   `json:"timeouts"`
@@ -76,16 +75,12 @@ type EcsServiceParameters struct {
 	DeploymentController            DeploymentController       `json:"deployment_controller"`
 	LoadBalancer                    LoadBalancer               `json:"load_balancer"`
 	NetworkConfiguration            NetworkConfiguration       `json:"network_configuration"`
-}
-
-type OrderedPlacementStrategy struct {
-	Field string `json:"field"`
-	Type  string `json:"type"`
+	OrderedPlacementStrategy        []OrderedPlacementStrategy `json:"ordered_placement_strategy"`
 }
 
 type PlacementConstraints struct {
-	Expression string `json:"expression"`
 	Type       string `json:"type"`
+	Expression string `json:"expression"`
 }
 
 type ServiceRegistries struct {
@@ -100,9 +95,9 @@ type Timeouts struct {
 }
 
 type CapacityProviderStrategy struct {
+	Base             int64  `json:"base"`
 	CapacityProvider string `json:"capacity_provider"`
 	Weight           int64  `json:"weight"`
-	Base             int64  `json:"base"`
 }
 
 type DeploymentController struct {
@@ -110,16 +105,21 @@ type DeploymentController struct {
 }
 
 type LoadBalancer struct {
-	ElbName        string `json:"elb_name"`
-	TargetGroupArn string `json:"target_group_arn"`
 	ContainerName  string `json:"container_name"`
 	ContainerPort  int64  `json:"container_port"`
+	ElbName        string `json:"elb_name"`
+	TargetGroupArn string `json:"target_group_arn"`
 }
 
 type NetworkConfiguration struct {
 	AssignPublicIp bool     `json:"assign_public_ip"`
 	SecurityGroups []string `json:"security_groups"`
 	Subnets        []string `json:"subnets"`
+}
+
+type OrderedPlacementStrategy struct {
+	Type  string `json:"type"`
+	Field string `json:"field"`
 }
 
 // A EcsServiceStatus defines the observed state of a EcsService

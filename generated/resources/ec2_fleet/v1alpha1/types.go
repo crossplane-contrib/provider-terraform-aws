@@ -74,9 +74,9 @@ type TargetCapacitySpecification struct {
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 type LaunchTemplateConfig struct {
@@ -91,12 +91,12 @@ type LaunchTemplateSpecification struct {
 }
 
 type Override struct {
+	AvailabilityZone string `json:"availability_zone"`
 	InstanceType     string `json:"instance_type"`
 	MaxPrice         string `json:"max_price"`
 	Priority         int64  `json:"priority"`
 	SubnetId         string `json:"subnet_id"`
 	WeightedCapacity int64  `json:"weighted_capacity"`
-	AvailabilityZone string `json:"availability_zone"`
 }
 
 type OnDemandOptions struct {
@@ -104,9 +104,9 @@ type OnDemandOptions struct {
 }
 
 type SpotOptions struct {
+	InstancePoolsToUseCount      int64  `json:"instance_pools_to_use_count"`
 	AllocationStrategy           string `json:"allocation_strategy"`
 	InstanceInterruptionBehavior string `json:"instance_interruption_behavior"`
-	InstancePoolsToUseCount      int64  `json:"instance_pools_to_use_count"`
 }
 
 // A Ec2FleetStatus defines the observed state of a Ec2Fleet

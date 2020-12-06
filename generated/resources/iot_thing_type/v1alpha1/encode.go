@@ -45,14 +45,10 @@ func EncodeIotThingType_Name(p IotThingTypeParameters, vals map[string]cty.Value
 func EncodeIotThingType_Properties(p Properties, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeIotThingType_Properties_Description(p, ctyVal)
 	EncodeIotThingType_Properties_SearchableAttributes(p, ctyVal)
+	EncodeIotThingType_Properties_Description(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["properties"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeIotThingType_Properties_Description(p Properties, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeIotThingType_Properties_SearchableAttributes(p Properties, vals map[string]cty.Value) {
@@ -61,6 +57,10 @@ func EncodeIotThingType_Properties_SearchableAttributes(p Properties, vals map[s
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["searchable_attributes"] = cty.SetVal(colVals)
+}
+
+func EncodeIotThingType_Properties_Description(p Properties, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeIotThingType_Arn(p IotThingTypeObservation, vals map[string]cty.Value) {

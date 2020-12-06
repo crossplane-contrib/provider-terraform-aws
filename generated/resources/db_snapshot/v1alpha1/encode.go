@@ -22,41 +22,37 @@ import (
 
 func EncodeDbSnapshot(r DbSnapshot) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbSnapshot_DbInstanceIdentifier(r.Spec.ForProvider, ctyVal)
-	EncodeDbSnapshot_DbSnapshotIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeDbSnapshot_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDbSnapshot_DbInstanceIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeDbSnapshot_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDbSnapshot_DbSnapshotIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeDbSnapshot_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDbSnapshot_Iops(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_Status(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_StorageType(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_KmsKeyId(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_LicenseModel(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_Port(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_Engine(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_EngineVersion(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_SourceRegion(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_VpcId(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_OptionGroupName(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_Port(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_StorageType(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_AvailabilityZone(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_Encrypted(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_EngineVersion(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_Status(r.Status.AtProvider, ctyVal)
+	EncodeDbSnapshot_OptionGroupName(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_SnapshotType(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_SourceDbSnapshotIdentifier(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_AllocatedStorage(r.Status.AtProvider, ctyVal)
 	EncodeDbSnapshot_DbSnapshotArn(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_Engine(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_KmsKeyId(r.Status.AtProvider, ctyVal)
-	EncodeDbSnapshot_LicenseModel(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDbSnapshot_DbInstanceIdentifier(p DbSnapshotParameters, vals map[string]cty.Value) {
-	vals["db_instance_identifier"] = cty.StringVal(p.DbInstanceIdentifier)
-}
-
-func EncodeDbSnapshot_DbSnapshotIdentifier(p DbSnapshotParameters, vals map[string]cty.Value) {
-	vals["db_snapshot_identifier"] = cty.StringVal(p.DbSnapshotIdentifier)
 }
 
 func EncodeDbSnapshot_Id(p DbSnapshotParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDbSnapshot_DbInstanceIdentifier(p DbSnapshotParameters, vals map[string]cty.Value) {
+	vals["db_instance_identifier"] = cty.StringVal(p.DbInstanceIdentifier)
 }
 
 func EncodeDbSnapshot_Tags(p DbSnapshotParameters, vals map[string]cty.Value) {
@@ -65,6 +61,10 @@ func EncodeDbSnapshot_Tags(p DbSnapshotParameters, vals map[string]cty.Value) {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDbSnapshot_DbSnapshotIdentifier(p DbSnapshotParameters, vals map[string]cty.Value) {
+	vals["db_snapshot_identifier"] = cty.StringVal(p.DbSnapshotIdentifier)
 }
 
 func EncodeDbSnapshot_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -81,12 +81,24 @@ func EncodeDbSnapshot_Iops(p DbSnapshotObservation, vals map[string]cty.Value) {
 	vals["iops"] = cty.NumberIntVal(p.Iops)
 }
 
-func EncodeDbSnapshot_Status(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
+func EncodeDbSnapshot_KmsKeyId(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
-func EncodeDbSnapshot_StorageType(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["storage_type"] = cty.StringVal(p.StorageType)
+func EncodeDbSnapshot_LicenseModel(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["license_model"] = cty.StringVal(p.LicenseModel)
+}
+
+func EncodeDbSnapshot_Port(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
+}
+
+func EncodeDbSnapshot_Engine(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["engine"] = cty.StringVal(p.Engine)
+}
+
+func EncodeDbSnapshot_EngineVersion(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
 }
 
 func EncodeDbSnapshot_SourceRegion(p DbSnapshotObservation, vals map[string]cty.Value) {
@@ -97,12 +109,8 @@ func EncodeDbSnapshot_VpcId(p DbSnapshotObservation, vals map[string]cty.Value) 
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeDbSnapshot_OptionGroupName(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["option_group_name"] = cty.StringVal(p.OptionGroupName)
-}
-
-func EncodeDbSnapshot_Port(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["port"] = cty.NumberIntVal(p.Port)
+func EncodeDbSnapshot_StorageType(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["storage_type"] = cty.StringVal(p.StorageType)
 }
 
 func EncodeDbSnapshot_AvailabilityZone(p DbSnapshotObservation, vals map[string]cty.Value) {
@@ -113,8 +121,12 @@ func EncodeDbSnapshot_Encrypted(p DbSnapshotObservation, vals map[string]cty.Val
 	vals["encrypted"] = cty.BoolVal(p.Encrypted)
 }
 
-func EncodeDbSnapshot_EngineVersion(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+func EncodeDbSnapshot_Status(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeDbSnapshot_OptionGroupName(p DbSnapshotObservation, vals map[string]cty.Value) {
+	vals["option_group_name"] = cty.StringVal(p.OptionGroupName)
 }
 
 func EncodeDbSnapshot_SnapshotType(p DbSnapshotObservation, vals map[string]cty.Value) {
@@ -131,16 +143,4 @@ func EncodeDbSnapshot_AllocatedStorage(p DbSnapshotObservation, vals map[string]
 
 func EncodeDbSnapshot_DbSnapshotArn(p DbSnapshotObservation, vals map[string]cty.Value) {
 	vals["db_snapshot_arn"] = cty.StringVal(p.DbSnapshotArn)
-}
-
-func EncodeDbSnapshot_Engine(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["engine"] = cty.StringVal(p.Engine)
-}
-
-func EncodeDbSnapshot_KmsKeyId(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
-func EncodeDbSnapshot_LicenseModel(p DbSnapshotObservation, vals map[string]cty.Value) {
-	vals["license_model"] = cty.StringVal(p.LicenseModel)
 }

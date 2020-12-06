@@ -52,15 +52,19 @@ type S3BucketInventorySpec struct {
 
 // A S3BucketInventoryParameters defines the desired state of a S3BucketInventory
 type S3BucketInventoryParameters struct {
+	Name                   string      `json:"name"`
+	OptionalFields         []string    `json:"optional_fields"`
 	Bucket                 string      `json:"bucket"`
 	Enabled                bool        `json:"enabled"`
 	Id                     string      `json:"id"`
 	IncludedObjectVersions string      `json:"included_object_versions"`
-	Name                   string      `json:"name"`
-	OptionalFields         []string    `json:"optional_fields"`
+	Schedule               Schedule    `json:"schedule"`
 	Destination            Destination `json:"destination"`
 	Filter                 Filter      `json:"filter"`
-	Schedule               Schedule    `json:"schedule"`
+}
+
+type Schedule struct {
+	Frequency string `json:"frequency"`
 }
 
 type Destination struct {
@@ -68,30 +72,26 @@ type Destination struct {
 }
 
 type Bucket struct {
-	AccountId  string     `json:"account_id"`
 	BucketArn  string     `json:"bucket_arn"`
 	Format     string     `json:"format"`
 	Prefix     string     `json:"prefix"`
+	AccountId  string     `json:"account_id"`
 	Encryption Encryption `json:"encryption"`
 }
 
 type Encryption struct {
-	SseKms SseKms `json:"sse_kms"`
 	SseS3  SseS3  `json:"sse_s3"`
+	SseKms SseKms `json:"sse_kms"`
 }
+
+type SseS3 struct{}
 
 type SseKms struct {
 	KeyId string `json:"key_id"`
 }
 
-type SseS3 struct{}
-
 type Filter struct {
 	Prefix string `json:"prefix"`
-}
-
-type Schedule struct {
-	Frequency string `json:"frequency"`
 }
 
 // A S3BucketInventoryStatus defines the observed state of a S3BucketInventory

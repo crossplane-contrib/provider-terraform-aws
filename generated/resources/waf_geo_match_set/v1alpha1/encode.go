@@ -22,19 +22,19 @@ import (
 
 func EncodeWafGeoMatchSet(r WafGeoMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafGeoMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafGeoMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafGeoMatchSet_GeoMatchConstraint(r.Spec.ForProvider.GeoMatchConstraint, ctyVal)
 	EncodeWafGeoMatchSet_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafGeoMatchSet_Id(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeWafGeoMatchSet_Name(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafGeoMatchSet_Id(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafGeoMatchSet_GeoMatchConstraint(p GeoMatchConstraint, vals map[string]cty.Value) {

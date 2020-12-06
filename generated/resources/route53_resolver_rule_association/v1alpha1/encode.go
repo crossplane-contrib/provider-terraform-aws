@@ -22,21 +22,13 @@ import (
 
 func EncodeRoute53ResolverRuleAssociation(r Route53ResolverRuleAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53ResolverRuleAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ResolverRuleAssociation_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRuleAssociation_ResolverRuleId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRuleAssociation_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverRuleAssociation_Id(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverRuleAssociation_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRuleAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53ResolverRuleAssociation_Id(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRoute53ResolverRuleAssociation_Name(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeRoute53ResolverRuleAssociation_ResolverRuleId(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
@@ -47,17 +39,25 @@ func EncodeRoute53ResolverRuleAssociation_VpcId(p Route53ResolverRuleAssociation
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeRoute53ResolverRuleAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {
-	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53ResolverRuleAssociation_Timeouts_Delete(p, ctyVal)
-	EncodeRoute53ResolverRuleAssociation_Timeouts_Create(p, ctyVal)
-	vals["timeouts"] = cty.ObjectVal(ctyVal)
+func EncodeRoute53ResolverRuleAssociation_Id(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeRoute53ResolverRuleAssociation_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
+func EncodeRoute53ResolverRuleAssociation_Name(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeRoute53ResolverRuleAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53ResolverRuleAssociation_Timeouts_Create(p, ctyVal)
+	EncodeRoute53ResolverRuleAssociation_Timeouts_Delete(p, ctyVal)
+	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
 func EncodeRoute53ResolverRuleAssociation_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
+}
+
+func EncodeRoute53ResolverRuleAssociation_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }

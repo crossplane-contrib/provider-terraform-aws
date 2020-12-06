@@ -22,12 +22,12 @@ import (
 
 func EncodeApigatewayv2Stage(r Apigatewayv2Stage) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Stage_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Stage_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_AutoDeploy(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_DeploymentId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Stage_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Stage_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_StageVariables(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_ClientCertificateId(r.Spec.ForProvider, ctyVal)
@@ -40,8 +40,8 @@ func EncodeApigatewayv2Stage(r Apigatewayv2Stage) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2Stage_Id(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeApigatewayv2Stage_Name(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApigatewayv2Stage_Tags(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
@@ -64,8 +64,8 @@ func EncodeApigatewayv2Stage_Description(p Apigatewayv2StageParameters, vals map
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApigatewayv2Stage_Name(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeApigatewayv2Stage_Id(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApigatewayv2Stage_StageVariables(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
@@ -104,21 +104,13 @@ func EncodeApigatewayv2Stage_AccessLogSettings_Format(p AccessLogSettings, vals 
 func EncodeApigatewayv2Stage_DefaultRouteSettings(p DefaultRouteSettings, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingBurstLimit(p, ctyVal)
-	EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingRateLimit(p, ctyVal)
 	EncodeApigatewayv2Stage_DefaultRouteSettings_DataTraceEnabled(p, ctyVal)
 	EncodeApigatewayv2Stage_DefaultRouteSettings_DetailedMetricsEnabled(p, ctyVal)
 	EncodeApigatewayv2Stage_DefaultRouteSettings_LoggingLevel(p, ctyVal)
+	EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingBurstLimit(p, ctyVal)
+	EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingRateLimit(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["default_route_settings"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingBurstLimit(p DefaultRouteSettings, vals map[string]cty.Value) {
-	vals["throttling_burst_limit"] = cty.NumberIntVal(p.ThrottlingBurstLimit)
-}
-
-func EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingRateLimit(p DefaultRouteSettings, vals map[string]cty.Value) {
-	vals["throttling_rate_limit"] = cty.NumberIntVal(p.ThrottlingRateLimit)
 }
 
 func EncodeApigatewayv2Stage_DefaultRouteSettings_DataTraceEnabled(p DefaultRouteSettings, vals map[string]cty.Value) {
@@ -131,6 +123,14 @@ func EncodeApigatewayv2Stage_DefaultRouteSettings_DetailedMetricsEnabled(p Defau
 
 func EncodeApigatewayv2Stage_DefaultRouteSettings_LoggingLevel(p DefaultRouteSettings, vals map[string]cty.Value) {
 	vals["logging_level"] = cty.StringVal(p.LoggingLevel)
+}
+
+func EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingBurstLimit(p DefaultRouteSettings, vals map[string]cty.Value) {
+	vals["throttling_burst_limit"] = cty.NumberIntVal(p.ThrottlingBurstLimit)
+}
+
+func EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingRateLimit(p DefaultRouteSettings, vals map[string]cty.Value) {
+	vals["throttling_rate_limit"] = cty.NumberIntVal(p.ThrottlingRateLimit)
 }
 
 func EncodeApigatewayv2Stage_RouteSettings(p RouteSettings, vals map[string]cty.Value) {

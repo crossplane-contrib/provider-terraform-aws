@@ -52,29 +52,29 @@ type S3BucketObjectSpec struct {
 
 // A S3BucketObjectParameters defines the desired state of a S3BucketObject
 type S3BucketObjectParameters struct {
-	Acl                       string            `json:"acl"`
-	Content                   string            `json:"content"`
+	ContentDisposition        string            `json:"content_disposition"`
+	ContentType               string            `json:"content_type"`
+	ForceDestroy              bool              `json:"force_destroy"`
+	Id                        string            `json:"id"`
+	StorageClass              string            `json:"storage_class"`
+	WebsiteRedirect           string            `json:"website_redirect"`
+	Bucket                    string            `json:"bucket"`
+	ContentEncoding           string            `json:"content_encoding"`
 	KmsKeyId                  string            `json:"kms_key_id"`
 	Metadata                  map[string]string `json:"metadata"`
-	Bucket                    string            `json:"bucket"`
+	ObjectLockRetainUntilDate string            `json:"object_lock_retain_until_date"`
+	Tags                      map[string]string `json:"tags"`
+	Acl                       string            `json:"acl"`
 	CacheControl              string            `json:"cache_control"`
 	ContentBase64             string            `json:"content_base64"`
-	ContentDisposition        string            `json:"content_disposition"`
-	ObjectLockMode            string            `json:"object_lock_mode"`
-	ObjectLockRetainUntilDate string            `json:"object_lock_retain_until_date"`
-	ServerSideEncryption      string            `json:"server_side_encryption"`
-	StorageClass              string            `json:"storage_class"`
-	ContentEncoding           string            `json:"content_encoding"`
-	ContentLanguage           string            `json:"content_language"`
-	ContentType               string            `json:"content_type"`
-	Id                        string            `json:"id"`
-	Source                    string            `json:"source"`
-	Tags                      map[string]string `json:"tags"`
-	WebsiteRedirect           string            `json:"website_redirect"`
-	Etag                      string            `json:"etag"`
-	ForceDestroy              bool              `json:"force_destroy"`
 	Key                       string            `json:"key"`
+	Source                    string            `json:"source"`
+	Content                   string            `json:"content"`
+	ContentLanguage           string            `json:"content_language"`
+	Etag                      string            `json:"etag"`
 	ObjectLockLegalHoldStatus string            `json:"object_lock_legal_hold_status"`
+	ObjectLockMode            string            `json:"object_lock_mode"`
+	ServerSideEncryption      string            `json:"server_side_encryption"`
 }
 
 // A S3BucketObjectStatus defines the observed state of a S3BucketObject

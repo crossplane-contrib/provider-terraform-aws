@@ -52,11 +52,11 @@ type LambdaFunctionEventInvokeConfigSpec struct {
 
 // A LambdaFunctionEventInvokeConfigParameters defines the desired state of a LambdaFunctionEventInvokeConfig
 type LambdaFunctionEventInvokeConfigParameters struct {
+	Qualifier                string            `json:"qualifier"`
+	FunctionName             string            `json:"function_name"`
 	Id                       string            `json:"id"`
 	MaximumEventAgeInSeconds int64             `json:"maximum_event_age_in_seconds"`
 	MaximumRetryAttempts     int64             `json:"maximum_retry_attempts"`
-	Qualifier                string            `json:"qualifier"`
-	FunctionName             string            `json:"function_name"`
 	DestinationConfig        DestinationConfig `json:"destination_config"`
 }
 

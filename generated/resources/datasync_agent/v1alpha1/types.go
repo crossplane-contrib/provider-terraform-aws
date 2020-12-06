@@ -52,11 +52,11 @@ type DatasyncAgentSpec struct {
 
 // A DatasyncAgentParameters defines the desired state of a DatasyncAgent
 type DatasyncAgentParameters struct {
-	IpAddress     string            `json:"ip_address"`
 	Name          string            `json:"name"`
 	Tags          map[string]string `json:"tags"`
 	ActivationKey string            `json:"activation_key"`
 	Id            string            `json:"id"`
+	IpAddress     string            `json:"ip_address"`
 	Timeouts      Timeouts          `json:"timeouts"`
 }
 

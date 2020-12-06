@@ -22,17 +22,13 @@ import (
 
 func EncodeApiGatewayUsagePlanKey(r ApiGatewayUsagePlanKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayUsagePlanKey_KeyType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_UsagePlanId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_KeyId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayUsagePlanKey_KeyType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Name(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Value(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayUsagePlanKey_KeyType(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	vals["key_type"] = cty.StringVal(p.KeyType)
 }
 
 func EncodeApiGatewayUsagePlanKey_UsagePlanId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
@@ -45,6 +41,10 @@ func EncodeApiGatewayUsagePlanKey_Id(p ApiGatewayUsagePlanKeyParameters, vals ma
 
 func EncodeApiGatewayUsagePlanKey_KeyId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	vals["key_id"] = cty.StringVal(p.KeyId)
+}
+
+func EncodeApiGatewayUsagePlanKey_KeyType(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	vals["key_type"] = cty.StringVal(p.KeyType)
 }
 
 func EncodeApiGatewayUsagePlanKey_Name(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {

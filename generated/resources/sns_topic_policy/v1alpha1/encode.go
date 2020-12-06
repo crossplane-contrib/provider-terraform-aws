@@ -22,11 +22,15 @@ import (
 
 func EncodeSnsTopicPolicy(r SnsTopicPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSnsTopicPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicPolicy_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicPolicy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopicPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSnsTopicPolicy_Policy(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
 }
 
 func EncodeSnsTopicPolicy_Arn(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeSnsTopicPolicy_Arn(p SnsTopicPolicyParameters, vals map[string]cty.Va
 
 func EncodeSnsTopicPolicy_Id(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSnsTopicPolicy_Policy(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
 }

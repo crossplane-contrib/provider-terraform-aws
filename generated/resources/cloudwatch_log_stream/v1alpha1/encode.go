@@ -22,15 +22,11 @@ import (
 
 func EncodeCloudwatchLogStream(r CloudwatchLogStream) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogStream_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogStream_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogStream_Id(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogStream_LogGroupName(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
@@ -39,6 +35,10 @@ func EncodeCloudwatchLogStream_LogGroupName(p CloudwatchLogStreamParameters, val
 
 func EncodeCloudwatchLogStream_Name(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCloudwatchLogStream_Id(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogStream_Arn(p CloudwatchLogStreamObservation, vals map[string]cty.Value) {

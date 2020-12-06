@@ -22,13 +22,17 @@ import (
 
 func EncodeCloudwatchLogMetricFilter(r CloudwatchLogMetricFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchLogMetricFilter_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogMetricFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogMetricFilter_Pattern(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogMetricFilter_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogMetricFilter_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogMetricFilter_MetricTransformation(r.Spec.ForProvider.MetricTransformation, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudwatchLogMetricFilter_LogGroupName(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
+	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
 }
 
 func EncodeCloudwatchLogMetricFilter_Name(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
@@ -41,10 +45,6 @@ func EncodeCloudwatchLogMetricFilter_Pattern(p CloudwatchLogMetricFilterParamete
 
 func EncodeCloudwatchLogMetricFilter_Id(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudwatchLogMetricFilter_LogGroupName(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
-	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
 }
 
 func EncodeCloudwatchLogMetricFilter_MetricTransformation(p MetricTransformation, vals map[string]cty.Value) {

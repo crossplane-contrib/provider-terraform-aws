@@ -52,11 +52,11 @@ type Ec2ClientVpnRouteSpec struct {
 
 // A Ec2ClientVpnRouteParameters defines the desired state of a Ec2ClientVpnRoute
 type Ec2ClientVpnRouteParameters struct {
-	TargetVpcSubnetId    string `json:"target_vpc_subnet_id"`
 	ClientVpnEndpointId  string `json:"client_vpn_endpoint_id"`
 	Description          string `json:"description"`
 	DestinationCidrBlock string `json:"destination_cidr_block"`
 	Id                   string `json:"id"`
+	TargetVpcSubnetId    string `json:"target_vpc_subnet_id"`
 }
 
 // A Ec2ClientVpnRouteStatus defines the observed state of a Ec2ClientVpnRoute
@@ -67,6 +67,6 @@ type Ec2ClientVpnRouteStatus struct {
 
 // A Ec2ClientVpnRouteObservation records the observed state of a Ec2ClientVpnRoute
 type Ec2ClientVpnRouteObservation struct {
-	Type   string `json:"type"`
 	Origin string `json:"origin"`
+	Type   string `json:"type"`
 }

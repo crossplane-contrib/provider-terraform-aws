@@ -22,17 +22,13 @@ import (
 
 func EncodeIamUserPolicy(r IamUserPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamUserPolicy_User(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeIamUserPolicy_User(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamUserPolicy_User(p IamUserPolicyParameters, vals map[string]cty.Value) {
-	vals["user"] = cty.StringVal(p.User)
 }
 
 func EncodeIamUserPolicy_Id(p IamUserPolicyParameters, vals map[string]cty.Value) {
@@ -49,4 +45,8 @@ func EncodeIamUserPolicy_NamePrefix(p IamUserPolicyParameters, vals map[string]c
 
 func EncodeIamUserPolicy_Policy(p IamUserPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeIamUserPolicy_User(p IamUserPolicyParameters, vals map[string]cty.Value) {
+	vals["user"] = cty.StringVal(p.User)
 }

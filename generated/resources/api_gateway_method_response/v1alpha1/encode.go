@@ -22,19 +22,15 @@ import (
 
 func EncodeApiGatewayMethodResponse(r ApiGatewayMethodResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayMethodResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResponseModels(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_StatusCode(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_HttpMethod(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayMethodResponse_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayMethodResponse_Id(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayMethodResponse_ResourceId(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
@@ -67,4 +63,8 @@ func EncodeApiGatewayMethodResponse_StatusCode(p ApiGatewayMethodResponseParamet
 
 func EncodeApiGatewayMethodResponse_HttpMethod(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	vals["http_method"] = cty.StringVal(p.HttpMethod)
+}
+
+func EncodeApiGatewayMethodResponse_Id(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

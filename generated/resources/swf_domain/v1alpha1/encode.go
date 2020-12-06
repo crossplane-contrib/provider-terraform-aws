@@ -22,18 +22,14 @@ import (
 
 func EncodeSwfDomain(r SwfDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p SwfDomainParameters, vals map[string]cty.Value) {
-	vals["workflow_execution_retention_period_in_days"] = cty.StringVal(p.WorkflowExecutionRetentionPeriodInDays)
 }
 
 func EncodeSwfDomain_Description(p SwfDomainParameters, vals map[string]cty.Value) {
@@ -58,6 +54,10 @@ func EncodeSwfDomain_Tags(p SwfDomainParameters, vals map[string]cty.Value) {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p SwfDomainParameters, vals map[string]cty.Value) {
+	vals["workflow_execution_retention_period_in_days"] = cty.StringVal(p.WorkflowExecutionRetentionPeriodInDays)
 }
 
 func EncodeSwfDomain_Arn(p SwfDomainObservation, vals map[string]cty.Value) {

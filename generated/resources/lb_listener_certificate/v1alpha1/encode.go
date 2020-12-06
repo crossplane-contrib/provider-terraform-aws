@@ -22,11 +22,15 @@ import (
 
 func EncodeLbListenerCertificate(r LbListenerCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLbListenerCertificate_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeLbListenerCertificate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLbListenerCertificate_ListenerArn(r.Spec.ForProvider, ctyVal)
-	EncodeLbListenerCertificate_CertificateArn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLbListenerCertificate_CertificateArn(p LbListenerCertificateParameters, vals map[string]cty.Value) {
+	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeLbListenerCertificate_Id(p LbListenerCertificateParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeLbListenerCertificate_Id(p LbListenerCertificateParameters, vals map[
 
 func EncodeLbListenerCertificate_ListenerArn(p LbListenerCertificateParameters, vals map[string]cty.Value) {
 	vals["listener_arn"] = cty.StringVal(p.ListenerArn)
-}
-
-func EncodeLbListenerCertificate_CertificateArn(p LbListenerCertificateParameters, vals map[string]cty.Value) {
-	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }

@@ -22,41 +22,37 @@ import (
 
 func EncodeApiGatewayDomainName(r ApiGatewayDomainName) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayDomainName_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_CertificateChain(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_DomainName(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_SecurityPolicy(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_CertificateBody(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_CertificatePrivateKey(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_RegionalCertificateArn(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_RegionalCertificateName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_CertificateName(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_CertificateArn(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_RegionalCertificateArn(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_SecurityPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_CertificateBody(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_EndpointConfiguration(r.Spec.ForProvider.EndpointConfiguration, ctyVal)
-	EncodeApiGatewayDomainName_CloudfrontZoneId(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayDomainName_Arn(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayDomainName_CertificateUploadDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDomainName_RegionalDomainName(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDomainName_RegionalZoneId(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayDomainName_CertificateUploadDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDomainName_CloudfrontDomainName(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayDomainName_Arn(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayDomainName_CloudfrontZoneId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayDomainName_CertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeApiGatewayDomainName_CertificateChain(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
 	vals["certificate_chain"] = cty.StringVal(p.CertificateChain)
 }
 
-func EncodeApiGatewayDomainName_DomainName(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["domain_name"] = cty.StringVal(p.DomainName)
-}
-
-func EncodeApiGatewayDomainName_Id(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayDomainName_SecurityPolicy(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
+func EncodeApiGatewayDomainName_CertificatePrivateKey(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["certificate_private_key"] = cty.StringVal(p.CertificatePrivateKey)
 }
 
 func EncodeApiGatewayDomainName_Tags(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
@@ -67,16 +63,8 @@ func EncodeApiGatewayDomainName_Tags(p ApiGatewayDomainNameParameters, vals map[
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayDomainName_CertificateBody(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
-}
-
-func EncodeApiGatewayDomainName_CertificatePrivateKey(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["certificate_private_key"] = cty.StringVal(p.CertificatePrivateKey)
-}
-
-func EncodeApiGatewayDomainName_RegionalCertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["regional_certificate_arn"] = cty.StringVal(p.RegionalCertificateArn)
+func EncodeApiGatewayDomainName_Id(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayDomainName_RegionalCertificateName(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
@@ -87,8 +75,20 @@ func EncodeApiGatewayDomainName_CertificateName(p ApiGatewayDomainNameParameters
 	vals["certificate_name"] = cty.StringVal(p.CertificateName)
 }
 
-func EncodeApiGatewayDomainName_CertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
+func EncodeApiGatewayDomainName_RegionalCertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["regional_certificate_arn"] = cty.StringVal(p.RegionalCertificateArn)
+}
+
+func EncodeApiGatewayDomainName_SecurityPolicy(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
+}
+
+func EncodeApiGatewayDomainName_CertificateBody(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
+}
+
+func EncodeApiGatewayDomainName_DomainName(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
 func EncodeApiGatewayDomainName_EndpointConfiguration(p EndpointConfiguration, vals map[string]cty.Value) {
@@ -107,8 +107,12 @@ func EncodeApiGatewayDomainName_EndpointConfiguration_Types(p EndpointConfigurat
 	vals["types"] = cty.ListVal(colVals)
 }
 
-func EncodeApiGatewayDomainName_CloudfrontZoneId(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
-	vals["cloudfront_zone_id"] = cty.StringVal(p.CloudfrontZoneId)
+func EncodeApiGatewayDomainName_Arn(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeApiGatewayDomainName_CertificateUploadDate(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
+	vals["certificate_upload_date"] = cty.StringVal(p.CertificateUploadDate)
 }
 
 func EncodeApiGatewayDomainName_RegionalDomainName(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
@@ -119,14 +123,10 @@ func EncodeApiGatewayDomainName_RegionalZoneId(p ApiGatewayDomainNameObservation
 	vals["regional_zone_id"] = cty.StringVal(p.RegionalZoneId)
 }
 
-func EncodeApiGatewayDomainName_CertificateUploadDate(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
-	vals["certificate_upload_date"] = cty.StringVal(p.CertificateUploadDate)
-}
-
 func EncodeApiGatewayDomainName_CloudfrontDomainName(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
 	vals["cloudfront_domain_name"] = cty.StringVal(p.CloudfrontDomainName)
 }
 
-func EncodeApiGatewayDomainName_Arn(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeApiGatewayDomainName_CloudfrontZoneId(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
+	vals["cloudfront_zone_id"] = cty.StringVal(p.CloudfrontZoneId)
 }

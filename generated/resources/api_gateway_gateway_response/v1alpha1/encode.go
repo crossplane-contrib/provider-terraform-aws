@@ -22,14 +22,18 @@ import (
 
 func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayGatewayResponse_StatusCode(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_RestApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayGatewayResponse_StatusCode(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayGatewayResponse_StatusCode(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	vals["status_code"] = cty.StringVal(p.StatusCode)
 }
 
 func EncodeApiGatewayGatewayResponse_Id(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
@@ -58,8 +62,4 @@ func EncodeApiGatewayGatewayResponse_ResponseType(p ApiGatewayGatewayResponsePar
 
 func EncodeApiGatewayGatewayResponse_RestApiId(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
-}
-
-func EncodeApiGatewayGatewayResponse_StatusCode(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	vals["status_code"] = cty.StringVal(p.StatusCode)
 }

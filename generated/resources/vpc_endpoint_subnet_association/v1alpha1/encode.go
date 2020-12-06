@@ -22,16 +22,12 @@ import (
 
 func EncodeVpcEndpointSubnetAssociation(r VpcEndpointSubnetAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcEndpointSubnetAssociation_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpointSubnetAssociation_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcEndpointSubnetAssociation_VpcEndpointId(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
-	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }
 
 func EncodeVpcEndpointSubnetAssociation_Id(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
@@ -40,6 +36,10 @@ func EncodeVpcEndpointSubnetAssociation_Id(p VpcEndpointSubnetAssociationParamet
 
 func EncodeVpcEndpointSubnetAssociation_SubnetId(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
 	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+}
+
+func EncodeVpcEndpointSubnetAssociation_VpcEndpointId(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
+	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }
 
 func EncodeVpcEndpointSubnetAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {

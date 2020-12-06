@@ -22,14 +22,22 @@ import (
 
 func EncodeDbSubnetGroup(r DbSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDbSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDbSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDbSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDbSubnetGroup_Id(p DbSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDbSubnetGroup_Name(p DbSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDbSubnetGroup_NamePrefix(p DbSubnetGroupParameters, vals map[string]cty.Value) {
@@ -54,14 +62,6 @@ func EncodeDbSubnetGroup_Tags(p DbSubnetGroupParameters, vals map[string]cty.Val
 
 func EncodeDbSubnetGroup_Description(p DbSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDbSubnetGroup_Id(p DbSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDbSubnetGroup_Name(p DbSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDbSubnetGroup_Arn(p DbSubnetGroupObservation, vals map[string]cty.Value) {

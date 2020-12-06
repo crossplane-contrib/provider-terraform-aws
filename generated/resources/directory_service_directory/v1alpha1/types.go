@@ -52,17 +52,17 @@ type DirectoryServiceDirectorySpec struct {
 
 // A DirectoryServiceDirectoryParameters defines the desired state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryParameters struct {
-	Edition         string            `json:"edition"`
-	EnableSso       bool              `json:"enable_sso"`
-	Name            string            `json:"name"`
-	Size            string            `json:"size"`
 	Description     string            `json:"description"`
+	EnableSso       bool              `json:"enable_sso"`
 	ShortName       string            `json:"short_name"`
+	Tags            map[string]string `json:"tags"`
+	Edition         string            `json:"edition"`
+	Password        string            `json:"password"`
+	Size            string            `json:"size"`
 	Type            string            `json:"type"`
 	Alias           string            `json:"alias"`
 	Id              string            `json:"id"`
-	Password        string            `json:"password"`
-	Tags            map[string]string `json:"tags"`
+	Name            string            `json:"name"`
 	ConnectSettings ConnectSettings   `json:"connect_settings"`
 	VpcSettings     VpcSettings       `json:"vpc_settings"`
 }
@@ -77,9 +77,9 @@ type ConnectSettings struct {
 }
 
 type VpcSettings struct {
-	AvailabilityZones []string `json:"availability_zones"`
 	SubnetIds         []string `json:"subnet_ids"`
 	VpcId             string   `json:"vpc_id"`
+	AvailabilityZones []string `json:"availability_zones"`
 }
 
 // A DirectoryServiceDirectoryStatus defines the observed state of a DirectoryServiceDirectory
@@ -91,6 +91,6 @@ type DirectoryServiceDirectoryStatus struct {
 // A DirectoryServiceDirectoryObservation records the observed state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryObservation struct {
 	AccessUrl       string   `json:"access_url"`
-	SecurityGroupId string   `json:"security_group_id"`
 	DnsIpAddresses  []string `json:"dns_ip_addresses"`
+	SecurityGroupId string   `json:"security_group_id"`
 }

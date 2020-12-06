@@ -52,19 +52,19 @@ type EksNodeGroupSpec struct {
 
 // A EksNodeGroupParameters defines the desired state of a EksNodeGroup
 type EksNodeGroupParameters struct {
-	ClusterName        string            `json:"cluster_name"`
-	Labels             map[string]string `json:"labels"`
-	ReleaseVersion     string            `json:"release_version"`
-	Tags               map[string]string `json:"tags"`
-	DiskSize           int64             `json:"disk_size"`
-	ForceUpdateVersion bool              `json:"force_update_version"`
 	SubnetIds          []string          `json:"subnet_ids"`
+	Tags               map[string]string `json:"tags"`
+	AmiType            string            `json:"ami_type"`
+	ClusterName        string            `json:"cluster_name"`
+	ForceUpdateVersion bool              `json:"force_update_version"`
+	Id                 string            `json:"id"`
+	Labels             map[string]string `json:"labels"`
+	NodeGroupName      string            `json:"node_group_name"`
 	InstanceTypes      []string          `json:"instance_types"`
 	NodeRoleArn        string            `json:"node_role_arn"`
+	ReleaseVersion     string            `json:"release_version"`
+	DiskSize           int64             `json:"disk_size"`
 	Version            string            `json:"version"`
-	AmiType            string            `json:"ami_type"`
-	Id                 string            `json:"id"`
-	NodeGroupName      string            `json:"node_group_name"`
 	ScalingConfig      ScalingConfig     `json:"scaling_config"`
 	Timeouts           Timeouts          `json:"timeouts"`
 	LaunchTemplate     LaunchTemplate    `json:"launch_template"`
@@ -78,15 +78,15 @@ type ScalingConfig struct {
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 type LaunchTemplate struct {
+	Version string `json:"version"`
 	Id      string `json:"id"`
 	Name    string `json:"name"`
-	Version string `json:"version"`
 }
 
 type RemoteAccess struct {
@@ -102,14 +102,14 @@ type EksNodeGroupStatus struct {
 
 // A EksNodeGroupObservation records the observed state of a EksNodeGroup
 type EksNodeGroupObservation struct {
-	Status    string      `json:"status"`
 	Arn       string      `json:"arn"`
 	Resources []Resources `json:"resources"`
+	Status    string      `json:"status"`
 }
 
 type Resources struct {
-	AutoscalingGroups           []AutoscalingGroups `json:"autoscaling_groups"`
 	RemoteAccessSecurityGroupId string              `json:"remote_access_security_group_id"`
+	AutoscalingGroups           []AutoscalingGroups `json:"autoscaling_groups"`
 }
 
 type AutoscalingGroups struct {

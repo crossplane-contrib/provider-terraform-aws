@@ -52,31 +52,31 @@ type DbProxySpec struct {
 
 // A DbProxyParameters defines the desired state of a DbProxy
 type DbProxyParameters struct {
-	EngineFamily        string            `json:"engine_family"`
-	IdleClientTimeout   int64             `json:"idle_client_timeout"`
-	VpcSecurityGroupIds []string          `json:"vpc_security_group_ids"`
-	VpcSubnetIds        []string          `json:"vpc_subnet_ids"`
 	RoleArn             string            `json:"role_arn"`
-	Tags                map[string]string `json:"tags"`
+	VpcSecurityGroupIds []string          `json:"vpc_security_group_ids"`
 	DebugLogging        bool              `json:"debug_logging"`
 	Id                  string            `json:"id"`
+	IdleClientTimeout   int64             `json:"idle_client_timeout"`
 	Name                string            `json:"name"`
 	RequireTls          bool              `json:"require_tls"`
-	Auth                []Auth            `json:"auth"`
+	VpcSubnetIds        []string          `json:"vpc_subnet_ids"`
+	EngineFamily        string            `json:"engine_family"`
+	Tags                map[string]string `json:"tags"`
 	Timeouts            Timeouts          `json:"timeouts"`
-}
-
-type Auth struct {
-	SecretArn   string `json:"secret_arn"`
-	AuthScheme  string `json:"auth_scheme"`
-	Description string `json:"description"`
-	IamAuth     string `json:"iam_auth"`
+	Auth                []Auth            `json:"auth"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
+}
+
+type Auth struct {
+	AuthScheme  string `json:"auth_scheme"`
+	Description string `json:"description"`
+	IamAuth     string `json:"iam_auth"`
+	SecretArn   string `json:"secret_arn"`
 }
 
 // A DbProxyStatus defines the observed state of a DbProxy

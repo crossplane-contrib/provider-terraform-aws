@@ -22,16 +22,16 @@ import (
 
 func EncodeSesReceiptRuleSet(r SesReceiptRuleSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRuleSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRuleSet_RuleSetName(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptRuleSet_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesReceiptRuleSet_Id(p SesReceiptRuleSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeSesReceiptRuleSet_RuleSetName(p SesReceiptRuleSetParameters, vals map[string]cty.Value) {
 	vals["rule_set_name"] = cty.StringVal(p.RuleSetName)
+}
+
+func EncodeSesReceiptRuleSet_Id(p SesReceiptRuleSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

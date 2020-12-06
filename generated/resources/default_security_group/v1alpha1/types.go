@@ -52,36 +52,36 @@ type DefaultSecurityGroupSpec struct {
 
 // A DefaultSecurityGroupParameters defines the desired state of a DefaultSecurityGroup
 type DefaultSecurityGroupParameters struct {
+	Ingress             []Ingress         `json:"ingress"`
 	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
 	Tags                map[string]string `json:"tags"`
-	Id                  string            `json:"id"`
-	Ingress             []Ingress         `json:"ingress"`
 	VpcId               string            `json:"vpc_id"`
 	Egress              []Egress          `json:"egress"`
+	Id                  string            `json:"id"`
 }
 
 type Ingress struct {
-	Self           bool     `json:"self"`
-	CidrBlocks     []string `json:"cidr_blocks"`
 	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
-	SecurityGroups []string `json:"security_groups"`
 	Description    string   `json:"description"`
-	Protocol       string   `json:"protocol"`
-	ToPort         int64    `json:"to_port"`
 	FromPort       int64    `json:"from_port"`
 	PrefixListIds  []string `json:"prefix_list_ids"`
+	SecurityGroups []string `json:"security_groups"`
+	ToPort         int64    `json:"to_port"`
+	Protocol       string   `json:"protocol"`
+	Self           bool     `json:"self"`
+	CidrBlocks     []string `json:"cidr_blocks"`
 }
 
 type Egress struct {
-	FromPort       int64    `json:"from_port"`
-	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
-	Self           bool     `json:"self"`
-	ToPort         int64    `json:"to_port"`
-	Description    string   `json:"description"`
-	CidrBlocks     []string `json:"cidr_blocks"`
 	PrefixListIds  []string `json:"prefix_list_ids"`
-	Protocol       string   `json:"protocol"`
+	ToPort         int64    `json:"to_port"`
 	SecurityGroups []string `json:"security_groups"`
+	Self           bool     `json:"self"`
+	Description    string   `json:"description"`
+	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
+	CidrBlocks     []string `json:"cidr_blocks"`
+	FromPort       int64    `json:"from_port"`
+	Protocol       string   `json:"protocol"`
 }
 
 // A DefaultSecurityGroupStatus defines the observed state of a DefaultSecurityGroup
@@ -92,8 +92,8 @@ type DefaultSecurityGroupStatus struct {
 
 // A DefaultSecurityGroupObservation records the observed state of a DefaultSecurityGroup
 type DefaultSecurityGroupObservation struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
 	OwnerId     string `json:"owner_id"`
 	Arn         string `json:"arn"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
 }

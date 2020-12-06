@@ -22,14 +22,18 @@ import (
 
 func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretBinary(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSecretsmanagerSecretVersion_SecretId(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["secret_id"] = cty.StringVal(p.SecretId)
 }
 
 func EncodeSecretsmanagerSecretVersion_SecretString(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
@@ -50,10 +54,6 @@ func EncodeSecretsmanagerSecretVersion_Id(p SecretsmanagerSecretVersionParameter
 
 func EncodeSecretsmanagerSecretVersion_SecretBinary(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	vals["secret_binary"] = cty.StringVal(p.SecretBinary)
-}
-
-func EncodeSecretsmanagerSecretVersion_SecretId(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
-	vals["secret_id"] = cty.StringVal(p.SecretId)
 }
 
 func EncodeSecretsmanagerSecretVersion_VersionId(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {

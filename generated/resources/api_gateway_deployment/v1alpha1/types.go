@@ -52,11 +52,11 @@ type ApiGatewayDeploymentSpec struct {
 
 // A ApiGatewayDeploymentParameters defines the desired state of a ApiGatewayDeployment
 type ApiGatewayDeploymentParameters struct {
-	StageName        string            `json:"stage_name"`
-	Id               string            `json:"id"`
-	RestApiId        string            `json:"rest_api_id"`
 	Description      string            `json:"description"`
+	Id               string            `json:"id"`
 	StageDescription string            `json:"stage_description"`
+	RestApiId        string            `json:"rest_api_id"`
+	StageName        string            `json:"stage_name"`
 	Triggers         map[string]string `json:"triggers"`
 	Variables        map[string]string `json:"variables"`
 }

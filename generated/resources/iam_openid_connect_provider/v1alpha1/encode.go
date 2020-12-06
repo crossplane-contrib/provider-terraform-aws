@@ -22,20 +22,12 @@ import (
 
 func EncodeIamOpenidConnectProvider(r IamOpenidConnectProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_ThumbprintList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Url(r.Spec.ForProvider, ctyVal)
+	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.ClientIdList {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["client_id_list"] = cty.ListVal(colVals)
 }
 
 func EncodeIamOpenidConnectProvider_Id(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
@@ -52,6 +44,14 @@ func EncodeIamOpenidConnectProvider_ThumbprintList(p IamOpenidConnectProviderPar
 
 func EncodeIamOpenidConnectProvider_Url(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	vals["url"] = cty.StringVal(p.Url)
+}
+
+func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ClientIdList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["client_id_list"] = cty.ListVal(colVals)
 }
 
 func EncodeIamOpenidConnectProvider_Arn(p IamOpenidConnectProviderObservation, vals map[string]cty.Value) {

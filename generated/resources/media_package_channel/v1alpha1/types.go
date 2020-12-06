@@ -52,10 +52,10 @@ type MediaPackageChannelSpec struct {
 
 // A MediaPackageChannelParameters defines the desired state of a MediaPackageChannel
 type MediaPackageChannelParameters struct {
+	ChannelId   string            `json:"channel_id"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Tags        map[string]string `json:"tags"`
-	ChannelId   string            `json:"channel_id"`
 }
 
 // A MediaPackageChannelStatus defines the observed state of a MediaPackageChannel

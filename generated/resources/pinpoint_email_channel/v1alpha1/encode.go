@@ -22,22 +22,14 @@ import (
 
 func EncodePinpointEmailChannel(r PinpointEmailChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointEmailChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
-	EncodePinpointEmailChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_FromAddress(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_Identity(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodePinpointEmailChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
+	EncodePinpointEmailChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_MessagesPerSecond(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodePinpointEmailChannel_ApplicationId(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	vals["application_id"] = cty.StringVal(p.ApplicationId)
-}
-
-func EncodePinpointEmailChannel_Enabled(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodePinpointEmailChannel_FromAddress(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
@@ -54,6 +46,14 @@ func EncodePinpointEmailChannel_Identity(p PinpointEmailChannelParameters, vals 
 
 func EncodePinpointEmailChannel_RoleArn(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodePinpointEmailChannel_ApplicationId(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
+	vals["application_id"] = cty.StringVal(p.ApplicationId)
+}
+
+func EncodePinpointEmailChannel_Enabled(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodePinpointEmailChannel_MessagesPerSecond(p PinpointEmailChannelObservation, vals map[string]cty.Value) {

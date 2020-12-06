@@ -78,10 +78,10 @@ type Destination struct {
 }
 
 type S3BucketDestination struct {
+	Prefix          string `json:"prefix"`
 	BucketAccountId string `json:"bucket_account_id"`
 	BucketArn       string `json:"bucket_arn"`
 	Format          string `json:"format"`
-	Prefix          string `json:"prefix"`
 }
 
 // A S3BucketAnalyticsConfigurationStatus defines the observed state of a S3BucketAnalyticsConfiguration

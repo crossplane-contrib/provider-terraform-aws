@@ -60,27 +60,27 @@ type S3BucketNotificationParameters struct {
 }
 
 type LambdaFunction struct {
+	Id                string   `json:"id"`
+	LambdaFunctionArn string   `json:"lambda_function_arn"`
 	Events            []string `json:"events"`
 	FilterPrefix      string   `json:"filter_prefix"`
 	FilterSuffix      string   `json:"filter_suffix"`
-	Id                string   `json:"id"`
-	LambdaFunctionArn string   `json:"lambda_function_arn"`
 }
 
 type Queue struct {
-	Id           string   `json:"id"`
-	QueueArn     string   `json:"queue_arn"`
 	Events       []string `json:"events"`
 	FilterPrefix string   `json:"filter_prefix"`
 	FilterSuffix string   `json:"filter_suffix"`
+	Id           string   `json:"id"`
+	QueueArn     string   `json:"queue_arn"`
 }
 
 type Topic struct {
+	Events       []string `json:"events"`
 	FilterPrefix string   `json:"filter_prefix"`
 	FilterSuffix string   `json:"filter_suffix"`
 	Id           string   `json:"id"`
 	TopicArn     string   `json:"topic_arn"`
-	Events       []string `json:"events"`
 }
 
 // A S3BucketNotificationStatus defines the observed state of a S3BucketNotification

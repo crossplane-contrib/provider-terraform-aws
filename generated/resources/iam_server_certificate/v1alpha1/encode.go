@@ -22,32 +22,16 @@ import (
 
 func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_Path(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_CertificateBody(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_CertificateChain(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Name(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_Path(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamServerCertificate_NamePrefix(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeIamServerCertificate_Path(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["path"] = cty.StringVal(p.Path)
-}
-
-func EncodeIamServerCertificate_PrivateKey(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["private_key"] = cty.StringVal(p.PrivateKey)
-}
-
-func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeIamServerCertificate_CertificateBody(p IamServerCertificateParameters, vals map[string]cty.Value) {
@@ -64,4 +48,20 @@ func EncodeIamServerCertificate_Id(p IamServerCertificateParameters, vals map[st
 
 func EncodeIamServerCertificate_Name(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeIamServerCertificate_NamePrefix(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeIamServerCertificate_Path(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["path"] = cty.StringVal(p.Path)
+}
+
+func EncodeIamServerCertificate_PrivateKey(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["private_key"] = cty.StringVal(p.PrivateKey)
+}
+
+func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

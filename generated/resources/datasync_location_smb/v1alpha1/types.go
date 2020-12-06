@@ -54,12 +54,12 @@ type DatasyncLocationSmbSpec struct {
 type DatasyncLocationSmbParameters struct {
 	AgentArns      []string          `json:"agent_arns"`
 	Domain         string            `json:"domain"`
+	User           string            `json:"user"`
+	Tags           map[string]string `json:"tags"`
 	Id             string            `json:"id"`
-	Subdirectory   string            `json:"subdirectory"`
 	Password       string            `json:"password"`
 	ServerHostname string            `json:"server_hostname"`
-	Tags           map[string]string `json:"tags"`
-	User           string            `json:"user"`
+	Subdirectory   string            `json:"subdirectory"`
 	MountOptions   MountOptions      `json:"mount_options"`
 }
 
@@ -75,6 +75,6 @@ type DatasyncLocationSmbStatus struct {
 
 // A DatasyncLocationSmbObservation records the observed state of a DatasyncLocationSmb
 type DatasyncLocationSmbObservation struct {
-	Arn string `json:"arn"`
 	Uri string `json:"uri"`
+	Arn string `json:"arn"`
 }

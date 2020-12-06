@@ -22,27 +22,15 @@ import (
 
 func EncodeDbParameterGroup(r DbParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbParameterGroup_Family(r.Spec.ForProvider, ctyVal)
-	EncodeDbParameterGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDbParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDbParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbParameterGroup_Description(r.Spec.ForProvider, ctyVal)
+	EncodeDbParameterGroup_Family(r.Spec.ForProvider, ctyVal)
+	EncodeDbParameterGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDbParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDbParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeDbParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDbParameterGroup_Family(p DbParameterGroupParameters, vals map[string]cty.Value) {
-	vals["family"] = cty.StringVal(p.Family)
-}
-
-func EncodeDbParameterGroup_Id(p DbParameterGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDbParameterGroup_Name(p DbParameterGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDbParameterGroup_NamePrefix(p DbParameterGroupParameters, vals map[string]cty.Value) {
@@ -59,6 +47,18 @@ func EncodeDbParameterGroup_Tags(p DbParameterGroupParameters, vals map[string]c
 
 func EncodeDbParameterGroup_Description(p DbParameterGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeDbParameterGroup_Family(p DbParameterGroupParameters, vals map[string]cty.Value) {
+	vals["family"] = cty.StringVal(p.Family)
+}
+
+func EncodeDbParameterGroup_Id(p DbParameterGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDbParameterGroup_Name(p DbParameterGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDbParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {

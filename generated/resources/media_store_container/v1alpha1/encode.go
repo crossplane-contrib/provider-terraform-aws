@@ -22,16 +22,12 @@ import (
 
 func EncodeMediaStoreContainer(r MediaStoreContainer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMediaStoreContainer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainer_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainer_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMediaStoreContainer_Endpoint(r.Status.AtProvider, ctyVal)
+	EncodeMediaStoreContainer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainer_Arn(r.Status.AtProvider, ctyVal)
+	EncodeMediaStoreContainer_Endpoint(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeMediaStoreContainer_Id(p MediaStoreContainerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMediaStoreContainer_Name(p MediaStoreContainerParameters, vals map[string]cty.Value) {
@@ -46,10 +42,14 @@ func EncodeMediaStoreContainer_Tags(p MediaStoreContainerParameters, vals map[st
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeMediaStoreContainer_Endpoint(p MediaStoreContainerObservation, vals map[string]cty.Value) {
-	vals["endpoint"] = cty.StringVal(p.Endpoint)
+func EncodeMediaStoreContainer_Id(p MediaStoreContainerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMediaStoreContainer_Arn(p MediaStoreContainerObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeMediaStoreContainer_Endpoint(p MediaStoreContainerObservation, vals map[string]cty.Value) {
+	vals["endpoint"] = cty.StringVal(p.Endpoint)
 }

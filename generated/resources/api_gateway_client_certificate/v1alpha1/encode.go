@@ -22,18 +22,14 @@ import (
 
 func EncodeApiGatewayClientCertificate(r ApiGatewayClientCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayClientCertificate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayClientCertificate_CreatedDate(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayClientCertificate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_ExpirationDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_PemEncodedCertificate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_Arn(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayClientCertificate_CreatedDate(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayClientCertificate_Description(p ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayClientCertificate_Id(p ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
@@ -48,8 +44,8 @@ func EncodeApiGatewayClientCertificate_Tags(p ApiGatewayClientCertificateParamet
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayClientCertificate_CreatedDate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
-	vals["created_date"] = cty.StringVal(p.CreatedDate)
+func EncodeApiGatewayClientCertificate_Description(p ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayClientCertificate_ExpirationDate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
@@ -62,4 +58,8 @@ func EncodeApiGatewayClientCertificate_PemEncodedCertificate(p ApiGatewayClientC
 
 func EncodeApiGatewayClientCertificate_Arn(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeApiGatewayClientCertificate_CreatedDate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }

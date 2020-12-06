@@ -22,13 +22,17 @@ import (
 
 func EncodePinpointBaiduChannel(r PinpointBaiduChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodePinpointBaiduChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_SecretKey(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_ApiKey(r.Spec.ForProvider, ctyVal)
-	EncodePinpointBaiduChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodePinpointBaiduChannel_ApplicationId(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
+	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }
 
 func EncodePinpointBaiduChannel_Enabled(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
@@ -45,8 +49,4 @@ func EncodePinpointBaiduChannel_SecretKey(p PinpointBaiduChannelParameters, vals
 
 func EncodePinpointBaiduChannel_ApiKey(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
 	vals["api_key"] = cty.StringVal(p.ApiKey)
-}
-
-func EncodePinpointBaiduChannel_ApplicationId(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
-	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }

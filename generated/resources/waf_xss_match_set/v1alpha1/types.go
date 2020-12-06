@@ -52,8 +52,8 @@ type WafXssMatchSetSpec struct {
 
 // A WafXssMatchSetParameters defines the desired state of a WafXssMatchSet
 type WafXssMatchSetParameters struct {
-	Id             string         `json:"id"`
 	Name           string         `json:"name"`
+	Id             string         `json:"id"`
 	XssMatchTuples XssMatchTuples `json:"xss_match_tuples"`
 }
 

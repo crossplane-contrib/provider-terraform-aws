@@ -22,16 +22,20 @@ import (
 
 func EncodeIamServiceLinkedRole(r IamServiceLinkedRole) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamServiceLinkedRole_CustomSuffix(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_AwsServiceName(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_Description(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamServiceLinkedRole_CustomSuffix(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIamServiceLinkedRole_CreateDate(r.Status.AtProvider, ctyVal)
 	EncodeIamServiceLinkedRole_Path(r.Status.AtProvider, ctyVal)
-	EncodeIamServiceLinkedRole_Name(r.Status.AtProvider, ctyVal)
 	EncodeIamServiceLinkedRole_UniqueId(r.Status.AtProvider, ctyVal)
+	EncodeIamServiceLinkedRole_Name(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamServiceLinkedRole_CustomSuffix(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	vals["custom_suffix"] = cty.StringVal(p.CustomSuffix)
 }
 
 func EncodeIamServiceLinkedRole_AwsServiceName(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
@@ -46,10 +50,6 @@ func EncodeIamServiceLinkedRole_Id(p IamServiceLinkedRoleParameters, vals map[st
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamServiceLinkedRole_CustomSuffix(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
-	vals["custom_suffix"] = cty.StringVal(p.CustomSuffix)
-}
-
 func EncodeIamServiceLinkedRole_Arn(p IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
@@ -62,10 +62,10 @@ func EncodeIamServiceLinkedRole_Path(p IamServiceLinkedRoleObservation, vals map
 	vals["path"] = cty.StringVal(p.Path)
 }
 
-func EncodeIamServiceLinkedRole_Name(p IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeIamServiceLinkedRole_UniqueId(p IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
 	vals["unique_id"] = cty.StringVal(p.UniqueId)
+}
+
+func EncodeIamServiceLinkedRole_Name(p IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }

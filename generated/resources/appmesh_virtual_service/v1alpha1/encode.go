@@ -23,20 +23,24 @@ import (
 func EncodeAppmeshVirtualService(r AppmeshVirtualService) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeAppmeshVirtualService_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAppmeshVirtualService_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualService_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualService_MeshName(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualService_MeshOwner(r.Spec.ForProvider, ctyVal)
-	EncodeAppmeshVirtualService_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualService_Spec(r.Spec.ForProvider.Spec, ctyVal)
 	EncodeAppmeshVirtualService_LastUpdatedDate(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshVirtualService_ResourceOwner(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshVirtualService_Arn(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshVirtualService_CreatedDate(r.Status.AtProvider, ctyVal)
+	EncodeAppmeshVirtualService_ResourceOwner(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeAppmeshVirtualService_Id(p AppmeshVirtualServiceParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAppmeshVirtualService_Name(p AppmeshVirtualServiceParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAppmeshVirtualService_Tags(p AppmeshVirtualServiceParameters, vals map[string]cty.Value) {
@@ -53,10 +57,6 @@ func EncodeAppmeshVirtualService_MeshName(p AppmeshVirtualServiceParameters, val
 
 func EncodeAppmeshVirtualService_MeshOwner(p AppmeshVirtualServiceParameters, vals map[string]cty.Value) {
 	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
-}
-
-func EncodeAppmeshVirtualService_Name(p AppmeshVirtualServiceParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAppmeshVirtualService_Spec(p Spec, vals map[string]cty.Value) {
@@ -104,14 +104,14 @@ func EncodeAppmeshVirtualService_LastUpdatedDate(p AppmeshVirtualServiceObservat
 	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
 }
 
-func EncodeAppmeshVirtualService_ResourceOwner(p AppmeshVirtualServiceObservation, vals map[string]cty.Value) {
-	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
-}
-
 func EncodeAppmeshVirtualService_Arn(p AppmeshVirtualServiceObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeAppmeshVirtualService_CreatedDate(p AppmeshVirtualServiceObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
+}
+
+func EncodeAppmeshVirtualService_ResourceOwner(p AppmeshVirtualServiceObservation, vals map[string]cty.Value) {
+	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
 }

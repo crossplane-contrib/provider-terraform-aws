@@ -22,31 +22,23 @@ import (
 
 func EncodeEksCluster(r EksCluster) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEksCluster_Name(r.Spec.ForProvider, ctyVal)
-	EncodeEksCluster_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEksCluster_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeEksCluster_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEksCluster_EnabledClusterLogTypes(r.Spec.ForProvider, ctyVal)
+	EncodeEksCluster_Name(r.Spec.ForProvider, ctyVal)
 	EncodeEksCluster_Version(r.Spec.ForProvider, ctyVal)
+	EncodeEksCluster_EnabledClusterLogTypes(r.Spec.ForProvider, ctyVal)
+	EncodeEksCluster_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEksCluster_EncryptionConfig(r.Spec.ForProvider.EncryptionConfig, ctyVal)
 	EncodeEksCluster_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeEksCluster_VpcConfig(r.Spec.ForProvider.VpcConfig, ctyVal)
+	EncodeEksCluster_Endpoint(r.Status.AtProvider, ctyVal)
 	EncodeEksCluster_PlatformVersion(r.Status.AtProvider, ctyVal)
 	EncodeEksCluster_Arn(r.Status.AtProvider, ctyVal)
-	EncodeEksCluster_Endpoint(r.Status.AtProvider, ctyVal)
-	EncodeEksCluster_Identity(r.Status.AtProvider.Identity, ctyVal)
-	EncodeEksCluster_Status(r.Status.AtProvider, ctyVal)
 	EncodeEksCluster_CertificateAuthority(r.Status.AtProvider.CertificateAuthority, ctyVal)
 	EncodeEksCluster_CreatedAt(r.Status.AtProvider, ctyVal)
+	EncodeEksCluster_Status(r.Status.AtProvider, ctyVal)
+	EncodeEksCluster_Identity(r.Status.AtProvider.Identity, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEksCluster_Name(p EksClusterParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeEksCluster_Id(p EksClusterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEksCluster_RoleArn(p EksClusterParameters, vals map[string]cty.Value) {
@@ -61,6 +53,14 @@ func EncodeEksCluster_Tags(p EksClusterParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeEksCluster_Name(p EksClusterParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeEksCluster_Version(p EksClusterParameters, vals map[string]cty.Value) {
+	vals["version"] = cty.StringVal(p.Version)
+}
+
 func EncodeEksCluster_EnabledClusterLogTypes(p EksClusterParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.EnabledClusterLogTypes {
@@ -69,8 +69,8 @@ func EncodeEksCluster_EnabledClusterLogTypes(p EksClusterParameters, vals map[st
 	vals["enabled_cluster_log_types"] = cty.SetVal(colVals)
 }
 
-func EncodeEksCluster_Version(p EksClusterParameters, vals map[string]cty.Value) {
-	vals["version"] = cty.StringVal(p.Version)
+func EncodeEksCluster_Id(p EksClusterParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEksCluster_EncryptionConfig(p EncryptionConfig, vals map[string]cty.Value) {
@@ -125,31 +125,15 @@ func EncodeEksCluster_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 func EncodeEksCluster_VpcConfig(p VpcConfig, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEksCluster_VpcConfig_SecurityGroupIds(p, ctyVal)
-	EncodeEksCluster_VpcConfig_SubnetIds(p, ctyVal)
 	EncodeEksCluster_VpcConfig_VpcId(p, ctyVal)
 	EncodeEksCluster_VpcConfig_ClusterSecurityGroupId(p, ctyVal)
 	EncodeEksCluster_VpcConfig_EndpointPrivateAccess(p, ctyVal)
 	EncodeEksCluster_VpcConfig_EndpointPublicAccess(p, ctyVal)
 	EncodeEksCluster_VpcConfig_PublicAccessCidrs(p, ctyVal)
+	EncodeEksCluster_VpcConfig_SecurityGroupIds(p, ctyVal)
+	EncodeEksCluster_VpcConfig_SubnetIds(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["vpc_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEksCluster_VpcConfig_SecurityGroupIds(p VpcConfig, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SecurityGroupIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["security_group_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeEksCluster_VpcConfig_SubnetIds(p VpcConfig, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SubnetIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeEksCluster_VpcConfig_VpcId(p VpcConfig, vals map[string]cty.Value) {
@@ -176,6 +160,26 @@ func EncodeEksCluster_VpcConfig_PublicAccessCidrs(p VpcConfig, vals map[string]c
 	vals["public_access_cidrs"] = cty.SetVal(colVals)
 }
 
+func EncodeEksCluster_VpcConfig_SecurityGroupIds(p VpcConfig, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SecurityGroupIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["security_group_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeEksCluster_VpcConfig_SubnetIds(p VpcConfig, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SubnetIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["subnet_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeEksCluster_Endpoint(p EksClusterObservation, vals map[string]cty.Value) {
+	vals["endpoint"] = cty.StringVal(p.Endpoint)
+}
+
 func EncodeEksCluster_PlatformVersion(p EksClusterObservation, vals map[string]cty.Value) {
 	vals["platform_version"] = cty.StringVal(p.PlatformVersion)
 }
@@ -184,8 +188,26 @@ func EncodeEksCluster_Arn(p EksClusterObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeEksCluster_Endpoint(p EksClusterObservation, vals map[string]cty.Value) {
-	vals["endpoint"] = cty.StringVal(p.Endpoint)
+func EncodeEksCluster_CertificateAuthority(p []CertificateAuthority, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeEksCluster_CertificateAuthority_Data(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["certificate_authority"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeEksCluster_CertificateAuthority_Data(p CertificateAuthority, vals map[string]cty.Value) {
+	vals["data"] = cty.StringVal(p.Data)
+}
+
+func EncodeEksCluster_CreatedAt(p EksClusterObservation, vals map[string]cty.Value) {
+	vals["created_at"] = cty.StringVal(p.CreatedAt)
+}
+
+func EncodeEksCluster_Status(p EksClusterObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
 }
 
 func EncodeEksCluster_Identity(p []Identity, vals map[string]cty.Value) {
@@ -210,26 +232,4 @@ func EncodeEksCluster_Identity_Oidc(p []Oidc, vals map[string]cty.Value) {
 
 func EncodeEksCluster_Identity_Oidc_Issuer(p Oidc, vals map[string]cty.Value) {
 	vals["issuer"] = cty.StringVal(p.Issuer)
-}
-
-func EncodeEksCluster_Status(p EksClusterObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
-func EncodeEksCluster_CertificateAuthority(p []CertificateAuthority, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeEksCluster_CertificateAuthority_Data(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["certificate_authority"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEksCluster_CertificateAuthority_Data(p CertificateAuthority, vals map[string]cty.Value) {
-	vals["data"] = cty.StringVal(p.Data)
-}
-
-func EncodeEksCluster_CreatedAt(p EksClusterObservation, vals map[string]cty.Value) {
-	vals["created_at"] = cty.StringVal(p.CreatedAt)
 }

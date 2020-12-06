@@ -52,79 +52,39 @@ type ElasticsearchDomainSpec struct {
 
 // A ElasticsearchDomainParameters defines the desired state of a ElasticsearchDomain
 type ElasticsearchDomainParameters struct {
-	ElasticsearchVersion    string                  `json:"elasticsearch_version"`
 	Id                      string                  `json:"id"`
 	AccessPolicies          string                  `json:"access_policies"`
 	DomainName              string                  `json:"domain_name"`
+	ElasticsearchVersion    string                  `json:"elasticsearch_version"`
 	Tags                    map[string]string       `json:"tags"`
 	AdvancedOptions         map[string]string       `json:"advanced_options"`
-	ClusterConfig           ClusterConfig           `json:"cluster_config"`
+	Timeouts                Timeouts                `json:"timeouts"`
 	CognitoOptions          CognitoOptions          `json:"cognito_options"`
 	DomainEndpointOptions   DomainEndpointOptions   `json:"domain_endpoint_options"`
+	EbsOptions              EbsOptions              `json:"ebs_options"`
 	EncryptAtRest           EncryptAtRest           `json:"encrypt_at_rest"`
 	LogPublishingOptions    LogPublishingOptions    `json:"log_publishing_options"`
-	Timeouts                Timeouts                `json:"timeouts"`
-	AdvancedSecurityOptions AdvancedSecurityOptions `json:"advanced_security_options"`
-	EbsOptions              EbsOptions              `json:"ebs_options"`
-	NodeToNodeEncryption    NodeToNodeEncryption    `json:"node_to_node_encryption"`
 	SnapshotOptions         SnapshotOptions         `json:"snapshot_options"`
+	AdvancedSecurityOptions AdvancedSecurityOptions `json:"advanced_security_options"`
+	ClusterConfig           ClusterConfig           `json:"cluster_config"`
+	NodeToNodeEncryption    NodeToNodeEncryption    `json:"node_to_node_encryption"`
 	VpcOptions              VpcOptions              `json:"vpc_options"`
-}
-
-type ClusterConfig struct {
-	InstanceType           string              `json:"instance_type"`
-	WarmCount              int64               `json:"warm_count"`
-	WarmEnabled            bool                `json:"warm_enabled"`
-	WarmType               string              `json:"warm_type"`
-	DedicatedMasterCount   int64               `json:"dedicated_master_count"`
-	DedicatedMasterType    string              `json:"dedicated_master_type"`
-	InstanceCount          int64               `json:"instance_count"`
-	DedicatedMasterEnabled bool                `json:"dedicated_master_enabled"`
-	ZoneAwarenessEnabled   bool                `json:"zone_awareness_enabled"`
-	ZoneAwarenessConfig    ZoneAwarenessConfig `json:"zone_awareness_config"`
-}
-
-type ZoneAwarenessConfig struct {
-	AvailabilityZoneCount int64 `json:"availability_zone_count"`
-}
-
-type CognitoOptions struct {
-	IdentityPoolId string `json:"identity_pool_id"`
-	RoleArn        string `json:"role_arn"`
-	UserPoolId     string `json:"user_pool_id"`
-	Enabled        bool   `json:"enabled"`
-}
-
-type DomainEndpointOptions struct {
-	EnforceHttps      bool   `json:"enforce_https"`
-	TlsSecurityPolicy string `json:"tls_security_policy"`
-}
-
-type EncryptAtRest struct {
-	Enabled  bool   `json:"enabled"`
-	KmsKeyId string `json:"kms_key_id"`
-}
-
-type LogPublishingOptions struct {
-	CloudwatchLogGroupArn string `json:"cloudwatch_log_group_arn"`
-	Enabled               bool   `json:"enabled"`
-	LogType               string `json:"log_type"`
 }
 
 type Timeouts struct {
 	Update string `json:"update"`
 }
 
-type AdvancedSecurityOptions struct {
-	Enabled                     bool              `json:"enabled"`
-	InternalUserDatabaseEnabled bool              `json:"internal_user_database_enabled"`
-	MasterUserOptions           MasterUserOptions `json:"master_user_options"`
+type CognitoOptions struct {
+	RoleArn        string `json:"role_arn"`
+	UserPoolId     string `json:"user_pool_id"`
+	Enabled        bool   `json:"enabled"`
+	IdentityPoolId string `json:"identity_pool_id"`
 }
 
-type MasterUserOptions struct {
-	MasterUserPassword string `json:"master_user_password"`
-	MasterUserArn      string `json:"master_user_arn"`
-	MasterUserName     string `json:"master_user_name"`
+type DomainEndpointOptions struct {
+	TlsSecurityPolicy string `json:"tls_security_policy"`
+	EnforceHttps      bool   `json:"enforce_https"`
 }
 
 type EbsOptions struct {
@@ -134,12 +94,52 @@ type EbsOptions struct {
 	VolumeType string `json:"volume_type"`
 }
 
-type NodeToNodeEncryption struct {
-	Enabled bool `json:"enabled"`
+type EncryptAtRest struct {
+	Enabled  bool   `json:"enabled"`
+	KmsKeyId string `json:"kms_key_id"`
+}
+
+type LogPublishingOptions struct {
+	Enabled               bool   `json:"enabled"`
+	LogType               string `json:"log_type"`
+	CloudwatchLogGroupArn string `json:"cloudwatch_log_group_arn"`
 }
 
 type SnapshotOptions struct {
 	AutomatedSnapshotStartHour int64 `json:"automated_snapshot_start_hour"`
+}
+
+type AdvancedSecurityOptions struct {
+	Enabled                     bool              `json:"enabled"`
+	InternalUserDatabaseEnabled bool              `json:"internal_user_database_enabled"`
+	MasterUserOptions           MasterUserOptions `json:"master_user_options"`
+}
+
+type MasterUserOptions struct {
+	MasterUserArn      string `json:"master_user_arn"`
+	MasterUserName     string `json:"master_user_name"`
+	MasterUserPassword string `json:"master_user_password"`
+}
+
+type ClusterConfig struct {
+	DedicatedMasterCount   int64               `json:"dedicated_master_count"`
+	DedicatedMasterEnabled bool                `json:"dedicated_master_enabled"`
+	DedicatedMasterType    string              `json:"dedicated_master_type"`
+	WarmCount              int64               `json:"warm_count"`
+	WarmType               string              `json:"warm_type"`
+	InstanceCount          int64               `json:"instance_count"`
+	InstanceType           string              `json:"instance_type"`
+	WarmEnabled            bool                `json:"warm_enabled"`
+	ZoneAwarenessEnabled   bool                `json:"zone_awareness_enabled"`
+	ZoneAwarenessConfig    ZoneAwarenessConfig `json:"zone_awareness_config"`
+}
+
+type ZoneAwarenessConfig struct {
+	AvailabilityZoneCount int64 `json:"availability_zone_count"`
+}
+
+type NodeToNodeEncryption struct {
+	Enabled bool `json:"enabled"`
 }
 
 type VpcOptions struct {
@@ -157,8 +157,8 @@ type ElasticsearchDomainStatus struct {
 
 // A ElasticsearchDomainObservation records the observed state of a ElasticsearchDomain
 type ElasticsearchDomainObservation struct {
-	Arn            string `json:"arn"`
-	DomainId       string `json:"domain_id"`
 	Endpoint       string `json:"endpoint"`
 	KibanaEndpoint string `json:"kibana_endpoint"`
+	Arn            string `json:"arn"`
+	DomainId       string `json:"domain_id"`
 }

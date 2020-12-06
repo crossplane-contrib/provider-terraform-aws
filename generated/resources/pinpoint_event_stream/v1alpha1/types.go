@@ -52,10 +52,10 @@ type PinpointEventStreamSpec struct {
 
 // A PinpointEventStreamParameters defines the desired state of a PinpointEventStream
 type PinpointEventStreamParameters struct {
-	RoleArn              string `json:"role_arn"`
 	ApplicationId        string `json:"application_id"`
 	DestinationStreamArn string `json:"destination_stream_arn"`
 	Id                   string `json:"id"`
+	RoleArn              string `json:"role_arn"`
 }
 
 // A PinpointEventStreamStatus defines the observed state of a PinpointEventStream

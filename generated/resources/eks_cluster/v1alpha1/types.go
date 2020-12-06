@@ -52,12 +52,12 @@ type EksClusterSpec struct {
 
 // A EksClusterParameters defines the desired state of a EksCluster
 type EksClusterParameters struct {
-	Name                   string            `json:"name"`
-	Id                     string            `json:"id"`
 	RoleArn                string            `json:"role_arn"`
 	Tags                   map[string]string `json:"tags"`
-	EnabledClusterLogTypes []string          `json:"enabled_cluster_log_types"`
+	Name                   string            `json:"name"`
 	Version                string            `json:"version"`
+	EnabledClusterLogTypes []string          `json:"enabled_cluster_log_types"`
+	Id                     string            `json:"id"`
 	EncryptionConfig       EncryptionConfig  `json:"encryption_config"`
 	Timeouts               Timeouts          `json:"timeouts"`
 	VpcConfig              VpcConfig         `json:"vpc_config"`
@@ -79,13 +79,13 @@ type Timeouts struct {
 }
 
 type VpcConfig struct {
-	SecurityGroupIds       []string `json:"security_group_ids"`
-	SubnetIds              []string `json:"subnet_ids"`
 	VpcId                  string   `json:"vpc_id"`
 	ClusterSecurityGroupId string   `json:"cluster_security_group_id"`
 	EndpointPrivateAccess  bool     `json:"endpoint_private_access"`
 	EndpointPublicAccess   bool     `json:"endpoint_public_access"`
 	PublicAccessCidrs      []string `json:"public_access_cidrs"`
+	SecurityGroupIds       []string `json:"security_group_ids"`
+	SubnetIds              []string `json:"subnet_ids"`
 }
 
 // A EksClusterStatus defines the observed state of a EksCluster
@@ -96,13 +96,17 @@ type EksClusterStatus struct {
 
 // A EksClusterObservation records the observed state of a EksCluster
 type EksClusterObservation struct {
+	Endpoint             string                 `json:"endpoint"`
 	PlatformVersion      string                 `json:"platform_version"`
 	Arn                  string                 `json:"arn"`
-	Endpoint             string                 `json:"endpoint"`
-	Identity             []Identity             `json:"identity"`
-	Status               string                 `json:"status"`
 	CertificateAuthority []CertificateAuthority `json:"certificate_authority"`
 	CreatedAt            string                 `json:"created_at"`
+	Status               string                 `json:"status"`
+	Identity             []Identity             `json:"identity"`
+}
+
+type CertificateAuthority struct {
+	Data string `json:"data"`
 }
 
 type Identity struct {
@@ -111,8 +115,4 @@ type Identity struct {
 
 type Oidc struct {
 	Issuer string `json:"issuer"`
-}
-
-type CertificateAuthority struct {
-	Data string `json:"data"`
 }

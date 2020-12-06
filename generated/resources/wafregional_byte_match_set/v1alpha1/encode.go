@@ -22,34 +22,30 @@ import (
 
 func EncodeWafregionalByteMatchSet(r WafregionalByteMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalByteMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalByteMatchSet_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalByteMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalByteMatchSet_ByteMatchTuples(r.Spec.ForProvider.ByteMatchTuples, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalByteMatchSet_Id(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalByteMatchSet_Name(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeWafregionalByteMatchSet_Id(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeWafregionalByteMatchSet_ByteMatchTuples(p ByteMatchTuples, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(p, ctyVal)
 	EncodeWafregionalByteMatchSet_ByteMatchTuples_PositionalConstraint(p, ctyVal)
 	EncodeWafregionalByteMatchSet_ByteMatchTuples_TargetString(p, ctyVal)
+	EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(p, ctyVal)
 	EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch(p.FieldToMatch, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["byte_match_tuples"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(p ByteMatchTuples, vals map[string]cty.Value) {
-	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
 }
 
 func EncodeWafregionalByteMatchSet_ByteMatchTuples_PositionalConstraint(p ByteMatchTuples, vals map[string]cty.Value) {
@@ -58,6 +54,10 @@ func EncodeWafregionalByteMatchSet_ByteMatchTuples_PositionalConstraint(p ByteMa
 
 func EncodeWafregionalByteMatchSet_ByteMatchTuples_TargetString(p ByteMatchTuples, vals map[string]cty.Value) {
 	vals["target_string"] = cty.StringVal(p.TargetString)
+}
+
+func EncodeWafregionalByteMatchSet_ByteMatchTuples_TextTransformation(p ByteMatchTuples, vals map[string]cty.Value) {
+	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
 }
 
 func EncodeWafregionalByteMatchSet_ByteMatchTuples_FieldToMatch(p FieldToMatch, vals map[string]cty.Value) {

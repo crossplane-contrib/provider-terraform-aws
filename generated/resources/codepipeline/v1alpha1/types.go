@@ -52,12 +52,32 @@ type CodepipelineSpec struct {
 
 // A CodepipelineParameters defines the desired state of a Codepipeline
 type CodepipelineParameters struct {
-	RoleArn       string            `json:"role_arn"`
-	Tags          map[string]string `json:"tags"`
 	Id            string            `json:"id"`
 	Name          string            `json:"name"`
-	ArtifactStore []ArtifactStore   `json:"artifact_store"`
+	RoleArn       string            `json:"role_arn"`
+	Tags          map[string]string `json:"tags"`
 	Stage         []Stage           `json:"stage"`
+	ArtifactStore []ArtifactStore   `json:"artifact_store"`
+}
+
+type Stage struct {
+	Name   string   `json:"name"`
+	Action []Action `json:"action"`
+}
+
+type Action struct {
+	InputArtifacts  []string          `json:"input_artifacts"`
+	Namespace       string            `json:"namespace"`
+	Region          string            `json:"region"`
+	Version         string            `json:"version"`
+	Configuration   map[string]string `json:"configuration"`
+	Name            string            `json:"name"`
+	OutputArtifacts []string          `json:"output_artifacts"`
+	Owner           string            `json:"owner"`
+	Provider        string            `json:"provider"`
+	RoleArn         string            `json:"role_arn"`
+	RunOrder        int64             `json:"run_order"`
+	Category        string            `json:"category"`
 }
 
 type ArtifactStore struct {
@@ -70,26 +90,6 @@ type ArtifactStore struct {
 type EncryptionKey struct {
 	Id   string `json:"id"`
 	Type string `json:"type"`
-}
-
-type Stage struct {
-	Name   string   `json:"name"`
-	Action []Action `json:"action"`
-}
-
-type Action struct {
-	Namespace       string            `json:"namespace"`
-	Region          string            `json:"region"`
-	RoleArn         string            `json:"role_arn"`
-	Version         string            `json:"version"`
-	Provider        string            `json:"provider"`
-	RunOrder        int64             `json:"run_order"`
-	Category        string            `json:"category"`
-	Configuration   map[string]string `json:"configuration"`
-	InputArtifacts  []string          `json:"input_artifacts"`
-	Name            string            `json:"name"`
-	OutputArtifacts []string          `json:"output_artifacts"`
-	Owner           string            `json:"owner"`
 }
 
 // A CodepipelineStatus defines the observed state of a Codepipeline

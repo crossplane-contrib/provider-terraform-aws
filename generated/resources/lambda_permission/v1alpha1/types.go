@@ -52,16 +52,16 @@ type LambdaPermissionSpec struct {
 
 // A LambdaPermissionParameters defines the desired state of a LambdaPermission
 type LambdaPermissionParameters struct {
-	Action            string `json:"action"`
-	EventSourceToken  string `json:"event_source_token"`
-	Id                string `json:"id"`
-	Principal         string `json:"principal"`
-	SourceArn         string `json:"source_arn"`
 	StatementIdPrefix string `json:"statement_id_prefix"`
 	FunctionName      string `json:"function_name"`
+	Id                string `json:"id"`
+	SourceArn         string `json:"source_arn"`
 	Qualifier         string `json:"qualifier"`
 	SourceAccount     string `json:"source_account"`
 	StatementId       string `json:"statement_id"`
+	Action            string `json:"action"`
+	EventSourceToken  string `json:"event_source_token"`
+	Principal         string `json:"principal"`
 }
 
 // A LambdaPermissionStatus defines the observed state of a LambdaPermission

@@ -22,11 +22,15 @@ import (
 
 func EncodeShieldProtection(r ShieldProtection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeShieldProtection_Id(r.Spec.ForProvider, ctyVal)
 	EncodeShieldProtection_Name(r.Spec.ForProvider, ctyVal)
 	EncodeShieldProtection_ResourceArn(r.Spec.ForProvider, ctyVal)
-	EncodeShieldProtection_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeShieldProtection_Id(p ShieldProtectionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeShieldProtection_Name(p ShieldProtectionParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeShieldProtection_Name(p ShieldProtectionParameters, vals map[string]c
 
 func EncodeShieldProtection_ResourceArn(p ShieldProtectionParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
-}
-
-func EncodeShieldProtection_Id(p ShieldProtectionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

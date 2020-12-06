@@ -54,16 +54,12 @@ func EncodeWafRuleGroup_Tags(p WafRuleGroupParameters, vals map[string]cty.Value
 func EncodeWafRuleGroup_ActivatedRule(p ActivatedRule, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRuleGroup_ActivatedRule_Priority(p, ctyVal)
 	EncodeWafRuleGroup_ActivatedRule_RuleId(p, ctyVal)
 	EncodeWafRuleGroup_ActivatedRule_Type(p, ctyVal)
+	EncodeWafRuleGroup_ActivatedRule_Priority(p, ctyVal)
 	EncodeWafRuleGroup_ActivatedRule_Action(p.Action, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["activated_rule"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafRuleGroup_ActivatedRule_Priority(p ActivatedRule, vals map[string]cty.Value) {
-	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafRuleGroup_ActivatedRule_RuleId(p ActivatedRule, vals map[string]cty.Value) {
@@ -72,6 +68,10 @@ func EncodeWafRuleGroup_ActivatedRule_RuleId(p ActivatedRule, vals map[string]ct
 
 func EncodeWafRuleGroup_ActivatedRule_Type(p ActivatedRule, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeWafRuleGroup_ActivatedRule_Priority(p ActivatedRule, vals map[string]cty.Value) {
+	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafRuleGroup_ActivatedRule_Action(p Action, vals map[string]cty.Value) {

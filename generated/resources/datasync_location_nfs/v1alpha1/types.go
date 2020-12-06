@@ -71,6 +71,6 @@ type DatasyncLocationNfsStatus struct {
 
 // A DatasyncLocationNfsObservation records the observed state of a DatasyncLocationNfs
 type DatasyncLocationNfsObservation struct {
-	Arn string `json:"arn"`
 	Uri string `json:"uri"`
+	Arn string `json:"arn"`
 }

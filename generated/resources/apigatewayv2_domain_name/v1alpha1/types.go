@@ -60,11 +60,11 @@ type Apigatewayv2DomainNameParameters struct {
 }
 
 type DomainNameConfiguration struct {
+	SecurityPolicy   string `json:"security_policy"`
+	TargetDomainName string `json:"target_domain_name"`
 	CertificateArn   string `json:"certificate_arn"`
 	EndpointType     string `json:"endpoint_type"`
 	HostedZoneId     string `json:"hosted_zone_id"`
-	SecurityPolicy   string `json:"security_policy"`
-	TargetDomainName string `json:"target_domain_name"`
 }
 
 type Timeouts struct {

@@ -52,10 +52,10 @@ type ApiGatewayUsagePlanKeySpec struct {
 
 // A ApiGatewayUsagePlanKeyParameters defines the desired state of a ApiGatewayUsagePlanKey
 type ApiGatewayUsagePlanKeyParameters struct {
-	KeyType     string `json:"key_type"`
 	UsagePlanId string `json:"usage_plan_id"`
 	Id          string `json:"id"`
 	KeyId       string `json:"key_id"`
+	KeyType     string `json:"key_type"`
 }
 
 // A ApiGatewayUsagePlanKeyStatus defines the observed state of a ApiGatewayUsagePlanKey

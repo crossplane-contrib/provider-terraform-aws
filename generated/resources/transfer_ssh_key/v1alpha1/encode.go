@@ -22,12 +22,16 @@ import (
 
 func EncodeTransferSshKey(r TransferSshKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeTransferSshKey_UserName(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_Body(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_ServerId(r.Spec.ForProvider, ctyVal)
-	EncodeTransferSshKey_UserName(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeTransferSshKey_UserName(p TransferSshKeyParameters, vals map[string]cty.Value) {
+	vals["user_name"] = cty.StringVal(p.UserName)
 }
 
 func EncodeTransferSshKey_Body(p TransferSshKeyParameters, vals map[string]cty.Value) {
@@ -40,8 +44,4 @@ func EncodeTransferSshKey_Id(p TransferSshKeyParameters, vals map[string]cty.Val
 
 func EncodeTransferSshKey_ServerId(p TransferSshKeyParameters, vals map[string]cty.Value) {
 	vals["server_id"] = cty.StringVal(p.ServerId)
-}
-
-func EncodeTransferSshKey_UserName(p TransferSshKeyParameters, vals map[string]cty.Value) {
-	vals["user_name"] = cty.StringVal(p.UserName)
 }

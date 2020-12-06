@@ -22,13 +22,21 @@ import (
 
 func EncodeSecretsmanagerSecretRotation(r SecretsmanagerSecretRotation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecretsmanagerSecretRotation_SecretId(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretRotation_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretRotation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretRotation_RotationLambdaArn(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretRotation_SecretId(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretRotation_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretRotation_RotationRules(r.Spec.ForProvider.RotationRules, ctyVal)
 	EncodeSecretsmanagerSecretRotation_RotationEnabled(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSecretsmanagerSecretRotation_Id(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSecretsmanagerSecretRotation_RotationLambdaArn(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
+	vals["rotation_lambda_arn"] = cty.StringVal(p.RotationLambdaArn)
 }
 
 func EncodeSecretsmanagerSecretRotation_SecretId(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
@@ -41,14 +49,6 @@ func EncodeSecretsmanagerSecretRotation_Tags(p SecretsmanagerSecretRotationParam
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSecretsmanagerSecretRotation_Id(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSecretsmanagerSecretRotation_RotationLambdaArn(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
-	vals["rotation_lambda_arn"] = cty.StringVal(p.RotationLambdaArn)
 }
 
 func EncodeSecretsmanagerSecretRotation_RotationRules(p RotationRules, vals map[string]cty.Value) {

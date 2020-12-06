@@ -22,16 +22,16 @@ import (
 
 func EncodeMacieMemberAccountAssociation(r MacieMemberAccountAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMacieMemberAccountAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeMacieMemberAccountAssociation_Id(r.Spec.ForProvider, ctyVal)
+	EncodeMacieMemberAccountAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMacieMemberAccountAssociation_MemberAccountId(p MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
-	vals["member_account_id"] = cty.StringVal(p.MemberAccountId)
-}
-
 func EncodeMacieMemberAccountAssociation_Id(p MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeMacieMemberAccountAssociation_MemberAccountId(p MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
+	vals["member_account_id"] = cty.StringVal(p.MemberAccountId)
 }

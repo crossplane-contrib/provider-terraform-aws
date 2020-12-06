@@ -22,12 +22,16 @@ import (
 
 func EncodeIamSamlProvider(r IamSamlProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamSamlProvider_SamlMetadataDocument(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_Name(r.Spec.ForProvider, ctyVal)
-	EncodeIamSamlProvider_SamlMetadataDocument(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_ValidUntil(r.Status.AtProvider, ctyVal)
 	EncodeIamSamlProvider_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamSamlProvider_SamlMetadataDocument(p IamSamlProviderParameters, vals map[string]cty.Value) {
+	vals["saml_metadata_document"] = cty.StringVal(p.SamlMetadataDocument)
 }
 
 func EncodeIamSamlProvider_Id(p IamSamlProviderParameters, vals map[string]cty.Value) {
@@ -36,10 +40,6 @@ func EncodeIamSamlProvider_Id(p IamSamlProviderParameters, vals map[string]cty.V
 
 func EncodeIamSamlProvider_Name(p IamSamlProviderParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeIamSamlProvider_SamlMetadataDocument(p IamSamlProviderParameters, vals map[string]cty.Value) {
-	vals["saml_metadata_document"] = cty.StringVal(p.SamlMetadataDocument)
 }
 
 func EncodeIamSamlProvider_ValidUntil(p IamSamlProviderObservation, vals map[string]cty.Value) {

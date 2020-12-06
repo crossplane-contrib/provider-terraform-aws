@@ -22,17 +22,13 @@ import (
 
 func EncodeCognitoResourceServer(r CognitoResourceServer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoResourceServer_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Identifier(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoResourceServer_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Scope(r.Spec.ForProvider.Scope, ctyVal)
 	EncodeCognitoResourceServer_ScopeIdentifiers(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoResourceServer_Name(p CognitoResourceServerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeCognitoResourceServer_UserPoolId(p CognitoResourceServerParameters, vals map[string]cty.Value) {
@@ -45,6 +41,10 @@ func EncodeCognitoResourceServer_Id(p CognitoResourceServerParameters, vals map[
 
 func EncodeCognitoResourceServer_Identifier(p CognitoResourceServerParameters, vals map[string]cty.Value) {
 	vals["identifier"] = cty.StringVal(p.Identifier)
+}
+
+func EncodeCognitoResourceServer_Name(p CognitoResourceServerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeCognitoResourceServer_Scope(p []Scope, vals map[string]cty.Value) {

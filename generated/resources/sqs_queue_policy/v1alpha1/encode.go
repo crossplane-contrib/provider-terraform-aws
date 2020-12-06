@@ -22,11 +22,15 @@ import (
 
 func EncodeSqsQueuePolicy(r SqsQueuePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSqsQueuePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueuePolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueuePolicy_QueueUrl(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueuePolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSqsQueuePolicy_Id(p SqsQueuePolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSqsQueuePolicy_Policy(p SqsQueuePolicyParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeSqsQueuePolicy_Policy(p SqsQueuePolicyParameters, vals map[string]cty
 
 func EncodeSqsQueuePolicy_QueueUrl(p SqsQueuePolicyParameters, vals map[string]cty.Value) {
 	vals["queue_url"] = cty.StringVal(p.QueueUrl)
-}
-
-func EncodeSqsQueuePolicy_Id(p SqsQueuePolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

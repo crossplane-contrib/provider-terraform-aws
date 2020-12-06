@@ -22,26 +22,14 @@ import (
 
 func EncodeNeptuneParameterGroup(r NeptuneParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeNeptuneParameterGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneParameterGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeNeptuneParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeNeptuneParameterGroup_Description(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeNeptuneParameterGroup_Family(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
-	vals["family"] = cty.StringVal(p.Family)
-}
-
-func EncodeNeptuneParameterGroup_Id(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeNeptuneParameterGroup_Name(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
@@ -54,6 +42,18 @@ func EncodeNeptuneParameterGroup_Tags(p NeptuneParameterGroupParameters, vals ma
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeNeptuneParameterGroup_Description(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeNeptuneParameterGroup_Family(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
+	vals["family"] = cty.StringVal(p.Family)
+}
+
+func EncodeNeptuneParameterGroup_Id(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeNeptuneParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {

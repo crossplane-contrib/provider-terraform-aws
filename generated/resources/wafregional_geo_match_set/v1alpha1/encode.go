@@ -22,34 +22,34 @@ import (
 
 func EncodeWafregionalGeoMatchSet(r WafregionalGeoMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalGeoMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalGeoMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalGeoMatchSet_GeoMatchConstraint(r.Spec.ForProvider.GeoMatchConstraint, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalGeoMatchSet_Id(p WafregionalGeoMatchSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalGeoMatchSet_Name(p WafregionalGeoMatchSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeWafregionalGeoMatchSet_Id(p WafregionalGeoMatchSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeWafregionalGeoMatchSet_GeoMatchConstraint(p GeoMatchConstraint, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Type(p, ctyVal)
 	EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Value(p, ctyVal)
+	EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["geo_match_constraint"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Type(p GeoMatchConstraint, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
 func EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Value(p GeoMatchConstraint, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Type(p GeoMatchConstraint, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }

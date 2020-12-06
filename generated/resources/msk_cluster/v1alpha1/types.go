@@ -52,35 +52,18 @@ type MskClusterSpec struct {
 
 // A MskClusterParameters defines the desired state of a MskCluster
 type MskClusterParameters struct {
-	ClusterName          string               `json:"cluster_name"`
 	EnhancedMonitoring   string               `json:"enhanced_monitoring"`
-	NumberOfBrokerNodes  int64                `json:"number_of_broker_nodes"`
 	Tags                 map[string]string    `json:"tags"`
 	Id                   string               `json:"id"`
 	KafkaVersion         string               `json:"kafka_version"`
-	OpenMonitoring       OpenMonitoring       `json:"open_monitoring"`
+	NumberOfBrokerNodes  int64                `json:"number_of_broker_nodes"`
+	ClusterName          string               `json:"cluster_name"`
 	BrokerNodeGroupInfo  BrokerNodeGroupInfo  `json:"broker_node_group_info"`
 	ClientAuthentication ClientAuthentication `json:"client_authentication"`
 	ConfigurationInfo    ConfigurationInfo    `json:"configuration_info"`
 	EncryptionInfo       EncryptionInfo       `json:"encryption_info"`
 	LoggingInfo          LoggingInfo          `json:"logging_info"`
-}
-
-type OpenMonitoring struct {
-	Prometheus Prometheus `json:"prometheus"`
-}
-
-type Prometheus struct {
-	JmxExporter  JmxExporter  `json:"jmx_exporter"`
-	NodeExporter NodeExporter `json:"node_exporter"`
-}
-
-type JmxExporter struct {
-	EnabledInBroker bool `json:"enabled_in_broker"`
-}
-
-type NodeExporter struct {
-	EnabledInBroker bool `json:"enabled_in_broker"`
+	OpenMonitoring       OpenMonitoring       `json:"open_monitoring"`
 }
 
 type BrokerNodeGroupInfo struct {
@@ -125,8 +108,8 @@ type BrokerLogs struct {
 }
 
 type CloudwatchLogs struct {
-	LogGroup string `json:"log_group"`
 	Enabled  bool   `json:"enabled"`
+	LogGroup string `json:"log_group"`
 }
 
 type Firehose struct {
@@ -140,6 +123,23 @@ type S3 struct {
 	Prefix  string `json:"prefix"`
 }
 
+type OpenMonitoring struct {
+	Prometheus Prometheus `json:"prometheus"`
+}
+
+type Prometheus struct {
+	NodeExporter NodeExporter `json:"node_exporter"`
+	JmxExporter  JmxExporter  `json:"jmx_exporter"`
+}
+
+type NodeExporter struct {
+	EnabledInBroker bool `json:"enabled_in_broker"`
+}
+
+type JmxExporter struct {
+	EnabledInBroker bool `json:"enabled_in_broker"`
+}
+
 // A MskClusterStatus defines the observed state of a MskCluster
 type MskClusterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -148,9 +148,9 @@ type MskClusterStatus struct {
 
 // A MskClusterObservation records the observed state of a MskCluster
 type MskClusterObservation struct {
-	Arn                    string `json:"arn"`
-	BootstrapBrokersTls    string `json:"bootstrap_brokers_tls"`
-	ZookeeperConnectString string `json:"zookeeper_connect_string"`
-	BootstrapBrokers       string `json:"bootstrap_brokers"`
 	CurrentVersion         string `json:"current_version"`
+	ZookeeperConnectString string `json:"zookeeper_connect_string"`
+	Arn                    string `json:"arn"`
+	BootstrapBrokers       string `json:"bootstrap_brokers"`
+	BootstrapBrokersTls    string `json:"bootstrap_brokers_tls"`
 }

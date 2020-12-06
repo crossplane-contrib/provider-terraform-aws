@@ -52,15 +52,15 @@ type AcmCertificateSpec struct {
 
 // A AcmCertificateParameters defines the desired state of a AcmCertificate
 type AcmCertificateParameters struct {
+	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
+	CertificateChain        string            `json:"certificate_chain"`
+	SubjectAlternativeNames []string          `json:"subject_alternative_names"`
+	Tags                    map[string]string `json:"tags"`
+	ValidationMethod        string            `json:"validation_method"`
+	CertificateBody         string            `json:"certificate_body"`
 	DomainName              string            `json:"domain_name"`
 	Id                      string            `json:"id"`
 	PrivateKey              string            `json:"private_key"`
-	SubjectAlternativeNames []string          `json:"subject_alternative_names"`
-	Tags                    map[string]string `json:"tags"`
-	CertificateChain        string            `json:"certificate_chain"`
-	ValidationMethod        string            `json:"validation_method"`
-	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
-	CertificateBody         string            `json:"certificate_body"`
 	Options                 Options           `json:"options"`
 }
 
@@ -77,14 +77,14 @@ type AcmCertificateStatus struct {
 // A AcmCertificateObservation records the observed state of a AcmCertificate
 type AcmCertificateObservation struct {
 	ValidationEmails        []string                  `json:"validation_emails"`
+	Status                  string                    `json:"status"`
 	Arn                     string                    `json:"arn"`
 	DomainValidationOptions []DomainValidationOptions `json:"domain_validation_options"`
-	Status                  string                    `json:"status"`
 }
 
 type DomainValidationOptions struct {
+	ResourceRecordValue string `json:"resource_record_value"`
 	DomainName          string `json:"domain_name"`
 	ResourceRecordName  string `json:"resource_record_name"`
 	ResourceRecordType  string `json:"resource_record_type"`
-	ResourceRecordValue string `json:"resource_record_value"`
 }

@@ -52,22 +52,22 @@ type CognitoUserPoolClientSpec struct {
 
 // A CognitoUserPoolClientParameters defines the desired state of a CognitoUserPoolClient
 type CognitoUserPoolClientParameters struct {
-	RefreshTokenValidity            int64                  `json:"refresh_token_validity"`
-	UserPoolId                      string                 `json:"user_pool_id"`
 	WriteAttributes                 []string               `json:"write_attributes"`
-	LogoutUrls                      []string               `json:"logout_urls"`
-	Name                            string                 `json:"name"`
+	AllowedOauthFlowsUserPoolClient bool                   `json:"allowed_oauth_flows_user_pool_client"`
+	AllowedOauthScopes              []string               `json:"allowed_oauth_scopes"`
+	ReadAttributes                  []string               `json:"read_attributes"`
+	ExplicitAuthFlows               []string               `json:"explicit_auth_flows"`
 	PreventUserExistenceErrors      string                 `json:"prevent_user_existence_errors"`
-	SupportedIdentityProviders      []string               `json:"supported_identity_providers"`
-	CallbackUrls                    []string               `json:"callback_urls"`
+	UserPoolId                      string                 `json:"user_pool_id"`
 	GenerateSecret                  bool                   `json:"generate_secret"`
 	Id                              string                 `json:"id"`
-	ReadAttributes                  []string               `json:"read_attributes"`
-	AllowedOauthScopes              []string               `json:"allowed_oauth_scopes"`
-	ExplicitAuthFlows               []string               `json:"explicit_auth_flows"`
-	DefaultRedirectUri              string                 `json:"default_redirect_uri"`
 	AllowedOauthFlows               []string               `json:"allowed_oauth_flows"`
-	AllowedOauthFlowsUserPoolClient bool                   `json:"allowed_oauth_flows_user_pool_client"`
+	CallbackUrls                    []string               `json:"callback_urls"`
+	DefaultRedirectUri              string                 `json:"default_redirect_uri"`
+	RefreshTokenValidity            int64                  `json:"refresh_token_validity"`
+	SupportedIdentityProviders      []string               `json:"supported_identity_providers"`
+	LogoutUrls                      []string               `json:"logout_urls"`
+	Name                            string                 `json:"name"`
 	AnalyticsConfiguration          AnalyticsConfiguration `json:"analytics_configuration"`
 }
 

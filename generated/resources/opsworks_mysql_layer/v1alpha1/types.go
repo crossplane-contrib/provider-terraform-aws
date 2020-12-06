@@ -52,29 +52,29 @@ type OpsworksMysqlLayerSpec struct {
 
 // A OpsworksMysqlLayerParameters defines the desired state of a OpsworksMysqlLayer
 type OpsworksMysqlLayerParameters struct {
-	CustomJson                 string            `json:"custom_json"`
-	CustomSecurityGroupIds     []string          `json:"custom_security_group_ids"`
-	InstallUpdatesOnBoot       bool              `json:"install_updates_on_boot"`
-	SystemPackages             []string          `json:"system_packages"`
-	AutoAssignPublicIps        bool              `json:"auto_assign_public_ips"`
-	AutoHealing                bool              `json:"auto_healing"`
-	CustomSetupRecipes         []string          `json:"custom_setup_recipes"`
 	Id                         string            `json:"id"`
-	Name                       string            `json:"name"`
+	StackId                    string            `json:"stack_id"`
+	AutoAssignPublicIps        bool              `json:"auto_assign_public_ips"`
 	CustomDeployRecipes        []string          `json:"custom_deploy_recipes"`
-	CustomShutdownRecipes      []string          `json:"custom_shutdown_recipes"`
+	CustomSetupRecipes         []string          `json:"custom_setup_recipes"`
 	CustomUndeployRecipes      []string          `json:"custom_undeploy_recipes"`
-	DrainElbOnShutdown         bool              `json:"drain_elb_on_shutdown"`
+	AutoHealing                bool              `json:"auto_healing"`
+	CustomConfigureRecipes     []string          `json:"custom_configure_recipes"`
+	CustomSecurityGroupIds     []string          `json:"custom_security_group_ids"`
 	ElasticLoadBalancer        string            `json:"elastic_load_balancer"`
 	InstanceShutdownTimeout    int64             `json:"instance_shutdown_timeout"`
-	RootPassword               string            `json:"root_password"`
-	CustomConfigureRecipes     []string          `json:"custom_configure_recipes"`
-	UseEbsOptimizedInstances   bool              `json:"use_ebs_optimized_instances"`
-	Tags                       map[string]string `json:"tags"`
 	CustomInstanceProfileArn   string            `json:"custom_instance_profile_arn"`
+	CustomShutdownRecipes      []string          `json:"custom_shutdown_recipes"`
+	InstallUpdatesOnBoot       bool              `json:"install_updates_on_boot"`
+	Name                       string            `json:"name"`
+	RootPassword               string            `json:"root_password"`
 	RootPasswordOnAllInstances bool              `json:"root_password_on_all_instances"`
-	StackId                    string            `json:"stack_id"`
+	SystemPackages             []string          `json:"system_packages"`
 	AutoAssignElasticIps       bool              `json:"auto_assign_elastic_ips"`
+	CustomJson                 string            `json:"custom_json"`
+	DrainElbOnShutdown         bool              `json:"drain_elb_on_shutdown"`
+	Tags                       map[string]string `json:"tags"`
+	UseEbsOptimizedInstances   bool              `json:"use_ebs_optimized_instances"`
 	EbsVolume                  EbsVolume         `json:"ebs_volume"`
 }
 

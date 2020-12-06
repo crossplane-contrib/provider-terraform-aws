@@ -46,16 +46,12 @@ func EncodeRedshiftSecurityGroup_Ingress(p []Ingress, vals map[string]cty.Value)
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeRedshiftSecurityGroup_Ingress_SecurityGroupName(v, ctyVal)
 		EncodeRedshiftSecurityGroup_Ingress_SecurityGroupOwnerId(v, ctyVal)
 		EncodeRedshiftSecurityGroup_Ingress_Cidr(v, ctyVal)
+		EncodeRedshiftSecurityGroup_Ingress_SecurityGroupName(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["ingress"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeRedshiftSecurityGroup_Ingress_SecurityGroupName(p Ingress, vals map[string]cty.Value) {
-	vals["security_group_name"] = cty.StringVal(p.SecurityGroupName)
 }
 
 func EncodeRedshiftSecurityGroup_Ingress_SecurityGroupOwnerId(p Ingress, vals map[string]cty.Value) {
@@ -64,4 +60,8 @@ func EncodeRedshiftSecurityGroup_Ingress_SecurityGroupOwnerId(p Ingress, vals ma
 
 func EncodeRedshiftSecurityGroup_Ingress_Cidr(p Ingress, vals map[string]cty.Value) {
 	vals["cidr"] = cty.StringVal(p.Cidr)
+}
+
+func EncodeRedshiftSecurityGroup_Ingress_SecurityGroupName(p Ingress, vals map[string]cty.Value) {
+	vals["security_group_name"] = cty.StringVal(p.SecurityGroupName)
 }

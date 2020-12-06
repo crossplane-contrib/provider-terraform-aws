@@ -52,8 +52,8 @@ type GlueDataCatalogEncryptionSettingsSpec struct {
 
 // A GlueDataCatalogEncryptionSettingsParameters defines the desired state of a GlueDataCatalogEncryptionSettings
 type GlueDataCatalogEncryptionSettingsParameters struct {
-	CatalogId                     string                        `json:"catalog_id"`
 	Id                            string                        `json:"id"`
+	CatalogId                     string                        `json:"catalog_id"`
 	DataCatalogEncryptionSettings DataCatalogEncryptionSettings `json:"data_catalog_encryption_settings"`
 }
 

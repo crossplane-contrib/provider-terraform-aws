@@ -52,14 +52,14 @@ type SsmDocumentSpec struct {
 
 // A SsmDocumentParameters defines the desired state of a SsmDocument
 type SsmDocumentParameters struct {
-	Tags              map[string]string `json:"tags"`
-	Id                string            `json:"id"`
-	DocumentType      string            `json:"document_type"`
-	TargetType        string            `json:"target_type"`
-	Name              string            `json:"name"`
-	Content           string            `json:"content"`
 	DocumentFormat    string            `json:"document_format"`
+	Id                string            `json:"id"`
+	TargetType        string            `json:"target_type"`
+	Content           string            `json:"content"`
+	DocumentType      string            `json:"document_type"`
+	Name              string            `json:"name"`
 	Permissions       map[string]string `json:"permissions"`
+	Tags              map[string]string `json:"tags"`
 	AttachmentsSource AttachmentsSource `json:"attachments_source"`
 }
 
@@ -77,24 +77,24 @@ type SsmDocumentStatus struct {
 
 // A SsmDocumentObservation records the observed state of a SsmDocument
 type SsmDocumentObservation struct {
-	CreatedDate     string      `json:"created_date"`
-	DocumentVersion string      `json:"document_version"`
-	Owner           string      `json:"owner"`
-	Hash            string      `json:"hash"`
-	Parameter       []Parameter `json:"parameter"`
-	Status          string      `json:"status"`
-	HashType        string      `json:"hash_type"`
-	LatestVersion   string      `json:"latest_version"`
 	Arn             string      `json:"arn"`
+	HashType        string      `json:"hash_type"`
+	Owner           string      `json:"owner"`
+	Parameter       []Parameter `json:"parameter"`
 	DefaultVersion  string      `json:"default_version"`
-	Description     string      `json:"description"`
-	PlatformTypes   []string    `json:"platform_types"`
+	DocumentVersion string      `json:"document_version"`
 	SchemaVersion   string      `json:"schema_version"`
+	Description     string      `json:"description"`
+	LatestVersion   string      `json:"latest_version"`
+	Status          string      `json:"status"`
+	CreatedDate     string      `json:"created_date"`
+	Hash            string      `json:"hash"`
+	PlatformTypes   []string    `json:"platform_types"`
 }
 
 type Parameter struct {
-	Type         string `json:"type"`
 	DefaultValue string `json:"default_value"`
 	Description  string `json:"description"`
 	Name         string `json:"name"`
+	Type         string `json:"type"`
 }

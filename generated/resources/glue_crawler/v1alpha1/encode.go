@@ -24,15 +24,15 @@ func EncodeGlueCrawler(r GlueCrawler) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeGlueCrawler_Configuration(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_DatabaseName(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Description(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Schedule(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_SecurityConfiguration(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Classifiers(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Role(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_TablePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Classifiers(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Role(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Schedule(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Description(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_CatalogTarget(r.Spec.ForProvider.CatalogTarget, ctyVal)
 	EncodeGlueCrawler_DynamodbTarget(r.Spec.ForProvider.DynamodbTarget, ctyVal)
 	EncodeGlueCrawler_JdbcTarget(r.Spec.ForProvider.JdbcTarget, ctyVal)
@@ -50,12 +50,36 @@ func EncodeGlueCrawler_DatabaseName(p GlueCrawlerParameters, vals map[string]cty
 	vals["database_name"] = cty.StringVal(p.DatabaseName)
 }
 
-func EncodeGlueCrawler_Id(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeGlueCrawler_Description(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeGlueCrawler_Schedule(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["schedule"] = cty.StringVal(p.Schedule)
 }
 
 func EncodeGlueCrawler_SecurityConfiguration(p GlueCrawlerParameters, vals map[string]cty.Value) {
 	vals["security_configuration"] = cty.StringVal(p.SecurityConfiguration)
+}
+
+func EncodeGlueCrawler_Classifiers(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Classifiers {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["classifiers"] = cty.ListVal(colVals)
+}
+
+func EncodeGlueCrawler_Id(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGlueCrawler_Name(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeGlueCrawler_Role(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["role"] = cty.StringVal(p.Role)
 }
 
 func EncodeGlueCrawler_TablePrefix(p GlueCrawlerParameters, vals map[string]cty.Value) {
@@ -68,30 +92,6 @@ func EncodeGlueCrawler_Tags(p GlueCrawlerParameters, vals map[string]cty.Value) 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeGlueCrawler_Classifiers(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Classifiers {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["classifiers"] = cty.ListVal(colVals)
-}
-
-func EncodeGlueCrawler_Role(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["role"] = cty.StringVal(p.Role)
-}
-
-func EncodeGlueCrawler_Schedule(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["schedule"] = cty.StringVal(p.Schedule)
-}
-
-func EncodeGlueCrawler_Description(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeGlueCrawler_Name(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeGlueCrawler_CatalogTarget(p CatalogTarget, vals map[string]cty.Value) {
@@ -118,15 +118,11 @@ func EncodeGlueCrawler_CatalogTarget_Tables(p CatalogTarget, vals map[string]cty
 func EncodeGlueCrawler_DynamodbTarget(p DynamodbTarget, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueCrawler_DynamodbTarget_ScanRate(p, ctyVal)
 	EncodeGlueCrawler_DynamodbTarget_Path(p, ctyVal)
 	EncodeGlueCrawler_DynamodbTarget_ScanAll(p, ctyVal)
+	EncodeGlueCrawler_DynamodbTarget_ScanRate(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["dynamodb_target"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlueCrawler_DynamodbTarget_ScanRate(p DynamodbTarget, vals map[string]cty.Value) {
-	vals["scan_rate"] = cty.NumberIntVal(p.ScanRate)
 }
 
 func EncodeGlueCrawler_DynamodbTarget_Path(p DynamodbTarget, vals map[string]cty.Value) {
@@ -137,14 +133,22 @@ func EncodeGlueCrawler_DynamodbTarget_ScanAll(p DynamodbTarget, vals map[string]
 	vals["scan_all"] = cty.BoolVal(p.ScanAll)
 }
 
+func EncodeGlueCrawler_DynamodbTarget_ScanRate(p DynamodbTarget, vals map[string]cty.Value) {
+	vals["scan_rate"] = cty.NumberIntVal(p.ScanRate)
+}
+
 func EncodeGlueCrawler_JdbcTarget(p JdbcTarget, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueCrawler_JdbcTarget_ConnectionName(p, ctyVal)
 	EncodeGlueCrawler_JdbcTarget_Exclusions(p, ctyVal)
 	EncodeGlueCrawler_JdbcTarget_Path(p, ctyVal)
-	EncodeGlueCrawler_JdbcTarget_ConnectionName(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["jdbc_target"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGlueCrawler_JdbcTarget_ConnectionName(p JdbcTarget, vals map[string]cty.Value) {
+	vals["connection_name"] = cty.StringVal(p.ConnectionName)
 }
 
 func EncodeGlueCrawler_JdbcTarget_Exclusions(p JdbcTarget, vals map[string]cty.Value) {
@@ -157,10 +161,6 @@ func EncodeGlueCrawler_JdbcTarget_Exclusions(p JdbcTarget, vals map[string]cty.V
 
 func EncodeGlueCrawler_JdbcTarget_Path(p JdbcTarget, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
-}
-
-func EncodeGlueCrawler_JdbcTarget_ConnectionName(p JdbcTarget, vals map[string]cty.Value) {
-	vals["connection_name"] = cty.StringVal(p.ConnectionName)
 }
 
 func EncodeGlueCrawler_S3Target(p S3Target, vals map[string]cty.Value) {

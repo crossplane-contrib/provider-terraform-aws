@@ -52,17 +52,17 @@ type SsmParameterSpec struct {
 
 // A SsmParameterParameters defines the desired state of a SsmParameter
 type SsmParameterParameters struct {
-	Tier           string            `json:"tier"`
 	AllowedPattern string            `json:"allowed_pattern"`
-	DataType       string            `json:"data_type"`
-	Description    string            `json:"description"`
-	KeyId          string            `json:"key_id"`
-	Overwrite      bool              `json:"overwrite"`
-	Value          string            `json:"value"`
 	Arn            string            `json:"arn"`
+	Description    string            `json:"description"`
 	Id             string            `json:"id"`
+	KeyId          string            `json:"key_id"`
 	Name           string            `json:"name"`
+	Overwrite      bool              `json:"overwrite"`
 	Tags           map[string]string `json:"tags"`
+	Value          string            `json:"value"`
+	DataType       string            `json:"data_type"`
+	Tier           string            `json:"tier"`
 	Type           string            `json:"type"`
 }
 

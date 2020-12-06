@@ -52,12 +52,12 @@ type InspectorAssessmentTemplateSpec struct {
 
 // A InspectorAssessmentTemplateParameters defines the desired state of a InspectorAssessmentTemplate
 type InspectorAssessmentTemplateParameters struct {
+	TargetArn        string            `json:"target_arn"`
+	Duration         int64             `json:"duration"`
 	Id               string            `json:"id"`
 	Name             string            `json:"name"`
 	RulesPackageArns []string          `json:"rules_package_arns"`
 	Tags             map[string]string `json:"tags"`
-	TargetArn        string            `json:"target_arn"`
-	Duration         int64             `json:"duration"`
 }
 
 // A InspectorAssessmentTemplateStatus defines the observed state of a InspectorAssessmentTemplate

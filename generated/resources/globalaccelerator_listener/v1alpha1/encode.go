@@ -22,17 +22,13 @@ import (
 
 func EncodeGlobalacceleratorListener(r GlobalacceleratorListener) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlobalacceleratorListener_AcceleratorArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_ClientAffinity(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_Protocol(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorListener_AcceleratorArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_PortRange(r.Spec.ForProvider.PortRange, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGlobalacceleratorListener_AcceleratorArn(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
-	vals["accelerator_arn"] = cty.StringVal(p.AcceleratorArn)
 }
 
 func EncodeGlobalacceleratorListener_ClientAffinity(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
@@ -47,21 +43,25 @@ func EncodeGlobalacceleratorListener_Protocol(p GlobalacceleratorListenerParamet
 	vals["protocol"] = cty.StringVal(p.Protocol)
 }
 
+func EncodeGlobalacceleratorListener_AcceleratorArn(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
+	vals["accelerator_arn"] = cty.StringVal(p.AcceleratorArn)
+}
+
 func EncodeGlobalacceleratorListener_PortRange(p []PortRange, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeGlobalacceleratorListener_PortRange_FromPort(v, ctyVal)
 		EncodeGlobalacceleratorListener_PortRange_ToPort(v, ctyVal)
+		EncodeGlobalacceleratorListener_PortRange_FromPort(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["port_range"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeGlobalacceleratorListener_PortRange_FromPort(p PortRange, vals map[string]cty.Value) {
-	vals["from_port"] = cty.NumberIntVal(p.FromPort)
-}
-
 func EncodeGlobalacceleratorListener_PortRange_ToPort(p PortRange, vals map[string]cty.Value) {
 	vals["to_port"] = cty.NumberIntVal(p.ToPort)
+}
+
+func EncodeGlobalacceleratorListener_PortRange_FromPort(p PortRange, vals map[string]cty.Value) {
+	vals["from_port"] = cty.NumberIntVal(p.FromPort)
 }

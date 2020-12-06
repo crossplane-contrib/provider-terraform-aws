@@ -22,18 +22,14 @@ import (
 
 func EncodeDlmLifecyclePolicy(r DlmLifecyclePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDlmLifecyclePolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_ExecutionRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_State(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDlmLifecyclePolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_PolicyDetails(r.Spec.ForProvider.PolicyDetails, ctyVal)
 	EncodeDlmLifecyclePolicy_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDlmLifecyclePolicy_Description(p DlmLifecyclePolicyParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeDlmLifecyclePolicy_ExecutionRoleArn(p DlmLifecyclePolicyParameters, vals map[string]cty.Value) {
@@ -54,6 +50,10 @@ func EncodeDlmLifecyclePolicy_Tags(p DlmLifecyclePolicyParameters, vals map[stri
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDlmLifecyclePolicy_Description(p DlmLifecyclePolicyParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeDlmLifecyclePolicy_PolicyDetails(p PolicyDetails, vals map[string]cty.Value) {
@@ -89,8 +89,8 @@ func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule(p []Schedule, vals map[stri
 		EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CopyTags(v, ctyVal)
 		EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_Name(v, ctyVal)
 		EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_TagsToAdd(v, ctyVal)
-		EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule(v.CreateRule, ctyVal)
 		EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule(v.RetainRule, ctyVal)
+		EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule(v.CreateRule, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["schedule"] = cty.ListVal(valsForCollection)
@@ -110,6 +110,18 @@ func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_TagsToAdd(p Schedule, vals 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags_to_add"] = cty.MapVal(mVals)
+}
+
+func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule(p RetainRule, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule_Count(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["retain_rule"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule_Count(p RetainRule, vals map[string]cty.Value) {
+	vals["count"] = cty.NumberIntVal(p.Count)
 }
 
 func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule(p CreateRule, vals map[string]cty.Value) {
@@ -136,18 +148,6 @@ func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Times(p CreateRu
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["times"] = cty.ListVal(colVals)
-}
-
-func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule(p RetainRule, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule_Count(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["retain_rule"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule_Count(p RetainRule, vals map[string]cty.Value) {
-	vals["count"] = cty.NumberIntVal(p.Count)
 }
 
 func EncodeDlmLifecyclePolicy_Arn(p DlmLifecyclePolicyObservation, vals map[string]cty.Value) {

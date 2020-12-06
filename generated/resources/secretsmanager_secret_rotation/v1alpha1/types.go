@@ -52,10 +52,10 @@ type SecretsmanagerSecretRotationSpec struct {
 
 // A SecretsmanagerSecretRotationParameters defines the desired state of a SecretsmanagerSecretRotation
 type SecretsmanagerSecretRotationParameters struct {
-	SecretId          string            `json:"secret_id"`
-	Tags              map[string]string `json:"tags"`
 	Id                string            `json:"id"`
 	RotationLambdaArn string            `json:"rotation_lambda_arn"`
+	SecretId          string            `json:"secret_id"`
+	Tags              map[string]string `json:"tags"`
 	RotationRules     RotationRules     `json:"rotation_rules"`
 }
 

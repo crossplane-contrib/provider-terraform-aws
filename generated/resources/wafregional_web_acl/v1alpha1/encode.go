@@ -26,9 +26,9 @@ func EncodeWafregionalWebAcl(r WafregionalWebAcl) cty.Value {
 	EncodeWafregionalWebAcl_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAcl_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAcl_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalWebAcl_LoggingConfiguration(r.Spec.ForProvider.LoggingConfiguration, ctyVal)
 	EncodeWafregionalWebAcl_Rule(r.Spec.ForProvider.Rule, ctyVal)
 	EncodeWafregionalWebAcl_DefaultAction(r.Spec.ForProvider.DefaultAction, ctyVal)
-	EncodeWafregionalWebAcl_LoggingConfiguration(r.Spec.ForProvider.LoggingConfiguration, ctyVal)
 	EncodeWafregionalWebAcl_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
@@ -51,6 +51,46 @@ func EncodeWafregionalWebAcl_Tags(p WafregionalWebAclParameters, vals map[string
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeWafregionalWebAcl_LoggingConfiguration(p LoggingConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalWebAcl_LoggingConfiguration_LogDestination(p, ctyVal)
+	EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields(p.RedactedFields, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["logging_configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWafregionalWebAcl_LoggingConfiguration_LogDestination(p LoggingConfiguration, vals map[string]cty.Value) {
+	vals["log_destination"] = cty.StringVal(p.LogDestination)
+}
+
+func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields(p RedactedFields, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch(p.FieldToMatch, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["redacted_fields"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch(p []FieldToMatch, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Data(v, ctyVal)
+		EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Type(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["field_to_match"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Data(p FieldToMatch, vals map[string]cty.Value) {
+	vals["data"] = cty.StringVal(p.Data)
+}
+
+func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Type(p FieldToMatch, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafregionalWebAcl_Rule(p Rule, vals map[string]cty.Value) {
@@ -110,46 +150,6 @@ func EncodeWafregionalWebAcl_DefaultAction(p DefaultAction, vals map[string]cty.
 }
 
 func EncodeWafregionalWebAcl_DefaultAction_Type(p DefaultAction, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeWafregionalWebAcl_LoggingConfiguration(p LoggingConfiguration, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalWebAcl_LoggingConfiguration_LogDestination(p, ctyVal)
-	EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields(p.RedactedFields, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["logging_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeWafregionalWebAcl_LoggingConfiguration_LogDestination(p LoggingConfiguration, vals map[string]cty.Value) {
-	vals["log_destination"] = cty.StringVal(p.LogDestination)
-}
-
-func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields(p RedactedFields, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch(p.FieldToMatch, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["redacted_fields"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch(p []FieldToMatch, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Data(v, ctyVal)
-		EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["field_to_match"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Data(p FieldToMatch, vals map[string]cty.Value) {
-	vals["data"] = cty.StringVal(p.Data)
-}
-
-func EncodeWafregionalWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Type(p FieldToMatch, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 

@@ -22,16 +22,20 @@ import (
 
 func EncodeAppmeshMesh(r AppmeshMesh) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshMesh_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeAppmeshMesh_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Spec(r.Spec.ForProvider.Spec, ctyVal)
+	EncodeAppmeshMesh_LastUpdatedDate(r.Status.AtProvider, ctyVal)
+	EncodeAppmeshMesh_MeshOwner(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_ResourceOwner(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_Arn(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_CreatedDate(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshMesh_LastUpdatedDate(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshMesh_MeshOwner(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAppmeshMesh_Id(p AppmeshMeshParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppmeshMesh_Name(p AppmeshMeshParameters, vals map[string]cty.Value) {
@@ -44,10 +48,6 @@ func EncodeAppmeshMesh_Tags(p AppmeshMeshParameters, vals map[string]cty.Value) 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeAppmeshMesh_Id(p AppmeshMeshParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppmeshMesh_Spec(p Spec, vals map[string]cty.Value) {
@@ -70,6 +70,14 @@ func EncodeAppmeshMesh_Spec_EgressFilter_Type(p EgressFilter, vals map[string]ct
 	vals["type"] = cty.StringVal(p.Type)
 }
 
+func EncodeAppmeshMesh_LastUpdatedDate(p AppmeshMeshObservation, vals map[string]cty.Value) {
+	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
+}
+
+func EncodeAppmeshMesh_MeshOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
+	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
+}
+
 func EncodeAppmeshMesh_ResourceOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
 }
@@ -80,12 +88,4 @@ func EncodeAppmeshMesh_Arn(p AppmeshMeshObservation, vals map[string]cty.Value) 
 
 func EncodeAppmeshMesh_CreatedDate(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
-}
-
-func EncodeAppmeshMesh_LastUpdatedDate(p AppmeshMeshObservation, vals map[string]cty.Value) {
-	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
-}
-
-func EncodeAppmeshMesh_MeshOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
-	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
 }

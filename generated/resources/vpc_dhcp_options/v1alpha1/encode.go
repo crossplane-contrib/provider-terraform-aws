@@ -22,20 +22,20 @@ import (
 
 func EncodeVpcDhcpOptions(r VpcDhcpOptions) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcDhcpOptions_DomainName(r.Spec.ForProvider, ctyVal)
+	EncodeVpcDhcpOptions_NetbiosNodeType(r.Spec.ForProvider, ctyVal)
 	EncodeVpcDhcpOptions_NtpServers(r.Spec.ForProvider, ctyVal)
 	EncodeVpcDhcpOptions_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeVpcDhcpOptions_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeVpcDhcpOptions_DomainNameServers(r.Spec.ForProvider, ctyVal)
 	EncodeVpcDhcpOptions_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcDhcpOptions_NetbiosNameServers(r.Spec.ForProvider, ctyVal)
-	EncodeVpcDhcpOptions_NetbiosNodeType(r.Spec.ForProvider, ctyVal)
 	EncodeVpcDhcpOptions_Arn(r.Status.AtProvider, ctyVal)
 	EncodeVpcDhcpOptions_OwnerId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcDhcpOptions_DomainName(p VpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	vals["domain_name"] = cty.StringVal(p.DomainName)
+func EncodeVpcDhcpOptions_NetbiosNodeType(p VpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	vals["netbios_node_type"] = cty.StringVal(p.NetbiosNodeType)
 }
 
 func EncodeVpcDhcpOptions_NtpServers(p VpcDhcpOptionsParameters, vals map[string]cty.Value) {
@@ -52,6 +52,10 @@ func EncodeVpcDhcpOptions_Tags(p VpcDhcpOptionsParameters, vals map[string]cty.V
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeVpcDhcpOptions_DomainName(p VpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
 func EncodeVpcDhcpOptions_DomainNameServers(p VpcDhcpOptionsParameters, vals map[string]cty.Value) {
@@ -72,10 +76,6 @@ func EncodeVpcDhcpOptions_NetbiosNameServers(p VpcDhcpOptionsParameters, vals ma
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["netbios_name_servers"] = cty.ListVal(colVals)
-}
-
-func EncodeVpcDhcpOptions_NetbiosNodeType(p VpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	vals["netbios_node_type"] = cty.StringVal(p.NetbiosNodeType)
 }
 
 func EncodeVpcDhcpOptions_Arn(p VpcDhcpOptionsObservation, vals map[string]cty.Value) {

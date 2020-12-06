@@ -65,8 +65,8 @@ type IotCertificateStatus struct {
 
 // A IotCertificateObservation records the observed state of a IotCertificate
 type IotCertificateObservation struct {
-	PrivateKey     string `json:"private_key"`
-	PublicKey      string `json:"public_key"`
 	Arn            string `json:"arn"`
 	CertificatePem string `json:"certificate_pem"`
+	PrivateKey     string `json:"private_key"`
+	PublicKey      string `json:"public_key"`
 }

@@ -52,23 +52,23 @@ type WorkspacesWorkspaceSpec struct {
 
 // A WorkspacesWorkspaceParameters defines the desired state of a WorkspacesWorkspace
 type WorkspacesWorkspaceParameters struct {
-	BundleId                    string              `json:"bundle_id"`
-	DirectoryId                 string              `json:"directory_id"`
-	Id                          string              `json:"id"`
-	RootVolumeEncryptionEnabled bool                `json:"root_volume_encryption_enabled"`
+	Tags                        map[string]string   `json:"tags"`
 	UserName                    string              `json:"user_name"`
 	UserVolumeEncryptionEnabled bool                `json:"user_volume_encryption_enabled"`
+	DirectoryId                 string              `json:"directory_id"`
 	VolumeEncryptionKey         string              `json:"volume_encryption_key"`
-	Tags                        map[string]string   `json:"tags"`
+	BundleId                    string              `json:"bundle_id"`
+	Id                          string              `json:"id"`
+	RootVolumeEncryptionEnabled bool                `json:"root_volume_encryption_enabled"`
 	WorkspaceProperties         WorkspaceProperties `json:"workspace_properties"`
 }
 
 type WorkspaceProperties struct {
+	ComputeTypeName                     string `json:"compute_type_name"`
+	RootVolumeSizeGib                   int64  `json:"root_volume_size_gib"`
 	RunningMode                         string `json:"running_mode"`
 	RunningModeAutoStopTimeoutInMinutes int64  `json:"running_mode_auto_stop_timeout_in_minutes"`
 	UserVolumeSizeGib                   int64  `json:"user_volume_size_gib"`
-	ComputeTypeName                     string `json:"compute_type_name"`
-	RootVolumeSizeGib                   int64  `json:"root_volume_size_gib"`
 }
 
 // A WorkspacesWorkspaceStatus defines the observed state of a WorkspacesWorkspace

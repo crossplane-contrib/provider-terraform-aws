@@ -22,23 +22,35 @@ import (
 
 func EncodeEmrInstanceGroup(r EmrInstanceGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEmrInstanceGroup_AutoscalingPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeEmrInstanceGroup_BidPrice(r.Spec.ForProvider, ctyVal)
+	EncodeEmrInstanceGroup_ConfigurationsJson(r.Spec.ForProvider, ctyVal)
+	EncodeEmrInstanceGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeEmrInstanceGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceGroup_InstanceCount(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceGroup_InstanceType(r.Spec.ForProvider, ctyVal)
-	EncodeEmrInstanceGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeEmrInstanceGroup_BidPrice(r.Spec.ForProvider, ctyVal)
+	EncodeEmrInstanceGroup_AutoscalingPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceGroup_ClusterId(r.Spec.ForProvider, ctyVal)
-	EncodeEmrInstanceGroup_ConfigurationsJson(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceGroup_EbsOptimized(r.Spec.ForProvider, ctyVal)
-	EncodeEmrInstanceGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceGroup_EbsConfig(r.Spec.ForProvider.EbsConfig, ctyVal)
-	EncodeEmrInstanceGroup_Status(r.Status.AtProvider, ctyVal)
 	EncodeEmrInstanceGroup_RunningInstanceCount(r.Status.AtProvider, ctyVal)
+	EncodeEmrInstanceGroup_Status(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEmrInstanceGroup_AutoscalingPolicy(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
-	vals["autoscaling_policy"] = cty.StringVal(p.AutoscalingPolicy)
+func EncodeEmrInstanceGroup_BidPrice(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
+	vals["bid_price"] = cty.StringVal(p.BidPrice)
+}
+
+func EncodeEmrInstanceGroup_ConfigurationsJson(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
+	vals["configurations_json"] = cty.StringVal(p.ConfigurationsJson)
+}
+
+func EncodeEmrInstanceGroup_Name(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeEmrInstanceGroup_Id(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEmrInstanceGroup_InstanceCount(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
@@ -49,28 +61,16 @@ func EncodeEmrInstanceGroup_InstanceType(p EmrInstanceGroupParameters, vals map[
 	vals["instance_type"] = cty.StringVal(p.InstanceType)
 }
 
-func EncodeEmrInstanceGroup_Name(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeEmrInstanceGroup_BidPrice(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
-	vals["bid_price"] = cty.StringVal(p.BidPrice)
+func EncodeEmrInstanceGroup_AutoscalingPolicy(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
+	vals["autoscaling_policy"] = cty.StringVal(p.AutoscalingPolicy)
 }
 
 func EncodeEmrInstanceGroup_ClusterId(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
 	vals["cluster_id"] = cty.StringVal(p.ClusterId)
 }
 
-func EncodeEmrInstanceGroup_ConfigurationsJson(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
-	vals["configurations_json"] = cty.StringVal(p.ConfigurationsJson)
-}
-
 func EncodeEmrInstanceGroup_EbsOptimized(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
 	vals["ebs_optimized"] = cty.BoolVal(p.EbsOptimized)
-}
-
-func EncodeEmrInstanceGroup_Id(p EmrInstanceGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEmrInstanceGroup_EbsConfig(p EbsConfig, vals map[string]cty.Value) {
@@ -100,10 +100,10 @@ func EncodeEmrInstanceGroup_EbsConfig_VolumesPerInstance(p EbsConfig, vals map[s
 	vals["volumes_per_instance"] = cty.NumberIntVal(p.VolumesPerInstance)
 }
 
-func EncodeEmrInstanceGroup_Status(p EmrInstanceGroupObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
 func EncodeEmrInstanceGroup_RunningInstanceCount(p EmrInstanceGroupObservation, vals map[string]cty.Value) {
 	vals["running_instance_count"] = cty.NumberIntVal(p.RunningInstanceCount)
+}
+
+func EncodeEmrInstanceGroup_Status(p EmrInstanceGroupObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
 }

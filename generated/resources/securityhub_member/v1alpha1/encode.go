@@ -22,17 +22,13 @@ import (
 
 func EncodeSecurityhubMember(r SecurityhubMember) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecurityhubMember_Email(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Invite(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_AccountId(r.Spec.ForProvider, ctyVal)
+	EncodeSecurityhubMember_Email(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_MasterId(r.Status.AtProvider, ctyVal)
 	EncodeSecurityhubMember_MemberStatus(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecurityhubMember_Email(p SecurityhubMemberParameters, vals map[string]cty.Value) {
-	vals["email"] = cty.StringVal(p.Email)
 }
 
 func EncodeSecurityhubMember_Id(p SecurityhubMemberParameters, vals map[string]cty.Value) {
@@ -45,6 +41,10 @@ func EncodeSecurityhubMember_Invite(p SecurityhubMemberParameters, vals map[stri
 
 func EncodeSecurityhubMember_AccountId(p SecurityhubMemberParameters, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
+}
+
+func EncodeSecurityhubMember_Email(p SecurityhubMemberParameters, vals map[string]cty.Value) {
+	vals["email"] = cty.StringVal(p.Email)
 }
 
 func EncodeSecurityhubMember_MasterId(p SecurityhubMemberObservation, vals map[string]cty.Value) {

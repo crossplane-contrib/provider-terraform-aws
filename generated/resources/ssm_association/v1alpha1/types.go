@@ -52,24 +52,24 @@ type SsmAssociationSpec struct {
 
 // A SsmAssociationParameters defines the desired state of a SsmAssociation
 type SsmAssociationParameters struct {
-	Parameters                    map[string]string `json:"parameters"`
+	MaxErrors                     string            `json:"max_errors"`
+	DocumentVersion               string            `json:"document_version"`
+	Id                            string            `json:"id"`
+	InstanceId                    string            `json:"instance_id"`
+	MaxConcurrency                string            `json:"max_concurrency"`
 	AssociationName               string            `json:"association_name"`
 	AutomationTargetParameterName string            `json:"automation_target_parameter_name"`
 	ComplianceSeverity            string            `json:"compliance_severity"`
-	Id                            string            `json:"id"`
-	InstanceId                    string            `json:"instance_id"`
-	MaxErrors                     string            `json:"max_errors"`
 	Name                          string            `json:"name"`
-	DocumentVersion               string            `json:"document_version"`
-	MaxConcurrency                string            `json:"max_concurrency"`
+	Parameters                    map[string]string `json:"parameters"`
 	ScheduleExpression            string            `json:"schedule_expression"`
 	OutputLocation                OutputLocation    `json:"output_location"`
 	Targets                       []Targets         `json:"targets"`
 }
 
 type OutputLocation struct {
-	S3KeyPrefix  string `json:"s3_key_prefix"`
 	S3BucketName string `json:"s3_bucket_name"`
+	S3KeyPrefix  string `json:"s3_key_prefix"`
 }
 
 type Targets struct {

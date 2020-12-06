@@ -52,40 +52,34 @@ type GluePartitionSpec struct {
 
 // A GluePartitionParameters defines the desired state of a GluePartition
 type GluePartitionParameters struct {
-	Id                string            `json:"id"`
-	PartitionValues   []string          `json:"partition_values"`
-	DatabaseName      string            `json:"database_name"`
-	Parameters        map[string]string `json:"parameters"`
 	TableName         string            `json:"table_name"`
+	Parameters        map[string]string `json:"parameters"`
+	PartitionValues   []string          `json:"partition_values"`
 	CatalogId         string            `json:"catalog_id"`
+	DatabaseName      string            `json:"database_name"`
+	Id                string            `json:"id"`
 	StorageDescriptor StorageDescriptor `json:"storage_descriptor"`
 }
 
 type StorageDescriptor struct {
+	InputFormat            string            `json:"input_format"`
+	Location               string            `json:"location"`
+	NumberOfBuckets        int64             `json:"number_of_buckets"`
 	OutputFormat           string            `json:"output_format"`
 	Parameters             map[string]string `json:"parameters"`
 	StoredAsSubDirectories bool              `json:"stored_as_sub_directories"`
 	BucketColumns          []string          `json:"bucket_columns"`
 	Compressed             bool              `json:"compressed"`
-	InputFormat            string            `json:"input_format"`
-	Location               string            `json:"location"`
-	NumberOfBuckets        int64             `json:"number_of_buckets"`
-	Columns                Columns           `json:"columns"`
 	SerDeInfo              SerDeInfo         `json:"ser_de_info"`
 	SkewedInfo             SkewedInfo        `json:"skewed_info"`
 	SortColumns            SortColumns       `json:"sort_columns"`
-}
-
-type Columns struct {
-	Comment string `json:"comment"`
-	Name    string `json:"name"`
-	Type    string `json:"type"`
+	Columns                Columns           `json:"columns"`
 }
 
 type SerDeInfo struct {
-	SerializationLibrary string            `json:"serialization_library"`
 	Name                 string            `json:"name"`
 	Parameters           map[string]string `json:"parameters"`
+	SerializationLibrary string            `json:"serialization_library"`
 }
 
 type SkewedInfo struct {
@@ -99,6 +93,12 @@ type SortColumns struct {
 	SortOrder int64  `json:"sort_order"`
 }
 
+type Columns struct {
+	Comment string `json:"comment"`
+	Name    string `json:"name"`
+	Type    string `json:"type"`
+}
+
 // A GluePartitionStatus defines the observed state of a GluePartition
 type GluePartitionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -107,7 +107,7 @@ type GluePartitionStatus struct {
 
 // A GluePartitionObservation records the observed state of a GluePartition
 type GluePartitionObservation struct {
-	LastAnalyzedTime string `json:"last_analyzed_time"`
 	CreationTime     string `json:"creation_time"`
 	LastAccessedTime string `json:"last_accessed_time"`
+	LastAnalyzedTime string `json:"last_analyzed_time"`
 }

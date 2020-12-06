@@ -82,23 +82,23 @@ type AuthenticateCognito struct {
 }
 
 type AuthenticateOidc struct {
-	ClientSecret                     string            `json:"client_secret"`
-	Scope                            string            `json:"scope"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	ClientId                         string            `json:"client_id"`
 	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	Issuer                           string            `json:"issuer"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	ClientId                         string            `json:"client_id"`
+	Scope                            string            `json:"scope"`
 	SessionTimeout                   int64             `json:"session_timeout"`
 	TokenEndpoint                    string            `json:"token_endpoint"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
 	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	Issuer                           string            `json:"issuer"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	ClientSecret                     string            `json:"client_secret"`
 }
 
 type FixedResponse struct {
+	ContentType string `json:"content_type"`
 	MessageBody string `json:"message_body"`
 	StatusCode  string `json:"status_code"`
-	ContentType string `json:"content_type"`
 }
 
 type Forward struct {
@@ -107,8 +107,8 @@ type Forward struct {
 }
 
 type Stickiness struct {
-	Enabled  bool  `json:"enabled"`
 	Duration int64 `json:"duration"`
+	Enabled  bool  `json:"enabled"`
 }
 
 type TargetGroup struct {
@@ -117,21 +117,30 @@ type TargetGroup struct {
 }
 
 type Redirect struct {
+	Host       string `json:"host"`
 	Path       string `json:"path"`
 	Port       string `json:"port"`
 	Protocol   string `json:"protocol"`
 	Query      string `json:"query"`
 	StatusCode string `json:"status_code"`
-	Host       string `json:"host"`
 }
 
 type Condition struct {
+	PathPattern       PathPattern       `json:"path_pattern"`
+	QueryString       QueryString       `json:"query_string"`
 	SourceIp          SourceIp          `json:"source_ip"`
 	HostHeader        HostHeader        `json:"host_header"`
 	HttpHeader        HttpHeader        `json:"http_header"`
 	HttpRequestMethod HttpRequestMethod `json:"http_request_method"`
-	PathPattern       PathPattern       `json:"path_pattern"`
-	QueryString       QueryString       `json:"query_string"`
+}
+
+type PathPattern struct {
+	Values []string `json:"values"`
+}
+
+type QueryString struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 type SourceIp struct {
@@ -149,15 +158,6 @@ type HttpHeader struct {
 
 type HttpRequestMethod struct {
 	Values []string `json:"values"`
-}
-
-type PathPattern struct {
-	Values []string `json:"values"`
-}
-
-type QueryString struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
 }
 
 // A LbListenerRuleStatus defines the observed state of a LbListenerRule

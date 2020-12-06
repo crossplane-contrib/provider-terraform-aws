@@ -22,15 +22,11 @@ import (
 
 func EncodeMainRouteTableAssociation(r MainRouteTableAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMainRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMainRouteTableAssociation_RouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeMainRouteTableAssociation_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeMainRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMainRouteTableAssociation_OriginalRouteTableId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeMainRouteTableAssociation_Id(p MainRouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMainRouteTableAssociation_RouteTableId(p MainRouteTableAssociationParameters, vals map[string]cty.Value) {
@@ -39,6 +35,10 @@ func EncodeMainRouteTableAssociation_RouteTableId(p MainRouteTableAssociationPar
 
 func EncodeMainRouteTableAssociation_VpcId(p MainRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeMainRouteTableAssociation_Id(p MainRouteTableAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMainRouteTableAssociation_OriginalRouteTableId(p MainRouteTableAssociationObservation, vals map[string]cty.Value) {

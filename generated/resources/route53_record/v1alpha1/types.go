@@ -52,21 +52,25 @@ type Route53RecordSpec struct {
 
 // A Route53RecordParameters defines the desired state of a Route53Record
 type Route53RecordParameters struct {
-	HealthCheckId                 string                   `json:"health_check_id"`
-	Id                            string                   `json:"id"`
-	MultivalueAnswerRoutingPolicy bool                     `json:"multivalue_answer_routing_policy"`
 	Name                          string                   `json:"name"`
-	SetIdentifier                 string                   `json:"set_identifier"`
-	ZoneId                        string                   `json:"zone_id"`
-	AllowOverwrite                bool                     `json:"allow_overwrite"`
 	Records                       []string                 `json:"records"`
 	Ttl                           int64                    `json:"ttl"`
 	Type                          string                   `json:"type"`
+	AllowOverwrite                bool                     `json:"allow_overwrite"`
+	HealthCheckId                 string                   `json:"health_check_id"`
+	Id                            string                   `json:"id"`
+	MultivalueAnswerRoutingPolicy bool                     `json:"multivalue_answer_routing_policy"`
+	SetIdentifier                 string                   `json:"set_identifier"`
+	ZoneId                        string                   `json:"zone_id"`
+	WeightedRoutingPolicy         WeightedRoutingPolicy    `json:"weighted_routing_policy"`
 	Alias                         Alias                    `json:"alias"`
 	FailoverRoutingPolicy         FailoverRoutingPolicy    `json:"failover_routing_policy"`
 	GeolocationRoutingPolicy      GeolocationRoutingPolicy `json:"geolocation_routing_policy"`
 	LatencyRoutingPolicy          LatencyRoutingPolicy     `json:"latency_routing_policy"`
-	WeightedRoutingPolicy         WeightedRoutingPolicy    `json:"weighted_routing_policy"`
+}
+
+type WeightedRoutingPolicy struct {
+	Weight int64 `json:"weight"`
 }
 
 type Alias struct {
@@ -87,10 +91,6 @@ type GeolocationRoutingPolicy struct {
 
 type LatencyRoutingPolicy struct {
 	Region string `json:"region"`
-}
-
-type WeightedRoutingPolicy struct {
-	Weight int64 `json:"weight"`
 }
 
 // A Route53RecordStatus defines the observed state of a Route53Record

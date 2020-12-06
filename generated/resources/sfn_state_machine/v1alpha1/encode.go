@@ -22,23 +22,15 @@ import (
 
 func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Definition(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Status(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_CreationDate(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSfnStateMachine_Tags(p SfnStateMachineParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSfnStateMachine_Definition(p SfnStateMachineParameters, vals map[string]cty.Value) {
@@ -55,6 +47,14 @@ func EncodeSfnStateMachine_Name(p SfnStateMachineParameters, vals map[string]cty
 
 func EncodeSfnStateMachine_RoleArn(p SfnStateMachineParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeSfnStateMachine_Tags(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSfnStateMachine_Status(p SfnStateMachineObservation, vals map[string]cty.Value) {

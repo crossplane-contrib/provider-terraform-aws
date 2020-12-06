@@ -52,14 +52,14 @@ type ElasticBeanstalkApplicationVersionSpec struct {
 
 // A ElasticBeanstalkApplicationVersionParameters defines the desired state of a ElasticBeanstalkApplicationVersion
 type ElasticBeanstalkApplicationVersionParameters struct {
-	Tags        map[string]string `json:"tags"`
-	Application string            `json:"application"`
-	Description string            `json:"description"`
-	ForceDelete bool              `json:"force_delete"`
-	Name        string            `json:"name"`
-	Bucket      string            `json:"bucket"`
 	Id          string            `json:"id"`
 	Key         string            `json:"key"`
+	Name        string            `json:"name"`
+	Application string            `json:"application"`
+	ForceDelete bool              `json:"force_delete"`
+	Bucket      string            `json:"bucket"`
+	Description string            `json:"description"`
+	Tags        map[string]string `json:"tags"`
 }
 
 // A ElasticBeanstalkApplicationVersionStatus defines the observed state of a ElasticBeanstalkApplicationVersion

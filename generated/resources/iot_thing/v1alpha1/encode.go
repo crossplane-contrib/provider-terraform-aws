@@ -22,22 +22,14 @@ import (
 
 func EncodeIotThing(r IotThing) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIotThing_Attributes(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_ThingTypeName(r.Spec.ForProvider, ctyVal)
+	EncodeIotThing_Attributes(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Version(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_DefaultClientId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIotThing_Attributes(p IotThingParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Attributes {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["attributes"] = cty.MapVal(mVals)
 }
 
 func EncodeIotThing_Id(p IotThingParameters, vals map[string]cty.Value) {
@@ -50,6 +42,14 @@ func EncodeIotThing_Name(p IotThingParameters, vals map[string]cty.Value) {
 
 func EncodeIotThing_ThingTypeName(p IotThingParameters, vals map[string]cty.Value) {
 	vals["thing_type_name"] = cty.StringVal(p.ThingTypeName)
+}
+
+func EncodeIotThing_Attributes(p IotThingParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Attributes {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["attributes"] = cty.MapVal(mVals)
 }
 
 func EncodeIotThing_Version(p IotThingObservation, vals map[string]cty.Value) {

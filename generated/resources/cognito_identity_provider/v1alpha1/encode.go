@@ -22,23 +22,15 @@ import (
 
 func EncodeCognitoIdentityProvider(r CognitoIdentityProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoIdentityProvider_ProviderName(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_ProviderType(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_AttributeMapping(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_IdpIdentifiers(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_ProviderDetails(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoIdentityProvider_ProviderName(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoIdentityProvider_ProviderType(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoIdentityProvider_ProviderName(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	vals["provider_name"] = cty.StringVal(p.ProviderName)
-}
-
-func EncodeCognitoIdentityProvider_ProviderType(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	vals["provider_type"] = cty.StringVal(p.ProviderType)
 }
 
 func EncodeCognitoIdentityProvider_UserPoolId(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
@@ -71,4 +63,12 @@ func EncodeCognitoIdentityProvider_ProviderDetails(p CognitoIdentityProviderPara
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["provider_details"] = cty.MapVal(mVals)
+}
+
+func EncodeCognitoIdentityProvider_ProviderName(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	vals["provider_name"] = cty.StringVal(p.ProviderName)
+}
+
+func EncodeCognitoIdentityProvider_ProviderType(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	vals["provider_type"] = cty.StringVal(p.ProviderType)
 }

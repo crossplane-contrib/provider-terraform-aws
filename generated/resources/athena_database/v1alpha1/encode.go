@@ -22,21 +22,13 @@ import (
 
 func EncodeAthenaDatabase(r AthenaDatabase) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAthenaDatabase_Bucket(r.Spec.ForProvider, ctyVal)
-	EncodeAthenaDatabase_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaDatabase_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaDatabase_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaDatabase_Bucket(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaDatabase_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaDatabase_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAthenaDatabase_Bucket(p AthenaDatabaseParameters, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
-}
-
-func EncodeAthenaDatabase_ForceDestroy(p AthenaDatabaseParameters, vals map[string]cty.Value) {
-	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeAthenaDatabase_Id(p AthenaDatabaseParameters, vals map[string]cty.Value) {
@@ -45,6 +37,14 @@ func EncodeAthenaDatabase_Id(p AthenaDatabaseParameters, vals map[string]cty.Val
 
 func EncodeAthenaDatabase_Name(p AthenaDatabaseParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeAthenaDatabase_Bucket(p AthenaDatabaseParameters, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
+}
+
+func EncodeAthenaDatabase_ForceDestroy(p AthenaDatabaseParameters, vals map[string]cty.Value) {
+	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeAthenaDatabase_EncryptionConfiguration(p EncryptionConfiguration, vals map[string]cty.Value) {

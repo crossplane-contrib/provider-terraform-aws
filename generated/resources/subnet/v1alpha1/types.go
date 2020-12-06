@@ -52,16 +52,16 @@ type SubnetSpec struct {
 
 // A SubnetParameters defines the desired state of a Subnet
 type SubnetParameters struct {
+	VpcId                       string            `json:"vpc_id"`
+	AvailabilityZoneId          string            `json:"availability_zone_id"`
+	Id                          string            `json:"id"`
+	OutpostArn                  string            `json:"outpost_arn"`
+	Tags                        map[string]string `json:"tags"`
 	AssignIpv6AddressOnCreation bool              `json:"assign_ipv6_address_on_creation"`
 	AvailabilityZone            string            `json:"availability_zone"`
-	AvailabilityZoneId          string            `json:"availability_zone_id"`
 	CidrBlock                   string            `json:"cidr_block"`
 	Ipv6CidrBlock               string            `json:"ipv6_cidr_block"`
-	OutpostArn                  string            `json:"outpost_arn"`
-	VpcId                       string            `json:"vpc_id"`
-	Id                          string            `json:"id"`
 	MapPublicIpOnLaunch         bool              `json:"map_public_ip_on_launch"`
-	Tags                        map[string]string `json:"tags"`
 	Timeouts                    Timeouts          `json:"timeouts"`
 }
 

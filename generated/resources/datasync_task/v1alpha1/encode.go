@@ -22,20 +22,16 @@ import (
 
 func EncodeDatasyncTask(r DatasyncTask) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatasyncTask_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncTask_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncTask_SourceLocationArn(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncTask_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncTask_CloudwatchLogGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncTask_DestinationLocationArn(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncTask_Options(r.Spec.ForProvider.Options, ctyVal)
+	EncodeDatasyncTask_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncTask_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
+	EncodeDatasyncTask_Options(r.Spec.ForProvider.Options, ctyVal)
 	EncodeDatasyncTask_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatasyncTask_Id(p DatasyncTaskParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDatasyncTask_Name(p DatasyncTaskParameters, vals map[string]cty.Value) {
@@ -62,20 +58,42 @@ func EncodeDatasyncTask_DestinationLocationArn(p DatasyncTaskParameters, vals ma
 	vals["destination_location_arn"] = cty.StringVal(p.DestinationLocationArn)
 }
 
+func EncodeDatasyncTask_Id(p DatasyncTaskParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDatasyncTask_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
+	EncodeDatasyncTask_Timeouts_Create(p, ctyVal)
+	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeDatasyncTask_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
+}
+
 func EncodeDatasyncTask_Options(p Options, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeDatasyncTask_Options_VerifyMode(p, ctyVal)
+	EncodeDatasyncTask_Options_Mtime(p, ctyVal)
 	EncodeDatasyncTask_Options_PosixPermissions(p, ctyVal)
 	EncodeDatasyncTask_Options_PreserveDeletedFiles(p, ctyVal)
 	EncodeDatasyncTask_Options_PreserveDevices(p, ctyVal)
 	EncodeDatasyncTask_Options_Uid(p, ctyVal)
 	EncodeDatasyncTask_Options_Atime(p, ctyVal)
-	EncodeDatasyncTask_Options_Gid(p, ctyVal)
-	EncodeDatasyncTask_Options_Mtime(p, ctyVal)
 	EncodeDatasyncTask_Options_BytesPerSecond(p, ctyVal)
-	EncodeDatasyncTask_Options_VerifyMode(p, ctyVal)
+	EncodeDatasyncTask_Options_Gid(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["options"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeDatasyncTask_Options_VerifyMode(p Options, vals map[string]cty.Value) {
+	vals["verify_mode"] = cty.StringVal(p.VerifyMode)
+}
+
+func EncodeDatasyncTask_Options_Mtime(p Options, vals map[string]cty.Value) {
+	vals["mtime"] = cty.StringVal(p.Mtime)
 }
 
 func EncodeDatasyncTask_Options_PosixPermissions(p Options, vals map[string]cty.Value) {
@@ -98,30 +116,12 @@ func EncodeDatasyncTask_Options_Atime(p Options, vals map[string]cty.Value) {
 	vals["atime"] = cty.StringVal(p.Atime)
 }
 
-func EncodeDatasyncTask_Options_Gid(p Options, vals map[string]cty.Value) {
-	vals["gid"] = cty.StringVal(p.Gid)
-}
-
-func EncodeDatasyncTask_Options_Mtime(p Options, vals map[string]cty.Value) {
-	vals["mtime"] = cty.StringVal(p.Mtime)
-}
-
 func EncodeDatasyncTask_Options_BytesPerSecond(p Options, vals map[string]cty.Value) {
 	vals["bytes_per_second"] = cty.NumberIntVal(p.BytesPerSecond)
 }
 
-func EncodeDatasyncTask_Options_VerifyMode(p Options, vals map[string]cty.Value) {
-	vals["verify_mode"] = cty.StringVal(p.VerifyMode)
-}
-
-func EncodeDatasyncTask_Timeouts(p Timeouts, vals map[string]cty.Value) {
-	ctyVal := make(map[string]cty.Value)
-	EncodeDatasyncTask_Timeouts_Create(p, ctyVal)
-	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatasyncTask_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
+func EncodeDatasyncTask_Options_Gid(p Options, vals map[string]cty.Value) {
+	vals["gid"] = cty.StringVal(p.Gid)
 }
 
 func EncodeDatasyncTask_Arn(p DatasyncTaskObservation, vals map[string]cty.Value) {

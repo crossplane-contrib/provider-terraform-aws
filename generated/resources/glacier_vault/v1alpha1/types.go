@@ -60,8 +60,8 @@ type GlacierVaultParameters struct {
 }
 
 type Notification struct {
-	Events   []string `json:"events"`
 	SnsTopic string   `json:"sns_topic"`
+	Events   []string `json:"events"`
 }
 
 // A GlacierVaultStatus defines the observed state of a GlacierVault

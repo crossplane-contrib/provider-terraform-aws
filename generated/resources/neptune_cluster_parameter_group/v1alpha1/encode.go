@@ -22,23 +22,15 @@ import (
 
 func EncodeNeptuneClusterParameterGroup(r NeptuneClusterParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNeptuneClusterParameterGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneClusterParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Family(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneClusterParameterGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneClusterParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeNeptuneClusterParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeNeptuneClusterParameterGroup_Id(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeNeptuneClusterParameterGroup_Name(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeNeptuneClusterParameterGroup_NamePrefix(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
@@ -59,6 +51,14 @@ func EncodeNeptuneClusterParameterGroup_Description(p NeptuneClusterParameterGro
 
 func EncodeNeptuneClusterParameterGroup_Family(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
 	vals["family"] = cty.StringVal(p.Family)
+}
+
+func EncodeNeptuneClusterParameterGroup_Id(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeNeptuneClusterParameterGroup_Name(p NeptuneClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeNeptuneClusterParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {

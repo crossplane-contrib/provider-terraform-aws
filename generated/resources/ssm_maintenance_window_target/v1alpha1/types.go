@@ -52,12 +52,12 @@ type SsmMaintenanceWindowTargetSpec struct {
 
 // A SsmMaintenanceWindowTargetParameters defines the desired state of a SsmMaintenanceWindowTarget
 type SsmMaintenanceWindowTargetParameters struct {
-	Id               string    `json:"id"`
 	Name             string    `json:"name"`
 	OwnerInformation string    `json:"owner_information"`
 	ResourceType     string    `json:"resource_type"`
 	WindowId         string    `json:"window_id"`
 	Description      string    `json:"description"`
+	Id               string    `json:"id"`
 	Targets          []Targets `json:"targets"`
 }
 

@@ -52,9 +52,9 @@ type Ec2TransitGatewayRouteTableAssociationSpec struct {
 
 // A Ec2TransitGatewayRouteTableAssociationParameters defines the desired state of a Ec2TransitGatewayRouteTableAssociation
 type Ec2TransitGatewayRouteTableAssociationParameters struct {
+	Id                         string `json:"id"`
 	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
 	TransitGatewayRouteTableId string `json:"transit_gateway_route_table_id"`
-	Id                         string `json:"id"`
 }
 
 // A Ec2TransitGatewayRouteTableAssociationStatus defines the observed state of a Ec2TransitGatewayRouteTableAssociation
@@ -65,6 +65,6 @@ type Ec2TransitGatewayRouteTableAssociationStatus struct {
 
 // A Ec2TransitGatewayRouteTableAssociationObservation records the observed state of a Ec2TransitGatewayRouteTableAssociation
 type Ec2TransitGatewayRouteTableAssociationObservation struct {
-	ResourceType string `json:"resource_type"`
 	ResourceId   string `json:"resource_id"`
+	ResourceType string `json:"resource_type"`
 }

@@ -22,14 +22,18 @@ import (
 
 func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_DeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_ForceDetach(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_SkipDestroy(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeVolumeAttachment_VolumeId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["volume_id"] = cty.StringVal(p.VolumeId)
 }
 
 func EncodeVolumeAttachment_DeviceName(p VolumeAttachmentParameters, vals map[string]cty.Value) {
@@ -50,8 +54,4 @@ func EncodeVolumeAttachment_InstanceId(p VolumeAttachmentParameters, vals map[st
 
 func EncodeVolumeAttachment_SkipDestroy(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["skip_destroy"] = cty.BoolVal(p.SkipDestroy)
-}
-
-func EncodeVolumeAttachment_VolumeId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["volume_id"] = cty.StringVal(p.VolumeId)
 }

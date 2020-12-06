@@ -54,13 +54,13 @@ type NetworkInterfaceSpec struct {
 type NetworkInterfaceParameters struct {
 	Description     string            `json:"description"`
 	Id              string            `json:"id"`
-	PrivateIp       string            `json:"private_ip"`
 	PrivateIps      []string          `json:"private_ips"`
-	SourceDestCheck bool              `json:"source_dest_check"`
 	SubnetId        string            `json:"subnet_id"`
-	Tags            map[string]string `json:"tags"`
-	PrivateIpsCount int64             `json:"private_ips_count"`
 	SecurityGroups  []string          `json:"security_groups"`
+	SourceDestCheck bool              `json:"source_dest_check"`
+	Tags            map[string]string `json:"tags"`
+	PrivateIp       string            `json:"private_ip"`
+	PrivateIpsCount int64             `json:"private_ips_count"`
 	Attachment      Attachment        `json:"attachment"`
 }
 
@@ -78,7 +78,7 @@ type NetworkInterfaceStatus struct {
 
 // A NetworkInterfaceObservation records the observed state of a NetworkInterface
 type NetworkInterfaceObservation struct {
+	MacAddress     string `json:"mac_address"`
 	OutpostArn     string `json:"outpost_arn"`
 	PrivateDnsName string `json:"private_dns_name"`
-	MacAddress     string `json:"mac_address"`
 }

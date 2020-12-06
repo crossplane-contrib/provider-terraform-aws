@@ -22,26 +22,14 @@ import (
 
 func EncodeCloudwatchLogGroup(r CloudwatchLogGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogGroup_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_RetentionInDays(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogGroup_KmsKeyId(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogGroup_KmsKeyId(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
-func EncodeCloudwatchLogGroup_Name(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeCloudwatchLogGroup_NamePrefix(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeCloudwatchLogGroup_RetentionInDays(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
@@ -58,6 +46,18 @@ func EncodeCloudwatchLogGroup_Tags(p CloudwatchLogGroupParameters, vals map[stri
 
 func EncodeCloudwatchLogGroup_Id(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCloudwatchLogGroup_KmsKeyId(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+}
+
+func EncodeCloudwatchLogGroup_Name(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCloudwatchLogGroup_NamePrefix(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeCloudwatchLogGroup_Arn(p CloudwatchLogGroupObservation, vals map[string]cty.Value) {

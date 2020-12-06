@@ -22,13 +22,17 @@ import (
 
 func EncodeMediaPackageChannel(r MediaPackageChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeMediaPackageChannel_ChannelId(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMediaPackageChannel_ChannelId(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_HlsIngest(r.Status.AtProvider.HlsIngest, ctyVal)
 	EncodeMediaPackageChannel_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeMediaPackageChannel_ChannelId(p MediaPackageChannelParameters, vals map[string]cty.Value) {
+	vals["channel_id"] = cty.StringVal(p.ChannelId)
 }
 
 func EncodeMediaPackageChannel_Description(p MediaPackageChannelParameters, vals map[string]cty.Value) {
@@ -45,10 +49,6 @@ func EncodeMediaPackageChannel_Tags(p MediaPackageChannelParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeMediaPackageChannel_ChannelId(p MediaPackageChannelParameters, vals map[string]cty.Value) {
-	vals["channel_id"] = cty.StringVal(p.ChannelId)
 }
 
 func EncodeMediaPackageChannel_HlsIngest(p []HlsIngest, vals map[string]cty.Value) {

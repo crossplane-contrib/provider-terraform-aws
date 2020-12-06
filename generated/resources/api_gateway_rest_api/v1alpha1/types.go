@@ -52,13 +52,13 @@ type ApiGatewayRestApiSpec struct {
 
 // A ApiGatewayRestApiParameters defines the desired state of a ApiGatewayRestApi
 type ApiGatewayRestApiParameters struct {
-	Id                     string                `json:"id"`
-	Name                   string                `json:"name"`
 	ApiKeySource           string                `json:"api_key_source"`
+	MinimumCompressionSize int64                 `json:"minimum_compression_size"`
+	Name                   string                `json:"name"`
 	BinaryMediaTypes       []string              `json:"binary_media_types"`
 	Body                   string                `json:"body"`
 	Description            string                `json:"description"`
-	MinimumCompressionSize int64                 `json:"minimum_compression_size"`
+	Id                     string                `json:"id"`
 	Policy                 string                `json:"policy"`
 	Tags                   map[string]string     `json:"tags"`
 	EndpointConfiguration  EndpointConfiguration `json:"endpoint_configuration"`

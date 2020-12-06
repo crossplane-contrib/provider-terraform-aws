@@ -22,15 +22,19 @@ import (
 
 func EncodeElasticBeanstalkConfigurationTemplate(r ElasticBeanstalkConfigurationTemplate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Application(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_EnvironmentId(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Name(r.Spec.ForProvider, ctyVal)
-	EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Setting(r.Spec.ForProvider.Setting, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
+	vals["solution_stack_name"] = cty.StringVal(p.SolutionStackName)
 }
 
 func EncodeElasticBeanstalkConfigurationTemplate_Application(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
@@ -51,10 +55,6 @@ func EncodeElasticBeanstalkConfigurationTemplate_Id(p ElasticBeanstalkConfigurat
 
 func EncodeElasticBeanstalkConfigurationTemplate_Name(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
-	vals["solution_stack_name"] = cty.StringVal(p.SolutionStackName)
 }
 
 func EncodeElasticBeanstalkConfigurationTemplate_Setting(p Setting, vals map[string]cty.Value) {

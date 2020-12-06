@@ -52,16 +52,22 @@ type Ec2ClientVpnEndpointSpec struct {
 
 // A Ec2ClientVpnEndpointParameters defines the desired state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointParameters struct {
-	Id                    string                  `json:"id"`
-	ServerCertificateArn  string                  `json:"server_certificate_arn"`
-	TransportProtocol     string                  `json:"transport_protocol"`
+	ClientCidrBlock       string                  `json:"client_cidr_block"`
 	Description           string                  `json:"description"`
 	DnsServers            []string                `json:"dns_servers"`
 	SplitTunnel           bool                    `json:"split_tunnel"`
 	Tags                  map[string]string       `json:"tags"`
-	ClientCidrBlock       string                  `json:"client_cidr_block"`
-	AuthenticationOptions []AuthenticationOptions `json:"authentication_options"`
+	TransportProtocol     string                  `json:"transport_protocol"`
+	Id                    string                  `json:"id"`
+	ServerCertificateArn  string                  `json:"server_certificate_arn"`
 	ConnectionLogOptions  ConnectionLogOptions    `json:"connection_log_options"`
+	AuthenticationOptions []AuthenticationOptions `json:"authentication_options"`
+}
+
+type ConnectionLogOptions struct {
+	CloudwatchLogGroup  string `json:"cloudwatch_log_group"`
+	CloudwatchLogStream string `json:"cloudwatch_log_stream"`
+	Enabled             bool   `json:"enabled"`
 }
 
 type AuthenticationOptions struct {
@@ -69,12 +75,6 @@ type AuthenticationOptions struct {
 	RootCertificateChainArn string `json:"root_certificate_chain_arn"`
 	SamlProviderArn         string `json:"saml_provider_arn"`
 	Type                    string `json:"type"`
-}
-
-type ConnectionLogOptions struct {
-	CloudwatchLogGroup  string `json:"cloudwatch_log_group"`
-	CloudwatchLogStream string `json:"cloudwatch_log_stream"`
-	Enabled             bool   `json:"enabled"`
 }
 
 // A Ec2ClientVpnEndpointStatus defines the observed state of a Ec2ClientVpnEndpoint

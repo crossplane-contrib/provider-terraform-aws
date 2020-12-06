@@ -22,17 +22,13 @@ import (
 
 func EncodeApigatewayv2VpcLink(r Apigatewayv2VpcLink) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2VpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2VpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApigatewayv2VpcLink_Name(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApigatewayv2VpcLink_SecurityGroupIds(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
@@ -61,6 +57,10 @@ func EncodeApigatewayv2VpcLink_Tags(p Apigatewayv2VpcLinkParameters, vals map[st
 
 func EncodeApigatewayv2VpcLink_Id(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApigatewayv2VpcLink_Name(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApigatewayv2VpcLink_Arn(p Apigatewayv2VpcLinkObservation, vals map[string]cty.Value) {

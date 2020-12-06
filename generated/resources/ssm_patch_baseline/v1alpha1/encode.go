@@ -22,18 +22,34 @@ import (
 
 func EncodeSsmPatchBaseline(r SsmPatchBaseline) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSsmPatchBaseline_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchBaseline_ApprovedPatches(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_ApprovedPatchesComplianceLevel(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_OperatingSystem(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_RejectedPatches(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_ApprovedPatches(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_GlobalFilter(r.Spec.ForProvider.GlobalFilter, ctyVal)
 	EncodeSsmPatchBaseline_ApprovalRule(r.Spec.ForProvider.ApprovalRule, ctyVal)
+	EncodeSsmPatchBaseline_GlobalFilter(r.Spec.ForProvider.GlobalFilter, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSsmPatchBaseline_Tags(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeSsmPatchBaseline_ApprovedPatches(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ApprovedPatches {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["approved_patches"] = cty.SetVal(colVals)
 }
 
 func EncodeSsmPatchBaseline_ApprovedPatchesComplianceLevel(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
@@ -62,45 +78,6 @@ func EncodeSsmPatchBaseline_RejectedPatches(p SsmPatchBaselineParameters, vals m
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["rejected_patches"] = cty.SetVal(colVals)
-}
-
-func EncodeSsmPatchBaseline_Tags(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSsmPatchBaseline_ApprovedPatches(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.ApprovedPatches {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["approved_patches"] = cty.SetVal(colVals)
-}
-
-func EncodeSsmPatchBaseline_GlobalFilter(p []GlobalFilter, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeSsmPatchBaseline_GlobalFilter_Key(v, ctyVal)
-		EncodeSsmPatchBaseline_GlobalFilter_Values(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["global_filter"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeSsmPatchBaseline_GlobalFilter_Key(p GlobalFilter, vals map[string]cty.Value) {
-	vals["key"] = cty.StringVal(p.Key)
-}
-
-func EncodeSsmPatchBaseline_GlobalFilter_Values(p GlobalFilter, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Values {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["values"] = cty.ListVal(colVals)
 }
 
 func EncodeSsmPatchBaseline_ApprovalRule(p ApprovalRule, vals map[string]cty.Value) {
@@ -142,6 +119,29 @@ func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Key(p PatchFilter, vals map
 }
 
 func EncodeSsmPatchBaseline_ApprovalRule_PatchFilter_Values(p PatchFilter, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Values {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["values"] = cty.ListVal(colVals)
+}
+
+func EncodeSsmPatchBaseline_GlobalFilter(p []GlobalFilter, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeSsmPatchBaseline_GlobalFilter_Key(v, ctyVal)
+		EncodeSsmPatchBaseline_GlobalFilter_Values(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["global_filter"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSsmPatchBaseline_GlobalFilter_Key(p GlobalFilter, vals map[string]cty.Value) {
+	vals["key"] = cty.StringVal(p.Key)
+}
+
+func EncodeSsmPatchBaseline_GlobalFilter_Values(p GlobalFilter, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Values {
 		colVals = append(colVals, cty.StringVal(value))

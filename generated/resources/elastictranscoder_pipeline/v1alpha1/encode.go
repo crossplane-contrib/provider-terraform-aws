@@ -28,11 +28,11 @@ func EncodeElastictranscoderPipeline(r ElastictranscoderPipeline) cty.Value {
 	EncodeElastictranscoderPipeline_InputBucket(r.Spec.ForProvider, ctyVal)
 	EncodeElastictranscoderPipeline_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElastictranscoderPipeline_OutputBucket(r.Spec.ForProvider, ctyVal)
+	EncodeElastictranscoderPipeline_ContentConfig(r.Spec.ForProvider.ContentConfig, ctyVal)
 	EncodeElastictranscoderPipeline_ContentConfigPermissions(r.Spec.ForProvider.ContentConfigPermissions, ctyVal)
 	EncodeElastictranscoderPipeline_Notifications(r.Spec.ForProvider.Notifications, ctyVal)
 	EncodeElastictranscoderPipeline_ThumbnailConfig(r.Spec.ForProvider.ThumbnailConfig, ctyVal)
 	EncodeElastictranscoderPipeline_ThumbnailConfigPermissions(r.Spec.ForProvider.ThumbnailConfigPermissions, ctyVal)
-	EncodeElastictranscoderPipeline_ContentConfig(r.Spec.ForProvider.ContentConfig, ctyVal)
 	EncodeElastictranscoderPipeline_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
@@ -59,6 +59,23 @@ func EncodeElastictranscoderPipeline_Name(p ElastictranscoderPipelineParameters,
 
 func EncodeElastictranscoderPipeline_OutputBucket(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
 	vals["output_bucket"] = cty.StringVal(p.OutputBucket)
+}
+
+func EncodeElastictranscoderPipeline_ContentConfig(p ContentConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeElastictranscoderPipeline_ContentConfig_Bucket(p, ctyVal)
+	EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["content_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeElastictranscoderPipeline_ContentConfig_Bucket(p ContentConfig, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
+}
+
+func EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p ContentConfig, vals map[string]cty.Value) {
+	vals["storage_class"] = cty.StringVal(p.StorageClass)
 }
 
 func EncodeElastictranscoderPipeline_ContentConfigPermissions(p ContentConfigPermissions, vals map[string]cty.Value) {
@@ -155,23 +172,6 @@ func EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_Grantee(p Thumbn
 
 func EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_GranteeType(p ThumbnailConfigPermissions, vals map[string]cty.Value) {
 	vals["grantee_type"] = cty.StringVal(p.GranteeType)
-}
-
-func EncodeElastictranscoderPipeline_ContentConfig(p ContentConfig, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p, ctyVal)
-	EncodeElastictranscoderPipeline_ContentConfig_Bucket(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["content_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p ContentConfig, vals map[string]cty.Value) {
-	vals["storage_class"] = cty.StringVal(p.StorageClass)
-}
-
-func EncodeElastictranscoderPipeline_ContentConfig_Bucket(p ContentConfig, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
 }
 
 func EncodeElastictranscoderPipeline_Arn(p ElastictranscoderPipelineObservation, vals map[string]cty.Value) {

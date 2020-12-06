@@ -22,14 +22,22 @@ import (
 
 func EncodeGlueCatalogDatabase(r GlueCatalogDatabase) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueCatalogDatabase_Description(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogDatabase_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_LocationUri(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_Parameters(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_CatalogId(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogDatabase_Description(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogDatabase_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlueCatalogDatabase_Description(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeGlueCatalogDatabase_Id(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGlueCatalogDatabase_LocationUri(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
@@ -50,14 +58,6 @@ func EncodeGlueCatalogDatabase_Parameters(p GlueCatalogDatabaseParameters, vals 
 
 func EncodeGlueCatalogDatabase_CatalogId(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	vals["catalog_id"] = cty.StringVal(p.CatalogId)
-}
-
-func EncodeGlueCatalogDatabase_Description(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeGlueCatalogDatabase_Id(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGlueCatalogDatabase_Arn(p GlueCatalogDatabaseObservation, vals map[string]cty.Value) {

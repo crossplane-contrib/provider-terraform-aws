@@ -52,11 +52,11 @@ type LexSlotTypeSpec struct {
 
 // A LexSlotTypeParameters defines the desired state of a LexSlotType
 type LexSlotTypeParameters struct {
+	CreateVersion          bool               `json:"create_version"`
 	Name                   string             `json:"name"`
 	ValueSelectionStrategy string             `json:"value_selection_strategy"`
-	CreateVersion          bool               `json:"create_version"`
-	Id                     string             `json:"id"`
 	Description            string             `json:"description"`
+	Id                     string             `json:"id"`
 	EnumerationValue       []EnumerationValue `json:"enumeration_value"`
 	Timeouts               Timeouts           `json:"timeouts"`
 }
@@ -80,8 +80,8 @@ type LexSlotTypeStatus struct {
 
 // A LexSlotTypeObservation records the observed state of a LexSlotType
 type LexSlotTypeObservation struct {
-	LastUpdatedDate string `json:"last_updated_date"`
-	Version         string `json:"version"`
 	Checksum        string `json:"checksum"`
+	Version         string `json:"version"`
 	CreatedDate     string `json:"created_date"`
+	LastUpdatedDate string `json:"last_updated_date"`
 }

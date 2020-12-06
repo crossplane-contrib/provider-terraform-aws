@@ -24,13 +24,13 @@ func EncodeKinesisStream(r KinesisStream) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeKinesisStream_Name(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisStream_RetentionPeriod(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisStream_ShardLevelMetrics(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisStream_Id(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisStream_EncryptionType(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisStream_EnforceConsumerDeletion(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisStream_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisStream_ShardCount(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisStream_ShardLevelMetrics(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisStream_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisStream_EnforceConsumerDeletion(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisStream_EncryptionType(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisStream_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisStream_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisStream_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisStream_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
@@ -45,32 +45,16 @@ func EncodeKinesisStream_RetentionPeriod(p KinesisStreamParameters, vals map[str
 	vals["retention_period"] = cty.NumberIntVal(p.RetentionPeriod)
 }
 
+func EncodeKinesisStream_ShardCount(p KinesisStreamParameters, vals map[string]cty.Value) {
+	vals["shard_count"] = cty.NumberIntVal(p.ShardCount)
+}
+
 func EncodeKinesisStream_ShardLevelMetrics(p KinesisStreamParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ShardLevelMetrics {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["shard_level_metrics"] = cty.SetVal(colVals)
-}
-
-func EncodeKinesisStream_Id(p KinesisStreamParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeKinesisStream_EncryptionType(p KinesisStreamParameters, vals map[string]cty.Value) {
-	vals["encryption_type"] = cty.StringVal(p.EncryptionType)
-}
-
-func EncodeKinesisStream_EnforceConsumerDeletion(p KinesisStreamParameters, vals map[string]cty.Value) {
-	vals["enforce_consumer_deletion"] = cty.BoolVal(p.EnforceConsumerDeletion)
-}
-
-func EncodeKinesisStream_KmsKeyId(p KinesisStreamParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
-func EncodeKinesisStream_ShardCount(p KinesisStreamParameters, vals map[string]cty.Value) {
-	vals["shard_count"] = cty.NumberIntVal(p.ShardCount)
 }
 
 func EncodeKinesisStream_Tags(p KinesisStreamParameters, vals map[string]cty.Value) {
@@ -81,20 +65,32 @@ func EncodeKinesisStream_Tags(p KinesisStreamParameters, vals map[string]cty.Val
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeKinesisStream_EnforceConsumerDeletion(p KinesisStreamParameters, vals map[string]cty.Value) {
+	vals["enforce_consumer_deletion"] = cty.BoolVal(p.EnforceConsumerDeletion)
+}
+
+func EncodeKinesisStream_EncryptionType(p KinesisStreamParameters, vals map[string]cty.Value) {
+	vals["encryption_type"] = cty.StringVal(p.EncryptionType)
+}
+
+func EncodeKinesisStream_Id(p KinesisStreamParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeKinesisStream_KmsKeyId(p KinesisStreamParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+}
+
 func EncodeKinesisStream_Arn(p KinesisStreamParameters, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeKinesisStream_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKinesisStream_Timeouts_Create(p, ctyVal)
 	EncodeKinesisStream_Timeouts_Delete(p, ctyVal)
 	EncodeKinesisStream_Timeouts_Update(p, ctyVal)
+	EncodeKinesisStream_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeKinesisStream_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeKinesisStream_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
@@ -103,4 +99,8 @@ func EncodeKinesisStream_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) 
 
 func EncodeKinesisStream_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
+}
+
+func EncodeKinesisStream_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }

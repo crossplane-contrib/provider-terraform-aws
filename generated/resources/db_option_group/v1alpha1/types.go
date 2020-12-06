@@ -52,13 +52,13 @@ type DbOptionGroupSpec struct {
 
 // A DbOptionGroupParameters defines the desired state of a DbOptionGroup
 type DbOptionGroupParameters struct {
-	Name                   string            `json:"name"`
-	NamePrefix             string            `json:"name_prefix"`
 	OptionGroupDescription string            `json:"option_group_description"`
 	Tags                   map[string]string `json:"tags"`
 	EngineName             string            `json:"engine_name"`
 	Id                     string            `json:"id"`
 	MajorEngineVersion     string            `json:"major_engine_version"`
+	Name                   string            `json:"name"`
+	NamePrefix             string            `json:"name_prefix"`
 	Option                 Option            `json:"option"`
 	Timeouts               Timeouts          `json:"timeouts"`
 }

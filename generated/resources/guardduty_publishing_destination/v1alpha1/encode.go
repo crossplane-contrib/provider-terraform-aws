@@ -22,13 +22,17 @@ import (
 
 func EncodeGuarddutyPublishingDestination(r GuarddutyPublishingDestination) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyPublishingDestination_DestinationArn(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_DestinationType(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_KmsKeyArn(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyPublishingDestination_DestinationArn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGuarddutyPublishingDestination_DestinationArn(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
 }
 
 func EncodeGuarddutyPublishingDestination_DestinationType(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
@@ -45,8 +49,4 @@ func EncodeGuarddutyPublishingDestination_Id(p GuarddutyPublishingDestinationPar
 
 func EncodeGuarddutyPublishingDestination_KmsKeyArn(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
-}
-
-func EncodeGuarddutyPublishingDestination_DestinationArn(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
-	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
 }

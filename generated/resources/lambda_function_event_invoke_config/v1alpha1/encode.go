@@ -22,14 +22,22 @@ import (
 
 func EncodeLambdaFunctionEventInvokeConfig(r LambdaFunctionEventInvokeConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaFunctionEventInvokeConfig_Qualifier(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaFunctionEventInvokeConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunctionEventInvokeConfig_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunctionEventInvokeConfig_MaximumEventAgeInSeconds(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunctionEventInvokeConfig_MaximumRetryAttempts(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunctionEventInvokeConfig_Qualifier(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaFunctionEventInvokeConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaFunctionEventInvokeConfig_DestinationConfig(r.Spec.ForProvider.DestinationConfig, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLambdaFunctionEventInvokeConfig_Qualifier(p LambdaFunctionEventInvokeConfigParameters, vals map[string]cty.Value) {
+	vals["qualifier"] = cty.StringVal(p.Qualifier)
+}
+
+func EncodeLambdaFunctionEventInvokeConfig_FunctionName(p LambdaFunctionEventInvokeConfigParameters, vals map[string]cty.Value) {
+	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaFunctionEventInvokeConfig_Id(p LambdaFunctionEventInvokeConfigParameters, vals map[string]cty.Value) {
@@ -42,14 +50,6 @@ func EncodeLambdaFunctionEventInvokeConfig_MaximumEventAgeInSeconds(p LambdaFunc
 
 func EncodeLambdaFunctionEventInvokeConfig_MaximumRetryAttempts(p LambdaFunctionEventInvokeConfigParameters, vals map[string]cty.Value) {
 	vals["maximum_retry_attempts"] = cty.NumberIntVal(p.MaximumRetryAttempts)
-}
-
-func EncodeLambdaFunctionEventInvokeConfig_Qualifier(p LambdaFunctionEventInvokeConfigParameters, vals map[string]cty.Value) {
-	vals["qualifier"] = cty.StringVal(p.Qualifier)
-}
-
-func EncodeLambdaFunctionEventInvokeConfig_FunctionName(p LambdaFunctionEventInvokeConfigParameters, vals map[string]cty.Value) {
-	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaFunctionEventInvokeConfig_DestinationConfig(p DestinationConfig, vals map[string]cty.Value) {

@@ -22,27 +22,15 @@ import (
 
 func EncodeIamUser(r IamUser) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamUser_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeIamUser_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
+	EncodeIamUser_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeIamUser_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamUser_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamUser_Tags(p IamUserParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeIamUser_ForceDestroy(p IamUserParameters, vals map[string]cty.Value) {
-	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeIamUser_Id(p IamUserParameters, vals map[string]cty.Value) {
@@ -59,6 +47,18 @@ func EncodeIamUser_Path(p IamUserParameters, vals map[string]cty.Value) {
 
 func EncodeIamUser_PermissionsBoundary(p IamUserParameters, vals map[string]cty.Value) {
 	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
+}
+
+func EncodeIamUser_Tags(p IamUserParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeIamUser_ForceDestroy(p IamUserParameters, vals map[string]cty.Value) {
+	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeIamUser_UniqueId(p IamUserObservation, vals map[string]cty.Value) {

@@ -23,22 +23,22 @@ import (
 func EncodeLaunchConfiguration(r LaunchConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeLaunchConfiguration_AssociatePublicIpAddress(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_Id(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_InstanceType(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_KeyName(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_Name(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_PlacementTenancy(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_SecurityGroups(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_VpcClassicLinkSecurityGroups(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_EbsOptimized(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_IamInstanceProfile(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_SpotPrice(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_EnableMonitoring(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_IamInstanceProfile(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_VpcClassicLinkId(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_VpcClassicLinkSecurityGroups(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_ImageId(r.Spec.ForProvider, ctyVal)
-	EncodeLaunchConfiguration_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_SecurityGroups(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_UserData(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_UserDataBase64(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_InstanceType(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_PlacementTenancy(r.Spec.ForProvider, ctyVal)
+	EncodeLaunchConfiguration_VpcClassicLinkId(r.Spec.ForProvider, ctyVal)
 	EncodeLaunchConfiguration_EbsBlockDevice(r.Spec.ForProvider.EbsBlockDevice, ctyVal)
 	EncodeLaunchConfiguration_EphemeralBlockDevice(r.Spec.ForProvider.EphemeralBlockDevice, ctyVal)
 	EncodeLaunchConfiguration_RootBlockDevice(r.Spec.ForProvider.RootBlockDevice, ctyVal)
@@ -50,52 +50,8 @@ func EncodeLaunchConfiguration_AssociatePublicIpAddress(p LaunchConfigurationPar
 	vals["associate_public_ip_address"] = cty.BoolVal(p.AssociatePublicIpAddress)
 }
 
-func EncodeLaunchConfiguration_Id(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeLaunchConfiguration_InstanceType(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["instance_type"] = cty.StringVal(p.InstanceType)
-}
-
 func EncodeLaunchConfiguration_KeyName(p LaunchConfigurationParameters, vals map[string]cty.Value) {
 	vals["key_name"] = cty.StringVal(p.KeyName)
-}
-
-func EncodeLaunchConfiguration_Name(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeLaunchConfiguration_PlacementTenancy(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["placement_tenancy"] = cty.StringVal(p.PlacementTenancy)
-}
-
-func EncodeLaunchConfiguration_SecurityGroups(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SecurityGroups {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["security_groups"] = cty.SetVal(colVals)
-}
-
-func EncodeLaunchConfiguration_EbsOptimized(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["ebs_optimized"] = cty.BoolVal(p.EbsOptimized)
-}
-
-func EncodeLaunchConfiguration_SpotPrice(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["spot_price"] = cty.StringVal(p.SpotPrice)
-}
-
-func EncodeLaunchConfiguration_EnableMonitoring(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["enable_monitoring"] = cty.BoolVal(p.EnableMonitoring)
-}
-
-func EncodeLaunchConfiguration_IamInstanceProfile(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["iam_instance_profile"] = cty.StringVal(p.IamInstanceProfile)
-}
-
-func EncodeLaunchConfiguration_VpcClassicLinkId(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["vpc_classic_link_id"] = cty.StringVal(p.VpcClassicLinkId)
 }
 
 func EncodeLaunchConfiguration_VpcClassicLinkSecurityGroups(p LaunchConfigurationParameters, vals map[string]cty.Value) {
@@ -106,12 +62,40 @@ func EncodeLaunchConfiguration_VpcClassicLinkSecurityGroups(p LaunchConfiguratio
 	vals["vpc_classic_link_security_groups"] = cty.SetVal(colVals)
 }
 
-func EncodeLaunchConfiguration_ImageId(p LaunchConfigurationParameters, vals map[string]cty.Value) {
-	vals["image_id"] = cty.StringVal(p.ImageId)
+func EncodeLaunchConfiguration_EbsOptimized(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["ebs_optimized"] = cty.BoolVal(p.EbsOptimized)
+}
+
+func EncodeLaunchConfiguration_IamInstanceProfile(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["iam_instance_profile"] = cty.StringVal(p.IamInstanceProfile)
 }
 
 func EncodeLaunchConfiguration_NamePrefix(p LaunchConfigurationParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeLaunchConfiguration_SpotPrice(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["spot_price"] = cty.StringVal(p.SpotPrice)
+}
+
+func EncodeLaunchConfiguration_EnableMonitoring(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["enable_monitoring"] = cty.BoolVal(p.EnableMonitoring)
+}
+
+func EncodeLaunchConfiguration_ImageId(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["image_id"] = cty.StringVal(p.ImageId)
+}
+
+func EncodeLaunchConfiguration_Name(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeLaunchConfiguration_SecurityGroups(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SecurityGroups {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["security_groups"] = cty.SetVal(colVals)
 }
 
 func EncodeLaunchConfiguration_UserData(p LaunchConfigurationParameters, vals map[string]cty.Value) {
@@ -122,9 +106,26 @@ func EncodeLaunchConfiguration_UserDataBase64(p LaunchConfigurationParameters, v
 	vals["user_data_base64"] = cty.StringVal(p.UserDataBase64)
 }
 
+func EncodeLaunchConfiguration_Id(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLaunchConfiguration_InstanceType(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["instance_type"] = cty.StringVal(p.InstanceType)
+}
+
+func EncodeLaunchConfiguration_PlacementTenancy(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["placement_tenancy"] = cty.StringVal(p.PlacementTenancy)
+}
+
+func EncodeLaunchConfiguration_VpcClassicLinkId(p LaunchConfigurationParameters, vals map[string]cty.Value) {
+	vals["vpc_classic_link_id"] = cty.StringVal(p.VpcClassicLinkId)
+}
+
 func EncodeLaunchConfiguration_EbsBlockDevice(p EbsBlockDevice, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeLaunchConfiguration_EbsBlockDevice_DeviceName(p, ctyVal)
 	EncodeLaunchConfiguration_EbsBlockDevice_Encrypted(p, ctyVal)
 	EncodeLaunchConfiguration_EbsBlockDevice_Iops(p, ctyVal)
 	EncodeLaunchConfiguration_EbsBlockDevice_NoDevice(p, ctyVal)
@@ -132,9 +133,12 @@ func EncodeLaunchConfiguration_EbsBlockDevice(p EbsBlockDevice, vals map[string]
 	EncodeLaunchConfiguration_EbsBlockDevice_VolumeSize(p, ctyVal)
 	EncodeLaunchConfiguration_EbsBlockDevice_VolumeType(p, ctyVal)
 	EncodeLaunchConfiguration_EbsBlockDevice_DeleteOnTermination(p, ctyVal)
-	EncodeLaunchConfiguration_EbsBlockDevice_DeviceName(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["ebs_block_device"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeLaunchConfiguration_EbsBlockDevice_DeviceName(p EbsBlockDevice, vals map[string]cty.Value) {
+	vals["device_name"] = cty.StringVal(p.DeviceName)
 }
 
 func EncodeLaunchConfiguration_EbsBlockDevice_Encrypted(p EbsBlockDevice, vals map[string]cty.Value) {
@@ -163,10 +167,6 @@ func EncodeLaunchConfiguration_EbsBlockDevice_VolumeType(p EbsBlockDevice, vals 
 
 func EncodeLaunchConfiguration_EbsBlockDevice_DeleteOnTermination(p EbsBlockDevice, vals map[string]cty.Value) {
 	vals["delete_on_termination"] = cty.BoolVal(p.DeleteOnTermination)
-}
-
-func EncodeLaunchConfiguration_EbsBlockDevice_DeviceName(p EbsBlockDevice, vals map[string]cty.Value) {
-	vals["device_name"] = cty.StringVal(p.DeviceName)
 }
 
 func EncodeLaunchConfiguration_EphemeralBlockDevice(p EphemeralBlockDevice, vals map[string]cty.Value) {

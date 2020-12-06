@@ -55,10 +55,14 @@ func EncodeGlacierVault_Id(p GlacierVaultParameters, vals map[string]cty.Value) 
 func EncodeGlacierVault_Notification(p Notification, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlacierVault_Notification_Events(p, ctyVal)
 	EncodeGlacierVault_Notification_SnsTopic(p, ctyVal)
+	EncodeGlacierVault_Notification_Events(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["notification"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGlacierVault_Notification_SnsTopic(p Notification, vals map[string]cty.Value) {
+	vals["sns_topic"] = cty.StringVal(p.SnsTopic)
 }
 
 func EncodeGlacierVault_Notification_Events(p Notification, vals map[string]cty.Value) {
@@ -67,10 +71,6 @@ func EncodeGlacierVault_Notification_Events(p Notification, vals map[string]cty.
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["events"] = cty.SetVal(colVals)
-}
-
-func EncodeGlacierVault_Notification_SnsTopic(p Notification, vals map[string]cty.Value) {
-	vals["sns_topic"] = cty.StringVal(p.SnsTopic)
 }
 
 func EncodeGlacierVault_Arn(p GlacierVaultObservation, vals map[string]cty.Value) {

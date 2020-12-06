@@ -22,43 +22,35 @@ import (
 
 func EncodeSecretsmanagerSecret(r SecretsmanagerSecret) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecretsmanagerSecret_RotationLambdaArn(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecret_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecret_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecret_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecret_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_RecoveryWindowInDays(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecret_RotationLambdaArn(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_Description(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecret_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecret_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecret_RotationRules(r.Spec.ForProvider.RotationRules, ctyVal)
-	EncodeSecretsmanagerSecret_RotationEnabled(r.Status.AtProvider, ctyVal)
 	EncodeSecretsmanagerSecret_Arn(r.Status.AtProvider, ctyVal)
+	EncodeSecretsmanagerSecret_RotationEnabled(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecretsmanagerSecret_RotationLambdaArn(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["rotation_lambda_arn"] = cty.StringVal(p.RotationLambdaArn)
-}
-
-func EncodeSecretsmanagerSecret_Id(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSecretsmanagerSecret_KmsKeyId(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
-func EncodeSecretsmanagerSecret_Policy(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
 }
 
 func EncodeSecretsmanagerSecret_NamePrefix(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
+func EncodeSecretsmanagerSecret_Policy(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
+}
+
 func EncodeSecretsmanagerSecret_RecoveryWindowInDays(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	vals["recovery_window_in_days"] = cty.NumberIntVal(p.RecoveryWindowInDays)
+}
+
+func EncodeSecretsmanagerSecret_RotationLambdaArn(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["rotation_lambda_arn"] = cty.StringVal(p.RotationLambdaArn)
 }
 
 func EncodeSecretsmanagerSecret_Tags(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
@@ -73,8 +65,16 @@ func EncodeSecretsmanagerSecret_Description(p SecretsmanagerSecretParameters, va
 	vals["description"] = cty.StringVal(p.Description)
 }
 
+func EncodeSecretsmanagerSecret_KmsKeyId(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+}
+
 func EncodeSecretsmanagerSecret_Name(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSecretsmanagerSecret_Id(p SecretsmanagerSecretParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSecretsmanagerSecret_RotationRules(p RotationRules, vals map[string]cty.Value) {
@@ -89,10 +89,10 @@ func EncodeSecretsmanagerSecret_RotationRules_AutomaticallyAfterDays(p RotationR
 	vals["automatically_after_days"] = cty.NumberIntVal(p.AutomaticallyAfterDays)
 }
 
-func EncodeSecretsmanagerSecret_RotationEnabled(p SecretsmanagerSecretObservation, vals map[string]cty.Value) {
-	vals["rotation_enabled"] = cty.BoolVal(p.RotationEnabled)
-}
-
 func EncodeSecretsmanagerSecret_Arn(p SecretsmanagerSecretObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeSecretsmanagerSecret_RotationEnabled(p SecretsmanagerSecretObservation, vals map[string]cty.Value) {
+	vals["rotation_enabled"] = cty.BoolVal(p.RotationEnabled)
 }

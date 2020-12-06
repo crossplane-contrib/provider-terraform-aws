@@ -22,23 +22,39 @@ import (
 
 func EncodeSesReceiptRule(r SesReceiptRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSesReceiptRule_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptRule_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptRule_Recipients(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_RuleSetName(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_ScanEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_TlsPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_After(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodeSesReceiptRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSesReceiptRule_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSesReceiptRule_Recipients(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptRule_StopAction(r.Spec.ForProvider.StopAction, ctyVal)
 	EncodeSesReceiptRule_WorkmailAction(r.Spec.ForProvider.WorkmailAction, ctyVal)
 	EncodeSesReceiptRule_AddHeaderAction(r.Spec.ForProvider.AddHeaderAction, ctyVal)
 	EncodeSesReceiptRule_BounceAction(r.Spec.ForProvider.BounceAction, ctyVal)
 	EncodeSesReceiptRule_LambdaAction(r.Spec.ForProvider.LambdaAction, ctyVal)
 	EncodeSesReceiptRule_S3Action(r.Spec.ForProvider.S3Action, ctyVal)
 	EncodeSesReceiptRule_SnsAction(r.Spec.ForProvider.SnsAction, ctyVal)
-	EncodeSesReceiptRule_StopAction(r.Spec.ForProvider.StopAction, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSesReceiptRule_Id(p SesReceiptRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSesReceiptRule_Name(p SesReceiptRuleParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSesReceiptRule_Recipients(p SesReceiptRuleParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Recipients {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["recipients"] = cty.SetVal(colVals)
 }
 
 func EncodeSesReceiptRule_RuleSetName(p SesReceiptRuleParameters, vals map[string]cty.Value) {
@@ -61,34 +77,36 @@ func EncodeSesReceiptRule_Enabled(p SesReceiptRuleParameters, vals map[string]ct
 	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
-func EncodeSesReceiptRule_Id(p SesReceiptRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeSesReceiptRule_StopAction(p StopAction, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSesReceiptRule_StopAction_Position(p, ctyVal)
+	EncodeSesReceiptRule_StopAction_Scope(p, ctyVal)
+	EncodeSesReceiptRule_StopAction_TopicArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["stop_action"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeSesReceiptRule_Name(p SesReceiptRuleParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeSesReceiptRule_StopAction_Position(p StopAction, vals map[string]cty.Value) {
+	vals["position"] = cty.NumberIntVal(p.Position)
 }
 
-func EncodeSesReceiptRule_Recipients(p SesReceiptRuleParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Recipients {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["recipients"] = cty.SetVal(colVals)
+func EncodeSesReceiptRule_StopAction_Scope(p StopAction, vals map[string]cty.Value) {
+	vals["scope"] = cty.StringVal(p.Scope)
+}
+
+func EncodeSesReceiptRule_StopAction_TopicArn(p StopAction, vals map[string]cty.Value) {
+	vals["topic_arn"] = cty.StringVal(p.TopicArn)
 }
 
 func EncodeSesReceiptRule_WorkmailAction(p WorkmailAction, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRule_WorkmailAction_OrganizationArn(p, ctyVal)
 	EncodeSesReceiptRule_WorkmailAction_Position(p, ctyVal)
 	EncodeSesReceiptRule_WorkmailAction_TopicArn(p, ctyVal)
+	EncodeSesReceiptRule_WorkmailAction_OrganizationArn(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["workmail_action"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesReceiptRule_WorkmailAction_OrganizationArn(p WorkmailAction, vals map[string]cty.Value) {
-	vals["organization_arn"] = cty.StringVal(p.OrganizationArn)
 }
 
 func EncodeSesReceiptRule_WorkmailAction_Position(p WorkmailAction, vals map[string]cty.Value) {
@@ -99,14 +117,22 @@ func EncodeSesReceiptRule_WorkmailAction_TopicArn(p WorkmailAction, vals map[str
 	vals["topic_arn"] = cty.StringVal(p.TopicArn)
 }
 
+func EncodeSesReceiptRule_WorkmailAction_OrganizationArn(p WorkmailAction, vals map[string]cty.Value) {
+	vals["organization_arn"] = cty.StringVal(p.OrganizationArn)
+}
+
 func EncodeSesReceiptRule_AddHeaderAction(p AddHeaderAction, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeSesReceiptRule_AddHeaderAction_Position(p, ctyVal)
 	EncodeSesReceiptRule_AddHeaderAction_HeaderName(p, ctyVal)
 	EncodeSesReceiptRule_AddHeaderAction_HeaderValue(p, ctyVal)
-	EncodeSesReceiptRule_AddHeaderAction_Position(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["add_header_action"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeSesReceiptRule_AddHeaderAction_Position(p AddHeaderAction, vals map[string]cty.Value) {
+	vals["position"] = cty.NumberIntVal(p.Position)
 }
 
 func EncodeSesReceiptRule_AddHeaderAction_HeaderName(p AddHeaderAction, vals map[string]cty.Value) {
@@ -117,33 +143,17 @@ func EncodeSesReceiptRule_AddHeaderAction_HeaderValue(p AddHeaderAction, vals ma
 	vals["header_value"] = cty.StringVal(p.HeaderValue)
 }
 
-func EncodeSesReceiptRule_AddHeaderAction_Position(p AddHeaderAction, vals map[string]cty.Value) {
-	vals["position"] = cty.NumberIntVal(p.Position)
-}
-
 func EncodeSesReceiptRule_BounceAction(p BounceAction, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRule_BounceAction_TopicArn(p, ctyVal)
-	EncodeSesReceiptRule_BounceAction_Message(p, ctyVal)
-	EncodeSesReceiptRule_BounceAction_Position(p, ctyVal)
 	EncodeSesReceiptRule_BounceAction_Sender(p, ctyVal)
 	EncodeSesReceiptRule_BounceAction_SmtpReplyCode(p, ctyVal)
 	EncodeSesReceiptRule_BounceAction_StatusCode(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_TopicArn(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_Message(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_Position(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["bounce_action"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesReceiptRule_BounceAction_TopicArn(p BounceAction, vals map[string]cty.Value) {
-	vals["topic_arn"] = cty.StringVal(p.TopicArn)
-}
-
-func EncodeSesReceiptRule_BounceAction_Message(p BounceAction, vals map[string]cty.Value) {
-	vals["message"] = cty.StringVal(p.Message)
-}
-
-func EncodeSesReceiptRule_BounceAction_Position(p BounceAction, vals map[string]cty.Value) {
-	vals["position"] = cty.NumberIntVal(p.Position)
 }
 
 func EncodeSesReceiptRule_BounceAction_Sender(p BounceAction, vals map[string]cty.Value) {
@@ -158,23 +168,27 @@ func EncodeSesReceiptRule_BounceAction_StatusCode(p BounceAction, vals map[strin
 	vals["status_code"] = cty.StringVal(p.StatusCode)
 }
 
+func EncodeSesReceiptRule_BounceAction_TopicArn(p BounceAction, vals map[string]cty.Value) {
+	vals["topic_arn"] = cty.StringVal(p.TopicArn)
+}
+
+func EncodeSesReceiptRule_BounceAction_Message(p BounceAction, vals map[string]cty.Value) {
+	vals["message"] = cty.StringVal(p.Message)
+}
+
+func EncodeSesReceiptRule_BounceAction_Position(p BounceAction, vals map[string]cty.Value) {
+	vals["position"] = cty.NumberIntVal(p.Position)
+}
+
 func EncodeSesReceiptRule_LambdaAction(p LambdaAction, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRule_LambdaAction_FunctionArn(p, ctyVal)
-	EncodeSesReceiptRule_LambdaAction_InvocationType(p, ctyVal)
 	EncodeSesReceiptRule_LambdaAction_Position(p, ctyVal)
 	EncodeSesReceiptRule_LambdaAction_TopicArn(p, ctyVal)
+	EncodeSesReceiptRule_LambdaAction_FunctionArn(p, ctyVal)
+	EncodeSesReceiptRule_LambdaAction_InvocationType(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["lambda_action"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesReceiptRule_LambdaAction_FunctionArn(p LambdaAction, vals map[string]cty.Value) {
-	vals["function_arn"] = cty.StringVal(p.FunctionArn)
-}
-
-func EncodeSesReceiptRule_LambdaAction_InvocationType(p LambdaAction, vals map[string]cty.Value) {
-	vals["invocation_type"] = cty.StringVal(p.InvocationType)
 }
 
 func EncodeSesReceiptRule_LambdaAction_Position(p LambdaAction, vals map[string]cty.Value) {
@@ -183,6 +197,14 @@ func EncodeSesReceiptRule_LambdaAction_Position(p LambdaAction, vals map[string]
 
 func EncodeSesReceiptRule_LambdaAction_TopicArn(p LambdaAction, vals map[string]cty.Value) {
 	vals["topic_arn"] = cty.StringVal(p.TopicArn)
+}
+
+func EncodeSesReceiptRule_LambdaAction_FunctionArn(p LambdaAction, vals map[string]cty.Value) {
+	vals["function_arn"] = cty.StringVal(p.FunctionArn)
+}
+
+func EncodeSesReceiptRule_LambdaAction_InvocationType(p LambdaAction, vals map[string]cty.Value) {
+	vals["invocation_type"] = cty.StringVal(p.InvocationType)
 }
 
 func EncodeSesReceiptRule_S3Action(p S3Action, vals map[string]cty.Value) {
@@ -231,27 +253,5 @@ func EncodeSesReceiptRule_SnsAction_Position(p SnsAction, vals map[string]cty.Va
 }
 
 func EncodeSesReceiptRule_SnsAction_TopicArn(p SnsAction, vals map[string]cty.Value) {
-	vals["topic_arn"] = cty.StringVal(p.TopicArn)
-}
-
-func EncodeSesReceiptRule_StopAction(p StopAction, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRule_StopAction_Position(p, ctyVal)
-	EncodeSesReceiptRule_StopAction_Scope(p, ctyVal)
-	EncodeSesReceiptRule_StopAction_TopicArn(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["stop_action"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesReceiptRule_StopAction_Position(p StopAction, vals map[string]cty.Value) {
-	vals["position"] = cty.NumberIntVal(p.Position)
-}
-
-func EncodeSesReceiptRule_StopAction_Scope(p StopAction, vals map[string]cty.Value) {
-	vals["scope"] = cty.StringVal(p.Scope)
-}
-
-func EncodeSesReceiptRule_StopAction_TopicArn(p StopAction, vals map[string]cty.Value) {
 	vals["topic_arn"] = cty.StringVal(p.TopicArn)
 }

@@ -52,11 +52,11 @@ type ApiGatewayApiKeySpec struct {
 
 // A ApiGatewayApiKeyParameters defines the desired state of a ApiGatewayApiKey
 type ApiGatewayApiKeyParameters struct {
+	Value       string            `json:"value"`
+	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Enabled     bool              `json:"enabled"`
 	Id          string            `json:"id"`
-	Tags        map[string]string `json:"tags"`
-	Value       string            `json:"value"`
 	Name        string            `json:"name"`
 }
 
@@ -68,7 +68,7 @@ type ApiGatewayApiKeyStatus struct {
 
 // A ApiGatewayApiKeyObservation records the observed state of a ApiGatewayApiKey
 type ApiGatewayApiKeyObservation struct {
+	LastUpdatedDate string `json:"last_updated_date"`
 	Arn             string `json:"arn"`
 	CreatedDate     string `json:"created_date"`
-	LastUpdatedDate string `json:"last_updated_date"`
 }

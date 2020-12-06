@@ -22,19 +22,15 @@ import (
 
 func EncodeConfigRemediationConfiguration(r ConfigRemediationConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigRemediationConfiguration_ResourceType(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_TargetId(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_TargetType(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_TargetVersion(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_ConfigRuleName(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_Id(r.Spec.ForProvider, ctyVal)
+	EncodeConfigRemediationConfiguration_ResourceType(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeConfigRemediationConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeConfigRemediationConfiguration_ResourceType(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
-	vals["resource_type"] = cty.StringVal(p.ResourceType)
 }
 
 func EncodeConfigRemediationConfiguration_TargetId(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
@@ -55,6 +51,10 @@ func EncodeConfigRemediationConfiguration_ConfigRuleName(p ConfigRemediationConf
 
 func EncodeConfigRemediationConfiguration_Id(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeConfigRemediationConfiguration_ResourceType(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
+	vals["resource_type"] = cty.StringVal(p.ResourceType)
 }
 
 func EncodeConfigRemediationConfiguration_Parameter(p []Parameter, vals map[string]cty.Value) {

@@ -24,11 +24,11 @@ func EncodeCloudfrontOriginAccessIdentity(r CloudfrontOriginAccessIdentity) cty.
 	ctyVal := make(map[string]cty.Value)
 	EncodeCloudfrontOriginAccessIdentity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_Comment(r.Spec.ForProvider, ctyVal)
-	EncodeCloudfrontOriginAccessIdentity_Etag(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_IamArn(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_CallerReference(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(r.Status.AtProvider, ctyVal)
+	EncodeCloudfrontOriginAccessIdentity_Etag(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -38,10 +38,6 @@ func EncodeCloudfrontOriginAccessIdentity_Id(p CloudfrontOriginAccessIdentityPar
 
 func EncodeCloudfrontOriginAccessIdentity_Comment(p CloudfrontOriginAccessIdentityParameters, vals map[string]cty.Value) {
 	vals["comment"] = cty.StringVal(p.Comment)
-}
-
-func EncodeCloudfrontOriginAccessIdentity_Etag(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
-	vals["etag"] = cty.StringVal(p.Etag)
 }
 
 func EncodeCloudfrontOriginAccessIdentity_IamArn(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
@@ -58,4 +54,8 @@ func EncodeCloudfrontOriginAccessIdentity_CallerReference(p CloudfrontOriginAcce
 
 func EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	vals["cloudfront_access_identity_path"] = cty.StringVal(p.CloudfrontAccessIdentityPath)
+}
+
+func EncodeCloudfrontOriginAccessIdentity_Etag(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
+	vals["etag"] = cty.StringVal(p.Etag)
 }

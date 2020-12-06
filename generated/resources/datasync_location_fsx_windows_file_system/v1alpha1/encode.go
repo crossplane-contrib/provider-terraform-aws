@@ -22,26 +22,38 @@ import (
 
 func EncodeDatasyncLocationFsxWindowsFileSystem(r DatasyncLocationFsxWindowsFileSystem) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatasyncLocationFsxWindowsFileSystem_User(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Password(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Domain(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_User(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Uri(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_CreationTime(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDatasyncLocationFsxWindowsFileSystem_User(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["user"] = cty.StringVal(p.User)
+func EncodeDatasyncLocationFsxWindowsFileSystem_Tags(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDatasyncLocationFsxWindowsFileSystem_Domain(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
 }
 
 func EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
 	vals["fsx_filesystem_arn"] = cty.StringVal(p.FsxFilesystemArn)
+}
+
+func EncodeDatasyncLocationFsxWindowsFileSystem_Id(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDatasyncLocationFsxWindowsFileSystem_Password(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
@@ -60,20 +72,8 @@ func EncodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(p DatasyncLocationF
 	vals["subdirectory"] = cty.StringVal(p.Subdirectory)
 }
 
-func EncodeDatasyncLocationFsxWindowsFileSystem_Domain(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_Id(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_Tags(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeDatasyncLocationFsxWindowsFileSystem_User(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["user"] = cty.StringVal(p.User)
 }
 
 func EncodeDatasyncLocationFsxWindowsFileSystem_Uri(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {

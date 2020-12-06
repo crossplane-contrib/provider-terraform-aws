@@ -60,12 +60,12 @@ type SagemakerEndpointConfigurationParameters struct {
 }
 
 type ProductionVariants struct {
+	VariantName          string `json:"variant_name"`
 	AcceleratorType      string `json:"accelerator_type"`
 	InitialInstanceCount int64  `json:"initial_instance_count"`
 	InitialVariantWeight int64  `json:"initial_variant_weight"`
 	InstanceType         string `json:"instance_type"`
 	ModelName            string `json:"model_name"`
-	VariantName          string `json:"variant_name"`
 }
 
 // A SagemakerEndpointConfigurationStatus defines the observed state of a SagemakerEndpointConfiguration

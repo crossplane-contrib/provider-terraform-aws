@@ -52,10 +52,10 @@ type CodedeployAppSpec struct {
 
 // A CodedeployAppParameters defines the desired state of a CodedeployApp
 type CodedeployAppParameters struct {
-	ComputePlatform string `json:"compute_platform"`
 	Id              string `json:"id"`
 	Name            string `json:"name"`
 	UniqueId        string `json:"unique_id"`
+	ComputePlatform string `json:"compute_platform"`
 }
 
 // A CodedeployAppStatus defines the observed state of a CodedeployApp

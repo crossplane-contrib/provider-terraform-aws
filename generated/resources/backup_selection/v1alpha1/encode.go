@@ -22,22 +22,14 @@ import (
 
 func EncodeBackupSelection(r BackupSelection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeBackupSelection_Resources(r.Spec.ForProvider, ctyVal)
 	EncodeBackupSelection_IamRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeBackupSelection_Id(r.Spec.ForProvider, ctyVal)
 	EncodeBackupSelection_Name(r.Spec.ForProvider, ctyVal)
 	EncodeBackupSelection_PlanId(r.Spec.ForProvider, ctyVal)
+	EncodeBackupSelection_Resources(r.Spec.ForProvider, ctyVal)
 	EncodeBackupSelection_SelectionTag(r.Spec.ForProvider.SelectionTag, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeBackupSelection_Resources(p BackupSelectionParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Resources {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["resources"] = cty.SetVal(colVals)
 }
 
 func EncodeBackupSelection_IamRoleArn(p BackupSelectionParameters, vals map[string]cty.Value) {
@@ -56,14 +48,26 @@ func EncodeBackupSelection_PlanId(p BackupSelectionParameters, vals map[string]c
 	vals["plan_id"] = cty.StringVal(p.PlanId)
 }
 
+func EncodeBackupSelection_Resources(p BackupSelectionParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Resources {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["resources"] = cty.SetVal(colVals)
+}
+
 func EncodeBackupSelection_SelectionTag(p SelectionTag, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeBackupSelection_SelectionTag_Value(p, ctyVal)
 	EncodeBackupSelection_SelectionTag_Key(p, ctyVal)
 	EncodeBackupSelection_SelectionTag_Type(p, ctyVal)
-	EncodeBackupSelection_SelectionTag_Value(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["selection_tag"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeBackupSelection_SelectionTag_Value(p SelectionTag, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeBackupSelection_SelectionTag_Key(p SelectionTag, vals map[string]cty.Value) {
@@ -72,8 +76,4 @@ func EncodeBackupSelection_SelectionTag_Key(p SelectionTag, vals map[string]cty.
 
 func EncodeBackupSelection_SelectionTag_Type(p SelectionTag, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeBackupSelection_SelectionTag_Value(p SelectionTag, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }

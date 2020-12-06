@@ -22,25 +22,17 @@ import (
 
 func EncodeDbOptionGroup(r DbOptionGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbOptionGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDbOptionGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_OptionGroupDescription(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_EngineName(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_MajorEngineVersion(r.Spec.ForProvider, ctyVal)
+	EncodeDbOptionGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDbOptionGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_Option(r.Spec.ForProvider.Option, ctyVal)
 	EncodeDbOptionGroup_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDbOptionGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDbOptionGroup_Name(p DbOptionGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDbOptionGroup_NamePrefix(p DbOptionGroupParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeDbOptionGroup_OptionGroupDescription(p DbOptionGroupParameters, vals map[string]cty.Value) {
@@ -65,6 +57,14 @@ func EncodeDbOptionGroup_Id(p DbOptionGroupParameters, vals map[string]cty.Value
 
 func EncodeDbOptionGroup_MajorEngineVersion(p DbOptionGroupParameters, vals map[string]cty.Value) {
 	vals["major_engine_version"] = cty.StringVal(p.MajorEngineVersion)
+}
+
+func EncodeDbOptionGroup_Name(p DbOptionGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDbOptionGroup_NamePrefix(p DbOptionGroupParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeDbOptionGroup_Option(p Option, vals map[string]cty.Value) {

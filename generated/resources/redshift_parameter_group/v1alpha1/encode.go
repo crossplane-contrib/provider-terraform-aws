@@ -22,14 +22,22 @@ import (
 
 func EncodeRedshiftParameterGroup(r RedshiftParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRedshiftParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeRedshiftParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRedshiftParameterGroup_Tags(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRedshiftParameterGroup_Description(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
@@ -46,14 +54,6 @@ func EncodeRedshiftParameterGroup_Id(p RedshiftParameterGroupParameters, vals ma
 
 func EncodeRedshiftParameterGroup_Name(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeRedshiftParameterGroup_Tags(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRedshiftParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {

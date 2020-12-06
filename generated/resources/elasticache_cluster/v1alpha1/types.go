@@ -52,29 +52,29 @@ type ElasticacheClusterSpec struct {
 
 // A ElasticacheClusterParameters defines the desired state of a ElasticacheCluster
 type ElasticacheClusterParameters struct {
-	SecurityGroupIds           []string          `json:"security_group_ids"`
-	SecurityGroupNames         []string          `json:"security_group_names"`
-	SnapshotArns               []string          `json:"snapshot_arns"`
-	Id                         string            `json:"id"`
-	NodeType                   string            `json:"node_type"`
-	Port                       int64             `json:"port"`
-	SnapshotRetentionLimit     int64             `json:"snapshot_retention_limit"`
-	MaintenanceWindow          string            `json:"maintenance_window"`
-	NumCacheNodes              int64             `json:"num_cache_nodes"`
-	PreferredAvailabilityZones []string          `json:"preferred_availability_zones"`
-	SnapshotName               string            `json:"snapshot_name"`
-	ApplyImmediately           bool              `json:"apply_immediately"`
-	AvailabilityZone           string            `json:"availability_zone"`
-	ClusterId                  string            `json:"cluster_id"`
 	EngineVersion              string            `json:"engine_version"`
+	Port                       int64             `json:"port"`
+	PreferredAvailabilityZones []string          `json:"preferred_availability_zones"`
+	SecurityGroupNames         []string          `json:"security_group_names"`
+	Tags                       map[string]string `json:"tags"`
+	NotificationTopicArn       string            `json:"notification_topic_arn"`
+	NumCacheNodes              int64             `json:"num_cache_nodes"`
+	SecurityGroupIds           []string          `json:"security_group_ids"`
+	SubnetGroupName            string            `json:"subnet_group_name"`
+	Id                         string            `json:"id"`
+	SnapshotArns               []string          `json:"snapshot_arns"`
+	SnapshotName               string            `json:"snapshot_name"`
+	NodeType                   string            `json:"node_type"`
+	ParameterGroupName         string            `json:"parameter_group_name"`
 	ReplicationGroupId         string            `json:"replication_group_id"`
+	ClusterId                  string            `json:"cluster_id"`
 	Engine                     string            `json:"engine"`
+	MaintenanceWindow          string            `json:"maintenance_window"`
+	SnapshotRetentionLimit     int64             `json:"snapshot_retention_limit"`
+	AvailabilityZone           string            `json:"availability_zone"`
 	AzMode                     string            `json:"az_mode"`
 	SnapshotWindow             string            `json:"snapshot_window"`
-	SubnetGroupName            string            `json:"subnet_group_name"`
-	ParameterGroupName         string            `json:"parameter_group_name"`
-	NotificationTopicArn       string            `json:"notification_topic_arn"`
-	Tags                       map[string]string `json:"tags"`
+	ApplyImmediately           bool              `json:"apply_immediately"`
 }
 
 // A ElasticacheClusterStatus defines the observed state of a ElasticacheCluster
@@ -85,10 +85,10 @@ type ElasticacheClusterStatus struct {
 
 // A ElasticacheClusterObservation records the observed state of a ElasticacheCluster
 type ElasticacheClusterObservation struct {
-	ClusterAddress        string       `json:"cluster_address"`
-	ConfigurationEndpoint string       `json:"configuration_endpoint"`
-	Arn                   string       `json:"arn"`
 	CacheNodes            []CacheNodes `json:"cache_nodes"`
+	ConfigurationEndpoint string       `json:"configuration_endpoint"`
+	ClusterAddress        string       `json:"cluster_address"`
+	Arn                   string       `json:"arn"`
 }
 
 type CacheNodes struct {

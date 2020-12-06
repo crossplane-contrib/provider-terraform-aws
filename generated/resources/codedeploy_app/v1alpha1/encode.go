@@ -22,16 +22,12 @@ import (
 
 func EncodeCodedeployApp(r CodedeployApp) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodedeployApp_ComputePlatform(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployApp_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployApp_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployApp_UniqueId(r.Spec.ForProvider, ctyVal)
+	EncodeCodedeployApp_ComputePlatform(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCodedeployApp_ComputePlatform(p CodedeployAppParameters, vals map[string]cty.Value) {
-	vals["compute_platform"] = cty.StringVal(p.ComputePlatform)
 }
 
 func EncodeCodedeployApp_Id(p CodedeployAppParameters, vals map[string]cty.Value) {
@@ -44,4 +40,8 @@ func EncodeCodedeployApp_Name(p CodedeployAppParameters, vals map[string]cty.Val
 
 func EncodeCodedeployApp_UniqueId(p CodedeployAppParameters, vals map[string]cty.Value) {
 	vals["unique_id"] = cty.StringVal(p.UniqueId)
+}
+
+func EncodeCodedeployApp_ComputePlatform(p CodedeployAppParameters, vals map[string]cty.Value) {
+	vals["compute_platform"] = cty.StringVal(p.ComputePlatform)
 }

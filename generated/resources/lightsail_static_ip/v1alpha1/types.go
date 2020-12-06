@@ -52,8 +52,8 @@ type LightsailStaticIpSpec struct {
 
 // A LightsailStaticIpParameters defines the desired state of a LightsailStaticIp
 type LightsailStaticIpParameters struct {
-	Name string `json:"name"`
 	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // A LightsailStaticIpStatus defines the observed state of a LightsailStaticIp
@@ -64,7 +64,7 @@ type LightsailStaticIpStatus struct {
 
 // A LightsailStaticIpObservation records the observed state of a LightsailStaticIp
 type LightsailStaticIpObservation struct {
+	Arn         string `json:"arn"`
 	IpAddress   string `json:"ip_address"`
 	SupportCode string `json:"support_code"`
-	Arn         string `json:"arn"`
 }

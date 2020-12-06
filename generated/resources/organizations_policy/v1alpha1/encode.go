@@ -22,22 +22,14 @@ import (
 
 func EncodeOrganizationsPolicy(r OrganizationsPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOrganizationsPolicy_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Type(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Content(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Name(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsPolicy_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOrganizationsPolicy_Tags(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeOrganizationsPolicy_Type(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
@@ -58,6 +50,14 @@ func EncodeOrganizationsPolicy_Id(p OrganizationsPolicyParameters, vals map[stri
 
 func EncodeOrganizationsPolicy_Name(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeOrganizationsPolicy_Tags(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeOrganizationsPolicy_Arn(p OrganizationsPolicyObservation, vals map[string]cty.Value) {

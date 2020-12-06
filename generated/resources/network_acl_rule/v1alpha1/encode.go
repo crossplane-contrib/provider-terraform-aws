@@ -22,48 +22,56 @@ import (
 
 func EncodeNetworkAclRule(r NetworkAclRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNetworkAclRule_IcmpCode(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_Ipv6CidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_NetworkAclId(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_Protocol(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_RuleAction(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_ToPort(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_CidrBlock(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_Ipv6CidrBlock(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_Protocol(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_IcmpType(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_Id(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_NetworkAclId(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_RuleAction(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_RuleNumber(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_Egress(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_FromPort(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_IcmpType(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_RuleNumber(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_ToPort(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_IcmpCode(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNetworkAclRule_IcmpCode(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["icmp_code"] = cty.StringVal(p.IcmpCode)
+func EncodeNetworkAclRule_ToPort(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["to_port"] = cty.NumberIntVal(p.ToPort)
 }
 
-func EncodeNetworkAclRule_Id(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeNetworkAclRule_CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
 }
 
 func EncodeNetworkAclRule_Ipv6CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
 }
 
-func EncodeNetworkAclRule_NetworkAclId(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["network_acl_id"] = cty.StringVal(p.NetworkAclId)
-}
-
 func EncodeNetworkAclRule_Protocol(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["protocol"] = cty.StringVal(p.Protocol)
+}
+
+func EncodeNetworkAclRule_IcmpType(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["icmp_type"] = cty.StringVal(p.IcmpType)
+}
+
+func EncodeNetworkAclRule_Id(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeNetworkAclRule_NetworkAclId(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["network_acl_id"] = cty.StringVal(p.NetworkAclId)
 }
 
 func EncodeNetworkAclRule_RuleAction(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["rule_action"] = cty.StringVal(p.RuleAction)
 }
 
-func EncodeNetworkAclRule_CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
+func EncodeNetworkAclRule_RuleNumber(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["rule_number"] = cty.NumberIntVal(p.RuleNumber)
 }
 
 func EncodeNetworkAclRule_Egress(p NetworkAclRuleParameters, vals map[string]cty.Value) {
@@ -74,14 +82,6 @@ func EncodeNetworkAclRule_FromPort(p NetworkAclRuleParameters, vals map[string]c
 	vals["from_port"] = cty.NumberIntVal(p.FromPort)
 }
 
-func EncodeNetworkAclRule_IcmpType(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["icmp_type"] = cty.StringVal(p.IcmpType)
-}
-
-func EncodeNetworkAclRule_RuleNumber(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["rule_number"] = cty.NumberIntVal(p.RuleNumber)
-}
-
-func EncodeNetworkAclRule_ToPort(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["to_port"] = cty.NumberIntVal(p.ToPort)
+func EncodeNetworkAclRule_IcmpCode(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["icmp_code"] = cty.StringVal(p.IcmpCode)
 }

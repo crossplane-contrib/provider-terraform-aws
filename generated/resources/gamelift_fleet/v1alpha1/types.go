@@ -53,15 +53,15 @@ type GameliftFleetSpec struct {
 // A GameliftFleetParameters defines the desired state of a GameliftFleet
 type GameliftFleetParameters struct {
 	Ec2InstanceType                string                      `json:"ec2_instance_type"`
+	Id                             string                      `json:"id"`
+	MetricGroups                   []string                    `json:"metric_groups"`
+	BuildId                        string                      `json:"build_id"`
+	Description                    string                      `json:"description"`
+	NewGameSessionProtectionPolicy string                      `json:"new_game_session_protection_policy"`
+	Tags                           map[string]string           `json:"tags"`
 	FleetType                      string                      `json:"fleet_type"`
 	InstanceRoleArn                string                      `json:"instance_role_arn"`
 	Name                           string                      `json:"name"`
-	BuildId                        string                      `json:"build_id"`
-	Description                    string                      `json:"description"`
-	MetricGroups                   []string                    `json:"metric_groups"`
-	NewGameSessionProtectionPolicy string                      `json:"new_game_session_protection_policy"`
-	Tags                           map[string]string           `json:"tags"`
-	Id                             string                      `json:"id"`
 	Ec2InboundPermission           []Ec2InboundPermission      `json:"ec2_inbound_permission"`
 	ResourceCreationLimitPolicy    ResourceCreationLimitPolicy `json:"resource_creation_limit_policy"`
 	RuntimeConfiguration           RuntimeConfiguration        `json:"runtime_configuration"`
@@ -69,10 +69,10 @@ type GameliftFleetParameters struct {
 }
 
 type Ec2InboundPermission struct {
+	FromPort int64  `json:"from_port"`
 	IpRange  string `json:"ip_range"`
 	Protocol string `json:"protocol"`
 	ToPort   int64  `json:"to_port"`
-	FromPort int64  `json:"from_port"`
 }
 
 type ResourceCreationLimitPolicy struct {
@@ -93,8 +93,8 @@ type ServerProcess struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A GameliftFleetStatus defines the observed state of a GameliftFleet
@@ -106,6 +106,6 @@ type GameliftFleetStatus struct {
 // A GameliftFleetObservation records the observed state of a GameliftFleet
 type GameliftFleetObservation struct {
 	LogPaths        []string `json:"log_paths"`
-	OperatingSystem string   `json:"operating_system"`
 	Arn             string   `json:"arn"`
+	OperatingSystem string   `json:"operating_system"`
 }

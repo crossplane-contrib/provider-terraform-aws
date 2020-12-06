@@ -52,11 +52,11 @@ type CloudhsmV2HsmSpec struct {
 
 // A CloudhsmV2HsmParameters defines the desired state of a CloudhsmV2Hsm
 type CloudhsmV2HsmParameters struct {
+	SubnetId         string   `json:"subnet_id"`
+	AvailabilityZone string   `json:"availability_zone"`
 	ClusterId        string   `json:"cluster_id"`
 	Id               string   `json:"id"`
 	IpAddress        string   `json:"ip_address"`
-	SubnetId         string   `json:"subnet_id"`
-	AvailabilityZone string   `json:"availability_zone"`
 	Timeouts         Timeouts `json:"timeouts"`
 }
 

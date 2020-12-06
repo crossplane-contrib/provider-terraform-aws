@@ -52,30 +52,30 @@ type DatasyncTaskSpec struct {
 
 // A DatasyncTaskParameters defines the desired state of a DatasyncTask
 type DatasyncTaskParameters struct {
-	Id                     string            `json:"id"`
 	Name                   string            `json:"name"`
 	SourceLocationArn      string            `json:"source_location_arn"`
 	Tags                   map[string]string `json:"tags"`
 	CloudwatchLogGroupArn  string            `json:"cloudwatch_log_group_arn"`
 	DestinationLocationArn string            `json:"destination_location_arn"`
-	Options                Options           `json:"options"`
+	Id                     string            `json:"id"`
 	Timeouts               Timeouts          `json:"timeouts"`
+	Options                Options           `json:"options"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 type Options struct {
+	VerifyMode           string `json:"verify_mode"`
+	Mtime                string `json:"mtime"`
 	PosixPermissions     string `json:"posix_permissions"`
 	PreserveDeletedFiles string `json:"preserve_deleted_files"`
 	PreserveDevices      string `json:"preserve_devices"`
 	Uid                  string `json:"uid"`
 	Atime                string `json:"atime"`
-	Gid                  string `json:"gid"`
-	Mtime                string `json:"mtime"`
 	BytesPerSecond       int64  `json:"bytes_per_second"`
-	VerifyMode           string `json:"verify_mode"`
-}
-
-type Timeouts struct {
-	Create string `json:"create"`
+	Gid                  string `json:"gid"`
 }
 
 // A DatasyncTaskStatus defines the observed state of a DatasyncTask

@@ -22,46 +22,34 @@ import (
 
 func EncodeServicequotasServiceQuota(r ServicequotasServiceQuota) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeServicequotasServiceQuota_Value(r.Spec.ForProvider, ctyVal)
 	EncodeServicequotasServiceQuota_QuotaCode(r.Spec.ForProvider, ctyVal)
-	EncodeServicequotasServiceQuota_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServicequotasServiceQuota_ServiceCode(r.Spec.ForProvider, ctyVal)
-	EncodeServicequotasServiceQuota_ServiceName(r.Status.AtProvider, ctyVal)
-	EncodeServicequotasServiceQuota_Adjustable(r.Status.AtProvider, ctyVal)
-	EncodeServicequotasServiceQuota_Arn(r.Status.AtProvider, ctyVal)
+	EncodeServicequotasServiceQuota_Value(r.Spec.ForProvider, ctyVal)
+	EncodeServicequotasServiceQuota_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServicequotasServiceQuota_QuotaName(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_RequestId(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_DefaultValue(r.Status.AtProvider, ctyVal)
+	EncodeServicequotasServiceQuota_Arn(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_RequestStatus(r.Status.AtProvider, ctyVal)
+	EncodeServicequotasServiceQuota_ServiceName(r.Status.AtProvider, ctyVal)
+	EncodeServicequotasServiceQuota_Adjustable(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeServicequotasServiceQuota_Value(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
-	vals["value"] = cty.NumberIntVal(p.Value)
 }
 
 func EncodeServicequotasServiceQuota_QuotaCode(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
 	vals["quota_code"] = cty.StringVal(p.QuotaCode)
 }
 
-func EncodeServicequotasServiceQuota_Id(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeServicequotasServiceQuota_ServiceCode(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
 	vals["service_code"] = cty.StringVal(p.ServiceCode)
 }
 
-func EncodeServicequotasServiceQuota_ServiceName(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	vals["service_name"] = cty.StringVal(p.ServiceName)
+func EncodeServicequotasServiceQuota_Value(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
+	vals["value"] = cty.NumberIntVal(p.Value)
 }
 
-func EncodeServicequotasServiceQuota_Adjustable(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	vals["adjustable"] = cty.BoolVal(p.Adjustable)
-}
-
-func EncodeServicequotasServiceQuota_Arn(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeServicequotasServiceQuota_Id(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeServicequotasServiceQuota_QuotaName(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
@@ -76,6 +64,18 @@ func EncodeServicequotasServiceQuota_DefaultValue(p ServicequotasServiceQuotaObs
 	vals["default_value"] = cty.NumberIntVal(p.DefaultValue)
 }
 
+func EncodeServicequotasServiceQuota_Arn(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
 func EncodeServicequotasServiceQuota_RequestStatus(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
 	vals["request_status"] = cty.StringVal(p.RequestStatus)
+}
+
+func EncodeServicequotasServiceQuota_ServiceName(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	vals["service_name"] = cty.StringVal(p.ServiceName)
+}
+
+func EncodeServicequotasServiceQuota_Adjustable(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	vals["adjustable"] = cty.BoolVal(p.Adjustable)
 }

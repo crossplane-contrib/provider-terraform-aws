@@ -23,17 +23,17 @@ import (
 func EncodeRdsGlobalCluster(r RdsGlobalCluster) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeRdsGlobalCluster_SourceDbClusterIdentifier(r.Spec.ForProvider, ctyVal)
-	EncodeRdsGlobalCluster_DeletionProtection(r.Spec.ForProvider, ctyVal)
+	EncodeRdsGlobalCluster_StorageEncrypted(r.Spec.ForProvider, ctyVal)
 	EncodeRdsGlobalCluster_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRdsGlobalCluster_GlobalClusterIdentifier(r.Spec.ForProvider, ctyVal)
-	EncodeRdsGlobalCluster_EngineVersion(r.Spec.ForProvider, ctyVal)
 	EncodeRdsGlobalCluster_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRdsGlobalCluster_StorageEncrypted(r.Spec.ForProvider, ctyVal)
 	EncodeRdsGlobalCluster_DatabaseName(r.Spec.ForProvider, ctyVal)
+	EncodeRdsGlobalCluster_DeletionProtection(r.Spec.ForProvider, ctyVal)
 	EncodeRdsGlobalCluster_Engine(r.Spec.ForProvider, ctyVal)
-	EncodeRdsGlobalCluster_GlobalClusterResourceId(r.Status.AtProvider, ctyVal)
-	EncodeRdsGlobalCluster_GlobalClusterMembers(r.Status.AtProvider.GlobalClusterMembers, ctyVal)
+	EncodeRdsGlobalCluster_EngineVersion(r.Spec.ForProvider, ctyVal)
 	EncodeRdsGlobalCluster_Arn(r.Status.AtProvider, ctyVal)
+	EncodeRdsGlobalCluster_GlobalClusterMembers(r.Status.AtProvider.GlobalClusterMembers, ctyVal)
+	EncodeRdsGlobalCluster_GlobalClusterResourceId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -41,8 +41,8 @@ func EncodeRdsGlobalCluster_SourceDbClusterIdentifier(p RdsGlobalClusterParamete
 	vals["source_db_cluster_identifier"] = cty.StringVal(p.SourceDbClusterIdentifier)
 }
 
-func EncodeRdsGlobalCluster_DeletionProtection(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
-	vals["deletion_protection"] = cty.BoolVal(p.DeletionProtection)
+func EncodeRdsGlobalCluster_StorageEncrypted(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
+	vals["storage_encrypted"] = cty.BoolVal(p.StorageEncrypted)
 }
 
 func EncodeRdsGlobalCluster_ForceDestroy(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
@@ -53,28 +53,28 @@ func EncodeRdsGlobalCluster_GlobalClusterIdentifier(p RdsGlobalClusterParameters
 	vals["global_cluster_identifier"] = cty.StringVal(p.GlobalClusterIdentifier)
 }
 
-func EncodeRdsGlobalCluster_EngineVersion(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
-}
-
 func EncodeRdsGlobalCluster_Id(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRdsGlobalCluster_StorageEncrypted(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
-	vals["storage_encrypted"] = cty.BoolVal(p.StorageEncrypted)
 }
 
 func EncodeRdsGlobalCluster_DatabaseName(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
 	vals["database_name"] = cty.StringVal(p.DatabaseName)
 }
 
+func EncodeRdsGlobalCluster_DeletionProtection(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
+	vals["deletion_protection"] = cty.BoolVal(p.DeletionProtection)
+}
+
 func EncodeRdsGlobalCluster_Engine(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
 	vals["engine"] = cty.StringVal(p.Engine)
 }
 
-func EncodeRdsGlobalCluster_GlobalClusterResourceId(p RdsGlobalClusterObservation, vals map[string]cty.Value) {
-	vals["global_cluster_resource_id"] = cty.StringVal(p.GlobalClusterResourceId)
+func EncodeRdsGlobalCluster_EngineVersion(p RdsGlobalClusterParameters, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+}
+
+func EncodeRdsGlobalCluster_Arn(p RdsGlobalClusterObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeRdsGlobalCluster_GlobalClusterMembers(p []GlobalClusterMembers, vals map[string]cty.Value) {
@@ -96,6 +96,6 @@ func EncodeRdsGlobalCluster_GlobalClusterMembers_IsWriter(p GlobalClusterMembers
 	vals["is_writer"] = cty.BoolVal(p.IsWriter)
 }
 
-func EncodeRdsGlobalCluster_Arn(p RdsGlobalClusterObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeRdsGlobalCluster_GlobalClusterResourceId(p RdsGlobalClusterObservation, vals map[string]cty.Value) {
+	vals["global_cluster_resource_id"] = cty.StringVal(p.GlobalClusterResourceId)
 }

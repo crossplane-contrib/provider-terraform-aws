@@ -22,16 +22,12 @@ import (
 
 func EncodeDirectoryServiceConditionalForwarder(r DirectoryServiceConditionalForwarder) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDirectoryServiceConditionalForwarder_DirectoryId(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceConditionalForwarder_DnsIps(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceConditionalForwarder_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceConditionalForwarder_RemoteDomainName(r.Spec.ForProvider, ctyVal)
+	EncodeDirectoryServiceConditionalForwarder_DirectoryId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDirectoryServiceConditionalForwarder_DirectoryId(p DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
-	vals["directory_id"] = cty.StringVal(p.DirectoryId)
 }
 
 func EncodeDirectoryServiceConditionalForwarder_DnsIps(p DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
@@ -48,4 +44,8 @@ func EncodeDirectoryServiceConditionalForwarder_Id(p DirectoryServiceConditional
 
 func EncodeDirectoryServiceConditionalForwarder_RemoteDomainName(p DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
 	vals["remote_domain_name"] = cty.StringVal(p.RemoteDomainName)
+}
+
+func EncodeDirectoryServiceConditionalForwarder_DirectoryId(p DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	vals["directory_id"] = cty.StringVal(p.DirectoryId)
 }

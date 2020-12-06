@@ -52,17 +52,17 @@ type ConfigOrganizationManagedRuleSpec struct {
 
 // A ConfigOrganizationManagedRuleParameters defines the desired state of a ConfigOrganizationManagedRule
 type ConfigOrganizationManagedRuleParameters struct {
+	RuleIdentifier            string   `json:"rule_identifier"`
 	TagKeyScope               string   `json:"tag_key_scope"`
 	TagValueScope             string   `json:"tag_value_scope"`
-	Description               string   `json:"description"`
-	Id                        string   `json:"id"`
 	InputParameters           string   `json:"input_parameters"`
-	ResourceIdScope           string   `json:"resource_id_scope"`
-	RuleIdentifier            string   `json:"rule_identifier"`
+	ResourceTypesScope        []string `json:"resource_types_scope"`
 	ExcludedAccounts          []string `json:"excluded_accounts"`
+	Id                        string   `json:"id"`
 	MaximumExecutionFrequency string   `json:"maximum_execution_frequency"`
 	Name                      string   `json:"name"`
-	ResourceTypesScope        []string `json:"resource_types_scope"`
+	ResourceIdScope           string   `json:"resource_id_scope"`
+	Description               string   `json:"description"`
 	Timeouts                  Timeouts `json:"timeouts"`
 }
 

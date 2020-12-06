@@ -52,11 +52,11 @@ type IamUserLoginProfileSpec struct {
 
 // A IamUserLoginProfileParameters defines the desired state of a IamUserLoginProfile
 type IamUserLoginProfileParameters struct {
+	Id                    string `json:"id"`
+	PasswordLength        int64  `json:"password_length"`
 	PasswordResetRequired bool   `json:"password_reset_required"`
 	PgpKey                string `json:"pgp_key"`
 	User                  string `json:"user"`
-	Id                    string `json:"id"`
-	PasswordLength        int64  `json:"password_length"`
 }
 
 // A IamUserLoginProfileStatus defines the observed state of a IamUserLoginProfile
@@ -67,6 +67,6 @@ type IamUserLoginProfileStatus struct {
 
 // A IamUserLoginProfileObservation records the observed state of a IamUserLoginProfile
 type IamUserLoginProfileObservation struct {
-	EncryptedPassword string `json:"encrypted_password"`
 	KeyFingerprint    string `json:"key_fingerprint"`
+	EncryptedPassword string `json:"encrypted_password"`
 }

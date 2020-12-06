@@ -22,18 +22,14 @@ import (
 
 func EncodeCloudfrontPublicKey(r CloudfrontPublicKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudfrontPublicKey_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_EncodedKey(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudfrontPublicKey_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_CallerReference(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Etag(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudfrontPublicKey_NamePrefix(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeCloudfrontPublicKey_Comment(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
@@ -50,6 +46,10 @@ func EncodeCloudfrontPublicKey_Id(p CloudfrontPublicKeyParameters, vals map[stri
 
 func EncodeCloudfrontPublicKey_Name(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCloudfrontPublicKey_NamePrefix(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeCloudfrontPublicKey_CallerReference(p CloudfrontPublicKeyObservation, vals map[string]cty.Value) {

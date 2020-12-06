@@ -24,17 +24,17 @@ func EncodeNetworkInterface(r NetworkInterface) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeNetworkInterface_Description(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterface_Id(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkInterface_PrivateIp(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterface_PrivateIps(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkInterface_SourceDestCheck(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterface_SubnetId(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkInterface_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkInterface_PrivateIpsCount(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterface_SecurityGroups(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkInterface_SourceDestCheck(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkInterface_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkInterface_PrivateIp(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkInterface_PrivateIpsCount(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterface_Attachment(r.Spec.ForProvider.Attachment, ctyVal)
+	EncodeNetworkInterface_MacAddress(r.Status.AtProvider, ctyVal)
 	EncodeNetworkInterface_OutpostArn(r.Status.AtProvider, ctyVal)
 	EncodeNetworkInterface_PrivateDnsName(r.Status.AtProvider, ctyVal)
-	EncodeNetworkInterface_MacAddress(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -46,10 +46,6 @@ func EncodeNetworkInterface_Id(p NetworkInterfaceParameters, vals map[string]cty
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeNetworkInterface_PrivateIp(p NetworkInterfaceParameters, vals map[string]cty.Value) {
-	vals["private_ip"] = cty.StringVal(p.PrivateIp)
-}
-
 func EncodeNetworkInterface_PrivateIps(p NetworkInterfaceParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.PrivateIps {
@@ -58,12 +54,20 @@ func EncodeNetworkInterface_PrivateIps(p NetworkInterfaceParameters, vals map[st
 	vals["private_ips"] = cty.SetVal(colVals)
 }
 
-func EncodeNetworkInterface_SourceDestCheck(p NetworkInterfaceParameters, vals map[string]cty.Value) {
-	vals["source_dest_check"] = cty.BoolVal(p.SourceDestCheck)
-}
-
 func EncodeNetworkInterface_SubnetId(p NetworkInterfaceParameters, vals map[string]cty.Value) {
 	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+}
+
+func EncodeNetworkInterface_SecurityGroups(p NetworkInterfaceParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SecurityGroups {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["security_groups"] = cty.SetVal(colVals)
+}
+
+func EncodeNetworkInterface_SourceDestCheck(p NetworkInterfaceParameters, vals map[string]cty.Value) {
+	vals["source_dest_check"] = cty.BoolVal(p.SourceDestCheck)
 }
 
 func EncodeNetworkInterface_Tags(p NetworkInterfaceParameters, vals map[string]cty.Value) {
@@ -74,16 +78,12 @@ func EncodeNetworkInterface_Tags(p NetworkInterfaceParameters, vals map[string]c
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeNetworkInterface_PrivateIpsCount(p NetworkInterfaceParameters, vals map[string]cty.Value) {
-	vals["private_ips_count"] = cty.NumberIntVal(p.PrivateIpsCount)
+func EncodeNetworkInterface_PrivateIp(p NetworkInterfaceParameters, vals map[string]cty.Value) {
+	vals["private_ip"] = cty.StringVal(p.PrivateIp)
 }
 
-func EncodeNetworkInterface_SecurityGroups(p NetworkInterfaceParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SecurityGroups {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["security_groups"] = cty.SetVal(colVals)
+func EncodeNetworkInterface_PrivateIpsCount(p NetworkInterfaceParameters, vals map[string]cty.Value) {
+	vals["private_ips_count"] = cty.NumberIntVal(p.PrivateIpsCount)
 }
 
 func EncodeNetworkInterface_Attachment(p Attachment, vals map[string]cty.Value) {
@@ -108,14 +108,14 @@ func EncodeNetworkInterface_Attachment_Instance(p Attachment, vals map[string]ct
 	vals["instance"] = cty.StringVal(p.Instance)
 }
 
+func EncodeNetworkInterface_MacAddress(p NetworkInterfaceObservation, vals map[string]cty.Value) {
+	vals["mac_address"] = cty.StringVal(p.MacAddress)
+}
+
 func EncodeNetworkInterface_OutpostArn(p NetworkInterfaceObservation, vals map[string]cty.Value) {
 	vals["outpost_arn"] = cty.StringVal(p.OutpostArn)
 }
 
 func EncodeNetworkInterface_PrivateDnsName(p NetworkInterfaceObservation, vals map[string]cty.Value) {
 	vals["private_dns_name"] = cty.StringVal(p.PrivateDnsName)
-}
-
-func EncodeNetworkInterface_MacAddress(p NetworkInterfaceObservation, vals map[string]cty.Value) {
-	vals["mac_address"] = cty.StringVal(p.MacAddress)
 }

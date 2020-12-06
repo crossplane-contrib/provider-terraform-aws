@@ -22,15 +22,19 @@ import (
 
 func EncodeIamInstanceProfile(r IamInstanceProfile) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamInstanceProfile_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Role(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamInstanceProfile_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_CreateDate(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamInstanceProfile_Name(p IamInstanceProfileParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeIamInstanceProfile_NamePrefix(p IamInstanceProfileParameters, vals map[string]cty.Value) {
@@ -47,10 +51,6 @@ func EncodeIamInstanceProfile_Role(p IamInstanceProfileParameters, vals map[stri
 
 func EncodeIamInstanceProfile_Id(p IamInstanceProfileParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamInstanceProfile_Name(p IamInstanceProfileParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeIamInstanceProfile_UniqueId(p IamInstanceProfileObservation, vals map[string]cty.Value) {

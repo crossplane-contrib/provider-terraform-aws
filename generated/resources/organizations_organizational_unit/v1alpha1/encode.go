@@ -22,12 +22,16 @@ import (
 
 func EncodeOrganizationsOrganizationalUnit(r OrganizationsOrganizationalUnit) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeOrganizationsOrganizationalUnit_ParentId(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsOrganizationalUnit_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsOrganizationalUnit_Name(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsOrganizationalUnit_ParentId(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsOrganizationalUnit_Accounts(r.Status.AtProvider.Accounts, ctyVal)
 	EncodeOrganizationsOrganizationalUnit_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeOrganizationsOrganizationalUnit_ParentId(p OrganizationsOrganizationalUnitParameters, vals map[string]cty.Value) {
+	vals["parent_id"] = cty.StringVal(p.ParentId)
 }
 
 func EncodeOrganizationsOrganizationalUnit_Id(p OrganizationsOrganizationalUnitParameters, vals map[string]cty.Value) {
@@ -38,21 +42,21 @@ func EncodeOrganizationsOrganizationalUnit_Name(p OrganizationsOrganizationalUni
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeOrganizationsOrganizationalUnit_ParentId(p OrganizationsOrganizationalUnitParameters, vals map[string]cty.Value) {
-	vals["parent_id"] = cty.StringVal(p.ParentId)
-}
-
 func EncodeOrganizationsOrganizationalUnit_Accounts(p []Accounts, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeOrganizationsOrganizationalUnit_Accounts_Name(v, ctyVal)
 		EncodeOrganizationsOrganizationalUnit_Accounts_Arn(v, ctyVal)
 		EncodeOrganizationsOrganizationalUnit_Accounts_Email(v, ctyVal)
 		EncodeOrganizationsOrganizationalUnit_Accounts_Id(v, ctyVal)
-		EncodeOrganizationsOrganizationalUnit_Accounts_Name(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["accounts"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeOrganizationsOrganizationalUnit_Accounts_Name(p Accounts, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeOrganizationsOrganizationalUnit_Accounts_Arn(p Accounts, vals map[string]cty.Value) {
@@ -65,10 +69,6 @@ func EncodeOrganizationsOrganizationalUnit_Accounts_Email(p Accounts, vals map[s
 
 func EncodeOrganizationsOrganizationalUnit_Accounts_Id(p Accounts, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeOrganizationsOrganizationalUnit_Accounts_Name(p Accounts, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeOrganizationsOrganizationalUnit_Arn(p OrganizationsOrganizationalUnitObservation, vals map[string]cty.Value) {

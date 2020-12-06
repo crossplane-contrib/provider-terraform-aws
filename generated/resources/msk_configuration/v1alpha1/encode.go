@@ -22,22 +22,14 @@ import (
 
 func EncodeMskConfiguration(r MskConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMskConfiguration_Name(r.Spec.ForProvider, ctyVal)
-	EncodeMskConfiguration_ServerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_KafkaVersions(r.Spec.ForProvider, ctyVal)
+	EncodeMskConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeMskConfiguration_ServerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMskConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeMskConfiguration_Name(p MskConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeMskConfiguration_ServerProperties(p MskConfigurationParameters, vals map[string]cty.Value) {
-	vals["server_properties"] = cty.StringVal(p.ServerProperties)
 }
 
 func EncodeMskConfiguration_Description(p MskConfigurationParameters, vals map[string]cty.Value) {
@@ -54,6 +46,14 @@ func EncodeMskConfiguration_KafkaVersions(p MskConfigurationParameters, vals map
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["kafka_versions"] = cty.SetVal(colVals)
+}
+
+func EncodeMskConfiguration_Name(p MskConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeMskConfiguration_ServerProperties(p MskConfigurationParameters, vals map[string]cty.Value) {
+	vals["server_properties"] = cty.StringVal(p.ServerProperties)
 }
 
 func EncodeMskConfiguration_Arn(p MskConfigurationObservation, vals map[string]cty.Value) {

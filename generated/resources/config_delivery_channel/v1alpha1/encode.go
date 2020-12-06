@@ -22,14 +22,18 @@ import (
 
 func EncodeConfigDeliveryChannel(r ConfigDeliveryChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeConfigDeliveryChannel_SnsTopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_Name(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_S3BucketName(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_S3KeyPrefix(r.Spec.ForProvider, ctyVal)
-	EncodeConfigDeliveryChannel_SnsTopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_SnapshotDeliveryProperties(r.Spec.ForProvider.SnapshotDeliveryProperties, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeConfigDeliveryChannel_SnsTopicArn(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
+	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
 }
 
 func EncodeConfigDeliveryChannel_Id(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
@@ -46,10 +50,6 @@ func EncodeConfigDeliveryChannel_S3BucketName(p ConfigDeliveryChannelParameters,
 
 func EncodeConfigDeliveryChannel_S3KeyPrefix(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
 	vals["s3_key_prefix"] = cty.StringVal(p.S3KeyPrefix)
-}
-
-func EncodeConfigDeliveryChannel_SnsTopicArn(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
-	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
 }
 
 func EncodeConfigDeliveryChannel_SnapshotDeliveryProperties(p SnapshotDeliveryProperties, vals map[string]cty.Value) {

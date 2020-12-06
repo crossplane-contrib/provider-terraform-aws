@@ -24,10 +24,10 @@ func EncodeGlueClassifier(r GlueClassifier) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeGlueClassifier_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueClassifier_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlueClassifier_CsvClassifier(r.Spec.ForProvider.CsvClassifier, ctyVal)
 	EncodeGlueClassifier_GrokClassifier(r.Spec.ForProvider.GrokClassifier, ctyVal)
 	EncodeGlueClassifier_JsonClassifier(r.Spec.ForProvider.JsonClassifier, ctyVal)
 	EncodeGlueClassifier_XmlClassifier(r.Spec.ForProvider.XmlClassifier, ctyVal)
-	EncodeGlueClassifier_CsvClassifier(r.Spec.ForProvider.CsvClassifier, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
@@ -38,6 +38,47 @@ func EncodeGlueClassifier_Id(p GlueClassifierParameters, vals map[string]cty.Val
 
 func EncodeGlueClassifier_Name(p GlueClassifierParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeGlueClassifier_CsvClassifier(p CsvClassifier, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGlueClassifier_CsvClassifier_ContainsHeader(p, ctyVal)
+	EncodeGlueClassifier_CsvClassifier_Delimiter(p, ctyVal)
+	EncodeGlueClassifier_CsvClassifier_DisableValueTrimming(p, ctyVal)
+	EncodeGlueClassifier_CsvClassifier_Header(p, ctyVal)
+	EncodeGlueClassifier_CsvClassifier_QuoteSymbol(p, ctyVal)
+	EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["csv_classifier"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGlueClassifier_CsvClassifier_ContainsHeader(p CsvClassifier, vals map[string]cty.Value) {
+	vals["contains_header"] = cty.StringVal(p.ContainsHeader)
+}
+
+func EncodeGlueClassifier_CsvClassifier_Delimiter(p CsvClassifier, vals map[string]cty.Value) {
+	vals["delimiter"] = cty.StringVal(p.Delimiter)
+}
+
+func EncodeGlueClassifier_CsvClassifier_DisableValueTrimming(p CsvClassifier, vals map[string]cty.Value) {
+	vals["disable_value_trimming"] = cty.BoolVal(p.DisableValueTrimming)
+}
+
+func EncodeGlueClassifier_CsvClassifier_Header(p CsvClassifier, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Header {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["header"] = cty.ListVal(colVals)
+}
+
+func EncodeGlueClassifier_CsvClassifier_QuoteSymbol(p CsvClassifier, vals map[string]cty.Value) {
+	vals["quote_symbol"] = cty.StringVal(p.QuoteSymbol)
+}
+
+func EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p CsvClassifier, vals map[string]cty.Value) {
+	vals["allow_single_column"] = cty.BoolVal(p.AllowSingleColumn)
 }
 
 func EncodeGlueClassifier_GrokClassifier(p GrokClassifier, vals map[string]cty.Value) {
@@ -89,45 +130,4 @@ func EncodeGlueClassifier_XmlClassifier_Classification(p XmlClassifier, vals map
 
 func EncodeGlueClassifier_XmlClassifier_RowTag(p XmlClassifier, vals map[string]cty.Value) {
 	vals["row_tag"] = cty.StringVal(p.RowTag)
-}
-
-func EncodeGlueClassifier_CsvClassifier(p CsvClassifier, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeGlueClassifier_CsvClassifier_Header(p, ctyVal)
-	EncodeGlueClassifier_CsvClassifier_QuoteSymbol(p, ctyVal)
-	EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p, ctyVal)
-	EncodeGlueClassifier_CsvClassifier_ContainsHeader(p, ctyVal)
-	EncodeGlueClassifier_CsvClassifier_Delimiter(p, ctyVal)
-	EncodeGlueClassifier_CsvClassifier_DisableValueTrimming(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["csv_classifier"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlueClassifier_CsvClassifier_Header(p CsvClassifier, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Header {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["header"] = cty.ListVal(colVals)
-}
-
-func EncodeGlueClassifier_CsvClassifier_QuoteSymbol(p CsvClassifier, vals map[string]cty.Value) {
-	vals["quote_symbol"] = cty.StringVal(p.QuoteSymbol)
-}
-
-func EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p CsvClassifier, vals map[string]cty.Value) {
-	vals["allow_single_column"] = cty.BoolVal(p.AllowSingleColumn)
-}
-
-func EncodeGlueClassifier_CsvClassifier_ContainsHeader(p CsvClassifier, vals map[string]cty.Value) {
-	vals["contains_header"] = cty.StringVal(p.ContainsHeader)
-}
-
-func EncodeGlueClassifier_CsvClassifier_Delimiter(p CsvClassifier, vals map[string]cty.Value) {
-	vals["delimiter"] = cty.StringVal(p.Delimiter)
-}
-
-func EncodeGlueClassifier_CsvClassifier_DisableValueTrimming(p CsvClassifier, vals map[string]cty.Value) {
-	vals["disable_value_trimming"] = cty.BoolVal(p.DisableValueTrimming)
 }

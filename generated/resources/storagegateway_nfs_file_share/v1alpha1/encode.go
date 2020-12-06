@@ -23,19 +23,19 @@ import (
 func EncodeStoragegatewayNfsFileShare(r StoragegatewayNfsFileShare) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeStoragegatewayNfsFileShare_ClientList(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_GatewayArn(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayNfsFileShare_KmsEncrypted(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayNfsFileShare_LocationArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_Squash(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayNfsFileShare_ReadOnly(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_RequesterPays(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_DefaultStorageClass(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_ObjectAcl(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_GatewayArn(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayNfsFileShare_Id(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayNfsFileShare_KmsKeyArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayNfsFileShare_GuessMimeTypeEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_Squash(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_DefaultStorageClass(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_KmsKeyArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_ObjectAcl(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayNfsFileShare_RequesterPays(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayNfsFileShare_CacheAttributes(r.Spec.ForProvider.CacheAttributes, ctyVal)
 	EncodeStoragegatewayNfsFileShare_NfsFileShareDefaults(r.Spec.ForProvider.NfsFileShareDefaults, ctyVal)
 	EncodeStoragegatewayNfsFileShare_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
@@ -53,10 +53,6 @@ func EncodeStoragegatewayNfsFileShare_ClientList(p StoragegatewayNfsFileSharePar
 	vals["client_list"] = cty.SetVal(colVals)
 }
 
-func EncodeStoragegatewayNfsFileShare_GatewayArn(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
-	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
-}
-
 func EncodeStoragegatewayNfsFileShare_KmsEncrypted(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
 	vals["kms_encrypted"] = cty.BoolVal(p.KmsEncrypted)
 }
@@ -65,12 +61,20 @@ func EncodeStoragegatewayNfsFileShare_LocationArn(p StoragegatewayNfsFileSharePa
 	vals["location_arn"] = cty.StringVal(p.LocationArn)
 }
 
+func EncodeStoragegatewayNfsFileShare_ReadOnly(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
+	vals["read_only"] = cty.BoolVal(p.ReadOnly)
+}
+
 func EncodeStoragegatewayNfsFileShare_RoleArn(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
-func EncodeStoragegatewayNfsFileShare_Squash(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
-	vals["squash"] = cty.StringVal(p.Squash)
+func EncodeStoragegatewayNfsFileShare_GatewayArn(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
+	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
+}
+
+func EncodeStoragegatewayNfsFileShare_Id(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeStoragegatewayNfsFileShare_Tags(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
@@ -81,32 +85,28 @@ func EncodeStoragegatewayNfsFileShare_Tags(p StoragegatewayNfsFileShareParameter
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeStoragegatewayNfsFileShare_ReadOnly(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
-	vals["read_only"] = cty.BoolVal(p.ReadOnly)
+func EncodeStoragegatewayNfsFileShare_GuessMimeTypeEnabled(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
+	vals["guess_mime_type_enabled"] = cty.BoolVal(p.GuessMimeTypeEnabled)
 }
 
-func EncodeStoragegatewayNfsFileShare_RequesterPays(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
-	vals["requester_pays"] = cty.BoolVal(p.RequesterPays)
+func EncodeStoragegatewayNfsFileShare_Squash(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
+	vals["squash"] = cty.StringVal(p.Squash)
 }
 
 func EncodeStoragegatewayNfsFileShare_DefaultStorageClass(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
 	vals["default_storage_class"] = cty.StringVal(p.DefaultStorageClass)
 }
 
-func EncodeStoragegatewayNfsFileShare_ObjectAcl(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
-	vals["object_acl"] = cty.StringVal(p.ObjectAcl)
-}
-
-func EncodeStoragegatewayNfsFileShare_Id(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeStoragegatewayNfsFileShare_KmsKeyArn(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
-func EncodeStoragegatewayNfsFileShare_GuessMimeTypeEnabled(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
-	vals["guess_mime_type_enabled"] = cty.BoolVal(p.GuessMimeTypeEnabled)
+func EncodeStoragegatewayNfsFileShare_ObjectAcl(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
+	vals["object_acl"] = cty.StringVal(p.ObjectAcl)
+}
+
+func EncodeStoragegatewayNfsFileShare_RequesterPays(p StoragegatewayNfsFileShareParameters, vals map[string]cty.Value) {
+	vals["requester_pays"] = cty.BoolVal(p.RequesterPays)
 }
 
 func EncodeStoragegatewayNfsFileShare_CacheAttributes(p CacheAttributes, vals map[string]cty.Value) {

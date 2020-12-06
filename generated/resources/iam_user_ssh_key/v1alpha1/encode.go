@@ -22,14 +22,18 @@ import (
 
 func EncodeIamUserSshKey(r IamUserSshKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamUserSshKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_PublicKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Status(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Username(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Encoding(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserSshKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_SshPublicKeyId(r.Status.AtProvider, ctyVal)
 	EncodeIamUserSshKey_Fingerprint(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamUserSshKey_Id(p IamUserSshKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamUserSshKey_PublicKey(p IamUserSshKeyParameters, vals map[string]cty.Value) {
@@ -46,10 +50,6 @@ func EncodeIamUserSshKey_Username(p IamUserSshKeyParameters, vals map[string]cty
 
 func EncodeIamUserSshKey_Encoding(p IamUserSshKeyParameters, vals map[string]cty.Value) {
 	vals["encoding"] = cty.StringVal(p.Encoding)
-}
-
-func EncodeIamUserSshKey_Id(p IamUserSshKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamUserSshKey_SshPublicKeyId(p IamUserSshKeyObservation, vals map[string]cty.Value) {

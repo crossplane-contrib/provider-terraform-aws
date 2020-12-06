@@ -52,18 +52,18 @@ type EcsTaskDefinitionSpec struct {
 
 // A EcsTaskDefinitionParameters defines the desired state of a EcsTaskDefinition
 type EcsTaskDefinitionParameters struct {
-	Tags                    map[string]string      `json:"tags"`
-	Cpu                     string                 `json:"cpu"`
-	Id                      string                 `json:"id"`
-	IpcMode                 string                 `json:"ipc_mode"`
 	NetworkMode             string                 `json:"network_mode"`
-	ContainerDefinitions    string                 `json:"container_definitions"`
-	RequiresCompatibilities []string               `json:"requires_compatibilities"`
 	TaskRoleArn             string                 `json:"task_role_arn"`
-	ExecutionRoleArn        string                 `json:"execution_role_arn"`
-	Family                  string                 `json:"family"`
+	Id                      string                 `json:"id"`
 	Memory                  string                 `json:"memory"`
 	PidMode                 string                 `json:"pid_mode"`
+	ContainerDefinitions    string                 `json:"container_definitions"`
+	Cpu                     string                 `json:"cpu"`
+	Family                  string                 `json:"family"`
+	RequiresCompatibilities []string               `json:"requires_compatibilities"`
+	Tags                    map[string]string      `json:"tags"`
+	ExecutionRoleArn        string                 `json:"execution_role_arn"`
+	IpcMode                 string                 `json:"ipc_mode"`
 	InferenceAccelerator    InferenceAccelerator   `json:"inference_accelerator"`
 	PlacementConstraints    []PlacementConstraints `json:"placement_constraints"`
 	ProxyConfiguration      ProxyConfiguration     `json:"proxy_configuration"`
@@ -94,24 +94,24 @@ type Volume struct {
 }
 
 type DockerVolumeConfiguration struct {
-	DriverOpts    map[string]string `json:"driver_opts"`
 	Labels        map[string]string `json:"labels"`
 	Scope         string            `json:"scope"`
 	Autoprovision bool              `json:"autoprovision"`
 	Driver        string            `json:"driver"`
+	DriverOpts    map[string]string `json:"driver_opts"`
 }
 
 type EfsVolumeConfiguration struct {
-	FileSystemId          string              `json:"file_system_id"`
 	RootDirectory         string              `json:"root_directory"`
 	TransitEncryption     string              `json:"transit_encryption"`
 	TransitEncryptionPort int64               `json:"transit_encryption_port"`
+	FileSystemId          string              `json:"file_system_id"`
 	AuthorizationConfig   AuthorizationConfig `json:"authorization_config"`
 }
 
 type AuthorizationConfig struct {
-	Iam           string `json:"iam"`
 	AccessPointId string `json:"access_point_id"`
+	Iam           string `json:"iam"`
 }
 
 // A EcsTaskDefinitionStatus defines the observed state of a EcsTaskDefinition

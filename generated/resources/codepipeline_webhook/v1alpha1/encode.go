@@ -22,16 +22,24 @@ import (
 
 func EncodeCodepipelineWebhook(r CodepipelineWebhook) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodepipelineWebhook_TargetAction(r.Spec.ForProvider, ctyVal)
+	EncodeCodepipelineWebhook_TargetPipeline(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_Authentication(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeCodepipelineWebhook_TargetAction(r.Spec.ForProvider, ctyVal)
-	EncodeCodepipelineWebhook_TargetPipeline(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_AuthenticationConfiguration(r.Spec.ForProvider.AuthenticationConfiguration, ctyVal)
 	EncodeCodepipelineWebhook_Filter(r.Spec.ForProvider.Filter, ctyVal)
 	EncodeCodepipelineWebhook_Url(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCodepipelineWebhook_TargetAction(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
+	vals["target_action"] = cty.StringVal(p.TargetAction)
+}
+
+func EncodeCodepipelineWebhook_TargetPipeline(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
+	vals["target_pipeline"] = cty.StringVal(p.TargetPipeline)
 }
 
 func EncodeCodepipelineWebhook_Authentication(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
@@ -52,14 +60,6 @@ func EncodeCodepipelineWebhook_Tags(p CodepipelineWebhookParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeCodepipelineWebhook_TargetAction(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
-	vals["target_action"] = cty.StringVal(p.TargetAction)
-}
-
-func EncodeCodepipelineWebhook_TargetPipeline(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
-	vals["target_pipeline"] = cty.StringVal(p.TargetPipeline)
 }
 
 func EncodeCodepipelineWebhook_AuthenticationConfiguration(p AuthenticationConfiguration, vals map[string]cty.Value) {

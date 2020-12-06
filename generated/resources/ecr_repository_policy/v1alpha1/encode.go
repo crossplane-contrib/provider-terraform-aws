@@ -22,11 +22,15 @@ import (
 
 func EncodeEcrRepositoryPolicy(r EcrRepositoryPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEcrRepositoryPolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeEcrRepositoryPolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_RegistryId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEcrRepositoryPolicy_Repository(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
+	vals["repository"] = cty.StringVal(p.Repository)
 }
 
 func EncodeEcrRepositoryPolicy_Id(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
@@ -35,10 +39,6 @@ func EncodeEcrRepositoryPolicy_Id(p EcrRepositoryPolicyParameters, vals map[stri
 
 func EncodeEcrRepositoryPolicy_Policy(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeEcrRepositoryPolicy_Repository(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
-	vals["repository"] = cty.StringVal(p.Repository)
 }
 
 func EncodeEcrRepositoryPolicy_RegistryId(p EcrRepositoryPolicyObservation, vals map[string]cty.Value) {

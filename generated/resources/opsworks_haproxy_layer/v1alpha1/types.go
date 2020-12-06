@@ -52,33 +52,33 @@ type OpsworksHaproxyLayerSpec struct {
 
 // A OpsworksHaproxyLayerParameters defines the desired state of a OpsworksHaproxyLayer
 type OpsworksHaproxyLayerParameters struct {
-	HealthcheckUrl           string            `json:"healthcheck_url"`
-	StatsUrl                 string            `json:"stats_url"`
-	StatsPassword            string            `json:"stats_password"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
 	HealthcheckMethod        string            `json:"healthcheck_method"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	StackId                  string            `json:"stack_id"`
-	StatsUser                string            `json:"stats_user"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomJson               string            `json:"custom_json"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	Id                       string            `json:"id"`
-	Name                     string            `json:"name"`
-	StatsEnabled             bool              `json:"stats_enabled"`
-	SystemPackages           []string          `json:"system_packages"`
-	AutoHealing              bool              `json:"auto_healing"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	StatsPassword            string            `json:"stats_password"`
+	StatsUser                string            `json:"stats_user"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	HealthcheckUrl           string            `json:"healthcheck_url"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
 	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
 	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	Id                       string            `json:"id"`
+	StatsUrl                 string            `json:"stats_url"`
+	CustomJson               string            `json:"custom_json"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	SystemPackages           []string          `json:"system_packages"`
+	AutoHealing              bool              `json:"auto_healing"`
 	Tags                     map[string]string `json:"tags"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	StackId                  string            `json:"stack_id"`
+	StatsEnabled             bool              `json:"stats_enabled"`
+	Name                     string            `json:"name"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 

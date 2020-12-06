@@ -65,10 +65,10 @@ type AutoScalingGroupProvider struct {
 }
 
 type ManagedScaling struct {
-	TargetCapacity         int64  `json:"target_capacity"`
 	MaximumScalingStepSize int64  `json:"maximum_scaling_step_size"`
 	MinimumScalingStepSize int64  `json:"minimum_scaling_step_size"`
 	Status                 string `json:"status"`
+	TargetCapacity         int64  `json:"target_capacity"`
 }
 
 // A EcsCapacityProviderStatus defines the observed state of a EcsCapacityProvider

@@ -22,16 +22,24 @@ import (
 
 func EncodeDxLag(r DxLag) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDxLag_ForceDestroy(r.Spec.ForProvider, ctyVal)
+	EncodeDxLag_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_ConnectionsBandwidth(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_Location(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDxLag_ForceDestroy(r.Spec.ForProvider, ctyVal)
-	EncodeDxLag_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDxLag_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDxLag_HasLogicalRedundancy(r.Status.AtProvider, ctyVal)
 	EncodeDxLag_JumboFrameCapable(r.Status.AtProvider, ctyVal)
-	EncodeDxLag_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDxLag_ForceDestroy(p DxLagParameters, vals map[string]cty.Value) {
+	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
+}
+
+func EncodeDxLag_Id(p DxLagParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDxLag_Tags(p DxLagParameters, vals map[string]cty.Value) {
@@ -54,12 +62,8 @@ func EncodeDxLag_Name(p DxLagParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeDxLag_ForceDestroy(p DxLagParameters, vals map[string]cty.Value) {
-	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
-}
-
-func EncodeDxLag_Id(p DxLagParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeDxLag_Arn(p DxLagObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeDxLag_HasLogicalRedundancy(p DxLagObservation, vals map[string]cty.Value) {
@@ -68,8 +72,4 @@ func EncodeDxLag_HasLogicalRedundancy(p DxLagObservation, vals map[string]cty.Va
 
 func EncodeDxLag_JumboFrameCapable(p DxLagObservation, vals map[string]cty.Value) {
 	vals["jumbo_frame_capable"] = cty.BoolVal(p.JumboFrameCapable)
-}
-
-func EncodeDxLag_Arn(p DxLagObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

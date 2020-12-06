@@ -53,17 +53,17 @@ type MqBrokerSpec struct {
 // A MqBrokerParameters defines the desired state of a MqBroker
 type MqBrokerParameters struct {
 	AutoMinorVersionUpgrade    bool                       `json:"auto_minor_version_upgrade"`
-	PubliclyAccessible         bool                       `json:"publicly_accessible"`
-	SecurityGroups             []string                   `json:"security_groups"`
-	ApplyImmediately           bool                       `json:"apply_immediately"`
-	EngineVersion              string                     `json:"engine_version"`
-	Tags                       map[string]string          `json:"tags"`
+	SubnetIds                  []string                   `json:"subnet_ids"`
 	BrokerName                 string                     `json:"broker_name"`
 	EngineType                 string                     `json:"engine_type"`
-	Id                         string                     `json:"id"`
-	SubnetIds                  []string                   `json:"subnet_ids"`
-	DeploymentMode             string                     `json:"deployment_mode"`
 	HostInstanceType           string                     `json:"host_instance_type"`
+	Id                         string                     `json:"id"`
+	SecurityGroups             []string                   `json:"security_groups"`
+	Tags                       map[string]string          `json:"tags"`
+	ApplyImmediately           bool                       `json:"apply_immediately"`
+	EngineVersion              string                     `json:"engine_version"`
+	PubliclyAccessible         bool                       `json:"publicly_accessible"`
+	DeploymentMode             string                     `json:"deployment_mode"`
 	Configuration              Configuration              `json:"configuration"`
 	EncryptionOptions          EncryptionOptions          `json:"encryption_options"`
 	Logs                       Logs                       `json:"logs"`
@@ -72,8 +72,8 @@ type MqBrokerParameters struct {
 }
 
 type Configuration struct {
-	Revision int64  `json:"revision"`
 	Id       string `json:"id"`
+	Revision int64  `json:"revision"`
 }
 
 type EncryptionOptions struct {

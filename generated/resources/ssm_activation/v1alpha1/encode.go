@@ -22,17 +22,37 @@ import (
 
 func EncodeSsmActivation(r SsmActivation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSsmActivation_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_RegistrationLimit(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_ExpirationDate(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_IamRole(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_RegistrationLimit(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_RegistrationCount(r.Status.AtProvider, ctyVal)
 	EncodeSsmActivation_ActivationCode(r.Status.AtProvider, ctyVal)
 	EncodeSsmActivation_Expired(r.Status.AtProvider, ctyVal)
-	EncodeSsmActivation_RegistrationCount(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSsmActivation_Id(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSsmActivation_Name(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSsmActivation_RegistrationLimit(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["registration_limit"] = cty.NumberIntVal(p.RegistrationLimit)
+}
+
+func EncodeSsmActivation_Tags(p SsmActivationParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSsmActivation_Description(p SsmActivationParameters, vals map[string]cty.Value) {
@@ -47,24 +67,8 @@ func EncodeSsmActivation_IamRole(p SsmActivationParameters, vals map[string]cty.
 	vals["iam_role"] = cty.StringVal(p.IamRole)
 }
 
-func EncodeSsmActivation_Name(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSsmActivation_Tags(p SsmActivationParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSsmActivation_Id(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSsmActivation_RegistrationLimit(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["registration_limit"] = cty.NumberIntVal(p.RegistrationLimit)
+func EncodeSsmActivation_RegistrationCount(p SsmActivationObservation, vals map[string]cty.Value) {
+	vals["registration_count"] = cty.NumberIntVal(p.RegistrationCount)
 }
 
 func EncodeSsmActivation_ActivationCode(p SsmActivationObservation, vals map[string]cty.Value) {
@@ -73,8 +77,4 @@ func EncodeSsmActivation_ActivationCode(p SsmActivationObservation, vals map[str
 
 func EncodeSsmActivation_Expired(p SsmActivationObservation, vals map[string]cty.Value) {
 	vals["expired"] = cty.BoolVal(p.Expired)
-}
-
-func EncodeSsmActivation_RegistrationCount(p SsmActivationObservation, vals map[string]cty.Value) {
-	vals["registration_count"] = cty.NumberIntVal(p.RegistrationCount)
 }

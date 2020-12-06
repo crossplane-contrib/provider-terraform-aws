@@ -22,17 +22,13 @@ import (
 
 func EncodeOpsworksUserProfile(r OpsworksUserProfile) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksUserProfile_SshPublicKey(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_SshUsername(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_UserArn(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_AllowSelfManagement(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_Id(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksUserProfile_SshPublicKey(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOpsworksUserProfile_SshPublicKey(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	vals["ssh_public_key"] = cty.StringVal(p.SshPublicKey)
 }
 
 func EncodeOpsworksUserProfile_SshUsername(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
@@ -49,4 +45,8 @@ func EncodeOpsworksUserProfile_AllowSelfManagement(p OpsworksUserProfileParamete
 
 func EncodeOpsworksUserProfile_Id(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeOpsworksUserProfile_SshPublicKey(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
+	vals["ssh_public_key"] = cty.StringVal(p.SshPublicKey)
 }

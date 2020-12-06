@@ -22,86 +22,50 @@ import (
 
 func EncodeRdsClusterInstance(r RdsClusterInstance) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRdsClusterInstance_AvailabilityZone(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_DbParameterGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_CopyTagsToSnapshot(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_PerformanceInsightsKmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_CaCertIdentifier(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_PreferredBackupWindow(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_IdentifierPrefix(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_MonitoringInterval(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_PreferredMaintenanceWindow(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_PubliclyAccessible(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterInstance_EngineVersion(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_MonitoringRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_PerformanceInsightsEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_PromotionTier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterInstance_ApplyImmediately(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_InstanceClass(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_Engine(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterInstance_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_IdentifierPrefix(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_MonitoringInterval(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_PerformanceInsightsEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_PerformanceInsightsKmsKeyId(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_CopyTagsToSnapshot(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_DbParameterGroupName(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_PromotionTier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_PreferredMaintenanceWindow(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterInstance_DbSubnetGroupName(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_Engine(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_Id(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_MonitoringRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_PreferredBackupWindow(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_CaCertIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_Identifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_InstanceClass(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterInstance_PubliclyAccessible(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterInstance_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeRdsClusterInstance_Port(r.Status.AtProvider, ctyVal)
 	EncodeRdsClusterInstance_StorageEncrypted(r.Status.AtProvider, ctyVal)
+	EncodeRdsClusterInstance_DbiResourceId(r.Status.AtProvider, ctyVal)
+	EncodeRdsClusterInstance_Writer(r.Status.AtProvider, ctyVal)
 	EncodeRdsClusterInstance_Arn(r.Status.AtProvider, ctyVal)
 	EncodeRdsClusterInstance_Endpoint(r.Status.AtProvider, ctyVal)
 	EncodeRdsClusterInstance_KmsKeyId(r.Status.AtProvider, ctyVal)
-	EncodeRdsClusterInstance_DbiResourceId(r.Status.AtProvider, ctyVal)
-	EncodeRdsClusterInstance_Writer(r.Status.AtProvider, ctyVal)
+	EncodeRdsClusterInstance_Port(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRdsClusterInstance_AvailabilityZone(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
+func EncodeRdsClusterInstance_EngineVersion(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
 }
 
-func EncodeRdsClusterInstance_DbParameterGroupName(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["db_parameter_group_name"] = cty.StringVal(p.DbParameterGroupName)
-}
-
-func EncodeRdsClusterInstance_CopyTagsToSnapshot(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["copy_tags_to_snapshot"] = cty.BoolVal(p.CopyTagsToSnapshot)
-}
-
-func EncodeRdsClusterInstance_PerformanceInsightsKmsKeyId(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["performance_insights_kms_key_id"] = cty.StringVal(p.PerformanceInsightsKmsKeyId)
-}
-
-func EncodeRdsClusterInstance_CaCertIdentifier(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["ca_cert_identifier"] = cty.StringVal(p.CaCertIdentifier)
-}
-
-func EncodeRdsClusterInstance_Id(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRdsClusterInstance_PreferredBackupWindow(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["preferred_backup_window"] = cty.StringVal(p.PreferredBackupWindow)
-}
-
-func EncodeRdsClusterInstance_AutoMinorVersionUpgrade(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
+func EncodeRdsClusterInstance_ApplyImmediately(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["apply_immediately"] = cty.BoolVal(p.ApplyImmediately)
 }
 
 func EncodeRdsClusterInstance_IdentifierPrefix(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	vals["identifier_prefix"] = cty.StringVal(p.IdentifierPrefix)
-}
-
-func EncodeRdsClusterInstance_MonitoringInterval(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["monitoring_interval"] = cty.NumberIntVal(p.MonitoringInterval)
-}
-
-func EncodeRdsClusterInstance_PreferredMaintenanceWindow(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["preferred_maintenance_window"] = cty.StringVal(p.PreferredMaintenanceWindow)
-}
-
-func EncodeRdsClusterInstance_PubliclyAccessible(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["publicly_accessible"] = cty.BoolVal(p.PubliclyAccessible)
 }
 
 func EncodeRdsClusterInstance_Tags(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
@@ -112,44 +76,80 @@ func EncodeRdsClusterInstance_Tags(p RdsClusterInstanceParameters, vals map[stri
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRdsClusterInstance_Identifier(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["identifier"] = cty.StringVal(p.Identifier)
+func EncodeRdsClusterInstance_AutoMinorVersionUpgrade(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
 }
 
-func EncodeRdsClusterInstance_EngineVersion(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
-}
-
-func EncodeRdsClusterInstance_MonitoringRoleArn(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["monitoring_role_arn"] = cty.StringVal(p.MonitoringRoleArn)
+func EncodeRdsClusterInstance_MonitoringInterval(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["monitoring_interval"] = cty.NumberIntVal(p.MonitoringInterval)
 }
 
 func EncodeRdsClusterInstance_PerformanceInsightsEnabled(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	vals["performance_insights_enabled"] = cty.BoolVal(p.PerformanceInsightsEnabled)
 }
 
+func EncodeRdsClusterInstance_PerformanceInsightsKmsKeyId(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["performance_insights_kms_key_id"] = cty.StringVal(p.PerformanceInsightsKmsKeyId)
+}
+
+func EncodeRdsClusterInstance_CopyTagsToSnapshot(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["copy_tags_to_snapshot"] = cty.BoolVal(p.CopyTagsToSnapshot)
+}
+
+func EncodeRdsClusterInstance_DbParameterGroupName(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["db_parameter_group_name"] = cty.StringVal(p.DbParameterGroupName)
+}
+
 func EncodeRdsClusterInstance_PromotionTier(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	vals["promotion_tier"] = cty.NumberIntVal(p.PromotionTier)
 }
 
-func EncodeRdsClusterInstance_ApplyImmediately(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["apply_immediately"] = cty.BoolVal(p.ApplyImmediately)
+func EncodeRdsClusterInstance_PreferredMaintenanceWindow(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["preferred_maintenance_window"] = cty.StringVal(p.PreferredMaintenanceWindow)
 }
 
-func EncodeRdsClusterInstance_InstanceClass(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["instance_class"] = cty.StringVal(p.InstanceClass)
+func EncodeRdsClusterInstance_DbSubnetGroupName(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["db_subnet_group_name"] = cty.StringVal(p.DbSubnetGroupName)
 }
 
 func EncodeRdsClusterInstance_Engine(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	vals["engine"] = cty.StringVal(p.Engine)
 }
 
+func EncodeRdsClusterInstance_Id(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeRdsClusterInstance_MonitoringRoleArn(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["monitoring_role_arn"] = cty.StringVal(p.MonitoringRoleArn)
+}
+
+func EncodeRdsClusterInstance_PreferredBackupWindow(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["preferred_backup_window"] = cty.StringVal(p.PreferredBackupWindow)
+}
+
+func EncodeRdsClusterInstance_AvailabilityZone(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
+}
+
+func EncodeRdsClusterInstance_CaCertIdentifier(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["ca_cert_identifier"] = cty.StringVal(p.CaCertIdentifier)
+}
+
 func EncodeRdsClusterInstance_ClusterIdentifier(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
 }
 
-func EncodeRdsClusterInstance_DbSubnetGroupName(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	vals["db_subnet_group_name"] = cty.StringVal(p.DbSubnetGroupName)
+func EncodeRdsClusterInstance_Identifier(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["identifier"] = cty.StringVal(p.Identifier)
+}
+
+func EncodeRdsClusterInstance_InstanceClass(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["instance_class"] = cty.StringVal(p.InstanceClass)
+}
+
+func EncodeRdsClusterInstance_PubliclyAccessible(p RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	vals["publicly_accessible"] = cty.BoolVal(p.PubliclyAccessible)
 }
 
 func EncodeRdsClusterInstance_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -172,12 +172,16 @@ func EncodeRdsClusterInstance_Timeouts_Update(p Timeouts, vals map[string]cty.Va
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeRdsClusterInstance_Port(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
-	vals["port"] = cty.NumberIntVal(p.Port)
-}
-
 func EncodeRdsClusterInstance_StorageEncrypted(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
 	vals["storage_encrypted"] = cty.BoolVal(p.StorageEncrypted)
+}
+
+func EncodeRdsClusterInstance_DbiResourceId(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
+	vals["dbi_resource_id"] = cty.StringVal(p.DbiResourceId)
+}
+
+func EncodeRdsClusterInstance_Writer(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
+	vals["writer"] = cty.BoolVal(p.Writer)
 }
 
 func EncodeRdsClusterInstance_Arn(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
@@ -192,10 +196,6 @@ func EncodeRdsClusterInstance_KmsKeyId(p RdsClusterInstanceObservation, vals map
 	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
-func EncodeRdsClusterInstance_DbiResourceId(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
-	vals["dbi_resource_id"] = cty.StringVal(p.DbiResourceId)
-}
-
-func EncodeRdsClusterInstance_Writer(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
-	vals["writer"] = cty.BoolVal(p.Writer)
+func EncodeRdsClusterInstance_Port(p RdsClusterInstanceObservation, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
 }

@@ -52,10 +52,10 @@ type WafregionalRuleGroupSpec struct {
 
 // A WafregionalRuleGroupParameters defines the desired state of a WafregionalRuleGroup
 type WafregionalRuleGroupParameters struct {
-	Tags          map[string]string `json:"tags"`
 	Id            string            `json:"id"`
 	MetricName    string            `json:"metric_name"`
 	Name          string            `json:"name"`
+	Tags          map[string]string `json:"tags"`
 	ActivatedRule ActivatedRule     `json:"activated_rule"`
 }
 

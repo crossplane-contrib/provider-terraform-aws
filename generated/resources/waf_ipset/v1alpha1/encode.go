@@ -22,19 +22,19 @@ import (
 
 func EncodeWafIpset(r WafIpset) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafIpset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafIpset_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafIpset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafIpset_IpSetDescriptors(r.Spec.ForProvider.IpSetDescriptors, ctyVal)
 	EncodeWafIpset_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafIpset_Name(p WafIpsetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeWafIpset_Id(p WafIpsetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafIpset_Name(p WafIpsetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafIpset_IpSetDescriptors(p IpSetDescriptors, vals map[string]cty.Value) {

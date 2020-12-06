@@ -22,15 +22,11 @@ import (
 
 func EncodeDxConnectionAssociation(r DxConnectionAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxConnectionAssociation_ConnectionId(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnectionAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnectionAssociation_LagId(r.Spec.ForProvider, ctyVal)
+	EncodeDxConnectionAssociation_ConnectionId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxConnectionAssociation_ConnectionId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
-	vals["connection_id"] = cty.StringVal(p.ConnectionId)
 }
 
 func EncodeDxConnectionAssociation_Id(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
@@ -39,4 +35,8 @@ func EncodeDxConnectionAssociation_Id(p DxConnectionAssociationParameters, vals 
 
 func EncodeDxConnectionAssociation_LagId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
 	vals["lag_id"] = cty.StringVal(p.LagId)
+}
+
+func EncodeDxConnectionAssociation_ConnectionId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
+	vals["connection_id"] = cty.StringVal(p.ConnectionId)
 }

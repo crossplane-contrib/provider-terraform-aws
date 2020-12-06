@@ -22,20 +22,12 @@ import (
 
 func EncodeKmsCiphertext(r KmsCiphertext) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKmsCiphertext_KeyId(r.Spec.ForProvider, ctyVal)
-	EncodeKmsCiphertext_Plaintext(r.Spec.ForProvider, ctyVal)
 	EncodeKmsCiphertext_Context(r.Spec.ForProvider, ctyVal)
 	EncodeKmsCiphertext_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKmsCiphertext_KeyId(r.Spec.ForProvider, ctyVal)
+	EncodeKmsCiphertext_Plaintext(r.Spec.ForProvider, ctyVal)
 	EncodeKmsCiphertext_CiphertextBlob(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeKmsCiphertext_KeyId(p KmsCiphertextParameters, vals map[string]cty.Value) {
-	vals["key_id"] = cty.StringVal(p.KeyId)
-}
-
-func EncodeKmsCiphertext_Plaintext(p KmsCiphertextParameters, vals map[string]cty.Value) {
-	vals["plaintext"] = cty.StringVal(p.Plaintext)
 }
 
 func EncodeKmsCiphertext_Context(p KmsCiphertextParameters, vals map[string]cty.Value) {
@@ -48,6 +40,14 @@ func EncodeKmsCiphertext_Context(p KmsCiphertextParameters, vals map[string]cty.
 
 func EncodeKmsCiphertext_Id(p KmsCiphertextParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeKmsCiphertext_KeyId(p KmsCiphertextParameters, vals map[string]cty.Value) {
+	vals["key_id"] = cty.StringVal(p.KeyId)
+}
+
+func EncodeKmsCiphertext_Plaintext(p KmsCiphertextParameters, vals map[string]cty.Value) {
+	vals["plaintext"] = cty.StringVal(p.Plaintext)
 }
 
 func EncodeKmsCiphertext_CiphertextBlob(p KmsCiphertextObservation, vals map[string]cty.Value) {

@@ -52,14 +52,26 @@ type SagemakerModelSpec struct {
 
 // A SagemakerModelParameters defines the desired state of a SagemakerModel
 type SagemakerModelParameters struct {
+	EnableNetworkIsolation bool              `json:"enable_network_isolation"`
 	ExecutionRoleArn       string            `json:"execution_role_arn"`
 	Id                     string            `json:"id"`
 	Name                   string            `json:"name"`
 	Tags                   map[string]string `json:"tags"`
-	EnableNetworkIsolation bool              `json:"enable_network_isolation"`
-	Container              Container         `json:"container"`
 	PrimaryContainer       PrimaryContainer  `json:"primary_container"`
 	VpcConfig              VpcConfig         `json:"vpc_config"`
+	Container              Container         `json:"container"`
+}
+
+type PrimaryContainer struct {
+	ContainerHostname string            `json:"container_hostname"`
+	Environment       map[string]string `json:"environment"`
+	Image             string            `json:"image"`
+	ModelDataUrl      string            `json:"model_data_url"`
+}
+
+type VpcConfig struct {
+	SecurityGroupIds []string `json:"security_group_ids"`
+	Subnets          []string `json:"subnets"`
 }
 
 type Container struct {
@@ -67,18 +79,6 @@ type Container struct {
 	Environment       map[string]string `json:"environment"`
 	Image             string            `json:"image"`
 	ModelDataUrl      string            `json:"model_data_url"`
-}
-
-type PrimaryContainer struct {
-	Environment       map[string]string `json:"environment"`
-	Image             string            `json:"image"`
-	ModelDataUrl      string            `json:"model_data_url"`
-	ContainerHostname string            `json:"container_hostname"`
-}
-
-type VpcConfig struct {
-	SecurityGroupIds []string `json:"security_group_ids"`
-	Subnets          []string `json:"subnets"`
 }
 
 // A SagemakerModelStatus defines the observed state of a SagemakerModel

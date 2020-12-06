@@ -25,8 +25,8 @@ func EncodeCodedeployDeploymentConfig(r CodedeployDeploymentConfig) cty.Value {
 	EncodeCodedeployDeploymentConfig_ComputePlatform(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployDeploymentConfig_DeploymentConfigName(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployDeploymentConfig_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCodedeployDeploymentConfig_MinimumHealthyHosts(r.Spec.ForProvider.MinimumHealthyHosts, ctyVal)
 	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig(r.Spec.ForProvider.TrafficRoutingConfig, ctyVal)
+	EncodeCodedeployDeploymentConfig_MinimumHealthyHosts(r.Spec.ForProvider.MinimumHealthyHosts, ctyVal)
 	EncodeCodedeployDeploymentConfig_DeploymentConfigId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
@@ -43,35 +43,35 @@ func EncodeCodedeployDeploymentConfig_Id(p CodedeployDeploymentConfigParameters,
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCodedeployDeploymentConfig_MinimumHealthyHosts(p MinimumHealthyHosts, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Type(p, ctyVal)
-	EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Value(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["minimum_healthy_hosts"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Type(p MinimumHealthyHosts, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Value(p MinimumHealthyHosts, vals map[string]cty.Value) {
-	vals["value"] = cty.NumberIntVal(p.Value)
-}
-
 func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig(p TrafficRoutingConfig, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
 	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_Type(p, ctyVal)
-	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary(p.TimeBasedCanary, ctyVal)
 	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear(p.TimeBasedLinear, ctyVal)
+	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary(p.TimeBasedCanary, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["traffic_routing_config"] = cty.ListVal(valsForCollection)
 }
 
 func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_Type(p TrafficRoutingConfig, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear(p TimeBasedLinear, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p, ctyVal)
+	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["time_based_linear"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p TimeBasedLinear, vals map[string]cty.Value) {
+	vals["interval"] = cty.NumberIntVal(p.Interval)
+}
+
+func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p TimeBasedLinear, vals map[string]cty.Value) {
+	vals["percentage"] = cty.NumberIntVal(p.Percentage)
 }
 
 func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary(p TimeBasedCanary, vals map[string]cty.Value) {
@@ -91,21 +91,21 @@ func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary_Perce
 	vals["percentage"] = cty.NumberIntVal(p.Percentage)
 }
 
-func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear(p TimeBasedLinear, vals map[string]cty.Value) {
+func EncodeCodedeployDeploymentConfig_MinimumHealthyHosts(p MinimumHealthyHosts, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p, ctyVal)
-	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p, ctyVal)
+	EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Type(p, ctyVal)
+	EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Value(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["time_based_linear"] = cty.ListVal(valsForCollection)
+	vals["minimum_healthy_hosts"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p TimeBasedLinear, vals map[string]cty.Value) {
-	vals["interval"] = cty.NumberIntVal(p.Interval)
+func EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Type(p MinimumHealthyHosts, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p TimeBasedLinear, vals map[string]cty.Value) {
-	vals["percentage"] = cty.NumberIntVal(p.Percentage)
+func EncodeCodedeployDeploymentConfig_MinimumHealthyHosts_Value(p MinimumHealthyHosts, vals map[string]cty.Value) {
+	vals["value"] = cty.NumberIntVal(p.Value)
 }
 
 func EncodeCodedeployDeploymentConfig_DeploymentConfigId(p CodedeployDeploymentConfigObservation, vals map[string]cty.Value) {

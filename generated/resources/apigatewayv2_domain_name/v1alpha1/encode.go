@@ -51,13 +51,21 @@ func EncodeApigatewayv2DomainName_Tags(p Apigatewayv2DomainNameParameters, vals 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration(p DomainNameConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p, ctyVal)
-	EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p, ctyVal)
-	EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["domain_name_configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p DomainNameConfiguration, vals map[string]cty.Value) {
+	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
+}
+
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p DomainNameConfiguration, vals map[string]cty.Value) {
+	vals["target_domain_name"] = cty.StringVal(p.TargetDomainName)
 }
 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p DomainNameConfiguration, vals map[string]cty.Value) {
@@ -70,14 +78,6 @@ func EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p DomainN
 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["hosted_zone_id"] = cty.StringVal(p.HostedZoneId)
-}
-
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p DomainNameConfiguration, vals map[string]cty.Value) {
-	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
-}
-
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p DomainNameConfiguration, vals map[string]cty.Value) {
-	vals["target_domain_name"] = cty.StringVal(p.TargetDomainName)
 }
 
 func EncodeApigatewayv2DomainName_Timeouts(p Timeouts, vals map[string]cty.Value) {

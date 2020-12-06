@@ -27,8 +27,8 @@ func EncodeDatasyncLocationNfs(r DatasyncLocationNfs) cty.Value {
 	EncodeDatasyncLocationNfs_Subdirectory(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_OnPremConfig(r.Spec.ForProvider.OnPremConfig, ctyVal)
-	EncodeDatasyncLocationNfs_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Uri(r.Status.AtProvider, ctyVal)
+	EncodeDatasyncLocationNfs_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -68,10 +68,10 @@ func EncodeDatasyncLocationNfs_OnPremConfig_AgentArns(p OnPremConfig, vals map[s
 	vals["agent_arns"] = cty.SetVal(colVals)
 }
 
-func EncodeDatasyncLocationNfs_Arn(p DatasyncLocationNfsObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeDatasyncLocationNfs_Uri(p DatasyncLocationNfsObservation, vals map[string]cty.Value) {
 	vals["uri"] = cty.StringVal(p.Uri)
+}
+
+func EncodeDatasyncLocationNfs_Arn(p DatasyncLocationNfsObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

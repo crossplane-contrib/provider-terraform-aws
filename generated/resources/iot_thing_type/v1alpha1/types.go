@@ -59,8 +59,8 @@ type IotThingTypeParameters struct {
 }
 
 type Properties struct {
-	Description          string   `json:"description"`
 	SearchableAttributes []string `json:"searchable_attributes"`
+	Description          string   `json:"description"`
 }
 
 // A IotThingTypeStatus defines the observed state of a IotThingType

@@ -52,8 +52,8 @@ type DbProxyDefaultTargetGroupSpec struct {
 
 // A DbProxyDefaultTargetGroupParameters defines the desired state of a DbProxyDefaultTargetGroup
 type DbProxyDefaultTargetGroupParameters struct {
-	Id                   string               `json:"id"`
 	DbProxyName          string               `json:"db_proxy_name"`
+	Id                   string               `json:"id"`
 	ConnectionPoolConfig ConnectionPoolConfig `json:"connection_pool_config"`
 	Timeouts             Timeouts             `json:"timeouts"`
 }

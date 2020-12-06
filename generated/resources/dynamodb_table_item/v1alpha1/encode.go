@@ -22,21 +22,13 @@ import (
 
 func EncodeDynamodbTableItem(r DynamodbTableItem) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDynamodbTableItem_RangeKey(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTableItem_TableName(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_HashKey(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_Item(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTableItem_RangeKey(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTableItem_TableName(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDynamodbTableItem_RangeKey(p DynamodbTableItemParameters, vals map[string]cty.Value) {
-	vals["range_key"] = cty.StringVal(p.RangeKey)
-}
-
-func EncodeDynamodbTableItem_TableName(p DynamodbTableItemParameters, vals map[string]cty.Value) {
-	vals["table_name"] = cty.StringVal(p.TableName)
 }
 
 func EncodeDynamodbTableItem_HashKey(p DynamodbTableItemParameters, vals map[string]cty.Value) {
@@ -49,4 +41,12 @@ func EncodeDynamodbTableItem_Id(p DynamodbTableItemParameters, vals map[string]c
 
 func EncodeDynamodbTableItem_Item(p DynamodbTableItemParameters, vals map[string]cty.Value) {
 	vals["item"] = cty.StringVal(p.Item)
+}
+
+func EncodeDynamodbTableItem_RangeKey(p DynamodbTableItemParameters, vals map[string]cty.Value) {
+	vals["range_key"] = cty.StringVal(p.RangeKey)
+}
+
+func EncodeDynamodbTableItem_TableName(p DynamodbTableItemParameters, vals map[string]cty.Value) {
+	vals["table_name"] = cty.StringVal(p.TableName)
 }

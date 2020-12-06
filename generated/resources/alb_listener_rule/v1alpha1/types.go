@@ -63,24 +63,14 @@ type Action struct {
 	Order               int64               `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
 	Type                string              `json:"type"`
-	Redirect            Redirect            `json:"redirect"`
 	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
 	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
 	Forward             Forward             `json:"forward"`
-}
-
-type Redirect struct {
-	Protocol   string `json:"protocol"`
-	Query      string `json:"query"`
-	StatusCode string `json:"status_code"`
-	Host       string `json:"host"`
-	Path       string `json:"path"`
-	Port       string `json:"port"`
+	Redirect            Redirect            `json:"redirect"`
 }
 
 type AuthenticateCognito struct {
-	SessionTimeout                   int64             `json:"session_timeout"`
 	UserPoolArn                      string            `json:"user_pool_arn"`
 	UserPoolClientId                 string            `json:"user_pool_client_id"`
 	UserPoolDomain                   string            `json:"user_pool_domain"`
@@ -88,20 +78,21 @@ type AuthenticateCognito struct {
 	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 	Scope                            string            `json:"scope"`
 	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
 }
 
 type AuthenticateOidc struct {
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	ClientSecret                     string            `json:"client_secret"`
 	Scope                            string            `json:"scope"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
 	SessionCookieName                string            `json:"session_cookie_name"`
 	SessionTimeout                   int64             `json:"session_timeout"`
 	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
 	ClientId                         string            `json:"client_id"`
-	ClientSecret                     string            `json:"client_secret"`
 	Issuer                           string            `json:"issuer"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 }
 
 type FixedResponse struct {
@@ -125,22 +116,22 @@ type TargetGroup struct {
 	Weight int64  `json:"weight"`
 }
 
+type Redirect struct {
+	Host       string `json:"host"`
+	Path       string `json:"path"`
+	Port       string `json:"port"`
+	Protocol   string `json:"protocol"`
+	Query      string `json:"query"`
+	StatusCode string `json:"status_code"`
+}
+
 type Condition struct {
-	QueryString       QueryString       `json:"query_string"`
-	SourceIp          SourceIp          `json:"source_ip"`
 	HostHeader        HostHeader        `json:"host_header"`
 	HttpHeader        HttpHeader        `json:"http_header"`
 	HttpRequestMethod HttpRequestMethod `json:"http_request_method"`
 	PathPattern       PathPattern       `json:"path_pattern"`
-}
-
-type QueryString struct {
-	Value string `json:"value"`
-	Key   string `json:"key"`
-}
-
-type SourceIp struct {
-	Values []string `json:"values"`
+	QueryString       QueryString       `json:"query_string"`
+	SourceIp          SourceIp          `json:"source_ip"`
 }
 
 type HostHeader struct {
@@ -157,6 +148,15 @@ type HttpRequestMethod struct {
 }
 
 type PathPattern struct {
+	Values []string `json:"values"`
+}
+
+type QueryString struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+type SourceIp struct {
 	Values []string `json:"values"`
 }
 

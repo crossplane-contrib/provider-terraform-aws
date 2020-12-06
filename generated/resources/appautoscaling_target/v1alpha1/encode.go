@@ -22,23 +22,15 @@ import (
 
 func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppautoscalingTarget_ScalableDimension(r.Spec.ForProvider, ctyVal)
-	EncodeAppautoscalingTarget_ServiceNamespace(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_MaxCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_MinCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeAppautoscalingTarget_ScalableDimension(r.Spec.ForProvider, ctyVal)
+	EncodeAppautoscalingTarget_ServiceNamespace(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAppautoscalingTarget_ScalableDimension(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["scalable_dimension"] = cty.StringVal(p.ScalableDimension)
-}
-
-func EncodeAppautoscalingTarget_ServiceNamespace(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["service_namespace"] = cty.StringVal(p.ServiceNamespace)
 }
 
 func EncodeAppautoscalingTarget_Id(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
@@ -59,4 +51,12 @@ func EncodeAppautoscalingTarget_ResourceId(p AppautoscalingTargetParameters, val
 
 func EncodeAppautoscalingTarget_RoleArn(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeAppautoscalingTarget_ScalableDimension(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
+	vals["scalable_dimension"] = cty.StringVal(p.ScalableDimension)
+}
+
+func EncodeAppautoscalingTarget_ServiceNamespace(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
+	vals["service_namespace"] = cty.StringVal(p.ServiceNamespace)
 }

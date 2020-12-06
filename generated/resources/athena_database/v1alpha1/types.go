@@ -52,10 +52,10 @@ type AthenaDatabaseSpec struct {
 
 // A AthenaDatabaseParameters defines the desired state of a AthenaDatabase
 type AthenaDatabaseParameters struct {
-	Bucket                  string                  `json:"bucket"`
-	ForceDestroy            bool                    `json:"force_destroy"`
 	Id                      string                  `json:"id"`
 	Name                    string                  `json:"name"`
+	Bucket                  string                  `json:"bucket"`
+	ForceDestroy            bool                    `json:"force_destroy"`
 	EncryptionConfiguration EncryptionConfiguration `json:"encryption_configuration"`
 }
 

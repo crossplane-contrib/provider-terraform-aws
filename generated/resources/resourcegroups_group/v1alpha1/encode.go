@@ -22,21 +22,13 @@ import (
 
 func EncodeResourcegroupsGroup(r ResourcegroupsGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeResourcegroupsGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeResourcegroupsGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeResourcegroupsGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeResourcegroupsGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeResourcegroupsGroup_Description(r.Spec.ForProvider, ctyVal)
+	EncodeResourcegroupsGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeResourcegroupsGroup_ResourceQuery(r.Spec.ForProvider.ResourceQuery, ctyVal)
 	EncodeResourcegroupsGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeResourcegroupsGroup_Description(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeResourcegroupsGroup_Id(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeResourcegroupsGroup_Name(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
@@ -49,6 +41,14 @@ func EncodeResourcegroupsGroup_Tags(p ResourcegroupsGroupParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeResourcegroupsGroup_Description(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeResourcegroupsGroup_Id(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeResourcegroupsGroup_ResourceQuery(p ResourceQuery, vals map[string]cty.Value) {

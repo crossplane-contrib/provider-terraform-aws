@@ -52,22 +52,17 @@ type GlueTriggerSpec struct {
 
 // A GlueTriggerParameters defines the desired state of a GlueTrigger
 type GlueTriggerParameters struct {
-	Id           string            `json:"id"`
 	Name         string            `json:"name"`
-	Schedule     string            `json:"schedule"`
+	Tags         map[string]string `json:"tags"`
 	Type         string            `json:"type"`
+	WorkflowName string            `json:"workflow_name"`
 	Description  string            `json:"description"`
 	Enabled      bool              `json:"enabled"`
-	Tags         map[string]string `json:"tags"`
-	WorkflowName string            `json:"workflow_name"`
-	Timeouts     Timeouts          `json:"timeouts"`
+	Id           string            `json:"id"`
+	Schedule     string            `json:"schedule"`
 	Actions      []Actions         `json:"actions"`
 	Predicate    Predicate         `json:"predicate"`
-}
-
-type Timeouts struct {
-	Create string `json:"create"`
-	Delete string `json:"delete"`
+	Timeouts     Timeouts          `json:"timeouts"`
 }
 
 type Actions struct {
@@ -88,6 +83,11 @@ type Conditions struct {
 	JobName         string `json:"job_name"`
 	LogicalOperator string `json:"logical_operator"`
 	State           string `json:"state"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A GlueTriggerStatus defines the observed state of a GlueTrigger

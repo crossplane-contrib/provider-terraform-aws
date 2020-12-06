@@ -52,49 +52,55 @@ type SesReceiptRuleSpec struct {
 
 // A SesReceiptRuleParameters defines the desired state of a SesReceiptRule
 type SesReceiptRuleParameters struct {
+	Id              string          `json:"id"`
+	Name            string          `json:"name"`
+	Recipients      []string        `json:"recipients"`
 	RuleSetName     string          `json:"rule_set_name"`
 	ScanEnabled     bool            `json:"scan_enabled"`
 	TlsPolicy       string          `json:"tls_policy"`
 	After           string          `json:"after"`
 	Enabled         bool            `json:"enabled"`
-	Id              string          `json:"id"`
-	Name            string          `json:"name"`
-	Recipients      []string        `json:"recipients"`
+	StopAction      StopAction      `json:"stop_action"`
 	WorkmailAction  WorkmailAction  `json:"workmail_action"`
 	AddHeaderAction AddHeaderAction `json:"add_header_action"`
 	BounceAction    BounceAction    `json:"bounce_action"`
 	LambdaAction    LambdaAction    `json:"lambda_action"`
 	S3Action        S3Action        `json:"s3_action"`
 	SnsAction       SnsAction       `json:"sns_action"`
-	StopAction      StopAction      `json:"stop_action"`
+}
+
+type StopAction struct {
+	Position int64  `json:"position"`
+	Scope    string `json:"scope"`
+	TopicArn string `json:"topic_arn"`
 }
 
 type WorkmailAction struct {
-	OrganizationArn string `json:"organization_arn"`
 	Position        int64  `json:"position"`
 	TopicArn        string `json:"topic_arn"`
+	OrganizationArn string `json:"organization_arn"`
 }
 
 type AddHeaderAction struct {
+	Position    int64  `json:"position"`
 	HeaderName  string `json:"header_name"`
 	HeaderValue string `json:"header_value"`
-	Position    int64  `json:"position"`
 }
 
 type BounceAction struct {
-	TopicArn      string `json:"topic_arn"`
-	Message       string `json:"message"`
-	Position      int64  `json:"position"`
 	Sender        string `json:"sender"`
 	SmtpReplyCode string `json:"smtp_reply_code"`
 	StatusCode    string `json:"status_code"`
+	TopicArn      string `json:"topic_arn"`
+	Message       string `json:"message"`
+	Position      int64  `json:"position"`
 }
 
 type LambdaAction struct {
-	FunctionArn    string `json:"function_arn"`
-	InvocationType string `json:"invocation_type"`
 	Position       int64  `json:"position"`
 	TopicArn       string `json:"topic_arn"`
+	FunctionArn    string `json:"function_arn"`
+	InvocationType string `json:"invocation_type"`
 }
 
 type S3Action struct {
@@ -107,12 +113,6 @@ type S3Action struct {
 
 type SnsAction struct {
 	Position int64  `json:"position"`
-	TopicArn string `json:"topic_arn"`
-}
-
-type StopAction struct {
-	Position int64  `json:"position"`
-	Scope    string `json:"scope"`
 	TopicArn string `json:"topic_arn"`
 }
 

@@ -52,14 +52,14 @@ type GlobalacceleratorEndpointGroupSpec struct {
 
 // A GlobalacceleratorEndpointGroupParameters defines the desired state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupParameters struct {
-	HealthCheckProtocol        string                  `json:"health_check_protocol"`
-	ListenerArn                string                  `json:"listener_arn"`
 	EndpointGroupRegion        string                  `json:"endpoint_group_region"`
-	HealthCheckIntervalSeconds int64                   `json:"health_check_interval_seconds"`
 	HealthCheckPath            string                  `json:"health_check_path"`
 	HealthCheckPort            int64                   `json:"health_check_port"`
-	Id                         string                  `json:"id"`
+	ListenerArn                string                  `json:"listener_arn"`
 	ThresholdCount             int64                   `json:"threshold_count"`
+	HealthCheckIntervalSeconds int64                   `json:"health_check_interval_seconds"`
+	HealthCheckProtocol        string                  `json:"health_check_protocol"`
+	Id                         string                  `json:"id"`
 	TrafficDialPercentage      int64                   `json:"traffic_dial_percentage"`
 	EndpointConfiguration      []EndpointConfiguration `json:"endpoint_configuration"`
 }

@@ -22,33 +22,37 @@ import (
 
 func EncodeEmrManagedScalingPolicy(r EmrManagedScalingPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEmrManagedScalingPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrManagedScalingPolicy_ClusterId(r.Spec.ForProvider, ctyVal)
+	EncodeEmrManagedScalingPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrManagedScalingPolicy_ComputeLimits(r.Spec.ForProvider.ComputeLimits, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEmrManagedScalingPolicy_Id(p EmrManagedScalingPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEmrManagedScalingPolicy_ClusterId(p EmrManagedScalingPolicyParameters, vals map[string]cty.Value) {
 	vals["cluster_id"] = cty.StringVal(p.ClusterId)
 }
 
+func EncodeEmrManagedScalingPolicy_Id(p EmrManagedScalingPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeEmrManagedScalingPolicy_ComputeLimits(p []ComputeLimits, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeEmrManagedScalingPolicy_ComputeLimits_UnitType(v, ctyVal)
 		EncodeEmrManagedScalingPolicy_ComputeLimits_MaximumCapacityUnits(v, ctyVal)
 		EncodeEmrManagedScalingPolicy_ComputeLimits_MaximumCoreCapacityUnits(v, ctyVal)
 		EncodeEmrManagedScalingPolicy_ComputeLimits_MaximumOndemandCapacityUnits(v, ctyVal)
 		EncodeEmrManagedScalingPolicy_ComputeLimits_MinimumCapacityUnits(v, ctyVal)
-		EncodeEmrManagedScalingPolicy_ComputeLimits_UnitType(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["compute_limits"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeEmrManagedScalingPolicy_ComputeLimits_UnitType(p ComputeLimits, vals map[string]cty.Value) {
+	vals["unit_type"] = cty.StringVal(p.UnitType)
 }
 
 func EncodeEmrManagedScalingPolicy_ComputeLimits_MaximumCapacityUnits(p ComputeLimits, vals map[string]cty.Value) {
@@ -65,8 +69,4 @@ func EncodeEmrManagedScalingPolicy_ComputeLimits_MaximumOndemandCapacityUnits(p 
 
 func EncodeEmrManagedScalingPolicy_ComputeLimits_MinimumCapacityUnits(p ComputeLimits, vals map[string]cty.Value) {
 	vals["minimum_capacity_units"] = cty.NumberIntVal(p.MinimumCapacityUnits)
-}
-
-func EncodeEmrManagedScalingPolicy_ComputeLimits_UnitType(p ComputeLimits, vals map[string]cty.Value) {
-	vals["unit_type"] = cty.StringVal(p.UnitType)
 }

@@ -22,51 +22,63 @@ import (
 
 func EncodeGlueMlTransform(r GlueMlTransform) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueMlTransform_Description(r.Spec.ForProvider, ctyVal)
-	EncodeGlueMlTransform_WorkerType(r.Spec.ForProvider, ctyVal)
-	EncodeGlueMlTransform_MaxCapacity(r.Spec.ForProvider, ctyVal)
-	EncodeGlueMlTransform_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeGlueMlTransform_Timeout(r.Spec.ForProvider, ctyVal)
 	EncodeGlueMlTransform_GlueVersion(r.Spec.ForProvider, ctyVal)
+	EncodeGlueMlTransform_WorkerType(r.Spec.ForProvider, ctyVal)
+	EncodeGlueMlTransform_Description(r.Spec.ForProvider, ctyVal)
+	EncodeGlueMlTransform_MaxCapacity(r.Spec.ForProvider, ctyVal)
+	EncodeGlueMlTransform_Timeout(r.Spec.ForProvider, ctyVal)
 	EncodeGlueMlTransform_NumberOfWorkers(r.Spec.ForProvider, ctyVal)
-	EncodeGlueMlTransform_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeGlueMlTransform_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlueMlTransform_Id(r.Spec.ForProvider, ctyVal)
-	EncodeGlueMlTransform_MaxRetries(r.Spec.ForProvider, ctyVal)
 	EncodeGlueMlTransform_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlueMlTransform_MaxRetries(r.Spec.ForProvider, ctyVal)
+	EncodeGlueMlTransform_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGlueMlTransform_InputRecordTables(r.Spec.ForProvider.InputRecordTables, ctyVal)
 	EncodeGlueMlTransform_Parameters(r.Spec.ForProvider.Parameters, ctyVal)
-	EncodeGlueMlTransform_Arn(r.Status.AtProvider, ctyVal)
 	EncodeGlueMlTransform_Schema(r.Status.AtProvider.Schema, ctyVal)
+	EncodeGlueMlTransform_Arn(r.Status.AtProvider, ctyVal)
 	EncodeGlueMlTransform_LabelCount(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGlueMlTransform_Description(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeGlueMlTransform_WorkerType(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["worker_type"] = cty.StringVal(p.WorkerType)
-}
-
-func EncodeGlueMlTransform_MaxCapacity(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["max_capacity"] = cty.NumberIntVal(p.MaxCapacity)
-}
-
-func EncodeGlueMlTransform_RoleArn(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeGlueMlTransform_Timeout(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["timeout"] = cty.NumberIntVal(p.Timeout)
 }
 
 func EncodeGlueMlTransform_GlueVersion(p GlueMlTransformParameters, vals map[string]cty.Value) {
 	vals["glue_version"] = cty.StringVal(p.GlueVersion)
 }
 
+func EncodeGlueMlTransform_WorkerType(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["worker_type"] = cty.StringVal(p.WorkerType)
+}
+
+func EncodeGlueMlTransform_Description(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeGlueMlTransform_MaxCapacity(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["max_capacity"] = cty.NumberIntVal(p.MaxCapacity)
+}
+
+func EncodeGlueMlTransform_Timeout(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["timeout"] = cty.NumberIntVal(p.Timeout)
+}
+
 func EncodeGlueMlTransform_NumberOfWorkers(p GlueMlTransformParameters, vals map[string]cty.Value) {
 	vals["number_of_workers"] = cty.NumberIntVal(p.NumberOfWorkers)
+}
+
+func EncodeGlueMlTransform_RoleArn(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeGlueMlTransform_Id(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGlueMlTransform_Name(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeGlueMlTransform_MaxRetries(p GlueMlTransformParameters, vals map[string]cty.Value) {
+	vals["max_retries"] = cty.NumberIntVal(p.MaxRetries)
 }
 
 func EncodeGlueMlTransform_Tags(p GlueMlTransformParameters, vals map[string]cty.Value) {
@@ -77,33 +89,17 @@ func EncodeGlueMlTransform_Tags(p GlueMlTransformParameters, vals map[string]cty
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeGlueMlTransform_Id(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGlueMlTransform_MaxRetries(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["max_retries"] = cty.NumberIntVal(p.MaxRetries)
-}
-
-func EncodeGlueMlTransform_Name(p GlueMlTransformParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeGlueMlTransform_InputRecordTables(p []InputRecordTables, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeGlueMlTransform_InputRecordTables_CatalogId(v, ctyVal)
 		EncodeGlueMlTransform_InputRecordTables_ConnectionName(v, ctyVal)
 		EncodeGlueMlTransform_InputRecordTables_DatabaseName(v, ctyVal)
 		EncodeGlueMlTransform_InputRecordTables_TableName(v, ctyVal)
+		EncodeGlueMlTransform_InputRecordTables_CatalogId(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["input_record_tables"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlueMlTransform_InputRecordTables_CatalogId(p InputRecordTables, vals map[string]cty.Value) {
-	vals["catalog_id"] = cty.StringVal(p.CatalogId)
 }
 
 func EncodeGlueMlTransform_InputRecordTables_ConnectionName(p InputRecordTables, vals map[string]cty.Value) {
@@ -116,6 +112,10 @@ func EncodeGlueMlTransform_InputRecordTables_DatabaseName(p InputRecordTables, v
 
 func EncodeGlueMlTransform_InputRecordTables_TableName(p InputRecordTables, vals map[string]cty.Value) {
 	vals["table_name"] = cty.StringVal(p.TableName)
+}
+
+func EncodeGlueMlTransform_InputRecordTables_CatalogId(p InputRecordTables, vals map[string]cty.Value) {
+	vals["catalog_id"] = cty.StringVal(p.CatalogId)
 }
 
 func EncodeGlueMlTransform_Parameters(p Parameters, vals map[string]cty.Value) {
@@ -158,27 +158,27 @@ func EncodeGlueMlTransform_Parameters_FindMatchesParameters_PrimaryKeyColumnName
 	vals["primary_key_column_name"] = cty.StringVal(p.PrimaryKeyColumnName)
 }
 
-func EncodeGlueMlTransform_Arn(p GlueMlTransformObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeGlueMlTransform_Schema(p []Schema, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeGlueMlTransform_Schema_DataType(v, ctyVal)
 		EncodeGlueMlTransform_Schema_Name(v, ctyVal)
+		EncodeGlueMlTransform_Schema_DataType(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["schema"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGlueMlTransform_Schema_Name(p Schema, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeGlueMlTransform_Schema_DataType(p Schema, vals map[string]cty.Value) {
 	vals["data_type"] = cty.StringVal(p.DataType)
 }
 
-func EncodeGlueMlTransform_Schema_Name(p Schema, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeGlueMlTransform_Arn(p GlueMlTransformObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeGlueMlTransform_LabelCount(p GlueMlTransformObservation, vals map[string]cty.Value) {

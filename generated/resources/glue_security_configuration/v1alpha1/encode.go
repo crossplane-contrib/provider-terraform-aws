@@ -22,19 +22,19 @@ import (
 
 func EncodeGlueSecurityConfiguration(r GlueSecurityConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueSecurityConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueSecurityConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlueSecurityConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueSecurityConfiguration_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlueSecurityConfiguration_Id(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeGlueSecurityConfiguration_Name(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeGlueSecurityConfiguration_Id(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration(p EncryptionConfiguration, vals map[string]cty.Value) {
@@ -50,18 +50,18 @@ func EncodeGlueSecurityConfiguration_EncryptionConfiguration(p EncryptionConfigu
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption(p CloudwatchEncryption, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p, ctyVal)
 	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["cloudwatch_encryption"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p CloudwatchEncryption, vals map[string]cty.Value) {
-	vals["cloudwatch_encryption_mode"] = cty.StringVal(p.CloudwatchEncryptionMode)
-}
-
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p CloudwatchEncryption, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+}
+
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p CloudwatchEncryption, vals map[string]cty.Value) {
+	vals["cloudwatch_encryption_mode"] = cty.StringVal(p.CloudwatchEncryptionMode)
 }
 
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption(p JobBookmarksEncryption, vals map[string]cty.Value) {
@@ -84,16 +84,16 @@ func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncrypt
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption(p S3Encryption, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(p, ctyVal)
 	EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_KmsKeyArn(p, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["s3_encryption"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(p S3Encryption, vals map[string]cty.Value) {
-	vals["s3_encryption_mode"] = cty.StringVal(p.S3EncryptionMode)
-}
-
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_KmsKeyArn(p S3Encryption, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+}
+
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_S3Encryption_S3EncryptionMode(p S3Encryption, vals map[string]cty.Value) {
+	vals["s3_encryption_mode"] = cty.StringVal(p.S3EncryptionMode)
 }

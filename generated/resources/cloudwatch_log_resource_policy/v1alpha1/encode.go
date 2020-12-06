@@ -22,11 +22,15 @@ import (
 
 func EncodeCloudwatchLogResourcePolicy(r CloudwatchLogResourcePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchLogResourcePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogResourcePolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogResourcePolicy_PolicyName(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogResourcePolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudwatchLogResourcePolicy_Id(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogResourcePolicy_PolicyDocument(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeCloudwatchLogResourcePolicy_PolicyDocument(p CloudwatchLogResourcePol
 
 func EncodeCloudwatchLogResourcePolicy_PolicyName(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
 	vals["policy_name"] = cty.StringVal(p.PolicyName)
-}
-
-func EncodeCloudwatchLogResourcePolicy_Id(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

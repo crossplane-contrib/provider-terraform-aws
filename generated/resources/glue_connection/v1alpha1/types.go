@@ -52,13 +52,13 @@ type GlueConnectionSpec struct {
 
 // A GlueConnectionParameters defines the desired state of a GlueConnection
 type GlueConnectionParameters struct {
-	Name                           string                         `json:"name"`
 	CatalogId                      string                         `json:"catalog_id"`
 	ConnectionProperties           map[string]string              `json:"connection_properties"`
 	ConnectionType                 string                         `json:"connection_type"`
 	Description                    string                         `json:"description"`
 	Id                             string                         `json:"id"`
 	MatchCriteria                  []string                       `json:"match_criteria"`
+	Name                           string                         `json:"name"`
 	PhysicalConnectionRequirements PhysicalConnectionRequirements `json:"physical_connection_requirements"`
 }
 

@@ -22,19 +22,15 @@ import (
 
 func EncodeSsmMaintenanceWindowTarget(r SsmMaintenanceWindowTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSsmMaintenanceWindowTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_OwnerInformation(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_ResourceType(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_WindowId(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_Description(r.Spec.ForProvider, ctyVal)
+	EncodeSsmMaintenanceWindowTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_Targets(r.Spec.ForProvider.Targets, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSsmMaintenanceWindowTarget_Id(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSsmMaintenanceWindowTarget_Name(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
@@ -55,6 +51,10 @@ func EncodeSsmMaintenanceWindowTarget_WindowId(p SsmMaintenanceWindowTargetParam
 
 func EncodeSsmMaintenanceWindowTarget_Description(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmMaintenanceWindowTarget_Id(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSsmMaintenanceWindowTarget_Targets(p []Targets, vals map[string]cty.Value) {

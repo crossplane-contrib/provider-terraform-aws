@@ -55,15 +55,19 @@ func EncodeSagemakerEndpointConfiguration_ProductionVariants(p []ProductionVaria
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeSagemakerEndpointConfiguration_ProductionVariants_VariantName(v, ctyVal)
 		EncodeSagemakerEndpointConfiguration_ProductionVariants_AcceleratorType(v, ctyVal)
 		EncodeSagemakerEndpointConfiguration_ProductionVariants_InitialInstanceCount(v, ctyVal)
 		EncodeSagemakerEndpointConfiguration_ProductionVariants_InitialVariantWeight(v, ctyVal)
 		EncodeSagemakerEndpointConfiguration_ProductionVariants_InstanceType(v, ctyVal)
 		EncodeSagemakerEndpointConfiguration_ProductionVariants_ModelName(v, ctyVal)
-		EncodeSagemakerEndpointConfiguration_ProductionVariants_VariantName(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["production_variants"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSagemakerEndpointConfiguration_ProductionVariants_VariantName(p ProductionVariants, vals map[string]cty.Value) {
+	vals["variant_name"] = cty.StringVal(p.VariantName)
 }
 
 func EncodeSagemakerEndpointConfiguration_ProductionVariants_AcceleratorType(p ProductionVariants, vals map[string]cty.Value) {
@@ -84,10 +88,6 @@ func EncodeSagemakerEndpointConfiguration_ProductionVariants_InstanceType(p Prod
 
 func EncodeSagemakerEndpointConfiguration_ProductionVariants_ModelName(p ProductionVariants, vals map[string]cty.Value) {
 	vals["model_name"] = cty.StringVal(p.ModelName)
-}
-
-func EncodeSagemakerEndpointConfiguration_ProductionVariants_VariantName(p ProductionVariants, vals map[string]cty.Value) {
-	vals["variant_name"] = cty.StringVal(p.VariantName)
 }
 
 func EncodeSagemakerEndpointConfiguration_Arn(p SagemakerEndpointConfigurationObservation, vals map[string]cty.Value) {

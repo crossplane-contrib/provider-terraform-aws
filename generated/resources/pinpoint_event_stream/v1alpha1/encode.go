@@ -22,16 +22,12 @@ import (
 
 func EncodePinpointEventStream(r PinpointEventStream) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointEventStream_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEventStream_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEventStream_DestinationStreamArn(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEventStream_Id(r.Spec.ForProvider, ctyVal)
+	EncodePinpointEventStream_RoleArn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodePinpointEventStream_RoleArn(p PinpointEventStreamParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodePinpointEventStream_ApplicationId(p PinpointEventStreamParameters, vals map[string]cty.Value) {
@@ -44,4 +40,8 @@ func EncodePinpointEventStream_DestinationStreamArn(p PinpointEventStreamParamet
 
 func EncodePinpointEventStream_Id(p PinpointEventStreamParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodePinpointEventStream_RoleArn(p PinpointEventStreamParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }

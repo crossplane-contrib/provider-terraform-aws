@@ -108,13 +108,17 @@ func EncodeWafWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Type(p Fie
 func EncodeWafWebAcl_Rules(p Rules, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafWebAcl_Rules_Type(p, ctyVal)
 	EncodeWafWebAcl_Rules_Priority(p, ctyVal)
 	EncodeWafWebAcl_Rules_RuleId(p, ctyVal)
-	EncodeWafWebAcl_Rules_Type(p, ctyVal)
 	EncodeWafWebAcl_Rules_Action(p.Action, ctyVal)
 	EncodeWafWebAcl_Rules_OverrideAction(p.OverrideAction, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["rules"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeWafWebAcl_Rules_Type(p Rules, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafWebAcl_Rules_Priority(p Rules, vals map[string]cty.Value) {
@@ -123,10 +127,6 @@ func EncodeWafWebAcl_Rules_Priority(p Rules, vals map[string]cty.Value) {
 
 func EncodeWafWebAcl_Rules_RuleId(p Rules, vals map[string]cty.Value) {
 	vals["rule_id"] = cty.StringVal(p.RuleId)
-}
-
-func EncodeWafWebAcl_Rules_Type(p Rules, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafWebAcl_Rules_Action(p Action, vals map[string]cty.Value) {

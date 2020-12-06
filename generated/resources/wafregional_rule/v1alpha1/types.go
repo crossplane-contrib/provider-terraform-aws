@@ -60,9 +60,9 @@ type WafregionalRuleParameters struct {
 }
 
 type Predicate struct {
-	Type    string `json:"type"`
 	DataId  string `json:"data_id"`
 	Negated bool   `json:"negated"`
+	Type    string `json:"type"`
 }
 
 // A WafregionalRuleStatus defines the observed state of a WafregionalRule

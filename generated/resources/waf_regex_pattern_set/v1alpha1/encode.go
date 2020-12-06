@@ -22,15 +22,11 @@ import (
 
 func EncodeWafRegexPatternSet(r WafRegexPatternSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_RegexPatternStrings(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafRegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafRegexPatternSet_Name(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafRegexPatternSet_RegexPatternStrings(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
@@ -43,6 +39,10 @@ func EncodeWafRegexPatternSet_RegexPatternStrings(p WafRegexPatternSetParameters
 
 func EncodeWafRegexPatternSet_Id(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafRegexPatternSet_Name(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafRegexPatternSet_Arn(p WafRegexPatternSetObservation, vals map[string]cty.Value) {

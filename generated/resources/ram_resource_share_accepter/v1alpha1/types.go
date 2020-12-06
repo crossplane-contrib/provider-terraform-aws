@@ -58,8 +58,8 @@ type RamResourceShareAccepterParameters struct {
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A RamResourceShareAccepterStatus defines the observed state of a RamResourceShareAccepter
@@ -70,11 +70,11 @@ type RamResourceShareAccepterStatus struct {
 
 // A RamResourceShareAccepterObservation records the observed state of a RamResourceShareAccepter
 type RamResourceShareAccepterObservation struct {
-	Resources         []string `json:"resources"`
-	ShareId           string   `json:"share_id"`
-	Status            string   `json:"status"`
-	InvitationArn     string   `json:"invitation_arn"`
 	ReceiverAccountId string   `json:"receiver_account_id"`
 	SenderAccountId   string   `json:"sender_account_id"`
+	Status            string   `json:"status"`
+	InvitationArn     string   `json:"invitation_arn"`
+	Resources         []string `json:"resources"`
+	ShareId           string   `json:"share_id"`
 	ShareName         string   `json:"share_name"`
 }

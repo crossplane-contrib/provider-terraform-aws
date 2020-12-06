@@ -22,32 +22,16 @@ import (
 
 func EncodeLicensemanagerLicenseConfiguration(r LicensemanagerLicenseConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLicensemanagerLicenseConfiguration_Description(r.Spec.ForProvider, ctyVal)
-	EncodeLicensemanagerLicenseConfiguration_Id(r.Spec.ForProvider, ctyVal)
-	EncodeLicensemanagerLicenseConfiguration_LicenseCount(r.Spec.ForProvider, ctyVal)
-	EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseCountingType(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseRules(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerLicenseConfiguration_Description(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerLicenseConfiguration_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerLicenseConfiguration_LicenseCount(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_Description(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_Id(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_LicenseCount(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	vals["license_count"] = cty.NumberIntVal(p.LicenseCount)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	vals["license_count_hard_limit"] = cty.BoolVal(p.LicenseCountHardLimit)
 }
 
 func EncodeLicensemanagerLicenseConfiguration_LicenseCountingType(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
@@ -72,4 +56,20 @@ func EncodeLicensemanagerLicenseConfiguration_Tags(p LicensemanagerLicenseConfig
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_Description(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_Id(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_LicenseCount(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	vals["license_count"] = cty.NumberIntVal(p.LicenseCount)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	vals["license_count_hard_limit"] = cty.BoolVal(p.LicenseCountHardLimit)
 }

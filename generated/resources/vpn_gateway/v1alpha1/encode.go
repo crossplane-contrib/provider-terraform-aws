@@ -22,25 +22,13 @@ import (
 
 func EncodeVpnGateway(r VpnGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpnGateway_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpnGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_AmazonSideAsn(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGateway_Id(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpnGateway_Id(p VpnGatewayParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeVpnGateway_Tags(p VpnGatewayParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeVpnGateway_VpcId(p VpnGatewayParameters, vals map[string]cty.Value) {
@@ -53,6 +41,18 @@ func EncodeVpnGateway_AmazonSideAsn(p VpnGatewayParameters, vals map[string]cty.
 
 func EncodeVpnGateway_AvailabilityZone(p VpnGatewayParameters, vals map[string]cty.Value) {
 	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
+}
+
+func EncodeVpnGateway_Id(p VpnGatewayParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeVpnGateway_Tags(p VpnGatewayParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeVpnGateway_Arn(p VpnGatewayObservation, vals map[string]cty.Value) {

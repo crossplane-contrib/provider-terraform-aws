@@ -23,11 +23,11 @@ import (
 func EncodeRdsClusterEndpoint(r RdsClusterEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeRdsClusterEndpoint_CustomEndpointType(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_ExcludedMembers(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_StaticMembers(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_ExcludedMembers(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Endpoint(r.Status.AtProvider, ctyVal)
@@ -36,14 +36,6 @@ func EncodeRdsClusterEndpoint(r RdsClusterEndpoint) cty.Value {
 
 func EncodeRdsClusterEndpoint_CustomEndpointType(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
 	vals["custom_endpoint_type"] = cty.StringVal(p.CustomEndpointType)
-}
-
-func EncodeRdsClusterEndpoint_ExcludedMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.ExcludedMembers {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["excluded_members"] = cty.SetVal(colVals)
 }
 
 func EncodeRdsClusterEndpoint_Id(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
@@ -64,6 +56,14 @@ func EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(p RdsClusterEndpointPara
 
 func EncodeRdsClusterEndpoint_ClusterIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
 	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
+}
+
+func EncodeRdsClusterEndpoint_ExcludedMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ExcludedMembers {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["excluded_members"] = cty.SetVal(colVals)
 }
 
 func EncodeRdsClusterEndpoint_Tags(p RdsClusterEndpointParameters, vals map[string]cty.Value) {

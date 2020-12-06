@@ -40,16 +40,12 @@ func EncodeWafSizeConstraintSet_Name(p WafSizeConstraintSetParameters, vals map[
 func EncodeWafSizeConstraintSet_SizeConstraints(p SizeConstraints, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(p, ctyVal)
 	EncodeWafSizeConstraintSet_SizeConstraints_ComparisonOperator(p, ctyVal)
 	EncodeWafSizeConstraintSet_SizeConstraints_Size(p, ctyVal)
+	EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(p, ctyVal)
 	EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch(p.FieldToMatch, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["size_constraints"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(p SizeConstraints, vals map[string]cty.Value) {
-	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
 }
 
 func EncodeWafSizeConstraintSet_SizeConstraints_ComparisonOperator(p SizeConstraints, vals map[string]cty.Value) {
@@ -58,6 +54,10 @@ func EncodeWafSizeConstraintSet_SizeConstraints_ComparisonOperator(p SizeConstra
 
 func EncodeWafSizeConstraintSet_SizeConstraints_Size(p SizeConstraints, vals map[string]cty.Value) {
 	vals["size"] = cty.NumberIntVal(p.Size)
+}
+
+func EncodeWafSizeConstraintSet_SizeConstraints_TextTransformation(p SizeConstraints, vals map[string]cty.Value) {
+	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
 }
 
 func EncodeWafSizeConstraintSet_SizeConstraints_FieldToMatch(p FieldToMatch, vals map[string]cty.Value) {

@@ -22,11 +22,11 @@ import (
 
 func EncodeKmsGrant(r KmsGrant) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKmsGrant_GranteePrincipal(r.Spec.ForProvider, ctyVal)
-	EncodeKmsGrant_RetiringPrincipal(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_GrantCreationTokens(r.Spec.ForProvider, ctyVal)
-	EncodeKmsGrant_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKmsGrant_GranteePrincipal(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_KeyId(r.Spec.ForProvider, ctyVal)
+	EncodeKmsGrant_RetiringPrincipal(r.Spec.ForProvider, ctyVal)
+	EncodeKmsGrant_Id(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_Name(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_Operations(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_RetireOnDelete(r.Spec.ForProvider, ctyVal)
@@ -34,14 +34,6 @@ func EncodeKmsGrant(r KmsGrant) cty.Value {
 	EncodeKmsGrant_GrantId(r.Status.AtProvider, ctyVal)
 	EncodeKmsGrant_GrantToken(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeKmsGrant_GranteePrincipal(p KmsGrantParameters, vals map[string]cty.Value) {
-	vals["grantee_principal"] = cty.StringVal(p.GranteePrincipal)
-}
-
-func EncodeKmsGrant_RetiringPrincipal(p KmsGrantParameters, vals map[string]cty.Value) {
-	vals["retiring_principal"] = cty.StringVal(p.RetiringPrincipal)
 }
 
 func EncodeKmsGrant_GrantCreationTokens(p KmsGrantParameters, vals map[string]cty.Value) {
@@ -52,12 +44,20 @@ func EncodeKmsGrant_GrantCreationTokens(p KmsGrantParameters, vals map[string]ct
 	vals["grant_creation_tokens"] = cty.SetVal(colVals)
 }
 
-func EncodeKmsGrant_Id(p KmsGrantParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeKmsGrant_GranteePrincipal(p KmsGrantParameters, vals map[string]cty.Value) {
+	vals["grantee_principal"] = cty.StringVal(p.GranteePrincipal)
 }
 
 func EncodeKmsGrant_KeyId(p KmsGrantParameters, vals map[string]cty.Value) {
 	vals["key_id"] = cty.StringVal(p.KeyId)
+}
+
+func EncodeKmsGrant_RetiringPrincipal(p KmsGrantParameters, vals map[string]cty.Value) {
+	vals["retiring_principal"] = cty.StringVal(p.RetiringPrincipal)
+}
+
+func EncodeKmsGrant_Id(p KmsGrantParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeKmsGrant_Name(p KmsGrantParameters, vals map[string]cty.Value) {

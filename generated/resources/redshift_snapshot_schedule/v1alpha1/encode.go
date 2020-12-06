@@ -22,31 +22,15 @@ import (
 
 func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_IdentifierPrefix(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotSchedule_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotSchedule_ForceDestroy(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
-}
-
-func EncodeRedshiftSnapshotSchedule_Id(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRedshiftSnapshotSchedule_Identifier(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	vals["identifier"] = cty.StringVal(p.Identifier)
-}
-
-func EncodeRedshiftSnapshotSchedule_IdentifierPrefix(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	vals["identifier_prefix"] = cty.StringVal(p.IdentifierPrefix)
 }
 
 func EncodeRedshiftSnapshotSchedule_Tags(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
@@ -67,6 +51,22 @@ func EncodeRedshiftSnapshotSchedule_Definitions(p RedshiftSnapshotScheduleParame
 
 func EncodeRedshiftSnapshotSchedule_Description(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeRedshiftSnapshotSchedule_ForceDestroy(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
+}
+
+func EncodeRedshiftSnapshotSchedule_Id(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeRedshiftSnapshotSchedule_Identifier(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	vals["identifier"] = cty.StringVal(p.Identifier)
+}
+
+func EncodeRedshiftSnapshotSchedule_IdentifierPrefix(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	vals["identifier_prefix"] = cty.StringVal(p.IdentifierPrefix)
 }
 
 func EncodeRedshiftSnapshotSchedule_Arn(p RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {

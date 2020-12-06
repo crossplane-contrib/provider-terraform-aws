@@ -62,10 +62,10 @@ type EmrInstanceFleetParameters struct {
 }
 
 type InstanceTypeConfigs struct {
-	InstanceType                        string         `json:"instance_type"`
 	WeightedCapacity                    int64          `json:"weighted_capacity"`
 	BidPrice                            string         `json:"bid_price"`
 	BidPriceAsPercentageOfOnDemandPrice int64          `json:"bid_price_as_percentage_of_on_demand_price"`
+	InstanceType                        string         `json:"instance_type"`
 	Configurations                      Configurations `json:"configurations"`
 	EbsConfig                           EbsConfig      `json:"ebs_config"`
 }
@@ -83,19 +83,19 @@ type EbsConfig struct {
 }
 
 type LaunchSpecifications struct {
-	OnDemandSpecification OnDemandSpecification `json:"on_demand_specification"`
 	SpotSpecification     SpotSpecification     `json:"spot_specification"`
+	OnDemandSpecification OnDemandSpecification `json:"on_demand_specification"`
+}
+
+type SpotSpecification struct {
+	AllocationStrategy     string `json:"allocation_strategy"`
+	BlockDurationMinutes   int64  `json:"block_duration_minutes"`
+	TimeoutAction          string `json:"timeout_action"`
+	TimeoutDurationMinutes int64  `json:"timeout_duration_minutes"`
 }
 
 type OnDemandSpecification struct {
 	AllocationStrategy string `json:"allocation_strategy"`
-}
-
-type SpotSpecification struct {
-	TimeoutDurationMinutes int64  `json:"timeout_duration_minutes"`
-	AllocationStrategy     string `json:"allocation_strategy"`
-	BlockDurationMinutes   int64  `json:"block_duration_minutes"`
-	TimeoutAction          string `json:"timeout_action"`
 }
 
 // A EmrInstanceFleetStatus defines the observed state of a EmrInstanceFleet

@@ -28,8 +28,8 @@ func EncodeWafv2RegexPatternSet(r Wafv2RegexPatternSet) cty.Value {
 	EncodeWafv2RegexPatternSet_Scope(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_RegularExpression(r.Spec.ForProvider.RegularExpression, ctyVal)
-	EncodeWafv2RegexPatternSet_LockToken(r.Status.AtProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
+	EncodeWafv2RegexPatternSet_LockToken(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -71,10 +71,10 @@ func EncodeWafv2RegexPatternSet_RegularExpression_RegexString(p RegularExpressio
 	vals["regex_string"] = cty.StringVal(p.RegexString)
 }
 
-func EncodeWafv2RegexPatternSet_LockToken(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
-	vals["lock_token"] = cty.StringVal(p.LockToken)
-}
-
 func EncodeWafv2RegexPatternSet_Arn(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeWafv2RegexPatternSet_LockToken(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
+	vals["lock_token"] = cty.StringVal(p.LockToken)
 }

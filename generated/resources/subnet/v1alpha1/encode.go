@@ -22,21 +22,45 @@ import (
 
 func EncodeSubnet(r Subnet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSubnet_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeSubnet_AvailabilityZoneId(r.Spec.ForProvider, ctyVal)
+	EncodeSubnet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSubnet_OutpostArn(r.Spec.ForProvider, ctyVal)
+	EncodeSubnet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSubnet_AssignIpv6AddressOnCreation(r.Spec.ForProvider, ctyVal)
 	EncodeSubnet_AvailabilityZone(r.Spec.ForProvider, ctyVal)
-	EncodeSubnet_AvailabilityZoneId(r.Spec.ForProvider, ctyVal)
 	EncodeSubnet_CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeSubnet_Ipv6CidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeSubnet_OutpostArn(r.Spec.ForProvider, ctyVal)
-	EncodeSubnet_VpcId(r.Spec.ForProvider, ctyVal)
-	EncodeSubnet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSubnet_MapPublicIpOnLaunch(r.Spec.ForProvider, ctyVal)
-	EncodeSubnet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSubnet_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeSubnet_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSubnet_Ipv6CidrBlockAssociationId(r.Status.AtProvider, ctyVal)
 	EncodeSubnet_OwnerId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSubnet_VpcId(p SubnetParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeSubnet_AvailabilityZoneId(p SubnetParameters, vals map[string]cty.Value) {
+	vals["availability_zone_id"] = cty.StringVal(p.AvailabilityZoneId)
+}
+
+func EncodeSubnet_Id(p SubnetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSubnet_OutpostArn(p SubnetParameters, vals map[string]cty.Value) {
+	vals["outpost_arn"] = cty.StringVal(p.OutpostArn)
+}
+
+func EncodeSubnet_Tags(p SubnetParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSubnet_AssignIpv6AddressOnCreation(p SubnetParameters, vals map[string]cty.Value) {
@@ -47,10 +71,6 @@ func EncodeSubnet_AvailabilityZone(p SubnetParameters, vals map[string]cty.Value
 	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
-func EncodeSubnet_AvailabilityZoneId(p SubnetParameters, vals map[string]cty.Value) {
-	vals["availability_zone_id"] = cty.StringVal(p.AvailabilityZoneId)
-}
-
 func EncodeSubnet_CidrBlock(p SubnetParameters, vals map[string]cty.Value) {
 	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
 }
@@ -59,28 +79,8 @@ func EncodeSubnet_Ipv6CidrBlock(p SubnetParameters, vals map[string]cty.Value) {
 	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
 }
 
-func EncodeSubnet_OutpostArn(p SubnetParameters, vals map[string]cty.Value) {
-	vals["outpost_arn"] = cty.StringVal(p.OutpostArn)
-}
-
-func EncodeSubnet_VpcId(p SubnetParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeSubnet_Id(p SubnetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeSubnet_MapPublicIpOnLaunch(p SubnetParameters, vals map[string]cty.Value) {
 	vals["map_public_ip_on_launch"] = cty.BoolVal(p.MapPublicIpOnLaunch)
-}
-
-func EncodeSubnet_Tags(p SubnetParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSubnet_Timeouts(p Timeouts, vals map[string]cty.Value) {

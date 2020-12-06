@@ -22,22 +22,14 @@ import (
 
 func EncodeGameliftBuild(r GameliftBuild) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGameliftBuild_Version(r.Spec.ForProvider, ctyVal)
-	EncodeGameliftBuild_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_OperatingSystem(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeGameliftBuild_Version(r.Spec.ForProvider, ctyVal)
+	EncodeGameliftBuild_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_StorageLocation(r.Spec.ForProvider.StorageLocation, ctyVal)
 	EncodeGameliftBuild_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGameliftBuild_Version(p GameliftBuildParameters, vals map[string]cty.Value) {
-	vals["version"] = cty.StringVal(p.Version)
-}
-
-func EncodeGameliftBuild_Id(p GameliftBuildParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGameliftBuild_Name(p GameliftBuildParameters, vals map[string]cty.Value) {
@@ -54,6 +46,14 @@ func EncodeGameliftBuild_Tags(p GameliftBuildParameters, vals map[string]cty.Val
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeGameliftBuild_Version(p GameliftBuildParameters, vals map[string]cty.Value) {
+	vals["version"] = cty.StringVal(p.Version)
+}
+
+func EncodeGameliftBuild_Id(p GameliftBuildParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGameliftBuild_StorageLocation(p StorageLocation, vals map[string]cty.Value) {

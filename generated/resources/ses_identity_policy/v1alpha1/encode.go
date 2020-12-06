@@ -22,12 +22,16 @@ import (
 
 func EncodeSesIdentityPolicy(r SesIdentityPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSesIdentityPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityPolicy_Identity(r.Spec.ForProvider, ctyVal)
-	EncodeSesIdentityPolicy_Name(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSesIdentityPolicy_Name(p SesIdentityPolicyParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSesIdentityPolicy_Policy(p SesIdentityPolicyParameters, vals map[string]cty.Value) {
@@ -40,8 +44,4 @@ func EncodeSesIdentityPolicy_Id(p SesIdentityPolicyParameters, vals map[string]c
 
 func EncodeSesIdentityPolicy_Identity(p SesIdentityPolicyParameters, vals map[string]cty.Value) {
 	vals["identity"] = cty.StringVal(p.Identity)
-}
-
-func EncodeSesIdentityPolicy_Name(p SesIdentityPolicyParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }

@@ -22,47 +22,55 @@ import (
 
 func EncodeDirectoryServiceDirectory(r DirectoryServiceDirectory) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDirectoryServiceDirectory_Edition(r.Spec.ForProvider, ctyVal)
-	EncodeDirectoryServiceDirectory_EnableSso(r.Spec.ForProvider, ctyVal)
-	EncodeDirectoryServiceDirectory_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDirectoryServiceDirectory_Size(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceDirectory_Description(r.Spec.ForProvider, ctyVal)
+	EncodeDirectoryServiceDirectory_EnableSso(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceDirectory_ShortName(r.Spec.ForProvider, ctyVal)
+	EncodeDirectoryServiceDirectory_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDirectoryServiceDirectory_Edition(r.Spec.ForProvider, ctyVal)
+	EncodeDirectoryServiceDirectory_Password(r.Spec.ForProvider, ctyVal)
+	EncodeDirectoryServiceDirectory_Size(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceDirectory_Type(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceDirectory_Alias(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceDirectory_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDirectoryServiceDirectory_Password(r.Spec.ForProvider, ctyVal)
-	EncodeDirectoryServiceDirectory_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDirectoryServiceDirectory_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceDirectory_ConnectSettings(r.Spec.ForProvider.ConnectSettings, ctyVal)
 	EncodeDirectoryServiceDirectory_VpcSettings(r.Spec.ForProvider.VpcSettings, ctyVal)
 	EncodeDirectoryServiceDirectory_AccessUrl(r.Status.AtProvider, ctyVal)
-	EncodeDirectoryServiceDirectory_SecurityGroupId(r.Status.AtProvider, ctyVal)
 	EncodeDirectoryServiceDirectory_DnsIpAddresses(r.Status.AtProvider, ctyVal)
+	EncodeDirectoryServiceDirectory_SecurityGroupId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDirectoryServiceDirectory_Edition(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
-	vals["edition"] = cty.StringVal(p.Edition)
-}
-
-func EncodeDirectoryServiceDirectory_EnableSso(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
-	vals["enable_sso"] = cty.BoolVal(p.EnableSso)
-}
-
-func EncodeDirectoryServiceDirectory_Name(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDirectoryServiceDirectory_Size(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
-	vals["size"] = cty.StringVal(p.Size)
 }
 
 func EncodeDirectoryServiceDirectory_Description(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
+func EncodeDirectoryServiceDirectory_EnableSso(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
+	vals["enable_sso"] = cty.BoolVal(p.EnableSso)
+}
+
 func EncodeDirectoryServiceDirectory_ShortName(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
 	vals["short_name"] = cty.StringVal(p.ShortName)
+}
+
+func EncodeDirectoryServiceDirectory_Tags(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDirectoryServiceDirectory_Edition(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
+	vals["edition"] = cty.StringVal(p.Edition)
+}
+
+func EncodeDirectoryServiceDirectory_Password(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
+	vals["password"] = cty.StringVal(p.Password)
+}
+
+func EncodeDirectoryServiceDirectory_Size(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
+	vals["size"] = cty.StringVal(p.Size)
 }
 
 func EncodeDirectoryServiceDirectory_Type(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
@@ -77,16 +85,8 @@ func EncodeDirectoryServiceDirectory_Id(p DirectoryServiceDirectoryParameters, v
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDirectoryServiceDirectory_Password(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
-	vals["password"] = cty.StringVal(p.Password)
-}
-
-func EncodeDirectoryServiceDirectory_Tags(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeDirectoryServiceDirectory_Name(p DirectoryServiceDirectoryParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDirectoryServiceDirectory_ConnectSettings(p ConnectSettings, vals map[string]cty.Value) {
@@ -145,19 +145,11 @@ func EncodeDirectoryServiceDirectory_ConnectSettings_SubnetIds(p ConnectSettings
 func EncodeDirectoryServiceDirectory_VpcSettings(p VpcSettings, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDirectoryServiceDirectory_VpcSettings_AvailabilityZones(p, ctyVal)
 	EncodeDirectoryServiceDirectory_VpcSettings_SubnetIds(p, ctyVal)
 	EncodeDirectoryServiceDirectory_VpcSettings_VpcId(p, ctyVal)
+	EncodeDirectoryServiceDirectory_VpcSettings_AvailabilityZones(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["vpc_settings"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeDirectoryServiceDirectory_VpcSettings_AvailabilityZones(p VpcSettings, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.AvailabilityZones {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["availability_zones"] = cty.SetVal(colVals)
 }
 
 func EncodeDirectoryServiceDirectory_VpcSettings_SubnetIds(p VpcSettings, vals map[string]cty.Value) {
@@ -172,12 +164,16 @@ func EncodeDirectoryServiceDirectory_VpcSettings_VpcId(p VpcSettings, vals map[s
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeDirectoryServiceDirectory_AccessUrl(p DirectoryServiceDirectoryObservation, vals map[string]cty.Value) {
-	vals["access_url"] = cty.StringVal(p.AccessUrl)
+func EncodeDirectoryServiceDirectory_VpcSettings_AvailabilityZones(p VpcSettings, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.AvailabilityZones {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["availability_zones"] = cty.SetVal(colVals)
 }
 
-func EncodeDirectoryServiceDirectory_SecurityGroupId(p DirectoryServiceDirectoryObservation, vals map[string]cty.Value) {
-	vals["security_group_id"] = cty.StringVal(p.SecurityGroupId)
+func EncodeDirectoryServiceDirectory_AccessUrl(p DirectoryServiceDirectoryObservation, vals map[string]cty.Value) {
+	vals["access_url"] = cty.StringVal(p.AccessUrl)
 }
 
 func EncodeDirectoryServiceDirectory_DnsIpAddresses(p DirectoryServiceDirectoryObservation, vals map[string]cty.Value) {
@@ -186,4 +182,8 @@ func EncodeDirectoryServiceDirectory_DnsIpAddresses(p DirectoryServiceDirectoryO
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["dns_ip_addresses"] = cty.SetVal(colVals)
+}
+
+func EncodeDirectoryServiceDirectory_SecurityGroupId(p DirectoryServiceDirectoryObservation, vals map[string]cty.Value) {
+	vals["security_group_id"] = cty.StringVal(p.SecurityGroupId)
 }

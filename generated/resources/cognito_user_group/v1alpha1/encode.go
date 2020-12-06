@@ -22,22 +22,14 @@ import (
 
 func EncodeCognitoUserGroup(r CognitoUserGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserGroup_Precedence(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserGroup_Precedence(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoUserGroup_Name(p CognitoUserGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeCognitoUserGroup_Precedence(p CognitoUserGroupParameters, vals map[string]cty.Value) {
-	vals["precedence"] = cty.NumberIntVal(p.Precedence)
 }
 
 func EncodeCognitoUserGroup_RoleArn(p CognitoUserGroupParameters, vals map[string]cty.Value) {
@@ -54,4 +46,12 @@ func EncodeCognitoUserGroup_Description(p CognitoUserGroupParameters, vals map[s
 
 func EncodeCognitoUserGroup_Id(p CognitoUserGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCognitoUserGroup_Name(p CognitoUserGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCognitoUserGroup_Precedence(p CognitoUserGroupParameters, vals map[string]cty.Value) {
+	vals["precedence"] = cty.NumberIntVal(p.Precedence)
 }

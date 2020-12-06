@@ -22,19 +22,11 @@ import (
 
 func EncodeIamUserGroupMembership(r IamUserGroupMembership) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamUserGroupMembership_Groups(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserGroupMembership_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserGroupMembership_User(r.Spec.ForProvider, ctyVal)
+	EncodeIamUserGroupMembership_Groups(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamUserGroupMembership_Groups(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Groups {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["groups"] = cty.SetVal(colVals)
 }
 
 func EncodeIamUserGroupMembership_Id(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
@@ -43,4 +35,12 @@ func EncodeIamUserGroupMembership_Id(p IamUserGroupMembershipParameters, vals ma
 
 func EncodeIamUserGroupMembership_User(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
 	vals["user"] = cty.StringVal(p.User)
+}
+
+func EncodeIamUserGroupMembership_Groups(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Groups {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["groups"] = cty.SetVal(colVals)
 }

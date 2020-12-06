@@ -22,17 +22,16 @@ import (
 
 func EncodeDynamodbTable(r DynamodbTable) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDynamodbTable_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTable_StreamEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTable_StreamViewType(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTable_BillingMode(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTable_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTable_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTable_WriteCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTable_HashKey(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTable_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTable_RangeKey(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTable_StreamEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTable_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTable_BillingMode(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTable_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTable_ReadCapacity(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTable_ServerSideEncryption(r.Spec.ForProvider.ServerSideEncryption, ctyVal)
+	EncodeDynamodbTable_StreamViewType(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTable_WriteCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTable_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDynamodbTable_Ttl(r.Spec.ForProvider.Ttl, ctyVal)
 	EncodeDynamodbTable_Attribute(r.Spec.ForProvider.Attribute, ctyVal)
@@ -40,30 +39,27 @@ func EncodeDynamodbTable(r DynamodbTable) cty.Value {
 	EncodeDynamodbTable_LocalSecondaryIndex(r.Spec.ForProvider.LocalSecondaryIndex, ctyVal)
 	EncodeDynamodbTable_PointInTimeRecovery(r.Spec.ForProvider.PointInTimeRecovery, ctyVal)
 	EncodeDynamodbTable_Replica(r.Spec.ForProvider.Replica, ctyVal)
-	EncodeDynamodbTable_Arn(r.Status.AtProvider, ctyVal)
+	EncodeDynamodbTable_ServerSideEncryption(r.Spec.ForProvider.ServerSideEncryption, ctyVal)
 	EncodeDynamodbTable_StreamArn(r.Status.AtProvider, ctyVal)
+	EncodeDynamodbTable_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDynamodbTable_StreamLabel(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDynamodbTable_Name(p DynamodbTableParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDynamodbTable_StreamEnabled(p DynamodbTableParameters, vals map[string]cty.Value) {
-	vals["stream_enabled"] = cty.BoolVal(p.StreamEnabled)
-}
-
-func EncodeDynamodbTable_StreamViewType(p DynamodbTableParameters, vals map[string]cty.Value) {
-	vals["stream_view_type"] = cty.StringVal(p.StreamViewType)
-}
-
-func EncodeDynamodbTable_BillingMode(p DynamodbTableParameters, vals map[string]cty.Value) {
-	vals["billing_mode"] = cty.StringVal(p.BillingMode)
+func EncodeDynamodbTable_HashKey(p DynamodbTableParameters, vals map[string]cty.Value) {
+	vals["hash_key"] = cty.StringVal(p.HashKey)
 }
 
 func EncodeDynamodbTable_Id(p DynamodbTableParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDynamodbTable_RangeKey(p DynamodbTableParameters, vals map[string]cty.Value) {
+	vals["range_key"] = cty.StringVal(p.RangeKey)
+}
+
+func EncodeDynamodbTable_StreamEnabled(p DynamodbTableParameters, vals map[string]cty.Value) {
+	vals["stream_enabled"] = cty.BoolVal(p.StreamEnabled)
 }
 
 func EncodeDynamodbTable_Tags(p DynamodbTableParameters, vals map[string]cty.Value) {
@@ -74,45 +70,36 @@ func EncodeDynamodbTable_Tags(p DynamodbTableParameters, vals map[string]cty.Val
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDynamodbTable_WriteCapacity(p DynamodbTableParameters, vals map[string]cty.Value) {
-	vals["write_capacity"] = cty.NumberIntVal(p.WriteCapacity)
+func EncodeDynamodbTable_BillingMode(p DynamodbTableParameters, vals map[string]cty.Value) {
+	vals["billing_mode"] = cty.StringVal(p.BillingMode)
 }
 
-func EncodeDynamodbTable_HashKey(p DynamodbTableParameters, vals map[string]cty.Value) {
-	vals["hash_key"] = cty.StringVal(p.HashKey)
-}
-
-func EncodeDynamodbTable_RangeKey(p DynamodbTableParameters, vals map[string]cty.Value) {
-	vals["range_key"] = cty.StringVal(p.RangeKey)
+func EncodeDynamodbTable_Name(p DynamodbTableParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDynamodbTable_ReadCapacity(p DynamodbTableParameters, vals map[string]cty.Value) {
 	vals["read_capacity"] = cty.NumberIntVal(p.ReadCapacity)
 }
 
-func EncodeDynamodbTable_ServerSideEncryption(p ServerSideEncryption, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeDynamodbTable_ServerSideEncryption_Enabled(p, ctyVal)
-	EncodeDynamodbTable_ServerSideEncryption_KmsKeyArn(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["server_side_encryption"] = cty.ListVal(valsForCollection)
+func EncodeDynamodbTable_StreamViewType(p DynamodbTableParameters, vals map[string]cty.Value) {
+	vals["stream_view_type"] = cty.StringVal(p.StreamViewType)
 }
 
-func EncodeDynamodbTable_ServerSideEncryption_Enabled(p ServerSideEncryption, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodeDynamodbTable_ServerSideEncryption_KmsKeyArn(p ServerSideEncryption, vals map[string]cty.Value) {
-	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+func EncodeDynamodbTable_WriteCapacity(p DynamodbTableParameters, vals map[string]cty.Value) {
+	vals["write_capacity"] = cty.NumberIntVal(p.WriteCapacity)
 }
 
 func EncodeDynamodbTable_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDynamodbTable_Timeouts_Update(p, ctyVal)
 	EncodeDynamodbTable_Timeouts_Create(p, ctyVal)
 	EncodeDynamodbTable_Timeouts_Delete(p, ctyVal)
-	EncodeDynamodbTable_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeDynamodbTable_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
+	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeDynamodbTable_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
@@ -121,10 +108,6 @@ func EncodeDynamodbTable_Timeouts_Create(p Timeouts, vals map[string]cty.Value) 
 
 func EncodeDynamodbTable_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
-}
-
-func EncodeDynamodbTable_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
-	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeDynamodbTable_Ttl(p Ttl, vals map[string]cty.Value) {
@@ -148,41 +131,33 @@ func EncodeDynamodbTable_Attribute(p []Attribute, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeDynamodbTable_Attribute_Type(v, ctyVal)
 		EncodeDynamodbTable_Attribute_Name(v, ctyVal)
+		EncodeDynamodbTable_Attribute_Type(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["attribute"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeDynamodbTable_Attribute_Type(p Attribute, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeDynamodbTable_Attribute_Name(p Attribute, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeDynamodbTable_Attribute_Type(p Attribute, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
 func EncodeDynamodbTable_GlobalSecondaryIndex(p GlobalSecondaryIndex, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDynamodbTable_GlobalSecondaryIndex_HashKey(p, ctyVal)
-	EncodeDynamodbTable_GlobalSecondaryIndex_Name(p, ctyVal)
 	EncodeDynamodbTable_GlobalSecondaryIndex_NonKeyAttributes(p, ctyVal)
 	EncodeDynamodbTable_GlobalSecondaryIndex_ProjectionType(p, ctyVal)
 	EncodeDynamodbTable_GlobalSecondaryIndex_RangeKey(p, ctyVal)
 	EncodeDynamodbTable_GlobalSecondaryIndex_ReadCapacity(p, ctyVal)
 	EncodeDynamodbTable_GlobalSecondaryIndex_WriteCapacity(p, ctyVal)
+	EncodeDynamodbTable_GlobalSecondaryIndex_HashKey(p, ctyVal)
+	EncodeDynamodbTable_GlobalSecondaryIndex_Name(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["global_secondary_index"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeDynamodbTable_GlobalSecondaryIndex_HashKey(p GlobalSecondaryIndex, vals map[string]cty.Value) {
-	vals["hash_key"] = cty.StringVal(p.HashKey)
-}
-
-func EncodeDynamodbTable_GlobalSecondaryIndex_Name(p GlobalSecondaryIndex, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDynamodbTable_GlobalSecondaryIndex_NonKeyAttributes(p GlobalSecondaryIndex, vals map[string]cty.Value) {
@@ -207,6 +182,14 @@ func EncodeDynamodbTable_GlobalSecondaryIndex_ReadCapacity(p GlobalSecondaryInde
 
 func EncodeDynamodbTable_GlobalSecondaryIndex_WriteCapacity(p GlobalSecondaryIndex, vals map[string]cty.Value) {
 	vals["write_capacity"] = cty.NumberIntVal(p.WriteCapacity)
+}
+
+func EncodeDynamodbTable_GlobalSecondaryIndex_HashKey(p GlobalSecondaryIndex, vals map[string]cty.Value) {
+	vals["hash_key"] = cty.StringVal(p.HashKey)
+}
+
+func EncodeDynamodbTable_GlobalSecondaryIndex_Name(p GlobalSecondaryIndex, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDynamodbTable_LocalSecondaryIndex(p LocalSecondaryIndex, vals map[string]cty.Value) {
@@ -264,12 +247,29 @@ func EncodeDynamodbTable_Replica_RegionName(p Replica, vals map[string]cty.Value
 	vals["region_name"] = cty.StringVal(p.RegionName)
 }
 
-func EncodeDynamodbTable_Arn(p DynamodbTableObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeDynamodbTable_ServerSideEncryption(p ServerSideEncryption, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeDynamodbTable_ServerSideEncryption_Enabled(p, ctyVal)
+	EncodeDynamodbTable_ServerSideEncryption_KmsKeyArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["server_side_encryption"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeDynamodbTable_ServerSideEncryption_Enabled(p ServerSideEncryption, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodeDynamodbTable_ServerSideEncryption_KmsKeyArn(p ServerSideEncryption, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
 func EncodeDynamodbTable_StreamArn(p DynamodbTableObservation, vals map[string]cty.Value) {
 	vals["stream_arn"] = cty.StringVal(p.StreamArn)
+}
+
+func EncodeDynamodbTable_Arn(p DynamodbTableObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeDynamodbTable_StreamLabel(p DynamodbTableObservation, vals map[string]cty.Value) {

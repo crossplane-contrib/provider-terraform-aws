@@ -52,11 +52,11 @@ type RedshiftParameterGroupSpec struct {
 
 // A RedshiftParameterGroupParameters defines the desired state of a RedshiftParameterGroup
 type RedshiftParameterGroupParameters struct {
+	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Family      string            `json:"family"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
-	Tags        map[string]string `json:"tags"`
 	Parameter   Parameter         `json:"parameter"`
 }
 

@@ -52,18 +52,18 @@ type BackupSelectionSpec struct {
 
 // A BackupSelectionParameters defines the desired state of a BackupSelection
 type BackupSelectionParameters struct {
-	Resources    []string     `json:"resources"`
 	IamRoleArn   string       `json:"iam_role_arn"`
 	Id           string       `json:"id"`
 	Name         string       `json:"name"`
 	PlanId       string       `json:"plan_id"`
+	Resources    []string     `json:"resources"`
 	SelectionTag SelectionTag `json:"selection_tag"`
 }
 
 type SelectionTag struct {
+	Value string `json:"value"`
 	Key   string `json:"key"`
 	Type  string `json:"type"`
-	Value string `json:"value"`
 }
 
 // A BackupSelectionStatus defines the observed state of a BackupSelection

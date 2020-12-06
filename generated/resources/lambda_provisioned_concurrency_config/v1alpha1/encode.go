@@ -22,17 +22,13 @@ import (
 
 func EncodeLambdaProvisionedConcurrencyConfig(r LambdaProvisionedConcurrencyConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLambdaProvisionedConcurrencyConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Qualifier(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaProvisionedConcurrencyConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLambdaProvisionedConcurrencyConfig_FunctionName(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
-	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaProvisionedConcurrencyConfig_Id(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
@@ -45,6 +41,10 @@ func EncodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(p 
 
 func EncodeLambdaProvisionedConcurrencyConfig_Qualifier(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	vals["qualifier"] = cty.StringVal(p.Qualifier)
+}
+
+func EncodeLambdaProvisionedConcurrencyConfig_FunctionName(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
+	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaProvisionedConcurrencyConfig_Timeouts(p Timeouts, vals map[string]cty.Value) {

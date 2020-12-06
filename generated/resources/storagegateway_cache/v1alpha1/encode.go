@@ -22,11 +22,15 @@ import (
 
 func EncodeStoragegatewayCache(r StoragegatewayCache) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeStoragegatewayCache_Id(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCache_DiskId(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCache_GatewayArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayCache_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeStoragegatewayCache_Id(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeStoragegatewayCache_DiskId(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeStoragegatewayCache_DiskId(p StoragegatewayCacheParameters, vals map[
 
 func EncodeStoragegatewayCache_GatewayArn(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
-}
-
-func EncodeStoragegatewayCache_Id(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

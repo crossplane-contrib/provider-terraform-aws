@@ -67,16 +67,12 @@ func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedTerminationProtec
 func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling(p ManagedScaling, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_TargetCapacity(p, ctyVal)
 	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MaximumScalingStepSize(p, ctyVal)
 	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MinimumScalingStepSize(p, ctyVal)
 	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_Status(p, ctyVal)
+	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_TargetCapacity(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["managed_scaling"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_TargetCapacity(p ManagedScaling, vals map[string]cty.Value) {
-	vals["target_capacity"] = cty.NumberIntVal(p.TargetCapacity)
 }
 
 func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MaximumScalingStepSize(p ManagedScaling, vals map[string]cty.Value) {
@@ -89,6 +85,10 @@ func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MinimumSc
 
 func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_Status(p ManagedScaling, vals map[string]cty.Value) {
 	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_TargetCapacity(p ManagedScaling, vals map[string]cty.Value) {
+	vals["target_capacity"] = cty.NumberIntVal(p.TargetCapacity)
 }
 
 func EncodeEcsCapacityProvider_Arn(p EcsCapacityProviderObservation, vals map[string]cty.Value) {

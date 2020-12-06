@@ -52,27 +52,27 @@ type OpsworksPhpAppLayerSpec struct {
 
 // A OpsworksPhpAppLayerParameters defines the desired state of a OpsworksPhpAppLayer
 type OpsworksPhpAppLayerParameters struct {
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	Tags                     map[string]string `json:"tags"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	Id                       string            `json:"id"`
-	AutoHealing              bool              `json:"auto_healing"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	Name                     string            `json:"name"`
 	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	StackId                  string            `json:"stack_id"`
-	CustomJson               string            `json:"custom_json"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	Tags                     map[string]string `json:"tags"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
 	SystemPackages           []string          `json:"system_packages"`
+	AutoHealing              bool              `json:"auto_healing"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	StackId                  string            `json:"stack_id"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	CustomJson               string            `json:"custom_json"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	Id                       string            `json:"id"`
+	Name                     string            `json:"name"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 

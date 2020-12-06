@@ -52,9 +52,9 @@ type AppmeshMeshSpec struct {
 
 // A AppmeshMeshParameters defines the desired state of a AppmeshMesh
 type AppmeshMeshParameters struct {
+	Id   string            `json:"id"`
 	Name string            `json:"name"`
 	Tags map[string]string `json:"tags"`
-	Id   string            `json:"id"`
 	Spec Spec              `json:"spec"`
 }
 
@@ -74,9 +74,9 @@ type AppmeshMeshStatus struct {
 
 // A AppmeshMeshObservation records the observed state of a AppmeshMesh
 type AppmeshMeshObservation struct {
+	LastUpdatedDate string `json:"last_updated_date"`
+	MeshOwner       string `json:"mesh_owner"`
 	ResourceOwner   string `json:"resource_owner"`
 	Arn             string `json:"arn"`
 	CreatedDate     string `json:"created_date"`
-	LastUpdatedDate string `json:"last_updated_date"`
-	MeshOwner       string `json:"mesh_owner"`
 }

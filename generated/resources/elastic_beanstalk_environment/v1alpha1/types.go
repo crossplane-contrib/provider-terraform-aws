@@ -52,27 +52,27 @@ type ElasticBeanstalkEnvironmentSpec struct {
 
 // A ElasticBeanstalkEnvironmentParameters defines the desired state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentParameters struct {
-	Description         string            `json:"description"`
+	Id                  string            `json:"id"`
+	PlatformArn         string            `json:"platform_arn"`
 	PollInterval        string            `json:"poll_interval"`
 	SolutionStackName   string            `json:"solution_stack_name"`
-	Application         string            `json:"application"`
-	PlatformArn         string            `json:"platform_arn"`
 	Tags                map[string]string `json:"tags"`
 	TemplateName        string            `json:"template_name"`
-	WaitForReadyTimeout string            `json:"wait_for_ready_timeout"`
-	CnamePrefix         string            `json:"cname_prefix"`
-	Id                  string            `json:"id"`
-	Name                string            `json:"name"`
 	Tier                string            `json:"tier"`
+	CnamePrefix         string            `json:"cname_prefix"`
+	Name                string            `json:"name"`
 	VersionLabel        string            `json:"version_label"`
+	Application         string            `json:"application"`
+	Description         string            `json:"description"`
+	WaitForReadyTimeout string            `json:"wait_for_ready_timeout"`
 	Setting             Setting           `json:"setting"`
 }
 
 type Setting struct {
-	Resource  string `json:"resource"`
 	Value     string `json:"value"`
 	Name      string `json:"name"`
 	Namespace string `json:"namespace"`
+	Resource  string `json:"resource"`
 }
 
 // A ElasticBeanstalkEnvironmentStatus defines the observed state of a ElasticBeanstalkEnvironment
@@ -83,21 +83,21 @@ type ElasticBeanstalkEnvironmentStatus struct {
 
 // A ElasticBeanstalkEnvironmentObservation records the observed state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentObservation struct {
-	Cname                string        `json:"cname"`
-	AllSettings          []AllSettings `json:"all_settings"`
+	Instances            []string      `json:"instances"`
 	LaunchConfigurations []string      `json:"launch_configurations"`
-	Queues               []string      `json:"queues"`
-	AutoscalingGroups    []string      `json:"autoscaling_groups"`
 	LoadBalancers        []string      `json:"load_balancers"`
 	Arn                  string        `json:"arn"`
 	EndpointUrl          string        `json:"endpoint_url"`
-	Instances            []string      `json:"instances"`
 	Triggers             []string      `json:"triggers"`
+	AutoscalingGroups    []string      `json:"autoscaling_groups"`
+	Cname                string        `json:"cname"`
+	Queues               []string      `json:"queues"`
+	AllSettings          []AllSettings `json:"all_settings"`
 }
 
 type AllSettings struct {
+	Name      string `json:"name"`
 	Namespace string `json:"namespace"`
 	Resource  string `json:"resource"`
 	Value     string `json:"value"`
-	Name      string `json:"name"`
 }

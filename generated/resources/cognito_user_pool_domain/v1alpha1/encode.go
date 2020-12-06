@@ -22,19 +22,15 @@ import (
 
 func EncodeCognitoUserPoolDomain(r CognitoUserPoolDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPoolDomain_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolDomain_Version(r.Status.AtProvider, ctyVal)
-	EncodeCognitoUserPoolDomain_AwsAccountId(r.Status.AtProvider, ctyVal)
+	EncodeCognitoUserPoolDomain_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_CloudfrontDistributionArn(r.Status.AtProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_S3Bucket(r.Status.AtProvider, ctyVal)
+	EncodeCognitoUserPoolDomain_Version(r.Status.AtProvider, ctyVal)
+	EncodeCognitoUserPoolDomain_AwsAccountId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoUserPoolDomain_UserPoolId(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
-	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
 }
 
 func EncodeCognitoUserPoolDomain_CertificateArn(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
@@ -49,12 +45,8 @@ func EncodeCognitoUserPoolDomain_Id(p CognitoUserPoolDomainParameters, vals map[
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCognitoUserPoolDomain_Version(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
-	vals["version"] = cty.StringVal(p.Version)
-}
-
-func EncodeCognitoUserPoolDomain_AwsAccountId(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
-	vals["aws_account_id"] = cty.StringVal(p.AwsAccountId)
+func EncodeCognitoUserPoolDomain_UserPoolId(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
+	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
 }
 
 func EncodeCognitoUserPoolDomain_CloudfrontDistributionArn(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
@@ -63,4 +55,12 @@ func EncodeCognitoUserPoolDomain_CloudfrontDistributionArn(p CognitoUserPoolDoma
 
 func EncodeCognitoUserPoolDomain_S3Bucket(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
 	vals["s3_bucket"] = cty.StringVal(p.S3Bucket)
+}
+
+func EncodeCognitoUserPoolDomain_Version(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
+	vals["version"] = cty.StringVal(p.Version)
+}
+
+func EncodeCognitoUserPoolDomain_AwsAccountId(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
+	vals["aws_account_id"] = cty.StringVal(p.AwsAccountId)
 }

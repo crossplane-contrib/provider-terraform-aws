@@ -54,16 +54,16 @@ func EncodeWorkspacesIpGroup_Tags(p WorkspacesIpGroupParameters, vals map[string
 func EncodeWorkspacesIpGroup_Rules(p Rules, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWorkspacesIpGroup_Rules_Description(p, ctyVal)
 	EncodeWorkspacesIpGroup_Rules_Source(p, ctyVal)
+	EncodeWorkspacesIpGroup_Rules_Description(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["rules"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWorkspacesIpGroup_Rules_Description(p Rules, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
 func EncodeWorkspacesIpGroup_Rules_Source(p Rules, vals map[string]cty.Value) {
 	vals["source"] = cty.StringVal(p.Source)
+}
+
+func EncodeWorkspacesIpGroup_Rules_Description(p Rules, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }

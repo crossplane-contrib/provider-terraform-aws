@@ -22,19 +22,35 @@ import (
 
 func EncodeEbsVolume(r EbsVolume) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEbsVolume_Type(r.Spec.ForProvider, ctyVal)
+	EncodeEbsVolume_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+	EncodeEbsVolume_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEbsVolume_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeEbsVolume_MultiAttachEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeEbsVolume_SnapshotId(r.Spec.ForProvider, ctyVal)
 	EncodeEbsVolume_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEbsVolume_Type(r.Spec.ForProvider, ctyVal)
-	EncodeEbsVolume_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+	EncodeEbsVolume_Encrypted(r.Spec.ForProvider, ctyVal)
 	EncodeEbsVolume_Iops(r.Spec.ForProvider, ctyVal)
-	EncodeEbsVolume_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEbsVolume_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeEbsVolume_OutpostArn(r.Spec.ForProvider, ctyVal)
 	EncodeEbsVolume_Size(r.Spec.ForProvider, ctyVal)
-	EncodeEbsVolume_Encrypted(r.Spec.ForProvider, ctyVal)
 	EncodeEbsVolume_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEbsVolume_Type(p EbsVolumeParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeEbsVolume_AvailabilityZone(p EbsVolumeParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
+}
+
+func EncodeEbsVolume_Id(p EbsVolumeParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEbsVolume_KmsKeyId(p EbsVolumeParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
 func EncodeEbsVolume_MultiAttachEnabled(p EbsVolumeParameters, vals map[string]cty.Value) {
@@ -53,24 +69,12 @@ func EncodeEbsVolume_Tags(p EbsVolumeParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeEbsVolume_Type(p EbsVolumeParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeEbsVolume_AvailabilityZone(p EbsVolumeParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
+func EncodeEbsVolume_Encrypted(p EbsVolumeParameters, vals map[string]cty.Value) {
+	vals["encrypted"] = cty.BoolVal(p.Encrypted)
 }
 
 func EncodeEbsVolume_Iops(p EbsVolumeParameters, vals map[string]cty.Value) {
 	vals["iops"] = cty.NumberIntVal(p.Iops)
-}
-
-func EncodeEbsVolume_Id(p EbsVolumeParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEbsVolume_KmsKeyId(p EbsVolumeParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
 func EncodeEbsVolume_OutpostArn(p EbsVolumeParameters, vals map[string]cty.Value) {
@@ -79,10 +83,6 @@ func EncodeEbsVolume_OutpostArn(p EbsVolumeParameters, vals map[string]cty.Value
 
 func EncodeEbsVolume_Size(p EbsVolumeParameters, vals map[string]cty.Value) {
 	vals["size"] = cty.NumberIntVal(p.Size)
-}
-
-func EncodeEbsVolume_Encrypted(p EbsVolumeParameters, vals map[string]cty.Value) {
-	vals["encrypted"] = cty.BoolVal(p.Encrypted)
 }
 
 func EncodeEbsVolume_Arn(p EbsVolumeObservation, vals map[string]cty.Value) {

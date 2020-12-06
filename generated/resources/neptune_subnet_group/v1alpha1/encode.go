@@ -22,14 +22,18 @@ import (
 
 func EncodeNeptuneSubnetGroup(r NeptuneSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeNeptuneSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeNeptuneSubnetGroup_Description(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeNeptuneSubnetGroup_Id(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
@@ -58,10 +62,6 @@ func EncodeNeptuneSubnetGroup_Tags(p NeptuneSubnetGroupParameters, vals map[stri
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeNeptuneSubnetGroup_Description(p NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeNeptuneSubnetGroup_Arn(p NeptuneSubnetGroupObservation, vals map[string]cty.Value) {

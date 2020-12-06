@@ -22,12 +22,16 @@ import (
 
 func EncodeSagemakerEndpoint(r SagemakerEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSagemakerEndpoint_EndpointConfigName(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerEndpoint_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerEndpoint_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerEndpoint_EndpointConfigName(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSagemakerEndpoint_EndpointConfigName(p SagemakerEndpointParameters, vals map[string]cty.Value) {
+	vals["endpoint_config_name"] = cty.StringVal(p.EndpointConfigName)
 }
 
 func EncodeSagemakerEndpoint_Id(p SagemakerEndpointParameters, vals map[string]cty.Value) {
@@ -44,10 +48,6 @@ func EncodeSagemakerEndpoint_Tags(p SagemakerEndpointParameters, vals map[string
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSagemakerEndpoint_EndpointConfigName(p SagemakerEndpointParameters, vals map[string]cty.Value) {
-	vals["endpoint_config_name"] = cty.StringVal(p.EndpointConfigName)
 }
 
 func EncodeSagemakerEndpoint_Arn(p SagemakerEndpointObservation, vals map[string]cty.Value) {

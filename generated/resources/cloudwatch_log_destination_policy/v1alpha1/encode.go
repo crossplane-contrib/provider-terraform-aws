@@ -22,11 +22,15 @@ import (
 
 func EncodeCloudwatchLogDestinationPolicy(r CloudwatchLogDestinationPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchLogDestinationPolicy_AccessPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestinationPolicy_DestinationName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestinationPolicy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogDestinationPolicy_AccessPolicy(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudwatchLogDestinationPolicy_AccessPolicy(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
+	vals["access_policy"] = cty.StringVal(p.AccessPolicy)
 }
 
 func EncodeCloudwatchLogDestinationPolicy_DestinationName(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeCloudwatchLogDestinationPolicy_DestinationName(p CloudwatchLogDestina
 
 func EncodeCloudwatchLogDestinationPolicy_Id(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudwatchLogDestinationPolicy_AccessPolicy(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
-	vals["access_policy"] = cty.StringVal(p.AccessPolicy)
 }

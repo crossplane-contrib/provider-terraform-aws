@@ -22,15 +22,27 @@ import (
 
 func EncodeRdsClusterParameterGroup(r RdsClusterParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRdsClusterParameterGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterParameterGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeRdsClusterParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRdsClusterParameterGroup_Description(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeRdsClusterParameterGroup_Family(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["family"] = cty.StringVal(p.Family)
+}
+
+func EncodeRdsClusterParameterGroup_Id(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRdsClusterParameterGroup_Name(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
@@ -49,30 +61,14 @@ func EncodeRdsClusterParameterGroup_Tags(p RdsClusterParameterGroupParameters, v
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRdsClusterParameterGroup_Description(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeRdsClusterParameterGroup_Family(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["family"] = cty.StringVal(p.Family)
-}
-
-func EncodeRdsClusterParameterGroup_Id(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeRdsClusterParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeRdsClusterParameterGroup_Parameter_ApplyMethod(p, ctyVal)
 	EncodeRdsClusterParameterGroup_Parameter_Name(p, ctyVal)
 	EncodeRdsClusterParameterGroup_Parameter_Value(p, ctyVal)
+	EncodeRdsClusterParameterGroup_Parameter_ApplyMethod(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["parameter"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeRdsClusterParameterGroup_Parameter_ApplyMethod(p Parameter, vals map[string]cty.Value) {
-	vals["apply_method"] = cty.StringVal(p.ApplyMethod)
 }
 
 func EncodeRdsClusterParameterGroup_Parameter_Name(p Parameter, vals map[string]cty.Value) {
@@ -81,6 +77,10 @@ func EncodeRdsClusterParameterGroup_Parameter_Name(p Parameter, vals map[string]
 
 func EncodeRdsClusterParameterGroup_Parameter_Value(p Parameter, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeRdsClusterParameterGroup_Parameter_ApplyMethod(p Parameter, vals map[string]cty.Value) {
+	vals["apply_method"] = cty.StringVal(p.ApplyMethod)
 }
 
 func EncodeRdsClusterParameterGroup_Arn(p RdsClusterParameterGroupObservation, vals map[string]cty.Value) {

@@ -22,16 +22,16 @@ import (
 
 func EncodeGuarddutyOrganizationAdminAccount(r GuarddutyOrganizationAdminAccount) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGuarddutyOrganizationAdminAccount_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyOrganizationAdminAccount_AdminAccountId(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyOrganizationAdminAccount_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGuarddutyOrganizationAdminAccount_Id(p GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeGuarddutyOrganizationAdminAccount_AdminAccountId(p GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
 	vals["admin_account_id"] = cty.StringVal(p.AdminAccountId)
+}
+
+func EncodeGuarddutyOrganizationAdminAccount_Id(p GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

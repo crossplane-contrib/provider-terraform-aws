@@ -52,19 +52,19 @@ type DaxClusterSpec struct {
 
 // A DaxClusterParameters defines the desired state of a DaxCluster
 type DaxClusterParameters struct {
-	IamRoleArn           string               `json:"iam_role_arn"`
-	Id                   string               `json:"id"`
-	NodeType             string               `json:"node_type"`
-	AvailabilityZones    []string             `json:"availability_zones"`
-	ClusterName          string               `json:"cluster_name"`
-	MaintenanceWindow    string               `json:"maintenance_window"`
 	Description          string               `json:"description"`
-	ParameterGroupName   string               `json:"parameter_group_name"`
-	NotificationTopicArn string               `json:"notification_topic_arn"`
 	ReplicationFactor    int64                `json:"replication_factor"`
-	SecurityGroupIds     []string             `json:"security_group_ids"`
+	ClusterName          string               `json:"cluster_name"`
 	SubnetGroupName      string               `json:"subnet_group_name"`
+	MaintenanceWindow    string               `json:"maintenance_window"`
+	NodeType             string               `json:"node_type"`
+	SecurityGroupIds     []string             `json:"security_group_ids"`
 	Tags                 map[string]string    `json:"tags"`
+	IamRoleArn           string               `json:"iam_role_arn"`
+	AvailabilityZones    []string             `json:"availability_zones"`
+	Id                   string               `json:"id"`
+	NotificationTopicArn string               `json:"notification_topic_arn"`
+	ParameterGroupName   string               `json:"parameter_group_name"`
 	ServerSideEncryption ServerSideEncryption `json:"server_side_encryption"`
 	Timeouts             Timeouts             `json:"timeouts"`
 }
@@ -87,16 +87,16 @@ type DaxClusterStatus struct {
 
 // A DaxClusterObservation records the observed state of a DaxCluster
 type DaxClusterObservation struct {
-	Arn                   string  `json:"arn"`
-	ConfigurationEndpoint string  `json:"configuration_endpoint"`
 	Nodes                 []Nodes `json:"nodes"`
 	ClusterAddress        string  `json:"cluster_address"`
 	Port                  int64   `json:"port"`
+	ConfigurationEndpoint string  `json:"configuration_endpoint"`
+	Arn                   string  `json:"arn"`
 }
 
 type Nodes struct {
-	Id               string `json:"id"`
-	Port             int64  `json:"port"`
 	Address          string `json:"address"`
 	AvailabilityZone string `json:"availability_zone"`
+	Id               string `json:"id"`
+	Port             int64  `json:"port"`
 }

@@ -62,16 +62,16 @@ type PinpointAppParameters struct {
 }
 
 type CampaignHook struct {
+	WebUrl             string `json:"web_url"`
 	LambdaFunctionName string `json:"lambda_function_name"`
 	Mode               string `json:"mode"`
-	WebUrl             string `json:"web_url"`
 }
 
 type Limits struct {
-	MessagesPerSecond int64 `json:"messages_per_second"`
-	Total             int64 `json:"total"`
 	Daily             int64 `json:"daily"`
 	MaximumDuration   int64 `json:"maximum_duration"`
+	MessagesPerSecond int64 `json:"messages_per_second"`
+	Total             int64 `json:"total"`
 }
 
 type QuietTime struct {

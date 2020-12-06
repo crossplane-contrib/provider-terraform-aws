@@ -22,13 +22,13 @@ import (
 
 func EncodeApiGatewayRestApi(r ApiGatewayRestApi) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayRestApi_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRestApi_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_ApiKeySource(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayRestApi_MinimumCompressionSize(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayRestApi_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_BinaryMediaTypes(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Body(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRestApi_MinimumCompressionSize(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayRestApi_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRestApi_EndpointConfiguration(r.Spec.ForProvider.EndpointConfiguration, ctyVal)
@@ -39,16 +39,16 @@ func EncodeApiGatewayRestApi(r ApiGatewayRestApi) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayRestApi_Id(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeApiGatewayRestApi_ApiKeySource(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["api_key_source"] = cty.StringVal(p.ApiKeySource)
+}
+
+func EncodeApiGatewayRestApi_MinimumCompressionSize(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["minimum_compression_size"] = cty.NumberIntVal(p.MinimumCompressionSize)
 }
 
 func EncodeApiGatewayRestApi_Name(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeApiGatewayRestApi_ApiKeySource(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["api_key_source"] = cty.StringVal(p.ApiKeySource)
 }
 
 func EncodeApiGatewayRestApi_BinaryMediaTypes(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
@@ -67,8 +67,8 @@ func EncodeApiGatewayRestApi_Description(p ApiGatewayRestApiParameters, vals map
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApiGatewayRestApi_MinimumCompressionSize(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
-	vals["minimum_compression_size"] = cty.NumberIntVal(p.MinimumCompressionSize)
+func EncodeApiGatewayRestApi_Id(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayRestApi_Policy(p ApiGatewayRestApiParameters, vals map[string]cty.Value) {

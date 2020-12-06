@@ -54,15 +54,15 @@ type GlueCrawlerSpec struct {
 type GlueCrawlerParameters struct {
 	Configuration         string             `json:"configuration"`
 	DatabaseName          string             `json:"database_name"`
-	Id                    string             `json:"id"`
+	Description           string             `json:"description"`
+	Schedule              string             `json:"schedule"`
 	SecurityConfiguration string             `json:"security_configuration"`
+	Classifiers           []string           `json:"classifiers"`
+	Id                    string             `json:"id"`
+	Name                  string             `json:"name"`
+	Role                  string             `json:"role"`
 	TablePrefix           string             `json:"table_prefix"`
 	Tags                  map[string]string  `json:"tags"`
-	Classifiers           []string           `json:"classifiers"`
-	Role                  string             `json:"role"`
-	Schedule              string             `json:"schedule"`
-	Description           string             `json:"description"`
-	Name                  string             `json:"name"`
 	CatalogTarget         CatalogTarget      `json:"catalog_target"`
 	DynamodbTarget        DynamodbTarget     `json:"dynamodb_target"`
 	JdbcTarget            JdbcTarget         `json:"jdbc_target"`
@@ -76,15 +76,15 @@ type CatalogTarget struct {
 }
 
 type DynamodbTarget struct {
-	ScanRate int64  `json:"scan_rate"`
 	Path     string `json:"path"`
 	ScanAll  bool   `json:"scan_all"`
+	ScanRate int64  `json:"scan_rate"`
 }
 
 type JdbcTarget struct {
+	ConnectionName string   `json:"connection_name"`
 	Exclusions     []string `json:"exclusions"`
 	Path           string   `json:"path"`
-	ConnectionName string   `json:"connection_name"`
 }
 
 type S3Target struct {

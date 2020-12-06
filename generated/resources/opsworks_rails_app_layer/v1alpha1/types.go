@@ -52,32 +52,32 @@ type OpsworksRailsAppLayerSpec struct {
 
 // A OpsworksRailsAppLayerParameters defines the desired state of a OpsworksRailsAppLayer
 type OpsworksRailsAppLayerParameters struct {
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	SystemPackages           []string          `json:"system_packages"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	Tags                     map[string]string `json:"tags"`
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	RubygemsVersion          string            `json:"rubygems_version"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	CustomJson               string            `json:"custom_json"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	Id                       string            `json:"id"`
-	RubyVersion              string            `json:"ruby_version"`
 	AppServer                string            `json:"app_server"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	StackId                  string            `json:"stack_id"`
-	ManageBundler            bool              `json:"manage_bundler"`
-	Name                     string            `json:"name"`
-	PassengerVersion         string            `json:"passenger_version"`
-	AutoHealing              bool              `json:"auto_healing"`
-	BundlerVersion           string            `json:"bundler_version"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	Tags                     map[string]string `json:"tags"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
 	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	Id                       string            `json:"id"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	ManageBundler            bool              `json:"manage_bundler"`
+	AutoHealing              bool              `json:"auto_healing"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	RubyVersion              string            `json:"ruby_version"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	PassengerVersion         string            `json:"passenger_version"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomJson               string            `json:"custom_json"`
+	Name                     string            `json:"name"`
+	RubygemsVersion          string            `json:"rubygems_version"`
+	StackId                  string            `json:"stack_id"`
+	SystemPackages           []string          `json:"system_packages"`
+	BundlerVersion           string            `json:"bundler_version"`
 	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }

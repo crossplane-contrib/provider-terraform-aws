@@ -22,14 +22,10 @@ import (
 
 func EncodeInspectorResourceGroup(r InspectorResourceGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeInspectorResourceGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeInspectorResourceGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeInspectorResourceGroup_Id(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorResourceGroup_Tags(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
@@ -38,6 +34,10 @@ func EncodeInspectorResourceGroup_Tags(p InspectorResourceGroupParameters, vals 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeInspectorResourceGroup_Id(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorResourceGroup_Arn(p InspectorResourceGroupObservation, vals map[string]cty.Value) {

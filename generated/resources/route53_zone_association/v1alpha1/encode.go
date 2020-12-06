@@ -22,20 +22,12 @@ import (
 
 func EncodeRoute53ZoneAssociation(r Route53ZoneAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53ZoneAssociation_ZoneId(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ZoneAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_VpcRegion(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ZoneAssociation_ZoneId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ZoneAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_OwningAccount(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53ZoneAssociation_ZoneId(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
-	vals["zone_id"] = cty.StringVal(p.ZoneId)
-}
-
-func EncodeRoute53ZoneAssociation_Id(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRoute53ZoneAssociation_VpcId(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
@@ -44,6 +36,14 @@ func EncodeRoute53ZoneAssociation_VpcId(p Route53ZoneAssociationParameters, vals
 
 func EncodeRoute53ZoneAssociation_VpcRegion(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_region"] = cty.StringVal(p.VpcRegion)
+}
+
+func EncodeRoute53ZoneAssociation_ZoneId(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
+	vals["zone_id"] = cty.StringVal(p.ZoneId)
+}
+
+func EncodeRoute53ZoneAssociation_Id(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRoute53ZoneAssociation_OwningAccount(p Route53ZoneAssociationObservation, vals map[string]cty.Value) {

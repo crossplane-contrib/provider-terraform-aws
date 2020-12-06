@@ -52,27 +52,27 @@ type AmiCopySpec struct {
 
 // A AmiCopyParameters defines the desired state of a AmiCopy
 type AmiCopyParameters struct {
-	Id                   string               `json:"id"`
-	Tags                 map[string]string    `json:"tags"`
-	SourceAmiId          string               `json:"source_ami_id"`
-	Name                 string               `json:"name"`
 	Description          string               `json:"description"`
-	Encrypted            bool                 `json:"encrypted"`
-	KmsKeyId             string               `json:"kms_key_id"`
+	SourceAmiId          string               `json:"source_ami_id"`
 	SourceAmiRegion      string               `json:"source_ami_region"`
+	KmsKeyId             string               `json:"kms_key_id"`
+	Tags                 map[string]string    `json:"tags"`
+	Id                   string               `json:"id"`
+	Name                 string               `json:"name"`
+	Encrypted            bool                 `json:"encrypted"`
 	EbsBlockDevice       EbsBlockDevice       `json:"ebs_block_device"`
 	EphemeralBlockDevice EphemeralBlockDevice `json:"ephemeral_block_device"`
 	Timeouts             Timeouts             `json:"timeouts"`
 }
 
 type EbsBlockDevice struct {
+	SnapshotId          string `json:"snapshot_id"`
+	VolumeSize          int64  `json:"volume_size"`
+	VolumeType          string `json:"volume_type"`
 	DeleteOnTermination bool   `json:"delete_on_termination"`
 	DeviceName          string `json:"device_name"`
 	Encrypted           bool   `json:"encrypted"`
 	Iops                int64  `json:"iops"`
-	SnapshotId          string `json:"snapshot_id"`
-	VolumeSize          int64  `json:"volume_size"`
-	VolumeType          string `json:"volume_type"`
 }
 
 type EphemeralBlockDevice struct {
@@ -81,9 +81,9 @@ type EphemeralBlockDevice struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A AmiCopyStatus defines the observed state of a AmiCopy
@@ -95,14 +95,14 @@ type AmiCopyStatus struct {
 // A AmiCopyObservation records the observed state of a AmiCopy
 type AmiCopyObservation struct {
 	VirtualizationType string `json:"virtualization_type"`
-	ImageLocation      string `json:"image_location"`
-	SriovNetSupport    string `json:"sriov_net_support"`
-	Arn                string `json:"arn"`
-	RamdiskId          string `json:"ramdisk_id"`
-	RootSnapshotId     string `json:"root_snapshot_id"`
-	Architecture       string `json:"architecture"`
 	EnaSupport         bool   `json:"ena_support"`
 	KernelId           string `json:"kernel_id"`
-	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
 	RootDeviceName     string `json:"root_device_name"`
+	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
+	Architecture       string `json:"architecture"`
+	ImageLocation      string `json:"image_location"`
+	RootSnapshotId     string `json:"root_snapshot_id"`
+	Arn                string `json:"arn"`
+	RamdiskId          string `json:"ramdisk_id"`
+	SriovNetSupport    string `json:"sriov_net_support"`
 }

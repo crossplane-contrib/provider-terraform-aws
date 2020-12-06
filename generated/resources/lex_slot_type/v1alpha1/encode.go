@@ -22,18 +22,22 @@ import (
 
 func EncodeLexSlotType(r LexSlotType) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLexSlotType_CreateVersion(r.Spec.ForProvider, ctyVal)
 	EncodeLexSlotType_Name(r.Spec.ForProvider, ctyVal)
 	EncodeLexSlotType_ValueSelectionStrategy(r.Spec.ForProvider, ctyVal)
-	EncodeLexSlotType_CreateVersion(r.Spec.ForProvider, ctyVal)
-	EncodeLexSlotType_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLexSlotType_Description(r.Spec.ForProvider, ctyVal)
+	EncodeLexSlotType_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLexSlotType_EnumerationValue(r.Spec.ForProvider.EnumerationValue, ctyVal)
 	EncodeLexSlotType_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeLexSlotType_LastUpdatedDate(r.Status.AtProvider, ctyVal)
-	EncodeLexSlotType_Version(r.Status.AtProvider, ctyVal)
 	EncodeLexSlotType_Checksum(r.Status.AtProvider, ctyVal)
+	EncodeLexSlotType_Version(r.Status.AtProvider, ctyVal)
 	EncodeLexSlotType_CreatedDate(r.Status.AtProvider, ctyVal)
+	EncodeLexSlotType_LastUpdatedDate(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLexSlotType_CreateVersion(p LexSlotTypeParameters, vals map[string]cty.Value) {
+	vals["create_version"] = cty.BoolVal(p.CreateVersion)
 }
 
 func EncodeLexSlotType_Name(p LexSlotTypeParameters, vals map[string]cty.Value) {
@@ -44,16 +48,12 @@ func EncodeLexSlotType_ValueSelectionStrategy(p LexSlotTypeParameters, vals map[
 	vals["value_selection_strategy"] = cty.StringVal(p.ValueSelectionStrategy)
 }
 
-func EncodeLexSlotType_CreateVersion(p LexSlotTypeParameters, vals map[string]cty.Value) {
-	vals["create_version"] = cty.BoolVal(p.CreateVersion)
+func EncodeLexSlotType_Description(p LexSlotTypeParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeLexSlotType_Id(p LexSlotTypeParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeLexSlotType_Description(p LexSlotTypeParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeLexSlotType_EnumerationValue(p []EnumerationValue, vals map[string]cty.Value) {
@@ -99,18 +99,18 @@ func EncodeLexSlotType_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeLexSlotType_LastUpdatedDate(p LexSlotTypeObservation, vals map[string]cty.Value) {
-	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
+func EncodeLexSlotType_Checksum(p LexSlotTypeObservation, vals map[string]cty.Value) {
+	vals["checksum"] = cty.StringVal(p.Checksum)
 }
 
 func EncodeLexSlotType_Version(p LexSlotTypeObservation, vals map[string]cty.Value) {
 	vals["version"] = cty.StringVal(p.Version)
 }
 
-func EncodeLexSlotType_Checksum(p LexSlotTypeObservation, vals map[string]cty.Value) {
-	vals["checksum"] = cty.StringVal(p.Checksum)
-}
-
 func EncodeLexSlotType_CreatedDate(p LexSlotTypeObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
+}
+
+func EncodeLexSlotType_LastUpdatedDate(p LexSlotTypeObservation, vals map[string]cty.Value) {
+	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
 }

@@ -52,11 +52,11 @@ type KmsGrantSpec struct {
 
 // A KmsGrantParameters defines the desired state of a KmsGrant
 type KmsGrantParameters struct {
-	GranteePrincipal    string      `json:"grantee_principal"`
-	RetiringPrincipal   string      `json:"retiring_principal"`
 	GrantCreationTokens []string    `json:"grant_creation_tokens"`
-	Id                  string      `json:"id"`
+	GranteePrincipal    string      `json:"grantee_principal"`
 	KeyId               string      `json:"key_id"`
+	RetiringPrincipal   string      `json:"retiring_principal"`
+	Id                  string      `json:"id"`
 	Name                string      `json:"name"`
 	Operations          []string    `json:"operations"`
 	RetireOnDelete      bool        `json:"retire_on_delete"`

@@ -52,24 +52,24 @@ type NeptuneClusterInstanceSpec struct {
 
 // A NeptuneClusterInstanceParameters defines the desired state of a NeptuneClusterInstance
 type NeptuneClusterInstanceParameters struct {
+	ApplyImmediately           bool              `json:"apply_immediately"`
+	NeptuneParameterGroupName  string            `json:"neptune_parameter_group_name"`
+	PreferredBackupWindow      string            `json:"preferred_backup_window"`
+	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
+	IdentifierPrefix           string            `json:"identifier_prefix"`
 	NeptuneSubnetGroupName     string            `json:"neptune_subnet_group_name"`
+	AutoMinorVersionUpgrade    bool              `json:"auto_minor_version_upgrade"`
+	ClusterIdentifier          string            `json:"cluster_identifier"`
 	Engine                     string            `json:"engine"`
+	Port                       int64             `json:"port"`
+	AvailabilityZone           string            `json:"availability_zone"`
 	EngineVersion              string            `json:"engine_version"`
 	Id                         string            `json:"id"`
 	Identifier                 string            `json:"identifier"`
-	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
-	PromotionTier              int64             `json:"promotion_tier"`
-	AvailabilityZone           string            `json:"availability_zone"`
-	ClusterIdentifier          string            `json:"cluster_identifier"`
-	AutoMinorVersionUpgrade    bool              `json:"auto_minor_version_upgrade"`
-	IdentifierPrefix           string            `json:"identifier_prefix"`
-	Port                       int64             `json:"port"`
-	PubliclyAccessible         bool              `json:"publicly_accessible"`
-	NeptuneParameterGroupName  string            `json:"neptune_parameter_group_name"`
-	PreferredBackupWindow      string            `json:"preferred_backup_window"`
 	Tags                       map[string]string `json:"tags"`
-	ApplyImmediately           bool              `json:"apply_immediately"`
 	InstanceClass              string            `json:"instance_class"`
+	PromotionTier              int64             `json:"promotion_tier"`
+	PubliclyAccessible         bool              `json:"publicly_accessible"`
 	Timeouts                   Timeouts          `json:"timeouts"`
 }
 
@@ -87,11 +87,11 @@ type NeptuneClusterInstanceStatus struct {
 
 // A NeptuneClusterInstanceObservation records the observed state of a NeptuneClusterInstance
 type NeptuneClusterInstanceObservation struct {
-	Writer           bool   `json:"writer"`
+	Address          string `json:"address"`
 	DbiResourceId    string `json:"dbi_resource_id"`
 	Endpoint         string `json:"endpoint"`
-	KmsKeyArn        string `json:"kms_key_arn"`
-	Address          string `json:"address"`
-	Arn              string `json:"arn"`
+	Writer           bool   `json:"writer"`
 	StorageEncrypted bool   `json:"storage_encrypted"`
+	Arn              string `json:"arn"`
+	KmsKeyArn        string `json:"kms_key_arn"`
 }

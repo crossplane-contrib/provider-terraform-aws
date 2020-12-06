@@ -26,9 +26,9 @@ func EncodeEcrRepository(r EcrRepository) cty.Value {
 	EncodeEcrRepository_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepository_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepository_ImageTagMutability(r.Spec.ForProvider, ctyVal)
-	EncodeEcrRepository_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 	EncodeEcrRepository_ImageScanningConfiguration(r.Spec.ForProvider.ImageScanningConfiguration, ctyVal)
 	EncodeEcrRepository_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
+	EncodeEcrRepository_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 	EncodeEcrRepository_RegistryId(r.Status.AtProvider, ctyVal)
 	EncodeEcrRepository_RepositoryUrl(r.Status.AtProvider, ctyVal)
 	EncodeEcrRepository_Arn(r.Status.AtProvider, ctyVal)
@@ -55,23 +55,6 @@ func EncodeEcrRepository_ImageTagMutability(p EcrRepositoryParameters, vals map[
 	vals["image_tag_mutability"] = cty.StringVal(p.ImageTagMutability)
 }
 
-func EncodeEcrRepository_EncryptionConfiguration(p EncryptionConfiguration, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeEcrRepository_EncryptionConfiguration_EncryptionType(p, ctyVal)
-	EncodeEcrRepository_EncryptionConfiguration_KmsKey(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["encryption_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEcrRepository_EncryptionConfiguration_EncryptionType(p EncryptionConfiguration, vals map[string]cty.Value) {
-	vals["encryption_type"] = cty.StringVal(p.EncryptionType)
-}
-
-func EncodeEcrRepository_EncryptionConfiguration_KmsKey(p EncryptionConfiguration, vals map[string]cty.Value) {
-	vals["kms_key"] = cty.StringVal(p.KmsKey)
-}
-
 func EncodeEcrRepository_ImageScanningConfiguration(p ImageScanningConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
@@ -92,6 +75,23 @@ func EncodeEcrRepository_Timeouts(p Timeouts, vals map[string]cty.Value) {
 
 func EncodeEcrRepository_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
+}
+
+func EncodeEcrRepository_EncryptionConfiguration(p EncryptionConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeEcrRepository_EncryptionConfiguration_EncryptionType(p, ctyVal)
+	EncodeEcrRepository_EncryptionConfiguration_KmsKey(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["encryption_configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeEcrRepository_EncryptionConfiguration_EncryptionType(p EncryptionConfiguration, vals map[string]cty.Value) {
+	vals["encryption_type"] = cty.StringVal(p.EncryptionType)
+}
+
+func EncodeEcrRepository_EncryptionConfiguration_KmsKey(p EncryptionConfiguration, vals map[string]cty.Value) {
+	vals["kms_key"] = cty.StringVal(p.KmsKey)
 }
 
 func EncodeEcrRepository_RegistryId(p EcrRepositoryObservation, vals map[string]cty.Value) {

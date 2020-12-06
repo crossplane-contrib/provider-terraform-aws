@@ -54,15 +54,11 @@ func EncodeWafregionalRule_Name(p WafregionalRuleParameters, vals map[string]cty
 func EncodeWafregionalRule_Predicate(p Predicate, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalRule_Predicate_Type(p, ctyVal)
 	EncodeWafregionalRule_Predicate_DataId(p, ctyVal)
 	EncodeWafregionalRule_Predicate_Negated(p, ctyVal)
+	EncodeWafregionalRule_Predicate_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["predicate"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafregionalRule_Predicate_Type(p Predicate, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafregionalRule_Predicate_DataId(p Predicate, vals map[string]cty.Value) {
@@ -71,6 +67,10 @@ func EncodeWafregionalRule_Predicate_DataId(p Predicate, vals map[string]cty.Val
 
 func EncodeWafregionalRule_Predicate_Negated(p Predicate, vals map[string]cty.Value) {
 	vals["negated"] = cty.BoolVal(p.Negated)
+}
+
+func EncodeWafregionalRule_Predicate_Type(p Predicate, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafregionalRule_Arn(p WafregionalRuleObservation, vals map[string]cty.Value) {

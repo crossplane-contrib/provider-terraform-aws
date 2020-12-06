@@ -22,12 +22,16 @@ import (
 
 func EncodeAppsyncApiKey(r AppsyncApiKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppsyncApiKey_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Description(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Expires(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncApiKey_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Key(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAppsyncApiKey_ApiId(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeAppsyncApiKey_Description(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
@@ -40,10 +44,6 @@ func EncodeAppsyncApiKey_Expires(p AppsyncApiKeyParameters, vals map[string]cty.
 
 func EncodeAppsyncApiKey_Id(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAppsyncApiKey_ApiId(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeAppsyncApiKey_Key(p AppsyncApiKeyObservation, vals map[string]cty.Value) {

@@ -22,30 +22,42 @@ import (
 
 func EncodePinpointApnsVoipSandboxChannel(r PinpointApnsVoipSandboxChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointApnsVoipSandboxChannel_TokenKey(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsVoipSandboxChannel_BundleId(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsVoipSandboxChannel_Certificate(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsVoipSandboxChannel_PrivateKey(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsVoipSandboxChannel_TokenKey(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsVoipSandboxChannel_TokenKeyId(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsVoipSandboxChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsVoipSandboxChannel_DefaultAuthenticationMethod(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsVoipSandboxChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsVoipSandboxChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsVoipSandboxChannel_TeamId(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsVoipSandboxChannel_TokenKeyId(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsVoipSandboxChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsVoipSandboxChannel_Certificate(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodePinpointApnsVoipSandboxChannel_TokenKey(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
-	vals["token_key"] = cty.StringVal(p.TokenKey)
 }
 
 func EncodePinpointApnsVoipSandboxChannel_BundleId(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	vals["bundle_id"] = cty.StringVal(p.BundleId)
 }
 
+func EncodePinpointApnsVoipSandboxChannel_Certificate(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
+	vals["certificate"] = cty.StringVal(p.Certificate)
+}
+
 func EncodePinpointApnsVoipSandboxChannel_PrivateKey(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	vals["private_key"] = cty.StringVal(p.PrivateKey)
+}
+
+func EncodePinpointApnsVoipSandboxChannel_TokenKey(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
+	vals["token_key"] = cty.StringVal(p.TokenKey)
+}
+
+func EncodePinpointApnsVoipSandboxChannel_TokenKeyId(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
+	vals["token_key_id"] = cty.StringVal(p.TokenKeyId)
+}
+
+func EncodePinpointApnsVoipSandboxChannel_ApplicationId(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
+	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }
 
 func EncodePinpointApnsVoipSandboxChannel_DefaultAuthenticationMethod(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
@@ -62,16 +74,4 @@ func EncodePinpointApnsVoipSandboxChannel_Id(p PinpointApnsVoipSandboxChannelPar
 
 func EncodePinpointApnsVoipSandboxChannel_TeamId(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	vals["team_id"] = cty.StringVal(p.TeamId)
-}
-
-func EncodePinpointApnsVoipSandboxChannel_TokenKeyId(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
-	vals["token_key_id"] = cty.StringVal(p.TokenKeyId)
-}
-
-func EncodePinpointApnsVoipSandboxChannel_ApplicationId(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
-	vals["application_id"] = cty.StringVal(p.ApplicationId)
-}
-
-func EncodePinpointApnsVoipSandboxChannel_Certificate(p PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
-	vals["certificate"] = cty.StringVal(p.Certificate)
 }

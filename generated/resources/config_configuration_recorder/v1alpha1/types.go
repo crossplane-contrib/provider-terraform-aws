@@ -52,9 +52,9 @@ type ConfigConfigurationRecorderSpec struct {
 
 // A ConfigConfigurationRecorderParameters defines the desired state of a ConfigConfigurationRecorder
 type ConfigConfigurationRecorderParameters struct {
-	Id             string         `json:"id"`
 	Name           string         `json:"name"`
 	RoleArn        string         `json:"role_arn"`
+	Id             string         `json:"id"`
 	RecordingGroup RecordingGroup `json:"recording_group"`
 }
 

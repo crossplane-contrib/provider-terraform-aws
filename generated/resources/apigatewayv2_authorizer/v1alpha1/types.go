@@ -53,15 +53,15 @@ type Apigatewayv2AuthorizerSpec struct {
 // A Apigatewayv2AuthorizerParameters defines the desired state of a Apigatewayv2Authorizer
 type Apigatewayv2AuthorizerParameters struct {
 	AuthorizerPayloadFormatVersion string           `json:"authorizer_payload_format_version"`
-	AuthorizerResultTtlInSeconds   int64            `json:"authorizer_result_ttl_in_seconds"`
 	AuthorizerType                 string           `json:"authorizer_type"`
-	EnableSimpleResponses          bool             `json:"enable_simple_responses"`
-	IdentitySources                []string         `json:"identity_sources"`
-	AuthorizerCredentialsArn       string           `json:"authorizer_credentials_arn"`
-	AuthorizerUri                  string           `json:"authorizer_uri"`
 	Id                             string           `json:"id"`
-	Name                           string           `json:"name"`
+	IdentitySources                []string         `json:"identity_sources"`
 	ApiId                          string           `json:"api_id"`
+	AuthorizerCredentialsArn       string           `json:"authorizer_credentials_arn"`
+	EnableSimpleResponses          bool             `json:"enable_simple_responses"`
+	Name                           string           `json:"name"`
+	AuthorizerResultTtlInSeconds   int64            `json:"authorizer_result_ttl_in_seconds"`
+	AuthorizerUri                  string           `json:"authorizer_uri"`
 	JwtConfiguration               JwtConfiguration `json:"jwt_configuration"`
 }
 

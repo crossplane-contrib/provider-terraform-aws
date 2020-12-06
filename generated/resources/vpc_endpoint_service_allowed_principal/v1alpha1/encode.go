@@ -22,11 +22,15 @@ import (
 
 func EncodeVpcEndpointServiceAllowedPrincipal(r VpcEndpointServiceAllowedPrincipal) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVpcEndpointServiceAllowedPrincipal_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointServiceAllowedPrincipal_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeVpcEndpointServiceAllowedPrincipal_Id(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
@@ -35,8 +39,4 @@ func EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(p VpcEndpointServiceA
 
 func EncodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_service_id"] = cty.StringVal(p.VpcEndpointServiceId)
-}
-
-func EncodeVpcEndpointServiceAllowedPrincipal_Id(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

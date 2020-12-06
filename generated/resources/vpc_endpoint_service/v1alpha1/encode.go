@@ -22,28 +22,32 @@ import (
 
 func EncodeVpcEndpointService(r VpcEndpointService) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcEndpointService_AllowedPrincipals(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpointService_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpointService_AcceptanceRequired(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointService_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointService_NetworkLoadBalancerArns(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointService_AcceptanceRequired(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointService_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointService_AvailabilityZones(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpointService_BaseEndpointDnsNames(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpointService_ManagesVpcEndpoints(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpointService_ServiceName(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpointService_State(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpointService_AllowedPrincipals(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointService_PrivateDnsName(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpointService_ServiceType(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpointService_State(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpointService_AvailabilityZones(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpointService_ServiceName(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpointService_Arn(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpointService_BaseEndpointDnsNames(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpointService_ManagesVpcEndpoints(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcEndpointService_AllowedPrincipals(p VpcEndpointServiceParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.AllowedPrincipals {
-		colVals = append(colVals, cty.StringVal(value))
+func EncodeVpcEndpointService_Tags(p VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
 	}
-	vals["allowed_principals"] = cty.SetVal(colVals)
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeVpcEndpointService_AcceptanceRequired(p VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	vals["acceptance_required"] = cty.BoolVal(p.AcceptanceRequired)
 }
 
 func EncodeVpcEndpointService_Id(p VpcEndpointServiceParameters, vals map[string]cty.Value) {
@@ -58,16 +62,24 @@ func EncodeVpcEndpointService_NetworkLoadBalancerArns(p VpcEndpointServiceParame
 	vals["network_load_balancer_arns"] = cty.SetVal(colVals)
 }
 
-func EncodeVpcEndpointService_AcceptanceRequired(p VpcEndpointServiceParameters, vals map[string]cty.Value) {
-	vals["acceptance_required"] = cty.BoolVal(p.AcceptanceRequired)
+func EncodeVpcEndpointService_AllowedPrincipals(p VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.AllowedPrincipals {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["allowed_principals"] = cty.SetVal(colVals)
 }
 
-func EncodeVpcEndpointService_Tags(p VpcEndpointServiceParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeVpcEndpointService_PrivateDnsName(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	vals["private_dns_name"] = cty.StringVal(p.PrivateDnsName)
+}
+
+func EncodeVpcEndpointService_ServiceType(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	vals["service_type"] = cty.StringVal(p.ServiceType)
+}
+
+func EncodeVpcEndpointService_State(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	vals["state"] = cty.StringVal(p.State)
 }
 
 func EncodeVpcEndpointService_AvailabilityZones(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
@@ -76,6 +88,14 @@ func EncodeVpcEndpointService_AvailabilityZones(p VpcEndpointServiceObservation,
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["availability_zones"] = cty.SetVal(colVals)
+}
+
+func EncodeVpcEndpointService_ServiceName(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	vals["service_name"] = cty.StringVal(p.ServiceName)
+}
+
+func EncodeVpcEndpointService_Arn(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeVpcEndpointService_BaseEndpointDnsNames(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
@@ -88,24 +108,4 @@ func EncodeVpcEndpointService_BaseEndpointDnsNames(p VpcEndpointServiceObservati
 
 func EncodeVpcEndpointService_ManagesVpcEndpoints(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
 	vals["manages_vpc_endpoints"] = cty.BoolVal(p.ManagesVpcEndpoints)
-}
-
-func EncodeVpcEndpointService_ServiceName(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
-	vals["service_name"] = cty.StringVal(p.ServiceName)
-}
-
-func EncodeVpcEndpointService_State(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
-	vals["state"] = cty.StringVal(p.State)
-}
-
-func EncodeVpcEndpointService_PrivateDnsName(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
-	vals["private_dns_name"] = cty.StringVal(p.PrivateDnsName)
-}
-
-func EncodeVpcEndpointService_ServiceType(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
-	vals["service_type"] = cty.StringVal(p.ServiceType)
-}
-
-func EncodeVpcEndpointService_Arn(p VpcEndpointServiceObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

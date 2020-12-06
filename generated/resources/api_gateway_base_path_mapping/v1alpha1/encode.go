@@ -22,13 +22,21 @@ import (
 
 func EncodeApiGatewayBasePathMapping(r ApiGatewayBasePathMapping) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayBasePathMapping_StageName(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayBasePathMapping_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_BasePath(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayBasePathMapping_StageName(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayBasePathMapping_ApiId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayBasePathMapping_StageName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	vals["stage_name"] = cty.StringVal(p.StageName)
+}
+
+func EncodeApiGatewayBasePathMapping_ApiId(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApiGatewayBasePathMapping_BasePath(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
@@ -41,12 +49,4 @@ func EncodeApiGatewayBasePathMapping_DomainName(p ApiGatewayBasePathMappingParam
 
 func EncodeApiGatewayBasePathMapping_Id(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayBasePathMapping_StageName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
-	vals["stage_name"] = cty.StringVal(p.StageName)
-}
-
-func EncodeApiGatewayBasePathMapping_ApiId(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }

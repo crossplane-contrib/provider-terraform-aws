@@ -22,15 +22,23 @@ import (
 
 func EncodeWafRateBasedRule(r WafRateBasedRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_RateKey(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_RateLimit(r.Spec.ForProvider, ctyVal)
-	EncodeWafRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Predicates(r.Spec.ForProvider.Predicates, ctyVal)
 	EncodeWafRateBasedRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWafRateBasedRule_Tags(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafRateBasedRule_Id(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
@@ -51,14 +59,6 @@ func EncodeWafRateBasedRule_RateKey(p WafRateBasedRuleParameters, vals map[strin
 
 func EncodeWafRateBasedRule_RateLimit(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
 	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
-}
-
-func EncodeWafRateBasedRule_Tags(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafRateBasedRule_Predicates(p Predicates, vals map[string]cty.Value) {

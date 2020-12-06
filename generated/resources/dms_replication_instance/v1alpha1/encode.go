@@ -22,79 +22,27 @@ import (
 
 func EncodeDmsReplicationInstance(r DmsReplicationInstance) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDmsReplicationInstance_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_PreferredMaintenanceWindow(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_PubliclyAccessible(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_ReplicationInstanceClass(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_VpcSecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_EngineVersion(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_KmsKeyArn(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_AllocatedStorage(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_MultiAz(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_ReplicationInstanceId(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_ReplicationSubnetGroupId(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationInstance_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationInstance_AllowMajorVersionUpgrade(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_AllocatedStorage(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationInstance_ApplyImmediately(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationInstance_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_MultiAz(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_ReplicationSubnetGroupId(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_EngineVersion(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_KmsKeyArn(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_ReplicationInstanceClass(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_ReplicationInstanceId(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_AllowMajorVersionUpgrade(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_PreferredMaintenanceWindow(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_PubliclyAccessible(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationInstance_VpcSecurityGroupIds(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationInstance_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDmsReplicationInstance_ReplicationInstancePrivateIps(r.Status.AtProvider, ctyVal)
-	EncodeDmsReplicationInstance_ReplicationInstanceArn(r.Status.AtProvider, ctyVal)
 	EncodeDmsReplicationInstance_ReplicationInstancePublicIps(r.Status.AtProvider, ctyVal)
+	EncodeDmsReplicationInstance_ReplicationInstanceArn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDmsReplicationInstance_AutoMinorVersionUpgrade(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
-}
-
-func EncodeDmsReplicationInstance_PreferredMaintenanceWindow(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["preferred_maintenance_window"] = cty.StringVal(p.PreferredMaintenanceWindow)
-}
-
-func EncodeDmsReplicationInstance_PubliclyAccessible(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["publicly_accessible"] = cty.BoolVal(p.PubliclyAccessible)
-}
-
-func EncodeDmsReplicationInstance_ReplicationInstanceClass(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["replication_instance_class"] = cty.StringVal(p.ReplicationInstanceClass)
-}
-
-func EncodeDmsReplicationInstance_VpcSecurityGroupIds(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.VpcSecurityGroupIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["vpc_security_group_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeDmsReplicationInstance_EngineVersion(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
-}
-
-func EncodeDmsReplicationInstance_Id(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDmsReplicationInstance_KmsKeyArn(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
-}
-
-func EncodeDmsReplicationInstance_AllocatedStorage(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["allocated_storage"] = cty.NumberIntVal(p.AllocatedStorage)
-}
-
-func EncodeDmsReplicationInstance_MultiAz(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["multi_az"] = cty.BoolVal(p.MultiAz)
-}
-
-func EncodeDmsReplicationInstance_ReplicationInstanceId(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["replication_instance_id"] = cty.StringVal(p.ReplicationInstanceId)
-}
-
-func EncodeDmsReplicationInstance_ReplicationSubnetGroupId(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["replication_subnet_group_id"] = cty.StringVal(p.ReplicationSubnetGroupId)
 }
 
 func EncodeDmsReplicationInstance_Tags(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
@@ -105,8 +53,8 @@ func EncodeDmsReplicationInstance_Tags(p DmsReplicationInstanceParameters, vals 
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDmsReplicationInstance_AllowMajorVersionUpgrade(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	vals["allow_major_version_upgrade"] = cty.BoolVal(p.AllowMajorVersionUpgrade)
+func EncodeDmsReplicationInstance_AllocatedStorage(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["allocated_storage"] = cty.NumberIntVal(p.AllocatedStorage)
 }
 
 func EncodeDmsReplicationInstance_ApplyImmediately(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
@@ -115,6 +63,58 @@ func EncodeDmsReplicationInstance_ApplyImmediately(p DmsReplicationInstanceParam
 
 func EncodeDmsReplicationInstance_AvailabilityZone(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
 	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
+}
+
+func EncodeDmsReplicationInstance_MultiAz(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["multi_az"] = cty.BoolVal(p.MultiAz)
+}
+
+func EncodeDmsReplicationInstance_ReplicationSubnetGroupId(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["replication_subnet_group_id"] = cty.StringVal(p.ReplicationSubnetGroupId)
+}
+
+func EncodeDmsReplicationInstance_AutoMinorVersionUpgrade(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
+}
+
+func EncodeDmsReplicationInstance_EngineVersion(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+}
+
+func EncodeDmsReplicationInstance_KmsKeyArn(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+}
+
+func EncodeDmsReplicationInstance_ReplicationInstanceClass(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["replication_instance_class"] = cty.StringVal(p.ReplicationInstanceClass)
+}
+
+func EncodeDmsReplicationInstance_ReplicationInstanceId(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["replication_instance_id"] = cty.StringVal(p.ReplicationInstanceId)
+}
+
+func EncodeDmsReplicationInstance_AllowMajorVersionUpgrade(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["allow_major_version_upgrade"] = cty.BoolVal(p.AllowMajorVersionUpgrade)
+}
+
+func EncodeDmsReplicationInstance_Id(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDmsReplicationInstance_PreferredMaintenanceWindow(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["preferred_maintenance_window"] = cty.StringVal(p.PreferredMaintenanceWindow)
+}
+
+func EncodeDmsReplicationInstance_PubliclyAccessible(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	vals["publicly_accessible"] = cty.BoolVal(p.PubliclyAccessible)
+}
+
+func EncodeDmsReplicationInstance_VpcSecurityGroupIds(p DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.VpcSecurityGroupIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["vpc_security_group_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeDmsReplicationInstance_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -145,14 +145,14 @@ func EncodeDmsReplicationInstance_ReplicationInstancePrivateIps(p DmsReplication
 	vals["replication_instance_private_ips"] = cty.ListVal(colVals)
 }
 
-func EncodeDmsReplicationInstance_ReplicationInstanceArn(p DmsReplicationInstanceObservation, vals map[string]cty.Value) {
-	vals["replication_instance_arn"] = cty.StringVal(p.ReplicationInstanceArn)
-}
-
 func EncodeDmsReplicationInstance_ReplicationInstancePublicIps(p DmsReplicationInstanceObservation, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ReplicationInstancePublicIps {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["replication_instance_public_ips"] = cty.ListVal(colVals)
+}
+
+func EncodeDmsReplicationInstance_ReplicationInstanceArn(p DmsReplicationInstanceObservation, vals map[string]cty.Value) {
+	vals["replication_instance_arn"] = cty.StringVal(p.ReplicationInstanceArn)
 }

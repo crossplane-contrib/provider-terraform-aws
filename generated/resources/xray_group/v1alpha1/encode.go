@@ -22,12 +22,20 @@ import (
 
 func EncodeXrayGroup(r XrayGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeXrayGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeXrayGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_FilterExpression(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_GroupName(r.Spec.ForProvider, ctyVal)
+	EncodeXrayGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeXrayGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeXrayGroup_FilterExpression(p XrayGroupParameters, vals map[string]cty.Value) {
+	vals["filter_expression"] = cty.StringVal(p.FilterExpression)
+}
+
+func EncodeXrayGroup_GroupName(p XrayGroupParameters, vals map[string]cty.Value) {
+	vals["group_name"] = cty.StringVal(p.GroupName)
 }
 
 func EncodeXrayGroup_Id(p XrayGroupParameters, vals map[string]cty.Value) {
@@ -40,14 +48,6 @@ func EncodeXrayGroup_Tags(p XrayGroupParameters, vals map[string]cty.Value) {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeXrayGroup_FilterExpression(p XrayGroupParameters, vals map[string]cty.Value) {
-	vals["filter_expression"] = cty.StringVal(p.FilterExpression)
-}
-
-func EncodeXrayGroup_GroupName(p XrayGroupParameters, vals map[string]cty.Value) {
-	vals["group_name"] = cty.StringVal(p.GroupName)
 }
 
 func EncodeXrayGroup_Arn(p XrayGroupObservation, vals map[string]cty.Value) {

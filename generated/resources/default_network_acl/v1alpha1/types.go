@@ -63,25 +63,25 @@ type DefaultNetworkAclParameters struct {
 type Egress struct {
 	CidrBlock     string `json:"cidr_block"`
 	FromPort      int64  `json:"from_port"`
+	IcmpCode      int64  `json:"icmp_code"`
 	IcmpType      int64  `json:"icmp_type"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	Protocol      string `json:"protocol"`
 	RuleNo        int64  `json:"rule_no"`
-	Action        string `json:"action"`
-	IcmpCode      int64  `json:"icmp_code"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	ToPort        int64  `json:"to_port"`
+	Action        string `json:"action"`
 }
 
 type Ingress struct {
-	Action        string `json:"action"`
-	FromPort      int64  `json:"from_port"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
-	Protocol      string `json:"protocol"`
-	CidrBlock     string `json:"cidr_block"`
-	IcmpCode      int64  `json:"icmp_code"`
-	IcmpType      int64  `json:"icmp_type"`
 	RuleNo        int64  `json:"rule_no"`
 	ToPort        int64  `json:"to_port"`
+	Action        string `json:"action"`
+	CidrBlock     string `json:"cidr_block"`
+	Protocol      string `json:"protocol"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	FromPort      int64  `json:"from_port"`
+	IcmpCode      int64  `json:"icmp_code"`
+	IcmpType      int64  `json:"icmp_type"`
 }
 
 // A DefaultNetworkAclStatus defines the observed state of a DefaultNetworkAcl

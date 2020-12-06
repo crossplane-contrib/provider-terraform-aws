@@ -52,12 +52,12 @@ type Apigatewayv2StageSpec struct {
 
 // A Apigatewayv2StageParameters defines the desired state of a Apigatewayv2Stage
 type Apigatewayv2StageParameters struct {
-	Id                   string               `json:"id"`
+	Name                 string               `json:"name"`
 	Tags                 map[string]string    `json:"tags"`
 	AutoDeploy           bool                 `json:"auto_deploy"`
 	DeploymentId         string               `json:"deployment_id"`
 	Description          string               `json:"description"`
-	Name                 string               `json:"name"`
+	Id                   string               `json:"id"`
 	StageVariables       map[string]string    `json:"stage_variables"`
 	ApiId                string               `json:"api_id"`
 	ClientCertificateId  string               `json:"client_certificate_id"`
@@ -72,11 +72,11 @@ type AccessLogSettings struct {
 }
 
 type DefaultRouteSettings struct {
-	ThrottlingBurstLimit   int64  `json:"throttling_burst_limit"`
-	ThrottlingRateLimit    int64  `json:"throttling_rate_limit"`
 	DataTraceEnabled       bool   `json:"data_trace_enabled"`
 	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
 	LoggingLevel           string `json:"logging_level"`
+	ThrottlingBurstLimit   int64  `json:"throttling_burst_limit"`
+	ThrottlingRateLimit    int64  `json:"throttling_rate_limit"`
 }
 
 type RouteSettings struct {

@@ -22,29 +22,25 @@ import (
 
 func EncodeSnsTopicSubscription(r SnsTopicSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSnsTopicSubscription_DeliveryPolicy(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopicSubscription_Endpoint(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopicSubscription_EndpointAutoConfirms(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopicSubscription_FilterPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopicSubscription_TopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicSubscription_Protocol(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicSubscription_RawMessageDelivery(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicSubscription_ConfirmationTimeoutInMinutes(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopicSubscription_FilterPolicy(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopicSubscription_TopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopicSubscription_DeliveryPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopicSubscription_Endpoint(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopicSubscription_EndpointAutoConfirms(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicSubscription_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSnsTopicSubscription_DeliveryPolicy(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	vals["delivery_policy"] = cty.StringVal(p.DeliveryPolicy)
+func EncodeSnsTopicSubscription_FilterPolicy(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	vals["filter_policy"] = cty.StringVal(p.FilterPolicy)
 }
 
-func EncodeSnsTopicSubscription_Endpoint(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	vals["endpoint"] = cty.StringVal(p.Endpoint)
-}
-
-func EncodeSnsTopicSubscription_EndpointAutoConfirms(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	vals["endpoint_auto_confirms"] = cty.BoolVal(p.EndpointAutoConfirms)
+func EncodeSnsTopicSubscription_TopicArn(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	vals["topic_arn"] = cty.StringVal(p.TopicArn)
 }
 
 func EncodeSnsTopicSubscription_Id(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
@@ -63,12 +59,16 @@ func EncodeSnsTopicSubscription_ConfirmationTimeoutInMinutes(p SnsTopicSubscript
 	vals["confirmation_timeout_in_minutes"] = cty.NumberIntVal(p.ConfirmationTimeoutInMinutes)
 }
 
-func EncodeSnsTopicSubscription_FilterPolicy(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	vals["filter_policy"] = cty.StringVal(p.FilterPolicy)
+func EncodeSnsTopicSubscription_DeliveryPolicy(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	vals["delivery_policy"] = cty.StringVal(p.DeliveryPolicy)
 }
 
-func EncodeSnsTopicSubscription_TopicArn(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	vals["topic_arn"] = cty.StringVal(p.TopicArn)
+func EncodeSnsTopicSubscription_Endpoint(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	vals["endpoint"] = cty.StringVal(p.Endpoint)
+}
+
+func EncodeSnsTopicSubscription_EndpointAutoConfirms(p SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	vals["endpoint_auto_confirms"] = cty.BoolVal(p.EndpointAutoConfirms)
 }
 
 func EncodeSnsTopicSubscription_Arn(p SnsTopicSubscriptionObservation, vals map[string]cty.Value) {

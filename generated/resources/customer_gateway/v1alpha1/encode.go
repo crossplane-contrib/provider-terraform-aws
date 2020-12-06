@@ -22,25 +22,13 @@ import (
 
 func EncodeCustomerGateway(r CustomerGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCustomerGateway_IpAddress(r.Spec.ForProvider, ctyVal)
-	EncodeCustomerGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Type(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_BgpAsn(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCustomerGateway_IpAddress(r.Spec.ForProvider, ctyVal)
+	EncodeCustomerGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCustomerGateway_IpAddress(p CustomerGatewayParameters, vals map[string]cty.Value) {
-	vals["ip_address"] = cty.StringVal(p.IpAddress)
-}
-
-func EncodeCustomerGateway_Tags(p CustomerGatewayParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCustomerGateway_Type(p CustomerGatewayParameters, vals map[string]cty.Value) {
@@ -53,6 +41,18 @@ func EncodeCustomerGateway_BgpAsn(p CustomerGatewayParameters, vals map[string]c
 
 func EncodeCustomerGateway_Id(p CustomerGatewayParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCustomerGateway_IpAddress(p CustomerGatewayParameters, vals map[string]cty.Value) {
+	vals["ip_address"] = cty.StringVal(p.IpAddress)
+}
+
+func EncodeCustomerGateway_Tags(p CustomerGatewayParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCustomerGateway_Arn(p CustomerGatewayObservation, vals map[string]cty.Value) {

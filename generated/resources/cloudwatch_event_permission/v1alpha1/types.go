@@ -60,9 +60,9 @@ type CloudwatchEventPermissionParameters struct {
 }
 
 type Condition struct {
-	Key   string `json:"key"`
 	Type  string `json:"type"`
 	Value string `json:"value"`
+	Key   string `json:"key"`
 }
 
 // A CloudwatchEventPermissionStatus defines the observed state of a CloudwatchEventPermission

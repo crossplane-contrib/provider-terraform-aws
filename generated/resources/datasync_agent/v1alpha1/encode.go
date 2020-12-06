@@ -22,18 +22,14 @@ import (
 
 func EncodeDatasyncAgent(r DatasyncAgent) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatasyncAgent_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_ActivationKey(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncAgent_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDatasyncAgent_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatasyncAgent_IpAddress(p DatasyncAgentParameters, vals map[string]cty.Value) {
-	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
 func EncodeDatasyncAgent_Name(p DatasyncAgentParameters, vals map[string]cty.Value) {
@@ -54,6 +50,10 @@ func EncodeDatasyncAgent_ActivationKey(p DatasyncAgentParameters, vals map[strin
 
 func EncodeDatasyncAgent_Id(p DatasyncAgentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDatasyncAgent_IpAddress(p DatasyncAgentParameters, vals map[string]cty.Value) {
+	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
 func EncodeDatasyncAgent_Timeouts(p Timeouts, vals map[string]cty.Value) {

@@ -22,16 +22,12 @@ import (
 
 func EncodeEc2LocalGatewayRoute(r Ec2LocalGatewayRoute) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRoute_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
-	vals["local_gateway_virtual_interface_group_id"] = cty.StringVal(p.LocalGatewayVirtualInterfaceGroupId)
 }
 
 func EncodeEc2LocalGatewayRoute_DestinationCidrBlock(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
@@ -44,4 +40,8 @@ func EncodeEc2LocalGatewayRoute_Id(p Ec2LocalGatewayRouteParameters, vals map[st
 
 func EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	vals["local_gateway_route_table_id"] = cty.StringVal(p.LocalGatewayRouteTableId)
+}
+
+func EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	vals["local_gateway_virtual_interface_group_id"] = cty.StringVal(p.LocalGatewayVirtualInterfaceGroupId)
 }

@@ -25,10 +25,10 @@ func EncodeIotCertificate(r IotCertificate) cty.Value {
 	EncodeIotCertificate_Csr(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Active(r.Spec.ForProvider, ctyVal)
-	EncodeIotCertificate_PrivateKey(r.Status.AtProvider, ctyVal)
-	EncodeIotCertificate_PublicKey(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_CertificatePem(r.Status.AtProvider, ctyVal)
+	EncodeIotCertificate_PrivateKey(r.Status.AtProvider, ctyVal)
+	EncodeIotCertificate_PublicKey(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -44,18 +44,18 @@ func EncodeIotCertificate_Active(p IotCertificateParameters, vals map[string]cty
 	vals["active"] = cty.BoolVal(p.Active)
 }
 
-func EncodeIotCertificate_PrivateKey(p IotCertificateObservation, vals map[string]cty.Value) {
-	vals["private_key"] = cty.StringVal(p.PrivateKey)
-}
-
-func EncodeIotCertificate_PublicKey(p IotCertificateObservation, vals map[string]cty.Value) {
-	vals["public_key"] = cty.StringVal(p.PublicKey)
-}
-
 func EncodeIotCertificate_Arn(p IotCertificateObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeIotCertificate_CertificatePem(p IotCertificateObservation, vals map[string]cty.Value) {
 	vals["certificate_pem"] = cty.StringVal(p.CertificatePem)
+}
+
+func EncodeIotCertificate_PrivateKey(p IotCertificateObservation, vals map[string]cty.Value) {
+	vals["private_key"] = cty.StringVal(p.PrivateKey)
+}
+
+func EncodeIotCertificate_PublicKey(p IotCertificateObservation, vals map[string]cty.Value) {
+	vals["public_key"] = cty.StringVal(p.PublicKey)
 }

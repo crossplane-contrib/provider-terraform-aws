@@ -22,16 +22,24 @@ import (
 
 func EncodeServiceDiscoveryService(r ServiceDiscoveryService) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_Description(r.Spec.ForProvider, ctyVal)
+	EncodeServiceDiscoveryService_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_NamespaceId(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryService_Description(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryService_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_DnsConfig(r.Spec.ForProvider.DnsConfig, ctyVal)
 	EncodeServiceDiscoveryService_HealthCheckConfig(r.Spec.ForProvider.HealthCheckConfig, ctyVal)
 	EncodeServiceDiscoveryService_HealthCheckCustomConfig(r.Spec.ForProvider.HealthCheckCustomConfig, ctyVal)
 	EncodeServiceDiscoveryService_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeServiceDiscoveryService_Description(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeServiceDiscoveryService_Id(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeServiceDiscoveryService_Name(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
@@ -48,14 +56,6 @@ func EncodeServiceDiscoveryService_Tags(p ServiceDiscoveryServiceParameters, val
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeServiceDiscoveryService_Description(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeServiceDiscoveryService_Id(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeServiceDiscoveryService_DnsConfig(p DnsConfig, vals map[string]cty.Value) {

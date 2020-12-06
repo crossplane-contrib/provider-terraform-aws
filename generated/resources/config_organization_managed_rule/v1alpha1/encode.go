@@ -22,20 +22,24 @@ import (
 
 func EncodeConfigOrganizationManagedRule(r ConfigOrganizationManagedRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeConfigOrganizationManagedRule_RuleIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationManagedRule_TagKeyScope(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationManagedRule_TagValueScope(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationManagedRule_Description(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationManagedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationManagedRule_InputParameters(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationManagedRule_ResourceIdScope(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationManagedRule_RuleIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationManagedRule_ResourceTypesScope(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationManagedRule_ExcludedAccounts(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationManagedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationManagedRule_MaximumExecutionFrequency(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationManagedRule_Name(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationManagedRule_ResourceTypesScope(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationManagedRule_ResourceIdScope(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationManagedRule_Description(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationManagedRule_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeConfigOrganizationManagedRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeConfigOrganizationManagedRule_RuleIdentifier(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	vals["rule_identifier"] = cty.StringVal(p.RuleIdentifier)
 }
 
 func EncodeConfigOrganizationManagedRule_TagKeyScope(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
@@ -46,24 +50,16 @@ func EncodeConfigOrganizationManagedRule_TagValueScope(p ConfigOrganizationManag
 	vals["tag_value_scope"] = cty.StringVal(p.TagValueScope)
 }
 
-func EncodeConfigOrganizationManagedRule_Description(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeConfigOrganizationManagedRule_Id(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeConfigOrganizationManagedRule_InputParameters(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
 	vals["input_parameters"] = cty.StringVal(p.InputParameters)
 }
 
-func EncodeConfigOrganizationManagedRule_ResourceIdScope(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	vals["resource_id_scope"] = cty.StringVal(p.ResourceIdScope)
-}
-
-func EncodeConfigOrganizationManagedRule_RuleIdentifier(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	vals["rule_identifier"] = cty.StringVal(p.RuleIdentifier)
+func EncodeConfigOrganizationManagedRule_ResourceTypesScope(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ResourceTypesScope {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["resource_types_scope"] = cty.SetVal(colVals)
 }
 
 func EncodeConfigOrganizationManagedRule_ExcludedAccounts(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
@@ -74,6 +70,10 @@ func EncodeConfigOrganizationManagedRule_ExcludedAccounts(p ConfigOrganizationMa
 	vals["excluded_accounts"] = cty.SetVal(colVals)
 }
 
+func EncodeConfigOrganizationManagedRule_Id(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeConfigOrganizationManagedRule_MaximumExecutionFrequency(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
 	vals["maximum_execution_frequency"] = cty.StringVal(p.MaximumExecutionFrequency)
 }
@@ -82,12 +82,12 @@ func EncodeConfigOrganizationManagedRule_Name(p ConfigOrganizationManagedRulePar
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeConfigOrganizationManagedRule_ResourceTypesScope(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.ResourceTypesScope {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["resource_types_scope"] = cty.SetVal(colVals)
+func EncodeConfigOrganizationManagedRule_ResourceIdScope(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	vals["resource_id_scope"] = cty.StringVal(p.ResourceIdScope)
+}
+
+func EncodeConfigOrganizationManagedRule_Description(p ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeConfigOrganizationManagedRule_Timeouts(p Timeouts, vals map[string]cty.Value) {

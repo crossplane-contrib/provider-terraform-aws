@@ -52,23 +52,23 @@ type Apigatewayv2IntegrationSpec struct {
 
 // A Apigatewayv2IntegrationParameters defines the desired state of a Apigatewayv2Integration
 type Apigatewayv2IntegrationParameters struct {
-	PayloadFormatVersion        string            `json:"payload_format_version"`
-	TemplateSelectionExpression string            `json:"template_selection_expression"`
-	TimeoutMilliseconds         int64             `json:"timeout_milliseconds"`
-	ApiId                       string            `json:"api_id"`
-	ConnectionType              string            `json:"connection_type"`
 	Description                 string            `json:"description"`
+	RequestTemplates            map[string]string `json:"request_templates"`
+	PassthroughBehavior         string            `json:"passthrough_behavior"`
+	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
 	IntegrationType             string            `json:"integration_type"`
 	IntegrationSubtype          string            `json:"integration_subtype"`
-	PassthroughBehavior         string            `json:"passthrough_behavior"`
-	RequestTemplates            map[string]string `json:"request_templates"`
+	RequestParameters           map[string]string `json:"request_parameters"`
+	TemplateSelectionExpression string            `json:"template_selection_expression"`
+	TimeoutMilliseconds         int64             `json:"timeout_milliseconds"`
 	ConnectionId                string            `json:"connection_id"`
-	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
-	CredentialsArn              string            `json:"credentials_arn"`
+	ConnectionType              string            `json:"connection_type"`
 	Id                          string            `json:"id"`
 	IntegrationMethod           string            `json:"integration_method"`
 	IntegrationUri              string            `json:"integration_uri"`
-	RequestParameters           map[string]string `json:"request_parameters"`
+	PayloadFormatVersion        string            `json:"payload_format_version"`
+	ApiId                       string            `json:"api_id"`
+	CredentialsArn              string            `json:"credentials_arn"`
 	TlsConfig                   TlsConfig         `json:"tls_config"`
 }
 

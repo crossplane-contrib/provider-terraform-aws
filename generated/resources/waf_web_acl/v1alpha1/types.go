@@ -80,9 +80,9 @@ type FieldToMatch struct {
 }
 
 type Rules struct {
+	Type           string         `json:"type"`
 	Priority       int64          `json:"priority"`
 	RuleId         string         `json:"rule_id"`
-	Type           string         `json:"type"`
 	Action         Action         `json:"action"`
 	OverrideAction OverrideAction `json:"override_action"`
 }

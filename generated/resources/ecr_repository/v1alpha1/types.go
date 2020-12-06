@@ -56,14 +56,9 @@ type EcrRepositoryParameters struct {
 	Tags                       map[string]string          `json:"tags"`
 	Id                         string                     `json:"id"`
 	ImageTagMutability         string                     `json:"image_tag_mutability"`
-	EncryptionConfiguration    EncryptionConfiguration    `json:"encryption_configuration"`
 	ImageScanningConfiguration ImageScanningConfiguration `json:"image_scanning_configuration"`
 	Timeouts                   Timeouts                   `json:"timeouts"`
-}
-
-type EncryptionConfiguration struct {
-	EncryptionType string `json:"encryption_type"`
-	KmsKey         string `json:"kms_key"`
+	EncryptionConfiguration    EncryptionConfiguration    `json:"encryption_configuration"`
 }
 
 type ImageScanningConfiguration struct {
@@ -72,6 +67,11 @@ type ImageScanningConfiguration struct {
 
 type Timeouts struct {
 	Delete string `json:"delete"`
+}
+
+type EncryptionConfiguration struct {
+	EncryptionType string `json:"encryption_type"`
+	KmsKey         string `json:"kms_key"`
 }
 
 // A EcrRepositoryStatus defines the observed state of a EcrRepository

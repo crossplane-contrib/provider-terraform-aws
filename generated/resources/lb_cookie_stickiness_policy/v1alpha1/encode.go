@@ -22,13 +22,17 @@ import (
 
 func EncodeLbCookieStickinessPolicy(r LbCookieStickinessPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLbCookieStickinessPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
-	EncodeLbCookieStickinessPolicy_Name(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLbCookieStickinessPolicy_Name(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
@@ -45,8 +49,4 @@ func EncodeLbCookieStickinessPolicy_LbPort(p LbCookieStickinessPolicyParameters,
 
 func EncodeLbCookieStickinessPolicy_LoadBalancer(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
-}
-
-func EncodeLbCookieStickinessPolicy_Name(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }

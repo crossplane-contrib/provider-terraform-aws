@@ -22,27 +22,15 @@ import (
 
 func EncodeCloudformationStackSetInstance(r CloudformationStackSetInstance) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudformationStackSetInstance_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSetInstance_ParameterOverrides(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSetInstance_Region(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSetInstance_RetainStack(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSetInstance_StackSetName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSetInstance_AccountId(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSetInstance_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSetInstance_ParameterOverrides(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSetInstance_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeCloudformationStackSetInstance_StackId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudformationStackSetInstance_Id(p CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudformationStackSetInstance_ParameterOverrides(p CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.ParameterOverrides {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["parameter_overrides"] = cty.MapVal(mVals)
 }
 
 func EncodeCloudformationStackSetInstance_Region(p CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
@@ -59,6 +47,18 @@ func EncodeCloudformationStackSetInstance_StackSetName(p CloudformationStackSetI
 
 func EncodeCloudformationStackSetInstance_AccountId(p CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
+}
+
+func EncodeCloudformationStackSetInstance_Id(p CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCloudformationStackSetInstance_ParameterOverrides(p CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.ParameterOverrides {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["parameter_overrides"] = cty.MapVal(mVals)
 }
 
 func EncodeCloudformationStackSetInstance_Timeouts(p Timeouts, vals map[string]cty.Value) {

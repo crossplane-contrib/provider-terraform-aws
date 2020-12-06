@@ -22,10 +22,10 @@ import (
 
 func EncodeKinesisVideoStream(r KinesisVideoStream) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeKinesisVideoStream_DataRetentionInHours(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisVideoStream_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_DeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_Id(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisVideoStream_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisVideoStream_DataRetentionInHours(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_MediaType(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_Name(r.Spec.ForProvider, ctyVal)
@@ -36,12 +36,8 @@ func EncodeKinesisVideoStream(r KinesisVideoStream) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeKinesisVideoStream_DeviceName(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["device_name"] = cty.StringVal(p.DeviceName)
-}
-
-func EncodeKinesisVideoStream_Id(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeKinesisVideoStream_DataRetentionInHours(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["data_retention_in_hours"] = cty.NumberIntVal(p.DataRetentionInHours)
 }
 
 func EncodeKinesisVideoStream_Tags(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
@@ -52,8 +48,12 @@ func EncodeKinesisVideoStream_Tags(p KinesisVideoStreamParameters, vals map[stri
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeKinesisVideoStream_DataRetentionInHours(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["data_retention_in_hours"] = cty.NumberIntVal(p.DataRetentionInHours)
+func EncodeKinesisVideoStream_DeviceName(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["device_name"] = cty.StringVal(p.DeviceName)
+}
+
+func EncodeKinesisVideoStream_Id(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeKinesisVideoStream_KmsKeyId(p KinesisVideoStreamParameters, vals map[string]cty.Value) {

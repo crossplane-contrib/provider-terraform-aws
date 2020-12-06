@@ -72,6 +72,6 @@ type Wafv2RegexPatternSetStatus struct {
 
 // A Wafv2RegexPatternSetObservation records the observed state of a Wafv2RegexPatternSet
 type Wafv2RegexPatternSetObservation struct {
-	LockToken string `json:"lock_token"`
 	Arn       string `json:"arn"`
+	LockToken string `json:"lock_token"`
 }

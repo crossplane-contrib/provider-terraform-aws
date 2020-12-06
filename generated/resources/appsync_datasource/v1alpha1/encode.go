@@ -22,30 +22,18 @@ import (
 
 func EncodeAppsyncDatasource(r AppsyncDatasource) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppsyncDatasource_Type(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncDatasource_ApiId(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncDatasource_Description(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_ServiceRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncDatasource_Type(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncDatasource_ApiId(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncDatasource_Description(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncDatasource_LambdaConfig(r.Spec.ForProvider.LambdaConfig, ctyVal)
 	EncodeAppsyncDatasource_DynamodbConfig(r.Spec.ForProvider.DynamodbConfig, ctyVal)
 	EncodeAppsyncDatasource_ElasticsearchConfig(r.Spec.ForProvider.ElasticsearchConfig, ctyVal)
 	EncodeAppsyncDatasource_HttpConfig(r.Spec.ForProvider.HttpConfig, ctyVal)
-	EncodeAppsyncDatasource_LambdaConfig(r.Spec.ForProvider.LambdaConfig, ctyVal)
 	EncodeAppsyncDatasource_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAppsyncDatasource_Type(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeAppsyncDatasource_ApiId(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
-}
-
-func EncodeAppsyncDatasource_Description(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeAppsyncDatasource_Id(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
@@ -60,18 +48,38 @@ func EncodeAppsyncDatasource_ServiceRoleArn(p AppsyncDatasourceParameters, vals 
 	vals["service_role_arn"] = cty.StringVal(p.ServiceRoleArn)
 }
 
+func EncodeAppsyncDatasource_Type(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeAppsyncDatasource_ApiId(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
+}
+
+func EncodeAppsyncDatasource_Description(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeAppsyncDatasource_LambdaConfig(p LambdaConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAppsyncDatasource_LambdaConfig_FunctionArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["lambda_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeAppsyncDatasource_LambdaConfig_FunctionArn(p LambdaConfig, vals map[string]cty.Value) {
+	vals["function_arn"] = cty.StringVal(p.FunctionArn)
+}
+
 func EncodeAppsyncDatasource_DynamodbConfig(p DynamodbConfig, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppsyncDatasource_DynamodbConfig_Region(p, ctyVal)
 	EncodeAppsyncDatasource_DynamodbConfig_TableName(p, ctyVal)
 	EncodeAppsyncDatasource_DynamodbConfig_UseCallerCredentials(p, ctyVal)
+	EncodeAppsyncDatasource_DynamodbConfig_Region(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["dynamodb_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAppsyncDatasource_DynamodbConfig_Region(p DynamodbConfig, vals map[string]cty.Value) {
-	vals["region"] = cty.StringVal(p.Region)
 }
 
 func EncodeAppsyncDatasource_DynamodbConfig_TableName(p DynamodbConfig, vals map[string]cty.Value) {
@@ -80,6 +88,10 @@ func EncodeAppsyncDatasource_DynamodbConfig_TableName(p DynamodbConfig, vals map
 
 func EncodeAppsyncDatasource_DynamodbConfig_UseCallerCredentials(p DynamodbConfig, vals map[string]cty.Value) {
 	vals["use_caller_credentials"] = cty.BoolVal(p.UseCallerCredentials)
+}
+
+func EncodeAppsyncDatasource_DynamodbConfig_Region(p DynamodbConfig, vals map[string]cty.Value) {
+	vals["region"] = cty.StringVal(p.Region)
 }
 
 func EncodeAppsyncDatasource_ElasticsearchConfig(p ElasticsearchConfig, vals map[string]cty.Value) {
@@ -109,18 +121,6 @@ func EncodeAppsyncDatasource_HttpConfig(p HttpConfig, vals map[string]cty.Value)
 
 func EncodeAppsyncDatasource_HttpConfig_Endpoint(p HttpConfig, vals map[string]cty.Value) {
 	vals["endpoint"] = cty.StringVal(p.Endpoint)
-}
-
-func EncodeAppsyncDatasource_LambdaConfig(p LambdaConfig, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeAppsyncDatasource_LambdaConfig_FunctionArn(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["lambda_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAppsyncDatasource_LambdaConfig_FunctionArn(p LambdaConfig, vals map[string]cty.Value) {
-	vals["function_arn"] = cty.StringVal(p.FunctionArn)
 }
 
 func EncodeAppsyncDatasource_Arn(p AppsyncDatasourceObservation, vals map[string]cty.Value) {

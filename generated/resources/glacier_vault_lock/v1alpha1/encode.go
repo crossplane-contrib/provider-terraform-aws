@@ -22,17 +22,13 @@ import (
 
 func EncodeGlacierVaultLock(r GlacierVaultLock) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlacierVaultLock_IgnoreDeletionError(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_VaultName(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_CompleteLock(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlacierVaultLock_IgnoreDeletionError(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGlacierVaultLock_IgnoreDeletionError(p GlacierVaultLockParameters, vals map[string]cty.Value) {
-	vals["ignore_deletion_error"] = cty.BoolVal(p.IgnoreDeletionError)
 }
 
 func EncodeGlacierVaultLock_Policy(p GlacierVaultLockParameters, vals map[string]cty.Value) {
@@ -49,4 +45,8 @@ func EncodeGlacierVaultLock_CompleteLock(p GlacierVaultLockParameters, vals map[
 
 func EncodeGlacierVaultLock_Id(p GlacierVaultLockParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGlacierVaultLock_IgnoreDeletionError(p GlacierVaultLockParameters, vals map[string]cty.Value) {
+	vals["ignore_deletion_error"] = cty.BoolVal(p.IgnoreDeletionError)
 }

@@ -52,26 +52,26 @@ type GlueMlTransformSpec struct {
 
 // A GlueMlTransformParameters defines the desired state of a GlueMlTransform
 type GlueMlTransformParameters struct {
-	Description       string              `json:"description"`
-	WorkerType        string              `json:"worker_type"`
-	MaxCapacity       int64               `json:"max_capacity"`
-	RoleArn           string              `json:"role_arn"`
-	Timeout           int64               `json:"timeout"`
 	GlueVersion       string              `json:"glue_version"`
+	WorkerType        string              `json:"worker_type"`
+	Description       string              `json:"description"`
+	MaxCapacity       int64               `json:"max_capacity"`
+	Timeout           int64               `json:"timeout"`
 	NumberOfWorkers   int64               `json:"number_of_workers"`
-	Tags              map[string]string   `json:"tags"`
+	RoleArn           string              `json:"role_arn"`
 	Id                string              `json:"id"`
-	MaxRetries        int64               `json:"max_retries"`
 	Name              string              `json:"name"`
+	MaxRetries        int64               `json:"max_retries"`
+	Tags              map[string]string   `json:"tags"`
 	InputRecordTables []InputRecordTables `json:"input_record_tables"`
 	Parameters        Parameters          `json:"parameters"`
 }
 
 type InputRecordTables struct {
-	CatalogId      string `json:"catalog_id"`
 	ConnectionName string `json:"connection_name"`
 	DatabaseName   string `json:"database_name"`
 	TableName      string `json:"table_name"`
+	CatalogId      string `json:"catalog_id"`
 }
 
 type Parameters struct {
@@ -94,12 +94,12 @@ type GlueMlTransformStatus struct {
 
 // A GlueMlTransformObservation records the observed state of a GlueMlTransform
 type GlueMlTransformObservation struct {
-	Arn        string   `json:"arn"`
 	Schema     []Schema `json:"schema"`
+	Arn        string   `json:"arn"`
 	LabelCount int64    `json:"label_count"`
 }
 
 type Schema struct {
-	DataType string `json:"data_type"`
 	Name     string `json:"name"`
+	DataType string `json:"data_type"`
 }

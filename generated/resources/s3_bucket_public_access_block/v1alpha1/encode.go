@@ -22,14 +22,22 @@ import (
 
 func EncodeS3BucketPublicAccessBlock(r S3BucketPublicAccessBlock) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(r.Spec.ForProvider, ctyVal)
+	EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_BlockPublicAcls(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_BlockPublicPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_Id(r.Spec.ForProvider, ctyVal)
-	EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(r.Spec.ForProvider, ctyVal)
-	EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
+	vals["ignore_public_acls"] = cty.BoolVal(p.IgnorePublicAcls)
+}
+
+func EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
+	vals["restrict_public_buckets"] = cty.BoolVal(p.RestrictPublicBuckets)
 }
 
 func EncodeS3BucketPublicAccessBlock_BlockPublicAcls(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
@@ -46,12 +54,4 @@ func EncodeS3BucketPublicAccessBlock_Bucket(p S3BucketPublicAccessBlockParameter
 
 func EncodeS3BucketPublicAccessBlock_Id(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
-	vals["ignore_public_acls"] = cty.BoolVal(p.IgnorePublicAcls)
-}
-
-func EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
-	vals["restrict_public_buckets"] = cty.BoolVal(p.RestrictPublicBuckets)
 }

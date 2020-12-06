@@ -22,19 +22,19 @@ import (
 
 func EncodeWafXssMatchSet(r WafXssMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafXssMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafXssMatchSet_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafXssMatchSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafXssMatchSet_XssMatchTuples(r.Spec.ForProvider.XssMatchTuples, ctyVal)
 	EncodeWafXssMatchSet_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafXssMatchSet_Id(p WafXssMatchSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeWafXssMatchSet_Name(p WafXssMatchSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafXssMatchSet_Id(p WafXssMatchSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafXssMatchSet_XssMatchTuples(p XssMatchTuples, vals map[string]cty.Value) {

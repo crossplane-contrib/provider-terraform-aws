@@ -22,8 +22,8 @@ import (
 
 func EncodeDbProxyDefaultTargetGroup(r DbProxyDefaultTargetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbProxyDefaultTargetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_DbProxyName(r.Spec.ForProvider, ctyVal)
+	EncodeDbProxyDefaultTargetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig(r.Spec.ForProvider.ConnectionPoolConfig, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_Name(r.Status.AtProvider, ctyVal)
@@ -31,12 +31,12 @@ func EncodeDbProxyDefaultTargetGroup(r DbProxyDefaultTargetGroup) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDbProxyDefaultTargetGroup_Id(p DbProxyDefaultTargetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeDbProxyDefaultTargetGroup_DbProxyName(p DbProxyDefaultTargetGroupParameters, vals map[string]cty.Value) {
 	vals["db_proxy_name"] = cty.StringVal(p.DbProxyName)
+}
+
+func EncodeDbProxyDefaultTargetGroup_Id(p DbProxyDefaultTargetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig(p ConnectionPoolConfig, vals map[string]cty.Value) {

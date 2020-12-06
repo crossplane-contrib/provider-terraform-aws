@@ -22,51 +22,27 @@ import (
 
 func EncodeRoute53Record(r Route53Record) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53Record_HealthCheckId(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53Record_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53Record_MultivalueAnswerRoutingPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Record_Name(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53Record_SetIdentifier(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53Record_ZoneId(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53Record_AllowOverwrite(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Record_Records(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Record_Ttl(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Record_Type(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Record_AllowOverwrite(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Record_HealthCheckId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Record_Id(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Record_MultivalueAnswerRoutingPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Record_SetIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Record_ZoneId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Record_WeightedRoutingPolicy(r.Spec.ForProvider.WeightedRoutingPolicy, ctyVal)
 	EncodeRoute53Record_Alias(r.Spec.ForProvider.Alias, ctyVal)
 	EncodeRoute53Record_FailoverRoutingPolicy(r.Spec.ForProvider.FailoverRoutingPolicy, ctyVal)
 	EncodeRoute53Record_GeolocationRoutingPolicy(r.Spec.ForProvider.GeolocationRoutingPolicy, ctyVal)
 	EncodeRoute53Record_LatencyRoutingPolicy(r.Spec.ForProvider.LatencyRoutingPolicy, ctyVal)
-	EncodeRoute53Record_WeightedRoutingPolicy(r.Spec.ForProvider.WeightedRoutingPolicy, ctyVal)
 	EncodeRoute53Record_Fqdn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRoute53Record_HealthCheckId(p Route53RecordParameters, vals map[string]cty.Value) {
-	vals["health_check_id"] = cty.StringVal(p.HealthCheckId)
-}
-
-func EncodeRoute53Record_Id(p Route53RecordParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRoute53Record_MultivalueAnswerRoutingPolicy(p Route53RecordParameters, vals map[string]cty.Value) {
-	vals["multivalue_answer_routing_policy"] = cty.BoolVal(p.MultivalueAnswerRoutingPolicy)
-}
-
 func EncodeRoute53Record_Name(p Route53RecordParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeRoute53Record_SetIdentifier(p Route53RecordParameters, vals map[string]cty.Value) {
-	vals["set_identifier"] = cty.StringVal(p.SetIdentifier)
-}
-
-func EncodeRoute53Record_ZoneId(p Route53RecordParameters, vals map[string]cty.Value) {
-	vals["zone_id"] = cty.StringVal(p.ZoneId)
-}
-
-func EncodeRoute53Record_AllowOverwrite(p Route53RecordParameters, vals map[string]cty.Value) {
-	vals["allow_overwrite"] = cty.BoolVal(p.AllowOverwrite)
 }
 
 func EncodeRoute53Record_Records(p Route53RecordParameters, vals map[string]cty.Value) {
@@ -83,6 +59,42 @@ func EncodeRoute53Record_Ttl(p Route53RecordParameters, vals map[string]cty.Valu
 
 func EncodeRoute53Record_Type(p Route53RecordParameters, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeRoute53Record_AllowOverwrite(p Route53RecordParameters, vals map[string]cty.Value) {
+	vals["allow_overwrite"] = cty.BoolVal(p.AllowOverwrite)
+}
+
+func EncodeRoute53Record_HealthCheckId(p Route53RecordParameters, vals map[string]cty.Value) {
+	vals["health_check_id"] = cty.StringVal(p.HealthCheckId)
+}
+
+func EncodeRoute53Record_Id(p Route53RecordParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeRoute53Record_MultivalueAnswerRoutingPolicy(p Route53RecordParameters, vals map[string]cty.Value) {
+	vals["multivalue_answer_routing_policy"] = cty.BoolVal(p.MultivalueAnswerRoutingPolicy)
+}
+
+func EncodeRoute53Record_SetIdentifier(p Route53RecordParameters, vals map[string]cty.Value) {
+	vals["set_identifier"] = cty.StringVal(p.SetIdentifier)
+}
+
+func EncodeRoute53Record_ZoneId(p Route53RecordParameters, vals map[string]cty.Value) {
+	vals["zone_id"] = cty.StringVal(p.ZoneId)
+}
+
+func EncodeRoute53Record_WeightedRoutingPolicy(p WeightedRoutingPolicy, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53Record_WeightedRoutingPolicy_Weight(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["weighted_routing_policy"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeRoute53Record_WeightedRoutingPolicy_Weight(p WeightedRoutingPolicy, vals map[string]cty.Value) {
+	vals["weight"] = cty.NumberIntVal(p.Weight)
 }
 
 func EncodeRoute53Record_Alias(p Alias, vals map[string]cty.Value) {
@@ -151,18 +163,6 @@ func EncodeRoute53Record_LatencyRoutingPolicy(p LatencyRoutingPolicy, vals map[s
 
 func EncodeRoute53Record_LatencyRoutingPolicy_Region(p LatencyRoutingPolicy, vals map[string]cty.Value) {
 	vals["region"] = cty.StringVal(p.Region)
-}
-
-func EncodeRoute53Record_WeightedRoutingPolicy(p WeightedRoutingPolicy, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53Record_WeightedRoutingPolicy_Weight(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["weighted_routing_policy"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeRoute53Record_WeightedRoutingPolicy_Weight(p WeightedRoutingPolicy, vals map[string]cty.Value) {
-	vals["weight"] = cty.NumberIntVal(p.Weight)
 }
 
 func EncodeRoute53Record_Fqdn(p Route53RecordObservation, vals map[string]cty.Value) {
