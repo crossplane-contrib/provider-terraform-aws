@@ -17,30 +17,36 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*EksFargateProfile)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a EksFargateProfile.")
+	}
+	return EncodeEksFargateProfile(*r), nil
+}
 
 func EncodeEksFargateProfile(r EksFargateProfile) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEksFargateProfile_ClusterName(r.Spec.ForProvider, ctyVal)
-	EncodeEksFargateProfile_FargateProfileName(r.Spec.ForProvider, ctyVal)
 	EncodeEksFargateProfile_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEksFargateProfile_PodExecutionRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeEksFargateProfile_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeEksFargateProfile_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEksFargateProfile_ClusterName(r.Spec.ForProvider, ctyVal)
+	EncodeEksFargateProfile_FargateProfileName(r.Spec.ForProvider, ctyVal)
 	EncodeEksFargateProfile_Selector(r.Spec.ForProvider.Selector, ctyVal)
 	EncodeEksFargateProfile_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeEksFargateProfile_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEksFargateProfile_Status(r.Status.AtProvider, ctyVal)
+	EncodeEksFargateProfile_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEksFargateProfile_ClusterName(p EksFargateProfileParameters, vals map[string]cty.Value) {
-	vals["cluster_name"] = cty.StringVal(p.ClusterName)
-}
-
-func EncodeEksFargateProfile_FargateProfileName(p EksFargateProfileParameters, vals map[string]cty.Value) {
-	vals["fargate_profile_name"] = cty.StringVal(p.FargateProfileName)
 }
 
 func EncodeEksFargateProfile_Id(p EksFargateProfileParameters, vals map[string]cty.Value) {
@@ -67,15 +73,27 @@ func EncodeEksFargateProfile_Tags(p EksFargateProfileParameters, vals map[string
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeEksFargateProfile_ClusterName(p EksFargateProfileParameters, vals map[string]cty.Value) {
+	vals["cluster_name"] = cty.StringVal(p.ClusterName)
+}
+
+func EncodeEksFargateProfile_FargateProfileName(p EksFargateProfileParameters, vals map[string]cty.Value) {
+	vals["fargate_profile_name"] = cty.StringVal(p.FargateProfileName)
+}
+
 func EncodeEksFargateProfile_Selector(p []Selector, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeEksFargateProfile_Selector_Labels(v, ctyVal)
 		EncodeEksFargateProfile_Selector_Namespace(v, ctyVal)
+		EncodeEksFargateProfile_Selector_Labels(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["selector"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeEksFargateProfile_Selector_Namespace(p Selector, vals map[string]cty.Value) {
+	vals["namespace"] = cty.StringVal(p.Namespace)
 }
 
 func EncodeEksFargateProfile_Selector_Labels(p Selector, vals map[string]cty.Value) {
@@ -86,29 +104,25 @@ func EncodeEksFargateProfile_Selector_Labels(p Selector, vals map[string]cty.Val
 	vals["labels"] = cty.MapVal(mVals)
 }
 
-func EncodeEksFargateProfile_Selector_Namespace(p Selector, vals map[string]cty.Value) {
-	vals["namespace"] = cty.StringVal(p.Namespace)
-}
-
 func EncodeEksFargateProfile_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEksFargateProfile_Timeouts_Delete(p, ctyVal)
 	EncodeEksFargateProfile_Timeouts_Create(p, ctyVal)
+	EncodeEksFargateProfile_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeEksFargateProfile_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeEksFargateProfile_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeEksFargateProfile_Arn(p EksFargateProfileObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeEksFargateProfile_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeEksFargateProfile_Status(p EksFargateProfileObservation, vals map[string]cty.Value) {
 	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeEksFargateProfile_Arn(p EksFargateProfileObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

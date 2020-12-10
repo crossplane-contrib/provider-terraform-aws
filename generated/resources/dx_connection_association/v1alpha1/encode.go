@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DxConnectionAssociation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DxConnectionAssociation.")
+	}
+	return EncodeDxConnectionAssociation(*r), nil
+}
 
 func EncodeDxConnectionAssociation(r DxConnectionAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDxConnectionAssociation_ConnectionId(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnectionAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnectionAssociation_LagId(r.Spec.ForProvider, ctyVal)
-	EncodeDxConnectionAssociation_ConnectionId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDxConnectionAssociation_ConnectionId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
+	vals["connection_id"] = cty.StringVal(p.ConnectionId)
 }
 
 func EncodeDxConnectionAssociation_Id(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
@@ -35,8 +53,4 @@ func EncodeDxConnectionAssociation_Id(p DxConnectionAssociationParameters, vals 
 
 func EncodeDxConnectionAssociation_LagId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
 	vals["lag_id"] = cty.StringVal(p.LagId)
-}
-
-func EncodeDxConnectionAssociation_ConnectionId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
-	vals["connection_id"] = cty.StringVal(p.ConnectionId)
 }

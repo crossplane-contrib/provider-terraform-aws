@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*VpnGatewayAttachment)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a VpnGatewayAttachment.")
+	}
+	return EncodeVpnGatewayAttachment(*r), nil
+}
 
 func EncodeVpnGatewayAttachment(r VpnGatewayAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVpnGatewayAttachment_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayAttachment_VpcId(r.Spec.ForProvider, ctyVal)
-	EncodeVpnGatewayAttachment_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeVpnGatewayAttachment_VpnGatewayId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
+	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }
 
 func EncodeVpnGatewayAttachment_Id(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
@@ -35,8 +53,4 @@ func EncodeVpnGatewayAttachment_Id(p VpnGatewayAttachmentParameters, vals map[st
 
 func EncodeVpnGatewayAttachment_VpcId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeVpnGatewayAttachment_VpnGatewayId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
-	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }

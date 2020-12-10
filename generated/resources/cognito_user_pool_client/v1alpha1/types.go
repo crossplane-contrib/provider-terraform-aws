@@ -52,22 +52,22 @@ type CognitoUserPoolClientSpec struct {
 
 // A CognitoUserPoolClientParameters defines the desired state of a CognitoUserPoolClient
 type CognitoUserPoolClientParameters struct {
-	WriteAttributes                 []string               `json:"write_attributes"`
-	AllowedOauthFlowsUserPoolClient bool                   `json:"allowed_oauth_flows_user_pool_client"`
-	AllowedOauthScopes              []string               `json:"allowed_oauth_scopes"`
 	ReadAttributes                  []string               `json:"read_attributes"`
+	WriteAttributes                 []string               `json:"write_attributes"`
 	ExplicitAuthFlows               []string               `json:"explicit_auth_flows"`
 	PreventUserExistenceErrors      string                 `json:"prevent_user_existence_errors"`
-	UserPoolId                      string                 `json:"user_pool_id"`
-	GenerateSecret                  bool                   `json:"generate_secret"`
-	Id                              string                 `json:"id"`
-	AllowedOauthFlows               []string               `json:"allowed_oauth_flows"`
+	RefreshTokenValidity            int64                  `json:"refresh_token_validity"`
+	AllowedOauthFlowsUserPoolClient bool                   `json:"allowed_oauth_flows_user_pool_client"`
 	CallbackUrls                    []string               `json:"callback_urls"`
 	DefaultRedirectUri              string                 `json:"default_redirect_uri"`
-	RefreshTokenValidity            int64                  `json:"refresh_token_validity"`
-	SupportedIdentityProviders      []string               `json:"supported_identity_providers"`
+	GenerateSecret                  bool                   `json:"generate_secret"`
 	LogoutUrls                      []string               `json:"logout_urls"`
 	Name                            string                 `json:"name"`
+	AllowedOauthFlows               []string               `json:"allowed_oauth_flows"`
+	Id                              string                 `json:"id"`
+	SupportedIdentityProviders      []string               `json:"supported_identity_providers"`
+	UserPoolId                      string                 `json:"user_pool_id"`
+	AllowedOauthScopes              []string               `json:"allowed_oauth_scopes"`
 	AnalyticsConfiguration          AnalyticsConfiguration `json:"analytics_configuration"`
 }
 

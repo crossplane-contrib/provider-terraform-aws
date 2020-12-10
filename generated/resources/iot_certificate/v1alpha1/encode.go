@@ -17,19 +17,37 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IotCertificate)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IotCertificate.")
+	}
+	return EncodeIotCertificate(*r), nil
+}
 
 func EncodeIotCertificate(r IotCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIotCertificate_Active(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Csr(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIotCertificate_Active(r.Spec.ForProvider, ctyVal)
-	EncodeIotCertificate_Arn(r.Status.AtProvider, ctyVal)
-	EncodeIotCertificate_CertificatePem(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_PrivateKey(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_PublicKey(r.Status.AtProvider, ctyVal)
+	EncodeIotCertificate_Arn(r.Status.AtProvider, ctyVal)
+	EncodeIotCertificate_CertificatePem(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIotCertificate_Active(p IotCertificateParameters, vals map[string]cty.Value) {
+	vals["active"] = cty.BoolVal(p.Active)
 }
 
 func EncodeIotCertificate_Csr(p IotCertificateParameters, vals map[string]cty.Value) {
@@ -40,8 +58,12 @@ func EncodeIotCertificate_Id(p IotCertificateParameters, vals map[string]cty.Val
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIotCertificate_Active(p IotCertificateParameters, vals map[string]cty.Value) {
-	vals["active"] = cty.BoolVal(p.Active)
+func EncodeIotCertificate_PrivateKey(p IotCertificateObservation, vals map[string]cty.Value) {
+	vals["private_key"] = cty.StringVal(p.PrivateKey)
+}
+
+func EncodeIotCertificate_PublicKey(p IotCertificateObservation, vals map[string]cty.Value) {
+	vals["public_key"] = cty.StringVal(p.PublicKey)
 }
 
 func EncodeIotCertificate_Arn(p IotCertificateObservation, vals map[string]cty.Value) {
@@ -50,12 +72,4 @@ func EncodeIotCertificate_Arn(p IotCertificateObservation, vals map[string]cty.V
 
 func EncodeIotCertificate_CertificatePem(p IotCertificateObservation, vals map[string]cty.Value) {
 	vals["certificate_pem"] = cty.StringVal(p.CertificatePem)
-}
-
-func EncodeIotCertificate_PrivateKey(p IotCertificateObservation, vals map[string]cty.Value) {
-	vals["private_key"] = cty.StringVal(p.PrivateKey)
-}
-
-func EncodeIotCertificate_PublicKey(p IotCertificateObservation, vals map[string]cty.Value) {
-	vals["public_key"] = cty.StringVal(p.PublicKey)
 }

@@ -17,19 +17,37 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*VpcEndpointConnectionNotification)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a VpcEndpointConnectionNotification.")
+	}
+	return EncodeVpcEndpointConnectionNotification(*r), nil
+}
 
 func EncodeVpcEndpointConnectionNotification(r VpcEndpointConnectionNotification) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVpcEndpointConnectionNotification_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_ConnectionEvents(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_ConnectionNotificationArn(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointConnectionNotification_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_NotificationType(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_State(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeVpcEndpointConnectionNotification_VpcEndpointId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }
 
 func EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
@@ -50,10 +68,6 @@ func EncodeVpcEndpointConnectionNotification_ConnectionNotificationArn(p VpcEndp
 
 func EncodeVpcEndpointConnectionNotification_Id(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeVpcEndpointConnectionNotification_VpcEndpointId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
-	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }
 
 func EncodeVpcEndpointConnectionNotification_NotificationType(p VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {

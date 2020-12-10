@@ -52,43 +52,43 @@ type OpsworksJavaAppLayerSpec struct {
 
 // A OpsworksJavaAppLayerParameters defines the desired state of a OpsworksJavaAppLayer
 type OpsworksJavaAppLayerParameters struct {
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
 	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	JvmType                  string            `json:"jvm_type"`
+	Tags                     map[string]string `json:"tags"`
+	AppServerVersion         string            `json:"app_server_version"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	Name                     string            `json:"name"`
+	SystemPackages           []string          `json:"system_packages"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	Id                       string            `json:"id"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	JvmVersion               string            `json:"jvm_version"`
 	JvmOptions               string            `json:"jvm_options"`
 	AppServer                string            `json:"app_server"`
-	AppServerVersion         string            `json:"app_server_version"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	JvmVersion               string            `json:"jvm_version"`
-	AutoHealing              bool              `json:"auto_healing"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
 	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	Id                       string            `json:"id"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	StackId                  string            `json:"stack_id"`
-	CustomJson               string            `json:"custom_json"`
-	JvmType                  string            `json:"jvm_type"`
-	Name                     string            `json:"name"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	Tags                     map[string]string `json:"tags"`
-	SystemPackages           []string          `json:"system_packages"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	AutoHealing              bool              `json:"auto_healing"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomJson               string            `json:"custom_json"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	StackId                  string            `json:"stack_id"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
+	RaidLevel     string `json:"raid_level"`
 	Size          int64  `json:"size"`
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
 	Iops          int64  `json:"iops"`
 	MountPoint    string `json:"mount_point"`
 	NumberOfDisks int64  `json:"number_of_disks"`
-	RaidLevel     string `json:"raid_level"`
 }
 
 // A OpsworksJavaAppLayerStatus defines the observed state of a OpsworksJavaAppLayer

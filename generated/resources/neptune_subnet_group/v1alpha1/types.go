@@ -52,12 +52,12 @@ type NeptuneSubnetGroupSpec struct {
 
 // A NeptuneSubnetGroupParameters defines the desired state of a NeptuneSubnetGroup
 type NeptuneSubnetGroupParameters struct {
+	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	NamePrefix  string            `json:"name_prefix"`
 	SubnetIds   []string          `json:"subnet_ids"`
-	Tags        map[string]string `json:"tags"`
 }
 
 // A NeptuneSubnetGroupStatus defines the observed state of a NeptuneSubnetGroup

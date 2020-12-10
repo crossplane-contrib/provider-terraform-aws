@@ -17,38 +17,52 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayDeployment)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayDeployment.")
+	}
+	return EncodeApiGatewayDeployment(*r), nil
+}
 
 func EncodeApiGatewayDeployment(r ApiGatewayDeployment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayDeployment_Variables(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_StageDescription(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_StageName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Triggers(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_Variables(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDeployment_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDeployment_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDeployment_ExecutionArn(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDeployment_InvokeUrl(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeApiGatewayDeployment_Variables(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Variables {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["variables"] = cty.MapVal(mVals)
+}
+
 func EncodeApiGatewayDeployment_Description(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApiGatewayDeployment_Id(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeApiGatewayDeployment_StageDescription(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
 	vals["stage_description"] = cty.StringVal(p.StageDescription)
-}
-
-func EncodeApiGatewayDeployment_RestApiId(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayDeployment_StageName(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
@@ -63,12 +77,12 @@ func EncodeApiGatewayDeployment_Triggers(p ApiGatewayDeploymentParameters, vals 
 	vals["triggers"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayDeployment_Variables(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Variables {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["variables"] = cty.MapVal(mVals)
+func EncodeApiGatewayDeployment_Id(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApiGatewayDeployment_RestApiId(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayDeployment_CreatedDate(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {

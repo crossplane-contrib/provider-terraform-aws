@@ -52,11 +52,11 @@ type ApiGatewayUsagePlanSpec struct {
 
 // A ApiGatewayUsagePlanParameters defines the desired state of a ApiGatewayUsagePlan
 type ApiGatewayUsagePlanParameters struct {
+	Description      string            `json:"description"`
 	Id               string            `json:"id"`
 	Name             string            `json:"name"`
 	ProductCode      string            `json:"product_code"`
 	Tags             map[string]string `json:"tags"`
-	Description      string            `json:"description"`
 	ApiStages        ApiStages         `json:"api_stages"`
 	QuotaSettings    QuotaSettings     `json:"quota_settings"`
 	ThrottleSettings ThrottleSettings  `json:"throttle_settings"`

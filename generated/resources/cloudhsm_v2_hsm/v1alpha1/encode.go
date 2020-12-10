@@ -17,21 +17,43 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CloudhsmV2Hsm)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CloudhsmV2Hsm.")
+	}
+	return EncodeCloudhsmV2Hsm(*r), nil
+}
 
 func EncodeCloudhsmV2Hsm(r CloudhsmV2Hsm) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudhsmV2Hsm_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCloudhsmV2Hsm_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_ClusterId(r.Spec.ForProvider, ctyVal)
-	EncodeCloudhsmV2Hsm_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudhsmV2Hsm_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeCloudhsmV2Hsm_HsmEniId(r.Status.AtProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_HsmId(r.Status.AtProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_HsmState(r.Status.AtProvider, ctyVal)
+	EncodeCloudhsmV2Hsm_HsmEniId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudhsmV2Hsm_Id(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCloudhsmV2Hsm_IpAddress(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
 func EncodeCloudhsmV2Hsm_SubnetId(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
@@ -44,14 +66,6 @@ func EncodeCloudhsmV2Hsm_AvailabilityZone(p CloudhsmV2HsmParameters, vals map[st
 
 func EncodeCloudhsmV2Hsm_ClusterId(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
 	vals["cluster_id"] = cty.StringVal(p.ClusterId)
-}
-
-func EncodeCloudhsmV2Hsm_Id(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudhsmV2Hsm_IpAddress(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
-	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
 func EncodeCloudhsmV2Hsm_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -74,14 +88,14 @@ func EncodeCloudhsmV2Hsm_Timeouts_Update(p Timeouts, vals map[string]cty.Value) 
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeCloudhsmV2Hsm_HsmEniId(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
-	vals["hsm_eni_id"] = cty.StringVal(p.HsmEniId)
-}
-
 func EncodeCloudhsmV2Hsm_HsmId(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
 	vals["hsm_id"] = cty.StringVal(p.HsmId)
 }
 
 func EncodeCloudhsmV2Hsm_HsmState(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
 	vals["hsm_state"] = cty.StringVal(p.HsmState)
+}
+
+func EncodeCloudhsmV2Hsm_HsmEniId(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
+	vals["hsm_eni_id"] = cty.StringVal(p.HsmEniId)
 }

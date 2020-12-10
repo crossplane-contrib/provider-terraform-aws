@@ -58,8 +58,8 @@ type WafRegexMatchSetParameters struct {
 }
 
 type RegexMatchTuple struct {
-	TextTransformation string       `json:"text_transformation"`
 	RegexPatternSetId  string       `json:"regex_pattern_set_id"`
+	TextTransformation string       `json:"text_transformation"`
 	FieldToMatch       FieldToMatch `json:"field_to_match"`
 }
 

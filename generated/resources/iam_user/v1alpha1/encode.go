@@ -17,20 +17,46 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamUser)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamUser.")
+	}
+	return EncodeIamUser(*r), nil
+}
 
 func EncodeIamUser(r IamUser) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamUser_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeIamUser_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
-	EncodeIamUser_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeIamUser_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamUser_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamUser_Tags(p IamUserParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeIamUser_ForceDestroy(p IamUserParameters, vals map[string]cty.Value) {
+	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeIamUser_Id(p IamUserParameters, vals map[string]cty.Value) {
@@ -47,18 +73,6 @@ func EncodeIamUser_Path(p IamUserParameters, vals map[string]cty.Value) {
 
 func EncodeIamUser_PermissionsBoundary(p IamUserParameters, vals map[string]cty.Value) {
 	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
-}
-
-func EncodeIamUser_Tags(p IamUserParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeIamUser_ForceDestroy(p IamUserParameters, vals map[string]cty.Value) {
-	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeIamUser_UniqueId(p IamUserObservation, vals map[string]cty.Value) {

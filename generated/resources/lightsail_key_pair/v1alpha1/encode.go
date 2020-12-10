@@ -17,26 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*LightsailKeyPair)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a LightsailKeyPair.")
+	}
+	return EncodeLightsailKeyPair(*r), nil
+}
 
 func EncodeLightsailKeyPair(r LightsailKeyPair) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLightsailKeyPair_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeLightsailKeyPair_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailKeyPair_PgpKey(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailKeyPair_PublicKey(r.Spec.ForProvider, ctyVal)
-	EncodeLightsailKeyPair_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailKeyPair_Name(r.Spec.ForProvider, ctyVal)
-	EncodeLightsailKeyPair_EncryptedPrivateKey(r.Status.AtProvider, ctyVal)
-	EncodeLightsailKeyPair_Fingerprint(r.Status.AtProvider, ctyVal)
+	EncodeLightsailKeyPair_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailKeyPair_PrivateKey(r.Status.AtProvider, ctyVal)
 	EncodeLightsailKeyPair_Arn(r.Status.AtProvider, ctyVal)
+	EncodeLightsailKeyPair_EncryptedPrivateKey(r.Status.AtProvider, ctyVal)
+	EncodeLightsailKeyPair_Fingerprint(r.Status.AtProvider, ctyVal)
 	EncodeLightsailKeyPair_EncryptedFingerprint(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLightsailKeyPair_NamePrefix(p LightsailKeyPairParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+func EncodeLightsailKeyPair_Id(p LightsailKeyPairParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLightsailKeyPair_PgpKey(p LightsailKeyPairParameters, vals map[string]cty.Value) {
@@ -47,20 +61,12 @@ func EncodeLightsailKeyPair_PublicKey(p LightsailKeyPairParameters, vals map[str
 	vals["public_key"] = cty.StringVal(p.PublicKey)
 }
 
-func EncodeLightsailKeyPair_Id(p LightsailKeyPairParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeLightsailKeyPair_Name(p LightsailKeyPairParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeLightsailKeyPair_EncryptedPrivateKey(p LightsailKeyPairObservation, vals map[string]cty.Value) {
-	vals["encrypted_private_key"] = cty.StringVal(p.EncryptedPrivateKey)
-}
-
-func EncodeLightsailKeyPair_Fingerprint(p LightsailKeyPairObservation, vals map[string]cty.Value) {
-	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
+func EncodeLightsailKeyPair_NamePrefix(p LightsailKeyPairParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeLightsailKeyPair_PrivateKey(p LightsailKeyPairObservation, vals map[string]cty.Value) {
@@ -69,6 +75,14 @@ func EncodeLightsailKeyPair_PrivateKey(p LightsailKeyPairObservation, vals map[s
 
 func EncodeLightsailKeyPair_Arn(p LightsailKeyPairObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeLightsailKeyPair_EncryptedPrivateKey(p LightsailKeyPairObservation, vals map[string]cty.Value) {
+	vals["encrypted_private_key"] = cty.StringVal(p.EncryptedPrivateKey)
+}
+
+func EncodeLightsailKeyPair_Fingerprint(p LightsailKeyPairObservation, vals map[string]cty.Value) {
+	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
 }
 
 func EncodeLightsailKeyPair_EncryptedFingerprint(p LightsailKeyPairObservation, vals map[string]cty.Value) {

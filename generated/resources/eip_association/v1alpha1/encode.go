@@ -17,28 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*EipAssociation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a EipAssociation.")
+	}
+	return EncodeEipAssociation(*r), nil
+}
 
 func EncodeEipAssociation(r EipAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEipAssociation_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
-	EncodeEipAssociation_PrivateIpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_PublicIp(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_AllocationId(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_AllowReassociation(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_InstanceId(r.Spec.ForProvider, ctyVal)
+	EncodeEipAssociation_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
+	EncodeEipAssociation_PrivateIpAddress(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEipAssociation_NetworkInterfaceId(p EipAssociationParameters, vals map[string]cty.Value) {
-	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
-}
-
-func EncodeEipAssociation_PrivateIpAddress(p EipAssociationParameters, vals map[string]cty.Value) {
-	vals["private_ip_address"] = cty.StringVal(p.PrivateIpAddress)
 }
 
 func EncodeEipAssociation_PublicIp(p EipAssociationParameters, vals map[string]cty.Value) {
@@ -59,4 +65,12 @@ func EncodeEipAssociation_Id(p EipAssociationParameters, vals map[string]cty.Val
 
 func EncodeEipAssociation_InstanceId(p EipAssociationParameters, vals map[string]cty.Value) {
 	vals["instance_id"] = cty.StringVal(p.InstanceId)
+}
+
+func EncodeEipAssociation_NetworkInterfaceId(p EipAssociationParameters, vals map[string]cty.Value) {
+	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
+}
+
+func EncodeEipAssociation_PrivateIpAddress(p EipAssociationParameters, vals map[string]cty.Value) {
+	vals["private_ip_address"] = cty.StringVal(p.PrivateIpAddress)
 }

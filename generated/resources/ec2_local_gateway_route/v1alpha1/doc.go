@@ -18,6 +18,4 @@ package v1alpha1
 
 // +kubebuilder:object:generate=true
 // +groupName=ec-2-local-gateway-route.terraform-provider-aws.crossplane.io
-// ie iam-user.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1
-// ie v1alpha1

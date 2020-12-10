@@ -17,22 +17,44 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SsmActivation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SsmActivation.")
+	}
+	return EncodeSsmActivation(*r), nil
+}
 
 func EncodeSsmActivation(r SsmActivation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSsmActivation_Description(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_ExpirationDate(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_RegistrationLimit(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Description(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_ExpirationDate(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_IamRole(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_RegistrationCount(r.Status.AtProvider, ctyVal)
 	EncodeSsmActivation_ActivationCode(r.Status.AtProvider, ctyVal)
 	EncodeSsmActivation_Expired(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSsmActivation_Description(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmActivation_ExpirationDate(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["expiration_date"] = cty.StringVal(p.ExpirationDate)
 }
 
 func EncodeSsmActivation_Id(p SsmActivationParameters, vals map[string]cty.Value) {
@@ -53,14 +75,6 @@ func EncodeSsmActivation_Tags(p SsmActivationParameters, vals map[string]cty.Val
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSsmActivation_Description(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSsmActivation_ExpirationDate(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["expiration_date"] = cty.StringVal(p.ExpirationDate)
 }
 
 func EncodeSsmActivation_IamRole(p SsmActivationParameters, vals map[string]cty.Value) {

@@ -17,18 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AppCookieStickinessPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AppCookieStickinessPolicy.")
+	}
+	return EncodeAppCookieStickinessPolicy(*r), nil
+}
 
 func EncodeAppCookieStickinessPolicy(r AppCookieStickinessPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppCookieStickinessPolicy_CookieName(r.Spec.ForProvider, ctyVal)
+	EncodeAppCookieStickinessPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_Name(r.Spec.ForProvider, ctyVal)
-	EncodeAppCookieStickinessPolicy_CookieName(r.Spec.ForProvider, ctyVal)
-	EncodeAppCookieStickinessPolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAppCookieStickinessPolicy_CookieName(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["cookie_name"] = cty.StringVal(p.CookieName)
+}
+
+func EncodeAppCookieStickinessPolicy_Id(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppCookieStickinessPolicy_LbPort(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
@@ -41,12 +63,4 @@ func EncodeAppCookieStickinessPolicy_LoadBalancer(p AppCookieStickinessPolicyPar
 
 func EncodeAppCookieStickinessPolicy_Name(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeAppCookieStickinessPolicy_CookieName(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["cookie_name"] = cty.StringVal(p.CookieName)
-}
-
-func EncodeAppCookieStickinessPolicy_Id(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

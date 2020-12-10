@@ -17,36 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*RedshiftSnapshotSchedule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a RedshiftSnapshotSchedule.")
+	}
+	return EncodeRedshiftSnapshotSchedule(*r), nil
+}
 
 func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_IdentifierPrefix(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotSchedule_Tags(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeRedshiftSnapshotSchedule_Definitions(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Definitions {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["definitions"] = cty.SetVal(colVals)
 }
 
 func EncodeRedshiftSnapshotSchedule_Description(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
@@ -67,6 +65,22 @@ func EncodeRedshiftSnapshotSchedule_Identifier(p RedshiftSnapshotScheduleParamet
 
 func EncodeRedshiftSnapshotSchedule_IdentifierPrefix(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["identifier_prefix"] = cty.StringVal(p.IdentifierPrefix)
+}
+
+func EncodeRedshiftSnapshotSchedule_Tags(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeRedshiftSnapshotSchedule_Definitions(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Definitions {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["definitions"] = cty.SetVal(colVals)
 }
 
 func EncodeRedshiftSnapshotSchedule_Arn(p RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {

@@ -52,40 +52,40 @@ type OpsworksMysqlLayerSpec struct {
 
 // A OpsworksMysqlLayerParameters defines the desired state of a OpsworksMysqlLayer
 type OpsworksMysqlLayerParameters struct {
+	CustomInstanceProfileArn   string            `json:"custom_instance_profile_arn"`
+	CustomJson                 string            `json:"custom_json"`
 	Id                         string            `json:"id"`
-	StackId                    string            `json:"stack_id"`
+	SystemPackages             []string          `json:"system_packages"`
+	Tags                       map[string]string `json:"tags"`
 	AutoAssignPublicIps        bool              `json:"auto_assign_public_ips"`
+	CustomConfigureRecipes     []string          `json:"custom_configure_recipes"`
+	Name                       string            `json:"name"`
+	RootPasswordOnAllInstances bool              `json:"root_password_on_all_instances"`
+	InstallUpdatesOnBoot       bool              `json:"install_updates_on_boot"`
+	InstanceShutdownTimeout    int64             `json:"instance_shutdown_timeout"`
+	UseEbsOptimizedInstances   bool              `json:"use_ebs_optimized_instances"`
+	AutoAssignElasticIps       bool              `json:"auto_assign_elastic_ips"`
+	AutoHealing                bool              `json:"auto_healing"`
+	CustomShutdownRecipes      []string          `json:"custom_shutdown_recipes"`
+	ElasticLoadBalancer        string            `json:"elastic_load_balancer"`
+	DrainElbOnShutdown         bool              `json:"drain_elb_on_shutdown"`
+	RootPassword               string            `json:"root_password"`
+	StackId                    string            `json:"stack_id"`
 	CustomDeployRecipes        []string          `json:"custom_deploy_recipes"`
+	CustomSecurityGroupIds     []string          `json:"custom_security_group_ids"`
 	CustomSetupRecipes         []string          `json:"custom_setup_recipes"`
 	CustomUndeployRecipes      []string          `json:"custom_undeploy_recipes"`
-	AutoHealing                bool              `json:"auto_healing"`
-	CustomConfigureRecipes     []string          `json:"custom_configure_recipes"`
-	CustomSecurityGroupIds     []string          `json:"custom_security_group_ids"`
-	ElasticLoadBalancer        string            `json:"elastic_load_balancer"`
-	InstanceShutdownTimeout    int64             `json:"instance_shutdown_timeout"`
-	CustomInstanceProfileArn   string            `json:"custom_instance_profile_arn"`
-	CustomShutdownRecipes      []string          `json:"custom_shutdown_recipes"`
-	InstallUpdatesOnBoot       bool              `json:"install_updates_on_boot"`
-	Name                       string            `json:"name"`
-	RootPassword               string            `json:"root_password"`
-	RootPasswordOnAllInstances bool              `json:"root_password_on_all_instances"`
-	SystemPackages             []string          `json:"system_packages"`
-	AutoAssignElasticIps       bool              `json:"auto_assign_elastic_ips"`
-	CustomJson                 string            `json:"custom_json"`
-	DrainElbOnShutdown         bool              `json:"drain_elb_on_shutdown"`
-	Tags                       map[string]string `json:"tags"`
-	UseEbsOptimizedInstances   bool              `json:"use_ebs_optimized_instances"`
 	EbsVolume                  EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
-	MountPoint    string `json:"mount_point"`
-	NumberOfDisks int64  `json:"number_of_disks"`
-	RaidLevel     string `json:"raid_level"`
 	Size          int64  `json:"size"`
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
 	Iops          int64  `json:"iops"`
+	MountPoint    string `json:"mount_point"`
+	NumberOfDisks int64  `json:"number_of_disks"`
+	RaidLevel     string `json:"raid_level"`
 }
 
 // A OpsworksMysqlLayerStatus defines the observed state of a OpsworksMysqlLayer

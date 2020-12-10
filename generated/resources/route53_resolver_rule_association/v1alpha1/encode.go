@@ -17,26 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Route53ResolverRuleAssociation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Route53ResolverRuleAssociation.")
+	}
+	return EncodeRoute53ResolverRuleAssociation(*r), nil
+}
 
 func EncodeRoute53ResolverRuleAssociation(r Route53ResolverRuleAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53ResolverRuleAssociation_ResolverRuleId(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ResolverRuleAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRuleAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRuleAssociation_Name(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverRuleAssociation_ResolverRuleId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverRuleAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRuleAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53ResolverRuleAssociation_ResolverRuleId(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
-	vals["resolver_rule_id"] = cty.StringVal(p.ResolverRuleId)
-}
-
-func EncodeRoute53ResolverRuleAssociation_VpcId(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeRoute53ResolverRuleAssociation_Id(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
@@ -45,6 +51,14 @@ func EncodeRoute53ResolverRuleAssociation_Id(p Route53ResolverRuleAssociationPar
 
 func EncodeRoute53ResolverRuleAssociation_Name(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeRoute53ResolverRuleAssociation_ResolverRuleId(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	vals["resolver_rule_id"] = cty.StringVal(p.ResolverRuleId)
+}
+
+func EncodeRoute53ResolverRuleAssociation_VpcId(p Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeRoute53ResolverRuleAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {

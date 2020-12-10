@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*PinpointApp)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a PinpointApp.")
+	}
+	return EncodePinpointApp(*r), nil
+}
 
 func EncodePinpointApp(r PinpointApp) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -57,15 +71,11 @@ func EncodePinpointApp_Tags(p PinpointAppParameters, vals map[string]cty.Value) 
 func EncodePinpointApp_CampaignHook(p CampaignHook, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointApp_CampaignHook_WebUrl(p, ctyVal)
 	EncodePinpointApp_CampaignHook_LambdaFunctionName(p, ctyVal)
 	EncodePinpointApp_CampaignHook_Mode(p, ctyVal)
+	EncodePinpointApp_CampaignHook_WebUrl(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["campaign_hook"] = cty.ListVal(valsForCollection)
-}
-
-func EncodePinpointApp_CampaignHook_WebUrl(p CampaignHook, vals map[string]cty.Value) {
-	vals["web_url"] = cty.StringVal(p.WebUrl)
 }
 
 func EncodePinpointApp_CampaignHook_LambdaFunctionName(p CampaignHook, vals map[string]cty.Value) {
@@ -76,23 +86,19 @@ func EncodePinpointApp_CampaignHook_Mode(p CampaignHook, vals map[string]cty.Val
 	vals["mode"] = cty.StringVal(p.Mode)
 }
 
+func EncodePinpointApp_CampaignHook_WebUrl(p CampaignHook, vals map[string]cty.Value) {
+	vals["web_url"] = cty.StringVal(p.WebUrl)
+}
+
 func EncodePinpointApp_Limits(p Limits, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointApp_Limits_Daily(p, ctyVal)
-	EncodePinpointApp_Limits_MaximumDuration(p, ctyVal)
 	EncodePinpointApp_Limits_MessagesPerSecond(p, ctyVal)
 	EncodePinpointApp_Limits_Total(p, ctyVal)
+	EncodePinpointApp_Limits_Daily(p, ctyVal)
+	EncodePinpointApp_Limits_MaximumDuration(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["limits"] = cty.ListVal(valsForCollection)
-}
-
-func EncodePinpointApp_Limits_Daily(p Limits, vals map[string]cty.Value) {
-	vals["daily"] = cty.NumberIntVal(p.Daily)
-}
-
-func EncodePinpointApp_Limits_MaximumDuration(p Limits, vals map[string]cty.Value) {
-	vals["maximum_duration"] = cty.NumberIntVal(p.MaximumDuration)
 }
 
 func EncodePinpointApp_Limits_MessagesPerSecond(p Limits, vals map[string]cty.Value) {
@@ -101,6 +107,14 @@ func EncodePinpointApp_Limits_MessagesPerSecond(p Limits, vals map[string]cty.Va
 
 func EncodePinpointApp_Limits_Total(p Limits, vals map[string]cty.Value) {
 	vals["total"] = cty.NumberIntVal(p.Total)
+}
+
+func EncodePinpointApp_Limits_Daily(p Limits, vals map[string]cty.Value) {
+	vals["daily"] = cty.NumberIntVal(p.Daily)
+}
+
+func EncodePinpointApp_Limits_MaximumDuration(p Limits, vals map[string]cty.Value) {
+	vals["maximum_duration"] = cty.NumberIntVal(p.MaximumDuration)
 }
 
 func EncodePinpointApp_QuietTime(p QuietTime, vals map[string]cty.Value) {

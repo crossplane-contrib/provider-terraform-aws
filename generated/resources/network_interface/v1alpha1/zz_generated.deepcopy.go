@@ -121,17 +121,17 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.SecurityGroups != nil {
-		in, out := &in.SecurityGroups, &out.SecurityGroups
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.SecurityGroups != nil {
+		in, out := &in.SecurityGroups, &out.SecurityGroups
+		*out = make([]string, len(*in))
+		copy(*out, *in)
 	}
 	out.Attachment = in.Attachment
 }

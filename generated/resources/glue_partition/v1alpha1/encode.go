@@ -17,26 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GluePartition)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GluePartition.")
+	}
+	return EncodeGluePartition(*r), nil
+}
 
 func EncodeGluePartition(r GluePartition) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGluePartition_TableName(r.Spec.ForProvider, ctyVal)
-	EncodeGluePartition_Parameters(r.Spec.ForProvider, ctyVal)
-	EncodeGluePartition_PartitionValues(r.Spec.ForProvider, ctyVal)
-	EncodeGluePartition_CatalogId(r.Spec.ForProvider, ctyVal)
 	EncodeGluePartition_DatabaseName(r.Spec.ForProvider, ctyVal)
+	EncodeGluePartition_Parameters(r.Spec.ForProvider, ctyVal)
+	EncodeGluePartition_TableName(r.Spec.ForProvider, ctyVal)
+	EncodeGluePartition_CatalogId(r.Spec.ForProvider, ctyVal)
 	EncodeGluePartition_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGluePartition_PartitionValues(r.Spec.ForProvider, ctyVal)
 	EncodeGluePartition_StorageDescriptor(r.Spec.ForProvider.StorageDescriptor, ctyVal)
-	EncodeGluePartition_CreationTime(r.Status.AtProvider, ctyVal)
 	EncodeGluePartition_LastAccessedTime(r.Status.AtProvider, ctyVal)
 	EncodeGluePartition_LastAnalyzedTime(r.Status.AtProvider, ctyVal)
+	EncodeGluePartition_CreationTime(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGluePartition_TableName(p GluePartitionParameters, vals map[string]cty.Value) {
-	vals["table_name"] = cty.StringVal(p.TableName)
+func EncodeGluePartition_DatabaseName(p GluePartitionParameters, vals map[string]cty.Value) {
+	vals["database_name"] = cty.StringVal(p.DatabaseName)
 }
 
 func EncodeGluePartition_Parameters(p GluePartitionParameters, vals map[string]cty.Value) {
@@ -47,6 +61,18 @@ func EncodeGluePartition_Parameters(p GluePartitionParameters, vals map[string]c
 	vals["parameters"] = cty.MapVal(mVals)
 }
 
+func EncodeGluePartition_TableName(p GluePartitionParameters, vals map[string]cty.Value) {
+	vals["table_name"] = cty.StringVal(p.TableName)
+}
+
+func EncodeGluePartition_CatalogId(p GluePartitionParameters, vals map[string]cty.Value) {
+	vals["catalog_id"] = cty.StringVal(p.CatalogId)
+}
+
+func EncodeGluePartition_Id(p GluePartitionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeGluePartition_PartitionValues(p GluePartitionParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.PartitionValues {
@@ -55,47 +81,23 @@ func EncodeGluePartition_PartitionValues(p GluePartitionParameters, vals map[str
 	vals["partition_values"] = cty.SetVal(colVals)
 }
 
-func EncodeGluePartition_CatalogId(p GluePartitionParameters, vals map[string]cty.Value) {
-	vals["catalog_id"] = cty.StringVal(p.CatalogId)
-}
-
-func EncodeGluePartition_DatabaseName(p GluePartitionParameters, vals map[string]cty.Value) {
-	vals["database_name"] = cty.StringVal(p.DatabaseName)
-}
-
-func EncodeGluePartition_Id(p GluePartitionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeGluePartition_StorageDescriptor(p StorageDescriptor, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGluePartition_StorageDescriptor_InputFormat(p, ctyVal)
-	EncodeGluePartition_StorageDescriptor_Location(p, ctyVal)
-	EncodeGluePartition_StorageDescriptor_NumberOfBuckets(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_OutputFormat(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_Parameters(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_StoredAsSubDirectories(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_BucketColumns(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_Compressed(p, ctyVal)
+	EncodeGluePartition_StorageDescriptor_InputFormat(p, ctyVal)
+	EncodeGluePartition_StorageDescriptor_Location(p, ctyVal)
+	EncodeGluePartition_StorageDescriptor_NumberOfBuckets(p, ctyVal)
+	EncodeGluePartition_StorageDescriptor_Columns(p.Columns, ctyVal)
 	EncodeGluePartition_StorageDescriptor_SerDeInfo(p.SerDeInfo, ctyVal)
 	EncodeGluePartition_StorageDescriptor_SkewedInfo(p.SkewedInfo, ctyVal)
 	EncodeGluePartition_StorageDescriptor_SortColumns(p.SortColumns, ctyVal)
-	EncodeGluePartition_StorageDescriptor_Columns(p.Columns, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["storage_descriptor"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGluePartition_StorageDescriptor_InputFormat(p StorageDescriptor, vals map[string]cty.Value) {
-	vals["input_format"] = cty.StringVal(p.InputFormat)
-}
-
-func EncodeGluePartition_StorageDescriptor_Location(p StorageDescriptor, vals map[string]cty.Value) {
-	vals["location"] = cty.StringVal(p.Location)
-}
-
-func EncodeGluePartition_StorageDescriptor_NumberOfBuckets(p StorageDescriptor, vals map[string]cty.Value) {
-	vals["number_of_buckets"] = cty.NumberIntVal(p.NumberOfBuckets)
 }
 
 func EncodeGluePartition_StorageDescriptor_OutputFormat(p StorageDescriptor, vals map[string]cty.Value) {
@@ -124,6 +126,40 @@ func EncodeGluePartition_StorageDescriptor_BucketColumns(p StorageDescriptor, va
 
 func EncodeGluePartition_StorageDescriptor_Compressed(p StorageDescriptor, vals map[string]cty.Value) {
 	vals["compressed"] = cty.BoolVal(p.Compressed)
+}
+
+func EncodeGluePartition_StorageDescriptor_InputFormat(p StorageDescriptor, vals map[string]cty.Value) {
+	vals["input_format"] = cty.StringVal(p.InputFormat)
+}
+
+func EncodeGluePartition_StorageDescriptor_Location(p StorageDescriptor, vals map[string]cty.Value) {
+	vals["location"] = cty.StringVal(p.Location)
+}
+
+func EncodeGluePartition_StorageDescriptor_NumberOfBuckets(p StorageDescriptor, vals map[string]cty.Value) {
+	vals["number_of_buckets"] = cty.NumberIntVal(p.NumberOfBuckets)
+}
+
+func EncodeGluePartition_StorageDescriptor_Columns(p Columns, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGluePartition_StorageDescriptor_Columns_Comment(p, ctyVal)
+	EncodeGluePartition_StorageDescriptor_Columns_Name(p, ctyVal)
+	EncodeGluePartition_StorageDescriptor_Columns_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["columns"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGluePartition_StorageDescriptor_Columns_Comment(p Columns, vals map[string]cty.Value) {
+	vals["comment"] = cty.StringVal(p.Comment)
+}
+
+func EncodeGluePartition_StorageDescriptor_Columns_Name(p Columns, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeGluePartition_StorageDescriptor_Columns_Type(p Columns, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeGluePartition_StorageDescriptor_SerDeInfo(p SerDeInfo, vals map[string]cty.Value) {
@@ -155,11 +191,19 @@ func EncodeGluePartition_StorageDescriptor_SerDeInfo_SerializationLibrary(p SerD
 func EncodeGluePartition_StorageDescriptor_SkewedInfo(p SkewedInfo, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnValues(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnNames(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnValueLocationMaps(p, ctyVal)
-	EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnValues(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["skewed_info"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnValues(p SkewedInfo, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SkewedColumnValues {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["skewed_column_values"] = cty.ListVal(colVals)
 }
 
 func EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnNames(p SkewedInfo, vals map[string]cty.Value) {
@@ -178,55 +222,21 @@ func EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnValueLocationM
 	vals["skewed_column_value_location_maps"] = cty.MapVal(mVals)
 }
 
-func EncodeGluePartition_StorageDescriptor_SkewedInfo_SkewedColumnValues(p SkewedInfo, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SkewedColumnValues {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["skewed_column_values"] = cty.ListVal(colVals)
-}
-
 func EncodeGluePartition_StorageDescriptor_SortColumns(p SortColumns, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGluePartition_StorageDescriptor_SortColumns_Column(p, ctyVal)
 	EncodeGluePartition_StorageDescriptor_SortColumns_SortOrder(p, ctyVal)
+	EncodeGluePartition_StorageDescriptor_SortColumns_Column(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["sort_columns"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGluePartition_StorageDescriptor_SortColumns_Column(p SortColumns, vals map[string]cty.Value) {
-	vals["column"] = cty.StringVal(p.Column)
 }
 
 func EncodeGluePartition_StorageDescriptor_SortColumns_SortOrder(p SortColumns, vals map[string]cty.Value) {
 	vals["sort_order"] = cty.NumberIntVal(p.SortOrder)
 }
 
-func EncodeGluePartition_StorageDescriptor_Columns(p Columns, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeGluePartition_StorageDescriptor_Columns_Comment(p, ctyVal)
-	EncodeGluePartition_StorageDescriptor_Columns_Name(p, ctyVal)
-	EncodeGluePartition_StorageDescriptor_Columns_Type(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["columns"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGluePartition_StorageDescriptor_Columns_Comment(p Columns, vals map[string]cty.Value) {
-	vals["comment"] = cty.StringVal(p.Comment)
-}
-
-func EncodeGluePartition_StorageDescriptor_Columns_Name(p Columns, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeGluePartition_StorageDescriptor_Columns_Type(p Columns, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeGluePartition_CreationTime(p GluePartitionObservation, vals map[string]cty.Value) {
-	vals["creation_time"] = cty.StringVal(p.CreationTime)
+func EncodeGluePartition_StorageDescriptor_SortColumns_Column(p SortColumns, vals map[string]cty.Value) {
+	vals["column"] = cty.StringVal(p.Column)
 }
 
 func EncodeGluePartition_LastAccessedTime(p GluePartitionObservation, vals map[string]cty.Value) {
@@ -235,4 +245,8 @@ func EncodeGluePartition_LastAccessedTime(p GluePartitionObservation, vals map[s
 
 func EncodeGluePartition_LastAnalyzedTime(p GluePartitionObservation, vals map[string]cty.Value) {
 	vals["last_analyzed_time"] = cty.StringVal(p.LastAnalyzedTime)
+}
+
+func EncodeGluePartition_CreationTime(p GluePartitionObservation, vals map[string]cty.Value) {
+	vals["creation_time"] = cty.StringVal(p.CreationTime)
 }

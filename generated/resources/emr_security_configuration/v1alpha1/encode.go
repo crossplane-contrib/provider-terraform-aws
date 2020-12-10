@@ -17,17 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*EmrSecurityConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a EmrSecurityConfiguration.")
+	}
+	return EncodeEmrSecurityConfiguration(*r), nil
+}
 
 func EncodeEmrSecurityConfiguration(r EmrSecurityConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEmrSecurityConfiguration_Configuration(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeEmrSecurityConfiguration_Configuration(r.Spec.ForProvider, ctyVal)
 	EncodeEmrSecurityConfiguration_CreationDate(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEmrSecurityConfiguration_Configuration(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+	vals["configuration"] = cty.StringVal(p.Configuration)
 }
 
 func EncodeEmrSecurityConfiguration_Id(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
@@ -40,10 +58,6 @@ func EncodeEmrSecurityConfiguration_Name(p EmrSecurityConfigurationParameters, v
 
 func EncodeEmrSecurityConfiguration_NamePrefix(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeEmrSecurityConfiguration_Configuration(p EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
-	vals["configuration"] = cty.StringVal(p.Configuration)
 }
 
 func EncodeEmrSecurityConfiguration_CreationDate(p EmrSecurityConfigurationObservation, vals map[string]cty.Value) {

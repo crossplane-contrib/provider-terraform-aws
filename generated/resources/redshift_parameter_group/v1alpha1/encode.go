@@ -17,27 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*RedshiftParameterGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a RedshiftParameterGroup.")
+	}
+	return EncodeRedshiftParameterGroup(*r), nil
+}
 
 func EncodeRedshiftParameterGroup(r RedshiftParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeRedshiftParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftParameterGroup_Tags(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRedshiftParameterGroup_Description(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
@@ -56,21 +62,29 @@ func EncodeRedshiftParameterGroup_Name(p RedshiftParameterGroupParameters, vals 
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeRedshiftParameterGroup_Tags(p RedshiftParameterGroupParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
 func EncodeRedshiftParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftParameterGroup_Parameter_Name(p, ctyVal)
 	EncodeRedshiftParameterGroup_Parameter_Value(p, ctyVal)
+	EncodeRedshiftParameterGroup_Parameter_Name(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["parameter"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeRedshiftParameterGroup_Parameter_Name(p Parameter, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeRedshiftParameterGroup_Parameter_Value(p Parameter, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeRedshiftParameterGroup_Parameter_Name(p Parameter, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeRedshiftParameterGroup_Arn(p RedshiftParameterGroupObservation, vals map[string]cty.Value) {

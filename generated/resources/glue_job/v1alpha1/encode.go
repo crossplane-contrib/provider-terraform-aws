@@ -17,75 +17,45 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueJob)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueJob.")
+	}
+	return EncodeGlueJob(*r), nil
+}
 
 func EncodeGlueJob(r GlueJob) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueJob_SecurityConfiguration(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_Timeout(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_NonOverridableArguments(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_NumberOfWorkers(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_MaxCapacity(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_Description(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_MaxRetries(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_WorkerType(r.Spec.ForProvider, ctyVal)
 	EncodeGlueJob_DefaultArguments(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_GlueVersion(r.Spec.ForProvider, ctyVal)
-	EncodeGlueJob_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueJob_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_Timeout(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_WorkerType(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_GlueVersion(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_NonOverridableArguments(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_SecurityConfiguration(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_MaxCapacity(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_MaxRetries(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_NumberOfWorkers(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGlueJob_Connections(r.Spec.ForProvider, ctyVal)
+	EncodeGlueJob_Description(r.Spec.ForProvider, ctyVal)
 	EncodeGlueJob_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueJob_Command(r.Spec.ForProvider.Command, ctyVal)
 	EncodeGlueJob_ExecutionProperty(r.Spec.ForProvider.ExecutionProperty, ctyVal)
 	EncodeGlueJob_NotificationProperty(r.Spec.ForProvider.NotificationProperty, ctyVal)
 	EncodeGlueJob_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGlueJob_SecurityConfiguration(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["security_configuration"] = cty.StringVal(p.SecurityConfiguration)
-}
-
-func EncodeGlueJob_Timeout(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["timeout"] = cty.NumberIntVal(p.Timeout)
-}
-
-func EncodeGlueJob_NonOverridableArguments(p GlueJobParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.NonOverridableArguments {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["non_overridable_arguments"] = cty.MapVal(mVals)
-}
-
-func EncodeGlueJob_NumberOfWorkers(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["number_of_workers"] = cty.NumberIntVal(p.NumberOfWorkers)
-}
-
-func EncodeGlueJob_MaxCapacity(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["max_capacity"] = cty.NumberIntVal(p.MaxCapacity)
-}
-
-func EncodeGlueJob_Description(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeGlueJob_MaxRetries(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["max_retries"] = cty.NumberIntVal(p.MaxRetries)
-}
-
-func EncodeGlueJob_Tags(p GlueJobParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeGlueJob_WorkerType(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["worker_type"] = cty.StringVal(p.WorkerType)
 }
 
 func EncodeGlueJob_DefaultArguments(p GlueJobParameters, vals map[string]cty.Value) {
@@ -96,16 +66,56 @@ func EncodeGlueJob_DefaultArguments(p GlueJobParameters, vals map[string]cty.Val
 	vals["default_arguments"] = cty.MapVal(mVals)
 }
 
+func EncodeGlueJob_RoleArn(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeGlueJob_Timeout(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["timeout"] = cty.NumberIntVal(p.Timeout)
+}
+
+func EncodeGlueJob_WorkerType(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["worker_type"] = cty.StringVal(p.WorkerType)
+}
+
 func EncodeGlueJob_GlueVersion(p GlueJobParameters, vals map[string]cty.Value) {
 	vals["glue_version"] = cty.StringVal(p.GlueVersion)
+}
+
+func EncodeGlueJob_NonOverridableArguments(p GlueJobParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.NonOverridableArguments {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["non_overridable_arguments"] = cty.MapVal(mVals)
+}
+
+func EncodeGlueJob_SecurityConfiguration(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["security_configuration"] = cty.StringVal(p.SecurityConfiguration)
+}
+
+func EncodeGlueJob_MaxCapacity(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["max_capacity"] = cty.NumberIntVal(p.MaxCapacity)
+}
+
+func EncodeGlueJob_MaxRetries(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["max_retries"] = cty.NumberIntVal(p.MaxRetries)
 }
 
 func EncodeGlueJob_Name(p GlueJobParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeGlueJob_RoleArn(p GlueJobParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
+func EncodeGlueJob_NumberOfWorkers(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["number_of_workers"] = cty.NumberIntVal(p.NumberOfWorkers)
+}
+
+func EncodeGlueJob_Tags(p GlueJobParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeGlueJob_Connections(p GlueJobParameters, vals map[string]cty.Value) {
@@ -114,6 +124,10 @@ func EncodeGlueJob_Connections(p GlueJobParameters, vals map[string]cty.Value) {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["connections"] = cty.ListVal(colVals)
+}
+
+func EncodeGlueJob_Description(p GlueJobParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeGlueJob_Id(p GlueJobParameters, vals map[string]cty.Value) {

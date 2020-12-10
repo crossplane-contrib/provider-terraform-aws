@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*S3BucketPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a S3BucketPolicy.")
+	}
+	return EncodeS3BucketPolicy(*r), nil
+}
 
 func EncodeS3BucketPolicy(r S3BucketPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeS3BucketPolicy_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPolicy_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeS3BucketPolicy_Bucket(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeS3BucketPolicy_Bucket(p S3BucketPolicyParameters, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
 }
 
 func EncodeS3BucketPolicy_Id(p S3BucketPolicyParameters, vals map[string]cty.Value) {
@@ -35,8 +53,4 @@ func EncodeS3BucketPolicy_Id(p S3BucketPolicyParameters, vals map[string]cty.Val
 
 func EncodeS3BucketPolicy_Policy(p S3BucketPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeS3BucketPolicy_Bucket(p S3BucketPolicyParameters, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
 }

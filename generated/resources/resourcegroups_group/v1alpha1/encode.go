@@ -17,18 +17,36 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ResourcegroupsGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ResourcegroupsGroup.")
+	}
+	return EncodeResourcegroupsGroup(*r), nil
+}
 
 func EncodeResourcegroupsGroup(r ResourcegroupsGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeResourcegroupsGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeResourcegroupsGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeResourcegroupsGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeResourcegroupsGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeResourcegroupsGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeResourcegroupsGroup_ResourceQuery(r.Spec.ForProvider.ResourceQuery, ctyVal)
 	EncodeResourcegroupsGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeResourcegroupsGroup_Id(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeResourcegroupsGroup_Name(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
@@ -45,10 +63,6 @@ func EncodeResourcegroupsGroup_Tags(p ResourcegroupsGroupParameters, vals map[st
 
 func EncodeResourcegroupsGroup_Description(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeResourcegroupsGroup_Id(p ResourcegroupsGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeResourcegroupsGroup_ResourceQuery(p ResourceQuery, vals map[string]cty.Value) {

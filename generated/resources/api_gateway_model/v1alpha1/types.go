@@ -52,12 +52,12 @@ type ApiGatewayModelSpec struct {
 
 // A ApiGatewayModelParameters defines the desired state of a ApiGatewayModel
 type ApiGatewayModelParameters struct {
+	ContentType string `json:"content_type"`
+	Description string `json:"description"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
 	RestApiId   string `json:"rest_api_id"`
 	Schema      string `json:"schema"`
-	ContentType string `json:"content_type"`
-	Description string `json:"description"`
 }
 
 // A ApiGatewayModelStatus defines the observed state of a ApiGatewayModel

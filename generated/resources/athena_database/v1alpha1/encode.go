@@ -17,26 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AthenaDatabase)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AthenaDatabase.")
+	}
+	return EncodeAthenaDatabase(*r), nil
+}
 
 func EncodeAthenaDatabase(r AthenaDatabase) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAthenaDatabase_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAthenaDatabase_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaDatabase_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaDatabase_ForceDestroy(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaDatabase_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaDatabase_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaDatabase_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAthenaDatabase_Id(p AthenaDatabaseParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAthenaDatabase_Name(p AthenaDatabaseParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAthenaDatabase_Bucket(p AthenaDatabaseParameters, vals map[string]cty.Value) {
@@ -45,6 +51,14 @@ func EncodeAthenaDatabase_Bucket(p AthenaDatabaseParameters, vals map[string]cty
 
 func EncodeAthenaDatabase_ForceDestroy(p AthenaDatabaseParameters, vals map[string]cty.Value) {
 	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
+}
+
+func EncodeAthenaDatabase_Id(p AthenaDatabaseParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAthenaDatabase_Name(p AthenaDatabaseParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAthenaDatabase_EncryptionConfiguration(p EncryptionConfiguration, vals map[string]cty.Value) {

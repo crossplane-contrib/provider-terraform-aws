@@ -17,24 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2IntegrationResponse)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2IntegrationResponse.")
+	}
+	return EncodeApigatewayv2IntegrationResponse(*r), nil
+}
 
 func EncodeApigatewayv2IntegrationResponse(r Apigatewayv2IntegrationResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2IntegrationResponse_TemplateSelectionExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2IntegrationResponse_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2IntegrationResponse_ContentHandlingStrategy(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2IntegrationResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2IntegrationResponse_IntegrationId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2IntegrationResponse_IntegrationResponseKey(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2IntegrationResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2IntegrationResponse_TemplateSelectionExpression(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApigatewayv2IntegrationResponse_TemplateSelectionExpression(p Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
-	vals["template_selection_expression"] = cty.StringVal(p.TemplateSelectionExpression)
 }
 
 func EncodeApigatewayv2IntegrationResponse_ApiId(p Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
@@ -63,4 +73,8 @@ func EncodeApigatewayv2IntegrationResponse_ResponseTemplates(p Apigatewayv2Integ
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["response_templates"] = cty.MapVal(mVals)
+}
+
+func EncodeApigatewayv2IntegrationResponse_TemplateSelectionExpression(p Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
+	vals["template_selection_expression"] = cty.StringVal(p.TemplateSelectionExpression)
 }

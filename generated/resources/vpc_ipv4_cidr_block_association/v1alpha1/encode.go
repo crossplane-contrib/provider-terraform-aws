@@ -17,17 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*VpcIpv4CidrBlockAssociation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a VpcIpv4CidrBlockAssociation.")
+	}
+	return EncodeVpcIpv4CidrBlockAssociation(*r), nil
+}
 
 func EncodeVpcIpv4CidrBlockAssociation(r VpcIpv4CidrBlockAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVpcIpv4CidrBlockAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcIpv4CidrBlockAssociation_CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeVpcIpv4CidrBlockAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpcIpv4CidrBlockAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcIpv4CidrBlockAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeVpcIpv4CidrBlockAssociation_VpcId(p VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeVpcIpv4CidrBlockAssociation_CidrBlock(p VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
@@ -36,10 +54,6 @@ func EncodeVpcIpv4CidrBlockAssociation_CidrBlock(p VpcIpv4CidrBlockAssociationPa
 
 func EncodeVpcIpv4CidrBlockAssociation_Id(p VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeVpcIpv4CidrBlockAssociation_VpcId(p VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeVpcIpv4CidrBlockAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {

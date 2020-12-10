@@ -17,34 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WorkspacesDirectory)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WorkspacesDirectory.")
+	}
+	return EncodeWorkspacesDirectory(*r), nil
+}
 
 func EncodeWorkspacesDirectory(r WorkspacesDirectory) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWorkspacesDirectory_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeWorkspacesDirectory_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWorkspacesDirectory_DirectoryId(r.Spec.ForProvider, ctyVal)
+	EncodeWorkspacesDirectory_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeWorkspacesDirectory_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWorkspacesDirectory_SelfServicePermissions(r.Spec.ForProvider.SelfServicePermissions, ctyVal)
-	EncodeWorkspacesDirectory_DirectoryType(r.Status.AtProvider, ctyVal)
-	EncodeWorkspacesDirectory_DnsIpAddresses(r.Status.AtProvider, ctyVal)
 	EncodeWorkspacesDirectory_Alias(r.Status.AtProvider, ctyVal)
-	EncodeWorkspacesDirectory_CustomerUserName(r.Status.AtProvider, ctyVal)
-	EncodeWorkspacesDirectory_DirectoryName(r.Status.AtProvider, ctyVal)
-	EncodeWorkspacesDirectory_IamRoleId(r.Status.AtProvider, ctyVal)
+	EncodeWorkspacesDirectory_DnsIpAddresses(r.Status.AtProvider, ctyVal)
 	EncodeWorkspacesDirectory_IpGroupIds(r.Status.AtProvider, ctyVal)
 	EncodeWorkspacesDirectory_RegistrationCode(r.Status.AtProvider, ctyVal)
 	EncodeWorkspacesDirectory_WorkspaceSecurityGroupId(r.Status.AtProvider, ctyVal)
+	EncodeWorkspacesDirectory_CustomerUserName(r.Status.AtProvider, ctyVal)
+	EncodeWorkspacesDirectory_DirectoryName(r.Status.AtProvider, ctyVal)
+	EncodeWorkspacesDirectory_DirectoryType(r.Status.AtProvider, ctyVal)
+	EncodeWorkspacesDirectory_IamRoleId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWorkspacesDirectory_SubnetIds(p WorkspacesDirectoryParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SubnetIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeWorkspacesDirectory_Tags(p WorkspacesDirectoryParameters, vals map[string]cty.Value) {
@@ -59,6 +65,14 @@ func EncodeWorkspacesDirectory_DirectoryId(p WorkspacesDirectoryParameters, vals
 	vals["directory_id"] = cty.StringVal(p.DirectoryId)
 }
 
+func EncodeWorkspacesDirectory_SubnetIds(p WorkspacesDirectoryParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SubnetIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["subnet_ids"] = cty.SetVal(colVals)
+}
+
 func EncodeWorkspacesDirectory_Id(p WorkspacesDirectoryParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
@@ -66,13 +80,17 @@ func EncodeWorkspacesDirectory_Id(p WorkspacesDirectoryParameters, vals map[stri
 func EncodeWorkspacesDirectory_SelfServicePermissions(p SelfServicePermissions, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeWorkspacesDirectory_SelfServicePermissions_RebuildWorkspace(p, ctyVal)
 	EncodeWorkspacesDirectory_SelfServicePermissions_RestartWorkspace(p, ctyVal)
 	EncodeWorkspacesDirectory_SelfServicePermissions_SwitchRunningMode(p, ctyVal)
 	EncodeWorkspacesDirectory_SelfServicePermissions_ChangeComputeType(p, ctyVal)
 	EncodeWorkspacesDirectory_SelfServicePermissions_IncreaseVolumeSize(p, ctyVal)
-	EncodeWorkspacesDirectory_SelfServicePermissions_RebuildWorkspace(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["self_service_permissions"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWorkspacesDirectory_SelfServicePermissions_RebuildWorkspace(p SelfServicePermissions, vals map[string]cty.Value) {
+	vals["rebuild_workspace"] = cty.BoolVal(p.RebuildWorkspace)
 }
 
 func EncodeWorkspacesDirectory_SelfServicePermissions_RestartWorkspace(p SelfServicePermissions, vals map[string]cty.Value) {
@@ -91,12 +109,8 @@ func EncodeWorkspacesDirectory_SelfServicePermissions_IncreaseVolumeSize(p SelfS
 	vals["increase_volume_size"] = cty.BoolVal(p.IncreaseVolumeSize)
 }
 
-func EncodeWorkspacesDirectory_SelfServicePermissions_RebuildWorkspace(p SelfServicePermissions, vals map[string]cty.Value) {
-	vals["rebuild_workspace"] = cty.BoolVal(p.RebuildWorkspace)
-}
-
-func EncodeWorkspacesDirectory_DirectoryType(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
-	vals["directory_type"] = cty.StringVal(p.DirectoryType)
+func EncodeWorkspacesDirectory_Alias(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
+	vals["alias"] = cty.StringVal(p.Alias)
 }
 
 func EncodeWorkspacesDirectory_DnsIpAddresses(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
@@ -105,22 +119,6 @@ func EncodeWorkspacesDirectory_DnsIpAddresses(p WorkspacesDirectoryObservation, 
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["dns_ip_addresses"] = cty.SetVal(colVals)
-}
-
-func EncodeWorkspacesDirectory_Alias(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
-	vals["alias"] = cty.StringVal(p.Alias)
-}
-
-func EncodeWorkspacesDirectory_CustomerUserName(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
-	vals["customer_user_name"] = cty.StringVal(p.CustomerUserName)
-}
-
-func EncodeWorkspacesDirectory_DirectoryName(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
-	vals["directory_name"] = cty.StringVal(p.DirectoryName)
-}
-
-func EncodeWorkspacesDirectory_IamRoleId(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
-	vals["iam_role_id"] = cty.StringVal(p.IamRoleId)
 }
 
 func EncodeWorkspacesDirectory_IpGroupIds(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
@@ -137,4 +135,20 @@ func EncodeWorkspacesDirectory_RegistrationCode(p WorkspacesDirectoryObservation
 
 func EncodeWorkspacesDirectory_WorkspaceSecurityGroupId(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
 	vals["workspace_security_group_id"] = cty.StringVal(p.WorkspaceSecurityGroupId)
+}
+
+func EncodeWorkspacesDirectory_CustomerUserName(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
+	vals["customer_user_name"] = cty.StringVal(p.CustomerUserName)
+}
+
+func EncodeWorkspacesDirectory_DirectoryName(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
+	vals["directory_name"] = cty.StringVal(p.DirectoryName)
+}
+
+func EncodeWorkspacesDirectory_DirectoryType(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
+	vals["directory_type"] = cty.StringVal(p.DirectoryType)
+}
+
+func EncodeWorkspacesDirectory_IamRoleId(p WorkspacesDirectoryObservation, vals map[string]cty.Value) {
+	vals["iam_role_id"] = cty.StringVal(p.IamRoleId)
 }

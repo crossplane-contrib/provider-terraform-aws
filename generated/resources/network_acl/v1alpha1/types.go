@@ -52,36 +52,36 @@ type NetworkAclSpec struct {
 
 // A NetworkAclParameters defines the desired state of a NetworkAcl
 type NetworkAclParameters struct {
+	VpcId     string            `json:"vpc_id"`
 	Egress    []Egress          `json:"egress"`
 	Id        string            `json:"id"`
 	Ingress   []Ingress         `json:"ingress"`
 	SubnetIds []string          `json:"subnet_ids"`
 	Tags      map[string]string `json:"tags"`
-	VpcId     string            `json:"vpc_id"`
 }
 
 type Egress struct {
-	IcmpType      int64  `json:"icmp_type"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
-	RuleNo        int64  `json:"rule_no"`
 	Action        string `json:"action"`
-	CidrBlock     string `json:"cidr_block"`
 	IcmpCode      int64  `json:"icmp_code"`
+	IcmpType      int64  `json:"icmp_type"`
+	RuleNo        int64  `json:"rule_no"`
 	ToPort        int64  `json:"to_port"`
 	FromPort      int64  `json:"from_port"`
+	CidrBlock     string `json:"cidr_block"`
 	Protocol      string `json:"protocol"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 }
 
 type Ingress struct {
-	IcmpType      int64  `json:"icmp_type"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	IcmpCode      int64  `json:"icmp_code"`
+	IcmpType      int64  `json:"icmp_type"`
+	FromPort      int64  `json:"from_port"`
 	Protocol      string `json:"protocol"`
-	ToPort        int64  `json:"to_port"`
+	RuleNo        int64  `json:"rule_no"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	Action        string `json:"action"`
 	CidrBlock     string `json:"cidr_block"`
-	RuleNo        int64  `json:"rule_no"`
-	FromPort      int64  `json:"from_port"`
+	ToPort        int64  `json:"to_port"`
 }
 
 // A NetworkAclStatus defines the observed state of a NetworkAcl

@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SpotDatafeedSubscription)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SpotDatafeedSubscription.")
+	}
+	return EncodeSpotDatafeedSubscription(*r), nil
+}
 
 func EncodeSpotDatafeedSubscription(r SpotDatafeedSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSpotDatafeedSubscription_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeSpotDatafeedSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSpotDatafeedSubscription_Prefix(r.Spec.ForProvider, ctyVal)
-	EncodeSpotDatafeedSubscription_Bucket(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSpotDatafeedSubscription_Bucket(p SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
 }
 
 func EncodeSpotDatafeedSubscription_Id(p SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
@@ -35,8 +53,4 @@ func EncodeSpotDatafeedSubscription_Id(p SpotDatafeedSubscriptionParameters, val
 
 func EncodeSpotDatafeedSubscription_Prefix(p SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
 	vals["prefix"] = cty.StringVal(p.Prefix)
-}
-
-func EncodeSpotDatafeedSubscription_Bucket(p SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
 }

@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ShieldProtection)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ShieldProtection.")
+	}
+	return EncodeShieldProtection(*r), nil
+}
 
 func EncodeShieldProtection(r ShieldProtection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeShieldProtection_ResourceArn(r.Spec.ForProvider, ctyVal)
 	EncodeShieldProtection_Id(r.Spec.ForProvider, ctyVal)
 	EncodeShieldProtection_Name(r.Spec.ForProvider, ctyVal)
-	EncodeShieldProtection_ResourceArn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeShieldProtection_ResourceArn(p ShieldProtectionParameters, vals map[string]cty.Value) {
+	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }
 
 func EncodeShieldProtection_Id(p ShieldProtectionParameters, vals map[string]cty.Value) {
@@ -35,8 +53,4 @@ func EncodeShieldProtection_Id(p ShieldProtectionParameters, vals map[string]cty
 
 func EncodeShieldProtection_Name(p ShieldProtectionParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeShieldProtection_ResourceArn(p ShieldProtectionParameters, vals map[string]cty.Value) {
-	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }

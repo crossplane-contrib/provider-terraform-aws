@@ -17,21 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*VpcEndpointSubnetAssociation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a VpcEndpointSubnetAssociation.")
+	}
+	return EncodeVpcEndpointSubnetAssociation(*r), nil
+}
 
 func EncodeVpcEndpointSubnetAssociation(r VpcEndpointSubnetAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcEndpointSubnetAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_VpcEndpointId(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpointSubnetAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointSubnetAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcEndpointSubnetAssociation_Id(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVpcEndpointSubnetAssociation_SubnetId(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
@@ -40,6 +50,10 @@ func EncodeVpcEndpointSubnetAssociation_SubnetId(p VpcEndpointSubnetAssociationP
 
 func EncodeVpcEndpointSubnetAssociation_VpcEndpointId(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
+}
+
+func EncodeVpcEndpointSubnetAssociation_Id(p VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVpcEndpointSubnetAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {

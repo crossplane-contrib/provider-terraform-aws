@@ -52,15 +52,15 @@ type Ec2TransitGatewayVpcAttachmentSpec struct {
 
 // A Ec2TransitGatewayVpcAttachmentParameters defines the desired state of a Ec2TransitGatewayVpcAttachment
 type Ec2TransitGatewayVpcAttachmentParameters struct {
-	Ipv6Support                                string            `json:"ipv6_support"`
+	TransitGatewayDefaultRouteTableAssociation bool              `json:"transit_gateway_default_route_table_association"`
 	TransitGatewayDefaultRouteTablePropagation bool              `json:"transit_gateway_default_route_table_propagation"`
-	VpcId                                      string            `json:"vpc_id"`
+	Ipv6Support                                string            `json:"ipv6_support"`
+	Tags                                       map[string]string `json:"tags"`
+	SubnetIds                                  []string          `json:"subnet_ids"`
 	TransitGatewayId                           string            `json:"transit_gateway_id"`
+	VpcId                                      string            `json:"vpc_id"`
 	DnsSupport                                 string            `json:"dns_support"`
 	Id                                         string            `json:"id"`
-	SubnetIds                                  []string          `json:"subnet_ids"`
-	Tags                                       map[string]string `json:"tags"`
-	TransitGatewayDefaultRouteTableAssociation bool              `json:"transit_gateway_default_route_table_association"`
 }
 
 // A Ec2TransitGatewayVpcAttachmentStatus defines the observed state of a Ec2TransitGatewayVpcAttachment

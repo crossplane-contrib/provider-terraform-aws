@@ -17,33 +17,39 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*MqConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a MqConfiguration.")
+	}
+	return EncodeMqConfiguration(*r), nil
+}
 
 func EncodeMqConfiguration(r MqConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeMqConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Data(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_EngineType(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_EngineVersion(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Description(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_EngineVersion(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Id(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMqConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMqConfiguration_Data(p MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["data"] = cty.StringVal(p.Data)
-}
-
-func EncodeMqConfiguration_EngineType(p MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["engine_type"] = cty.StringVal(p.EngineType)
-}
-
-func EncodeMqConfiguration_EngineVersion(p MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+func EncodeMqConfiguration_Name(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeMqConfiguration_Tags(p MqConfigurationParameters, vals map[string]cty.Value) {
@@ -54,16 +60,24 @@ func EncodeMqConfiguration_Tags(p MqConfigurationParameters, vals map[string]cty
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeMqConfiguration_Data(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["data"] = cty.StringVal(p.Data)
+}
+
+func EncodeMqConfiguration_EngineType(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["engine_type"] = cty.StringVal(p.EngineType)
+}
+
 func EncodeMqConfiguration_Description(p MqConfigurationParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeMqConfiguration_Id(p MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeMqConfiguration_EngineVersion(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
 }
 
-func EncodeMqConfiguration_Name(p MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeMqConfiguration_Id(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMqConfiguration_Arn(p MqConfigurationObservation, vals map[string]cty.Value) {

@@ -52,44 +52,44 @@ type OpsworksHaproxyLayerSpec struct {
 
 // A OpsworksHaproxyLayerParameters defines the desired state of a OpsworksHaproxyLayer
 type OpsworksHaproxyLayerParameters struct {
-	HealthcheckMethod        string            `json:"healthcheck_method"`
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	StatsPassword            string            `json:"stats_password"`
-	StatsUser                string            `json:"stats_user"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
 	HealthcheckUrl           string            `json:"healthcheck_url"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	Id                       string            `json:"id"`
-	StatsUrl                 string            `json:"stats_url"`
-	CustomJson               string            `json:"custom_json"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	StatsEnabled             bool              `json:"stats_enabled"`
 	SystemPackages           []string          `json:"system_packages"`
+	CustomJson               string            `json:"custom_json"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	Name                     string            `json:"name"`
+	StatsUrl                 string            `json:"stats_url"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
 	AutoHealing              bool              `json:"auto_healing"`
-	Tags                     map[string]string `json:"tags"`
+	HealthcheckMethod        string            `json:"healthcheck_method"`
+	Id                       string            `json:"id"`
 	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
 	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	StatsPassword            string            `json:"stats_password"`
+	Tags                     map[string]string `json:"tags"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	StatsUser                string            `json:"stats_user"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
 	StackId                  string            `json:"stack_id"`
-	StatsEnabled             bool              `json:"stats_enabled"`
-	Name                     string            `json:"name"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
+	Iops          int64  `json:"iops"`
+	MountPoint    string `json:"mount_point"`
 	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
 	Size          int64  `json:"size"`
 	Type          string `json:"type"`
 	Encrypted     bool   `json:"encrypted"`
-	Iops          int64  `json:"iops"`
-	MountPoint    string `json:"mount_point"`
 }
 
 // A OpsworksHaproxyLayerStatus defines the observed state of a OpsworksHaproxyLayer

@@ -17,15 +17,29 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CodecommitRepository)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CodecommitRepository.")
+	}
+	return EncodeCodecommitRepository(*r), nil
+}
 
 func EncodeCodecommitRepository(r CodecommitRepository) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodecommitRepository_DefaultBranch(r.Spec.ForProvider, ctyVal)
-	EncodeCodecommitRepository_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodecommitRepository_RepositoryName(r.Spec.ForProvider, ctyVal)
+	EncodeCodecommitRepository_DefaultBranch(r.Spec.ForProvider, ctyVal)
 	EncodeCodecommitRepository_Description(r.Spec.ForProvider, ctyVal)
+	EncodeCodecommitRepository_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodecommitRepository_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCodecommitRepository_Arn(r.Status.AtProvider, ctyVal)
 	EncodeCodecommitRepository_CloneUrlHttp(r.Status.AtProvider, ctyVal)
@@ -34,20 +48,20 @@ func EncodeCodecommitRepository(r CodecommitRepository) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCodecommitRepository_DefaultBranch(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	vals["default_branch"] = cty.StringVal(p.DefaultBranch)
-}
-
-func EncodeCodecommitRepository_Id(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeCodecommitRepository_RepositoryName(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
 	vals["repository_name"] = cty.StringVal(p.RepositoryName)
 }
 
+func EncodeCodecommitRepository_DefaultBranch(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	vals["default_branch"] = cty.StringVal(p.DefaultBranch)
+}
+
 func EncodeCodecommitRepository_Description(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeCodecommitRepository_Id(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCodecommitRepository_Tags(p CodecommitRepositoryParameters, vals map[string]cty.Value) {

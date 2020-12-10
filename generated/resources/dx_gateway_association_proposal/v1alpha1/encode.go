@@ -17,27 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DxGatewayAssociationProposal)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DxGatewayAssociationProposal.")
+	}
+	return EncodeDxGatewayAssociationProposal(*r), nil
+}
 
 func EncodeDxGatewayAssociationProposal(r DxGatewayAssociationProposal) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxGatewayAssociationProposal_DxGatewayId(r.Spec.ForProvider, ctyVal)
-	EncodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AllowedPrefixes(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AssociatedGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeDxGatewayAssociationProposal_DxGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(r.Status.AtProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AssociatedGatewayType(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxGatewayAssociationProposal_DxGatewayId(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
-	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
-}
-
-func EncodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
-	vals["dx_gateway_owner_account_id"] = cty.StringVal(p.DxGatewayOwnerAccountId)
 }
 
 func EncodeDxGatewayAssociationProposal_Id(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
@@ -54,6 +60,14 @@ func EncodeDxGatewayAssociationProposal_AllowedPrefixes(p DxGatewayAssociationPr
 
 func EncodeDxGatewayAssociationProposal_AssociatedGatewayId(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
 	vals["associated_gateway_id"] = cty.StringVal(p.AssociatedGatewayId)
+}
+
+func EncodeDxGatewayAssociationProposal_DxGatewayId(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
+}
+
+func EncodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	vals["dx_gateway_owner_account_id"] = cty.StringVal(p.DxGatewayOwnerAccountId)
 }
 
 func EncodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(p DxGatewayAssociationProposalObservation, vals map[string]cty.Value) {

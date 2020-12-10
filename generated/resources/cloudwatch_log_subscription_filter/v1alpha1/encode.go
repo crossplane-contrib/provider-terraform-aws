@@ -17,24 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CloudwatchLogSubscriptionFilter)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CloudwatchLogSubscriptionFilter.")
+	}
+	return EncodeCloudwatchLogSubscriptionFilter(*r), nil
+}
 
 func EncodeCloudwatchLogSubscriptionFilter(r CloudwatchLogSubscriptionFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogSubscriptionFilter_Distribution(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_FilterPattern(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_DestinationArn(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogSubscriptionFilter_Distribution(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogSubscriptionFilter_Distribution(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	vals["distribution"] = cty.StringVal(p.Distribution)
 }
 
 func EncodeCloudwatchLogSubscriptionFilter_FilterPattern(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
@@ -59,4 +69,8 @@ func EncodeCloudwatchLogSubscriptionFilter_RoleArn(p CloudwatchLogSubscriptionFi
 
 func EncodeCloudwatchLogSubscriptionFilter_DestinationArn(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
+}
+
+func EncodeCloudwatchLogSubscriptionFilter_Distribution(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	vals["distribution"] = cty.StringVal(p.Distribution)
 }

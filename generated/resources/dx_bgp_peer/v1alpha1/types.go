@@ -52,13 +52,13 @@ type DxBgpPeerSpec struct {
 
 // A DxBgpPeerParameters defines the desired state of a DxBgpPeer
 type DxBgpPeerParameters struct {
-	Id                 string   `json:"id"`
+	AddressFamily      string   `json:"address_family"`
 	AmazonAddress      string   `json:"amazon_address"`
-	BgpAsn             int64    `json:"bgp_asn"`
 	BgpAuthKey         string   `json:"bgp_auth_key"`
 	CustomerAddress    string   `json:"customer_address"`
-	AddressFamily      string   `json:"address_family"`
 	VirtualInterfaceId string   `json:"virtual_interface_id"`
+	BgpAsn             int64    `json:"bgp_asn"`
+	Id                 string   `json:"id"`
 	Timeouts           Timeouts `json:"timeouts"`
 }
 

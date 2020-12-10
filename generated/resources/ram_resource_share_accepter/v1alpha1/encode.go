@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*RamResourceShareAccepter)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a RamResourceShareAccepter.")
+	}
+	return EncodeRamResourceShareAccepter(*r), nil
+}
 
 func EncodeRamResourceShareAccepter(r RamResourceShareAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -26,11 +40,11 @@ func EncodeRamResourceShareAccepter(r RamResourceShareAccepter) cty.Value {
 	EncodeRamResourceShareAccepter_ShareArn(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShareAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeRamResourceShareAccepter_ReceiverAccountId(r.Status.AtProvider, ctyVal)
-	EncodeRamResourceShareAccepter_SenderAccountId(r.Status.AtProvider, ctyVal)
-	EncodeRamResourceShareAccepter_Status(r.Status.AtProvider, ctyVal)
-	EncodeRamResourceShareAccepter_InvitationArn(r.Status.AtProvider, ctyVal)
 	EncodeRamResourceShareAccepter_Resources(r.Status.AtProvider, ctyVal)
 	EncodeRamResourceShareAccepter_ShareId(r.Status.AtProvider, ctyVal)
+	EncodeRamResourceShareAccepter_Status(r.Status.AtProvider, ctyVal)
+	EncodeRamResourceShareAccepter_InvitationArn(r.Status.AtProvider, ctyVal)
+	EncodeRamResourceShareAccepter_SenderAccountId(r.Status.AtProvider, ctyVal)
 	EncodeRamResourceShareAccepter_ShareName(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
@@ -62,18 +76,6 @@ func EncodeRamResourceShareAccepter_ReceiverAccountId(p RamResourceShareAccepter
 	vals["receiver_account_id"] = cty.StringVal(p.ReceiverAccountId)
 }
 
-func EncodeRamResourceShareAccepter_SenderAccountId(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
-	vals["sender_account_id"] = cty.StringVal(p.SenderAccountId)
-}
-
-func EncodeRamResourceShareAccepter_Status(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
-func EncodeRamResourceShareAccepter_InvitationArn(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
-	vals["invitation_arn"] = cty.StringVal(p.InvitationArn)
-}
-
 func EncodeRamResourceShareAccepter_Resources(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Resources {
@@ -84,6 +86,18 @@ func EncodeRamResourceShareAccepter_Resources(p RamResourceShareAccepterObservat
 
 func EncodeRamResourceShareAccepter_ShareId(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
 	vals["share_id"] = cty.StringVal(p.ShareId)
+}
+
+func EncodeRamResourceShareAccepter_Status(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeRamResourceShareAccepter_InvitationArn(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
+	vals["invitation_arn"] = cty.StringVal(p.InvitationArn)
+}
+
+func EncodeRamResourceShareAccepter_SenderAccountId(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {
+	vals["sender_account_id"] = cty.StringVal(p.SenderAccountId)
 }
 
 func EncodeRamResourceShareAccepter_ShareName(p RamResourceShareAccepterObservation, vals map[string]cty.Value) {

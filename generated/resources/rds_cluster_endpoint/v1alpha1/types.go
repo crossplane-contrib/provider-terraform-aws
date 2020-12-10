@@ -52,13 +52,13 @@ type RdsClusterEndpointSpec struct {
 
 // A RdsClusterEndpointParameters defines the desired state of a RdsClusterEndpoint
 type RdsClusterEndpointParameters struct {
+	ClusterEndpointIdentifier string            `json:"cluster_endpoint_identifier"`
+	ExcludedMembers           []string          `json:"excluded_members"`
+	StaticMembers             []string          `json:"static_members"`
+	Tags                      map[string]string `json:"tags"`
+	ClusterIdentifier         string            `json:"cluster_identifier"`
 	CustomEndpointType        string            `json:"custom_endpoint_type"`
 	Id                        string            `json:"id"`
-	StaticMembers             []string          `json:"static_members"`
-	ClusterEndpointIdentifier string            `json:"cluster_endpoint_identifier"`
-	ClusterIdentifier         string            `json:"cluster_identifier"`
-	ExcludedMembers           []string          `json:"excluded_members"`
-	Tags                      map[string]string `json:"tags"`
 }
 
 // A RdsClusterEndpointStatus defines the observed state of a RdsClusterEndpoint

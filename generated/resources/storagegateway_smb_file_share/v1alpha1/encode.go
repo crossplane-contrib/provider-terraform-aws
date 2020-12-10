@@ -17,60 +17,82 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*StoragegatewaySmbFileShare)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a StoragegatewaySmbFileShare.")
+	}
+	return EncodeStoragegatewaySmbFileShare(*r), nil
+}
 
 func EncodeStoragegatewaySmbFileShare(r StoragegatewaySmbFileShare) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeStoragegatewaySmbFileShare_CaseSensitivity(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_GatewayArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_GuessMimeTypeEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_KmsKeyArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_ReadOnly(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_AuditDestinationArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_Authentication(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_ValidUserList(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_ObjectAcl(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_RequesterPays(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_AdminUserList(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewaySmbFileShare_Id(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewaySmbFileShare_KmsEncrypted(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_KmsKeyArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_ValidUserList(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_AdminUserList(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_GatewayArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_ReadOnly(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_CaseSensitivity(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_AuditDestinationArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_DefaultStorageClass(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_ObjectAcl(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewaySmbFileShare_SmbAclEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_GuessMimeTypeEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_InvalidUserList(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_DefaultStorageClass(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewaySmbFileShare_LocationArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_RequesterPays(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_Authentication(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewaySmbFileShare_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
+	EncodeStoragegatewaySmbFileShare_InvalidUserList(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewaySmbFileShare_CacheAttributes(r.Spec.ForProvider.CacheAttributes, ctyVal)
-	EncodeStoragegatewaySmbFileShare_FileshareId(r.Status.AtProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeStoragegatewaySmbFileShare_Arn(r.Status.AtProvider, ctyVal)
+	EncodeStoragegatewaySmbFileShare_FileshareId(r.Status.AtProvider, ctyVal)
 	EncodeStoragegatewaySmbFileShare_Path(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeStoragegatewaySmbFileShare_Id(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeStoragegatewaySmbFileShare_CaseSensitivity(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["case_sensitivity"] = cty.StringVal(p.CaseSensitivity)
 }
 
-func EncodeStoragegatewaySmbFileShare_KmsEncrypted(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["kms_encrypted"] = cty.BoolVal(p.KmsEncrypted)
+func EncodeStoragegatewaySmbFileShare_GatewayArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
+}
+
+func EncodeStoragegatewaySmbFileShare_GuessMimeTypeEnabled(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["guess_mime_type_enabled"] = cty.BoolVal(p.GuessMimeTypeEnabled)
 }
 
 func EncodeStoragegatewaySmbFileShare_KmsKeyArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
-func EncodeStoragegatewaySmbFileShare_RoleArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
+func EncodeStoragegatewaySmbFileShare_ReadOnly(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["read_only"] = cty.BoolVal(p.ReadOnly)
 }
 
-func EncodeStoragegatewaySmbFileShare_Tags(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeStoragegatewaySmbFileShare_AuditDestinationArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["audit_destination_arn"] = cty.StringVal(p.AuditDestinationArn)
+}
+
+func EncodeStoragegatewaySmbFileShare_Authentication(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["authentication"] = cty.StringVal(p.Authentication)
+}
+
+func EncodeStoragegatewaySmbFileShare_RoleArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodeStoragegatewaySmbFileShare_ValidUserList(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
@@ -81,6 +103,14 @@ func EncodeStoragegatewaySmbFileShare_ValidUserList(p StoragegatewaySmbFileShare
 	vals["valid_user_list"] = cty.SetVal(colVals)
 }
 
+func EncodeStoragegatewaySmbFileShare_ObjectAcl(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["object_acl"] = cty.StringVal(p.ObjectAcl)
+}
+
+func EncodeStoragegatewaySmbFileShare_RequesterPays(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["requester_pays"] = cty.BoolVal(p.RequesterPays)
+}
+
 func EncodeStoragegatewaySmbFileShare_AdminUserList(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.AdminUserList {
@@ -89,36 +119,24 @@ func EncodeStoragegatewaySmbFileShare_AdminUserList(p StoragegatewaySmbFileShare
 	vals["admin_user_list"] = cty.SetVal(colVals)
 }
 
-func EncodeStoragegatewaySmbFileShare_GatewayArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
+func EncodeStoragegatewaySmbFileShare_Id(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeStoragegatewaySmbFileShare_ReadOnly(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["read_only"] = cty.BoolVal(p.ReadOnly)
-}
-
-func EncodeStoragegatewaySmbFileShare_CaseSensitivity(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["case_sensitivity"] = cty.StringVal(p.CaseSensitivity)
-}
-
-func EncodeStoragegatewaySmbFileShare_AuditDestinationArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["audit_destination_arn"] = cty.StringVal(p.AuditDestinationArn)
-}
-
-func EncodeStoragegatewaySmbFileShare_DefaultStorageClass(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["default_storage_class"] = cty.StringVal(p.DefaultStorageClass)
-}
-
-func EncodeStoragegatewaySmbFileShare_ObjectAcl(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["object_acl"] = cty.StringVal(p.ObjectAcl)
+func EncodeStoragegatewaySmbFileShare_KmsEncrypted(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["kms_encrypted"] = cty.BoolVal(p.KmsEncrypted)
 }
 
 func EncodeStoragegatewaySmbFileShare_SmbAclEnabled(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
 	vals["smb_acl_enabled"] = cty.BoolVal(p.SmbAclEnabled)
 }
 
-func EncodeStoragegatewaySmbFileShare_GuessMimeTypeEnabled(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["guess_mime_type_enabled"] = cty.BoolVal(p.GuessMimeTypeEnabled)
+func EncodeStoragegatewaySmbFileShare_DefaultStorageClass(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["default_storage_class"] = cty.StringVal(p.DefaultStorageClass)
+}
+
+func EncodeStoragegatewaySmbFileShare_LocationArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	vals["location_arn"] = cty.StringVal(p.LocationArn)
 }
 
 func EncodeStoragegatewaySmbFileShare_InvalidUserList(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
@@ -129,36 +147,12 @@ func EncodeStoragegatewaySmbFileShare_InvalidUserList(p StoragegatewaySmbFileSha
 	vals["invalid_user_list"] = cty.SetVal(colVals)
 }
 
-func EncodeStoragegatewaySmbFileShare_LocationArn(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["location_arn"] = cty.StringVal(p.LocationArn)
-}
-
-func EncodeStoragegatewaySmbFileShare_RequesterPays(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["requester_pays"] = cty.BoolVal(p.RequesterPays)
-}
-
-func EncodeStoragegatewaySmbFileShare_Authentication(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
-	vals["authentication"] = cty.StringVal(p.Authentication)
-}
-
-func EncodeStoragegatewaySmbFileShare_Timeouts(p Timeouts, vals map[string]cty.Value) {
-	ctyVal := make(map[string]cty.Value)
-	EncodeStoragegatewaySmbFileShare_Timeouts_Create(p, ctyVal)
-	EncodeStoragegatewaySmbFileShare_Timeouts_Delete(p, ctyVal)
-	EncodeStoragegatewaySmbFileShare_Timeouts_Update(p, ctyVal)
-	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeStoragegatewaySmbFileShare_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
-}
-
-func EncodeStoragegatewaySmbFileShare_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
-}
-
-func EncodeStoragegatewaySmbFileShare_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
-	vals["update"] = cty.StringVal(p.Update)
+func EncodeStoragegatewaySmbFileShare_Tags(p StoragegatewaySmbFileShareParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeStoragegatewaySmbFileShare_CacheAttributes(p CacheAttributes, vals map[string]cty.Value) {
@@ -173,12 +167,32 @@ func EncodeStoragegatewaySmbFileShare_CacheAttributes_CacheStaleTimeoutInSeconds
 	vals["cache_stale_timeout_in_seconds"] = cty.NumberIntVal(p.CacheStaleTimeoutInSeconds)
 }
 
-func EncodeStoragegatewaySmbFileShare_FileshareId(p StoragegatewaySmbFileShareObservation, vals map[string]cty.Value) {
-	vals["fileshare_id"] = cty.StringVal(p.FileshareId)
+func EncodeStoragegatewaySmbFileShare_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
+	EncodeStoragegatewaySmbFileShare_Timeouts_Delete(p, ctyVal)
+	EncodeStoragegatewaySmbFileShare_Timeouts_Update(p, ctyVal)
+	EncodeStoragegatewaySmbFileShare_Timeouts_Create(p, ctyVal)
+	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeStoragegatewaySmbFileShare_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
+}
+
+func EncodeStoragegatewaySmbFileShare_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
+	vals["update"] = cty.StringVal(p.Update)
+}
+
+func EncodeStoragegatewaySmbFileShare_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeStoragegatewaySmbFileShare_Arn(p StoragegatewaySmbFileShareObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeStoragegatewaySmbFileShare_FileshareId(p StoragegatewaySmbFileShareObservation, vals map[string]cty.Value) {
+	vals["fileshare_id"] = cty.StringVal(p.FileshareId)
 }
 
 func EncodeStoragegatewaySmbFileShare_Path(p StoragegatewaySmbFileShareObservation, vals map[string]cty.Value) {

@@ -52,39 +52,39 @@ type AlbTargetGroupSpec struct {
 
 // A AlbTargetGroupParameters defines the desired state of a AlbTargetGroup
 type AlbTargetGroupParameters struct {
-	DeregistrationDelay            int64             `json:"deregistration_delay"`
-	Id                             string            `json:"id"`
-	LoadBalancingAlgorithmType     string            `json:"load_balancing_algorithm_type"`
-	NamePrefix                     string            `json:"name_prefix"`
-	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
-	Name                           string            `json:"name"`
-	Port                           int64             `json:"port"`
-	VpcId                          string            `json:"vpc_id"`
-	SlowStart                      int64             `json:"slow_start"`
+	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
 	Tags                           map[string]string `json:"tags"`
 	TargetType                     string            `json:"target_type"`
+	VpcId                          string            `json:"vpc_id"`
+	SlowStart                      int64             `json:"slow_start"`
+	LoadBalancingAlgorithmType     string            `json:"load_balancing_algorithm_type"`
+	Name                           string            `json:"name"`
+	NamePrefix                     string            `json:"name_prefix"`
 	Protocol                       string            `json:"protocol"`
-	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
+	Id                             string            `json:"id"`
+	DeregistrationDelay            int64             `json:"deregistration_delay"`
+	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
+	Port                           int64             `json:"port"`
 	HealthCheck                    HealthCheck       `json:"health_check"`
 	Stickiness                     Stickiness        `json:"stickiness"`
 }
 
 type HealthCheck struct {
-	Port               string `json:"port"`
-	Protocol           string `json:"protocol"`
 	Timeout            int64  `json:"timeout"`
-	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
+	Enabled            bool   `json:"enabled"`
 	HealthyThreshold   int64  `json:"healthy_threshold"`
 	Interval           int64  `json:"interval"`
 	Matcher            string `json:"matcher"`
-	Enabled            bool   `json:"enabled"`
 	Path               string `json:"path"`
+	Port               string `json:"port"`
+	Protocol           string `json:"protocol"`
+	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
 }
 
 type Stickiness struct {
+	Type           string `json:"type"`
 	CookieDuration int64  `json:"cookie_duration"`
 	Enabled        bool   `json:"enabled"`
-	Type           string `json:"type"`
 }
 
 // A AlbTargetGroupStatus defines the observed state of a AlbTargetGroup

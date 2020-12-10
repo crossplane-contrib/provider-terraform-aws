@@ -17,27 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*S3BucketPublicAccessBlock)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a S3BucketPublicAccessBlock.")
+	}
+	return EncodeS3BucketPublicAccessBlock(*r), nil
+}
 
 func EncodeS3BucketPublicAccessBlock(r S3BucketPublicAccessBlock) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(r.Spec.ForProvider, ctyVal)
-	EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_BlockPublicAcls(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_BlockPublicPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_Id(r.Spec.ForProvider, ctyVal)
+	EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(r.Spec.ForProvider, ctyVal)
+	EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
-	vals["ignore_public_acls"] = cty.BoolVal(p.IgnorePublicAcls)
-}
-
-func EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
-	vals["restrict_public_buckets"] = cty.BoolVal(p.RestrictPublicBuckets)
 }
 
 func EncodeS3BucketPublicAccessBlock_BlockPublicAcls(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
@@ -54,4 +60,12 @@ func EncodeS3BucketPublicAccessBlock_Bucket(p S3BucketPublicAccessBlockParameter
 
 func EncodeS3BucketPublicAccessBlock_Id(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
+	vals["ignore_public_acls"] = cty.BoolVal(p.IgnorePublicAcls)
+}
+
+func EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
+	vals["restrict_public_buckets"] = cty.BoolVal(p.RestrictPublicBuckets)
 }

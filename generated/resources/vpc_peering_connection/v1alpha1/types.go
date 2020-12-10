@@ -52,13 +52,13 @@ type VpcPeeringConnectionSpec struct {
 
 // A VpcPeeringConnectionParameters defines the desired state of a VpcPeeringConnection
 type VpcPeeringConnectionParameters struct {
+	PeerOwnerId string            `json:"peer_owner_id"`
+	PeerRegion  string            `json:"peer_region"`
 	PeerVpcId   string            `json:"peer_vpc_id"`
 	Tags        map[string]string `json:"tags"`
 	VpcId       string            `json:"vpc_id"`
 	AutoAccept  bool              `json:"auto_accept"`
 	Id          string            `json:"id"`
-	PeerOwnerId string            `json:"peer_owner_id"`
-	PeerRegion  string            `json:"peer_region"`
 	Accepter    Accepter          `json:"accepter"`
 	Requester   Requester         `json:"requester"`
 	Timeouts    Timeouts          `json:"timeouts"`

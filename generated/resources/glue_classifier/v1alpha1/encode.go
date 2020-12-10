@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueClassifier)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueClassifier.")
+	}
+	return EncodeGlueClassifier(*r), nil
+}
 
 func EncodeGlueClassifier(r GlueClassifier) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -43,14 +57,18 @@ func EncodeGlueClassifier_Name(p GlueClassifierParameters, vals map[string]cty.V
 func EncodeGlueClassifier_CsvClassifier(p CsvClassifier, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p, ctyVal)
 	EncodeGlueClassifier_CsvClassifier_ContainsHeader(p, ctyVal)
 	EncodeGlueClassifier_CsvClassifier_Delimiter(p, ctyVal)
 	EncodeGlueClassifier_CsvClassifier_DisableValueTrimming(p, ctyVal)
 	EncodeGlueClassifier_CsvClassifier_Header(p, ctyVal)
 	EncodeGlueClassifier_CsvClassifier_QuoteSymbol(p, ctyVal)
-	EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["csv_classifier"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p CsvClassifier, vals map[string]cty.Value) {
+	vals["allow_single_column"] = cty.BoolVal(p.AllowSingleColumn)
 }
 
 func EncodeGlueClassifier_CsvClassifier_ContainsHeader(p CsvClassifier, vals map[string]cty.Value) {
@@ -75,10 +93,6 @@ func EncodeGlueClassifier_CsvClassifier_Header(p CsvClassifier, vals map[string]
 
 func EncodeGlueClassifier_CsvClassifier_QuoteSymbol(p CsvClassifier, vals map[string]cty.Value) {
 	vals["quote_symbol"] = cty.StringVal(p.QuoteSymbol)
-}
-
-func EncodeGlueClassifier_CsvClassifier_AllowSingleColumn(p CsvClassifier, vals map[string]cty.Value) {
-	vals["allow_single_column"] = cty.BoolVal(p.AllowSingleColumn)
 }
 
 func EncodeGlueClassifier_GrokClassifier(p GrokClassifier, vals map[string]cty.Value) {

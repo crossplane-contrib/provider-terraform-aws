@@ -17,37 +17,43 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Ec2TransitGateway)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Ec2TransitGateway.")
+	}
+	return EncodeEc2TransitGateway(*r), nil
+}
 
 func EncodeEc2TransitGateway(r Ec2TransitGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGateway_AutoAcceptSharedAttachments(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGateway_DefaultRouteTableAssociation(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGateway_Description(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGateway_DnsSupport(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGateway_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGateway_VpnEcmpSupport(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGateway_AmazonSideAsn(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGateway_DefaultRouteTablePropagation(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGateway_DnsSupport(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGateway_Description(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGateway_DefaultRouteTableAssociation(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGateway_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGateway_AssociationDefaultRouteTableId(r.Status.AtProvider, ctyVal)
-	EncodeEc2TransitGateway_Arn(r.Status.AtProvider, ctyVal)
+	EncodeEc2TransitGateway_VpnEcmpSupport(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGateway_AutoAcceptSharedAttachments(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGateway_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGateway_PropagationDefaultRouteTableId(r.Status.AtProvider, ctyVal)
+	EncodeEc2TransitGateway_Arn(r.Status.AtProvider, ctyVal)
+	EncodeEc2TransitGateway_AssociationDefaultRouteTableId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGateway_AutoAcceptSharedAttachments(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	vals["auto_accept_shared_attachments"] = cty.StringVal(p.AutoAcceptSharedAttachments)
-}
-
-func EncodeEc2TransitGateway_DefaultRouteTableAssociation(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	vals["default_route_table_association"] = cty.StringVal(p.DefaultRouteTableAssociation)
-}
-
-func EncodeEc2TransitGateway_Description(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
+func EncodeEc2TransitGateway_DnsSupport(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	vals["dns_support"] = cty.StringVal(p.DnsSupport)
 }
 
 func EncodeEc2TransitGateway_Tags(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
@@ -58,10 +64,6 @@ func EncodeEc2TransitGateway_Tags(p Ec2TransitGatewayParameters, vals map[string
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeEc2TransitGateway_VpnEcmpSupport(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	vals["vpn_ecmp_support"] = cty.StringVal(p.VpnEcmpSupport)
-}
-
 func EncodeEc2TransitGateway_AmazonSideAsn(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
 	vals["amazon_side_asn"] = cty.NumberIntVal(p.AmazonSideAsn)
 }
@@ -70,20 +72,24 @@ func EncodeEc2TransitGateway_DefaultRouteTablePropagation(p Ec2TransitGatewayPar
 	vals["default_route_table_propagation"] = cty.StringVal(p.DefaultRouteTablePropagation)
 }
 
-func EncodeEc2TransitGateway_DnsSupport(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	vals["dns_support"] = cty.StringVal(p.DnsSupport)
+func EncodeEc2TransitGateway_Description(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeEc2TransitGateway_DefaultRouteTableAssociation(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	vals["default_route_table_association"] = cty.StringVal(p.DefaultRouteTableAssociation)
 }
 
 func EncodeEc2TransitGateway_Id(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2TransitGateway_AssociationDefaultRouteTableId(p Ec2TransitGatewayObservation, vals map[string]cty.Value) {
-	vals["association_default_route_table_id"] = cty.StringVal(p.AssociationDefaultRouteTableId)
+func EncodeEc2TransitGateway_VpnEcmpSupport(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	vals["vpn_ecmp_support"] = cty.StringVal(p.VpnEcmpSupport)
 }
 
-func EncodeEc2TransitGateway_Arn(p Ec2TransitGatewayObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeEc2TransitGateway_AutoAcceptSharedAttachments(p Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	vals["auto_accept_shared_attachments"] = cty.StringVal(p.AutoAcceptSharedAttachments)
 }
 
 func EncodeEc2TransitGateway_OwnerId(p Ec2TransitGatewayObservation, vals map[string]cty.Value) {
@@ -92,4 +98,12 @@ func EncodeEc2TransitGateway_OwnerId(p Ec2TransitGatewayObservation, vals map[st
 
 func EncodeEc2TransitGateway_PropagationDefaultRouteTableId(p Ec2TransitGatewayObservation, vals map[string]cty.Value) {
 	vals["propagation_default_route_table_id"] = cty.StringVal(p.PropagationDefaultRouteTableId)
+}
+
+func EncodeEc2TransitGateway_Arn(p Ec2TransitGatewayObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeEc2TransitGateway_AssociationDefaultRouteTableId(p Ec2TransitGatewayObservation, vals map[string]cty.Value) {
+	vals["association_default_route_table_id"] = cty.StringVal(p.AssociationDefaultRouteTableId)
 }

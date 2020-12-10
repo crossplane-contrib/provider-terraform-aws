@@ -52,16 +52,16 @@ type PinpointApnsChannelSpec struct {
 
 // A PinpointApnsChannelParameters defines the desired state of a PinpointApnsChannel
 type PinpointApnsChannelParameters struct {
+	Id                          string `json:"id"`
+	TokenKeyId                  string `json:"token_key_id"`
 	ApplicationId               string `json:"application_id"`
+	DefaultAuthenticationMethod string `json:"default_authentication_method"`
+	Enabled                     bool   `json:"enabled"`
 	TeamId                      string `json:"team_id"`
 	TokenKey                    string `json:"token_key"`
-	Enabled                     bool   `json:"enabled"`
-	Id                          string `json:"id"`
-	PrivateKey                  string `json:"private_key"`
-	TokenKeyId                  string `json:"token_key_id"`
 	BundleId                    string `json:"bundle_id"`
 	Certificate                 string `json:"certificate"`
-	DefaultAuthenticationMethod string `json:"default_authentication_method"`
+	PrivateKey                  string `json:"private_key"`
 }
 
 // A PinpointApnsChannelStatus defines the observed state of a PinpointApnsChannel

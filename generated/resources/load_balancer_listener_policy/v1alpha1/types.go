@@ -52,10 +52,10 @@ type LoadBalancerListenerPolicySpec struct {
 
 // A LoadBalancerListenerPolicyParameters defines the desired state of a LoadBalancerListenerPolicy
 type LoadBalancerListenerPolicyParameters struct {
-	Id               string   `json:"id"`
-	LoadBalancerName string   `json:"load_balancer_name"`
 	LoadBalancerPort int64    `json:"load_balancer_port"`
 	PolicyNames      []string `json:"policy_names"`
+	Id               string   `json:"id"`
+	LoadBalancerName string   `json:"load_balancer_name"`
 }
 
 // A LoadBalancerListenerPolicyStatus defines the observed state of a LoadBalancerListenerPolicy

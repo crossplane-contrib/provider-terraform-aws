@@ -59,21 +59,12 @@ type CloudwatchEventTargetParameters struct {
 	Rule              string              `json:"rule"`
 	TargetId          string              `json:"target_id"`
 	Arn               string              `json:"arn"`
-	InputTransformer  InputTransformer    `json:"input_transformer"`
-	KinesisTarget     KinesisTarget       `json:"kinesis_target"`
 	RunCommandTargets []RunCommandTargets `json:"run_command_targets"`
 	SqsTarget         SqsTarget           `json:"sqs_target"`
 	BatchTarget       BatchTarget         `json:"batch_target"`
 	EcsTarget         EcsTarget           `json:"ecs_target"`
-}
-
-type InputTransformer struct {
-	InputTemplate string            `json:"input_template"`
-	InputPaths    map[string]string `json:"input_paths"`
-}
-
-type KinesisTarget struct {
-	PartitionKeyPath string `json:"partition_key_path"`
+	InputTransformer  InputTransformer    `json:"input_transformer"`
+	KinesisTarget     KinesisTarget       `json:"kinesis_target"`
 }
 
 type RunCommandTargets struct {
@@ -86,10 +77,10 @@ type SqsTarget struct {
 }
 
 type BatchTarget struct {
-	JobName       string `json:"job_name"`
 	ArraySize     int64  `json:"array_size"`
 	JobAttempts   int64  `json:"job_attempts"`
 	JobDefinition string `json:"job_definition"`
+	JobName       string `json:"job_name"`
 }
 
 type EcsTarget struct {
@@ -105,6 +96,15 @@ type NetworkConfiguration struct {
 	AssignPublicIp bool     `json:"assign_public_ip"`
 	SecurityGroups []string `json:"security_groups"`
 	Subnets        []string `json:"subnets"`
+}
+
+type InputTransformer struct {
+	InputPaths    map[string]string `json:"input_paths"`
+	InputTemplate string            `json:"input_template"`
+}
+
+type KinesisTarget struct {
+	PartitionKeyPath string `json:"partition_key_path"`
 }
 
 // A CloudwatchEventTargetStatus defines the observed state of a CloudwatchEventTarget

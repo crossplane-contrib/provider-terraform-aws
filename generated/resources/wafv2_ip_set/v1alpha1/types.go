@@ -52,12 +52,12 @@ type Wafv2IpSetSpec struct {
 
 // A Wafv2IpSetParameters defines the desired state of a Wafv2IpSet
 type Wafv2IpSetParameters struct {
-	Addresses        []string          `json:"addresses"`
-	Description      string            `json:"description"`
 	Id               string            `json:"id"`
 	IpAddressVersion string            `json:"ip_address_version"`
-	Name             string            `json:"name"`
 	Scope            string            `json:"scope"`
+	Addresses        []string          `json:"addresses"`
+	Description      string            `json:"description"`
+	Name             string            `json:"name"`
 	Tags             map[string]string `json:"tags"`
 }
 
@@ -69,6 +69,6 @@ type Wafv2IpSetStatus struct {
 
 // A Wafv2IpSetObservation records the observed state of a Wafv2IpSet
 type Wafv2IpSetObservation struct {
-	Arn       string `json:"arn"`
 	LockToken string `json:"lock_token"`
+	Arn       string `json:"arn"`
 }

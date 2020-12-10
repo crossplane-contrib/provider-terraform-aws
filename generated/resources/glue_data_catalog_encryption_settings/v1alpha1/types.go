@@ -52,8 +52,8 @@ type GlueDataCatalogEncryptionSettingsSpec struct {
 
 // A GlueDataCatalogEncryptionSettingsParameters defines the desired state of a GlueDataCatalogEncryptionSettings
 type GlueDataCatalogEncryptionSettingsParameters struct {
-	Id                            string                        `json:"id"`
 	CatalogId                     string                        `json:"catalog_id"`
+	Id                            string                        `json:"id"`
 	DataCatalogEncryptionSettings DataCatalogEncryptionSettings `json:"data_catalog_encryption_settings"`
 }
 
@@ -63,8 +63,8 @@ type DataCatalogEncryptionSettings struct {
 }
 
 type ConnectionPasswordEncryption struct {
-	AwsKmsKeyId                       string `json:"aws_kms_key_id"`
 	ReturnConnectionPasswordEncrypted bool   `json:"return_connection_password_encrypted"`
+	AwsKmsKeyId                       string `json:"aws_kms_key_id"`
 }
 
 type EncryptionAtRest struct {

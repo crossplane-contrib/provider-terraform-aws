@@ -52,41 +52,29 @@ type AlbListenerSpec struct {
 
 // A AlbListenerParameters defines the desired state of a AlbListener
 type AlbListenerParameters struct {
+	Port            int64           `json:"port"`
 	Protocol        string          `json:"protocol"`
 	SslPolicy       string          `json:"ssl_policy"`
 	CertificateArn  string          `json:"certificate_arn"`
 	Id              string          `json:"id"`
 	LoadBalancerArn string          `json:"load_balancer_arn"`
-	Port            int64           `json:"port"`
-	Timeouts        Timeouts        `json:"timeouts"`
 	DefaultAction   []DefaultAction `json:"default_action"`
-}
-
-type Timeouts struct {
-	Read string `json:"read"`
+	Timeouts        Timeouts        `json:"timeouts"`
 }
 
 type DefaultAction struct {
-	Type                string              `json:"type"`
 	Order               int64               `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
-	Redirect            Redirect            `json:"redirect"`
+	Type                string              `json:"type"`
 	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
 	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
 	Forward             Forward             `json:"forward"`
-}
-
-type Redirect struct {
-	Host       string `json:"host"`
-	Path       string `json:"path"`
-	Port       string `json:"port"`
-	Protocol   string `json:"protocol"`
-	Query      string `json:"query"`
-	StatusCode string `json:"status_code"`
+	Redirect            Redirect            `json:"redirect"`
 }
 
 type AuthenticateCognito struct {
+	UserPoolDomain                   string            `json:"user_pool_domain"`
 	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
 	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 	Scope                            string            `json:"scope"`
@@ -94,21 +82,20 @@ type AuthenticateCognito struct {
 	SessionTimeout                   int64             `json:"session_timeout"`
 	UserPoolArn                      string            `json:"user_pool_arn"`
 	UserPoolClientId                 string            `json:"user_pool_client_id"`
-	UserPoolDomain                   string            `json:"user_pool_domain"`
 }
 
 type AuthenticateOidc struct {
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	ClientId                         string            `json:"client_id"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
 	ClientSecret                     string            `json:"client_secret"`
-	Issuer                           string            `json:"issuer"`
-	Scope                            string            `json:"scope"`
 	SessionTimeout                   int64             `json:"session_timeout"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
 	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	Scope                            string            `json:"scope"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
+	ClientId                         string            `json:"client_id"`
+	Issuer                           string            `json:"issuer"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
 }
 
 type FixedResponse struct {
@@ -130,6 +117,19 @@ type Stickiness struct {
 type TargetGroup struct {
 	Arn    string `json:"arn"`
 	Weight int64  `json:"weight"`
+}
+
+type Redirect struct {
+	Port       string `json:"port"`
+	Protocol   string `json:"protocol"`
+	Query      string `json:"query"`
+	StatusCode string `json:"status_code"`
+	Host       string `json:"host"`
+	Path       string `json:"path"`
+}
+
+type Timeouts struct {
+	Read string `json:"read"`
 }
 
 // A AlbListenerStatus defines the observed state of a AlbListener

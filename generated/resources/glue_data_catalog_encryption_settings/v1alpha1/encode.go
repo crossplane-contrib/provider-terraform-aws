@@ -17,24 +17,38 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueDataCatalogEncryptionSettings)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueDataCatalogEncryptionSettings.")
+	}
+	return EncodeGlueDataCatalogEncryptionSettings(*r), nil
+}
 
 func EncodeGlueDataCatalogEncryptionSettings(r GlueDataCatalogEncryptionSettings) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueDataCatalogEncryptionSettings_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueDataCatalogEncryptionSettings_CatalogId(r.Spec.ForProvider, ctyVal)
+	EncodeGlueDataCatalogEncryptionSettings_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueDataCatalogEncryptionSettings_DataCatalogEncryptionSettings(r.Spec.ForProvider.DataCatalogEncryptionSettings, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlueDataCatalogEncryptionSettings_Id(p GlueDataCatalogEncryptionSettingsParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeGlueDataCatalogEncryptionSettings_CatalogId(p GlueDataCatalogEncryptionSettingsParameters, vals map[string]cty.Value) {
 	vals["catalog_id"] = cty.StringVal(p.CatalogId)
+}
+
+func EncodeGlueDataCatalogEncryptionSettings_Id(p GlueDataCatalogEncryptionSettingsParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGlueDataCatalogEncryptionSettings_DataCatalogEncryptionSettings(p DataCatalogEncryptionSettings, vals map[string]cty.Value) {

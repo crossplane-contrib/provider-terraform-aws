@@ -17,21 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Ec2Tag)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Ec2Tag.")
+	}
+	return EncodeEc2Tag(*r), nil
+}
 
 func EncodeEc2Tag(r Ec2Tag) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2Tag_Value(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Key(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_ResourceId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2Tag_Value(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2Tag_Value(p Ec2TagParameters, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeEc2Tag_Id(p Ec2TagParameters, vals map[string]cty.Value) {
@@ -44,4 +54,8 @@ func EncodeEc2Tag_Key(p Ec2TagParameters, vals map[string]cty.Value) {
 
 func EncodeEc2Tag_ResourceId(p Ec2TagParameters, vals map[string]cty.Value) {
 	vals["resource_id"] = cty.StringVal(p.ResourceId)
+}
+
+func EncodeEc2Tag_Value(p Ec2TagParameters, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }

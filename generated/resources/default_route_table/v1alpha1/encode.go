@@ -17,81 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DefaultRouteTable)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DefaultRouteTable.")
+	}
+	return EncodeDefaultRouteTable(*r), nil
+}
 
 func EncodeDefaultRouteTable(r DefaultRouteTable) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDefaultRouteTable_PropagatingVgws(r.Spec.ForProvider, ctyVal)
-	EncodeDefaultRouteTable_Route(r.Spec.ForProvider.Route, ctyVal)
 	EncodeDefaultRouteTable_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultRouteTable_DefaultRouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultRouteTable_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDefaultRouteTable_OwnerId(r.Status.AtProvider, ctyVal)
+	EncodeDefaultRouteTable_PropagatingVgws(r.Spec.ForProvider, ctyVal)
+	EncodeDefaultRouteTable_Route(r.Spec.ForProvider.Route, ctyVal)
 	EncodeDefaultRouteTable_VpcId(r.Status.AtProvider, ctyVal)
+	EncodeDefaultRouteTable_OwnerId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDefaultRouteTable_PropagatingVgws(p DefaultRouteTableParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.PropagatingVgws {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["propagating_vgws"] = cty.SetVal(colVals)
-}
-
-func EncodeDefaultRouteTable_Route(p []Route, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeDefaultRouteTable_Route_EgressOnlyGatewayId(v, ctyVal)
-		EncodeDefaultRouteTable_Route_InstanceId(v, ctyVal)
-		EncodeDefaultRouteTable_Route_NetworkInterfaceId(v, ctyVal)
-		EncodeDefaultRouteTable_Route_GatewayId(v, ctyVal)
-		EncodeDefaultRouteTable_Route_Ipv6CidrBlock(v, ctyVal)
-		EncodeDefaultRouteTable_Route_TransitGatewayId(v, ctyVal)
-		EncodeDefaultRouteTable_Route_VpcPeeringConnectionId(v, ctyVal)
-		EncodeDefaultRouteTable_Route_CidrBlock(v, ctyVal)
-		EncodeDefaultRouteTable_Route_NatGatewayId(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["route"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeDefaultRouteTable_Route_EgressOnlyGatewayId(p Route, vals map[string]cty.Value) {
-	vals["egress_only_gateway_id"] = cty.StringVal(p.EgressOnlyGatewayId)
-}
-
-func EncodeDefaultRouteTable_Route_InstanceId(p Route, vals map[string]cty.Value) {
-	vals["instance_id"] = cty.StringVal(p.InstanceId)
-}
-
-func EncodeDefaultRouteTable_Route_NetworkInterfaceId(p Route, vals map[string]cty.Value) {
-	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
-}
-
-func EncodeDefaultRouteTable_Route_GatewayId(p Route, vals map[string]cty.Value) {
-	vals["gateway_id"] = cty.StringVal(p.GatewayId)
-}
-
-func EncodeDefaultRouteTable_Route_Ipv6CidrBlock(p Route, vals map[string]cty.Value) {
-	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
-}
-
-func EncodeDefaultRouteTable_Route_TransitGatewayId(p Route, vals map[string]cty.Value) {
-	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
-}
-
-func EncodeDefaultRouteTable_Route_VpcPeeringConnectionId(p Route, vals map[string]cty.Value) {
-	vals["vpc_peering_connection_id"] = cty.StringVal(p.VpcPeeringConnectionId)
-}
-
-func EncodeDefaultRouteTable_Route_CidrBlock(p Route, vals map[string]cty.Value) {
-	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
-}
-
-func EncodeDefaultRouteTable_Route_NatGatewayId(p Route, vals map[string]cty.Value) {
-	vals["nat_gateway_id"] = cty.StringVal(p.NatGatewayId)
 }
 
 func EncodeDefaultRouteTable_Tags(p DefaultRouteTableParameters, vals map[string]cty.Value) {
@@ -110,10 +62,72 @@ func EncodeDefaultRouteTable_Id(p DefaultRouteTableParameters, vals map[string]c
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDefaultRouteTable_OwnerId(p DefaultRouteTableObservation, vals map[string]cty.Value) {
-	vals["owner_id"] = cty.StringVal(p.OwnerId)
+func EncodeDefaultRouteTable_PropagatingVgws(p DefaultRouteTableParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.PropagatingVgws {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["propagating_vgws"] = cty.SetVal(colVals)
+}
+
+func EncodeDefaultRouteTable_Route(p []Route, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeDefaultRouteTable_Route_VpcPeeringConnectionId(v, ctyVal)
+		EncodeDefaultRouteTable_Route_InstanceId(v, ctyVal)
+		EncodeDefaultRouteTable_Route_GatewayId(v, ctyVal)
+		EncodeDefaultRouteTable_Route_CidrBlock(v, ctyVal)
+		EncodeDefaultRouteTable_Route_EgressOnlyGatewayId(v, ctyVal)
+		EncodeDefaultRouteTable_Route_NetworkInterfaceId(v, ctyVal)
+		EncodeDefaultRouteTable_Route_Ipv6CidrBlock(v, ctyVal)
+		EncodeDefaultRouteTable_Route_NatGatewayId(v, ctyVal)
+		EncodeDefaultRouteTable_Route_TransitGatewayId(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["route"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeDefaultRouteTable_Route_VpcPeeringConnectionId(p Route, vals map[string]cty.Value) {
+	vals["vpc_peering_connection_id"] = cty.StringVal(p.VpcPeeringConnectionId)
+}
+
+func EncodeDefaultRouteTable_Route_InstanceId(p Route, vals map[string]cty.Value) {
+	vals["instance_id"] = cty.StringVal(p.InstanceId)
+}
+
+func EncodeDefaultRouteTable_Route_GatewayId(p Route, vals map[string]cty.Value) {
+	vals["gateway_id"] = cty.StringVal(p.GatewayId)
+}
+
+func EncodeDefaultRouteTable_Route_CidrBlock(p Route, vals map[string]cty.Value) {
+	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
+}
+
+func EncodeDefaultRouteTable_Route_EgressOnlyGatewayId(p Route, vals map[string]cty.Value) {
+	vals["egress_only_gateway_id"] = cty.StringVal(p.EgressOnlyGatewayId)
+}
+
+func EncodeDefaultRouteTable_Route_NetworkInterfaceId(p Route, vals map[string]cty.Value) {
+	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
+}
+
+func EncodeDefaultRouteTable_Route_Ipv6CidrBlock(p Route, vals map[string]cty.Value) {
+	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
+}
+
+func EncodeDefaultRouteTable_Route_NatGatewayId(p Route, vals map[string]cty.Value) {
+	vals["nat_gateway_id"] = cty.StringVal(p.NatGatewayId)
+}
+
+func EncodeDefaultRouteTable_Route_TransitGatewayId(p Route, vals map[string]cty.Value) {
+	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }
 
 func EncodeDefaultRouteTable_VpcId(p DefaultRouteTableObservation, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeDefaultRouteTable_OwnerId(p DefaultRouteTableObservation, vals map[string]cty.Value) {
+	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }

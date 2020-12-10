@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayUsagePlanKey)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayUsagePlanKey.")
+	}
+	return EncodeApiGatewayUsagePlanKey(*r), nil
+}
 
 func EncodeApiGatewayUsagePlanKey(r ApiGatewayUsagePlanKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayUsagePlanKey_UsagePlanId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_KeyType(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayUsagePlanKey_UsagePlanId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Name(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Value(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayUsagePlanKey_UsagePlanId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	vals["usage_plan_id"] = cty.StringVal(p.UsagePlanId)
 }
 
 func EncodeApiGatewayUsagePlanKey_Id(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
@@ -45,6 +55,10 @@ func EncodeApiGatewayUsagePlanKey_KeyId(p ApiGatewayUsagePlanKeyParameters, vals
 
 func EncodeApiGatewayUsagePlanKey_KeyType(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	vals["key_type"] = cty.StringVal(p.KeyType)
+}
+
+func EncodeApiGatewayUsagePlanKey_UsagePlanId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	vals["usage_plan_id"] = cty.StringVal(p.UsagePlanId)
 }
 
 func EncodeApiGatewayUsagePlanKey_Name(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {

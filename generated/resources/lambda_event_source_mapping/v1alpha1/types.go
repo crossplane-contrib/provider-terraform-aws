@@ -52,18 +52,18 @@ type LambdaEventSourceMappingSpec struct {
 
 // A LambdaEventSourceMappingParameters defines the desired state of a LambdaEventSourceMapping
 type LambdaEventSourceMappingParameters struct {
+	BatchSize                      int64             `json:"batch_size"`
+	MaximumBatchingWindowInSeconds int64             `json:"maximum_batching_window_in_seconds"`
+	StartingPosition               string            `json:"starting_position"`
+	EventSourceArn                 string            `json:"event_source_arn"`
+	MaximumRecordAgeInSeconds      int64             `json:"maximum_record_age_in_seconds"`
+	ParallelizationFactor          int64             `json:"parallelization_factor"`
 	BisectBatchOnFunctionError     bool              `json:"bisect_batch_on_function_error"`
+	MaximumRetryAttempts           int64             `json:"maximum_retry_attempts"`
+	StartingPositionTimestamp      string            `json:"starting_position_timestamp"`
+	Enabled                        bool              `json:"enabled"`
 	FunctionName                   string            `json:"function_name"`
 	Id                             string            `json:"id"`
-	MaximumBatchingWindowInSeconds int64             `json:"maximum_batching_window_in_seconds"`
-	BatchSize                      int64             `json:"batch_size"`
-	MaximumRecordAgeInSeconds      int64             `json:"maximum_record_age_in_seconds"`
-	MaximumRetryAttempts           int64             `json:"maximum_retry_attempts"`
-	ParallelizationFactor          int64             `json:"parallelization_factor"`
-	StartingPositionTimestamp      string            `json:"starting_position_timestamp"`
-	EventSourceArn                 string            `json:"event_source_arn"`
-	StartingPosition               string            `json:"starting_position"`
-	Enabled                        bool              `json:"enabled"`
 	DestinationConfig              DestinationConfig `json:"destination_config"`
 }
 
@@ -83,10 +83,10 @@ type LambdaEventSourceMappingStatus struct {
 
 // A LambdaEventSourceMappingObservation records the observed state of a LambdaEventSourceMapping
 type LambdaEventSourceMappingObservation struct {
-	FunctionArn           string `json:"function_arn"`
-	LastProcessingResult  string `json:"last_processing_result"`
-	Uuid                  string `json:"uuid"`
-	LastModified          string `json:"last_modified"`
 	State                 string `json:"state"`
+	Uuid                  string `json:"uuid"`
+	FunctionArn           string `json:"function_arn"`
 	StateTransitionReason string `json:"state_transition_reason"`
+	LastModified          string `json:"last_modified"`
+	LastProcessingResult  string `json:"last_processing_result"`
 }

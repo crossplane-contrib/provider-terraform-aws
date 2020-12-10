@@ -52,39 +52,39 @@ type OpsworksMemcachedLayerSpec struct {
 
 // A OpsworksMemcachedLayerParameters defines the desired state of a OpsworksMemcachedLayer
 type OpsworksMemcachedLayerParameters struct {
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	Name                     string            `json:"name"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
 	CustomJson               string            `json:"custom_json"`
 	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	SystemPackages           []string          `json:"system_packages"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
 	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	Id                       string            `json:"id"`
+	StackId                  string            `json:"stack_id"`
 	AllocatedMemory          int64             `json:"allocated_memory"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
 	AutoHealing              bool              `json:"auto_healing"`
 	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	Tags                     map[string]string `json:"tags"`
-	StackId                  string            `json:"stack_id"`
+	SystemPackages           []string          `json:"system_packages"`
 	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	Id                       string            `json:"id"`
+	Tags                     map[string]string `json:"tags"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	Name                     string            `json:"name"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
-	Size          int64  `json:"size"`
-	Type          string `json:"type"`
-	Encrypted     bool   `json:"encrypted"`
 	Iops          int64  `json:"iops"`
 	MountPoint    string `json:"mount_point"`
 	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
+	Size          int64  `json:"size"`
+	Type          string `json:"type"`
+	Encrypted     bool   `json:"encrypted"`
 }
 
 // A OpsworksMemcachedLayerStatus defines the observed state of a OpsworksMemcachedLayer

@@ -52,18 +52,18 @@ type MqBrokerSpec struct {
 
 // A MqBrokerParameters defines the desired state of a MqBroker
 type MqBrokerParameters struct {
-	AutoMinorVersionUpgrade    bool                       `json:"auto_minor_version_upgrade"`
-	SubnetIds                  []string                   `json:"subnet_ids"`
-	BrokerName                 string                     `json:"broker_name"`
-	EngineType                 string                     `json:"engine_type"`
-	HostInstanceType           string                     `json:"host_instance_type"`
 	Id                         string                     `json:"id"`
-	SecurityGroups             []string                   `json:"security_groups"`
-	Tags                       map[string]string          `json:"tags"`
-	ApplyImmediately           bool                       `json:"apply_immediately"`
-	EngineVersion              string                     `json:"engine_version"`
+	HostInstanceType           string                     `json:"host_instance_type"`
 	PubliclyAccessible         bool                       `json:"publicly_accessible"`
+	Tags                       map[string]string          `json:"tags"`
+	EngineVersion              string                     `json:"engine_version"`
+	SecurityGroups             []string                   `json:"security_groups"`
+	BrokerName                 string                     `json:"broker_name"`
 	DeploymentMode             string                     `json:"deployment_mode"`
+	EngineType                 string                     `json:"engine_type"`
+	SubnetIds                  []string                   `json:"subnet_ids"`
+	ApplyImmediately           bool                       `json:"apply_immediately"`
+	AutoMinorVersionUpgrade    bool                       `json:"auto_minor_version_upgrade"`
 	Configuration              Configuration              `json:"configuration"`
 	EncryptionOptions          EncryptionOptions          `json:"encryption_options"`
 	Logs                       Logs                       `json:"logs"`

@@ -52,23 +52,23 @@ type Apigatewayv2IntegrationSpec struct {
 
 // A Apigatewayv2IntegrationParameters defines the desired state of a Apigatewayv2Integration
 type Apigatewayv2IntegrationParameters struct {
-	Description                 string            `json:"description"`
-	RequestTemplates            map[string]string `json:"request_templates"`
-	PassthroughBehavior         string            `json:"passthrough_behavior"`
-	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
-	IntegrationType             string            `json:"integration_type"`
-	IntegrationSubtype          string            `json:"integration_subtype"`
-	RequestParameters           map[string]string `json:"request_parameters"`
-	TemplateSelectionExpression string            `json:"template_selection_expression"`
-	TimeoutMilliseconds         int64             `json:"timeout_milliseconds"`
+	IntegrationUri              string            `json:"integration_uri"`
+	Id                          string            `json:"id"`
 	ConnectionId                string            `json:"connection_id"`
 	ConnectionType              string            `json:"connection_type"`
-	Id                          string            `json:"id"`
-	IntegrationMethod           string            `json:"integration_method"`
-	IntegrationUri              string            `json:"integration_uri"`
-	PayloadFormatVersion        string            `json:"payload_format_version"`
-	ApiId                       string            `json:"api_id"`
 	CredentialsArn              string            `json:"credentials_arn"`
+	IntegrationMethod           string            `json:"integration_method"`
+	IntegrationType             string            `json:"integration_type"`
+	RequestTemplates            map[string]string `json:"request_templates"`
+	ApiId                       string            `json:"api_id"`
+	TemplateSelectionExpression string            `json:"template_selection_expression"`
+	PayloadFormatVersion        string            `json:"payload_format_version"`
+	RequestParameters           map[string]string `json:"request_parameters"`
+	IntegrationSubtype          string            `json:"integration_subtype"`
+	Description                 string            `json:"description"`
+	PassthroughBehavior         string            `json:"passthrough_behavior"`
+	TimeoutMilliseconds         int64             `json:"timeout_milliseconds"`
+	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
 	TlsConfig                   TlsConfig         `json:"tls_config"`
 }
 

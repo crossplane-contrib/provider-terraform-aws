@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DynamodbTableItem)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DynamodbTableItem.")
+	}
+	return EncodeDynamodbTableItem(*r), nil
+}
 
 func EncodeDynamodbTableItem(r DynamodbTableItem) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDynamodbTableItem_HashKey(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_Item(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_RangeKey(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_TableName(r.Spec.ForProvider, ctyVal)
+	EncodeDynamodbTableItem_HashKey(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDynamodbTableItem_HashKey(p DynamodbTableItemParameters, vals map[string]cty.Value) {
-	vals["hash_key"] = cty.StringVal(p.HashKey)
 }
 
 func EncodeDynamodbTableItem_Id(p DynamodbTableItemParameters, vals map[string]cty.Value) {
@@ -49,4 +59,8 @@ func EncodeDynamodbTableItem_RangeKey(p DynamodbTableItemParameters, vals map[st
 
 func EncodeDynamodbTableItem_TableName(p DynamodbTableItemParameters, vals map[string]cty.Value) {
 	vals["table_name"] = cty.StringVal(p.TableName)
+}
+
+func EncodeDynamodbTableItem_HashKey(p DynamodbTableItemParameters, vals map[string]cty.Value) {
+	vals["hash_key"] = cty.StringVal(p.HashKey)
 }

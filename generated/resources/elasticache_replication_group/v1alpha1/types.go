@@ -52,32 +52,32 @@ type ElasticacheReplicationGroupSpec struct {
 
 // A ElasticacheReplicationGroupParameters defines the desired state of a ElasticacheReplicationGroup
 type ElasticacheReplicationGroupParameters struct {
-	SnapshotRetentionLimit      int64             `json:"snapshot_retention_limit"`
-	ApplyImmediately            bool              `json:"apply_immediately"`
-	SecurityGroupIds            []string          `json:"security_group_ids"`
-	SnapshotArns                []string          `json:"snapshot_arns"`
-	SubnetGroupName             string            `json:"subnet_group_name"`
-	TransitEncryptionEnabled    bool              `json:"transit_encryption_enabled"`
 	AtRestEncryptionEnabled     bool              `json:"at_rest_encryption_enabled"`
-	ParameterGroupName          string            `json:"parameter_group_name"`
-	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
-	NumberCacheClusters         int64             `json:"number_cache_clusters"`
-	SnapshotName                string            `json:"snapshot_name"`
-	SnapshotWindow              string            `json:"snapshot_window"`
-	Engine                      string            `json:"engine"`
-	MaintenanceWindow           string            `json:"maintenance_window"`
 	Port                        int64             `json:"port"`
-	ReplicationGroupId          string            `json:"replication_group_id"`
-	NotificationTopicArn        string            `json:"notification_topic_arn"`
 	SecurityGroupNames          []string          `json:"security_group_names"`
-	AvailabilityZones           []string          `json:"availability_zones"`
+	SubnetGroupName             string            `json:"subnet_group_name"`
+	AuthToken                   string            `json:"auth_token"`
+	SnapshotArns                []string          `json:"snapshot_arns"`
+	ApplyImmediately            bool              `json:"apply_immediately"`
+	AutomaticFailoverEnabled    bool              `json:"automatic_failover_enabled"`
 	EngineVersion               string            `json:"engine_version"`
+	MaintenanceWindow           string            `json:"maintenance_window"`
+	NotificationTopicArn        string            `json:"notification_topic_arn"`
+	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
+	SecurityGroupIds            []string          `json:"security_group_ids"`
+	SnapshotRetentionLimit      int64             `json:"snapshot_retention_limit"`
+	NumberCacheClusters         int64             `json:"number_cache_clusters"`
+	ReplicationGroupDescription string            `json:"replication_group_description"`
+	TransitEncryptionEnabled    bool              `json:"transit_encryption_enabled"`
+	AvailabilityZones           []string          `json:"availability_zones"`
+	Id                          string            `json:"id"`
+	ParameterGroupName          string            `json:"parameter_group_name"`
+	ReplicationGroupId          string            `json:"replication_group_id"`
+	SnapshotName                string            `json:"snapshot_name"`
+	Engine                      string            `json:"engine"`
 	KmsKeyId                    string            `json:"kms_key_id"`
 	NodeType                    string            `json:"node_type"`
-	AuthToken                   string            `json:"auth_token"`
-	AutomaticFailoverEnabled    bool              `json:"automatic_failover_enabled"`
-	Id                          string            `json:"id"`
-	ReplicationGroupDescription string            `json:"replication_group_description"`
+	SnapshotWindow              string            `json:"snapshot_window"`
 	Tags                        map[string]string `json:"tags"`
 	ClusterMode                 ClusterMode       `json:"cluster_mode"`
 	Timeouts                    Timeouts          `json:"timeouts"`
@@ -89,9 +89,9 @@ type ClusterMode struct {
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A ElasticacheReplicationGroupStatus defines the observed state of a ElasticacheReplicationGroup

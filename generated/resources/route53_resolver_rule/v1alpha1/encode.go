@@ -17,23 +17,45 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Route53ResolverRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Route53ResolverRule.")
+	}
+	return EncodeRoute53ResolverRule(*r), nil
+}
 
 func EncodeRoute53ResolverRule(r Route53ResolverRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53ResolverRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRule_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRule_Name(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ResolverRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRule_ResolverEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRule_RuleType(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverRule_TargetIp(r.Spec.ForProvider.TargetIp, ctyVal)
 	EncodeRoute53ResolverRule_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeRoute53ResolverRule_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverRule_ShareStatus(r.Status.AtProvider, ctyVal)
+	EncodeRoute53ResolverRule_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRoute53ResolverRule_Tags(p Route53ResolverRuleParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRoute53ResolverRule_DomainName(p Route53ResolverRuleParameters, vals map[string]cty.Value) {
@@ -46,14 +68,6 @@ func EncodeRoute53ResolverRule_Id(p Route53ResolverRuleParameters, vals map[stri
 
 func EncodeRoute53ResolverRule_Name(p Route53ResolverRuleParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeRoute53ResolverRule_Tags(p Route53ResolverRuleParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRoute53ResolverRule_ResolverEndpointId(p Route53ResolverRuleParameters, vals map[string]cty.Value) {
@@ -83,10 +97,14 @@ func EncodeRoute53ResolverRule_TargetIp_Port(p TargetIp, vals map[string]cty.Val
 
 func EncodeRoute53ResolverRule_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53ResolverRule_Timeouts_Create(p, ctyVal)
 	EncodeRoute53ResolverRule_Timeouts_Delete(p, ctyVal)
 	EncodeRoute53ResolverRule_Timeouts_Update(p, ctyVal)
-	EncodeRoute53ResolverRule_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeRoute53ResolverRule_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeRoute53ResolverRule_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
@@ -97,16 +115,12 @@ func EncodeRoute53ResolverRule_Timeouts_Update(p Timeouts, vals map[string]cty.V
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeRoute53ResolverRule_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
+func EncodeRoute53ResolverRule_ShareStatus(p Route53ResolverRuleObservation, vals map[string]cty.Value) {
+	vals["share_status"] = cty.StringVal(p.ShareStatus)
 }
 
 func EncodeRoute53ResolverRule_OwnerId(p Route53ResolverRuleObservation, vals map[string]cty.Value) {
 	vals["owner_id"] = cty.StringVal(p.OwnerId)
-}
-
-func EncodeRoute53ResolverRule_ShareStatus(p Route53ResolverRuleObservation, vals map[string]cty.Value) {
-	vals["share_status"] = cty.StringVal(p.ShareStatus)
 }
 
 func EncodeRoute53ResolverRule_Arn(p Route53ResolverRuleObservation, vals map[string]cty.Value) {

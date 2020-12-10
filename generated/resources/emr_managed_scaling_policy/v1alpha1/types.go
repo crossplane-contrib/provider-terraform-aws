@@ -58,11 +58,11 @@ type EmrManagedScalingPolicyParameters struct {
 }
 
 type ComputeLimits struct {
-	UnitType                     string `json:"unit_type"`
-	MaximumCapacityUnits         int64  `json:"maximum_capacity_units"`
 	MaximumCoreCapacityUnits     int64  `json:"maximum_core_capacity_units"`
 	MaximumOndemandCapacityUnits int64  `json:"maximum_ondemand_capacity_units"`
 	MinimumCapacityUnits         int64  `json:"minimum_capacity_units"`
+	UnitType                     string `json:"unit_type"`
+	MaximumCapacityUnits         int64  `json:"maximum_capacity_units"`
 }
 
 // A EmrManagedScalingPolicyStatus defines the observed state of a EmrManagedScalingPolicy

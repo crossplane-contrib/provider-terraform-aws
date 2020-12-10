@@ -17,23 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SwfDomain)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SwfDomain.")
+	}
+	return EncodeSwfDomain(*r), nil
+}
 
 func EncodeSwfDomain(r SwfDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSwfDomain_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(r.Spec.ForProvider, ctyVal)
+	EncodeSwfDomain_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSwfDomain_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSwfDomain_Description(p SwfDomainParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeSwfDomain_Id(p SwfDomainParameters, vals map[string]cty.Value) {
@@ -58,6 +68,10 @@ func EncodeSwfDomain_Tags(p SwfDomainParameters, vals map[string]cty.Value) {
 
 func EncodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p SwfDomainParameters, vals map[string]cty.Value) {
 	vals["workflow_execution_retention_period_in_days"] = cty.StringVal(p.WorkflowExecutionRetentionPeriodInDays)
+}
+
+func EncodeSwfDomain_Description(p SwfDomainParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeSwfDomain_Arn(p SwfDomainObservation, vals map[string]cty.Value) {

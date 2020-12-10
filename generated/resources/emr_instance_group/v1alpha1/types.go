@@ -52,15 +52,15 @@ type EmrInstanceGroupSpec struct {
 
 // A EmrInstanceGroupParameters defines the desired state of a EmrInstanceGroup
 type EmrInstanceGroupParameters struct {
-	BidPrice           string    `json:"bid_price"`
-	ConfigurationsJson string    `json:"configurations_json"`
-	Name               string    `json:"name"`
-	Id                 string    `json:"id"`
-	InstanceCount      int64     `json:"instance_count"`
 	InstanceType       string    `json:"instance_type"`
+	Name               string    `json:"name"`
 	AutoscalingPolicy  string    `json:"autoscaling_policy"`
-	ClusterId          string    `json:"cluster_id"`
 	EbsOptimized       bool      `json:"ebs_optimized"`
+	InstanceCount      int64     `json:"instance_count"`
+	Id                 string    `json:"id"`
+	BidPrice           string    `json:"bid_price"`
+	ClusterId          string    `json:"cluster_id"`
+	ConfigurationsJson string    `json:"configurations_json"`
 	EbsConfig          EbsConfig `json:"ebs_config"`
 }
 

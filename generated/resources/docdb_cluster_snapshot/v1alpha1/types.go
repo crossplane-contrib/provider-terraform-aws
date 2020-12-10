@@ -53,8 +53,8 @@ type DocdbClusterSnapshotSpec struct {
 // A DocdbClusterSnapshotParameters defines the desired state of a DocdbClusterSnapshot
 type DocdbClusterSnapshotParameters struct {
 	DbClusterSnapshotIdentifier string   `json:"db_cluster_snapshot_identifier"`
-	Id                          string   `json:"id"`
 	DbClusterIdentifier         string   `json:"db_cluster_identifier"`
+	Id                          string   `json:"id"`
 	Timeouts                    Timeouts `json:"timeouts"`
 }
 
@@ -71,14 +71,14 @@ type DocdbClusterSnapshotStatus struct {
 // A DocdbClusterSnapshotObservation records the observed state of a DocdbClusterSnapshot
 type DocdbClusterSnapshotObservation struct {
 	Engine                     string   `json:"engine"`
-	EngineVersion              string   `json:"engine_version"`
-	VpcId                      string   `json:"vpc_id"`
-	Status                     string   `json:"status"`
-	KmsKeyId                   string   `json:"kms_key_id"`
 	SnapshotType               string   `json:"snapshot_type"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	Status                     string   `json:"status"`
 	StorageEncrypted           bool     `json:"storage_encrypted"`
+	AvailabilityZones          []string `json:"availability_zones"`
+	KmsKeyId                   string   `json:"kms_key_id"`
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	VpcId                      string   `json:"vpc_id"`
+	EngineVersion              string   `json:"engine_version"`
 	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
 	Port                       int64    `json:"port"`
-	AvailabilityZones          []string `json:"availability_zones"`
 }

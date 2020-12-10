@@ -17,32 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafregionalRateBasedRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafregionalRateBasedRule.")
+	}
+	return EncodeWafregionalRateBasedRule(*r), nil
+}
 
 func EncodeWafregionalRateBasedRule(r WafregionalRateBasedRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeWafregionalRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_RateKey(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_RateLimit(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Predicate(r.Spec.ForProvider.Predicate, ctyVal)
 	EncodeWafregionalRateBasedRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalRateBasedRule_Tags(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeWafregionalRateBasedRule_Id(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalRateBasedRule_MetricName(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
@@ -59,6 +61,18 @@ func EncodeWafregionalRateBasedRule_RateKey(p WafregionalRateBasedRuleParameters
 
 func EncodeWafregionalRateBasedRule_RateLimit(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
 	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
+}
+
+func EncodeWafregionalRateBasedRule_Tags(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeWafregionalRateBasedRule_Id(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalRateBasedRule_Predicate(p Predicate, vals map[string]cty.Value) {

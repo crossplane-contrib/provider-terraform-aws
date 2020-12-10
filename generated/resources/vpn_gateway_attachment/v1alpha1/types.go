@@ -52,9 +52,9 @@ type VpnGatewayAttachmentSpec struct {
 
 // A VpnGatewayAttachmentParameters defines the desired state of a VpnGatewayAttachment
 type VpnGatewayAttachmentParameters struct {
+	VpnGatewayId string `json:"vpn_gateway_id"`
 	Id           string `json:"id"`
 	VpcId        string `json:"vpc_id"`
-	VpnGatewayId string `json:"vpn_gateway_id"`
 }
 
 // A VpnGatewayAttachmentStatus defines the observed state of a VpnGatewayAttachment

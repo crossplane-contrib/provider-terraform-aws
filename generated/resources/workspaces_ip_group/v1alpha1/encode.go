@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WorkspacesIpGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WorkspacesIpGroup.")
+	}
+	return EncodeWorkspacesIpGroup(*r), nil
+}
 
 func EncodeWorkspacesIpGroup(r WorkspacesIpGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -54,16 +68,16 @@ func EncodeWorkspacesIpGroup_Tags(p WorkspacesIpGroupParameters, vals map[string
 func EncodeWorkspacesIpGroup_Rules(p Rules, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWorkspacesIpGroup_Rules_Source(p, ctyVal)
 	EncodeWorkspacesIpGroup_Rules_Description(p, ctyVal)
+	EncodeWorkspacesIpGroup_Rules_Source(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["rules"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWorkspacesIpGroup_Rules_Source(p Rules, vals map[string]cty.Value) {
-	vals["source"] = cty.StringVal(p.Source)
-}
-
 func EncodeWorkspacesIpGroup_Rules_Description(p Rules, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeWorkspacesIpGroup_Rules_Source(p Rules, vals map[string]cty.Value) {
+	vals["source"] = cty.StringVal(p.Source)
 }

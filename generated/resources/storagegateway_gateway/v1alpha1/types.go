@@ -52,29 +52,29 @@ type StoragegatewayGatewaySpec struct {
 
 // A StoragegatewayGatewayParameters defines the desired state of a StoragegatewayGateway
 type StoragegatewayGatewayParameters struct {
+	Id                                   string                     `json:"id"`
+	SmbGuestPassword                     string                     `json:"smb_guest_password"`
+	GatewayTimezone                      string                     `json:"gateway_timezone"`
+	SmbSecurityStrategy                  string                     `json:"smb_security_strategy"`
+	Tags                                 map[string]string          `json:"tags"`
+	MediumChangerType                    string                     `json:"medium_changer_type"`
+	TapeDriveType                        string                     `json:"tape_drive_type"`
+	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
+	GatewayName                          string                     `json:"gateway_name"`
+	GatewayType                          string                     `json:"gateway_type"`
+	GatewayVpcEndpoint                   string                     `json:"gateway_vpc_endpoint"`
+	GatewayIpAddress                     string                     `json:"gateway_ip_address"`
+	ActivationKey                        string                     `json:"activation_key"`
 	AverageDownloadRateLimitInBitsPerSec int64                      `json:"average_download_rate_limit_in_bits_per_sec"`
 	AverageUploadRateLimitInBitsPerSec   int64                      `json:"average_upload_rate_limit_in_bits_per_sec"`
-	GatewayIpAddress                     string                     `json:"gateway_ip_address"`
-	GatewayType                          string                     `json:"gateway_type"`
-	Id                                   string                     `json:"id"`
-	SmbSecurityStrategy                  string                     `json:"smb_security_strategy"`
-	GatewayTimezone                      string                     `json:"gateway_timezone"`
-	GatewayVpcEndpoint                   string                     `json:"gateway_vpc_endpoint"`
-	SmbGuestPassword                     string                     `json:"smb_guest_password"`
-	Tags                                 map[string]string          `json:"tags"`
-	TapeDriveType                        string                     `json:"tape_drive_type"`
-	ActivationKey                        string                     `json:"activation_key"`
-	GatewayName                          string                     `json:"gateway_name"`
-	MediumChangerType                    string                     `json:"medium_changer_type"`
-	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
 	SmbActiveDirectorySettings           SmbActiveDirectorySettings `json:"smb_active_directory_settings"`
 	Timeouts                             Timeouts                   `json:"timeouts"`
 }
 
 type SmbActiveDirectorySettings struct {
-	Password   string `json:"password"`
 	Username   string `json:"username"`
 	DomainName string `json:"domain_name"`
+	Password   string `json:"password"`
 }
 
 type Timeouts struct {

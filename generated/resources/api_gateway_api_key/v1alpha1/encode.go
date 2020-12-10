@@ -17,33 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayApiKey)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayApiKey.")
+	}
+	return EncodeApiGatewayApiKey(*r), nil
+}
 
 func EncodeApiGatewayApiKey(r ApiGatewayApiKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayApiKey_Value(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayApiKey_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Value(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayApiKey_LastUpdatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayApiKey_Arn(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayApiKey_CreatedDate(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayApiKey_Value(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
-}
-
-func EncodeApiGatewayApiKey_Tags(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeApiGatewayApiKey_Description(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
@@ -62,14 +64,26 @@ func EncodeApiGatewayApiKey_Name(p ApiGatewayApiKeyParameters, vals map[string]c
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeApiGatewayApiKey_Tags(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeApiGatewayApiKey_Value(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeApiGatewayApiKey_CreatedDate(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
+	vals["created_date"] = cty.StringVal(p.CreatedDate)
+}
+
 func EncodeApiGatewayApiKey_LastUpdatedDate(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
 	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
 }
 
 func EncodeApiGatewayApiKey_Arn(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeApiGatewayApiKey_CreatedDate(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
-	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }

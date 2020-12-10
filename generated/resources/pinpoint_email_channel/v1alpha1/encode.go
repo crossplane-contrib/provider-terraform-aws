@@ -17,31 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*PinpointEmailChannel)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a PinpointEmailChannel.")
+	}
+	return EncodePinpointEmailChannel(*r), nil
+}
 
 func EncodePinpointEmailChannel(r PinpointEmailChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointEmailChannel_FromAddress(r.Spec.ForProvider, ctyVal)
-	EncodePinpointEmailChannel_Id(r.Spec.ForProvider, ctyVal)
-	EncodePinpointEmailChannel_Identity(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodePinpointEmailChannel_FromAddress(r.Spec.ForProvider, ctyVal)
+	EncodePinpointEmailChannel_Id(r.Spec.ForProvider, ctyVal)
+	EncodePinpointEmailChannel_Identity(r.Spec.ForProvider, ctyVal)
 	EncodePinpointEmailChannel_MessagesPerSecond(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodePinpointEmailChannel_FromAddress(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	vals["from_address"] = cty.StringVal(p.FromAddress)
-}
-
-func EncodePinpointEmailChannel_Id(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodePinpointEmailChannel_Identity(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	vals["identity"] = cty.StringVal(p.Identity)
 }
 
 func EncodePinpointEmailChannel_RoleArn(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
@@ -54,6 +56,18 @@ func EncodePinpointEmailChannel_ApplicationId(p PinpointEmailChannelParameters, 
 
 func EncodePinpointEmailChannel_Enabled(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
 	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodePinpointEmailChannel_FromAddress(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
+	vals["from_address"] = cty.StringVal(p.FromAddress)
+}
+
+func EncodePinpointEmailChannel_Id(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodePinpointEmailChannel_Identity(p PinpointEmailChannelParameters, vals map[string]cty.Value) {
+	vals["identity"] = cty.StringVal(p.Identity)
 }
 
 func EncodePinpointEmailChannel_MessagesPerSecond(p PinpointEmailChannelObservation, vals map[string]cty.Value) {

@@ -17,18 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DbSecurityGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DbSecurityGroup.")
+	}
+	return EncodeDbSecurityGroup(*r), nil
+}
 
 func EncodeDbSecurityGroup(r DbSecurityGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbSecurityGroup_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDbSecurityGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDbSecurityGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDbSecurityGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDbSecurityGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDbSecurityGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDbSecurityGroup_Ingress(r.Spec.ForProvider.Ingress, ctyVal)
 	EncodeDbSecurityGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDbSecurityGroup_Id(p DbSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDbSecurityGroup_Name(p DbSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDbSecurityGroup_Tags(p DbSecurityGroupParameters, vals map[string]cty.Value) {
@@ -41,14 +63,6 @@ func EncodeDbSecurityGroup_Tags(p DbSecurityGroupParameters, vals map[string]cty
 
 func EncodeDbSecurityGroup_Description(p DbSecurityGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDbSecurityGroup_Id(p DbSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDbSecurityGroup_Name(p DbSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDbSecurityGroup_Ingress(p []Ingress, vals map[string]cty.Value) {

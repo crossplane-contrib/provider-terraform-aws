@@ -52,18 +52,18 @@ type AmiSpec struct {
 
 // A AmiParameters defines the desired state of a Ami
 type AmiParameters struct {
+	Id                   string               `json:"id"`
+	Tags                 map[string]string    `json:"tags"`
 	Architecture         string               `json:"architecture"`
+	VirtualizationType   string               `json:"virtualization_type"`
+	Description          string               `json:"description"`
 	EnaSupport           bool                 `json:"ena_support"`
-	ImageLocation        string               `json:"image_location"`
 	RamdiskId            string               `json:"ramdisk_id"`
 	RootDeviceName       string               `json:"root_device_name"`
-	VirtualizationType   string               `json:"virtualization_type"`
 	SriovNetSupport      string               `json:"sriov_net_support"`
-	Description          string               `json:"description"`
+	ImageLocation        string               `json:"image_location"`
 	KernelId             string               `json:"kernel_id"`
 	Name                 string               `json:"name"`
-	Tags                 map[string]string    `json:"tags"`
-	Id                   string               `json:"id"`
 	EbsBlockDevice       EbsBlockDevice       `json:"ebs_block_device"`
 	EphemeralBlockDevice EphemeralBlockDevice `json:"ephemeral_block_device"`
 	Timeouts             Timeouts             `json:"timeouts"`
@@ -99,6 +99,6 @@ type AmiStatus struct {
 // A AmiObservation records the observed state of a Ami
 type AmiObservation struct {
 	Arn                string `json:"arn"`
-	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
 	RootSnapshotId     string `json:"root_snapshot_id"`
+	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
 }

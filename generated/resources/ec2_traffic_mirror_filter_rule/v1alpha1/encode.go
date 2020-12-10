@@ -17,40 +17,50 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Ec2TrafficMirrorFilterRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Ec2TrafficMirrorFilterRule.")
+	}
+	return EncodeEc2TrafficMirrorFilterRule(*r), nil
+}
 
 func EncodeEc2TrafficMirrorFilterRule(r Ec2TrafficMirrorFilterRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEc2TrafficMirrorFilterRule_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilterRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorFilterRule_RuleAction(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorFilterRule_SourceCidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorFilterRule_RuleNumber(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TrafficMirrorFilterRule_Protocol(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilterRule_TrafficDirection(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilterRule_TrafficMirrorFilterId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilterRule_Description(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorFilterRule_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorFilterRule_Protocol(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TrafficMirrorFilterRule_RuleAction(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TrafficMirrorFilterRule_RuleNumber(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TrafficMirrorFilterRule_SourceCidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilterRule_DestinationPortRange(r.Spec.ForProvider.DestinationPortRange, ctyVal)
 	EncodeEc2TrafficMirrorFilterRule_SourcePortRange(r.Spec.ForProvider.SourcePortRange, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeEc2TrafficMirrorFilterRule_DestinationCidrBlock(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
+	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
+}
+
 func EncodeEc2TrafficMirrorFilterRule_Id(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2TrafficMirrorFilterRule_RuleAction(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
-	vals["rule_action"] = cty.StringVal(p.RuleAction)
-}
-
-func EncodeEc2TrafficMirrorFilterRule_SourceCidrBlock(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
-	vals["source_cidr_block"] = cty.StringVal(p.SourceCidrBlock)
-}
-
-func EncodeEc2TrafficMirrorFilterRule_RuleNumber(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
-	vals["rule_number"] = cty.NumberIntVal(p.RuleNumber)
+func EncodeEc2TrafficMirrorFilterRule_Protocol(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
+	vals["protocol"] = cty.NumberIntVal(p.Protocol)
 }
 
 func EncodeEc2TrafficMirrorFilterRule_TrafficDirection(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
@@ -65,12 +75,16 @@ func EncodeEc2TrafficMirrorFilterRule_Description(p Ec2TrafficMirrorFilterRulePa
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeEc2TrafficMirrorFilterRule_DestinationCidrBlock(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
-	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
+func EncodeEc2TrafficMirrorFilterRule_RuleAction(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
+	vals["rule_action"] = cty.StringVal(p.RuleAction)
 }
 
-func EncodeEc2TrafficMirrorFilterRule_Protocol(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
-	vals["protocol"] = cty.NumberIntVal(p.Protocol)
+func EncodeEc2TrafficMirrorFilterRule_RuleNumber(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
+	vals["rule_number"] = cty.NumberIntVal(p.RuleNumber)
+}
+
+func EncodeEc2TrafficMirrorFilterRule_SourceCidrBlock(p Ec2TrafficMirrorFilterRuleParameters, vals map[string]cty.Value) {
+	vals["source_cidr_block"] = cty.StringVal(p.SourceCidrBlock)
 }
 
 func EncodeEc2TrafficMirrorFilterRule_DestinationPortRange(p DestinationPortRange, vals map[string]cty.Value) {

@@ -17,21 +17,43 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Route53ResolverEndpoint)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Route53ResolverEndpoint.")
+	}
+	return EncodeRoute53ResolverEndpoint(*r), nil
+}
 
 func EncodeRoute53ResolverEndpoint(r Route53ResolverEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53ResolverEndpoint_Direction(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ResolverEndpoint_Direction(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ResolverEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_IpAddress(r.Spec.ForProvider.IpAddress, ctyVal)
 	EncodeRoute53ResolverEndpoint_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeRoute53ResolverEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverEndpoint_HostVpcId(r.Status.AtProvider, ctyVal)
+	EncodeRoute53ResolverEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRoute53ResolverEndpoint_Direction(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
+	vals["direction"] = cty.StringVal(p.Direction)
+}
+
+func EncodeRoute53ResolverEndpoint_Id(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRoute53ResolverEndpoint_Name(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
@@ -54,24 +76,20 @@ func EncodeRoute53ResolverEndpoint_Tags(p Route53ResolverEndpointParameters, val
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRoute53ResolverEndpoint_Direction(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
-	vals["direction"] = cty.StringVal(p.Direction)
-}
-
-func EncodeRoute53ResolverEndpoint_Id(p Route53ResolverEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeRoute53ResolverEndpoint_IpAddress(p []IpAddress, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeRoute53ResolverEndpoint_IpAddress_Ip(v, ctyVal)
 		EncodeRoute53ResolverEndpoint_IpAddress_IpId(v, ctyVal)
 		EncodeRoute53ResolverEndpoint_IpAddress_SubnetId(v, ctyVal)
-		EncodeRoute53ResolverEndpoint_IpAddress_Ip(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["ip_address"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeRoute53ResolverEndpoint_IpAddress_Ip(p IpAddress, vals map[string]cty.Value) {
+	vals["ip"] = cty.StringVal(p.Ip)
 }
 
 func EncodeRoute53ResolverEndpoint_IpAddress_IpId(p IpAddress, vals map[string]cty.Value) {
@@ -82,16 +100,16 @@ func EncodeRoute53ResolverEndpoint_IpAddress_SubnetId(p IpAddress, vals map[stri
 	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
-func EncodeRoute53ResolverEndpoint_IpAddress_Ip(p IpAddress, vals map[string]cty.Value) {
-	vals["ip"] = cty.StringVal(p.Ip)
-}
-
 func EncodeRoute53ResolverEndpoint_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53ResolverEndpoint_Timeouts_Delete(p, ctyVal)
 	EncodeRoute53ResolverEndpoint_Timeouts_Update(p, ctyVal)
 	EncodeRoute53ResolverEndpoint_Timeouts_Create(p, ctyVal)
-	EncodeRoute53ResolverEndpoint_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeRoute53ResolverEndpoint_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeRoute53ResolverEndpoint_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
@@ -102,14 +120,10 @@ func EncodeRoute53ResolverEndpoint_Timeouts_Create(p Timeouts, vals map[string]c
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeRoute53ResolverEndpoint_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
+func EncodeRoute53ResolverEndpoint_HostVpcId(p Route53ResolverEndpointObservation, vals map[string]cty.Value) {
+	vals["host_vpc_id"] = cty.StringVal(p.HostVpcId)
 }
 
 func EncodeRoute53ResolverEndpoint_Arn(p Route53ResolverEndpointObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeRoute53ResolverEndpoint_HostVpcId(p Route53ResolverEndpointObservation, vals map[string]cty.Value) {
-	vals["host_vpc_id"] = cty.StringVal(p.HostVpcId)
 }

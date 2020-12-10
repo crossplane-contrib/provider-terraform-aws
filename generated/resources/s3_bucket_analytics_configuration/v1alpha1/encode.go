@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*S3BucketAnalyticsConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a S3BucketAnalyticsConfiguration.")
+	}
+	return EncodeS3BucketAnalyticsConfiguration(*r), nil
+}
 
 func EncodeS3BucketAnalyticsConfiguration(r S3BucketAnalyticsConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -96,20 +110,12 @@ func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destin
 func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination(p S3BucketDestination, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_Prefix(p, ctyVal)
-	EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_BucketAccountId(p, ctyVal)
 	EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_BucketArn(p, ctyVal)
 	EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_Format(p, ctyVal)
+	EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_Prefix(p, ctyVal)
+	EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_BucketAccountId(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["s3_bucket_destination"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_Prefix(p S3BucketDestination, vals map[string]cty.Value) {
-	vals["prefix"] = cty.StringVal(p.Prefix)
-}
-
-func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_BucketAccountId(p S3BucketDestination, vals map[string]cty.Value) {
-	vals["bucket_account_id"] = cty.StringVal(p.BucketAccountId)
 }
 
 func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_BucketArn(p S3BucketDestination, vals map[string]cty.Value) {
@@ -118,4 +124,12 @@ func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destin
 
 func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_Format(p S3BucketDestination, vals map[string]cty.Value) {
 	vals["format"] = cty.StringVal(p.Format)
+}
+
+func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_Prefix(p S3BucketDestination, vals map[string]cty.Value) {
+	vals["prefix"] = cty.StringVal(p.Prefix)
+}
+
+func EncodeS3BucketAnalyticsConfiguration_StorageClassAnalysis_DataExport_Destination_S3BucketDestination_BucketAccountId(p S3BucketDestination, vals map[string]cty.Value) {
+	vals["bucket_account_id"] = cty.StringVal(p.BucketAccountId)
 }

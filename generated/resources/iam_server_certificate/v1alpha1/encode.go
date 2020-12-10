@@ -17,11 +17,26 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamServerCertificate)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamServerCertificate.")
+	}
+	return EncodeIamServerCertificate(*r), nil
+}
 
 func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_CertificateBody(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_CertificateChain(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Id(r.Spec.ForProvider, ctyVal)
@@ -29,9 +44,12 @@ func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
 	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeIamServerCertificate_CertificateBody(p IamServerCertificateParameters, vals map[string]cty.Value) {
@@ -60,8 +78,4 @@ func EncodeIamServerCertificate_Path(p IamServerCertificateParameters, vals map[
 
 func EncodeIamServerCertificate_PrivateKey(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["private_key"] = cty.StringVal(p.PrivateKey)
-}
-
-func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

@@ -106,13 +106,13 @@ func (in *ConfigOrganizationCustomRuleParameters) DeepCopyInto(out *ConfigOrgani
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.ResourceTypesScope != nil {
-		in, out := &in.ResourceTypesScope, &out.ResourceTypesScope
+	if in.TriggerTypes != nil {
+		in, out := &in.TriggerTypes, &out.TriggerTypes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.TriggerTypes != nil {
-		in, out := &in.TriggerTypes, &out.TriggerTypes
+	if in.ResourceTypesScope != nil {
+		in, out := &in.ResourceTypesScope, &out.ResourceTypesScope
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}

@@ -17,23 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*PinpointSmsChannel)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a PinpointSmsChannel.")
+	}
+	return EncodePinpointSmsChannel(*r), nil
+}
 
 func EncodePinpointSmsChannel(r PinpointSmsChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointSmsChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_SenderId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_ShortCode(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodePinpointSmsChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_PromotionalMessagesPerSecond(r.Status.AtProvider, ctyVal)
 	EncodePinpointSmsChannel_TransactionalMessagesPerSecond(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodePinpointSmsChannel_Id(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodePinpointSmsChannel_SenderId(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
@@ -50,6 +60,10 @@ func EncodePinpointSmsChannel_ApplicationId(p PinpointSmsChannelParameters, vals
 
 func EncodePinpointSmsChannel_Enabled(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
 	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodePinpointSmsChannel_Id(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodePinpointSmsChannel_PromotionalMessagesPerSecond(p PinpointSmsChannelObservation, vals map[string]cty.Value) {

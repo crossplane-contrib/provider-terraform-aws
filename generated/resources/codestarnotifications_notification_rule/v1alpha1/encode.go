@@ -17,29 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CodestarnotificationsNotificationRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CodestarnotificationsNotificationRule.")
+	}
+	return EncodeCodestarnotificationsNotificationRule(*r), nil
+}
 
 func EncodeCodestarnotificationsNotificationRule(r CodestarnotificationsNotificationRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodestarnotificationsNotificationRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_DetailType(r.Spec.ForProvider, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_EventTypeIds(r.Spec.ForProvider, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_Resource(r.Spec.ForProvider, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_Status(r.Spec.ForProvider, ctyVal)
+	EncodeCodestarnotificationsNotificationRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_Target(r.Spec.ForProvider.Target, ctyVal)
 	EncodeCodestarnotificationsNotificationRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCodestarnotificationsNotificationRule_Tags(p CodestarnotificationsNotificationRuleParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCodestarnotificationsNotificationRule_DetailType(p CodestarnotificationsNotificationRuleParameters, vals map[string]cty.Value) {
@@ -68,6 +74,14 @@ func EncodeCodestarnotificationsNotificationRule_Resource(p Codestarnotification
 
 func EncodeCodestarnotificationsNotificationRule_Status(p CodestarnotificationsNotificationRuleParameters, vals map[string]cty.Value) {
 	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeCodestarnotificationsNotificationRule_Tags(p CodestarnotificationsNotificationRuleParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCodestarnotificationsNotificationRule_Target(p []Target, vals map[string]cty.Value) {

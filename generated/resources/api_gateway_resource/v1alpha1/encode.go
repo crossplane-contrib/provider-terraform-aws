@@ -17,25 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayResource)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayResource.")
+	}
+	return EncodeApiGatewayResource(*r), nil
+}
 
 func EncodeApiGatewayResource(r ApiGatewayResource) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayResource_PathPart(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayResource_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayResource_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayResource_ParentId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayResource_PathPart(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayResource_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayResource_Path(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayResource_PathPart(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
-	vals["path_part"] = cty.StringVal(p.PathPart)
-}
-
-func EncodeApiGatewayResource_RestApiId(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayResource_Id(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
@@ -44,6 +50,14 @@ func EncodeApiGatewayResource_Id(p ApiGatewayResourceParameters, vals map[string
 
 func EncodeApiGatewayResource_ParentId(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
 	vals["parent_id"] = cty.StringVal(p.ParentId)
+}
+
+func EncodeApiGatewayResource_PathPart(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	vals["path_part"] = cty.StringVal(p.PathPart)
+}
+
+func EncodeApiGatewayResource_RestApiId(p ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayResource_Path(p ApiGatewayResourceObservation, vals map[string]cty.Value) {

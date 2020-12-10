@@ -17,27 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ConfigDeliveryChannel)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ConfigDeliveryChannel.")
+	}
+	return EncodeConfigDeliveryChannel(*r), nil
+}
 
 func EncodeConfigDeliveryChannel(r ConfigDeliveryChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigDeliveryChannel_SnsTopicArn(r.Spec.ForProvider, ctyVal)
-	EncodeConfigDeliveryChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_Name(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_S3BucketName(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_S3KeyPrefix(r.Spec.ForProvider, ctyVal)
+	EncodeConfigDeliveryChannel_SnsTopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeConfigDeliveryChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigDeliveryChannel_SnapshotDeliveryProperties(r.Spec.ForProvider.SnapshotDeliveryProperties, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeConfigDeliveryChannel_SnsTopicArn(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
-	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
-}
-
-func EncodeConfigDeliveryChannel_Id(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigDeliveryChannel_Name(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
@@ -50,6 +56,14 @@ func EncodeConfigDeliveryChannel_S3BucketName(p ConfigDeliveryChannelParameters,
 
 func EncodeConfigDeliveryChannel_S3KeyPrefix(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
 	vals["s3_key_prefix"] = cty.StringVal(p.S3KeyPrefix)
+}
+
+func EncodeConfigDeliveryChannel_SnsTopicArn(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
+	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
+}
+
+func EncodeConfigDeliveryChannel_Id(p ConfigDeliveryChannelParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigDeliveryChannel_SnapshotDeliveryProperties(p SnapshotDeliveryProperties, vals map[string]cty.Value) {

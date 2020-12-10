@@ -52,26 +52,46 @@ type DmsEndpointSpec struct {
 
 // A DmsEndpointParameters defines the desired state of a DmsEndpoint
 type DmsEndpointParameters struct {
-	CertificateArn            string                `json:"certificate_arn"`
-	EndpointType              string                `json:"endpoint_type"`
-	DatabaseName              string                `json:"database_name"`
-	EndpointId                string                `json:"endpoint_id"`
 	ExtraConnectionAttributes string                `json:"extra_connection_attributes"`
-	Id                        string                `json:"id"`
 	Password                  string                `json:"password"`
+	SslMode                   string                `json:"ssl_mode"`
+	Tags                      map[string]string     `json:"tags"`
+	CertificateArn            string                `json:"certificate_arn"`
 	EngineName                string                `json:"engine_name"`
+	ServerName                string                `json:"server_name"`
+	ServiceAccessRole         string                `json:"service_access_role"`
+	Id                        string                `json:"id"`
 	KmsKeyArn                 string                `json:"kms_key_arn"`
 	Port                      int64                 `json:"port"`
-	ServerName                string                `json:"server_name"`
-	SslMode                   string                `json:"ssl_mode"`
 	Username                  string                `json:"username"`
-	ServiceAccessRole         string                `json:"service_access_role"`
-	Tags                      map[string]string     `json:"tags"`
-	S3Settings                S3Settings            `json:"s3_settings"`
-	ElasticsearchSettings     ElasticsearchSettings `json:"elasticsearch_settings"`
+	DatabaseName              string                `json:"database_name"`
+	EndpointId                string                `json:"endpoint_id"`
+	EndpointType              string                `json:"endpoint_type"`
 	KafkaSettings             KafkaSettings         `json:"kafka_settings"`
 	KinesisSettings           KinesisSettings       `json:"kinesis_settings"`
 	MongodbSettings           MongodbSettings       `json:"mongodb_settings"`
+	S3Settings                S3Settings            `json:"s3_settings"`
+	ElasticsearchSettings     ElasticsearchSettings `json:"elasticsearch_settings"`
+}
+
+type KafkaSettings struct {
+	Broker string `json:"broker"`
+	Topic  string `json:"topic"`
+}
+
+type KinesisSettings struct {
+	MessageFormat        string `json:"message_format"`
+	ServiceAccessRoleArn string `json:"service_access_role_arn"`
+	StreamArn            string `json:"stream_arn"`
+}
+
+type MongodbSettings struct {
+	AuthType          string `json:"auth_type"`
+	DocsToInvestigate string `json:"docs_to_investigate"`
+	ExtractDocId      string `json:"extract_doc_id"`
+	NestingLevel      string `json:"nesting_level"`
+	AuthMechanism     string `json:"auth_mechanism"`
+	AuthSource        string `json:"auth_source"`
 }
 
 type S3Settings struct {
@@ -85,30 +105,10 @@ type S3Settings struct {
 }
 
 type ElasticsearchSettings struct {
-	EndpointUri             string `json:"endpoint_uri"`
-	ErrorRetryDuration      int64  `json:"error_retry_duration"`
 	FullLoadErrorPercentage int64  `json:"full_load_error_percentage"`
 	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
-}
-
-type KafkaSettings struct {
-	Broker string `json:"broker"`
-	Topic  string `json:"topic"`
-}
-
-type KinesisSettings struct {
-	StreamArn            string `json:"stream_arn"`
-	MessageFormat        string `json:"message_format"`
-	ServiceAccessRoleArn string `json:"service_access_role_arn"`
-}
-
-type MongodbSettings struct {
-	NestingLevel      string `json:"nesting_level"`
-	AuthMechanism     string `json:"auth_mechanism"`
-	AuthSource        string `json:"auth_source"`
-	AuthType          string `json:"auth_type"`
-	DocsToInvestigate string `json:"docs_to_investigate"`
-	ExtractDocId      string `json:"extract_doc_id"`
+	EndpointUri             string `json:"endpoint_uri"`
+	ErrorRetryDuration      int64  `json:"error_retry_duration"`
 }
 
 // A DmsEndpointStatus defines the observed state of a DmsEndpoint

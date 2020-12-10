@@ -54,9 +54,9 @@ type LightsailKeyPairSpec struct {
 type LightsailKeyPairParameters struct {
 	NamePrefix string `json:"name_prefix"`
 	PgpKey     string `json:"pgp_key"`
-	PublicKey  string `json:"public_key"`
 	Id         string `json:"id"`
 	Name       string `json:"name"`
+	PublicKey  string `json:"public_key"`
 }
 
 // A LightsailKeyPairStatus defines the observed state of a LightsailKeyPair
@@ -67,9 +67,9 @@ type LightsailKeyPairStatus struct {
 
 // A LightsailKeyPairObservation records the observed state of a LightsailKeyPair
 type LightsailKeyPairObservation struct {
-	EncryptedPrivateKey  string `json:"encrypted_private_key"`
-	Fingerprint          string `json:"fingerprint"`
 	PrivateKey           string `json:"private_key"`
 	Arn                  string `json:"arn"`
 	EncryptedFingerprint string `json:"encrypted_fingerprint"`
+	EncryptedPrivateKey  string `json:"encrypted_private_key"`
+	Fingerprint          string `json:"fingerprint"`
 }

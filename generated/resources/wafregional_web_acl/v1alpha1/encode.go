@@ -17,24 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafregionalWebAcl)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafregionalWebAcl.")
+	}
+	return EncodeWafregionalWebAcl(*r), nil
+}
 
 func EncodeWafregionalWebAcl(r WafregionalWebAcl) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalWebAcl_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAcl_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAcl_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAcl_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalWebAcl_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalWebAcl_DefaultAction(r.Spec.ForProvider.DefaultAction, ctyVal)
 	EncodeWafregionalWebAcl_LoggingConfiguration(r.Spec.ForProvider.LoggingConfiguration, ctyVal)
 	EncodeWafregionalWebAcl_Rule(r.Spec.ForProvider.Rule, ctyVal)
-	EncodeWafregionalWebAcl_DefaultAction(r.Spec.ForProvider.DefaultAction, ctyVal)
 	EncodeWafregionalWebAcl_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalWebAcl_Id(p WafregionalWebAclParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalWebAcl_MetricName(p WafregionalWebAclParameters, vals map[string]cty.Value) {
@@ -51,6 +61,22 @@ func EncodeWafregionalWebAcl_Tags(p WafregionalWebAclParameters, vals map[string
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeWafregionalWebAcl_Id(p WafregionalWebAclParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafregionalWebAcl_DefaultAction(p DefaultAction, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalWebAcl_DefaultAction_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["default_action"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWafregionalWebAcl_DefaultAction_Type(p DefaultAction, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafregionalWebAcl_LoggingConfiguration(p LoggingConfiguration, vals map[string]cty.Value) {
@@ -99,8 +125,8 @@ func EncodeWafregionalWebAcl_Rule(p Rule, vals map[string]cty.Value) {
 	EncodeWafregionalWebAcl_Rule_Priority(p, ctyVal)
 	EncodeWafregionalWebAcl_Rule_RuleId(p, ctyVal)
 	EncodeWafregionalWebAcl_Rule_Type(p, ctyVal)
-	EncodeWafregionalWebAcl_Rule_Action(p.Action, ctyVal)
 	EncodeWafregionalWebAcl_Rule_OverrideAction(p.OverrideAction, ctyVal)
+	EncodeWafregionalWebAcl_Rule_Action(p.Action, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["rule"] = cty.SetVal(valsForCollection)
 }
@@ -117,18 +143,6 @@ func EncodeWafregionalWebAcl_Rule_Type(p Rule, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeWafregionalWebAcl_Rule_Action(p Action, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalWebAcl_Rule_Action_Type(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["action"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeWafregionalWebAcl_Rule_Action_Type(p Action, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
 func EncodeWafregionalWebAcl_Rule_OverrideAction(p OverrideAction, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
@@ -141,15 +155,15 @@ func EncodeWafregionalWebAcl_Rule_OverrideAction_Type(p OverrideAction, vals map
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeWafregionalWebAcl_DefaultAction(p DefaultAction, vals map[string]cty.Value) {
+func EncodeWafregionalWebAcl_Rule_Action(p Action, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalWebAcl_DefaultAction_Type(p, ctyVal)
+	EncodeWafregionalWebAcl_Rule_Action_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["default_action"] = cty.ListVal(valsForCollection)
+	vals["action"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafregionalWebAcl_DefaultAction_Type(p DefaultAction, vals map[string]cty.Value) {
+func EncodeWafregionalWebAcl_Rule_Action_Type(p Action, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 

@@ -17,21 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*LoadBalancerBackendServerPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a LoadBalancerBackendServerPolicy.")
+	}
+	return EncodeLoadBalancerBackendServerPolicy(*r), nil
+}
 
 func EncodeLoadBalancerBackendServerPolicy(r LoadBalancerBackendServerPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLoadBalancerBackendServerPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_InstancePort(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_LoadBalancerName(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_PolicyNames(r.Spec.ForProvider, ctyVal)
+	EncodeLoadBalancerBackendServerPolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLoadBalancerBackendServerPolicy_Id(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLoadBalancerBackendServerPolicy_InstancePort(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
@@ -48,4 +58,8 @@ func EncodeLoadBalancerBackendServerPolicy_PolicyNames(p LoadBalancerBackendServ
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["policy_names"] = cty.SetVal(colVals)
+}
+
+func EncodeLoadBalancerBackendServerPolicy_Id(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

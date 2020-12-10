@@ -52,10 +52,10 @@ type CodecommitRepositorySpec struct {
 
 // A CodecommitRepositoryParameters defines the desired state of a CodecommitRepository
 type CodecommitRepositoryParameters struct {
+	Description    string            `json:"description"`
+	RepositoryName string            `json:"repository_name"`
 	DefaultBranch  string            `json:"default_branch"`
 	Id             string            `json:"id"`
-	RepositoryName string            `json:"repository_name"`
-	Description    string            `json:"description"`
 	Tags           map[string]string `json:"tags"`
 }
 

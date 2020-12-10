@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DbProxyDefaultTargetGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DbProxyDefaultTargetGroup.")
+	}
+	return EncodeDbProxyDefaultTargetGroup(*r), nil
+}
 
 func EncodeDbProxyDefaultTargetGroup(r DbProxyDefaultTargetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -42,17 +56,13 @@ func EncodeDbProxyDefaultTargetGroup_Id(p DbProxyDefaultTargetGroupParameters, v
 func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig(p ConnectionPoolConfig, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_InitQuery(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_MaxConnectionsPercent(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_MaxIdleConnectionsPercent(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_SessionPinningFilters(p, ctyVal)
+	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["connection_pool_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p ConnectionPoolConfig, vals map[string]cty.Value) {
-	vals["connection_borrow_timeout"] = cty.NumberIntVal(p.ConnectionBorrowTimeout)
 }
 
 func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_InitQuery(p ConnectionPoolConfig, vals map[string]cty.Value) {
@@ -73,6 +83,10 @@ func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_SessionPinningFilters(
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["session_pinning_filters"] = cty.SetVal(colVals)
+}
+
+func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p ConnectionPoolConfig, vals map[string]cty.Value) {
+	vals["connection_borrow_timeout"] = cty.NumberIntVal(p.ConnectionBorrowTimeout)
 }
 
 func EncodeDbProxyDefaultTargetGroup_Timeouts(p Timeouts, vals map[string]cty.Value) {

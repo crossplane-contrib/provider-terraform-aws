@@ -52,26 +52,26 @@ type GlueMlTransformSpec struct {
 
 // A GlueMlTransformParameters defines the desired state of a GlueMlTransform
 type GlueMlTransformParameters struct {
-	GlueVersion       string              `json:"glue_version"`
-	WorkerType        string              `json:"worker_type"`
-	Description       string              `json:"description"`
-	MaxCapacity       int64               `json:"max_capacity"`
-	Timeout           int64               `json:"timeout"`
 	NumberOfWorkers   int64               `json:"number_of_workers"`
-	RoleArn           string              `json:"role_arn"`
-	Id                string              `json:"id"`
-	Name              string              `json:"name"`
+	WorkerType        string              `json:"worker_type"`
+	GlueVersion       string              `json:"glue_version"`
 	MaxRetries        int64               `json:"max_retries"`
+	Name              string              `json:"name"`
+	Timeout           int64               `json:"timeout"`
+	RoleArn           string              `json:"role_arn"`
 	Tags              map[string]string   `json:"tags"`
+	Id                string              `json:"id"`
+	MaxCapacity       int64               `json:"max_capacity"`
+	Description       string              `json:"description"`
 	InputRecordTables []InputRecordTables `json:"input_record_tables"`
 	Parameters        Parameters          `json:"parameters"`
 }
 
 type InputRecordTables struct {
+	CatalogId      string `json:"catalog_id"`
 	ConnectionName string `json:"connection_name"`
 	DatabaseName   string `json:"database_name"`
 	TableName      string `json:"table_name"`
-	CatalogId      string `json:"catalog_id"`
 }
 
 type Parameters struct {
@@ -95,11 +95,11 @@ type GlueMlTransformStatus struct {
 // A GlueMlTransformObservation records the observed state of a GlueMlTransform
 type GlueMlTransformObservation struct {
 	Schema     []Schema `json:"schema"`
-	Arn        string   `json:"arn"`
 	LabelCount int64    `json:"label_count"`
+	Arn        string   `json:"arn"`
 }
 
 type Schema struct {
-	Name     string `json:"name"`
 	DataType string `json:"data_type"`
+	Name     string `json:"name"`
 }

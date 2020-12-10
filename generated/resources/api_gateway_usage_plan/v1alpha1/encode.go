@@ -17,25 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayUsagePlan)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayUsagePlan.")
+	}
+	return EncodeApiGatewayUsagePlan(*r), nil
+}
 
 func EncodeApiGatewayUsagePlan(r ApiGatewayUsagePlan) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayUsagePlan_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_ProductCode(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Description(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayUsagePlan_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_ApiStages(r.Spec.ForProvider.ApiStages, ctyVal)
 	EncodeApiGatewayUsagePlan_QuotaSettings(r.Spec.ForProvider.QuotaSettings, ctyVal)
 	EncodeApiGatewayUsagePlan_ThrottleSettings(r.Spec.ForProvider.ThrottleSettings, ctyVal)
 	EncodeApiGatewayUsagePlan_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayUsagePlan_Id(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayUsagePlan_Name(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
@@ -56,6 +66,10 @@ func EncodeApiGatewayUsagePlan_Tags(p ApiGatewayUsagePlanParameters, vals map[st
 
 func EncodeApiGatewayUsagePlan_Description(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeApiGatewayUsagePlan_Id(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayUsagePlan_ApiStages(p ApiStages, vals map[string]cty.Value) {

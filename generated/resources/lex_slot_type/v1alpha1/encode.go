@@ -17,54 +17,72 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*LexSlotType)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a LexSlotType.")
+	}
+	return EncodeLexSlotType(*r), nil
+}
 
 func EncodeLexSlotType(r LexSlotType) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLexSlotType_CreateVersion(r.Spec.ForProvider, ctyVal)
 	EncodeLexSlotType_Name(r.Spec.ForProvider, ctyVal)
-	EncodeLexSlotType_ValueSelectionStrategy(r.Spec.ForProvider, ctyVal)
-	EncodeLexSlotType_Description(r.Spec.ForProvider, ctyVal)
 	EncodeLexSlotType_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLexSlotType_CreateVersion(r.Spec.ForProvider, ctyVal)
+	EncodeLexSlotType_Description(r.Spec.ForProvider, ctyVal)
+	EncodeLexSlotType_ValueSelectionStrategy(r.Spec.ForProvider, ctyVal)
 	EncodeLexSlotType_EnumerationValue(r.Spec.ForProvider.EnumerationValue, ctyVal)
 	EncodeLexSlotType_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeLexSlotType_Checksum(r.Status.AtProvider, ctyVal)
+	EncodeLexSlotType_LastUpdatedDate(r.Status.AtProvider, ctyVal)
 	EncodeLexSlotType_Version(r.Status.AtProvider, ctyVal)
 	EncodeLexSlotType_CreatedDate(r.Status.AtProvider, ctyVal)
-	EncodeLexSlotType_LastUpdatedDate(r.Status.AtProvider, ctyVal)
+	EncodeLexSlotType_Checksum(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLexSlotType_CreateVersion(p LexSlotTypeParameters, vals map[string]cty.Value) {
-	vals["create_version"] = cty.BoolVal(p.CreateVersion)
 }
 
 func EncodeLexSlotType_Name(p LexSlotTypeParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeLexSlotType_ValueSelectionStrategy(p LexSlotTypeParameters, vals map[string]cty.Value) {
-	vals["value_selection_strategy"] = cty.StringVal(p.ValueSelectionStrategy)
+func EncodeLexSlotType_Id(p LexSlotTypeParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLexSlotType_CreateVersion(p LexSlotTypeParameters, vals map[string]cty.Value) {
+	vals["create_version"] = cty.BoolVal(p.CreateVersion)
 }
 
 func EncodeLexSlotType_Description(p LexSlotTypeParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeLexSlotType_Id(p LexSlotTypeParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeLexSlotType_ValueSelectionStrategy(p LexSlotTypeParameters, vals map[string]cty.Value) {
+	vals["value_selection_strategy"] = cty.StringVal(p.ValueSelectionStrategy)
 }
 
 func EncodeLexSlotType_EnumerationValue(p []EnumerationValue, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeLexSlotType_EnumerationValue_Synonyms(v, ctyVal)
 		EncodeLexSlotType_EnumerationValue_Value(v, ctyVal)
+		EncodeLexSlotType_EnumerationValue_Synonyms(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["enumeration_value"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeLexSlotType_EnumerationValue_Value(p EnumerationValue, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeLexSlotType_EnumerationValue_Synonyms(p EnumerationValue, vals map[string]cty.Value) {
@@ -73,10 +91,6 @@ func EncodeLexSlotType_EnumerationValue_Synonyms(p EnumerationValue, vals map[st
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["synonyms"] = cty.SetVal(colVals)
-}
-
-func EncodeLexSlotType_EnumerationValue_Value(p EnumerationValue, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeLexSlotType_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -99,8 +113,8 @@ func EncodeLexSlotType_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeLexSlotType_Checksum(p LexSlotTypeObservation, vals map[string]cty.Value) {
-	vals["checksum"] = cty.StringVal(p.Checksum)
+func EncodeLexSlotType_LastUpdatedDate(p LexSlotTypeObservation, vals map[string]cty.Value) {
+	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
 }
 
 func EncodeLexSlotType_Version(p LexSlotTypeObservation, vals map[string]cty.Value) {
@@ -111,6 +125,6 @@ func EncodeLexSlotType_CreatedDate(p LexSlotTypeObservation, vals map[string]cty
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
-func EncodeLexSlotType_LastUpdatedDate(p LexSlotTypeObservation, vals map[string]cty.Value) {
-	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
+func EncodeLexSlotType_Checksum(p LexSlotTypeObservation, vals map[string]cty.Value) {
+	vals["checksum"] = cty.StringVal(p.Checksum)
 }

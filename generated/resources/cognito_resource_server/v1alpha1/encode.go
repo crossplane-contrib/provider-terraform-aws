@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CognitoResourceServer)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CognitoResourceServer.")
+	}
+	return EncodeCognitoResourceServer(*r), nil
+}
 
 func EncodeCognitoResourceServer(r CognitoResourceServer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoResourceServer_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoResourceServer_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoResourceServer_Scope(r.Spec.ForProvider.Scope, ctyVal)
 	EncodeCognitoResourceServer_ScopeIdentifiers(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoResourceServer_UserPoolId(p CognitoResourceServerParameters, vals map[string]cty.Value) {
-	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
 }
 
 func EncodeCognitoResourceServer_Id(p CognitoResourceServerParameters, vals map[string]cty.Value) {
@@ -45,6 +55,10 @@ func EncodeCognitoResourceServer_Identifier(p CognitoResourceServerParameters, v
 
 func EncodeCognitoResourceServer_Name(p CognitoResourceServerParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCognitoResourceServer_UserPoolId(p CognitoResourceServerParameters, vals map[string]cty.Value) {
+	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
 }
 
 func EncodeCognitoResourceServer_Scope(p []Scope, vals map[string]cty.Value) {

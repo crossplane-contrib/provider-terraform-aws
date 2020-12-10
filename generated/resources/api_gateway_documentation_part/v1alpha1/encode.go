@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayDocumentationPart)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayDocumentationPart.")
+	}
+	return EncodeApiGatewayDocumentationPart(*r), nil
+}
 
 func EncodeApiGatewayDocumentationPart(r ApiGatewayDocumentationPart) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -45,13 +59,21 @@ func EncodeApiGatewayDocumentationPart_RestApiId(p ApiGatewayDocumentationPartPa
 func EncodeApiGatewayDocumentationPart_Location(p Location, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayDocumentationPart_Location_StatusCode(p, ctyVal)
+	EncodeApiGatewayDocumentationPart_Location_Type(p, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location_Method(p, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location_Name(p, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location_Path(p, ctyVal)
-	EncodeApiGatewayDocumentationPart_Location_StatusCode(p, ctyVal)
-	EncodeApiGatewayDocumentationPart_Location_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["location"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeApiGatewayDocumentationPart_Location_StatusCode(p Location, vals map[string]cty.Value) {
+	vals["status_code"] = cty.StringVal(p.StatusCode)
+}
+
+func EncodeApiGatewayDocumentationPart_Location_Type(p Location, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeApiGatewayDocumentationPart_Location_Method(p Location, vals map[string]cty.Value) {
@@ -64,12 +86,4 @@ func EncodeApiGatewayDocumentationPart_Location_Name(p Location, vals map[string
 
 func EncodeApiGatewayDocumentationPart_Location_Path(p Location, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
-}
-
-func EncodeApiGatewayDocumentationPart_Location_StatusCode(p Location, vals map[string]cty.Value) {
-	vals["status_code"] = cty.StringVal(p.StatusCode)
-}
-
-func EncodeApiGatewayDocumentationPart_Location_Type(p Location, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }

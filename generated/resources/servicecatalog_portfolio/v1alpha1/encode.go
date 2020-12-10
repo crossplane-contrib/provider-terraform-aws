@@ -17,24 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ServicecatalogPortfolio)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ServicecatalogPortfolio.")
+	}
+	return EncodeServicecatalogPortfolio(*r), nil
+}
 
 func EncodeServicecatalogPortfolio(r ServicecatalogPortfolio) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeServicecatalogPortfolio_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_ProviderName(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Id(r.Spec.ForProvider, ctyVal)
+	EncodeServicecatalogPortfolio_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeServicecatalogPortfolio_Arn(r.Status.AtProvider, ctyVal)
 	EncodeServicecatalogPortfolio_CreatedTime(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeServicecatalogPortfolio_Name(p ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeServicecatalogPortfolio_ProviderName(p ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
@@ -57,16 +67,16 @@ func EncodeServicecatalogPortfolio_Id(p ServicecatalogPortfolioParameters, vals 
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeServicecatalogPortfolio_Timeouts(p Timeouts, vals map[string]cty.Value) {
-	ctyVal := make(map[string]cty.Value)
-	EncodeServicecatalogPortfolio_Timeouts_Create(p, ctyVal)
-	EncodeServicecatalogPortfolio_Timeouts_Delete(p, ctyVal)
-	EncodeServicecatalogPortfolio_Timeouts_Update(p, ctyVal)
-	vals["timeouts"] = cty.ObjectVal(ctyVal)
+func EncodeServicecatalogPortfolio_Name(p ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeServicecatalogPortfolio_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
+func EncodeServicecatalogPortfolio_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
+	EncodeServicecatalogPortfolio_Timeouts_Delete(p, ctyVal)
+	EncodeServicecatalogPortfolio_Timeouts_Update(p, ctyVal)
+	EncodeServicecatalogPortfolio_Timeouts_Create(p, ctyVal)
+	vals["timeouts"] = cty.ObjectVal(ctyVal)
 }
 
 func EncodeServicecatalogPortfolio_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
@@ -75,6 +85,10 @@ func EncodeServicecatalogPortfolio_Timeouts_Delete(p Timeouts, vals map[string]c
 
 func EncodeServicecatalogPortfolio_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
+}
+
+func EncodeServicecatalogPortfolio_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeServicecatalogPortfolio_Arn(p ServicecatalogPortfolioObservation, vals map[string]cty.Value) {

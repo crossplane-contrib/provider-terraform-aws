@@ -52,9 +52,9 @@ type ShieldProtectionSpec struct {
 
 // A ShieldProtectionParameters defines the desired state of a ShieldProtection
 type ShieldProtectionParameters struct {
+	ResourceArn string `json:"resource_arn"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
-	ResourceArn string `json:"resource_arn"`
 }
 
 // A ShieldProtectionStatus defines the observed state of a ShieldProtection

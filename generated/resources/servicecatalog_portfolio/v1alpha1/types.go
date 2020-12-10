@@ -52,11 +52,11 @@ type ServicecatalogPortfolioSpec struct {
 
 // A ServicecatalogPortfolioParameters defines the desired state of a ServicecatalogPortfolio
 type ServicecatalogPortfolioParameters struct {
-	Name         string            `json:"name"`
-	ProviderName string            `json:"provider_name"`
 	Tags         map[string]string `json:"tags"`
 	Description  string            `json:"description"`
 	Id           string            `json:"id"`
+	Name         string            `json:"name"`
+	ProviderName string            `json:"provider_name"`
 	Timeouts     Timeouts          `json:"timeouts"`
 }
 

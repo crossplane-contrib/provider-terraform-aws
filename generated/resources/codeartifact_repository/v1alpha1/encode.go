@@ -17,21 +17,43 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CodeartifactRepository)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CodeartifactRepository.")
+	}
+	return EncodeCodeartifactRepository(*r), nil
+}
 
 func EncodeCodeartifactRepository(r CodeartifactRepository) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodeartifactRepository_DomainOwner(r.Spec.ForProvider, ctyVal)
+	EncodeCodeartifactRepository_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactRepository_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactRepository_Description(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactRepository_Domain(r.Spec.ForProvider, ctyVal)
-	EncodeCodeartifactRepository_DomainOwner(r.Spec.ForProvider, ctyVal)
-	EncodeCodeartifactRepository_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactRepository_Upstream(r.Spec.ForProvider.Upstream, ctyVal)
+	EncodeCodeartifactRepository_ExternalConnections(r.Status.AtProvider.ExternalConnections, ctyVal)
 	EncodeCodeartifactRepository_AdministratorAccount(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactRepository_Arn(r.Status.AtProvider, ctyVal)
-	EncodeCodeartifactRepository_ExternalConnections(r.Status.AtProvider.ExternalConnections, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCodeartifactRepository_DomainOwner(p CodeartifactRepositoryParameters, vals map[string]cty.Value) {
+	vals["domain_owner"] = cty.StringVal(p.DomainOwner)
+}
+
+func EncodeCodeartifactRepository_Id(p CodeartifactRepositoryParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCodeartifactRepository_Repository(p CodeartifactRepositoryParameters, vals map[string]cty.Value) {
@@ -46,14 +68,6 @@ func EncodeCodeartifactRepository_Domain(p CodeartifactRepositoryParameters, val
 	vals["domain"] = cty.StringVal(p.Domain)
 }
 
-func EncodeCodeartifactRepository_DomainOwner(p CodeartifactRepositoryParameters, vals map[string]cty.Value) {
-	vals["domain_owner"] = cty.StringVal(p.DomainOwner)
-}
-
-func EncodeCodeartifactRepository_Id(p CodeartifactRepositoryParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeCodeartifactRepository_Upstream(p Upstream, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
@@ -66,24 +80,20 @@ func EncodeCodeartifactRepository_Upstream_RepositoryName(p Upstream, vals map[s
 	vals["repository_name"] = cty.StringVal(p.RepositoryName)
 }
 
-func EncodeCodeartifactRepository_AdministratorAccount(p CodeartifactRepositoryObservation, vals map[string]cty.Value) {
-	vals["administrator_account"] = cty.StringVal(p.AdministratorAccount)
-}
-
-func EncodeCodeartifactRepository_Arn(p CodeartifactRepositoryObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeCodeartifactRepository_ExternalConnections(p []ExternalConnections, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeCodeartifactRepository_ExternalConnections_ExternalConnectionName(v, ctyVal)
 		EncodeCodeartifactRepository_ExternalConnections_PackageFormat(v, ctyVal)
 		EncodeCodeartifactRepository_ExternalConnections_Status(v, ctyVal)
-		EncodeCodeartifactRepository_ExternalConnections_ExternalConnectionName(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["external_connections"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCodeartifactRepository_ExternalConnections_ExternalConnectionName(p ExternalConnections, vals map[string]cty.Value) {
+	vals["external_connection_name"] = cty.StringVal(p.ExternalConnectionName)
 }
 
 func EncodeCodeartifactRepository_ExternalConnections_PackageFormat(p ExternalConnections, vals map[string]cty.Value) {
@@ -94,6 +104,10 @@ func EncodeCodeartifactRepository_ExternalConnections_Status(p ExternalConnectio
 	vals["status"] = cty.StringVal(p.Status)
 }
 
-func EncodeCodeartifactRepository_ExternalConnections_ExternalConnectionName(p ExternalConnections, vals map[string]cty.Value) {
-	vals["external_connection_name"] = cty.StringVal(p.ExternalConnectionName)
+func EncodeCodeartifactRepository_AdministratorAccount(p CodeartifactRepositoryObservation, vals map[string]cty.Value) {
+	vals["administrator_account"] = cty.StringVal(p.AdministratorAccount)
+}
+
+func EncodeCodeartifactRepository_Arn(p CodeartifactRepositoryObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

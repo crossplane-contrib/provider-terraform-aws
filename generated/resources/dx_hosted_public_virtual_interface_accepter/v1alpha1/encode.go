@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DxHostedPublicVirtualInterfaceAccepter)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DxHostedPublicVirtualInterfaceAccepter.")
+	}
+	return EncodeDxHostedPublicVirtualInterfaceAccepter(*r), nil
+}
 
 func EncodeDxHostedPublicVirtualInterfaceAccepter(r DxHostedPublicVirtualInterfaceAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -48,17 +62,17 @@ func EncodeDxHostedPublicVirtualInterfaceAccepter_VirtualInterfaceId(p DxHostedP
 
 func EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Delete(p, ctyVal)
 	EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Create(p, ctyVal)
+	EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
+}
+
+func EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeDxHostedPublicVirtualInterfaceAccepter_Arn(p DxHostedPublicVirtualInterfaceAccepterObservation, vals map[string]cty.Value) {

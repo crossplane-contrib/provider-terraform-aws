@@ -52,24 +52,24 @@ type RouteTableSpec struct {
 
 // A RouteTableParameters defines the desired state of a RouteTable
 type RouteTableParameters struct {
+	VpcId           string            `json:"vpc_id"`
 	Id              string            `json:"id"`
 	PropagatingVgws []string          `json:"propagating_vgws"`
 	Route           []Route           `json:"route"`
 	Tags            map[string]string `json:"tags"`
-	VpcId           string            `json:"vpc_id"`
 }
 
 type Route struct {
-	EgressOnlyGatewayId    string `json:"egress_only_gateway_id"`
-	NatGatewayId           string `json:"nat_gateway_id"`
-	TransitGatewayId       string `json:"transit_gateway_id"`
 	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
 	GatewayId              string `json:"gateway_id"`
 	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
-	NetworkInterfaceId     string `json:"network_interface_id"`
-	CidrBlock              string `json:"cidr_block"`
+	NatGatewayId           string `json:"nat_gateway_id"`
 	InstanceId             string `json:"instance_id"`
 	LocalGatewayId         string `json:"local_gateway_id"`
+	NetworkInterfaceId     string `json:"network_interface_id"`
+	EgressOnlyGatewayId    string `json:"egress_only_gateway_id"`
+	CidrBlock              string `json:"cidr_block"`
+	TransitGatewayId       string `json:"transit_gateway_id"`
 }
 
 // A RouteTableStatus defines the observed state of a RouteTable

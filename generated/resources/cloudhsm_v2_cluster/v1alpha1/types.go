@@ -52,18 +52,18 @@ type CloudhsmV2ClusterSpec struct {
 
 // A CloudhsmV2ClusterParameters defines the desired state of a CloudhsmV2Cluster
 type CloudhsmV2ClusterParameters struct {
+	Id                     string            `json:"id"`
 	SourceBackupIdentifier string            `json:"source_backup_identifier"`
+	SubnetIds              []string          `json:"subnet_ids"`
 	Tags                   map[string]string `json:"tags"`
 	HsmType                string            `json:"hsm_type"`
-	Id                     string            `json:"id"`
-	SubnetIds              []string          `json:"subnet_ids"`
 	Timeouts               Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A CloudhsmV2ClusterStatus defines the observed state of a CloudhsmV2Cluster

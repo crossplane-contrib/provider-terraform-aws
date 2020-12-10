@@ -17,31 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DatasyncAgent)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DatasyncAgent.")
+	}
+	return EncodeDatasyncAgent(*r), nil
+}
 
 func EncodeDatasyncAgent(r DatasyncAgent) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatasyncAgent_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncAgent_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_ActivationKey(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_IpAddress(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncAgent_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncAgent_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncAgent_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDatasyncAgent_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatasyncAgent_Name(p DatasyncAgentParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDatasyncAgent_Tags(p DatasyncAgentParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeDatasyncAgent_ActivationKey(p DatasyncAgentParameters, vals map[string]cty.Value) {
@@ -54,6 +56,18 @@ func EncodeDatasyncAgent_Id(p DatasyncAgentParameters, vals map[string]cty.Value
 
 func EncodeDatasyncAgent_IpAddress(p DatasyncAgentParameters, vals map[string]cty.Value) {
 	vals["ip_address"] = cty.StringVal(p.IpAddress)
+}
+
+func EncodeDatasyncAgent_Name(p DatasyncAgentParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDatasyncAgent_Tags(p DatasyncAgentParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeDatasyncAgent_Timeouts(p Timeouts, vals map[string]cty.Value) {

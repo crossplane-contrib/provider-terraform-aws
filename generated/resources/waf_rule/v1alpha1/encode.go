@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafRule.")
+	}
+	return EncodeWafRule(*r), nil
+}
 
 func EncodeWafRule(r WafRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeWafRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_Predicates(r.Spec.ForProvider.Predicates, ctyVal)
 	EncodeWafRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafRule_Id(p WafRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafRule_MetricName(p WafRuleParameters, vals map[string]cty.Value) {
@@ -49,6 +59,10 @@ func EncodeWafRule_Tags(p WafRuleParameters, vals map[string]cty.Value) {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeWafRule_Id(p WafRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafRule_Predicates(p Predicates, vals map[string]cty.Value) {

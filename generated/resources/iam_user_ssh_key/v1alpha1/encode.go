@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamUserSshKey)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamUserSshKey.")
+	}
+	return EncodeIamUserSshKey(*r), nil
+}
 
 func EncodeIamUserSshKey(r IamUserSshKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -27,8 +41,8 @@ func EncodeIamUserSshKey(r IamUserSshKey) cty.Value {
 	EncodeIamUserSshKey_Status(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Username(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Encoding(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserSshKey_SshPublicKeyId(r.Status.AtProvider, ctyVal)
 	EncodeIamUserSshKey_Fingerprint(r.Status.AtProvider, ctyVal)
+	EncodeIamUserSshKey_SshPublicKeyId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -52,10 +66,10 @@ func EncodeIamUserSshKey_Encoding(p IamUserSshKeyParameters, vals map[string]cty
 	vals["encoding"] = cty.StringVal(p.Encoding)
 }
 
-func EncodeIamUserSshKey_SshPublicKeyId(p IamUserSshKeyObservation, vals map[string]cty.Value) {
-	vals["ssh_public_key_id"] = cty.StringVal(p.SshPublicKeyId)
-}
-
 func EncodeIamUserSshKey_Fingerprint(p IamUserSshKeyObservation, vals map[string]cty.Value) {
 	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
+}
+
+func EncodeIamUserSshKey_SshPublicKeyId(p IamUserSshKeyObservation, vals map[string]cty.Value) {
+	vals["ssh_public_key_id"] = cty.StringVal(p.SshPublicKeyId)
 }

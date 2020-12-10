@@ -60,8 +60,8 @@ type DxHostedTransitVirtualInterfaceAccepterParameters struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A DxHostedTransitVirtualInterfaceAccepterStatus defines the observed state of a DxHostedTransitVirtualInterfaceAccepter

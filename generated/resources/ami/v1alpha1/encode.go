@@ -17,70 +17,64 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Ami)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Ami.")
+	}
+	return EncodeAmi(*r), nil
+}
 
 func EncodeAmi(r Ami) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAmi_Architecture(r.Spec.ForProvider, ctyVal)
 	EncodeAmi_EnaSupport(r.Spec.ForProvider, ctyVal)
+	EncodeAmi_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAmi_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAmi_Description(r.Spec.ForProvider, ctyVal)
+	EncodeAmi_SriovNetSupport(r.Spec.ForProvider, ctyVal)
+	EncodeAmi_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAmi_ImageLocation(r.Spec.ForProvider, ctyVal)
 	EncodeAmi_RamdiskId(r.Spec.ForProvider, ctyVal)
-	EncodeAmi_RootDeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeAmi_VirtualizationType(r.Spec.ForProvider, ctyVal)
-	EncodeAmi_SriovNetSupport(r.Spec.ForProvider, ctyVal)
-	EncodeAmi_Description(r.Spec.ForProvider, ctyVal)
+	EncodeAmi_Architecture(r.Spec.ForProvider, ctyVal)
 	EncodeAmi_KernelId(r.Spec.ForProvider, ctyVal)
-	EncodeAmi_Name(r.Spec.ForProvider, ctyVal)
-	EncodeAmi_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeAmi_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAmi_RootDeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeAmi_EbsBlockDevice(r.Spec.ForProvider.EbsBlockDevice, ctyVal)
 	EncodeAmi_EphemeralBlockDevice(r.Spec.ForProvider.EphemeralBlockDevice, ctyVal)
 	EncodeAmi_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeAmi_Arn(r.Status.AtProvider, ctyVal)
 	EncodeAmi_ManageEbsSnapshots(r.Status.AtProvider, ctyVal)
 	EncodeAmi_RootSnapshotId(r.Status.AtProvider, ctyVal)
+	EncodeAmi_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAmi_Architecture(p AmiParameters, vals map[string]cty.Value) {
-	vals["architecture"] = cty.StringVal(p.Architecture)
 }
 
 func EncodeAmi_EnaSupport(p AmiParameters, vals map[string]cty.Value) {
 	vals["ena_support"] = cty.BoolVal(p.EnaSupport)
 }
 
-func EncodeAmi_ImageLocation(p AmiParameters, vals map[string]cty.Value) {
-	vals["image_location"] = cty.StringVal(p.ImageLocation)
+func EncodeAmi_Id(p AmiParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeAmi_RamdiskId(p AmiParameters, vals map[string]cty.Value) {
-	vals["ramdisk_id"] = cty.StringVal(p.RamdiskId)
-}
-
-func EncodeAmi_RootDeviceName(p AmiParameters, vals map[string]cty.Value) {
-	vals["root_device_name"] = cty.StringVal(p.RootDeviceName)
-}
-
-func EncodeAmi_VirtualizationType(p AmiParameters, vals map[string]cty.Value) {
-	vals["virtualization_type"] = cty.StringVal(p.VirtualizationType)
-}
-
-func EncodeAmi_SriovNetSupport(p AmiParameters, vals map[string]cty.Value) {
-	vals["sriov_net_support"] = cty.StringVal(p.SriovNetSupport)
+func EncodeAmi_Name(p AmiParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAmi_Description(p AmiParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeAmi_KernelId(p AmiParameters, vals map[string]cty.Value) {
-	vals["kernel_id"] = cty.StringVal(p.KernelId)
-}
-
-func EncodeAmi_Name(p AmiParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeAmi_SriovNetSupport(p AmiParameters, vals map[string]cty.Value) {
+	vals["sriov_net_support"] = cty.StringVal(p.SriovNetSupport)
 }
 
 func EncodeAmi_Tags(p AmiParameters, vals map[string]cty.Value) {
@@ -91,22 +85,50 @@ func EncodeAmi_Tags(p AmiParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeAmi_Id(p AmiParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeAmi_ImageLocation(p AmiParameters, vals map[string]cty.Value) {
+	vals["image_location"] = cty.StringVal(p.ImageLocation)
+}
+
+func EncodeAmi_RamdiskId(p AmiParameters, vals map[string]cty.Value) {
+	vals["ramdisk_id"] = cty.StringVal(p.RamdiskId)
+}
+
+func EncodeAmi_VirtualizationType(p AmiParameters, vals map[string]cty.Value) {
+	vals["virtualization_type"] = cty.StringVal(p.VirtualizationType)
+}
+
+func EncodeAmi_Architecture(p AmiParameters, vals map[string]cty.Value) {
+	vals["architecture"] = cty.StringVal(p.Architecture)
+}
+
+func EncodeAmi_KernelId(p AmiParameters, vals map[string]cty.Value) {
+	vals["kernel_id"] = cty.StringVal(p.KernelId)
+}
+
+func EncodeAmi_RootDeviceName(p AmiParameters, vals map[string]cty.Value) {
+	vals["root_device_name"] = cty.StringVal(p.RootDeviceName)
 }
 
 func EncodeAmi_EbsBlockDevice(p EbsBlockDevice, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeAmi_EbsBlockDevice_Iops(p, ctyVal)
+	EncodeAmi_EbsBlockDevice_SnapshotId(p, ctyVal)
 	EncodeAmi_EbsBlockDevice_VolumeSize(p, ctyVal)
 	EncodeAmi_EbsBlockDevice_VolumeType(p, ctyVal)
 	EncodeAmi_EbsBlockDevice_DeleteOnTermination(p, ctyVal)
 	EncodeAmi_EbsBlockDevice_DeviceName(p, ctyVal)
 	EncodeAmi_EbsBlockDevice_Encrypted(p, ctyVal)
-	EncodeAmi_EbsBlockDevice_Iops(p, ctyVal)
-	EncodeAmi_EbsBlockDevice_SnapshotId(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["ebs_block_device"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeAmi_EbsBlockDevice_Iops(p EbsBlockDevice, vals map[string]cty.Value) {
+	vals["iops"] = cty.NumberIntVal(p.Iops)
+}
+
+func EncodeAmi_EbsBlockDevice_SnapshotId(p EbsBlockDevice, vals map[string]cty.Value) {
+	vals["snapshot_id"] = cty.StringVal(p.SnapshotId)
 }
 
 func EncodeAmi_EbsBlockDevice_VolumeSize(p EbsBlockDevice, vals map[string]cty.Value) {
@@ -127,14 +149,6 @@ func EncodeAmi_EbsBlockDevice_DeviceName(p EbsBlockDevice, vals map[string]cty.V
 
 func EncodeAmi_EbsBlockDevice_Encrypted(p EbsBlockDevice, vals map[string]cty.Value) {
 	vals["encrypted"] = cty.BoolVal(p.Encrypted)
-}
-
-func EncodeAmi_EbsBlockDevice_Iops(p EbsBlockDevice, vals map[string]cty.Value) {
-	vals["iops"] = cty.NumberIntVal(p.Iops)
-}
-
-func EncodeAmi_EbsBlockDevice_SnapshotId(p EbsBlockDevice, vals map[string]cty.Value) {
-	vals["snapshot_id"] = cty.StringVal(p.SnapshotId)
 }
 
 func EncodeAmi_EphemeralBlockDevice(p EphemeralBlockDevice, vals map[string]cty.Value) {
@@ -174,14 +188,14 @@ func EncodeAmi_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeAmi_Arn(p AmiObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeAmi_ManageEbsSnapshots(p AmiObservation, vals map[string]cty.Value) {
 	vals["manage_ebs_snapshots"] = cty.BoolVal(p.ManageEbsSnapshots)
 }
 
 func EncodeAmi_RootSnapshotId(p AmiObservation, vals map[string]cty.Value) {
 	vals["root_snapshot_id"] = cty.StringVal(p.RootSnapshotId)
+}
+
+func EncodeAmi_Arn(p AmiObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

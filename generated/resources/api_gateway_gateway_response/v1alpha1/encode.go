@@ -17,19 +17,41 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayGatewayResponse)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayGatewayResponse.")
+	}
+	return EncodeApiGatewayGatewayResponse(*r), nil
+}
 
 func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayGatewayResponse_ResponseType(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayGatewayResponse_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_StatusCode(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayGatewayResponse_ResponseType(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayGatewayResponse_RestApiId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayGatewayResponse_ResponseType(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	vals["response_type"] = cty.StringVal(p.ResponseType)
+}
+
+func EncodeApiGatewayGatewayResponse_RestApiId(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayGatewayResponse_StatusCode(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
@@ -54,12 +76,4 @@ func EncodeApiGatewayGatewayResponse_ResponseTemplates(p ApiGatewayGatewayRespon
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["response_templates"] = cty.MapVal(mVals)
-}
-
-func EncodeApiGatewayGatewayResponse_ResponseType(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	vals["response_type"] = cty.StringVal(p.ResponseType)
-}
-
-func EncodeApiGatewayGatewayResponse_RestApiId(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }

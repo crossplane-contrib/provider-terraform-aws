@@ -17,20 +17,30 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Route53QueryLog)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Route53QueryLog.")
+	}
+	return EncodeRoute53QueryLog(*r), nil
+}
 
 func EncodeRoute53QueryLog(r Route53QueryLog) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53QueryLog_CloudwatchLogGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53QueryLog_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53QueryLog_ZoneId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53QueryLog_CloudwatchLogGroupArn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53QueryLog_CloudwatchLogGroupArn(p Route53QueryLogParameters, vals map[string]cty.Value) {
-	vals["cloudwatch_log_group_arn"] = cty.StringVal(p.CloudwatchLogGroupArn)
 }
 
 func EncodeRoute53QueryLog_Id(p Route53QueryLogParameters, vals map[string]cty.Value) {
@@ -39,4 +49,8 @@ func EncodeRoute53QueryLog_Id(p Route53QueryLogParameters, vals map[string]cty.V
 
 func EncodeRoute53QueryLog_ZoneId(p Route53QueryLogParameters, vals map[string]cty.Value) {
 	vals["zone_id"] = cty.StringVal(p.ZoneId)
+}
+
+func EncodeRoute53QueryLog_CloudwatchLogGroupArn(p Route53QueryLogParameters, vals map[string]cty.Value) {
+	vals["cloudwatch_log_group_arn"] = cty.StringVal(p.CloudwatchLogGroupArn)
 }

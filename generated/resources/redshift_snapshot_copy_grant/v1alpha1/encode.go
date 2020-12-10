@@ -17,17 +17,39 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*RedshiftSnapshotCopyGrant)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a RedshiftSnapshotCopyGrant.")
+	}
+	return EncodeRedshiftSnapshotCopyGrant(*r), nil
+}
 
 func EncodeRedshiftSnapshotCopyGrant(r RedshiftSnapshotCopyGrant) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRedshiftSnapshotCopyGrant_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotCopyGrant_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRedshiftSnapshotCopyGrant_Tags(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRedshiftSnapshotCopyGrant_Id(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
@@ -40,14 +62,6 @@ func EncodeRedshiftSnapshotCopyGrant_KmsKeyId(p RedshiftSnapshotCopyGrantParamet
 
 func EncodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
 	vals["snapshot_copy_grant_name"] = cty.StringVal(p.SnapshotCopyGrantName)
-}
-
-func EncodeRedshiftSnapshotCopyGrant_Tags(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRedshiftSnapshotCopyGrant_Arn(p RedshiftSnapshotCopyGrantObservation, vals map[string]cty.Value) {

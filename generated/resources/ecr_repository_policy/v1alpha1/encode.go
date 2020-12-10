@@ -17,20 +17,30 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*EcrRepositoryPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a EcrRepositoryPolicy.")
+	}
+	return EncodeEcrRepositoryPolicy(*r), nil
+}
 
 func EncodeEcrRepositoryPolicy(r EcrRepositoryPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcrRepositoryPolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeEcrRepositoryPolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_RegistryId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEcrRepositoryPolicy_Repository(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
-	vals["repository"] = cty.StringVal(p.Repository)
 }
 
 func EncodeEcrRepositoryPolicy_Id(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
@@ -39,6 +49,10 @@ func EncodeEcrRepositoryPolicy_Id(p EcrRepositoryPolicyParameters, vals map[stri
 
 func EncodeEcrRepositoryPolicy_Policy(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeEcrRepositoryPolicy_Repository(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
+	vals["repository"] = cty.StringVal(p.Repository)
 }
 
 func EncodeEcrRepositoryPolicy_RegistryId(p EcrRepositoryPolicyObservation, vals map[string]cty.Value) {

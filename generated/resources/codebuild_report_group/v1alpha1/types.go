@@ -65,11 +65,11 @@ type ExportConfig struct {
 }
 
 type S3Destination struct {
-	Bucket             string `json:"bucket"`
 	EncryptionDisabled bool   `json:"encryption_disabled"`
 	EncryptionKey      string `json:"encryption_key"`
 	Packaging          string `json:"packaging"`
 	Path               string `json:"path"`
+	Bucket             string `json:"bucket"`
 }
 
 // A CodebuildReportGroupStatus defines the observed state of a CodebuildReportGroup

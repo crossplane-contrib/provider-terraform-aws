@@ -17,23 +17,49 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SsmPatchBaseline)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SsmPatchBaseline.")
+	}
+	return EncodeSsmPatchBaseline(*r), nil
+}
 
 func EncodeSsmPatchBaseline(r SsmPatchBaseline) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSsmPatchBaseline_OperatingSystem(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchBaseline_RejectedPatches(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_ApprovedPatches(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_ApprovedPatchesComplianceLevel(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_OperatingSystem(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchBaseline_RejectedPatches(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchBaseline_ApprovalRule(r.Spec.ForProvider.ApprovalRule, ctyVal)
 	EncodeSsmPatchBaseline_GlobalFilter(r.Spec.ForProvider.GlobalFilter, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSsmPatchBaseline_OperatingSystem(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	vals["operating_system"] = cty.StringVal(p.OperatingSystem)
+}
+
+func EncodeSsmPatchBaseline_RejectedPatches(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.RejectedPatches {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["rejected_patches"] = cty.SetVal(colVals)
 }
 
 func EncodeSsmPatchBaseline_Tags(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
@@ -66,18 +92,6 @@ func EncodeSsmPatchBaseline_Id(p SsmPatchBaselineParameters, vals map[string]cty
 
 func EncodeSsmPatchBaseline_Name(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSsmPatchBaseline_OperatingSystem(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	vals["operating_system"] = cty.StringVal(p.OperatingSystem)
-}
-
-func EncodeSsmPatchBaseline_RejectedPatches(p SsmPatchBaselineParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.RejectedPatches {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["rejected_patches"] = cty.SetVal(colVals)
 }
 
 func EncodeSsmPatchBaseline_ApprovalRule(p ApprovalRule, vals map[string]cty.Value) {

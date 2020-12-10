@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ConfigConfigurationAggregator)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ConfigConfigurationAggregator.")
+	}
+	return EncodeConfigConfigurationAggregator(*r), nil
+}
 
 func EncodeConfigConfigurationAggregator(r ConfigConfigurationAggregator) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -50,19 +64,11 @@ func EncodeConfigConfigurationAggregator_Tags(p ConfigConfigurationAggregatorPar
 func EncodeConfigConfigurationAggregator_AccountAggregationSource(p AccountAggregationSource, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(p, ctyVal)
 	EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(p, ctyVal)
 	EncodeConfigConfigurationAggregator_AccountAggregationSource_AllRegions(p, ctyVal)
+	EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["account_aggregation_source"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(p AccountAggregationSource, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Regions {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["regions"] = cty.ListVal(colVals)
 }
 
 func EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(p AccountAggregationSource, vals map[string]cty.Value) {
@@ -75,6 +81,14 @@ func EncodeConfigConfigurationAggregator_AccountAggregationSource_AccountIds(p A
 
 func EncodeConfigConfigurationAggregator_AccountAggregationSource_AllRegions(p AccountAggregationSource, vals map[string]cty.Value) {
 	vals["all_regions"] = cty.BoolVal(p.AllRegions)
+}
+
+func EncodeConfigConfigurationAggregator_AccountAggregationSource_Regions(p AccountAggregationSource, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Regions {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["regions"] = cty.ListVal(colVals)
 }
 
 func EncodeConfigConfigurationAggregator_OrganizationAggregationSource(p OrganizationAggregationSource, vals map[string]cty.Value) {

@@ -52,12 +52,12 @@ type OpsworksPermissionSpec struct {
 
 // A OpsworksPermissionParameters defines the desired state of a OpsworksPermission
 type OpsworksPermissionParameters struct {
+	Level     string `json:"level"`
 	StackId   string `json:"stack_id"`
 	UserArn   string `json:"user_arn"`
 	AllowSsh  bool   `json:"allow_ssh"`
 	AllowSudo bool   `json:"allow_sudo"`
 	Id        string `json:"id"`
-	Level     string `json:"level"`
 }
 
 // A OpsworksPermissionStatus defines the observed state of a OpsworksPermission

@@ -17,16 +17,30 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamGroup.")
+	}
+	return EncodeIamGroup(*r), nil
+}
 
 func EncodeIamGroup(r IamGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeIamGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroup_Path(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroup_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamGroup_Arn(r.Status.AtProvider, ctyVal)
+	EncodeIamGroup_UniqueId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -42,10 +56,10 @@ func EncodeIamGroup_Path(p IamGroupParameters, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
 }
 
-func EncodeIamGroup_UniqueId(p IamGroupObservation, vals map[string]cty.Value) {
-	vals["unique_id"] = cty.StringVal(p.UniqueId)
-}
-
 func EncodeIamGroup_Arn(p IamGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeIamGroup_UniqueId(p IamGroupObservation, vals map[string]cty.Value) {
+	vals["unique_id"] = cty.StringVal(p.UniqueId)
 }

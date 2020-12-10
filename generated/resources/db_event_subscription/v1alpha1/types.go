@@ -52,22 +52,22 @@ type DbEventSubscriptionSpec struct {
 
 // A DbEventSubscriptionParameters defines the desired state of a DbEventSubscription
 type DbEventSubscriptionParameters struct {
-	SourceIds       []string          `json:"source_ids"`
-	Enabled         bool              `json:"enabled"`
 	Id              string            `json:"id"`
 	Name            string            `json:"name"`
-	SnsTopic        string            `json:"sns_topic"`
-	SourceType      string            `json:"source_type"`
-	Tags            map[string]string `json:"tags"`
-	EventCategories []string          `json:"event_categories"`
 	NamePrefix      string            `json:"name_prefix"`
+	SnsTopic        string            `json:"sns_topic"`
+	Enabled         bool              `json:"enabled"`
+	EventCategories []string          `json:"event_categories"`
+	Tags            map[string]string `json:"tags"`
+	SourceIds       []string          `json:"source_ids"`
+	SourceType      string            `json:"source_type"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
 }
 
 // A DbEventSubscriptionStatus defines the observed state of a DbEventSubscription
@@ -78,6 +78,6 @@ type DbEventSubscriptionStatus struct {
 
 // A DbEventSubscriptionObservation records the observed state of a DbEventSubscription
 type DbEventSubscriptionObservation struct {
-	Arn           string `json:"arn"`
 	CustomerAwsId string `json:"customer_aws_id"`
+	Arn           string `json:"arn"`
 }

@@ -17,22 +17,48 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DbOptionGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DbOptionGroup.")
+	}
+	return EncodeDbOptionGroup(*r), nil
+}
 
 func EncodeDbOptionGroup(r DbOptionGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbOptionGroup_MajorEngineVersion(r.Spec.ForProvider, ctyVal)
+	EncodeDbOptionGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDbOptionGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_OptionGroupDescription(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_EngineName(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDbOptionGroup_MajorEngineVersion(r.Spec.ForProvider, ctyVal)
-	EncodeDbOptionGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDbOptionGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbOptionGroup_Option(r.Spec.ForProvider.Option, ctyVal)
 	EncodeDbOptionGroup_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDbOptionGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDbOptionGroup_MajorEngineVersion(p DbOptionGroupParameters, vals map[string]cty.Value) {
+	vals["major_engine_version"] = cty.StringVal(p.MajorEngineVersion)
+}
+
+func EncodeDbOptionGroup_Name(p DbOptionGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDbOptionGroup_NamePrefix(p DbOptionGroupParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeDbOptionGroup_OptionGroupDescription(p DbOptionGroupParameters, vals map[string]cty.Value) {
@@ -55,29 +81,29 @@ func EncodeDbOptionGroup_Id(p DbOptionGroupParameters, vals map[string]cty.Value
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDbOptionGroup_MajorEngineVersion(p DbOptionGroupParameters, vals map[string]cty.Value) {
-	vals["major_engine_version"] = cty.StringVal(p.MajorEngineVersion)
-}
-
-func EncodeDbOptionGroup_Name(p DbOptionGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDbOptionGroup_NamePrefix(p DbOptionGroupParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
 func EncodeDbOptionGroup_Option(p Option, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbOptionGroup_Option_DbSecurityGroupMemberships(p, ctyVal)
+	EncodeDbOptionGroup_Option_OptionName(p, ctyVal)
 	EncodeDbOptionGroup_Option_Port(p, ctyVal)
 	EncodeDbOptionGroup_Option_Version(p, ctyVal)
 	EncodeDbOptionGroup_Option_VpcSecurityGroupMemberships(p, ctyVal)
-	EncodeDbOptionGroup_Option_DbSecurityGroupMemberships(p, ctyVal)
-	EncodeDbOptionGroup_Option_OptionName(p, ctyVal)
 	EncodeDbOptionGroup_Option_OptionSettings(p.OptionSettings, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["option"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeDbOptionGroup_Option_DbSecurityGroupMemberships(p Option, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.DbSecurityGroupMemberships {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["db_security_group_memberships"] = cty.SetVal(colVals)
+}
+
+func EncodeDbOptionGroup_Option_OptionName(p Option, vals map[string]cty.Value) {
+	vals["option_name"] = cty.StringVal(p.OptionName)
 }
 
 func EncodeDbOptionGroup_Option_Port(p Option, vals map[string]cty.Value) {
@@ -94,18 +120,6 @@ func EncodeDbOptionGroup_Option_VpcSecurityGroupMemberships(p Option, vals map[s
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["vpc_security_group_memberships"] = cty.SetVal(colVals)
-}
-
-func EncodeDbOptionGroup_Option_DbSecurityGroupMemberships(p Option, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.DbSecurityGroupMemberships {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["db_security_group_memberships"] = cty.SetVal(colVals)
-}
-
-func EncodeDbOptionGroup_Option_OptionName(p Option, vals map[string]cty.Value) {
-	vals["option_name"] = cty.StringVal(p.OptionName)
 }
 
 func EncodeDbOptionGroup_Option_OptionSettings(p OptionSettings, vals map[string]cty.Value) {

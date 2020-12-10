@@ -17,31 +17,45 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2Stage)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2Stage.")
+	}
+	return EncodeApigatewayv2Stage(*r), nil
+}
 
 func EncodeApigatewayv2Stage(r Apigatewayv2Stage) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Stage_Name(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Stage_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Stage_AutoDeploy(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_DeploymentId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Stage_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Stage_ClientCertificateId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Stage_AutoDeploy(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Stage_StageVariables(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Stage_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_ApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Stage_ClientCertificateId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Stage_StageVariables(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Stage_AccessLogSettings(r.Spec.ForProvider.AccessLogSettings, ctyVal)
 	EncodeApigatewayv2Stage_DefaultRouteSettings(r.Spec.ForProvider.DefaultRouteSettings, ctyVal)
 	EncodeApigatewayv2Stage_RouteSettings(r.Spec.ForProvider.RouteSettings, ctyVal)
+	EncodeApigatewayv2Stage_Arn(r.Status.AtProvider, ctyVal)
 	EncodeApigatewayv2Stage_ExecutionArn(r.Status.AtProvider, ctyVal)
 	EncodeApigatewayv2Stage_InvokeUrl(r.Status.AtProvider, ctyVal)
-	EncodeApigatewayv2Stage_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2Stage_Name(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeApigatewayv2Stage_DeploymentId(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
+	vals["deployment_id"] = cty.StringVal(p.DeploymentId)
 }
 
 func EncodeApigatewayv2Stage_Tags(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
@@ -52,12 +66,12 @@ func EncodeApigatewayv2Stage_Tags(p Apigatewayv2StageParameters, vals map[string
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeApigatewayv2Stage_AutoDeploy(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
-	vals["auto_deploy"] = cty.BoolVal(p.AutoDeploy)
+func EncodeApigatewayv2Stage_ClientCertificateId(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
+	vals["client_certificate_id"] = cty.StringVal(p.ClientCertificateId)
 }
 
-func EncodeApigatewayv2Stage_DeploymentId(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
-	vals["deployment_id"] = cty.StringVal(p.DeploymentId)
+func EncodeApigatewayv2Stage_AutoDeploy(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
+	vals["auto_deploy"] = cty.BoolVal(p.AutoDeploy)
 }
 
 func EncodeApigatewayv2Stage_Description(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
@@ -68,20 +82,20 @@ func EncodeApigatewayv2Stage_Id(p Apigatewayv2StageParameters, vals map[string]c
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApigatewayv2Stage_StageVariables(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.StageVariables {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["stage_variables"] = cty.MapVal(mVals)
+func EncodeApigatewayv2Stage_Name(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApigatewayv2Stage_ApiId(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
 	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
-func EncodeApigatewayv2Stage_ClientCertificateId(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
-	vals["client_certificate_id"] = cty.StringVal(p.ClientCertificateId)
+func EncodeApigatewayv2Stage_StageVariables(p Apigatewayv2StageParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.StageVariables {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["stage_variables"] = cty.MapVal(mVals)
 }
 
 func EncodeApigatewayv2Stage_AccessLogSettings(p AccessLogSettings, vals map[string]cty.Value) {
@@ -136,22 +150,14 @@ func EncodeApigatewayv2Stage_DefaultRouteSettings_ThrottlingRateLimit(p DefaultR
 func EncodeApigatewayv2Stage_RouteSettings(p RouteSettings, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Stage_RouteSettings_LoggingLevel(p, ctyVal)
-	EncodeApigatewayv2Stage_RouteSettings_RouteKey(p, ctyVal)
 	EncodeApigatewayv2Stage_RouteSettings_ThrottlingBurstLimit(p, ctyVal)
 	EncodeApigatewayv2Stage_RouteSettings_ThrottlingRateLimit(p, ctyVal)
 	EncodeApigatewayv2Stage_RouteSettings_DataTraceEnabled(p, ctyVal)
 	EncodeApigatewayv2Stage_RouteSettings_DetailedMetricsEnabled(p, ctyVal)
+	EncodeApigatewayv2Stage_RouteSettings_LoggingLevel(p, ctyVal)
+	EncodeApigatewayv2Stage_RouteSettings_RouteKey(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["route_settings"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeApigatewayv2Stage_RouteSettings_LoggingLevel(p RouteSettings, vals map[string]cty.Value) {
-	vals["logging_level"] = cty.StringVal(p.LoggingLevel)
-}
-
-func EncodeApigatewayv2Stage_RouteSettings_RouteKey(p RouteSettings, vals map[string]cty.Value) {
-	vals["route_key"] = cty.StringVal(p.RouteKey)
 }
 
 func EncodeApigatewayv2Stage_RouteSettings_ThrottlingBurstLimit(p RouteSettings, vals map[string]cty.Value) {
@@ -170,14 +176,22 @@ func EncodeApigatewayv2Stage_RouteSettings_DetailedMetricsEnabled(p RouteSetting
 	vals["detailed_metrics_enabled"] = cty.BoolVal(p.DetailedMetricsEnabled)
 }
 
+func EncodeApigatewayv2Stage_RouteSettings_LoggingLevel(p RouteSettings, vals map[string]cty.Value) {
+	vals["logging_level"] = cty.StringVal(p.LoggingLevel)
+}
+
+func EncodeApigatewayv2Stage_RouteSettings_RouteKey(p RouteSettings, vals map[string]cty.Value) {
+	vals["route_key"] = cty.StringVal(p.RouteKey)
+}
+
+func EncodeApigatewayv2Stage_Arn(p Apigatewayv2StageObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
 func EncodeApigatewayv2Stage_ExecutionArn(p Apigatewayv2StageObservation, vals map[string]cty.Value) {
 	vals["execution_arn"] = cty.StringVal(p.ExecutionArn)
 }
 
 func EncodeApigatewayv2Stage_InvokeUrl(p Apigatewayv2StageObservation, vals map[string]cty.Value) {
 	vals["invoke_url"] = cty.StringVal(p.InvokeUrl)
-}
-
-func EncodeApigatewayv2Stage_Arn(p Apigatewayv2StageObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

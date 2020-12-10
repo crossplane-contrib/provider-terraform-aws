@@ -53,13 +53,17 @@ type AcmpcaCertificateAuthoritySpec struct {
 // A AcmpcaCertificateAuthorityParameters defines the desired state of a AcmpcaCertificateAuthority
 type AcmpcaCertificateAuthorityParameters struct {
 	Tags                              map[string]string                 `json:"tags"`
-	Enabled                           bool                              `json:"enabled"`
-	Id                                string                            `json:"id"`
 	Type                              string                            `json:"type"`
 	PermanentDeletionTimeInDays       int64                             `json:"permanent_deletion_time_in_days"`
+	Enabled                           bool                              `json:"enabled"`
+	Id                                string                            `json:"id"`
+	Timeouts                          Timeouts                          `json:"timeouts"`
 	CertificateAuthorityConfiguration CertificateAuthorityConfiguration `json:"certificate_authority_configuration"`
 	RevocationConfiguration           RevocationConfiguration           `json:"revocation_configuration"`
-	Timeouts                          Timeouts                          `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Create string `json:"create"`
 }
 
 type CertificateAuthorityConfiguration struct {
@@ -69,19 +73,19 @@ type CertificateAuthorityConfiguration struct {
 }
 
 type Subject struct {
-	GivenName                  string `json:"given_name"`
-	Pseudonym                  string `json:"pseudonym"`
-	State                      string `json:"state"`
-	GenerationQualifier        string `json:"generation_qualifier"`
-	Country                    string `json:"country"`
-	DistinguishedNameQualifier string `json:"distinguished_name_qualifier"`
 	Initials                   string `json:"initials"`
 	Locality                   string `json:"locality"`
 	Organization               string `json:"organization"`
-	OrganizationalUnit         string `json:"organizational_unit"`
-	Surname                    string `json:"surname"`
+	Pseudonym                  string `json:"pseudonym"`
+	State                      string `json:"state"`
 	CommonName                 string `json:"common_name"`
+	DistinguishedNameQualifier string `json:"distinguished_name_qualifier"`
+	GenerationQualifier        string `json:"generation_qualifier"`
+	Surname                    string `json:"surname"`
 	Title                      string `json:"title"`
+	Country                    string `json:"country"`
+	GivenName                  string `json:"given_name"`
+	OrganizationalUnit         string `json:"organizational_unit"`
 }
 
 type RevocationConfiguration struct {
@@ -95,10 +99,6 @@ type CrlConfiguration struct {
 	S3BucketName     string `json:"s3_bucket_name"`
 }
 
-type Timeouts struct {
-	Create string `json:"create"`
-}
-
 // A AcmpcaCertificateAuthorityStatus defines the observed state of a AcmpcaCertificateAuthority
 type AcmpcaCertificateAuthorityStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
@@ -107,12 +107,12 @@ type AcmpcaCertificateAuthorityStatus struct {
 
 // A AcmpcaCertificateAuthorityObservation records the observed state of a AcmpcaCertificateAuthority
 type AcmpcaCertificateAuthorityObservation struct {
-	Arn                       string `json:"arn"`
-	NotAfter                  string `json:"not_after"`
 	Serial                    string `json:"serial"`
 	Status                    string `json:"status"`
+	CertificateSigningRequest string `json:"certificate_signing_request"`
+	NotAfter                  string `json:"not_after"`
+	NotBefore                 string `json:"not_before"`
+	Arn                       string `json:"arn"`
 	Certificate               string `json:"certificate"`
 	CertificateChain          string `json:"certificate_chain"`
-	CertificateSigningRequest string `json:"certificate_signing_request"`
-	NotBefore                 string `json:"not_before"`
 }

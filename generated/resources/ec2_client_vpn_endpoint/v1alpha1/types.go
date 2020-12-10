@@ -52,22 +52,16 @@ type Ec2ClientVpnEndpointSpec struct {
 
 // A Ec2ClientVpnEndpointParameters defines the desired state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointParameters struct {
-	ClientCidrBlock       string                  `json:"client_cidr_block"`
-	Description           string                  `json:"description"`
-	DnsServers            []string                `json:"dns_servers"`
+	Id                    string                  `json:"id"`
 	SplitTunnel           bool                    `json:"split_tunnel"`
 	Tags                  map[string]string       `json:"tags"`
 	TransportProtocol     string                  `json:"transport_protocol"`
-	Id                    string                  `json:"id"`
+	ClientCidrBlock       string                  `json:"client_cidr_block"`
+	Description           string                  `json:"description"`
+	DnsServers            []string                `json:"dns_servers"`
 	ServerCertificateArn  string                  `json:"server_certificate_arn"`
-	ConnectionLogOptions  ConnectionLogOptions    `json:"connection_log_options"`
 	AuthenticationOptions []AuthenticationOptions `json:"authentication_options"`
-}
-
-type ConnectionLogOptions struct {
-	CloudwatchLogGroup  string `json:"cloudwatch_log_group"`
-	CloudwatchLogStream string `json:"cloudwatch_log_stream"`
-	Enabled             bool   `json:"enabled"`
+	ConnectionLogOptions  ConnectionLogOptions    `json:"connection_log_options"`
 }
 
 type AuthenticationOptions struct {
@@ -75,6 +69,12 @@ type AuthenticationOptions struct {
 	RootCertificateChainArn string `json:"root_certificate_chain_arn"`
 	SamlProviderArn         string `json:"saml_provider_arn"`
 	Type                    string `json:"type"`
+}
+
+type ConnectionLogOptions struct {
+	Enabled             bool   `json:"enabled"`
+	CloudwatchLogGroup  string `json:"cloudwatch_log_group"`
+	CloudwatchLogStream string `json:"cloudwatch_log_stream"`
 }
 
 // A Ec2ClientVpnEndpointStatus defines the observed state of a Ec2ClientVpnEndpoint
@@ -86,6 +86,6 @@ type Ec2ClientVpnEndpointStatus struct {
 // A Ec2ClientVpnEndpointObservation records the observed state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointObservation struct {
 	Arn     string `json:"arn"`
-	Status  string `json:"status"`
 	DnsName string `json:"dns_name"`
+	Status  string `json:"status"`
 }

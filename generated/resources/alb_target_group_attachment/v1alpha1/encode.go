@@ -17,18 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AlbTargetGroupAttachment)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AlbTargetGroupAttachment.")
+	}
+	return EncodeAlbTargetGroupAttachment(*r), nil
+}
 
 func EncodeAlbTargetGroupAttachment(r AlbTargetGroupAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAlbTargetGroupAttachment_TargetGroupArn(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroupAttachment_TargetId(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_Port(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroupAttachment_TargetGroupArn(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroupAttachment_TargetId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAlbTargetGroupAttachment_TargetGroupArn(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	vals["target_group_arn"] = cty.StringVal(p.TargetGroupArn)
+}
+
+func EncodeAlbTargetGroupAttachment_TargetId(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	vals["target_id"] = cty.StringVal(p.TargetId)
 }
 
 func EncodeAlbTargetGroupAttachment_AvailabilityZone(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
@@ -41,12 +63,4 @@ func EncodeAlbTargetGroupAttachment_Id(p AlbTargetGroupAttachmentParameters, val
 
 func EncodeAlbTargetGroupAttachment_Port(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["port"] = cty.NumberIntVal(p.Port)
-}
-
-func EncodeAlbTargetGroupAttachment_TargetGroupArn(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["target_group_arn"] = cty.StringVal(p.TargetGroupArn)
-}
-
-func EncodeAlbTargetGroupAttachment_TargetId(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["target_id"] = cty.StringVal(p.TargetId)
 }

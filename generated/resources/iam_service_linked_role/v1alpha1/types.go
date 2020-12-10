@@ -67,8 +67,8 @@ type IamServiceLinkedRoleStatus struct {
 // A IamServiceLinkedRoleObservation records the observed state of a IamServiceLinkedRole
 type IamServiceLinkedRoleObservation struct {
 	Arn        string `json:"arn"`
-	CreateDate string `json:"create_date"`
+	Name       string `json:"name"`
 	Path       string `json:"path"`
 	UniqueId   string `json:"unique_id"`
-	Name       string `json:"name"`
+	CreateDate string `json:"create_date"`
 }

@@ -17,19 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueTrigger)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueTrigger.")
+	}
+	return EncodeGlueTrigger(*r), nil
+}
 
 func EncodeGlueTrigger(r GlueTrigger) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueTrigger_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlueTrigger_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlueTrigger_Schedule(r.Spec.ForProvider, ctyVal)
+	EncodeGlueTrigger_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeGlueTrigger_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGlueTrigger_Type(r.Spec.ForProvider, ctyVal)
 	EncodeGlueTrigger_WorkflowName(r.Spec.ForProvider, ctyVal)
 	EncodeGlueTrigger_Description(r.Spec.ForProvider, ctyVal)
-	EncodeGlueTrigger_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodeGlueTrigger_Id(r.Spec.ForProvider, ctyVal)
-	EncodeGlueTrigger_Schedule(r.Spec.ForProvider, ctyVal)
+	EncodeGlueTrigger_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueTrigger_Actions(r.Spec.ForProvider.Actions, ctyVal)
 	EncodeGlueTrigger_Predicate(r.Spec.ForProvider.Predicate, ctyVal)
 	EncodeGlueTrigger_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
@@ -37,8 +51,16 @@ func EncodeGlueTrigger(r GlueTrigger) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlueTrigger_Name(p GlueTriggerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeGlueTrigger_Id(p GlueTriggerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGlueTrigger_Schedule(p GlueTriggerParameters, vals map[string]cty.Value) {
+	vals["schedule"] = cty.StringVal(p.Schedule)
+}
+
+func EncodeGlueTrigger_Enabled(p GlueTriggerParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeGlueTrigger_Tags(p GlueTriggerParameters, vals map[string]cty.Value) {
@@ -61,16 +83,8 @@ func EncodeGlueTrigger_Description(p GlueTriggerParameters, vals map[string]cty.
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeGlueTrigger_Enabled(p GlueTriggerParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodeGlueTrigger_Id(p GlueTriggerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGlueTrigger_Schedule(p GlueTriggerParameters, vals map[string]cty.Value) {
-	vals["schedule"] = cty.StringVal(p.Schedule)
+func EncodeGlueTrigger_Name(p GlueTriggerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeGlueTrigger_Actions(p []Actions, vals map[string]cty.Value) {
@@ -123,18 +137,14 @@ func EncodeGlueTrigger_Predicate_Conditions(p []Conditions, vals map[string]cty.
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeGlueTrigger_Predicate_Conditions_CrawlState(v, ctyVal)
 		EncodeGlueTrigger_Predicate_Conditions_CrawlerName(v, ctyVal)
 		EncodeGlueTrigger_Predicate_Conditions_JobName(v, ctyVal)
 		EncodeGlueTrigger_Predicate_Conditions_LogicalOperator(v, ctyVal)
 		EncodeGlueTrigger_Predicate_Conditions_State(v, ctyVal)
+		EncodeGlueTrigger_Predicate_Conditions_CrawlState(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["conditions"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlueTrigger_Predicate_Conditions_CrawlState(p Conditions, vals map[string]cty.Value) {
-	vals["crawl_state"] = cty.StringVal(p.CrawlState)
 }
 
 func EncodeGlueTrigger_Predicate_Conditions_CrawlerName(p Conditions, vals map[string]cty.Value) {
@@ -151,6 +161,10 @@ func EncodeGlueTrigger_Predicate_Conditions_LogicalOperator(p Conditions, vals m
 
 func EncodeGlueTrigger_Predicate_Conditions_State(p Conditions, vals map[string]cty.Value) {
 	vals["state"] = cty.StringVal(p.State)
+}
+
+func EncodeGlueTrigger_Predicate_Conditions_CrawlState(p Conditions, vals map[string]cty.Value) {
+	vals["crawl_state"] = cty.StringVal(p.CrawlState)
 }
 
 func EncodeGlueTrigger_Timeouts(p Timeouts, vals map[string]cty.Value) {

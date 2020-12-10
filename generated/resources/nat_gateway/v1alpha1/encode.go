@@ -17,27 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*NatGateway)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a NatGateway.")
+	}
+	return EncodeNatGateway(*r), nil
+}
 
 func EncodeNatGateway(r NatGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNatGateway_Id(r.Spec.ForProvider, ctyVal)
-	EncodeNatGateway_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeNatGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNatGateway_AllocationId(r.Spec.ForProvider, ctyVal)
+	EncodeNatGateway_Id(r.Spec.ForProvider, ctyVal)
+	EncodeNatGateway_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeNatGateway_NetworkInterfaceId(r.Status.AtProvider, ctyVal)
 	EncodeNatGateway_PrivateIp(r.Status.AtProvider, ctyVal)
 	EncodeNatGateway_PublicIp(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeNatGateway_Id(p NatGatewayParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeNatGateway_SubnetId(p NatGatewayParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
 func EncodeNatGateway_Tags(p NatGatewayParameters, vals map[string]cty.Value) {
@@ -50,6 +56,14 @@ func EncodeNatGateway_Tags(p NatGatewayParameters, vals map[string]cty.Value) {
 
 func EncodeNatGateway_AllocationId(p NatGatewayParameters, vals map[string]cty.Value) {
 	vals["allocation_id"] = cty.StringVal(p.AllocationId)
+}
+
+func EncodeNatGateway_Id(p NatGatewayParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeNatGateway_SubnetId(p NatGatewayParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
 func EncodeNatGateway_NetworkInterfaceId(p NatGatewayObservation, vals map[string]cty.Value) {

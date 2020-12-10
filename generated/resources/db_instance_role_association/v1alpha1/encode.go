@@ -17,17 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DbInstanceRoleAssociation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DbInstanceRoleAssociation.")
+	}
+	return EncodeDbInstanceRoleAssociation(*r), nil
+}
 
 func EncodeDbInstanceRoleAssociation(r DbInstanceRoleAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbInstanceRoleAssociation_DbInstanceIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeDbInstanceRoleAssociation_FeatureName(r.Spec.ForProvider, ctyVal)
 	EncodeDbInstanceRoleAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDbInstanceRoleAssociation_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeDbInstanceRoleAssociation_DbInstanceIdentifier(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDbInstanceRoleAssociation_DbInstanceIdentifier(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
+	vals["db_instance_identifier"] = cty.StringVal(p.DbInstanceIdentifier)
 }
 
 func EncodeDbInstanceRoleAssociation_FeatureName(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
@@ -40,8 +58,4 @@ func EncodeDbInstanceRoleAssociation_Id(p DbInstanceRoleAssociationParameters, v
 
 func EncodeDbInstanceRoleAssociation_RoleArn(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeDbInstanceRoleAssociation_DbInstanceIdentifier(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
-	vals["db_instance_identifier"] = cty.StringVal(p.DbInstanceIdentifier)
 }

@@ -52,10 +52,10 @@ type ServiceDiscoveryHttpNamespaceSpec struct {
 
 // A ServiceDiscoveryHttpNamespaceParameters defines the desired state of a ServiceDiscoveryHttpNamespace
 type ServiceDiscoveryHttpNamespaceParameters struct {
+	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
-	Tags        map[string]string `json:"tags"`
 }
 
 // A ServiceDiscoveryHttpNamespaceStatus defines the observed state of a ServiceDiscoveryHttpNamespace

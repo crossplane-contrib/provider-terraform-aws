@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafregionalSizeConstraintSet)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafregionalSizeConstraintSet.")
+	}
+	return EncodeWafregionalSizeConstraintSet(*r), nil
+}
 
 func EncodeWafregionalSizeConstraintSet(r WafregionalSizeConstraintSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -40,16 +54,12 @@ func EncodeWafregionalSizeConstraintSet_Name(p WafregionalSizeConstraintSetParam
 func EncodeWafregionalSizeConstraintSet_SizeConstraints(p SizeConstraints, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalSizeConstraintSet_SizeConstraints_ComparisonOperator(p, ctyVal)
 	EncodeWafregionalSizeConstraintSet_SizeConstraints_Size(p, ctyVal)
 	EncodeWafregionalSizeConstraintSet_SizeConstraints_TextTransformation(p, ctyVal)
+	EncodeWafregionalSizeConstraintSet_SizeConstraints_ComparisonOperator(p, ctyVal)
 	EncodeWafregionalSizeConstraintSet_SizeConstraints_FieldToMatch(p.FieldToMatch, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["size_constraints"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafregionalSizeConstraintSet_SizeConstraints_ComparisonOperator(p SizeConstraints, vals map[string]cty.Value) {
-	vals["comparison_operator"] = cty.StringVal(p.ComparisonOperator)
 }
 
 func EncodeWafregionalSizeConstraintSet_SizeConstraints_Size(p SizeConstraints, vals map[string]cty.Value) {
@@ -58,6 +68,10 @@ func EncodeWafregionalSizeConstraintSet_SizeConstraints_Size(p SizeConstraints, 
 
 func EncodeWafregionalSizeConstraintSet_SizeConstraints_TextTransformation(p SizeConstraints, vals map[string]cty.Value) {
 	vals["text_transformation"] = cty.StringVal(p.TextTransformation)
+}
+
+func EncodeWafregionalSizeConstraintSet_SizeConstraints_ComparisonOperator(p SizeConstraints, vals map[string]cty.Value) {
+	vals["comparison_operator"] = cty.StringVal(p.ComparisonOperator)
 }
 
 func EncodeWafregionalSizeConstraintSet_SizeConstraints_FieldToMatch(p FieldToMatch, vals map[string]cty.Value) {

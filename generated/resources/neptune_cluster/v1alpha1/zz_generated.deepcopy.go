@@ -111,11 +111,6 @@ func (in *NeptuneClusterParameters) DeepCopyInto(out *NeptuneClusterParameters) 
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.AvailabilityZones != nil {
-		in, out := &in.AvailabilityZones, &out.AvailabilityZones
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -125,6 +120,11 @@ func (in *NeptuneClusterParameters) DeepCopyInto(out *NeptuneClusterParameters) 
 	}
 	if in.VpcSecurityGroupIds != nil {
 		in, out := &in.VpcSecurityGroupIds, &out.VpcSecurityGroupIds
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.AvailabilityZones != nil {
+		in, out := &in.AvailabilityZones, &out.AvailabilityZones
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}

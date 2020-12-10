@@ -17,23 +17,37 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*NeptuneEventSubscription)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a NeptuneEventSubscription.")
+	}
+	return EncodeNeptuneEventSubscription(*r), nil
+}
 
 func EncodeNeptuneEventSubscription(r NeptuneEventSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeNeptuneEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneEventSubscription_EventCategories(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneEventSubscription_Id(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneEventSubscription_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneEventSubscription_SourceIds(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneEventSubscription_SourceType(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneEventSubscription_EventCategories(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneEventSubscription_Name(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneEventSubscription_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneEventSubscription_SnsTopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneEventSubscription_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeNeptuneEventSubscription_CustomerAwsId(r.Status.AtProvider, ctyVal)
 	EncodeNeptuneEventSubscription_Arn(r.Status.AtProvider, ctyVal)
+	EncodeNeptuneEventSubscription_CustomerAwsId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -41,16 +55,20 @@ func EncodeNeptuneEventSubscription_Enabled(p NeptuneEventSubscriptionParameters
 	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
-func EncodeNeptuneEventSubscription_EventCategories(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.EventCategories {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["event_categories"] = cty.SetVal(colVals)
-}
-
 func EncodeNeptuneEventSubscription_Id(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeNeptuneEventSubscription_NamePrefix(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeNeptuneEventSubscription_Tags(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeNeptuneEventSubscription_SourceIds(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
@@ -65,20 +83,16 @@ func EncodeNeptuneEventSubscription_SourceType(p NeptuneEventSubscriptionParamet
 	vals["source_type"] = cty.StringVal(p.SourceType)
 }
 
-func EncodeNeptuneEventSubscription_Tags(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+func EncodeNeptuneEventSubscription_EventCategories(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.EventCategories {
+		colVals = append(colVals, cty.StringVal(value))
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	vals["event_categories"] = cty.SetVal(colVals)
 }
 
 func EncodeNeptuneEventSubscription_Name(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeNeptuneEventSubscription_NamePrefix(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeNeptuneEventSubscription_SnsTopicArn(p NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
@@ -105,10 +119,10 @@ func EncodeNeptuneEventSubscription_Timeouts_Update(p Timeouts, vals map[string]
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeNeptuneEventSubscription_CustomerAwsId(p NeptuneEventSubscriptionObservation, vals map[string]cty.Value) {
-	vals["customer_aws_id"] = cty.StringVal(p.CustomerAwsId)
-}
-
 func EncodeNeptuneEventSubscription_Arn(p NeptuneEventSubscriptionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeNeptuneEventSubscription_CustomerAwsId(p NeptuneEventSubscriptionObservation, vals map[string]cty.Value) {
+	vals["customer_aws_id"] = cty.StringVal(p.CustomerAwsId)
 }

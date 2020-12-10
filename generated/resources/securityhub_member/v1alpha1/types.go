@@ -52,10 +52,10 @@ type SecurityhubMemberSpec struct {
 
 // A SecurityhubMemberParameters defines the desired state of a SecurityhubMember
 type SecurityhubMemberParameters struct {
-	Id        string `json:"id"`
-	Invite    bool   `json:"invite"`
 	AccountId string `json:"account_id"`
 	Email     string `json:"email"`
+	Id        string `json:"id"`
+	Invite    bool   `json:"invite"`
 }
 
 // A SecurityhubMemberStatus defines the observed state of a SecurityhubMember

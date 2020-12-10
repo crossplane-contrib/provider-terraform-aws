@@ -17,32 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AthenaWorkgroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AthenaWorkgroup.")
+	}
+	return EncodeAthenaWorkgroup(*r), nil
+}
 
 func EncodeAthenaWorkgroup(r AthenaWorkgroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAthenaWorkgroup_ForceDestroy(r.Spec.ForProvider, ctyVal)
-	EncodeAthenaWorkgroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAthenaWorkgroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_State(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_Description(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaWorkgroup_ForceDestroy(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaWorkgroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaWorkgroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_Configuration(r.Spec.ForProvider.Configuration, ctyVal)
 	EncodeAthenaWorkgroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAthenaWorkgroup_ForceDestroy(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
-	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
-}
-
-func EncodeAthenaWorkgroup_Id(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAthenaWorkgroup_Name(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAthenaWorkgroup_State(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
@@ -59,6 +61,18 @@ func EncodeAthenaWorkgroup_Tags(p AthenaWorkgroupParameters, vals map[string]cty
 
 func EncodeAthenaWorkgroup_Description(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeAthenaWorkgroup_ForceDestroy(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
+	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
+}
+
+func EncodeAthenaWorkgroup_Id(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAthenaWorkgroup_Name(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAthenaWorkgroup_Configuration(p Configuration, vals map[string]cty.Value) {

@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DatasyncLocationS3)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DatasyncLocationS3.")
+	}
+	return EncodeDatasyncLocationS3(*r), nil
+}
 
 func EncodeDatasyncLocationS3(r DatasyncLocationS3) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -27,8 +41,8 @@ func EncodeDatasyncLocationS3(r DatasyncLocationS3) cty.Value {
 	EncodeDatasyncLocationS3_Subdirectory(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationS3_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationS3_S3Config(r.Spec.ForProvider.S3Config, ctyVal)
-	EncodeDatasyncLocationS3_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationS3_Uri(r.Status.AtProvider, ctyVal)
+	EncodeDatasyncLocationS3_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -64,10 +78,10 @@ func EncodeDatasyncLocationS3_S3Config_BucketAccessRoleArn(p S3Config, vals map[
 	vals["bucket_access_role_arn"] = cty.StringVal(p.BucketAccessRoleArn)
 }
 
-func EncodeDatasyncLocationS3_Arn(p DatasyncLocationS3Observation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeDatasyncLocationS3_Uri(p DatasyncLocationS3Observation, vals map[string]cty.Value) {
 	vals["uri"] = cty.StringVal(p.Uri)
+}
+
+func EncodeDatasyncLocationS3_Arn(p DatasyncLocationS3Observation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

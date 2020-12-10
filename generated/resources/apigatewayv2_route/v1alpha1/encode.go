@@ -17,29 +17,47 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2Route)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2Route.")
+	}
+	return EncodeApigatewayv2Route(*r), nil
+}
 
 func EncodeApigatewayv2Route(r Apigatewayv2Route) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Route_ModelSelectionExpression(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_ApiId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_ApiKeyRequired(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_OperationName(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_RequestModels(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_RouteKey(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_Target(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_ApiKeyRequired(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_AuthorizationScopes(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_AuthorizationType(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_AuthorizerId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_ModelSelectionExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_RouteResponseSelectionExpression(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_ApiId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2Route_ModelSelectionExpression(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["model_selection_expression"] = cty.StringVal(p.ModelSelectionExpression)
+func EncodeApigatewayv2Route_ApiId(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
+}
+
+func EncodeApigatewayv2Route_ApiKeyRequired(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["api_key_required"] = cty.BoolVal(p.ApiKeyRequired)
 }
 
 func EncodeApigatewayv2Route_OperationName(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
@@ -62,14 +80,6 @@ func EncodeApigatewayv2Route_Target(p Apigatewayv2RouteParameters, vals map[stri
 	vals["target"] = cty.StringVal(p.Target)
 }
 
-func EncodeApigatewayv2Route_Id(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApigatewayv2Route_ApiKeyRequired(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["api_key_required"] = cty.BoolVal(p.ApiKeyRequired)
-}
-
 func EncodeApigatewayv2Route_AuthorizationScopes(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.AuthorizationScopes {
@@ -86,10 +96,14 @@ func EncodeApigatewayv2Route_AuthorizerId(p Apigatewayv2RouteParameters, vals ma
 	vals["authorizer_id"] = cty.StringVal(p.AuthorizerId)
 }
 
-func EncodeApigatewayv2Route_RouteResponseSelectionExpression(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["route_response_selection_expression"] = cty.StringVal(p.RouteResponseSelectionExpression)
+func EncodeApigatewayv2Route_Id(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApigatewayv2Route_ApiId(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
+func EncodeApigatewayv2Route_ModelSelectionExpression(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["model_selection_expression"] = cty.StringVal(p.ModelSelectionExpression)
+}
+
+func EncodeApigatewayv2Route_RouteResponseSelectionExpression(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["route_response_selection_expression"] = cty.StringVal(p.RouteResponseSelectionExpression)
 }

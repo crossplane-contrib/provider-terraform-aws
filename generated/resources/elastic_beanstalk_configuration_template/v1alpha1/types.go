@@ -52,20 +52,20 @@ type ElasticBeanstalkConfigurationTemplateSpec struct {
 
 // A ElasticBeanstalkConfigurationTemplateParameters defines the desired state of a ElasticBeanstalkConfigurationTemplate
 type ElasticBeanstalkConfigurationTemplateParameters struct {
+	Name              string  `json:"name"`
 	SolutionStackName string  `json:"solution_stack_name"`
 	Application       string  `json:"application"`
 	Description       string  `json:"description"`
 	EnvironmentId     string  `json:"environment_id"`
 	Id                string  `json:"id"`
-	Name              string  `json:"name"`
 	Setting           Setting `json:"setting"`
 }
 
 type Setting struct {
-	Name      string `json:"name"`
 	Namespace string `json:"namespace"`
 	Resource  string `json:"resource"`
 	Value     string `json:"value"`
+	Name      string `json:"name"`
 }
 
 // A ElasticBeanstalkConfigurationTemplateStatus defines the observed state of a ElasticBeanstalkConfigurationTemplate

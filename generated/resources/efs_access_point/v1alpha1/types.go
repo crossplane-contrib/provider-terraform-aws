@@ -84,7 +84,7 @@ type EfsAccessPointStatus struct {
 
 // A EfsAccessPointObservation records the observed state of a EfsAccessPoint
 type EfsAccessPointObservation struct {
+	FileSystemArn string `json:"file_system_arn"`
 	OwnerId       string `json:"owner_id"`
 	Arn           string `json:"arn"`
-	FileSystemArn string `json:"file_system_arn"`
 }

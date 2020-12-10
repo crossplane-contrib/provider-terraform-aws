@@ -60,11 +60,11 @@ type S3BucketNotificationParameters struct {
 }
 
 type LambdaFunction struct {
-	Id                string   `json:"id"`
-	LambdaFunctionArn string   `json:"lambda_function_arn"`
 	Events            []string `json:"events"`
 	FilterPrefix      string   `json:"filter_prefix"`
 	FilterSuffix      string   `json:"filter_suffix"`
+	Id                string   `json:"id"`
+	LambdaFunctionArn string   `json:"lambda_function_arn"`
 }
 
 type Queue struct {

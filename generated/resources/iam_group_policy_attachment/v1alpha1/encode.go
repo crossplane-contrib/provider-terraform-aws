@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamGroupPolicyAttachment)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamGroupPolicyAttachment.")
+	}
+	return EncodeIamGroupPolicyAttachment(*r), nil
+}
 
 func EncodeIamGroupPolicyAttachment(r IamGroupPolicyAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamGroupPolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicyAttachment_Group(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroupPolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamGroupPolicyAttachment_PolicyArn(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
+	vals["policy_arn"] = cty.StringVal(p.PolicyArn)
 }
 
 func EncodeIamGroupPolicyAttachment_Group(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
@@ -35,8 +53,4 @@ func EncodeIamGroupPolicyAttachment_Group(p IamGroupPolicyAttachmentParameters, 
 
 func EncodeIamGroupPolicyAttachment_Id(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamGroupPolicyAttachment_PolicyArn(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["policy_arn"] = cty.StringVal(p.PolicyArn)
 }

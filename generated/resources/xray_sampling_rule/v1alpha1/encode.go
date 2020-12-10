@@ -17,47 +17,45 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*XraySamplingRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a XraySamplingRule.")
+	}
+	return EncodeXraySamplingRule(*r), nil
+}
 
 func EncodeXraySamplingRule(r XraySamplingRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeXraySamplingRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_ReservoirSize(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_Host(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_HttpMethod(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_Version(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_ResourceArn(r.Spec.ForProvider, ctyVal)
 	EncodeXraySamplingRule_RuleName(r.Spec.ForProvider, ctyVal)
 	EncodeXraySamplingRule_ServiceType(r.Spec.ForProvider, ctyVal)
 	EncodeXraySamplingRule_UrlPath(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_Attributes(r.Spec.ForProvider, ctyVal)
 	EncodeXraySamplingRule_ServiceName(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_FixedRate(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_Version(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_Attributes(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_Host(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeXraySamplingRule_Priority(r.Spec.ForProvider, ctyVal)
-	EncodeXraySamplingRule_ResourceArn(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_ReservoirSize(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_FixedRate(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_HttpMethod(r.Spec.ForProvider, ctyVal)
+	EncodeXraySamplingRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeXraySamplingRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeXraySamplingRule_Id(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeXraySamplingRule_ReservoirSize(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["reservoir_size"] = cty.NumberIntVal(p.ReservoirSize)
-}
-
-func EncodeXraySamplingRule_Host(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["host"] = cty.StringVal(p.Host)
-}
-
-func EncodeXraySamplingRule_HttpMethod(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["http_method"] = cty.StringVal(p.HttpMethod)
-}
-
-func EncodeXraySamplingRule_Version(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["version"] = cty.NumberIntVal(p.Version)
+func EncodeXraySamplingRule_ResourceArn(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }
 
 func EncodeXraySamplingRule_RuleName(p XraySamplingRuleParameters, vals map[string]cty.Value) {
@@ -72,6 +70,14 @@ func EncodeXraySamplingRule_UrlPath(p XraySamplingRuleParameters, vals map[strin
 	vals["url_path"] = cty.StringVal(p.UrlPath)
 }
 
+func EncodeXraySamplingRule_ServiceName(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["service_name"] = cty.StringVal(p.ServiceName)
+}
+
+func EncodeXraySamplingRule_Version(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["version"] = cty.NumberIntVal(p.Version)
+}
+
 func EncodeXraySamplingRule_Attributes(p XraySamplingRuleParameters, vals map[string]cty.Value) {
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Attributes {
@@ -80,8 +86,28 @@ func EncodeXraySamplingRule_Attributes(p XraySamplingRuleParameters, vals map[st
 	vals["attributes"] = cty.MapVal(mVals)
 }
 
-func EncodeXraySamplingRule_ServiceName(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["service_name"] = cty.StringVal(p.ServiceName)
+func EncodeXraySamplingRule_Host(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["host"] = cty.StringVal(p.Host)
+}
+
+func EncodeXraySamplingRule_Id(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeXraySamplingRule_Priority(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["priority"] = cty.NumberIntVal(p.Priority)
+}
+
+func EncodeXraySamplingRule_ReservoirSize(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["reservoir_size"] = cty.NumberIntVal(p.ReservoirSize)
+}
+
+func EncodeXraySamplingRule_FixedRate(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["fixed_rate"] = cty.NumberIntVal(p.FixedRate)
+}
+
+func EncodeXraySamplingRule_HttpMethod(p XraySamplingRuleParameters, vals map[string]cty.Value) {
+	vals["http_method"] = cty.StringVal(p.HttpMethod)
 }
 
 func EncodeXraySamplingRule_Tags(p XraySamplingRuleParameters, vals map[string]cty.Value) {
@@ -90,18 +116,6 @@ func EncodeXraySamplingRule_Tags(p XraySamplingRuleParameters, vals map[string]c
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeXraySamplingRule_FixedRate(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["fixed_rate"] = cty.NumberIntVal(p.FixedRate)
-}
-
-func EncodeXraySamplingRule_Priority(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["priority"] = cty.NumberIntVal(p.Priority)
-}
-
-func EncodeXraySamplingRule_ResourceArn(p XraySamplingRuleParameters, vals map[string]cty.Value) {
-	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }
 
 func EncodeXraySamplingRule_Arn(p XraySamplingRuleObservation, vals map[string]cty.Value) {

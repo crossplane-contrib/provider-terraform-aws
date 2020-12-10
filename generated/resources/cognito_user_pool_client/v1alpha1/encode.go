@@ -17,42 +17,52 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CognitoUserPoolClient)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CognitoUserPoolClient.")
+	}
+	return EncodeCognitoUserPoolClient(*r), nil
+}
 
 func EncodeCognitoUserPoolClient(r CognitoUserPoolClient) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPoolClient_WriteAttributes(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_AllowedOauthFlowsUserPoolClient(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_AllowedOauthScopes(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_ReadAttributes(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_ExplicitAuthFlows(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_PreventUserExistenceErrors(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_UserPoolId(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_GenerateSecret(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_AllowedOauthFlows(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_CallbackUrls(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_DefaultRedirectUri(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolClient_RefreshTokenValidity(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolClient_SupportedIdentityProviders(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_UserPoolId(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_AllowedOauthScopes(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_ReadAttributes(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolClient_LogoutUrls(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolClient_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_CallbackUrls(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_DefaultRedirectUri(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_GenerateSecret(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_AllowedOauthFlows(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_AllowedOauthFlowsUserPoolClient(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_ExplicitAuthFlows(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_WriteAttributes(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_PreventUserExistenceErrors(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolClient_SupportedIdentityProviders(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolClient_AnalyticsConfiguration(r.Spec.ForProvider.AnalyticsConfiguration, ctyVal)
 	EncodeCognitoUserPoolClient_ClientSecret(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCognitoUserPoolClient_WriteAttributes(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.WriteAttributes {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["write_attributes"] = cty.SetVal(colVals)
+func EncodeCognitoUserPoolClient_RefreshTokenValidity(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	vals["refresh_token_validity"] = cty.NumberIntVal(p.RefreshTokenValidity)
 }
 
-func EncodeCognitoUserPoolClient_AllowedOauthFlowsUserPoolClient(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	vals["allowed_oauth_flows_user_pool_client"] = cty.BoolVal(p.AllowedOauthFlowsUserPoolClient)
+func EncodeCognitoUserPoolClient_UserPoolId(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
 }
 
 func EncodeCognitoUserPoolClient_AllowedOauthScopes(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
@@ -63,6 +73,10 @@ func EncodeCognitoUserPoolClient_AllowedOauthScopes(p CognitoUserPoolClientParam
 	vals["allowed_oauth_scopes"] = cty.SetVal(colVals)
 }
 
+func EncodeCognitoUserPoolClient_Id(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeCognitoUserPoolClient_ReadAttributes(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.ReadAttributes {
@@ -71,36 +85,16 @@ func EncodeCognitoUserPoolClient_ReadAttributes(p CognitoUserPoolClientParameter
 	vals["read_attributes"] = cty.SetVal(colVals)
 }
 
-func EncodeCognitoUserPoolClient_ExplicitAuthFlows(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+func EncodeCognitoUserPoolClient_LogoutUrls(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
-	for _, value := range p.ExplicitAuthFlows {
+	for _, value := range p.LogoutUrls {
 		colVals = append(colVals, cty.StringVal(value))
 	}
-	vals["explicit_auth_flows"] = cty.SetVal(colVals)
+	vals["logout_urls"] = cty.SetVal(colVals)
 }
 
-func EncodeCognitoUserPoolClient_PreventUserExistenceErrors(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	vals["prevent_user_existence_errors"] = cty.StringVal(p.PreventUserExistenceErrors)
-}
-
-func EncodeCognitoUserPoolClient_UserPoolId(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
-}
-
-func EncodeCognitoUserPoolClient_GenerateSecret(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	vals["generate_secret"] = cty.BoolVal(p.GenerateSecret)
-}
-
-func EncodeCognitoUserPoolClient_Id(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCognitoUserPoolClient_AllowedOauthFlows(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.AllowedOauthFlows {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["allowed_oauth_flows"] = cty.SetVal(colVals)
+func EncodeCognitoUserPoolClient_Name(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeCognitoUserPoolClient_CallbackUrls(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
@@ -115,8 +109,40 @@ func EncodeCognitoUserPoolClient_DefaultRedirectUri(p CognitoUserPoolClientParam
 	vals["default_redirect_uri"] = cty.StringVal(p.DefaultRedirectUri)
 }
 
-func EncodeCognitoUserPoolClient_RefreshTokenValidity(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	vals["refresh_token_validity"] = cty.NumberIntVal(p.RefreshTokenValidity)
+func EncodeCognitoUserPoolClient_GenerateSecret(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	vals["generate_secret"] = cty.BoolVal(p.GenerateSecret)
+}
+
+func EncodeCognitoUserPoolClient_AllowedOauthFlows(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.AllowedOauthFlows {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["allowed_oauth_flows"] = cty.SetVal(colVals)
+}
+
+func EncodeCognitoUserPoolClient_AllowedOauthFlowsUserPoolClient(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	vals["allowed_oauth_flows_user_pool_client"] = cty.BoolVal(p.AllowedOauthFlowsUserPoolClient)
+}
+
+func EncodeCognitoUserPoolClient_ExplicitAuthFlows(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ExplicitAuthFlows {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["explicit_auth_flows"] = cty.SetVal(colVals)
+}
+
+func EncodeCognitoUserPoolClient_WriteAttributes(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.WriteAttributes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["write_attributes"] = cty.SetVal(colVals)
+}
+
+func EncodeCognitoUserPoolClient_PreventUserExistenceErrors(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
+	vals["prevent_user_existence_errors"] = cty.StringVal(p.PreventUserExistenceErrors)
 }
 
 func EncodeCognitoUserPoolClient_SupportedIdentityProviders(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
@@ -125,18 +151,6 @@ func EncodeCognitoUserPoolClient_SupportedIdentityProviders(p CognitoUserPoolCli
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["supported_identity_providers"] = cty.SetVal(colVals)
-}
-
-func EncodeCognitoUserPoolClient_LogoutUrls(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.LogoutUrls {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["logout_urls"] = cty.SetVal(colVals)
-}
-
-func EncodeCognitoUserPoolClient_Name(p CognitoUserPoolClientParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeCognitoUserPoolClient_AnalyticsConfiguration(p AnalyticsConfiguration, vals map[string]cty.Value) {

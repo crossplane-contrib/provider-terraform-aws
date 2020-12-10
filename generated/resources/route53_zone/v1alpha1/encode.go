@@ -17,25 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Route53Zone)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Route53Zone.")
+	}
+	return EncodeRoute53Zone(*r), nil
+}
 
 func EncodeRoute53Zone(r Route53Zone) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53Zone_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_DelegationSetId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53Zone_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Vpc(r.Spec.ForProvider.Vpc, ctyVal)
 	EncodeRoute53Zone_NameServers(r.Status.AtProvider, ctyVal)
 	EncodeRoute53Zone_ZoneId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53Zone_Comment(p Route53ZoneParameters, vals map[string]cty.Value) {
-	vals["comment"] = cty.StringVal(p.Comment)
 }
 
 func EncodeRoute53Zone_DelegationSetId(p Route53ZoneParameters, vals map[string]cty.Value) {
@@ -60,6 +70,10 @@ func EncodeRoute53Zone_Tags(p Route53ZoneParameters, vals map[string]cty.Value) 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeRoute53Zone_Comment(p Route53ZoneParameters, vals map[string]cty.Value) {
+	vals["comment"] = cty.StringVal(p.Comment)
 }
 
 func EncodeRoute53Zone_Vpc(p Vpc, vals map[string]cty.Value) {

@@ -17,27 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SecretsmanagerSecretVersion)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SecretsmanagerSecretVersion.")
+	}
+	return EncodeSecretsmanagerSecretVersion(*r), nil
+}
 
 func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretBinary(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecretsmanagerSecretVersion_SecretId(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
-	vals["secret_id"] = cty.StringVal(p.SecretId)
-}
-
-func EncodeSecretsmanagerSecretVersion_SecretString(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
-	vals["secret_string"] = cty.StringVal(p.SecretString)
 }
 
 func EncodeSecretsmanagerSecretVersion_VersionStages(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
@@ -56,10 +62,18 @@ func EncodeSecretsmanagerSecretVersion_SecretBinary(p SecretsmanagerSecretVersio
 	vals["secret_binary"] = cty.StringVal(p.SecretBinary)
 }
 
-func EncodeSecretsmanagerSecretVersion_VersionId(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
-	vals["version_id"] = cty.StringVal(p.VersionId)
+func EncodeSecretsmanagerSecretVersion_SecretId(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["secret_id"] = cty.StringVal(p.SecretId)
+}
+
+func EncodeSecretsmanagerSecretVersion_SecretString(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["secret_string"] = cty.StringVal(p.SecretString)
 }
 
 func EncodeSecretsmanagerSecretVersion_Arn(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeSecretsmanagerSecretVersion_VersionId(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	vals["version_id"] = cty.StringVal(p.VersionId)
 }

@@ -17,20 +17,30 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ProxyProtocolPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ProxyProtocolPolicy.")
+	}
+	return EncodeProxyProtocolPolicy(*r), nil
+}
 
 func EncodeProxyProtocolPolicy(r ProxyProtocolPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeProxyProtocolPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_InstancePorts(r.Spec.ForProvider, ctyVal)
+	EncodeProxyProtocolPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeProxyProtocolPolicy_LoadBalancer(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
-	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
 }
 
 func EncodeProxyProtocolPolicy_Id(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
@@ -43,4 +53,8 @@ func EncodeProxyProtocolPolicy_InstancePorts(p ProxyProtocolPolicyParameters, va
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["instance_ports"] = cty.SetVal(colVals)
+}
+
+func EncodeProxyProtocolPolicy_LoadBalancer(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
+	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
 }

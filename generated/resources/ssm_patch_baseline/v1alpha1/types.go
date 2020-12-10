@@ -52,6 +52,7 @@ type SsmPatchBaselineSpec struct {
 
 // A SsmPatchBaselineParameters defines the desired state of a SsmPatchBaseline
 type SsmPatchBaselineParameters struct {
+	RejectedPatches                []string          `json:"rejected_patches"`
 	Tags                           map[string]string `json:"tags"`
 	ApprovedPatches                []string          `json:"approved_patches"`
 	ApprovedPatchesComplianceLevel string            `json:"approved_patches_compliance_level"`
@@ -59,9 +60,13 @@ type SsmPatchBaselineParameters struct {
 	Id                             string            `json:"id"`
 	Name                           string            `json:"name"`
 	OperatingSystem                string            `json:"operating_system"`
-	RejectedPatches                []string          `json:"rejected_patches"`
-	ApprovalRule                   ApprovalRule      `json:"approval_rule"`
 	GlobalFilter                   []GlobalFilter    `json:"global_filter"`
+	ApprovalRule                   ApprovalRule      `json:"approval_rule"`
+}
+
+type GlobalFilter struct {
+	Key    string   `json:"key"`
+	Values []string `json:"values"`
 }
 
 type ApprovalRule struct {
@@ -72,11 +77,6 @@ type ApprovalRule struct {
 }
 
 type PatchFilter struct {
-	Key    string   `json:"key"`
-	Values []string `json:"values"`
-}
-
-type GlobalFilter struct {
 	Key    string   `json:"key"`
 	Values []string `json:"values"`
 }

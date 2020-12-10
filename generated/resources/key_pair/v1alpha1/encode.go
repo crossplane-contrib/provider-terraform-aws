@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*KeyPair)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a KeyPair.")
+	}
+	return EncodeKeyPair(*r), nil
+}
 
 func EncodeKeyPair(r KeyPair) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -27,9 +41,9 @@ func EncodeKeyPair(r KeyPair) cty.Value {
 	EncodeKeyPair_KeyNamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_PublicKey(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeKeyPair_KeyPairId(r.Status.AtProvider, ctyVal)
 	EncodeKeyPair_Arn(r.Status.AtProvider, ctyVal)
 	EncodeKeyPair_Fingerprint(r.Status.AtProvider, ctyVal)
+	EncodeKeyPair_KeyPairId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -57,14 +71,14 @@ func EncodeKeyPair_Tags(p KeyPairParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeKeyPair_KeyPairId(p KeyPairObservation, vals map[string]cty.Value) {
-	vals["key_pair_id"] = cty.StringVal(p.KeyPairId)
-}
-
 func EncodeKeyPair_Arn(p KeyPairObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeKeyPair_Fingerprint(p KeyPairObservation, vals map[string]cty.Value) {
 	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
+}
+
+func EncodeKeyPair_KeyPairId(p KeyPairObservation, vals map[string]cty.Value) {
+	vals["key_pair_id"] = cty.StringVal(p.KeyPairId)
 }

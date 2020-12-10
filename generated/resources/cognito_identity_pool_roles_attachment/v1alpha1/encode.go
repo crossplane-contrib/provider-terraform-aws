@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CognitoIdentityPoolRolesAttachment)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CognitoIdentityPoolRolesAttachment.")
+	}
+	return EncodeCognitoIdentityPoolRolesAttachment(*r), nil
+}
 
 func EncodeCognitoIdentityPoolRolesAttachment(r CognitoIdentityPoolRolesAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -73,13 +87,17 @@ func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule(p []Mappin
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(v, ctyVal)
 		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Claim(v, ctyVal)
 		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_MatchType(v, ctyVal)
 		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_RoleArn(v, ctyVal)
-		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["mapping_rule"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(p MappingRule, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Claim(p MappingRule, vals map[string]cty.Value) {
@@ -92,8 +110,4 @@ func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_MatchType(
 
 func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_RoleArn(p MappingRule, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(p MappingRule, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }

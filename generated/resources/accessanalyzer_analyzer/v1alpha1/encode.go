@@ -17,17 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AccessanalyzerAnalyzer)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AccessanalyzerAnalyzer.")
+	}
+	return EncodeAccessanalyzerAnalyzer(*r), nil
+}
 
 func EncodeAccessanalyzerAnalyzer(r AccessanalyzerAnalyzer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAccessanalyzerAnalyzer_Type(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_AnalyzerName(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeAccessanalyzerAnalyzer_Type(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAccessanalyzerAnalyzer_Type(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeAccessanalyzerAnalyzer_AnalyzerName(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
@@ -44,10 +62,6 @@ func EncodeAccessanalyzerAnalyzer_Tags(p AccessanalyzerAnalyzerParameters, vals 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeAccessanalyzerAnalyzer_Type(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeAccessanalyzerAnalyzer_Arn(p AccessanalyzerAnalyzerObservation, vals map[string]cty.Value) {

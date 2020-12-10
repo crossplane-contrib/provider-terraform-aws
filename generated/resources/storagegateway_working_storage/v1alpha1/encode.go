@@ -17,20 +17,30 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*StoragegatewayWorkingStorage)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a StoragegatewayWorkingStorage.")
+	}
+	return EncodeStoragegatewayWorkingStorage(*r), nil
+}
 
 func EncodeStoragegatewayWorkingStorage(r StoragegatewayWorkingStorage) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeStoragegatewayWorkingStorage_DiskId(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayWorkingStorage_GatewayArn(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayWorkingStorage_Id(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayWorkingStorage_DiskId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeStoragegatewayWorkingStorage_DiskId(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
-	vals["disk_id"] = cty.StringVal(p.DiskId)
 }
 
 func EncodeStoragegatewayWorkingStorage_GatewayArn(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
@@ -39,4 +49,8 @@ func EncodeStoragegatewayWorkingStorage_GatewayArn(p StoragegatewayWorkingStorag
 
 func EncodeStoragegatewayWorkingStorage_Id(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeStoragegatewayWorkingStorage_DiskId(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
+	vals["disk_id"] = cty.StringVal(p.DiskId)
 }

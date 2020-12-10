@@ -52,20 +52,20 @@ type StoragegatewayNfsFileShareSpec struct {
 
 // A StoragegatewayNfsFileShareParameters defines the desired state of a StoragegatewayNfsFileShare
 type StoragegatewayNfsFileShareParameters struct {
-	ClientList           []string             `json:"client_list"`
 	KmsEncrypted         bool                 `json:"kms_encrypted"`
 	LocationArn          string               `json:"location_arn"`
+	ObjectAcl            string               `json:"object_acl"`
 	ReadOnly             bool                 `json:"read_only"`
-	RoleArn              string               `json:"role_arn"`
-	GatewayArn           string               `json:"gateway_arn"`
-	Id                   string               `json:"id"`
-	Tags                 map[string]string    `json:"tags"`
-	GuessMimeTypeEnabled bool                 `json:"guess_mime_type_enabled"`
 	Squash               string               `json:"squash"`
 	DefaultStorageClass  string               `json:"default_storage_class"`
 	KmsKeyArn            string               `json:"kms_key_arn"`
-	ObjectAcl            string               `json:"object_acl"`
+	GuessMimeTypeEnabled bool                 `json:"guess_mime_type_enabled"`
+	Id                   string               `json:"id"`
+	GatewayArn           string               `json:"gateway_arn"`
 	RequesterPays        bool                 `json:"requester_pays"`
+	RoleArn              string               `json:"role_arn"`
+	Tags                 map[string]string    `json:"tags"`
+	ClientList           []string             `json:"client_list"`
 	CacheAttributes      CacheAttributes      `json:"cache_attributes"`
 	NfsFileShareDefaults NfsFileShareDefaults `json:"nfs_file_share_defaults"`
 	Timeouts             Timeouts             `json:"timeouts"`
@@ -96,7 +96,7 @@ type StoragegatewayNfsFileShareStatus struct {
 
 // A StoragegatewayNfsFileShareObservation records the observed state of a StoragegatewayNfsFileShare
 type StoragegatewayNfsFileShareObservation struct {
-	Arn         string `json:"arn"`
 	FileshareId string `json:"fileshare_id"`
 	Path        string `json:"path"`
+	Arn         string `json:"arn"`
 }

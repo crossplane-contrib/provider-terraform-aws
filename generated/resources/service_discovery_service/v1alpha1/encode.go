@@ -17,21 +17,43 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ServiceDiscoveryService)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ServiceDiscoveryService.")
+	}
+	return EncodeServiceDiscoveryService(*r), nil
+}
 
 func EncodeServiceDiscoveryService(r ServiceDiscoveryService) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_NamespaceId(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryService_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryService_DnsConfig(r.Spec.ForProvider.DnsConfig, ctyVal)
 	EncodeServiceDiscoveryService_HealthCheckConfig(r.Spec.ForProvider.HealthCheckConfig, ctyVal)
 	EncodeServiceDiscoveryService_HealthCheckCustomConfig(r.Spec.ForProvider.HealthCheckCustomConfig, ctyVal)
+	EncodeServiceDiscoveryService_DnsConfig(r.Spec.ForProvider.DnsConfig, ctyVal)
 	EncodeServiceDiscoveryService_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeServiceDiscoveryService_Tags(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeServiceDiscoveryService_Description(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
@@ -48,51 +70,6 @@ func EncodeServiceDiscoveryService_Name(p ServiceDiscoveryServiceParameters, val
 
 func EncodeServiceDiscoveryService_NamespaceId(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
 	vals["namespace_id"] = cty.StringVal(p.NamespaceId)
-}
-
-func EncodeServiceDiscoveryService_Tags(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeServiceDiscoveryService_DnsConfig(p DnsConfig, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeServiceDiscoveryService_DnsConfig_NamespaceId(p, ctyVal)
-	EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(p, ctyVal)
-	EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p.DnsRecords, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["dns_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeServiceDiscoveryService_DnsConfig_NamespaceId(p DnsConfig, vals map[string]cty.Value) {
-	vals["namespace_id"] = cty.StringVal(p.NamespaceId)
-}
-
-func EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(p DnsConfig, vals map[string]cty.Value) {
-	vals["routing_policy"] = cty.StringVal(p.RoutingPolicy)
-}
-
-func EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p []DnsRecords, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(v, ctyVal)
-		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["dns_records"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(p DnsRecords, vals map[string]cty.Value) {
-	vals["ttl"] = cty.NumberIntVal(p.Ttl)
-}
-
-func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(p DnsRecords, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeServiceDiscoveryService_HealthCheckConfig(p HealthCheckConfig, vals map[string]cty.Value) {
@@ -127,6 +104,43 @@ func EncodeServiceDiscoveryService_HealthCheckCustomConfig(p HealthCheckCustomCo
 
 func EncodeServiceDiscoveryService_HealthCheckCustomConfig_FailureThreshold(p HealthCheckCustomConfig, vals map[string]cty.Value) {
 	vals["failure_threshold"] = cty.NumberIntVal(p.FailureThreshold)
+}
+
+func EncodeServiceDiscoveryService_DnsConfig(p DnsConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_DnsConfig_NamespaceId(p, ctyVal)
+	EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(p, ctyVal)
+	EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p.DnsRecords, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["dns_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeServiceDiscoveryService_DnsConfig_NamespaceId(p DnsConfig, vals map[string]cty.Value) {
+	vals["namespace_id"] = cty.StringVal(p.NamespaceId)
+}
+
+func EncodeServiceDiscoveryService_DnsConfig_RoutingPolicy(p DnsConfig, vals map[string]cty.Value) {
+	vals["routing_policy"] = cty.StringVal(p.RoutingPolicy)
+}
+
+func EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p []DnsRecords, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(v, ctyVal)
+		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["dns_records"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(p DnsRecords, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(p DnsRecords, vals map[string]cty.Value) {
+	vals["ttl"] = cty.NumberIntVal(p.Ttl)
 }
 
 func EncodeServiceDiscoveryService_Arn(p ServiceDiscoveryServiceObservation, vals map[string]cty.Value) {

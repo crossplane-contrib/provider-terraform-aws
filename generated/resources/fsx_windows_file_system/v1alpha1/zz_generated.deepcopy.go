@@ -111,17 +111,17 @@ func (in *FsxWindowsFileSystemParameters) DeepCopyInto(out *FsxWindowsFileSystem
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.SecurityGroupIds != nil {
-		in, out := &in.SecurityGroupIds, &out.SecurityGroupIds
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.SecurityGroupIds != nil {
+		in, out := &in.SecurityGroupIds, &out.SecurityGroupIds
+		*out = make([]string, len(*in))
+		copy(*out, *in)
 	}
 	in.SelfManagedActiveDirectory.DeepCopyInto(&out.SelfManagedActiveDirectory)
 	out.Timeouts = in.Timeouts

@@ -52,38 +52,38 @@ type DocdbClusterSpec struct {
 
 // A DocdbClusterParameters defines the desired state of a DocdbCluster
 type DocdbClusterParameters struct {
-	ClusterIdentifierPrefix      string            `json:"cluster_identifier_prefix"`
-	EngineVersion                string            `json:"engine_version"`
-	MasterPassword               string            `json:"master_password"`
-	DeletionProtection           bool              `json:"deletion_protection"`
-	ClusterIdentifier            string            `json:"cluster_identifier"`
-	SkipFinalSnapshot            bool              `json:"skip_final_snapshot"`
-	PreferredMaintenanceWindow   string            `json:"preferred_maintenance_window"`
-	SnapshotIdentifier           string            `json:"snapshot_identifier"`
+	FinalSnapshotIdentifier      string            `json:"final_snapshot_identifier"`
+	DbSubnetGroupName            string            `json:"db_subnet_group_name"`
+	AvailabilityZones            []string          `json:"availability_zones"`
+	Engine                       string            `json:"engine"`
+	Tags                         map[string]string `json:"tags"`
 	VpcSecurityGroupIds          []string          `json:"vpc_security_group_ids"`
 	ApplyImmediately             bool              `json:"apply_immediately"`
-	BackupRetentionPeriod        int64             `json:"backup_retention_period"`
-	Tags                         map[string]string `json:"tags"`
-	AvailabilityZones            []string          `json:"availability_zones"`
-	Id                           string            `json:"id"`
-	KmsKeyId                     string            `json:"kms_key_id"`
-	MasterUsername               string            `json:"master_username"`
-	StorageEncrypted             bool              `json:"storage_encrypted"`
-	ClusterMembers               []string          `json:"cluster_members"`
 	EnabledCloudwatchLogsExports []string          `json:"enabled_cloudwatch_logs_exports"`
-	Engine                       string            `json:"engine"`
-	FinalSnapshotIdentifier      string            `json:"final_snapshot_identifier"`
-	Port                         int64             `json:"port"`
-	PreferredBackupWindow        string            `json:"preferred_backup_window"`
+	Id                           string            `json:"id"`
+	SkipFinalSnapshot            bool              `json:"skip_final_snapshot"`
+	SnapshotIdentifier           string            `json:"snapshot_identifier"`
+	ClusterMembers               []string          `json:"cluster_members"`
 	DbClusterParameterGroupName  string            `json:"db_cluster_parameter_group_name"`
-	DbSubnetGroupName            string            `json:"db_subnet_group_name"`
+	DeletionProtection           bool              `json:"deletion_protection"`
+	EngineVersion                string            `json:"engine_version"`
+	KmsKeyId                     string            `json:"kms_key_id"`
+	PreferredMaintenanceWindow   string            `json:"preferred_maintenance_window"`
+	MasterPassword               string            `json:"master_password"`
+	ClusterIdentifier            string            `json:"cluster_identifier"`
+	MasterUsername               string            `json:"master_username"`
+	Port                         int64             `json:"port"`
+	StorageEncrypted             bool              `json:"storage_encrypted"`
+	BackupRetentionPeriod        int64             `json:"backup_retention_period"`
+	ClusterIdentifierPrefix      string            `json:"cluster_identifier_prefix"`
+	PreferredBackupWindow        string            `json:"preferred_backup_window"`
 	Timeouts                     Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
 }
 
 // A DocdbClusterStatus defines the observed state of a DocdbCluster
@@ -94,9 +94,9 @@ type DocdbClusterStatus struct {
 
 // A DocdbClusterObservation records the observed state of a DocdbCluster
 type DocdbClusterObservation struct {
-	ClusterResourceId string `json:"cluster_resource_id"`
-	Arn               string `json:"arn"`
-	HostedZoneId      string `json:"hosted_zone_id"`
 	Endpoint          string `json:"endpoint"`
+	Arn               string `json:"arn"`
+	ClusterResourceId string `json:"cluster_resource_id"`
+	HostedZoneId      string `json:"hosted_zone_id"`
 	ReaderEndpoint    string `json:"reader_endpoint"`
 }

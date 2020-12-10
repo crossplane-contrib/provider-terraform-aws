@@ -67,7 +67,7 @@ type SfnStateMachineStatus struct {
 
 // A SfnStateMachineObservation records the observed state of a SfnStateMachine
 type SfnStateMachineObservation struct {
-	Status       string `json:"status"`
 	Arn          string `json:"arn"`
 	CreationDate string `json:"creation_date"`
+	Status       string `json:"status"`
 }

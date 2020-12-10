@@ -17,25 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*LbListener)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a LbListener.")
+	}
+	return EncodeLbListener(*r), nil
+}
 
 func EncodeLbListener(r LbListener) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLbListener_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeLbListener_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLbListener_LoadBalancerArn(r.Spec.ForProvider, ctyVal)
 	EncodeLbListener_Port(r.Spec.ForProvider, ctyVal)
 	EncodeLbListener_Protocol(r.Spec.ForProvider, ctyVal)
 	EncodeLbListener_SslPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeLbListener_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeLbListener_DefaultAction(r.Spec.ForProvider.DefaultAction, ctyVal)
 	EncodeLbListener_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeLbListener_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLbListener_CertificateArn(p LbListenerParameters, vals map[string]cty.Value) {
-	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeLbListener_Id(p LbListenerParameters, vals map[string]cty.Value) {
@@ -56,6 +66,10 @@ func EncodeLbListener_Protocol(p LbListenerParameters, vals map[string]cty.Value
 
 func EncodeLbListener_SslPolicy(p LbListenerParameters, vals map[string]cty.Value) {
 	vals["ssl_policy"] = cty.StringVal(p.SslPolicy)
+}
+
+func EncodeLbListener_CertificateArn(p LbListenerParameters, vals map[string]cty.Value) {
+	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeLbListener_DefaultAction(p []DefaultAction, vals map[string]cty.Value) {
@@ -90,14 +104,22 @@ func EncodeLbListener_DefaultAction_Type(p DefaultAction, vals map[string]cty.Va
 func EncodeLbListener_DefaultAction_Redirect(p Redirect, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeLbListener_DefaultAction_Redirect_StatusCode(p, ctyVal)
+	EncodeLbListener_DefaultAction_Redirect_Host(p, ctyVal)
 	EncodeLbListener_DefaultAction_Redirect_Path(p, ctyVal)
 	EncodeLbListener_DefaultAction_Redirect_Port(p, ctyVal)
 	EncodeLbListener_DefaultAction_Redirect_Protocol(p, ctyVal)
 	EncodeLbListener_DefaultAction_Redirect_Query(p, ctyVal)
-	EncodeLbListener_DefaultAction_Redirect_StatusCode(p, ctyVal)
-	EncodeLbListener_DefaultAction_Redirect_Host(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["redirect"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeLbListener_DefaultAction_Redirect_StatusCode(p Redirect, vals map[string]cty.Value) {
+	vals["status_code"] = cty.StringVal(p.StatusCode)
+}
+
+func EncodeLbListener_DefaultAction_Redirect_Host(p Redirect, vals map[string]cty.Value) {
+	vals["host"] = cty.StringVal(p.Host)
 }
 
 func EncodeLbListener_DefaultAction_Redirect_Path(p Redirect, vals map[string]cty.Value) {
@@ -116,27 +138,35 @@ func EncodeLbListener_DefaultAction_Redirect_Query(p Redirect, vals map[string]c
 	vals["query"] = cty.StringVal(p.Query)
 }
 
-func EncodeLbListener_DefaultAction_Redirect_StatusCode(p Redirect, vals map[string]cty.Value) {
-	vals["status_code"] = cty.StringVal(p.StatusCode)
-}
-
-func EncodeLbListener_DefaultAction_Redirect_Host(p Redirect, vals map[string]cty.Value) {
-	vals["host"] = cty.StringVal(p.Host)
-}
-
 func EncodeLbListener_DefaultAction_AuthenticateCognito(p AuthenticateCognito, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeLbListener_DefaultAction_AuthenticateCognito_AuthenticationRequestExtraParams(p, ctyVal)
-	EncodeLbListener_DefaultAction_AuthenticateCognito_OnUnauthenticatedRequest(p, ctyVal)
-	EncodeLbListener_DefaultAction_AuthenticateCognito_Scope(p, ctyVal)
-	EncodeLbListener_DefaultAction_AuthenticateCognito_SessionCookieName(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateCognito_SessionTimeout(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolArn(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolClientId(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolDomain(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateCognito_AuthenticationRequestExtraParams(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateCognito_OnUnauthenticatedRequest(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateCognito_Scope(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateCognito_SessionCookieName(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["authenticate_cognito"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeLbListener_DefaultAction_AuthenticateCognito_SessionTimeout(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
+}
+
+func EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolArn(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["user_pool_arn"] = cty.StringVal(p.UserPoolArn)
+}
+
+func EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolClientId(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["user_pool_client_id"] = cty.StringVal(p.UserPoolClientId)
+}
+
+func EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolDomain(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["user_pool_domain"] = cty.StringVal(p.UserPoolDomain)
 }
 
 func EncodeLbListener_DefaultAction_AuthenticateCognito_AuthenticationRequestExtraParams(p AuthenticateCognito, vals map[string]cty.Value) {
@@ -159,62 +189,34 @@ func EncodeLbListener_DefaultAction_AuthenticateCognito_SessionCookieName(p Auth
 	vals["session_cookie_name"] = cty.StringVal(p.SessionCookieName)
 }
 
-func EncodeLbListener_DefaultAction_AuthenticateCognito_SessionTimeout(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
-}
-
-func EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolArn(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["user_pool_arn"] = cty.StringVal(p.UserPoolArn)
-}
-
-func EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolClientId(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["user_pool_client_id"] = cty.StringVal(p.UserPoolClientId)
-}
-
-func EncodeLbListener_DefaultAction_AuthenticateCognito_UserPoolDomain(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["user_pool_domain"] = cty.StringVal(p.UserPoolDomain)
-}
-
 func EncodeLbListener_DefaultAction_AuthenticateOidc(p AuthenticateOidc, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeLbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p, ctyVal)
-	EncodeLbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p, ctyVal)
-	EncodeLbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p, ctyVal)
-	EncodeLbListener_DefaultAction_AuthenticateOidc_Scope(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateOidc_Issuer(p, ctyVal)
-	EncodeLbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateOidc_Scope(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateOidc_TokenEndpoint(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateOidc_UserInfoEndpoint(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateOidc_AuthenticationRequestExtraParams(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateOidc_ClientId(p, ctyVal)
 	EncodeLbListener_DefaultAction_AuthenticateOidc_ClientSecret(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p, ctyVal)
+	EncodeLbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["authenticate_oidc"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeLbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
-}
-
-func EncodeLbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["authorization_endpoint"] = cty.StringVal(p.AuthorizationEndpoint)
-}
-
-func EncodeLbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["on_unauthenticated_request"] = cty.StringVal(p.OnUnauthenticatedRequest)
-}
-
-func EncodeLbListener_DefaultAction_AuthenticateOidc_Scope(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["scope"] = cty.StringVal(p.Scope)
 }
 
 func EncodeLbListener_DefaultAction_AuthenticateOidc_Issuer(p AuthenticateOidc, vals map[string]cty.Value) {
 	vals["issuer"] = cty.StringVal(p.Issuer)
 }
 
-func EncodeLbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["session_cookie_name"] = cty.StringVal(p.SessionCookieName)
+func EncodeLbListener_DefaultAction_AuthenticateOidc_Scope(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["scope"] = cty.StringVal(p.Scope)
+}
+
+func EncodeLbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
 }
 
 func EncodeLbListener_DefaultAction_AuthenticateOidc_TokenEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
@@ -233,12 +235,24 @@ func EncodeLbListener_DefaultAction_AuthenticateOidc_AuthenticationRequestExtraP
 	vals["authentication_request_extra_params"] = cty.MapVal(mVals)
 }
 
+func EncodeLbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["authorization_endpoint"] = cty.StringVal(p.AuthorizationEndpoint)
+}
+
 func EncodeLbListener_DefaultAction_AuthenticateOidc_ClientId(p AuthenticateOidc, vals map[string]cty.Value) {
 	vals["client_id"] = cty.StringVal(p.ClientId)
 }
 
 func EncodeLbListener_DefaultAction_AuthenticateOidc_ClientSecret(p AuthenticateOidc, vals map[string]cty.Value) {
 	vals["client_secret"] = cty.StringVal(p.ClientSecret)
+}
+
+func EncodeLbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["on_unauthenticated_request"] = cty.StringVal(p.OnUnauthenticatedRequest)
+}
+
+func EncodeLbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["session_cookie_name"] = cty.StringVal(p.SessionCookieName)
 }
 
 func EncodeLbListener_DefaultAction_FixedResponse(p FixedResponse, vals map[string]cty.Value) {

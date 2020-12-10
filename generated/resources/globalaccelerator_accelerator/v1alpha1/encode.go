@@ -17,25 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlobalacceleratorAccelerator)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlobalacceleratorAccelerator.")
+	}
+	return EncodeGlobalacceleratorAccelerator(*r), nil
+}
 
 func EncodeGlobalacceleratorAccelerator(r GlobalacceleratorAccelerator) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlobalacceleratorAccelerator_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorAccelerator_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorAccelerator_IpAddressType(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorAccelerator_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorAccelerator_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeGlobalacceleratorAccelerator_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorAccelerator_Attributes(r.Spec.ForProvider.Attributes, ctyVal)
-	EncodeGlobalacceleratorAccelerator_DnsName(r.Status.AtProvider, ctyVal)
 	EncodeGlobalacceleratorAccelerator_HostedZoneId(r.Status.AtProvider, ctyVal)
 	EncodeGlobalacceleratorAccelerator_IpSets(r.Status.AtProvider.IpSets, ctyVal)
+	EncodeGlobalacceleratorAccelerator_DnsName(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGlobalacceleratorAccelerator_Enabled(p GlobalacceleratorAcceleratorParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeGlobalacceleratorAccelerator_Id(p GlobalacceleratorAcceleratorParameters, vals map[string]cty.Value) {
@@ -56,6 +66,10 @@ func EncodeGlobalacceleratorAccelerator_Tags(p GlobalacceleratorAcceleratorParam
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeGlobalacceleratorAccelerator_Enabled(p GlobalacceleratorAcceleratorParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeGlobalacceleratorAccelerator_Attributes(p Attributes, vals map[string]cty.Value) {
@@ -80,10 +94,6 @@ func EncodeGlobalacceleratorAccelerator_Attributes_FlowLogsS3Prefix(p Attributes
 	vals["flow_logs_s3_prefix"] = cty.StringVal(p.FlowLogsS3Prefix)
 }
 
-func EncodeGlobalacceleratorAccelerator_DnsName(p GlobalacceleratorAcceleratorObservation, vals map[string]cty.Value) {
-	vals["dns_name"] = cty.StringVal(p.DnsName)
-}
-
 func EncodeGlobalacceleratorAccelerator_HostedZoneId(p GlobalacceleratorAcceleratorObservation, vals map[string]cty.Value) {
 	vals["hosted_zone_id"] = cty.StringVal(p.HostedZoneId)
 }
@@ -92,11 +102,15 @@ func EncodeGlobalacceleratorAccelerator_IpSets(p []IpSets, vals map[string]cty.V
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeGlobalacceleratorAccelerator_IpSets_IpAddresses(v, ctyVal)
 		EncodeGlobalacceleratorAccelerator_IpSets_IpFamily(v, ctyVal)
+		EncodeGlobalacceleratorAccelerator_IpSets_IpAddresses(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["ip_sets"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeGlobalacceleratorAccelerator_IpSets_IpFamily(p IpSets, vals map[string]cty.Value) {
+	vals["ip_family"] = cty.StringVal(p.IpFamily)
 }
 
 func EncodeGlobalacceleratorAccelerator_IpSets_IpAddresses(p IpSets, vals map[string]cty.Value) {
@@ -107,6 +121,6 @@ func EncodeGlobalacceleratorAccelerator_IpSets_IpAddresses(p IpSets, vals map[st
 	vals["ip_addresses"] = cty.ListVal(colVals)
 }
 
-func EncodeGlobalacceleratorAccelerator_IpSets_IpFamily(p IpSets, vals map[string]cty.Value) {
-	vals["ip_family"] = cty.StringVal(p.IpFamily)
+func EncodeGlobalacceleratorAccelerator_DnsName(p GlobalacceleratorAcceleratorObservation, vals map[string]cty.Value) {
+	vals["dns_name"] = cty.StringVal(p.DnsName)
 }

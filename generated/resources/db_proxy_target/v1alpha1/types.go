@@ -52,11 +52,11 @@ type DbProxyTargetSpec struct {
 
 // A DbProxyTargetParameters defines the desired state of a DbProxyTarget
 type DbProxyTargetParameters struct {
-	DbProxyName          string `json:"db_proxy_name"`
-	TargetGroupName      string `json:"target_group_name"`
-	DbInstanceIdentifier string `json:"db_instance_identifier"`
-	Id                   string `json:"id"`
 	DbClusterIdentifier  string `json:"db_cluster_identifier"`
+	DbInstanceIdentifier string `json:"db_instance_identifier"`
+	DbProxyName          string `json:"db_proxy_name"`
+	Id                   string `json:"id"`
+	TargetGroupName      string `json:"target_group_name"`
 }
 
 // A DbProxyTargetStatus defines the observed state of a DbProxyTarget
@@ -70,7 +70,7 @@ type DbProxyTargetObservation struct {
 	Endpoint         string `json:"endpoint"`
 	Port             int64  `json:"port"`
 	RdsResourceId    string `json:"rds_resource_id"`
+	Type             string `json:"type"`
 	TargetArn        string `json:"target_arn"`
 	TrackedClusterId string `json:"tracked_cluster_id"`
-	Type             string `json:"type"`
 }

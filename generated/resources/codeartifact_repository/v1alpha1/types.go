@@ -52,11 +52,11 @@ type CodeartifactRepositorySpec struct {
 
 // A CodeartifactRepositoryParameters defines the desired state of a CodeartifactRepository
 type CodeartifactRepositoryParameters struct {
-	Repository  string   `json:"repository"`
 	Description string   `json:"description"`
 	Domain      string   `json:"domain"`
 	DomainOwner string   `json:"domain_owner"`
 	Id          string   `json:"id"`
+	Repository  string   `json:"repository"`
 	Upstream    Upstream `json:"upstream"`
 }
 
@@ -72,13 +72,13 @@ type CodeartifactRepositoryStatus struct {
 
 // A CodeartifactRepositoryObservation records the observed state of a CodeartifactRepository
 type CodeartifactRepositoryObservation struct {
-	AdministratorAccount string                `json:"administrator_account"`
 	Arn                  string                `json:"arn"`
 	ExternalConnections  []ExternalConnections `json:"external_connections"`
+	AdministratorAccount string                `json:"administrator_account"`
 }
 
 type ExternalConnections struct {
+	ExternalConnectionName string `json:"external_connection_name"`
 	PackageFormat          string `json:"package_format"`
 	Status                 string `json:"status"`
-	ExternalConnectionName string `json:"external_connection_name"`
 }

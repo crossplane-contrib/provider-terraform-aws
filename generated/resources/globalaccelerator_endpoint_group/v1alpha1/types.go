@@ -52,22 +52,22 @@ type GlobalacceleratorEndpointGroupSpec struct {
 
 // A GlobalacceleratorEndpointGroupParameters defines the desired state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupParameters struct {
-	EndpointGroupRegion        string                  `json:"endpoint_group_region"`
 	HealthCheckPath            string                  `json:"health_check_path"`
-	HealthCheckPort            int64                   `json:"health_check_port"`
-	ListenerArn                string                  `json:"listener_arn"`
-	ThresholdCount             int64                   `json:"threshold_count"`
-	HealthCheckIntervalSeconds int64                   `json:"health_check_interval_seconds"`
-	HealthCheckProtocol        string                  `json:"health_check_protocol"`
 	Id                         string                  `json:"id"`
+	ListenerArn                string                  `json:"listener_arn"`
 	TrafficDialPercentage      int64                   `json:"traffic_dial_percentage"`
+	EndpointGroupRegion        string                  `json:"endpoint_group_region"`
+	HealthCheckIntervalSeconds int64                   `json:"health_check_interval_seconds"`
+	HealthCheckPort            int64                   `json:"health_check_port"`
+	HealthCheckProtocol        string                  `json:"health_check_protocol"`
+	ThresholdCount             int64                   `json:"threshold_count"`
 	EndpointConfiguration      []EndpointConfiguration `json:"endpoint_configuration"`
 }
 
 type EndpointConfiguration struct {
+	ClientIpPreservationEnabled bool   `json:"client_ip_preservation_enabled"`
 	EndpointId                  string `json:"endpoint_id"`
 	Weight                      int64  `json:"weight"`
-	ClientIpPreservationEnabled bool   `json:"client_ip_preservation_enabled"`
 }
 
 // A GlobalacceleratorEndpointGroupStatus defines the observed state of a GlobalacceleratorEndpointGroup

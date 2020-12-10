@@ -17,17 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*TransferSshKey)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a TransferSshKey.")
+	}
+	return EncodeTransferSshKey(*r), nil
+}
 
 func EncodeTransferSshKey(r TransferSshKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeTransferSshKey_ServerId(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_UserName(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_Body(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_Id(r.Spec.ForProvider, ctyVal)
-	EncodeTransferSshKey_ServerId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeTransferSshKey_ServerId(p TransferSshKeyParameters, vals map[string]cty.Value) {
+	vals["server_id"] = cty.StringVal(p.ServerId)
 }
 
 func EncodeTransferSshKey_UserName(p TransferSshKeyParameters, vals map[string]cty.Value) {
@@ -40,8 +58,4 @@ func EncodeTransferSshKey_Body(p TransferSshKeyParameters, vals map[string]cty.V
 
 func EncodeTransferSshKey_Id(p TransferSshKeyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeTransferSshKey_ServerId(p TransferSshKeyParameters, vals map[string]cty.Value) {
-	vals["server_id"] = cty.StringVal(p.ServerId)
 }

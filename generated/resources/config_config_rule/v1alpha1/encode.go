@@ -17,30 +17,36 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ConfigConfigRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ConfigConfigRule.")
+	}
+	return EncodeConfigConfigRule(*r), nil
+}
 
 func EncodeConfigConfigRule(r ConfigConfigRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigConfigRule_Description(r.Spec.ForProvider, ctyVal)
-	EncodeConfigConfigRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigRule_InputParameters(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigRule_MaximumExecutionFrequency(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeConfigConfigRule_Scope(r.Spec.ForProvider.Scope, ctyVal)
+	EncodeConfigConfigRule_Description(r.Spec.ForProvider, ctyVal)
+	EncodeConfigConfigRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigRule_Source(r.Spec.ForProvider.Source, ctyVal)
-	EncodeConfigConfigRule_Arn(r.Status.AtProvider, ctyVal)
+	EncodeConfigConfigRule_Scope(r.Spec.ForProvider.Scope, ctyVal)
 	EncodeConfigConfigRule_RuleId(r.Status.AtProvider, ctyVal)
+	EncodeConfigConfigRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeConfigConfigRule_Description(p ConfigConfigRuleParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeConfigConfigRule_Id(p ConfigConfigRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigConfigRule_InputParameters(p ConfigConfigRuleParameters, vals map[string]cty.Value) {
@@ -61,6 +67,56 @@ func EncodeConfigConfigRule_Tags(p ConfigConfigRuleParameters, vals map[string]c
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeConfigConfigRule_Description(p ConfigConfigRuleParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeConfigConfigRule_Id(p ConfigConfigRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeConfigConfigRule_Source(p Source, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeConfigConfigRule_Source_Owner(p, ctyVal)
+	EncodeConfigConfigRule_Source_SourceIdentifier(p, ctyVal)
+	EncodeConfigConfigRule_Source_SourceDetail(p.SourceDetail, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["source"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeConfigConfigRule_Source_Owner(p Source, vals map[string]cty.Value) {
+	vals["owner"] = cty.StringVal(p.Owner)
+}
+
+func EncodeConfigConfigRule_Source_SourceIdentifier(p Source, vals map[string]cty.Value) {
+	vals["source_identifier"] = cty.StringVal(p.SourceIdentifier)
+}
+
+func EncodeConfigConfigRule_Source_SourceDetail(p []SourceDetail, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeConfigConfigRule_Source_SourceDetail_MaximumExecutionFrequency(v, ctyVal)
+		EncodeConfigConfigRule_Source_SourceDetail_MessageType(v, ctyVal)
+		EncodeConfigConfigRule_Source_SourceDetail_EventSource(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["source_detail"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeConfigConfigRule_Source_SourceDetail_MaximumExecutionFrequency(p SourceDetail, vals map[string]cty.Value) {
+	vals["maximum_execution_frequency"] = cty.StringVal(p.MaximumExecutionFrequency)
+}
+
+func EncodeConfigConfigRule_Source_SourceDetail_MessageType(p SourceDetail, vals map[string]cty.Value) {
+	vals["message_type"] = cty.StringVal(p.MessageType)
+}
+
+func EncodeConfigConfigRule_Source_SourceDetail_EventSource(p SourceDetail, vals map[string]cty.Value) {
+	vals["event_source"] = cty.StringVal(p.EventSource)
 }
 
 func EncodeConfigConfigRule_Scope(p Scope, vals map[string]cty.Value) {
@@ -94,52 +150,10 @@ func EncodeConfigConfigRule_Scope_TagValue(p Scope, vals map[string]cty.Value) {
 	vals["tag_value"] = cty.StringVal(p.TagValue)
 }
 
-func EncodeConfigConfigRule_Source(p Source, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeConfigConfigRule_Source_Owner(p, ctyVal)
-	EncodeConfigConfigRule_Source_SourceIdentifier(p, ctyVal)
-	EncodeConfigConfigRule_Source_SourceDetail(p.SourceDetail, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["source"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeConfigConfigRule_Source_Owner(p Source, vals map[string]cty.Value) {
-	vals["owner"] = cty.StringVal(p.Owner)
-}
-
-func EncodeConfigConfigRule_Source_SourceIdentifier(p Source, vals map[string]cty.Value) {
-	vals["source_identifier"] = cty.StringVal(p.SourceIdentifier)
-}
-
-func EncodeConfigConfigRule_Source_SourceDetail(p []SourceDetail, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeConfigConfigRule_Source_SourceDetail_MessageType(v, ctyVal)
-		EncodeConfigConfigRule_Source_SourceDetail_EventSource(v, ctyVal)
-		EncodeConfigConfigRule_Source_SourceDetail_MaximumExecutionFrequency(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["source_detail"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeConfigConfigRule_Source_SourceDetail_MessageType(p SourceDetail, vals map[string]cty.Value) {
-	vals["message_type"] = cty.StringVal(p.MessageType)
-}
-
-func EncodeConfigConfigRule_Source_SourceDetail_EventSource(p SourceDetail, vals map[string]cty.Value) {
-	vals["event_source"] = cty.StringVal(p.EventSource)
-}
-
-func EncodeConfigConfigRule_Source_SourceDetail_MaximumExecutionFrequency(p SourceDetail, vals map[string]cty.Value) {
-	vals["maximum_execution_frequency"] = cty.StringVal(p.MaximumExecutionFrequency)
+func EncodeConfigConfigRule_RuleId(p ConfigConfigRuleObservation, vals map[string]cty.Value) {
+	vals["rule_id"] = cty.StringVal(p.RuleId)
 }
 
 func EncodeConfigConfigRule_Arn(p ConfigConfigRuleObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeConfigConfigRule_RuleId(p ConfigConfigRuleObservation, vals map[string]cty.Value) {
-	vals["rule_id"] = cty.StringVal(p.RuleId)
 }

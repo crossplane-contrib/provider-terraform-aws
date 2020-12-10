@@ -52,11 +52,11 @@ type WorkspacesWorkspaceSpec struct {
 
 // A WorkspacesWorkspaceParameters defines the desired state of a WorkspacesWorkspace
 type WorkspacesWorkspaceParameters struct {
+	DirectoryId                 string              `json:"directory_id"`
+	UserVolumeEncryptionEnabled bool                `json:"user_volume_encryption_enabled"`
+	VolumeEncryptionKey         string              `json:"volume_encryption_key"`
 	Tags                        map[string]string   `json:"tags"`
 	UserName                    string              `json:"user_name"`
-	UserVolumeEncryptionEnabled bool                `json:"user_volume_encryption_enabled"`
-	DirectoryId                 string              `json:"directory_id"`
-	VolumeEncryptionKey         string              `json:"volume_encryption_key"`
 	BundleId                    string              `json:"bundle_id"`
 	Id                          string              `json:"id"`
 	RootVolumeEncryptionEnabled bool                `json:"root_volume_encryption_enabled"`
@@ -64,11 +64,11 @@ type WorkspacesWorkspaceParameters struct {
 }
 
 type WorkspaceProperties struct {
-	ComputeTypeName                     string `json:"compute_type_name"`
 	RootVolumeSizeGib                   int64  `json:"root_volume_size_gib"`
 	RunningMode                         string `json:"running_mode"`
 	RunningModeAutoStopTimeoutInMinutes int64  `json:"running_mode_auto_stop_timeout_in_minutes"`
 	UserVolumeSizeGib                   int64  `json:"user_volume_size_gib"`
+	ComputeTypeName                     string `json:"compute_type_name"`
 }
 
 // A WorkspacesWorkspaceStatus defines the observed state of a WorkspacesWorkspace
@@ -79,7 +79,7 @@ type WorkspacesWorkspaceStatus struct {
 
 // A WorkspacesWorkspaceObservation records the observed state of a WorkspacesWorkspace
 type WorkspacesWorkspaceObservation struct {
-	ComputerName string `json:"computer_name"`
 	IpAddress    string `json:"ip_address"`
 	State        string `json:"state"`
+	ComputerName string `json:"computer_name"`
 }

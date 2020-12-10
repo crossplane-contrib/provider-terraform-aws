@@ -52,10 +52,10 @@ type NatGatewaySpec struct {
 
 // A NatGatewayParameters defines the desired state of a NatGateway
 type NatGatewayParameters struct {
-	Id           string            `json:"id"`
-	SubnetId     string            `json:"subnet_id"`
 	Tags         map[string]string `json:"tags"`
 	AllocationId string            `json:"allocation_id"`
+	Id           string            `json:"id"`
+	SubnetId     string            `json:"subnet_id"`
 }
 
 // A NatGatewayStatus defines the observed state of a NatGateway

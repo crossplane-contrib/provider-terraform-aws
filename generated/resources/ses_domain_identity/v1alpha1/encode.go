@@ -17,15 +17,29 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SesDomainIdentity)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SesDomainIdentity.")
+	}
+	return EncodeSesDomainIdentity(*r), nil
+}
 
 func EncodeSesDomainIdentity(r SesDomainIdentity) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSesDomainIdentity_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentity_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSesDomainIdentity_VerificationToken(r.Status.AtProvider, ctyVal)
 	EncodeSesDomainIdentity_Arn(r.Status.AtProvider, ctyVal)
+	EncodeSesDomainIdentity_VerificationToken(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -37,10 +51,10 @@ func EncodeSesDomainIdentity_Id(p SesDomainIdentityParameters, vals map[string]c
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeSesDomainIdentity_VerificationToken(p SesDomainIdentityObservation, vals map[string]cty.Value) {
-	vals["verification_token"] = cty.StringVal(p.VerificationToken)
-}
-
 func EncodeSesDomainIdentity_Arn(p SesDomainIdentityObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeSesDomainIdentity_VerificationToken(p SesDomainIdentityObservation, vals map[string]cty.Value) {
+	vals["verification_token"] = cty.StringVal(p.VerificationToken)
 }

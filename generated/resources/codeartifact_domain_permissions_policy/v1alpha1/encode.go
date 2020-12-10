@@ -17,26 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CodeartifactDomainPermissionsPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CodeartifactDomainPermissionsPolicy.")
+	}
+	return EncodeCodeartifactDomainPermissionsPolicy(*r), nil
+}
 
 func EncodeCodeartifactDomainPermissionsPolicy(r CodeartifactDomainPermissionsPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
-	EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_DomainOwner(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
+	EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_ResourceArn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
-	vals["policy_document"] = cty.StringVal(p.PolicyDocument)
-}
-
-func EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
-	vals["policy_revision"] = cty.StringVal(p.PolicyRevision)
 }
 
 func EncodeCodeartifactDomainPermissionsPolicy_Domain(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
@@ -49,6 +55,14 @@ func EncodeCodeartifactDomainPermissionsPolicy_DomainOwner(p CodeartifactDomainP
 
 func EncodeCodeartifactDomainPermissionsPolicy_Id(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
+	vals["policy_document"] = cty.StringVal(p.PolicyDocument)
+}
+
+func EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
+	vals["policy_revision"] = cty.StringVal(p.PolicyRevision)
 }
 
 func EncodeCodeartifactDomainPermissionsPolicy_ResourceArn(p CodeartifactDomainPermissionsPolicyObservation, vals map[string]cty.Value) {

@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SfnStateMachine)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SfnStateMachine.")
+	}
+	return EncodeSfnStateMachine(*r), nil
+}
 
 func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -27,9 +41,9 @@ func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
 	EncodeSfnStateMachine_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSfnStateMachine_Status(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_CreationDate(r.Status.AtProvider, ctyVal)
+	EncodeSfnStateMachine_Status(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -57,14 +71,14 @@ func EncodeSfnStateMachine_Tags(p SfnStateMachineParameters, vals map[string]cty
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSfnStateMachine_Status(p SfnStateMachineObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
 func EncodeSfnStateMachine_Arn(p SfnStateMachineObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeSfnStateMachine_CreationDate(p SfnStateMachineObservation, vals map[string]cty.Value) {
 	vals["creation_date"] = cty.StringVal(p.CreationDate)
+}
+
+func EncodeSfnStateMachine_Status(p SfnStateMachineObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
 }

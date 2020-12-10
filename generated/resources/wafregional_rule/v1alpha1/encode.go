@@ -17,26 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafregionalRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafregionalRule.")
+	}
+	return EncodeWafregionalRule(*r), nil
+}
 
 func EncodeWafregionalRule(r WafregionalRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRule_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRule_Predicate(r.Spec.ForProvider.Predicate, ctyVal)
 	EncodeWafregionalRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalRule_Tags(p WafregionalRuleParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafregionalRule_Id(p WafregionalRuleParameters, vals map[string]cty.Value) {
@@ -49,6 +55,14 @@ func EncodeWafregionalRule_MetricName(p WafregionalRuleParameters, vals map[stri
 
 func EncodeWafregionalRule_Name(p WafregionalRuleParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafregionalRule_Tags(p WafregionalRuleParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafregionalRule_Predicate(p Predicate, vals map[string]cty.Value) {

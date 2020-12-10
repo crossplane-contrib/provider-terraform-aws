@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SecurityhubMember)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SecurityhubMember.")
+	}
+	return EncodeSecurityhubMember(*r), nil
+}
 
 func EncodeSecurityhubMember(r SecurityhubMember) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecurityhubMember_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Invite(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Email(r.Spec.ForProvider, ctyVal)
+	EncodeSecurityhubMember_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_MasterId(r.Status.AtProvider, ctyVal)
 	EncodeSecurityhubMember_MemberStatus(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecurityhubMember_Id(p SecurityhubMemberParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSecurityhubMember_Invite(p SecurityhubMemberParameters, vals map[string]cty.Value) {
@@ -45,6 +55,10 @@ func EncodeSecurityhubMember_AccountId(p SecurityhubMemberParameters, vals map[s
 
 func EncodeSecurityhubMember_Email(p SecurityhubMemberParameters, vals map[string]cty.Value) {
 	vals["email"] = cty.StringVal(p.Email)
+}
+
+func EncodeSecurityhubMember_Id(p SecurityhubMemberParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSecurityhubMember_MasterId(p SecurityhubMemberObservation, vals map[string]cty.Value) {

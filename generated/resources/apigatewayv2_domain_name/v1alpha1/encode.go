@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2DomainName)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2DomainName.")
+	}
+	return EncodeApigatewayv2DomainName(*r), nil
+}
 
 func EncodeApigatewayv2DomainName(r Apigatewayv2DomainName) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -51,21 +65,13 @@ func EncodeApigatewayv2DomainName_Tags(p Apigatewayv2DomainNameParameters, vals 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration(p DomainNameConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p, ctyVal)
-	EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["domain_name_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p DomainNameConfiguration, vals map[string]cty.Value) {
-	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
-}
-
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p DomainNameConfiguration, vals map[string]cty.Value) {
-	vals["target_domain_name"] = cty.StringVal(p.TargetDomainName)
 }
 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p DomainNameConfiguration, vals map[string]cty.Value) {
@@ -78,6 +84,14 @@ func EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p DomainN
 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["hosted_zone_id"] = cty.StringVal(p.HostedZoneId)
+}
+
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p DomainNameConfiguration, vals map[string]cty.Value) {
+	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
+}
+
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p DomainNameConfiguration, vals map[string]cty.Value) {
+	vals["target_domain_name"] = cty.StringVal(p.TargetDomainName)
 }
 
 func EncodeApigatewayv2DomainName_Timeouts(p Timeouts, vals map[string]cty.Value) {

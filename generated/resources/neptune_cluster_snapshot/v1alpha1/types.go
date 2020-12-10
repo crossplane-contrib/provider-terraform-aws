@@ -53,8 +53,8 @@ type NeptuneClusterSnapshotSpec struct {
 // A NeptuneClusterSnapshotParameters defines the desired state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotParameters struct {
 	Id                          string   `json:"id"`
-	DbClusterIdentifier         string   `json:"db_cluster_identifier"`
 	DbClusterSnapshotIdentifier string   `json:"db_cluster_snapshot_identifier"`
+	DbClusterIdentifier         string   `json:"db_cluster_identifier"`
 	Timeouts                    Timeouts `json:"timeouts"`
 }
 
@@ -70,17 +70,17 @@ type NeptuneClusterSnapshotStatus struct {
 
 // A NeptuneClusterSnapshotObservation records the observed state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotObservation struct {
-	Engine                     string   `json:"engine"`
-	EngineVersion              string   `json:"engine_version"`
-	LicenseModel               string   `json:"license_model"`
-	Status                     string   `json:"status"`
-	VpcId                      string   `json:"vpc_id"`
 	AllocatedStorage           int64    `json:"allocated_storage"`
-	AvailabilityZones          []string `json:"availability_zones"`
 	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
-	SnapshotType               string   `json:"snapshot_type"`
 	StorageEncrypted           bool     `json:"storage_encrypted"`
-	KmsKeyId                   string   `json:"kms_key_id"`
+	VpcId                      string   `json:"vpc_id"`
+	AvailabilityZones          []string `json:"availability_zones"`
+	Engine                     string   `json:"engine"`
+	LicenseModel               string   `json:"license_model"`
 	Port                       int64    `json:"port"`
+	EngineVersion              string   `json:"engine_version"`
+	KmsKeyId                   string   `json:"kms_key_id"`
+	Status                     string   `json:"status"`
+	SnapshotType               string   `json:"snapshot_type"`
 	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
 }

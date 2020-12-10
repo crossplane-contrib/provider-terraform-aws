@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayAccount)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayAccount.")
+	}
+	return EncodeApiGatewayAccount(*r), nil
+}
 
 func EncodeApiGatewayAccount(r ApiGatewayAccount) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -40,17 +54,17 @@ func EncodeApiGatewayAccount_ThrottleSettings(p []ThrottleSettings, vals map[str
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(v, ctyVal)
 		EncodeApiGatewayAccount_ThrottleSettings_RateLimit(v, ctyVal)
+		EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["throttle_settings"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(p ThrottleSettings, vals map[string]cty.Value) {
-	vals["burst_limit"] = cty.NumberIntVal(p.BurstLimit)
-}
-
 func EncodeApiGatewayAccount_ThrottleSettings_RateLimit(p ThrottleSettings, vals map[string]cty.Value) {
 	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
+}
+
+func EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(p ThrottleSettings, vals map[string]cty.Value) {
+	vals["burst_limit"] = cty.NumberIntVal(p.BurstLimit)
 }

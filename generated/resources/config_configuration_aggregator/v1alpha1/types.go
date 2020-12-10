@@ -60,9 +60,9 @@ type ConfigConfigurationAggregatorParameters struct {
 }
 
 type AccountAggregationSource struct {
-	Regions    []string `json:"regions"`
 	AccountIds []string `json:"account_ids"`
 	AllRegions bool     `json:"all_regions"`
+	Regions    []string `json:"regions"`
 }
 
 type OrganizationAggregationSource struct {

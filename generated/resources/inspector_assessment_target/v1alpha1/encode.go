@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*InspectorAssessmentTarget)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a InspectorAssessmentTarget.")
+	}
+	return EncodeInspectorAssessmentTarget(*r), nil
+}
 
 func EncodeInspectorAssessmentTarget(r InspectorAssessmentTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeInspectorAssessmentTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_ResourceGroupArn(r.Spec.ForProvider, ctyVal)
-	EncodeInspectorAssessmentTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeInspectorAssessmentTarget_Id(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorAssessmentTarget_Name(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
@@ -35,10 +53,6 @@ func EncodeInspectorAssessmentTarget_Name(p InspectorAssessmentTargetParameters,
 
 func EncodeInspectorAssessmentTarget_ResourceGroupArn(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
 	vals["resource_group_arn"] = cty.StringVal(p.ResourceGroupArn)
-}
-
-func EncodeInspectorAssessmentTarget_Id(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorAssessmentTarget_Arn(p InspectorAssessmentTargetObservation, vals map[string]cty.Value) {

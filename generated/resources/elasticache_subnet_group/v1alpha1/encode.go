@@ -17,17 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ElasticacheSubnetGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ElasticacheSubnetGroup.")
+	}
+	return EncodeElasticacheSubnetGroup(*r), nil
+}
 
 func EncodeElasticacheSubnetGroup(r ElasticacheSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeElasticacheSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeElasticacheSubnetGroup_Description(p ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeElasticacheSubnetGroup_Id(p ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
@@ -44,8 +62,4 @@ func EncodeElasticacheSubnetGroup_SubnetIds(p ElasticacheSubnetGroupParameters, 
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["subnet_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeElasticacheSubnetGroup_Description(p ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }

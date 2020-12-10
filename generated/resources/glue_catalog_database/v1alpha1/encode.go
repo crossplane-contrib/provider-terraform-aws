@@ -17,19 +17,45 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueCatalogDatabase)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueCatalogDatabase.")
+	}
+	return EncodeGlueCatalogDatabase(*r), nil
+}
 
 func EncodeGlueCatalogDatabase(r GlueCatalogDatabase) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueCatalogDatabase_Parameters(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogDatabase_CatalogId(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_Description(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_LocationUri(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_Name(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogDatabase_Parameters(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogDatabase_CatalogId(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogDatabase_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlueCatalogDatabase_Parameters(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Parameters {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["parameters"] = cty.MapVal(mVals)
+}
+
+func EncodeGlueCatalogDatabase_CatalogId(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	vals["catalog_id"] = cty.StringVal(p.CatalogId)
 }
 
 func EncodeGlueCatalogDatabase_Description(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
@@ -46,18 +72,6 @@ func EncodeGlueCatalogDatabase_LocationUri(p GlueCatalogDatabaseParameters, vals
 
 func EncodeGlueCatalogDatabase_Name(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeGlueCatalogDatabase_Parameters(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Parameters {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["parameters"] = cty.MapVal(mVals)
-}
-
-func EncodeGlueCatalogDatabase_CatalogId(p GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
-	vals["catalog_id"] = cty.StringVal(p.CatalogId)
 }
 
 func EncodeGlueCatalogDatabase_Arn(p GlueCatalogDatabaseObservation, vals map[string]cty.Value) {

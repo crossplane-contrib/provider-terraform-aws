@@ -17,43 +17,113 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*OpsworksStaticWebLayer)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a OpsworksStaticWebLayer.")
+	}
+	return EncodeOpsworksStaticWebLayer(*r), nil
+}
 
 func EncodeOpsworksStaticWebLayer(r OpsworksStaticWebLayer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksStaticWebLayer_AutoAssignElasticIps(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_AutoAssignPublicIps(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_CustomDeployRecipes(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksStaticWebLayer_CustomInstanceProfileArn(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_DrainElbOnShutdown(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_ElasticLoadBalancer(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_InstallUpdatesOnBoot(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_StackId(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_AutoHealing(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_CustomShutdownRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_CustomUndeployRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_Name(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_SystemPackages(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_AutoAssignElasticIps(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_CustomDeployRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_Id(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_InstanceShutdownTimeout(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_UseEbsOptimizedInstances(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_AutoAssignPublicIps(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksStaticWebLayer_CustomConfigureRecipes(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksStaticWebLayer_CustomJson(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksStaticWebLayer_CustomSecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_CustomUndeployRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_DrainElbOnShutdown(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_InstanceShutdownTimeout(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_Name(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksStaticWebLayer_CustomSetupRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_ElasticLoadBalancer(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_Id(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_SystemPackages(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_AutoHealing(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_CustomConfigureRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_CustomShutdownRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_InstallUpdatesOnBoot(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_UseEbsOptimizedInstances(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksStaticWebLayer_StackId(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksStaticWebLayer_EbsVolume(r.Spec.ForProvider.EbsVolume, ctyVal)
 	EncodeOpsworksStaticWebLayer_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeOpsworksStaticWebLayer_AutoAssignElasticIps(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["auto_assign_elastic_ips"] = cty.BoolVal(p.AutoAssignElasticIps)
+func EncodeOpsworksStaticWebLayer_CustomInstanceProfileArn(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["custom_instance_profile_arn"] = cty.StringVal(p.CustomInstanceProfileArn)
 }
 
-func EncodeOpsworksStaticWebLayer_AutoAssignPublicIps(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["auto_assign_public_ips"] = cty.BoolVal(p.AutoAssignPublicIps)
+func EncodeOpsworksStaticWebLayer_DrainElbOnShutdown(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["drain_elb_on_shutdown"] = cty.BoolVal(p.DrainElbOnShutdown)
+}
+
+func EncodeOpsworksStaticWebLayer_ElasticLoadBalancer(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["elastic_load_balancer"] = cty.StringVal(p.ElasticLoadBalancer)
+}
+
+func EncodeOpsworksStaticWebLayer_InstallUpdatesOnBoot(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["install_updates_on_boot"] = cty.BoolVal(p.InstallUpdatesOnBoot)
+}
+
+func EncodeOpsworksStaticWebLayer_StackId(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["stack_id"] = cty.StringVal(p.StackId)
+}
+
+func EncodeOpsworksStaticWebLayer_AutoHealing(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["auto_healing"] = cty.BoolVal(p.AutoHealing)
+}
+
+func EncodeOpsworksStaticWebLayer_CustomShutdownRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.CustomShutdownRecipes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["custom_shutdown_recipes"] = cty.ListVal(colVals)
+}
+
+func EncodeOpsworksStaticWebLayer_CustomUndeployRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.CustomUndeployRecipes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["custom_undeploy_recipes"] = cty.ListVal(colVals)
+}
+
+func EncodeOpsworksStaticWebLayer_Tags(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeOpsworksStaticWebLayer_Name(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeOpsworksStaticWebLayer_SystemPackages(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SystemPackages {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["system_packages"] = cty.SetVal(colVals)
+}
+
+func EncodeOpsworksStaticWebLayer_AutoAssignElasticIps(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["auto_assign_elastic_ips"] = cty.BoolVal(p.AutoAssignElasticIps)
 }
 
 func EncodeOpsworksStaticWebLayer_CustomDeployRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
@@ -64,8 +134,28 @@ func EncodeOpsworksStaticWebLayer_CustomDeployRecipes(p OpsworksStaticWebLayerPa
 	vals["custom_deploy_recipes"] = cty.ListVal(colVals)
 }
 
-func EncodeOpsworksStaticWebLayer_CustomInstanceProfileArn(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["custom_instance_profile_arn"] = cty.StringVal(p.CustomInstanceProfileArn)
+func EncodeOpsworksStaticWebLayer_Id(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeOpsworksStaticWebLayer_InstanceShutdownTimeout(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["instance_shutdown_timeout"] = cty.NumberIntVal(p.InstanceShutdownTimeout)
+}
+
+func EncodeOpsworksStaticWebLayer_UseEbsOptimizedInstances(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["use_ebs_optimized_instances"] = cty.BoolVal(p.UseEbsOptimizedInstances)
+}
+
+func EncodeOpsworksStaticWebLayer_AutoAssignPublicIps(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	vals["auto_assign_public_ips"] = cty.BoolVal(p.AutoAssignPublicIps)
+}
+
+func EncodeOpsworksStaticWebLayer_CustomConfigureRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.CustomConfigureRecipes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["custom_configure_recipes"] = cty.ListVal(colVals)
 }
 
 func EncodeOpsworksStaticWebLayer_CustomJson(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
@@ -80,88 +170,12 @@ func EncodeOpsworksStaticWebLayer_CustomSecurityGroupIds(p OpsworksStaticWebLaye
 	vals["custom_security_group_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeOpsworksStaticWebLayer_CustomUndeployRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CustomUndeployRecipes {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["custom_undeploy_recipes"] = cty.ListVal(colVals)
-}
-
-func EncodeOpsworksStaticWebLayer_DrainElbOnShutdown(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["drain_elb_on_shutdown"] = cty.BoolVal(p.DrainElbOnShutdown)
-}
-
-func EncodeOpsworksStaticWebLayer_InstanceShutdownTimeout(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["instance_shutdown_timeout"] = cty.NumberIntVal(p.InstanceShutdownTimeout)
-}
-
-func EncodeOpsworksStaticWebLayer_Name(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeOpsworksStaticWebLayer_Tags(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
 func EncodeOpsworksStaticWebLayer_CustomSetupRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.CustomSetupRecipes {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["custom_setup_recipes"] = cty.ListVal(colVals)
-}
-
-func EncodeOpsworksStaticWebLayer_ElasticLoadBalancer(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["elastic_load_balancer"] = cty.StringVal(p.ElasticLoadBalancer)
-}
-
-func EncodeOpsworksStaticWebLayer_Id(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeOpsworksStaticWebLayer_SystemPackages(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SystemPackages {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["system_packages"] = cty.SetVal(colVals)
-}
-
-func EncodeOpsworksStaticWebLayer_AutoHealing(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["auto_healing"] = cty.BoolVal(p.AutoHealing)
-}
-
-func EncodeOpsworksStaticWebLayer_CustomConfigureRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CustomConfigureRecipes {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["custom_configure_recipes"] = cty.ListVal(colVals)
-}
-
-func EncodeOpsworksStaticWebLayer_CustomShutdownRecipes(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CustomShutdownRecipes {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["custom_shutdown_recipes"] = cty.ListVal(colVals)
-}
-
-func EncodeOpsworksStaticWebLayer_InstallUpdatesOnBoot(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["install_updates_on_boot"] = cty.BoolVal(p.InstallUpdatesOnBoot)
-}
-
-func EncodeOpsworksStaticWebLayer_UseEbsOptimizedInstances(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["use_ebs_optimized_instances"] = cty.BoolVal(p.UseEbsOptimizedInstances)
-}
-
-func EncodeOpsworksStaticWebLayer_StackId(p OpsworksStaticWebLayerParameters, vals map[string]cty.Value) {
-	vals["stack_id"] = cty.StringVal(p.StackId)
 }
 
 func EncodeOpsworksStaticWebLayer_EbsVolume(p EbsVolume, vals map[string]cty.Value) {

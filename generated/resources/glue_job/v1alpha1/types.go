@@ -52,30 +52,30 @@ type GlueJobSpec struct {
 
 // A GlueJobParameters defines the desired state of a GlueJob
 type GlueJobParameters struct {
-	SecurityConfiguration   string               `json:"security_configuration"`
-	Timeout                 int64                `json:"timeout"`
-	NonOverridableArguments map[string]string    `json:"non_overridable_arguments"`
-	NumberOfWorkers         int64                `json:"number_of_workers"`
-	MaxCapacity             int64                `json:"max_capacity"`
-	Description             string               `json:"description"`
-	MaxRetries              int64                `json:"max_retries"`
-	Tags                    map[string]string    `json:"tags"`
-	WorkerType              string               `json:"worker_type"`
 	DefaultArguments        map[string]string    `json:"default_arguments"`
 	GlueVersion             string               `json:"glue_version"`
+	MaxRetries              int64                `json:"max_retries"`
+	NonOverridableArguments map[string]string    `json:"non_overridable_arguments"`
+	Timeout                 int64                `json:"timeout"`
+	Id                      string               `json:"id"`
+	NumberOfWorkers         int64                `json:"number_of_workers"`
+	SecurityConfiguration   string               `json:"security_configuration"`
+	Tags                    map[string]string    `json:"tags"`
+	Connections             []string             `json:"connections"`
+	Description             string               `json:"description"`
+	MaxCapacity             int64                `json:"max_capacity"`
 	Name                    string               `json:"name"`
 	RoleArn                 string               `json:"role_arn"`
-	Connections             []string             `json:"connections"`
-	Id                      string               `json:"id"`
+	WorkerType              string               `json:"worker_type"`
 	Command                 Command              `json:"command"`
 	ExecutionProperty       ExecutionProperty    `json:"execution_property"`
 	NotificationProperty    NotificationProperty `json:"notification_property"`
 }
 
 type Command struct {
+	ScriptLocation string `json:"script_location"`
 	Name           string `json:"name"`
 	PythonVersion  string `json:"python_version"`
-	ScriptLocation string `json:"script_location"`
 }
 
 type ExecutionProperty struct {

@@ -17,18 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GuarddutyDetector)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GuarddutyDetector.")
+	}
+	return EncodeGuarddutyDetector(*r), nil
+}
 
 func EncodeGuarddutyDetector(r GuarddutyDetector) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGuarddutyDetector_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyDetector_Enable(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyDetector_FindingPublishingFrequency(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyDetector_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyDetector_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyDetector_Enable(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyDetector_AccountId(r.Status.AtProvider, ctyVal)
 	EncodeGuarddutyDetector_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGuarddutyDetector_FindingPublishingFrequency(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	vals["finding_publishing_frequency"] = cty.StringVal(p.FindingPublishingFrequency)
+}
+
+func EncodeGuarddutyDetector_Id(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGuarddutyDetector_Tags(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
@@ -41,14 +63,6 @@ func EncodeGuarddutyDetector_Tags(p GuarddutyDetectorParameters, vals map[string
 
 func EncodeGuarddutyDetector_Enable(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	vals["enable"] = cty.BoolVal(p.Enable)
-}
-
-func EncodeGuarddutyDetector_FindingPublishingFrequency(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
-	vals["finding_publishing_frequency"] = cty.StringVal(p.FindingPublishingFrequency)
-}
-
-func EncodeGuarddutyDetector_Id(p GuarddutyDetectorParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGuarddutyDetector_AccountId(p GuarddutyDetectorObservation, vals map[string]cty.Value) {

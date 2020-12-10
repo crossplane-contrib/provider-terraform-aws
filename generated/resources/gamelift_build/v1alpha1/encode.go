@@ -17,19 +17,37 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GameliftBuild)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GameliftBuild.")
+	}
+	return EncodeGameliftBuild(*r), nil
+}
 
 func EncodeGameliftBuild(r GameliftBuild) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGameliftBuild_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_OperatingSystem(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_Version(r.Spec.ForProvider, ctyVal)
-	EncodeGameliftBuild_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_StorageLocation(r.Spec.ForProvider.StorageLocation, ctyVal)
 	EncodeGameliftBuild_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGameliftBuild_Id(p GameliftBuildParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGameliftBuild_Name(p GameliftBuildParameters, vals map[string]cty.Value) {
@@ -52,22 +70,14 @@ func EncodeGameliftBuild_Version(p GameliftBuildParameters, vals map[string]cty.
 	vals["version"] = cty.StringVal(p.Version)
 }
 
-func EncodeGameliftBuild_Id(p GameliftBuildParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeGameliftBuild_StorageLocation(p StorageLocation, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGameliftBuild_StorageLocation_RoleArn(p, ctyVal)
 	EncodeGameliftBuild_StorageLocation_Bucket(p, ctyVal)
 	EncodeGameliftBuild_StorageLocation_Key(p, ctyVal)
+	EncodeGameliftBuild_StorageLocation_RoleArn(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["storage_location"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGameliftBuild_StorageLocation_RoleArn(p StorageLocation, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodeGameliftBuild_StorageLocation_Bucket(p StorageLocation, vals map[string]cty.Value) {
@@ -76,6 +86,10 @@ func EncodeGameliftBuild_StorageLocation_Bucket(p StorageLocation, vals map[stri
 
 func EncodeGameliftBuild_StorageLocation_Key(p StorageLocation, vals map[string]cty.Value) {
 	vals["key"] = cty.StringVal(p.Key)
+}
+
+func EncodeGameliftBuild_StorageLocation_RoleArn(p StorageLocation, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodeGameliftBuild_Arn(p GameliftBuildObservation, vals map[string]cty.Value) {

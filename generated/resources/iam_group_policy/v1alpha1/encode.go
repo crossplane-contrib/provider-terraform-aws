@@ -17,18 +17,36 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamGroupPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamGroupPolicy.")
+	}
+	return EncodeIamGroupPolicy(*r), nil
+}
 
 func EncodeIamGroupPolicy(r IamGroupPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamGroupPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_Group(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroupPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamGroupPolicy_Policy(p IamGroupPolicyParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
 }
 
 func EncodeIamGroupPolicy_Group(p IamGroupPolicyParameters, vals map[string]cty.Value) {
@@ -45,8 +63,4 @@ func EncodeIamGroupPolicy_Name(p IamGroupPolicyParameters, vals map[string]cty.V
 
 func EncodeIamGroupPolicy_NamePrefix(p IamGroupPolicyParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeIamGroupPolicy_Policy(p IamGroupPolicyParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
 }

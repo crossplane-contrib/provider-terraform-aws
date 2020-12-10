@@ -17,31 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2Model)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2Model.")
+	}
+	return EncodeApigatewayv2Model(*r), nil
+}
 
 func EncodeApigatewayv2Model(r Apigatewayv2Model) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Model_Schema(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Model_ApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Model_ContentType(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Model_Schema(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Model_ApiId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Model_ContentType(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApigatewayv2Model_Schema(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	vals["schema"] = cty.StringVal(p.Schema)
-}
-
-func EncodeApigatewayv2Model_ApiId(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
-}
-
-func EncodeApigatewayv2Model_ContentType(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	vals["content_type"] = cty.StringVal(p.ContentType)
 }
 
 func EncodeApigatewayv2Model_Description(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
@@ -54,4 +56,16 @@ func EncodeApigatewayv2Model_Id(p Apigatewayv2ModelParameters, vals map[string]c
 
 func EncodeApigatewayv2Model_Name(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeApigatewayv2Model_Schema(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+	vals["schema"] = cty.StringVal(p.Schema)
+}
+
+func EncodeApigatewayv2Model_ApiId(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
+}
+
+func EncodeApigatewayv2Model_ContentType(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+	vals["content_type"] = cty.StringVal(p.ContentType)
 }

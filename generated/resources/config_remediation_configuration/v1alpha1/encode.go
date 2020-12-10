@@ -17,24 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ConfigRemediationConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ConfigRemediationConfiguration.")
+	}
+	return EncodeConfigRemediationConfiguration(*r), nil
+}
 
 func EncodeConfigRemediationConfiguration(r ConfigRemediationConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigRemediationConfiguration_TargetId(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_TargetType(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_TargetVersion(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_ConfigRuleName(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_ResourceType(r.Spec.ForProvider, ctyVal)
+	EncodeConfigRemediationConfiguration_TargetId(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeConfigRemediationConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeConfigRemediationConfiguration_TargetId(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
-	vals["target_id"] = cty.StringVal(p.TargetId)
 }
 
 func EncodeConfigRemediationConfiguration_TargetType(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
@@ -55,6 +65,10 @@ func EncodeConfigRemediationConfiguration_Id(p ConfigRemediationConfigurationPar
 
 func EncodeConfigRemediationConfiguration_ResourceType(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
 	vals["resource_type"] = cty.StringVal(p.ResourceType)
+}
+
+func EncodeConfigRemediationConfiguration_TargetId(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
+	vals["target_id"] = cty.StringVal(p.TargetId)
 }
 
 func EncodeConfigRemediationConfiguration_Parameter(p []Parameter, vals map[string]cty.Value) {

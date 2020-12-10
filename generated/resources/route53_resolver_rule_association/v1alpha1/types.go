@@ -52,10 +52,10 @@ type Route53ResolverRuleAssociationSpec struct {
 
 // A Route53ResolverRuleAssociationParameters defines the desired state of a Route53ResolverRuleAssociation
 type Route53ResolverRuleAssociationParameters struct {
-	ResolverRuleId string   `json:"resolver_rule_id"`
 	VpcId          string   `json:"vpc_id"`
 	Id             string   `json:"id"`
 	Name           string   `json:"name"`
+	ResolverRuleId string   `json:"resolver_rule_id"`
 	Timeouts       Timeouts `json:"timeouts"`
 }
 

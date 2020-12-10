@@ -17,18 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafRuleGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafRuleGroup.")
+	}
+	return EncodeWafRuleGroup(*r), nil
+}
 
 func EncodeWafRuleGroup(r WafRuleGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafRuleGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafRuleGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRuleGroup_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRuleGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeWafRuleGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafRuleGroup_ActivatedRule(r.Spec.ForProvider.ActivatedRule, ctyVal)
 	EncodeWafRuleGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWafRuleGroup_Tags(p WafRuleGroupParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafRuleGroup_Id(p WafRuleGroupParameters, vals map[string]cty.Value) {
@@ -43,23 +65,19 @@ func EncodeWafRuleGroup_Name(p WafRuleGroupParameters, vals map[string]cty.Value
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeWafRuleGroup_Tags(p WafRuleGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
 func EncodeWafRuleGroup_ActivatedRule(p ActivatedRule, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafRuleGroup_ActivatedRule_Priority(p, ctyVal)
 	EncodeWafRuleGroup_ActivatedRule_RuleId(p, ctyVal)
 	EncodeWafRuleGroup_ActivatedRule_Type(p, ctyVal)
-	EncodeWafRuleGroup_ActivatedRule_Priority(p, ctyVal)
 	EncodeWafRuleGroup_ActivatedRule_Action(p.Action, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["activated_rule"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeWafRuleGroup_ActivatedRule_Priority(p ActivatedRule, vals map[string]cty.Value) {
+	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafRuleGroup_ActivatedRule_RuleId(p ActivatedRule, vals map[string]cty.Value) {
@@ -68,10 +86,6 @@ func EncodeWafRuleGroup_ActivatedRule_RuleId(p ActivatedRule, vals map[string]ct
 
 func EncodeWafRuleGroup_ActivatedRule_Type(p ActivatedRule, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeWafRuleGroup_ActivatedRule_Priority(p ActivatedRule, vals map[string]cty.Value) {
-	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafRuleGroup_ActivatedRule_Action(p Action, vals map[string]cty.Value) {

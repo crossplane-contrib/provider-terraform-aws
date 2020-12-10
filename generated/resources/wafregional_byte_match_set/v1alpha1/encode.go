@@ -17,24 +17,38 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafregionalByteMatchSet)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafregionalByteMatchSet.")
+	}
+	return EncodeWafregionalByteMatchSet(*r), nil
+}
 
 func EncodeWafregionalByteMatchSet(r WafregionalByteMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalByteMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalByteMatchSet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalByteMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalByteMatchSet_ByteMatchTuples(r.Spec.ForProvider.ByteMatchTuples, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafregionalByteMatchSet_Name(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeWafregionalByteMatchSet_Id(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafregionalByteMatchSet_Name(p WafregionalByteMatchSetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafregionalByteMatchSet_ByteMatchTuples(p ByteMatchTuples, vals map[string]cty.Value) {

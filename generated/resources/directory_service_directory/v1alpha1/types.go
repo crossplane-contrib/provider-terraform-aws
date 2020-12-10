@@ -52,34 +52,34 @@ type DirectoryServiceDirectorySpec struct {
 
 // A DirectoryServiceDirectoryParameters defines the desired state of a DirectoryServiceDirectory
 type DirectoryServiceDirectoryParameters struct {
-	Description     string            `json:"description"`
-	EnableSso       bool              `json:"enable_sso"`
-	ShortName       string            `json:"short_name"`
-	Tags            map[string]string `json:"tags"`
-	Edition         string            `json:"edition"`
+	Id              string            `json:"id"`
 	Password        string            `json:"password"`
+	Description     string            `json:"description"`
+	ShortName       string            `json:"short_name"`
+	EnableSso       bool              `json:"enable_sso"`
+	Name            string            `json:"name"`
 	Size            string            `json:"size"`
+	Tags            map[string]string `json:"tags"`
 	Type            string            `json:"type"`
 	Alias           string            `json:"alias"`
-	Id              string            `json:"id"`
-	Name            string            `json:"name"`
+	Edition         string            `json:"edition"`
 	ConnectSettings ConnectSettings   `json:"connect_settings"`
 	VpcSettings     VpcSettings       `json:"vpc_settings"`
 }
 
 type ConnectSettings struct {
-	VpcId             string   `json:"vpc_id"`
-	AvailabilityZones []string `json:"availability_zones"`
 	ConnectIps        []string `json:"connect_ips"`
 	CustomerDnsIps    []string `json:"customer_dns_ips"`
 	CustomerUsername  string   `json:"customer_username"`
 	SubnetIds         []string `json:"subnet_ids"`
+	VpcId             string   `json:"vpc_id"`
+	AvailabilityZones []string `json:"availability_zones"`
 }
 
 type VpcSettings struct {
+	AvailabilityZones []string `json:"availability_zones"`
 	SubnetIds         []string `json:"subnet_ids"`
 	VpcId             string   `json:"vpc_id"`
-	AvailabilityZones []string `json:"availability_zones"`
 }
 
 // A DirectoryServiceDirectoryStatus defines the observed state of a DirectoryServiceDirectory

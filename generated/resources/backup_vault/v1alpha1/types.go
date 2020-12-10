@@ -66,6 +66,6 @@ type BackupVaultStatus struct {
 
 // A BackupVaultObservation records the observed state of a BackupVault
 type BackupVaultObservation struct {
-	Arn            string `json:"arn"`
 	RecoveryPoints int64  `json:"recovery_points"`
+	Arn            string `json:"arn"`
 }

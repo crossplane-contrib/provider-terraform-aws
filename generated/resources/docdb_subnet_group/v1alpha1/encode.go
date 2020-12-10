@@ -17,19 +17,37 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DocdbSubnetGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DocdbSubnetGroup.")
+	}
+	return EncodeDocdbSubnetGroup(*r), nil
+}
 
 func EncodeDocdbSubnetGroup(r DocdbSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDocdbSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDocdbSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDocdbSubnetGroup_Id(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDocdbSubnetGroup_Name(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
@@ -58,10 +76,6 @@ func EncodeDocdbSubnetGroup_Tags(p DocdbSubnetGroupParameters, vals map[string]c
 
 func EncodeDocdbSubnetGroup_Description(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDocdbSubnetGroup_Id(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDocdbSubnetGroup_Arn(p DocdbSubnetGroupObservation, vals map[string]cty.Value) {

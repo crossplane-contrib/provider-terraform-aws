@@ -17,21 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Ec2TransitGatewayRouteTableAssociation)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Ec2TransitGatewayRouteTableAssociation.")
+	}
+	return EncodeEc2TransitGatewayRouteTableAssociation(*r), nil
+}
 
 func EncodeEc2TransitGatewayRouteTableAssociation(r Ec2TransitGatewayRouteTableAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_ResourceType(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2TransitGatewayRouteTableAssociation_Id(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
@@ -40,6 +50,10 @@ func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p E
 
 func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_route_table_id"] = cty.StringVal(p.TransitGatewayRouteTableId)
+}
+
+func EncodeEc2TransitGatewayRouteTableAssociation_Id(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(p Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {

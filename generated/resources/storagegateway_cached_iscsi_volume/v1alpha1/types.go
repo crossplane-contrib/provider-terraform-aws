@@ -53,15 +53,15 @@ type StoragegatewayCachedIscsiVolumeSpec struct {
 // A StoragegatewayCachedIscsiVolumeParameters defines the desired state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeParameters struct {
 	GatewayArn         string            `json:"gateway_arn"`
-	KmsEncrypted       bool              `json:"kms_encrypted"`
 	Id                 string            `json:"id"`
-	NetworkInterfaceId string            `json:"network_interface_id"`
-	SnapshotId         string            `json:"snapshot_id"`
-	Tags               map[string]string `json:"tags"`
-	TargetName         string            `json:"target_name"`
 	KmsKey             string            `json:"kms_key"`
-	SourceVolumeArn    string            `json:"source_volume_arn"`
+	TargetName         string            `json:"target_name"`
 	VolumeSizeInBytes  int64             `json:"volume_size_in_bytes"`
+	SnapshotId         string            `json:"snapshot_id"`
+	SourceVolumeArn    string            `json:"source_volume_arn"`
+	NetworkInterfaceId string            `json:"network_interface_id"`
+	KmsEncrypted       bool              `json:"kms_encrypted"`
+	Tags               map[string]string `json:"tags"`
 }
 
 // A StoragegatewayCachedIscsiVolumeStatus defines the observed state of a StoragegatewayCachedIscsiVolume
@@ -72,11 +72,11 @@ type StoragegatewayCachedIscsiVolumeStatus struct {
 
 // A StoragegatewayCachedIscsiVolumeObservation records the observed state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeObservation struct {
-	Arn                  string `json:"arn"`
-	NetworkInterfacePort int64  `json:"network_interface_port"`
 	VolumeId             string `json:"volume_id"`
-	ChapEnabled          bool   `json:"chap_enabled"`
 	LunNumber            int64  `json:"lun_number"`
+	NetworkInterfacePort int64  `json:"network_interface_port"`
+	Arn                  string `json:"arn"`
+	ChapEnabled          bool   `json:"chap_enabled"`
 	TargetArn            string `json:"target_arn"`
 	VolumeArn            string `json:"volume_arn"`
 }

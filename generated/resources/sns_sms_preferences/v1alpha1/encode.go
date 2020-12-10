@@ -17,28 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SnsSmsPreferences)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SnsSmsPreferences.")
+	}
+	return EncodeSnsSmsPreferences(*r), nil
+}
 
 func EncodeSnsSmsPreferences(r SnsSmsPreferences) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSnsSmsPreferences_MonthlySpendLimit(r.Spec.ForProvider, ctyVal)
-	EncodeSnsSmsPreferences_UsageReportS3Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DefaultSenderId(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DefaultSmsType(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DeliveryStatusIamRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSnsSmsPreferences_MonthlySpendLimit(r.Spec.ForProvider, ctyVal)
+	EncodeSnsSmsPreferences_UsageReportS3Bucket(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSnsSmsPreferences_MonthlySpendLimit(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	vals["monthly_spend_limit"] = cty.StringVal(p.MonthlySpendLimit)
-}
-
-func EncodeSnsSmsPreferences_UsageReportS3Bucket(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	vals["usage_report_s3_bucket"] = cty.StringVal(p.UsageReportS3Bucket)
 }
 
 func EncodeSnsSmsPreferences_DefaultSenderId(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
@@ -59,4 +65,12 @@ func EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(p SnsSmsPreferenc
 
 func EncodeSnsSmsPreferences_Id(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSnsSmsPreferences_MonthlySpendLimit(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	vals["monthly_spend_limit"] = cty.StringVal(p.MonthlySpendLimit)
+}
+
+func EncodeSnsSmsPreferences_UsageReportS3Bucket(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	vals["usage_report_s3_bucket"] = cty.StringVal(p.UsageReportS3Bucket)
 }

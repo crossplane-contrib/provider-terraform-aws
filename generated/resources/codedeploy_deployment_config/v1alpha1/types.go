@@ -55,19 +55,19 @@ type CodedeployDeploymentConfigParameters struct {
 	ComputePlatform      string               `json:"compute_platform"`
 	DeploymentConfigName string               `json:"deployment_config_name"`
 	Id                   string               `json:"id"`
-	TrafficRoutingConfig TrafficRoutingConfig `json:"traffic_routing_config"`
 	MinimumHealthyHosts  MinimumHealthyHosts  `json:"minimum_healthy_hosts"`
+	TrafficRoutingConfig TrafficRoutingConfig `json:"traffic_routing_config"`
+}
+
+type MinimumHealthyHosts struct {
+	Type  string `json:"type"`
+	Value int64  `json:"value"`
 }
 
 type TrafficRoutingConfig struct {
 	Type            string          `json:"type"`
-	TimeBasedLinear TimeBasedLinear `json:"time_based_linear"`
 	TimeBasedCanary TimeBasedCanary `json:"time_based_canary"`
-}
-
-type TimeBasedLinear struct {
-	Interval   int64 `json:"interval"`
-	Percentage int64 `json:"percentage"`
+	TimeBasedLinear TimeBasedLinear `json:"time_based_linear"`
 }
 
 type TimeBasedCanary struct {
@@ -75,9 +75,9 @@ type TimeBasedCanary struct {
 	Percentage int64 `json:"percentage"`
 }
 
-type MinimumHealthyHosts struct {
-	Type  string `json:"type"`
-	Value int64  `json:"value"`
+type TimeBasedLinear struct {
+	Interval   int64 `json:"interval"`
+	Percentage int64 `json:"percentage"`
 }
 
 // A CodedeployDeploymentConfigStatus defines the observed state of a CodedeployDeploymentConfig

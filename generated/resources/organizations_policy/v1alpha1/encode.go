@@ -17,31 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*OrganizationsPolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a OrganizationsPolicy.")
+	}
+	return EncodeOrganizationsPolicy(*r), nil
+}
 
 func EncodeOrganizationsPolicy(r OrganizationsPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOrganizationsPolicy_Type(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsPolicy_Content(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsPolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsPolicy_Type(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsPolicy_Content(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsPolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOrganizationsPolicy_Type(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeOrganizationsPolicy_Content(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["content"] = cty.StringVal(p.Content)
-}
-
-func EncodeOrganizationsPolicy_Description(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeOrganizationsPolicy_Id(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
@@ -58,6 +60,18 @@ func EncodeOrganizationsPolicy_Tags(p OrganizationsPolicyParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeOrganizationsPolicy_Type(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeOrganizationsPolicy_Content(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["content"] = cty.StringVal(p.Content)
+}
+
+func EncodeOrganizationsPolicy_Description(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeOrganizationsPolicy_Arn(p OrganizationsPolicyObservation, vals map[string]cty.Value) {

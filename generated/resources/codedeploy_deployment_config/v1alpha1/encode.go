@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CodedeployDeploymentConfig)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CodedeployDeploymentConfig.")
+	}
+	return EncodeCodedeployDeploymentConfig(*r), nil
+}
 
 func EncodeCodedeployDeploymentConfig(r CodedeployDeploymentConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodedeployDeploymentConfig_ComputePlatform(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployDeploymentConfig_DeploymentConfigName(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployDeploymentConfig_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCodedeployDeploymentConfig_ComputePlatform(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig(r.Spec.ForProvider.TrafficRoutingConfig, ctyVal)
 	EncodeCodedeployDeploymentConfig_MinimumHealthyHosts(r.Spec.ForProvider.MinimumHealthyHosts, ctyVal)
 	EncodeCodedeployDeploymentConfig_DeploymentConfigId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCodedeployDeploymentConfig_ComputePlatform(p CodedeployDeploymentConfigParameters, vals map[string]cty.Value) {
-	vals["compute_platform"] = cty.StringVal(p.ComputePlatform)
 }
 
 func EncodeCodedeployDeploymentConfig_DeploymentConfigName(p CodedeployDeploymentConfigParameters, vals map[string]cty.Value) {
@@ -43,35 +53,22 @@ func EncodeCodedeployDeploymentConfig_Id(p CodedeployDeploymentConfigParameters,
 	vals["id"] = cty.StringVal(p.Id)
 }
 
+func EncodeCodedeployDeploymentConfig_ComputePlatform(p CodedeployDeploymentConfigParameters, vals map[string]cty.Value) {
+	vals["compute_platform"] = cty.StringVal(p.ComputePlatform)
+}
+
 func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig(p TrafficRoutingConfig, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
 	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_Type(p, ctyVal)
-	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear(p.TimeBasedLinear, ctyVal)
 	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary(p.TimeBasedCanary, ctyVal)
+	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear(p.TimeBasedLinear, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["traffic_routing_config"] = cty.ListVal(valsForCollection)
 }
 
 func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_Type(p TrafficRoutingConfig, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear(p TimeBasedLinear, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p, ctyVal)
-	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["time_based_linear"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p TimeBasedLinear, vals map[string]cty.Value) {
-	vals["interval"] = cty.NumberIntVal(p.Interval)
-}
-
-func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p TimeBasedLinear, vals map[string]cty.Value) {
-	vals["percentage"] = cty.NumberIntVal(p.Percentage)
 }
 
 func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary(p TimeBasedCanary, vals map[string]cty.Value) {
@@ -88,6 +85,23 @@ func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary_Inter
 }
 
 func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedCanary_Percentage(p TimeBasedCanary, vals map[string]cty.Value) {
+	vals["percentage"] = cty.NumberIntVal(p.Percentage)
+}
+
+func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear(p TimeBasedLinear, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p, ctyVal)
+	EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["time_based_linear"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Interval(p TimeBasedLinear, vals map[string]cty.Value) {
+	vals["interval"] = cty.NumberIntVal(p.Interval)
+}
+
+func EncodeCodedeployDeploymentConfig_TrafficRoutingConfig_TimeBasedLinear_Percentage(p TimeBasedLinear, vals map[string]cty.Value) {
 	vals["percentage"] = cty.NumberIntVal(p.Percentage)
 }
 

@@ -17,19 +17,41 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*VolumeAttachment)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a VolumeAttachment.")
+	}
+	return EncodeVolumeAttachment(*r), nil
+}
 
 func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVolumeAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
+	EncodeVolumeAttachment_SkipDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_DeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_ForceDetach(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_SkipDestroy(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeVolumeAttachment_InstanceId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["instance_id"] = cty.StringVal(p.InstanceId)
+}
+
+func EncodeVolumeAttachment_SkipDestroy(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["skip_destroy"] = cty.BoolVal(p.SkipDestroy)
 }
 
 func EncodeVolumeAttachment_VolumeId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
@@ -46,12 +68,4 @@ func EncodeVolumeAttachment_ForceDetach(p VolumeAttachmentParameters, vals map[s
 
 func EncodeVolumeAttachment_Id(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeVolumeAttachment_InstanceId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["instance_id"] = cty.StringVal(p.InstanceId)
-}
-
-func EncodeVolumeAttachment_SkipDestroy(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["skip_destroy"] = cty.BoolVal(p.SkipDestroy)
 }

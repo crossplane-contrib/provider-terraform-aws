@@ -17,24 +17,38 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafGeoMatchSet)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafGeoMatchSet.")
+	}
+	return EncodeWafGeoMatchSet(*r), nil
+}
 
 func EncodeWafGeoMatchSet(r WafGeoMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafGeoMatchSet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafGeoMatchSet_GeoMatchConstraint(r.Spec.ForProvider.GeoMatchConstraint, ctyVal)
 	EncodeWafGeoMatchSet_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafGeoMatchSet_Name(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeWafGeoMatchSet_Id(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafGeoMatchSet_Name(p WafGeoMatchSetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafGeoMatchSet_GeoMatchConstraint(p GeoMatchConstraint, vals map[string]cty.Value) {

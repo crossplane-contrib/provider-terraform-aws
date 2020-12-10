@@ -52,21 +52,21 @@ type AppautoscalingPolicySpec struct {
 
 // A AppautoscalingPolicyParameters defines the desired state of a AppautoscalingPolicy
 type AppautoscalingPolicyParameters struct {
-	Id                                       string                                   `json:"id"`
 	Name                                     string                                   `json:"name"`
 	PolicyType                               string                                   `json:"policy_type"`
 	ResourceId                               string                                   `json:"resource_id"`
 	ScalableDimension                        string                                   `json:"scalable_dimension"`
 	ServiceNamespace                         string                                   `json:"service_namespace"`
+	Id                                       string                                   `json:"id"`
 	StepScalingPolicyConfiguration           StepScalingPolicyConfiguration           `json:"step_scaling_policy_configuration"`
 	TargetTrackingScalingPolicyConfiguration TargetTrackingScalingPolicyConfiguration `json:"target_tracking_scaling_policy_configuration"`
 }
 
 type StepScalingPolicyConfiguration struct {
-	AdjustmentType         string         `json:"adjustment_type"`
 	Cooldown               int64          `json:"cooldown"`
 	MetricAggregationType  string         `json:"metric_aggregation_type"`
 	MinAdjustmentMagnitude int64          `json:"min_adjustment_magnitude"`
+	AdjustmentType         string         `json:"adjustment_type"`
 	StepAdjustment         StepAdjustment `json:"step_adjustment"`
 }
 
@@ -77,10 +77,10 @@ type StepAdjustment struct {
 }
 
 type TargetTrackingScalingPolicyConfiguration struct {
-	DisableScaleIn                bool                          `json:"disable_scale_in"`
 	ScaleInCooldown               int64                         `json:"scale_in_cooldown"`
 	ScaleOutCooldown              int64                         `json:"scale_out_cooldown"`
 	TargetValue                   int64                         `json:"target_value"`
+	DisableScaleIn                bool                          `json:"disable_scale_in"`
 	CustomizedMetricSpecification CustomizedMetricSpecification `json:"customized_metric_specification"`
 	PredefinedMetricSpecification PredefinedMetricSpecification `json:"predefined_metric_specification"`
 }

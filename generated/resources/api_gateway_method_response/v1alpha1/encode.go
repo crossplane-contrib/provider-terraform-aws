@@ -17,20 +17,42 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*ApiGatewayMethodResponse)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a ApiGatewayMethodResponse.")
+	}
+	return EncodeApiGatewayMethodResponse(*r), nil
+}
 
 func EncodeApiGatewayMethodResponse(r ApiGatewayMethodResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayMethodResponse_HttpMethod(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayMethodResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResponseModels(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodResponse_StatusCode(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayMethodResponse_HttpMethod(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayMethodResponse_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayMethodResponse_HttpMethod(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+	vals["http_method"] = cty.StringVal(p.HttpMethod)
+}
+
+func EncodeApiGatewayMethodResponse_Id(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayMethodResponse_ResourceId(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
@@ -59,12 +81,4 @@ func EncodeApiGatewayMethodResponse_RestApiId(p ApiGatewayMethodResponseParamete
 
 func EncodeApiGatewayMethodResponse_StatusCode(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
 	vals["status_code"] = cty.StringVal(p.StatusCode)
-}
-
-func EncodeApiGatewayMethodResponse_HttpMethod(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
-	vals["http_method"] = cty.StringVal(p.HttpMethod)
-}
-
-func EncodeApiGatewayMethodResponse_Id(p ApiGatewayMethodResponseParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

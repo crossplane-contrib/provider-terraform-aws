@@ -66,6 +66,6 @@ type NetworkInterfaceAttachmentStatus struct {
 
 // A NetworkInterfaceAttachmentObservation records the observed state of a NetworkInterfaceAttachment
 type NetworkInterfaceAttachmentObservation struct {
-	AttachmentId string `json:"attachment_id"`
 	Status       string `json:"status"`
+	AttachmentId string `json:"attachment_id"`
 }

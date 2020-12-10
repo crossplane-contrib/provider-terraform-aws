@@ -66,6 +66,6 @@ type ApiGatewayUsagePlanKeyStatus struct {
 
 // A ApiGatewayUsagePlanKeyObservation records the observed state of a ApiGatewayUsagePlanKey
 type ApiGatewayUsagePlanKeyObservation struct {
-	Name  string `json:"name"`
 	Value string `json:"value"`
+	Name  string `json:"name"`
 }

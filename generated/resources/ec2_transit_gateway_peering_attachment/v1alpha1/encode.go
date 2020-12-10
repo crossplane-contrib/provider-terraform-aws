@@ -17,31 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Ec2TransitGatewayPeeringAttachment)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Ec2TransitGatewayPeeringAttachment.")
+	}
+	return EncodeEc2TransitGatewayPeeringAttachment(*r), nil
+}
 
 func EncodeEc2TransitGatewayPeeringAttachment(r Ec2TransitGatewayPeeringAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayPeeringAttachment_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_PeerAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_PeerRegion(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_PeerTransitGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayPeeringAttachment_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2TransitGatewayPeeringAttachment_Tags(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
-	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }
 
 func EncodeEc2TransitGatewayPeeringAttachment_Id(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
@@ -58,4 +60,16 @@ func EncodeEc2TransitGatewayPeeringAttachment_PeerRegion(p Ec2TransitGatewayPeer
 
 func EncodeEc2TransitGatewayPeeringAttachment_PeerTransitGatewayId(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
 	vals["peer_transit_gateway_id"] = cty.StringVal(p.PeerTransitGatewayId)
+}
+
+func EncodeEc2TransitGatewayPeeringAttachment_Tags(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
+	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }

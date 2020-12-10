@@ -17,21 +17,39 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GuarddutyMember)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GuarddutyMember.")
+	}
+	return EncodeGuarddutyMember(*r), nil
+}
 
 func EncodeGuarddutyMember(r GuarddutyMember) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyMember_DisableEmailNotification(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Email(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_InvitationMessage(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Invite(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_DetectorId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyMember_DisableEmailNotification(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeGuarddutyMember_RelationshipStatus(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGuarddutyMember_DisableEmailNotification(p GuarddutyMemberParameters, vals map[string]cty.Value) {
+	vals["disable_email_notification"] = cty.BoolVal(p.DisableEmailNotification)
 }
 
 func EncodeGuarddutyMember_Email(p GuarddutyMemberParameters, vals map[string]cty.Value) {
@@ -56,10 +74,6 @@ func EncodeGuarddutyMember_AccountId(p GuarddutyMemberParameters, vals map[strin
 
 func EncodeGuarddutyMember_DetectorId(p GuarddutyMemberParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
-}
-
-func EncodeGuarddutyMember_DisableEmailNotification(p GuarddutyMemberParameters, vals map[string]cty.Value) {
-	vals["disable_email_notification"] = cty.BoolVal(p.DisableEmailNotification)
 }
 
 func EncodeGuarddutyMember_Timeouts(p Timeouts, vals map[string]cty.Value) {

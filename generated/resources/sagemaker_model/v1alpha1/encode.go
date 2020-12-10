@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SagemakerModel)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SagemakerModel.")
+	}
+	return EncodeSagemakerModel(*r), nil
+}
 
 func EncodeSagemakerModel(r SagemakerModel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -61,12 +75,16 @@ func EncodeSagemakerModel_Tags(p SagemakerModelParameters, vals map[string]cty.V
 func EncodeSagemakerModel_PrimaryContainer(p PrimaryContainer, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p, ctyVal)
 	EncodeSagemakerModel_PrimaryContainer_ContainerHostname(p, ctyVal)
 	EncodeSagemakerModel_PrimaryContainer_Environment(p, ctyVal)
 	EncodeSagemakerModel_PrimaryContainer_Image(p, ctyVal)
-	EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["primary_container"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p PrimaryContainer, vals map[string]cty.Value) {
+	vals["model_data_url"] = cty.StringVal(p.ModelDataUrl)
 }
 
 func EncodeSagemakerModel_PrimaryContainer_ContainerHostname(p PrimaryContainer, vals map[string]cty.Value) {
@@ -83,10 +101,6 @@ func EncodeSagemakerModel_PrimaryContainer_Environment(p PrimaryContainer, vals 
 
 func EncodeSagemakerModel_PrimaryContainer_Image(p PrimaryContainer, vals map[string]cty.Value) {
 	vals["image"] = cty.StringVal(p.Image)
-}
-
-func EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p PrimaryContainer, vals map[string]cty.Value) {
-	vals["model_data_url"] = cty.StringVal(p.ModelDataUrl)
 }
 
 func EncodeSagemakerModel_VpcConfig(p VpcConfig, vals map[string]cty.Value) {

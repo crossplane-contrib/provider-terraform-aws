@@ -121,26 +121,6 @@ func (in *OpsworksCustomLayerParameters) DeepCopyInto(out *OpsworksCustomLayerPa
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.CustomDeployRecipes != nil {
-		in, out := &in.CustomDeployRecipes, &out.CustomDeployRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomSetupRecipes != nil {
-		in, out := &in.CustomSetupRecipes, &out.CustomSetupRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomConfigureRecipes != nil {
-		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomUndeployRecipes != nil {
-		in, out := &in.CustomUndeployRecipes, &out.CustomUndeployRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
 	if in.SystemPackages != nil {
 		in, out := &in.SystemPackages, &out.SystemPackages
 		*out = make([]string, len(*in))
@@ -151,12 +131,32 @@ func (in *OpsworksCustomLayerParameters) DeepCopyInto(out *OpsworksCustomLayerPa
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.CustomConfigureRecipes != nil {
+		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.CustomDeployRecipes != nil {
+		in, out := &in.CustomDeployRecipes, &out.CustomDeployRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.CustomUndeployRecipes != nil {
+		in, out := &in.CustomUndeployRecipes, &out.CustomUndeployRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.CustomSetupRecipes != nil {
+		in, out := &in.CustomSetupRecipes, &out.CustomSetupRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
 	}
 	out.EbsVolume = in.EbsVolume
 }

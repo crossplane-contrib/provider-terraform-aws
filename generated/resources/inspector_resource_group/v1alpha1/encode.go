@@ -17,15 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*InspectorResourceGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a InspectorResourceGroup.")
+	}
+	return EncodeInspectorResourceGroup(*r), nil
+}
 
 func EncodeInspectorResourceGroup(r InspectorResourceGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeInspectorResourceGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeInspectorResourceGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeInspectorResourceGroup_Id(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorResourceGroup_Tags(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
@@ -34,10 +52,6 @@ func EncodeInspectorResourceGroup_Tags(p InspectorResourceGroupParameters, vals 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeInspectorResourceGroup_Id(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorResourceGroup_Arn(p InspectorResourceGroupObservation, vals map[string]cty.Value) {

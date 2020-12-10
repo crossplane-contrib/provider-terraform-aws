@@ -17,18 +17,40 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2VpcLink)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2VpcLink.")
+	}
+	return EncodeApigatewayv2VpcLink(*r), nil
+}
 
 func EncodeApigatewayv2VpcLink(r Apigatewayv2VpcLink) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApigatewayv2VpcLink_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2VpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2VpcLink_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2VpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApigatewayv2VpcLink_Id(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApigatewayv2VpcLink_Name(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApigatewayv2VpcLink_SecurityGroupIds(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
@@ -53,14 +75,6 @@ func EncodeApigatewayv2VpcLink_Tags(p Apigatewayv2VpcLinkParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeApigatewayv2VpcLink_Id(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApigatewayv2VpcLink_Name(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApigatewayv2VpcLink_Arn(p Apigatewayv2VpcLinkObservation, vals map[string]cty.Value) {

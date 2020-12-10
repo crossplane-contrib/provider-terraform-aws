@@ -17,17 +17,39 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*XrayGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a XrayGroup.")
+	}
+	return EncodeXrayGroup(*r), nil
+}
 
 func EncodeXrayGroup(r XrayGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeXrayGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_FilterExpression(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_GroupName(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeXrayGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeXrayGroup_Tags(p XrayGroupParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeXrayGroup_FilterExpression(p XrayGroupParameters, vals map[string]cty.Value) {
@@ -40,14 +62,6 @@ func EncodeXrayGroup_GroupName(p XrayGroupParameters, vals map[string]cty.Value)
 
 func EncodeXrayGroup_Id(p XrayGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeXrayGroup_Tags(p XrayGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeXrayGroup_Arn(p XrayGroupObservation, vals map[string]cty.Value) {

@@ -17,17 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IotRoleAlias)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IotRoleAlias.")
+	}
+	return EncodeIotRoleAlias(*r), nil
+}
 
 func EncodeIotRoleAlias(r IotRoleAlias) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIotRoleAlias_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeIotRoleAlias_Alias(r.Spec.ForProvider, ctyVal)
 	EncodeIotRoleAlias_CredentialDuration(r.Spec.ForProvider, ctyVal)
 	EncodeIotRoleAlias_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIotRoleAlias_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeIotRoleAlias_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIotRoleAlias_RoleArn(p IotRoleAliasParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodeIotRoleAlias_Alias(p IotRoleAliasParameters, vals map[string]cty.Value) {
@@ -40,10 +58,6 @@ func EncodeIotRoleAlias_CredentialDuration(p IotRoleAliasParameters, vals map[st
 
 func EncodeIotRoleAlias_Id(p IotRoleAliasParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIotRoleAlias_RoleArn(p IotRoleAliasParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodeIotRoleAlias_Arn(p IotRoleAliasObservation, vals map[string]cty.Value) {

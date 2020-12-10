@@ -56,13 +56,9 @@ type WafWebAclParameters struct {
 	Name                 string               `json:"name"`
 	Tags                 map[string]string    `json:"tags"`
 	Id                   string               `json:"id"`
-	DefaultAction        DefaultAction        `json:"default_action"`
 	LoggingConfiguration LoggingConfiguration `json:"logging_configuration"`
 	Rules                Rules                `json:"rules"`
-}
-
-type DefaultAction struct {
-	Type string `json:"type"`
+	DefaultAction        DefaultAction        `json:"default_action"`
 }
 
 type LoggingConfiguration struct {
@@ -80,9 +76,9 @@ type FieldToMatch struct {
 }
 
 type Rules struct {
-	Type           string         `json:"type"`
 	Priority       int64          `json:"priority"`
 	RuleId         string         `json:"rule_id"`
+	Type           string         `json:"type"`
 	Action         Action         `json:"action"`
 	OverrideAction OverrideAction `json:"override_action"`
 }
@@ -92,6 +88,10 @@ type Action struct {
 }
 
 type OverrideAction struct {
+	Type string `json:"type"`
+}
+
+type DefaultAction struct {
 	Type string `json:"type"`
 }
 

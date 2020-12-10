@@ -17,24 +17,38 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Ec2ClientVpnEndpoint)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Ec2ClientVpnEndpoint.")
+	}
+	return EncodeEc2ClientVpnEndpoint(*r), nil
+}
 
 func EncodeEc2ClientVpnEndpoint(r Ec2ClientVpnEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeEc2ClientVpnEndpoint_ClientCidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_Description(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_DnsServers(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_SplitTunnel(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_TransportProtocol(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_SplitTunnel(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_TransportProtocol(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_DnsServers(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_ServerCertificateArn(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions(r.Spec.ForProvider.ConnectionLogOptions, ctyVal)
+	EncodeEc2ClientVpnEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_AuthenticationOptions(r.Spec.ForProvider.AuthenticationOptions, ctyVal)
+	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions(r.Spec.ForProvider.ConnectionLogOptions, ctyVal)
 	EncodeEc2ClientVpnEndpoint_Arn(r.Status.AtProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_Status(r.Status.AtProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_DnsName(r.Status.AtProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_Status(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -46,6 +60,18 @@ func EncodeEc2ClientVpnEndpoint_Description(p Ec2ClientVpnEndpointParameters, va
 	vals["description"] = cty.StringVal(p.Description)
 }
 
+func EncodeEc2ClientVpnEndpoint_Id(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2ClientVpnEndpoint_SplitTunnel(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	vals["split_tunnel"] = cty.BoolVal(p.SplitTunnel)
+}
+
+func EncodeEc2ClientVpnEndpoint_TransportProtocol(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	vals["transport_protocol"] = cty.StringVal(p.TransportProtocol)
+}
+
 func EncodeEc2ClientVpnEndpoint_DnsServers(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.DnsServers {
@@ -54,8 +80,8 @@ func EncodeEc2ClientVpnEndpoint_DnsServers(p Ec2ClientVpnEndpointParameters, val
 	vals["dns_servers"] = cty.SetVal(colVals)
 }
 
-func EncodeEc2ClientVpnEndpoint_SplitTunnel(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	vals["split_tunnel"] = cty.BoolVal(p.SplitTunnel)
+func EncodeEc2ClientVpnEndpoint_ServerCertificateArn(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	vals["server_certificate_arn"] = cty.StringVal(p.ServerCertificateArn)
 }
 
 func EncodeEc2ClientVpnEndpoint_Tags(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
@@ -64,40 +90,6 @@ func EncodeEc2ClientVpnEndpoint_Tags(p Ec2ClientVpnEndpointParameters, vals map[
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeEc2ClientVpnEndpoint_TransportProtocol(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	vals["transport_protocol"] = cty.StringVal(p.TransportProtocol)
-}
-
-func EncodeEc2ClientVpnEndpoint_Id(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEc2ClientVpnEndpoint_ServerCertificateArn(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	vals["server_certificate_arn"] = cty.StringVal(p.ServerCertificateArn)
-}
-
-func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions(p ConnectionLogOptions, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogGroup(p, ctyVal)
-	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogStream(p, ctyVal)
-	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_Enabled(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["connection_log_options"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogGroup(p ConnectionLogOptions, vals map[string]cty.Value) {
-	vals["cloudwatch_log_group"] = cty.StringVal(p.CloudwatchLogGroup)
-}
-
-func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogStream(p ConnectionLogOptions, vals map[string]cty.Value) {
-	vals["cloudwatch_log_stream"] = cty.StringVal(p.CloudwatchLogStream)
-}
-
-func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_Enabled(p ConnectionLogOptions, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeEc2ClientVpnEndpoint_AuthenticationOptions(p []AuthenticationOptions, vals map[string]cty.Value) {
@@ -129,14 +121,36 @@ func EncodeEc2ClientVpnEndpoint_AuthenticationOptions_Type(p AuthenticationOptio
 	vals["type"] = cty.StringVal(p.Type)
 }
 
+func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions(p ConnectionLogOptions, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogGroup(p, ctyVal)
+	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogStream(p, ctyVal)
+	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_Enabled(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["connection_log_options"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogGroup(p ConnectionLogOptions, vals map[string]cty.Value) {
+	vals["cloudwatch_log_group"] = cty.StringVal(p.CloudwatchLogGroup)
+}
+
+func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_CloudwatchLogStream(p ConnectionLogOptions, vals map[string]cty.Value) {
+	vals["cloudwatch_log_stream"] = cty.StringVal(p.CloudwatchLogStream)
+}
+
+func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_Enabled(p ConnectionLogOptions, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
 func EncodeEc2ClientVpnEndpoint_Arn(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeEc2ClientVpnEndpoint_Status(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
 func EncodeEc2ClientVpnEndpoint_DnsName(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
 	vals["dns_name"] = cty.StringVal(p.DnsName)
+}
+
+func EncodeEc2ClientVpnEndpoint_Status(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
 }

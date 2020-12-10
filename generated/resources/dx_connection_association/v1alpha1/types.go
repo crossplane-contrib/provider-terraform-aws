@@ -52,9 +52,9 @@ type DxConnectionAssociationSpec struct {
 
 // A DxConnectionAssociationParameters defines the desired state of a DxConnectionAssociation
 type DxConnectionAssociationParameters struct {
+	ConnectionId string `json:"connection_id"`
 	Id           string `json:"id"`
 	LagId        string `json:"lag_id"`
-	ConnectionId string `json:"connection_id"`
 }
 
 // A DxConnectionAssociationStatus defines the observed state of a DxConnectionAssociation

@@ -53,10 +53,10 @@ type DatasyncLocationSmbSpec struct {
 // A DatasyncLocationSmbParameters defines the desired state of a DatasyncLocationSmb
 type DatasyncLocationSmbParameters struct {
 	AgentArns      []string          `json:"agent_arns"`
-	Domain         string            `json:"domain"`
+	Id             string            `json:"id"`
 	User           string            `json:"user"`
 	Tags           map[string]string `json:"tags"`
-	Id             string            `json:"id"`
+	Domain         string            `json:"domain"`
 	Password       string            `json:"password"`
 	ServerHostname string            `json:"server_hostname"`
 	Subdirectory   string            `json:"subdirectory"`

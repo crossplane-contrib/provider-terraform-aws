@@ -17,46 +17,60 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Cloudtrail)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Cloudtrail.")
+	}
+	return EncodeCloudtrail(*r), nil
+}
 
 func EncodeCloudtrail(r Cloudtrail) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudtrail_EnableLogging(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_IncludeGlobalServiceEvents(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeCloudtrail_SnsTopicName(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_S3KeyPrefix(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_EnableLogFileValidation(r.Spec.ForProvider, ctyVal)
 	EncodeCloudtrail_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudtrail_IsMultiRegionTrail(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_IsOrganizationTrail(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_CloudWatchLogsRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_EnableLogFileValidation(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_S3BucketName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudtrail_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCloudtrail_CloudWatchLogsGroupArn(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_S3BucketName(r.Spec.ForProvider, ctyVal)
-	EncodeCloudtrail_S3KeyPrefix(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_EnableLogging(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_IncludeGlobalServiceEvents(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_IsOrganizationTrail(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudtrail_CloudWatchLogsRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeCloudtrail_EventSelector(r.Spec.ForProvider.EventSelector, ctyVal)
 	EncodeCloudtrail_InsightSelector(r.Spec.ForProvider.InsightSelector, ctyVal)
-	EncodeCloudtrail_Arn(r.Status.AtProvider, ctyVal)
 	EncodeCloudtrail_HomeRegion(r.Status.AtProvider, ctyVal)
+	EncodeCloudtrail_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudtrail_EnableLogging(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["enable_logging"] = cty.BoolVal(p.EnableLogging)
-}
-
-func EncodeCloudtrail_IncludeGlobalServiceEvents(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["include_global_service_events"] = cty.BoolVal(p.IncludeGlobalServiceEvents)
-}
-
-func EncodeCloudtrail_Name(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeCloudtrail_KmsKeyId(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
 func EncodeCloudtrail_SnsTopicName(p CloudtrailParameters, vals map[string]cty.Value) {
 	vals["sns_topic_name"] = cty.StringVal(p.SnsTopicName)
+}
+
+func EncodeCloudtrail_S3KeyPrefix(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["s3_key_prefix"] = cty.StringVal(p.S3KeyPrefix)
+}
+
+func EncodeCloudtrail_EnableLogFileValidation(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["enable_log_file_validation"] = cty.BoolVal(p.EnableLogFileValidation)
 }
 
 func EncodeCloudtrail_Id(p CloudtrailParameters, vals map[string]cty.Value) {
@@ -67,16 +81,8 @@ func EncodeCloudtrail_IsMultiRegionTrail(p CloudtrailParameters, vals map[string
 	vals["is_multi_region_trail"] = cty.BoolVal(p.IsMultiRegionTrail)
 }
 
-func EncodeCloudtrail_IsOrganizationTrail(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["is_organization_trail"] = cty.BoolVal(p.IsOrganizationTrail)
-}
-
-func EncodeCloudtrail_CloudWatchLogsRoleArn(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["cloud_watch_logs_role_arn"] = cty.StringVal(p.CloudWatchLogsRoleArn)
-}
-
-func EncodeCloudtrail_EnableLogFileValidation(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["enable_log_file_validation"] = cty.BoolVal(p.EnableLogFileValidation)
+func EncodeCloudtrail_S3BucketName(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["s3_bucket_name"] = cty.StringVal(p.S3BucketName)
 }
 
 func EncodeCloudtrail_Tags(p CloudtrailParameters, vals map[string]cty.Value) {
@@ -91,16 +97,24 @@ func EncodeCloudtrail_CloudWatchLogsGroupArn(p CloudtrailParameters, vals map[st
 	vals["cloud_watch_logs_group_arn"] = cty.StringVal(p.CloudWatchLogsGroupArn)
 }
 
-func EncodeCloudtrail_KmsKeyId(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+func EncodeCloudtrail_EnableLogging(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["enable_logging"] = cty.BoolVal(p.EnableLogging)
 }
 
-func EncodeCloudtrail_S3BucketName(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["s3_bucket_name"] = cty.StringVal(p.S3BucketName)
+func EncodeCloudtrail_IncludeGlobalServiceEvents(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["include_global_service_events"] = cty.BoolVal(p.IncludeGlobalServiceEvents)
 }
 
-func EncodeCloudtrail_S3KeyPrefix(p CloudtrailParameters, vals map[string]cty.Value) {
-	vals["s3_key_prefix"] = cty.StringVal(p.S3KeyPrefix)
+func EncodeCloudtrail_IsOrganizationTrail(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["is_organization_trail"] = cty.BoolVal(p.IsOrganizationTrail)
+}
+
+func EncodeCloudtrail_Name(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCloudtrail_CloudWatchLogsRoleArn(p CloudtrailParameters, vals map[string]cty.Value) {
+	vals["cloud_watch_logs_role_arn"] = cty.StringVal(p.CloudWatchLogsRoleArn)
 }
 
 func EncodeCloudtrail_EventSelector(p []EventSelector, vals map[string]cty.Value) {
@@ -156,10 +170,10 @@ func EncodeCloudtrail_InsightSelector_InsightType(p InsightSelector, vals map[st
 	vals["insight_type"] = cty.StringVal(p.InsightType)
 }
 
-func EncodeCloudtrail_Arn(p CloudtrailObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeCloudtrail_HomeRegion(p CloudtrailObservation, vals map[string]cty.Value) {
 	vals["home_region"] = cty.StringVal(p.HomeRegion)
+}
+
+func EncodeCloudtrail_Arn(p CloudtrailObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

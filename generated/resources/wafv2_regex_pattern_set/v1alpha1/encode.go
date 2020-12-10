@@ -17,32 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Wafv2RegexPatternSet)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Wafv2RegexPatternSet.")
+	}
+	return EncodeWafv2RegexPatternSet(*r), nil
+}
 
 func EncodeWafv2RegexPatternSet(r Wafv2RegexPatternSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafv2RegexPatternSet_Scope(r.Spec.ForProvider, ctyVal)
+	EncodeWafv2RegexPatternSet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Description(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
-	EncodeWafv2RegexPatternSet_Scope(r.Spec.ForProvider, ctyVal)
-	EncodeWafv2RegexPatternSet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_RegularExpression(r.Spec.ForProvider.RegularExpression, ctyVal)
 	EncodeWafv2RegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_LockToken(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafv2RegexPatternSet_Description(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeWafv2RegexPatternSet_Id(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeWafv2RegexPatternSet_Name(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafv2RegexPatternSet_Scope(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
@@ -55,6 +57,18 @@ func EncodeWafv2RegexPatternSet_Tags(p Wafv2RegexPatternSetParameters, vals map[
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeWafv2RegexPatternSet_Description(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeWafv2RegexPatternSet_Id(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafv2RegexPatternSet_Name(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafv2RegexPatternSet_RegularExpression(p []RegularExpression, vals map[string]cty.Value) {

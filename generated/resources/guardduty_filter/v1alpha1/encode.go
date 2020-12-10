@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GuarddutyFilter)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GuarddutyFilter.")
+	}
+	return EncodeGuarddutyFilter(*r), nil
+}
 
 func EncodeGuarddutyFilter(r GuarddutyFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -78,28 +92,16 @@ func EncodeGuarddutyFilter_FindingCriteria_Criterion(p []Criterion, vals map[str
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeGuarddutyFilter_FindingCriteria_Criterion_LessThanOrEqual(v, ctyVal)
-		EncodeGuarddutyFilter_FindingCriteria_Criterion_NotEquals(v, ctyVal)
 		EncodeGuarddutyFilter_FindingCriteria_Criterion_Equals(v, ctyVal)
 		EncodeGuarddutyFilter_FindingCriteria_Criterion_Field(v, ctyVal)
 		EncodeGuarddutyFilter_FindingCriteria_Criterion_GreaterThan(v, ctyVal)
 		EncodeGuarddutyFilter_FindingCriteria_Criterion_GreaterThanOrEqual(v, ctyVal)
 		EncodeGuarddutyFilter_FindingCriteria_Criterion_LessThan(v, ctyVal)
+		EncodeGuarddutyFilter_FindingCriteria_Criterion_LessThanOrEqual(v, ctyVal)
+		EncodeGuarddutyFilter_FindingCriteria_Criterion_NotEquals(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["criterion"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeGuarddutyFilter_FindingCriteria_Criterion_LessThanOrEqual(p Criterion, vals map[string]cty.Value) {
-	vals["less_than_or_equal"] = cty.StringVal(p.LessThanOrEqual)
-}
-
-func EncodeGuarddutyFilter_FindingCriteria_Criterion_NotEquals(p Criterion, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.NotEquals {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["not_equals"] = cty.ListVal(colVals)
 }
 
 func EncodeGuarddutyFilter_FindingCriteria_Criterion_Equals(p Criterion, vals map[string]cty.Value) {
@@ -124,6 +126,18 @@ func EncodeGuarddutyFilter_FindingCriteria_Criterion_GreaterThanOrEqual(p Criter
 
 func EncodeGuarddutyFilter_FindingCriteria_Criterion_LessThan(p Criterion, vals map[string]cty.Value) {
 	vals["less_than"] = cty.StringVal(p.LessThan)
+}
+
+func EncodeGuarddutyFilter_FindingCriteria_Criterion_LessThanOrEqual(p Criterion, vals map[string]cty.Value) {
+	vals["less_than_or_equal"] = cty.StringVal(p.LessThanOrEqual)
+}
+
+func EncodeGuarddutyFilter_FindingCriteria_Criterion_NotEquals(p Criterion, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.NotEquals {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["not_equals"] = cty.ListVal(colVals)
 }
 
 func EncodeGuarddutyFilter_Arn(p GuarddutyFilterObservation, vals map[string]cty.Value) {

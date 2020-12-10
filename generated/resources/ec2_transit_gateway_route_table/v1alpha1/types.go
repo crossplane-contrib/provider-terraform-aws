@@ -52,9 +52,9 @@ type Ec2TransitGatewayRouteTableSpec struct {
 
 // A Ec2TransitGatewayRouteTableParameters defines the desired state of a Ec2TransitGatewayRouteTable
 type Ec2TransitGatewayRouteTableParameters struct {
-	Id               string            `json:"id"`
 	Tags             map[string]string `json:"tags"`
 	TransitGatewayId string            `json:"transit_gateway_id"`
+	Id               string            `json:"id"`
 }
 
 // A Ec2TransitGatewayRouteTableStatus defines the observed state of a Ec2TransitGatewayRouteTable

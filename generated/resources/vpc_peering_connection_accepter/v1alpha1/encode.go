@@ -17,27 +17,37 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*VpcPeeringConnectionAccepter)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a VpcPeeringConnectionAccepter.")
+	}
+	return EncodeVpcPeeringConnectionAccepter(*r), nil
+}
 
 func EncodeVpcPeeringConnectionAccepter(r VpcPeeringConnectionAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcPeeringConnectionAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_AutoAccept(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_VpcPeeringConnectionId(r.Spec.ForProvider, ctyVal)
+	EncodeVpcPeeringConnectionAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_Accepter(r.Spec.ForProvider.Accepter, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_Requester(r.Spec.ForProvider.Requester, ctyVal)
+	EncodeVpcPeeringConnectionAccepter_PeerVpcId(r.Status.AtProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_AcceptStatus(r.Status.AtProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_PeerOwnerId(r.Status.AtProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_PeerRegion(r.Status.AtProvider, ctyVal)
-	EncodeVpcPeeringConnectionAccepter_PeerVpcId(r.Status.AtProvider, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_VpcId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcPeeringConnectionAccepter_Id(p VpcPeeringConnectionAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVpcPeeringConnectionAccepter_AutoAccept(p VpcPeeringConnectionAccepterParameters, vals map[string]cty.Value) {
@@ -56,18 +66,18 @@ func EncodeVpcPeeringConnectionAccepter_VpcPeeringConnectionId(p VpcPeeringConne
 	vals["vpc_peering_connection_id"] = cty.StringVal(p.VpcPeeringConnectionId)
 }
 
+func EncodeVpcPeeringConnectionAccepter_Id(p VpcPeeringConnectionAccepterParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeVpcPeeringConnectionAccepter_Accepter(p Accepter, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcPeeringConnectionAccepter_Accepter_AllowRemoteVpcDnsResolution(p, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_Accepter_AllowVpcToRemoteClassicLink(p, ctyVal)
 	EncodeVpcPeeringConnectionAccepter_Accepter_AllowClassicLinkToRemoteVpc(p, ctyVal)
+	EncodeVpcPeeringConnectionAccepter_Accepter_AllowRemoteVpcDnsResolution(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["accepter"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeVpcPeeringConnectionAccepter_Accepter_AllowRemoteVpcDnsResolution(p Accepter, vals map[string]cty.Value) {
-	vals["allow_remote_vpc_dns_resolution"] = cty.BoolVal(p.AllowRemoteVpcDnsResolution)
 }
 
 func EncodeVpcPeeringConnectionAccepter_Accepter_AllowVpcToRemoteClassicLink(p Accepter, vals map[string]cty.Value) {
@@ -76,6 +86,10 @@ func EncodeVpcPeeringConnectionAccepter_Accepter_AllowVpcToRemoteClassicLink(p A
 
 func EncodeVpcPeeringConnectionAccepter_Accepter_AllowClassicLinkToRemoteVpc(p Accepter, vals map[string]cty.Value) {
 	vals["allow_classic_link_to_remote_vpc"] = cty.BoolVal(p.AllowClassicLinkToRemoteVpc)
+}
+
+func EncodeVpcPeeringConnectionAccepter_Accepter_AllowRemoteVpcDnsResolution(p Accepter, vals map[string]cty.Value) {
+	vals["allow_remote_vpc_dns_resolution"] = cty.BoolVal(p.AllowRemoteVpcDnsResolution)
 }
 
 func EncodeVpcPeeringConnectionAccepter_Requester(p Requester, vals map[string]cty.Value) {
@@ -100,6 +114,10 @@ func EncodeVpcPeeringConnectionAccepter_Requester_AllowVpcToRemoteClassicLink(p 
 	vals["allow_vpc_to_remote_classic_link"] = cty.BoolVal(p.AllowVpcToRemoteClassicLink)
 }
 
+func EncodeVpcPeeringConnectionAccepter_PeerVpcId(p VpcPeeringConnectionAccepterObservation, vals map[string]cty.Value) {
+	vals["peer_vpc_id"] = cty.StringVal(p.PeerVpcId)
+}
+
 func EncodeVpcPeeringConnectionAccepter_AcceptStatus(p VpcPeeringConnectionAccepterObservation, vals map[string]cty.Value) {
 	vals["accept_status"] = cty.StringVal(p.AcceptStatus)
 }
@@ -110,10 +128,6 @@ func EncodeVpcPeeringConnectionAccepter_PeerOwnerId(p VpcPeeringConnectionAccept
 
 func EncodeVpcPeeringConnectionAccepter_PeerRegion(p VpcPeeringConnectionAccepterObservation, vals map[string]cty.Value) {
 	vals["peer_region"] = cty.StringVal(p.PeerRegion)
-}
-
-func EncodeVpcPeeringConnectionAccepter_PeerVpcId(p VpcPeeringConnectionAccepterObservation, vals map[string]cty.Value) {
-	vals["peer_vpc_id"] = cty.StringVal(p.PeerVpcId)
 }
 
 func EncodeVpcPeeringConnectionAccepter_VpcId(p VpcPeeringConnectionAccepterObservation, vals map[string]cty.Value) {

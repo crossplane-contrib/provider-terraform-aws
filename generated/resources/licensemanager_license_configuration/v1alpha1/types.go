@@ -52,14 +52,14 @@ type LicensemanagerLicenseConfigurationSpec struct {
 
 // A LicensemanagerLicenseConfigurationParameters defines the desired state of a LicensemanagerLicenseConfiguration
 type LicensemanagerLicenseConfigurationParameters struct {
-	LicenseCountingType   string            `json:"license_counting_type"`
-	LicenseRules          []string          `json:"license_rules"`
-	Name                  string            `json:"name"`
 	Tags                  map[string]string `json:"tags"`
 	Description           string            `json:"description"`
 	Id                    string            `json:"id"`
 	LicenseCount          int64             `json:"license_count"`
 	LicenseCountHardLimit bool              `json:"license_count_hard_limit"`
+	LicenseCountingType   string            `json:"license_counting_type"`
+	LicenseRules          []string          `json:"license_rules"`
+	Name                  string            `json:"name"`
 }
 
 // A LicensemanagerLicenseConfigurationStatus defines the observed state of a LicensemanagerLicenseConfiguration

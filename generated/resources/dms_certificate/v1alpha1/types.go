@@ -52,10 +52,10 @@ type DmsCertificateSpec struct {
 
 // A DmsCertificateParameters defines the desired state of a DmsCertificate
 type DmsCertificateParameters struct {
-	CertificateId     string `json:"certificate_id"`
-	CertificatePem    string `json:"certificate_pem"`
 	CertificateWallet string `json:"certificate_wallet"`
 	Id                string `json:"id"`
+	CertificateId     string `json:"certificate_id"`
+	CertificatePem    string `json:"certificate_pem"`
 }
 
 // A DmsCertificateStatus defines the observed state of a DmsCertificate

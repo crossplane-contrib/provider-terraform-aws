@@ -17,23 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DatasyncLocationNfs)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DatasyncLocationNfs.")
+	}
+	return EncodeDatasyncLocationNfs(*r), nil
+}
 
 func EncodeDatasyncLocationNfs(r DatasyncLocationNfs) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatasyncLocationNfs_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_ServerHostname(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Subdirectory(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationNfs_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationNfs_OnPremConfig(r.Spec.ForProvider.OnPremConfig, ctyVal)
 	EncodeDatasyncLocationNfs_Uri(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationNfs_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatasyncLocationNfs_Id(p DatasyncLocationNfsParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDatasyncLocationNfs_ServerHostname(p DatasyncLocationNfsParameters, vals map[string]cty.Value) {
@@ -50,6 +60,10 @@ func EncodeDatasyncLocationNfs_Tags(p DatasyncLocationNfsParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDatasyncLocationNfs_Id(p DatasyncLocationNfsParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDatasyncLocationNfs_OnPremConfig(p OnPremConfig, vals map[string]cty.Value) {

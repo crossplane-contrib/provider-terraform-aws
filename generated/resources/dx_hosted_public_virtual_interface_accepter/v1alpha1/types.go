@@ -59,8 +59,8 @@ type DxHostedPublicVirtualInterfaceAccepterParameters struct {
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A DxHostedPublicVirtualInterfaceAccepterStatus defines the observed state of a DxHostedPublicVirtualInterfaceAccepter

@@ -121,17 +121,17 @@ func (in *OrganizationsOrganizationObservation) DeepCopyInto(out *OrganizationsO
 		*out = make([]NonMasterAccounts, len(*in))
 		copy(*out, *in)
 	}
-	if in.Accounts != nil {
-		in, out := &in.Accounts, &out.Accounts
-		*out = make([]Accounts, len(*in))
-		copy(*out, *in)
-	}
 	if in.Roots != nil {
 		in, out := &in.Roots, &out.Roots
 		*out = make([]Roots, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.Accounts != nil {
+		in, out := &in.Accounts, &out.Accounts
+		*out = make([]Accounts, len(*in))
+		copy(*out, *in)
 	}
 }
 

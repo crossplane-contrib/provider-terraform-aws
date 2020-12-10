@@ -17,47 +17,39 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*VpcPeeringConnectionOptions)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a VpcPeeringConnectionOptions.")
+	}
+	return EncodeVpcPeeringConnectionOptions(*r), nil
+}
 
 func EncodeVpcPeeringConnectionOptions(r VpcPeeringConnectionOptions) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcPeeringConnectionOptions_VpcPeeringConnectionId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnectionOptions_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpcPeeringConnectionOptions_Requester(r.Spec.ForProvider.Requester, ctyVal)
+	EncodeVpcPeeringConnectionOptions_VpcPeeringConnectionId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnectionOptions_Accepter(r.Spec.ForProvider.Accepter, ctyVal)
+	EncodeVpcPeeringConnectionOptions_Requester(r.Spec.ForProvider.Requester, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcPeeringConnectionOptions_VpcPeeringConnectionId(p VpcPeeringConnectionOptionsParameters, vals map[string]cty.Value) {
-	vals["vpc_peering_connection_id"] = cty.StringVal(p.VpcPeeringConnectionId)
 }
 
 func EncodeVpcPeeringConnectionOptions_Id(p VpcPeeringConnectionOptionsParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeVpcPeeringConnectionOptions_Requester(p Requester, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVpcPeeringConnectionOptions_Requester_AllowClassicLinkToRemoteVpc(p, ctyVal)
-	EncodeVpcPeeringConnectionOptions_Requester_AllowRemoteVpcDnsResolution(p, ctyVal)
-	EncodeVpcPeeringConnectionOptions_Requester_AllowVpcToRemoteClassicLink(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["requester"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeVpcPeeringConnectionOptions_Requester_AllowClassicLinkToRemoteVpc(p Requester, vals map[string]cty.Value) {
-	vals["allow_classic_link_to_remote_vpc"] = cty.BoolVal(p.AllowClassicLinkToRemoteVpc)
-}
-
-func EncodeVpcPeeringConnectionOptions_Requester_AllowRemoteVpcDnsResolution(p Requester, vals map[string]cty.Value) {
-	vals["allow_remote_vpc_dns_resolution"] = cty.BoolVal(p.AllowRemoteVpcDnsResolution)
-}
-
-func EncodeVpcPeeringConnectionOptions_Requester_AllowVpcToRemoteClassicLink(p Requester, vals map[string]cty.Value) {
-	vals["allow_vpc_to_remote_classic_link"] = cty.BoolVal(p.AllowVpcToRemoteClassicLink)
+func EncodeVpcPeeringConnectionOptions_VpcPeeringConnectionId(p VpcPeeringConnectionOptionsParameters, vals map[string]cty.Value) {
+	vals["vpc_peering_connection_id"] = cty.StringVal(p.VpcPeeringConnectionId)
 }
 
 func EncodeVpcPeeringConnectionOptions_Accepter(p Accepter, vals map[string]cty.Value) {
@@ -80,4 +72,26 @@ func EncodeVpcPeeringConnectionOptions_Accepter_AllowRemoteVpcDnsResolution(p Ac
 
 func EncodeVpcPeeringConnectionOptions_Accepter_AllowVpcToRemoteClassicLink(p Accepter, vals map[string]cty.Value) {
 	vals["allow_vpc_to_remote_classic_link"] = cty.BoolVal(p.AllowVpcToRemoteClassicLink)
+}
+
+func EncodeVpcPeeringConnectionOptions_Requester(p Requester, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVpcPeeringConnectionOptions_Requester_AllowVpcToRemoteClassicLink(p, ctyVal)
+	EncodeVpcPeeringConnectionOptions_Requester_AllowClassicLinkToRemoteVpc(p, ctyVal)
+	EncodeVpcPeeringConnectionOptions_Requester_AllowRemoteVpcDnsResolution(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["requester"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeVpcPeeringConnectionOptions_Requester_AllowVpcToRemoteClassicLink(p Requester, vals map[string]cty.Value) {
+	vals["allow_vpc_to_remote_classic_link"] = cty.BoolVal(p.AllowVpcToRemoteClassicLink)
+}
+
+func EncodeVpcPeeringConnectionOptions_Requester_AllowClassicLinkToRemoteVpc(p Requester, vals map[string]cty.Value) {
+	vals["allow_classic_link_to_remote_vpc"] = cty.BoolVal(p.AllowClassicLinkToRemoteVpc)
+}
+
+func EncodeVpcPeeringConnectionOptions_Requester_AllowRemoteVpcDnsResolution(p Requester, vals map[string]cty.Value) {
+	vals["allow_remote_vpc_dns_resolution"] = cty.BoolVal(p.AllowRemoteVpcDnsResolution)
 }

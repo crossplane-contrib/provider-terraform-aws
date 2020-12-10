@@ -32,17 +32,17 @@ func (in *Action) DeepCopyInto(out *Action) {
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.OutputArtifacts != nil {
+		in, out := &in.OutputArtifacts, &out.OutputArtifacts
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	if in.Configuration != nil {
 		in, out := &in.Configuration, &out.Configuration
 		*out = make(map[string]string, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.OutputArtifacts != nil {
-		in, out := &in.OutputArtifacts, &out.OutputArtifacts
-		*out = make([]string, len(*in))
-		copy(*out, *in)
 	}
 }
 
@@ -156,17 +156,17 @@ func (in *CodepipelineParameters) DeepCopyInto(out *CodepipelineParameters) {
 			(*out)[key] = val
 		}
 	}
+	if in.ArtifactStore != nil {
+		in, out := &in.ArtifactStore, &out.ArtifactStore
+		*out = make([]ArtifactStore, len(*in))
+		copy(*out, *in)
+	}
 	if in.Stage != nil {
 		in, out := &in.Stage, &out.Stage
 		*out = make([]Stage, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.ArtifactStore != nil {
-		in, out := &in.ArtifactStore, &out.ArtifactStore
-		*out = make([]ArtifactStore, len(*in))
-		copy(*out, *in)
 	}
 }
 

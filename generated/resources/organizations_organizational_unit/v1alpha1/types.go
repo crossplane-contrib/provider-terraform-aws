@@ -52,9 +52,9 @@ type OrganizationsOrganizationalUnitSpec struct {
 
 // A OrganizationsOrganizationalUnitParameters defines the desired state of a OrganizationsOrganizationalUnit
 type OrganizationsOrganizationalUnitParameters struct {
-	ParentId string `json:"parent_id"`
 	Id       string `json:"id"`
 	Name     string `json:"name"`
+	ParentId string `json:"parent_id"`
 }
 
 // A OrganizationsOrganizationalUnitStatus defines the observed state of a OrganizationsOrganizationalUnit

@@ -17,25 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Route53VpcAssociationAuthorization)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Route53VpcAssociationAuthorization.")
+	}
+	return EncodeRoute53VpcAssociationAuthorization(*r), nil
+}
 
 func EncodeRoute53VpcAssociationAuthorization(r Route53VpcAssociationAuthorization) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53VpcAssociationAuthorization_VpcRegion(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53VpcAssociationAuthorization_ZoneId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53VpcAssociationAuthorization_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53VpcAssociationAuthorization_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53VpcAssociationAuthorization_VpcRegion(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53VpcAssociationAuthorization_ZoneId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53VpcAssociationAuthorization_VpcRegion(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
-	vals["vpc_region"] = cty.StringVal(p.VpcRegion)
-}
-
-func EncodeRoute53VpcAssociationAuthorization_ZoneId(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
-	vals["zone_id"] = cty.StringVal(p.ZoneId)
 }
 
 func EncodeRoute53VpcAssociationAuthorization_Id(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
@@ -44,4 +50,12 @@ func EncodeRoute53VpcAssociationAuthorization_Id(p Route53VpcAssociationAuthoriz
 
 func EncodeRoute53VpcAssociationAuthorization_VpcId(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeRoute53VpcAssociationAuthorization_VpcRegion(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
+	vals["vpc_region"] = cty.StringVal(p.VpcRegion)
+}
+
+func EncodeRoute53VpcAssociationAuthorization_ZoneId(p Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
+	vals["zone_id"] = cty.StringVal(p.ZoneId)
 }

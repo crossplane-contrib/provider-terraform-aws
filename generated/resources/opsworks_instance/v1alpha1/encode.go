@@ -17,53 +17,67 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*OpsworksInstance)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a OpsworksInstance.")
+	}
+	return EncodeOpsworksInstance(*r), nil
+}
 
 func EncodeOpsworksInstance(r OpsworksInstance) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksInstance_Os(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_PublicIp(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksInstance_SshHostRsaKeyFingerprint(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_State(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_InstallUpdatesOnBoot(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_LayerIds(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_RegisteredBy(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_Tenancy(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_Id(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_InstanceType(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_SubnetId(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_VirtualizationType(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_AutoScalingType(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_Platform(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksInstance_PrivateDns(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_SshHostDsaKeyFingerprint(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_AgentVersion(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_DeleteEip(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_LayerIds(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_ReportedOsVersion(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_InstanceType(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_RegisteredBy(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_EbsOptimized(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_InstallUpdatesOnBoot(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_RootDeviceVolumeId(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_ReportedOsName(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_AmiId(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_Hostname(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_InstanceProfileArn(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_ReportedOsFamily(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_InfrastructureClass(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_PrivateIp(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksInstance_PublicDns(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksInstance_ReportedAgentVersion(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_StackId(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_AgentVersion(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_AmiId(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_Platform(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_DeleteEip(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_InfrastructureClass(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_ReportedOsFamily(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_ReportedOsName(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_RootDeviceType(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksInstance_Architecture(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_AutoScalingType(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_AvailabilityZone(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_RootDeviceVolumeId(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_VirtualizationType(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_SshKeyName(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_EbsOptimized(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_ElasticIp(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_InstanceProfileArn(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_Status(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_EcsClusterArn(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_LastServiceErrorId(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_CreatedAt(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksInstance_DeleteEbs(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_PrivateIp(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_SubnetId(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_Hostname(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_ReportedOsVersion(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksInstance_SshHostDsaKeyFingerprint(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_EcsClusterArn(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_RootDeviceType(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_State(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_Tenancy(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_StackId(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_ElasticIp(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_Id(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_PublicIp(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_SshKeyName(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_CreatedAt(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_LastServiceErrorId(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_Os(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksInstance_Status(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksInstance_EbsBlockDevice(r.Spec.ForProvider.EbsBlockDevice, ctyVal)
 	EncodeOpsworksInstance_EphemeralBlockDevice(r.Spec.ForProvider.EphemeralBlockDevice, ctyVal)
 	EncodeOpsworksInstance_RootBlockDevice(r.Spec.ForProvider.RootBlockDevice, ctyVal)
@@ -72,24 +86,40 @@ func EncodeOpsworksInstance(r OpsworksInstance) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeOpsworksInstance_Os(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["os"] = cty.StringVal(p.Os)
-}
-
-func EncodeOpsworksInstance_PublicIp(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["public_ip"] = cty.StringVal(p.PublicIp)
-}
-
 func EncodeOpsworksInstance_SshHostRsaKeyFingerprint(p OpsworksInstanceParameters, vals map[string]cty.Value) {
 	vals["ssh_host_rsa_key_fingerprint"] = cty.StringVal(p.SshHostRsaKeyFingerprint)
 }
 
-func EncodeOpsworksInstance_State(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["state"] = cty.StringVal(p.State)
+func EncodeOpsworksInstance_SubnetId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
-func EncodeOpsworksInstance_InstallUpdatesOnBoot(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["install_updates_on_boot"] = cty.BoolVal(p.InstallUpdatesOnBoot)
+func EncodeOpsworksInstance_VirtualizationType(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["virtualization_type"] = cty.StringVal(p.VirtualizationType)
+}
+
+func EncodeOpsworksInstance_AutoScalingType(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["auto_scaling_type"] = cty.StringVal(p.AutoScalingType)
+}
+
+func EncodeOpsworksInstance_Platform(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["platform"] = cty.StringVal(p.Platform)
+}
+
+func EncodeOpsworksInstance_PrivateDns(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["private_dns"] = cty.StringVal(p.PrivateDns)
+}
+
+func EncodeOpsworksInstance_SshHostDsaKeyFingerprint(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["ssh_host_dsa_key_fingerprint"] = cty.StringVal(p.SshHostDsaKeyFingerprint)
+}
+
+func EncodeOpsworksInstance_AgentVersion(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["agent_version"] = cty.StringVal(p.AgentVersion)
+}
+
+func EncodeOpsworksInstance_DeleteEip(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["delete_eip"] = cty.BoolVal(p.DeleteEip)
 }
 
 func EncodeOpsworksInstance_LayerIds(p OpsworksInstanceParameters, vals map[string]cty.Value) {
@@ -100,24 +130,60 @@ func EncodeOpsworksInstance_LayerIds(p OpsworksInstanceParameters, vals map[stri
 	vals["layer_ids"] = cty.ListVal(colVals)
 }
 
-func EncodeOpsworksInstance_RegisteredBy(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["registered_by"] = cty.StringVal(p.RegisteredBy)
+func EncodeOpsworksInstance_ReportedOsVersion(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["reported_os_version"] = cty.StringVal(p.ReportedOsVersion)
 }
 
-func EncodeOpsworksInstance_Tenancy(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["tenancy"] = cty.StringVal(p.Tenancy)
-}
-
-func EncodeOpsworksInstance_Id(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeOpsworksInstance_AvailabilityZone(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeOpsworksInstance_InstanceType(p OpsworksInstanceParameters, vals map[string]cty.Value) {
 	vals["instance_type"] = cty.StringVal(p.InstanceType)
 }
 
-func EncodeOpsworksInstance_PrivateDns(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["private_dns"] = cty.StringVal(p.PrivateDns)
+func EncodeOpsworksInstance_RegisteredBy(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["registered_by"] = cty.StringVal(p.RegisteredBy)
+}
+
+func EncodeOpsworksInstance_EbsOptimized(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["ebs_optimized"] = cty.BoolVal(p.EbsOptimized)
+}
+
+func EncodeOpsworksInstance_InstallUpdatesOnBoot(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["install_updates_on_boot"] = cty.BoolVal(p.InstallUpdatesOnBoot)
+}
+
+func EncodeOpsworksInstance_RootDeviceVolumeId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["root_device_volume_id"] = cty.StringVal(p.RootDeviceVolumeId)
+}
+
+func EncodeOpsworksInstance_ReportedOsName(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["reported_os_name"] = cty.StringVal(p.ReportedOsName)
+}
+
+func EncodeOpsworksInstance_AmiId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["ami_id"] = cty.StringVal(p.AmiId)
+}
+
+func EncodeOpsworksInstance_Hostname(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["hostname"] = cty.StringVal(p.Hostname)
+}
+
+func EncodeOpsworksInstance_InstanceProfileArn(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["instance_profile_arn"] = cty.StringVal(p.InstanceProfileArn)
+}
+
+func EncodeOpsworksInstance_ReportedOsFamily(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["reported_os_family"] = cty.StringVal(p.ReportedOsFamily)
+}
+
+func EncodeOpsworksInstance_InfrastructureClass(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["infrastructure_class"] = cty.StringVal(p.InfrastructureClass)
+}
+
+func EncodeOpsworksInstance_PrivateIp(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["private_ip"] = cty.StringVal(p.PrivateIp)
 }
 
 func EncodeOpsworksInstance_PublicDns(p OpsworksInstanceParameters, vals map[string]cty.Value) {
@@ -128,88 +194,20 @@ func EncodeOpsworksInstance_ReportedAgentVersion(p OpsworksInstanceParameters, v
 	vals["reported_agent_version"] = cty.StringVal(p.ReportedAgentVersion)
 }
 
-func EncodeOpsworksInstance_StackId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["stack_id"] = cty.StringVal(p.StackId)
-}
-
-func EncodeOpsworksInstance_AgentVersion(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["agent_version"] = cty.StringVal(p.AgentVersion)
-}
-
-func EncodeOpsworksInstance_AmiId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["ami_id"] = cty.StringVal(p.AmiId)
-}
-
-func EncodeOpsworksInstance_Platform(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["platform"] = cty.StringVal(p.Platform)
-}
-
-func EncodeOpsworksInstance_DeleteEip(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["delete_eip"] = cty.BoolVal(p.DeleteEip)
-}
-
-func EncodeOpsworksInstance_InfrastructureClass(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["infrastructure_class"] = cty.StringVal(p.InfrastructureClass)
-}
-
-func EncodeOpsworksInstance_ReportedOsFamily(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["reported_os_family"] = cty.StringVal(p.ReportedOsFamily)
-}
-
-func EncodeOpsworksInstance_ReportedOsName(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["reported_os_name"] = cty.StringVal(p.ReportedOsName)
-}
-
-func EncodeOpsworksInstance_RootDeviceType(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["root_device_type"] = cty.StringVal(p.RootDeviceType)
-}
-
 func EncodeOpsworksInstance_Architecture(p OpsworksInstanceParameters, vals map[string]cty.Value) {
 	vals["architecture"] = cty.StringVal(p.Architecture)
 }
 
-func EncodeOpsworksInstance_AutoScalingType(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["auto_scaling_type"] = cty.StringVal(p.AutoScalingType)
-}
-
-func EncodeOpsworksInstance_AvailabilityZone(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
-}
-
-func EncodeOpsworksInstance_RootDeviceVolumeId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["root_device_volume_id"] = cty.StringVal(p.RootDeviceVolumeId)
-}
-
-func EncodeOpsworksInstance_VirtualizationType(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["virtualization_type"] = cty.StringVal(p.VirtualizationType)
-}
-
-func EncodeOpsworksInstance_SshKeyName(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["ssh_key_name"] = cty.StringVal(p.SshKeyName)
-}
-
-func EncodeOpsworksInstance_EbsOptimized(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["ebs_optimized"] = cty.BoolVal(p.EbsOptimized)
-}
-
-func EncodeOpsworksInstance_ElasticIp(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["elastic_ip"] = cty.StringVal(p.ElasticIp)
-}
-
-func EncodeOpsworksInstance_InstanceProfileArn(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["instance_profile_arn"] = cty.StringVal(p.InstanceProfileArn)
-}
-
-func EncodeOpsworksInstance_Status(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
+func EncodeOpsworksInstance_DeleteEbs(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["delete_ebs"] = cty.BoolVal(p.DeleteEbs)
 }
 
 func EncodeOpsworksInstance_EcsClusterArn(p OpsworksInstanceParameters, vals map[string]cty.Value) {
 	vals["ecs_cluster_arn"] = cty.StringVal(p.EcsClusterArn)
 }
 
-func EncodeOpsworksInstance_LastServiceErrorId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["last_service_error_id"] = cty.StringVal(p.LastServiceErrorId)
+func EncodeOpsworksInstance_RootDeviceType(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["root_device_type"] = cty.StringVal(p.RootDeviceType)
 }
 
 func EncodeOpsworksInstance_SecurityGroupIds(p OpsworksInstanceParameters, vals map[string]cty.Value) {
@@ -220,45 +218,69 @@ func EncodeOpsworksInstance_SecurityGroupIds(p OpsworksInstanceParameters, vals 
 	vals["security_group_ids"] = cty.ListVal(colVals)
 }
 
+func EncodeOpsworksInstance_State(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["state"] = cty.StringVal(p.State)
+}
+
+func EncodeOpsworksInstance_Tenancy(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["tenancy"] = cty.StringVal(p.Tenancy)
+}
+
+func EncodeOpsworksInstance_StackId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["stack_id"] = cty.StringVal(p.StackId)
+}
+
+func EncodeOpsworksInstance_ElasticIp(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["elastic_ip"] = cty.StringVal(p.ElasticIp)
+}
+
+func EncodeOpsworksInstance_Id(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeOpsworksInstance_PublicIp(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["public_ip"] = cty.StringVal(p.PublicIp)
+}
+
+func EncodeOpsworksInstance_SshKeyName(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["ssh_key_name"] = cty.StringVal(p.SshKeyName)
+}
+
 func EncodeOpsworksInstance_CreatedAt(p OpsworksInstanceParameters, vals map[string]cty.Value) {
 	vals["created_at"] = cty.StringVal(p.CreatedAt)
 }
 
-func EncodeOpsworksInstance_DeleteEbs(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["delete_ebs"] = cty.BoolVal(p.DeleteEbs)
+func EncodeOpsworksInstance_LastServiceErrorId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["last_service_error_id"] = cty.StringVal(p.LastServiceErrorId)
 }
 
-func EncodeOpsworksInstance_PrivateIp(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["private_ip"] = cty.StringVal(p.PrivateIp)
+func EncodeOpsworksInstance_Os(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["os"] = cty.StringVal(p.Os)
 }
 
-func EncodeOpsworksInstance_SubnetId(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
-}
-
-func EncodeOpsworksInstance_Hostname(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["hostname"] = cty.StringVal(p.Hostname)
-}
-
-func EncodeOpsworksInstance_ReportedOsVersion(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["reported_os_version"] = cty.StringVal(p.ReportedOsVersion)
-}
-
-func EncodeOpsworksInstance_SshHostDsaKeyFingerprint(p OpsworksInstanceParameters, vals map[string]cty.Value) {
-	vals["ssh_host_dsa_key_fingerprint"] = cty.StringVal(p.SshHostDsaKeyFingerprint)
+func EncodeOpsworksInstance_Status(p OpsworksInstanceParameters, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
 }
 
 func EncodeOpsworksInstance_EbsBlockDevice(p EbsBlockDevice, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeOpsworksInstance_EbsBlockDevice_VolumeType(p, ctyVal)
+	EncodeOpsworksInstance_EbsBlockDevice_DeleteOnTermination(p, ctyVal)
 	EncodeOpsworksInstance_EbsBlockDevice_DeviceName(p, ctyVal)
 	EncodeOpsworksInstance_EbsBlockDevice_Iops(p, ctyVal)
 	EncodeOpsworksInstance_EbsBlockDevice_SnapshotId(p, ctyVal)
 	EncodeOpsworksInstance_EbsBlockDevice_VolumeSize(p, ctyVal)
-	EncodeOpsworksInstance_EbsBlockDevice_VolumeType(p, ctyVal)
-	EncodeOpsworksInstance_EbsBlockDevice_DeleteOnTermination(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["ebs_block_device"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeOpsworksInstance_EbsBlockDevice_VolumeType(p EbsBlockDevice, vals map[string]cty.Value) {
+	vals["volume_type"] = cty.StringVal(p.VolumeType)
+}
+
+func EncodeOpsworksInstance_EbsBlockDevice_DeleteOnTermination(p EbsBlockDevice, vals map[string]cty.Value) {
+	vals["delete_on_termination"] = cty.BoolVal(p.DeleteOnTermination)
 }
 
 func EncodeOpsworksInstance_EbsBlockDevice_DeviceName(p EbsBlockDevice, vals map[string]cty.Value) {
@@ -275,14 +297,6 @@ func EncodeOpsworksInstance_EbsBlockDevice_SnapshotId(p EbsBlockDevice, vals map
 
 func EncodeOpsworksInstance_EbsBlockDevice_VolumeSize(p EbsBlockDevice, vals map[string]cty.Value) {
 	vals["volume_size"] = cty.NumberIntVal(p.VolumeSize)
-}
-
-func EncodeOpsworksInstance_EbsBlockDevice_VolumeType(p EbsBlockDevice, vals map[string]cty.Value) {
-	vals["volume_type"] = cty.StringVal(p.VolumeType)
-}
-
-func EncodeOpsworksInstance_EbsBlockDevice_DeleteOnTermination(p EbsBlockDevice, vals map[string]cty.Value) {
-	vals["delete_on_termination"] = cty.BoolVal(p.DeleteOnTermination)
 }
 
 func EncodeOpsworksInstance_EphemeralBlockDevice(p EphemeralBlockDevice, vals map[string]cty.Value) {
@@ -331,10 +345,14 @@ func EncodeOpsworksInstance_RootBlockDevice_VolumeType(p RootBlockDevice, vals m
 
 func EncodeOpsworksInstance_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeOpsworksInstance_Timeouts_Create(p, ctyVal)
 	EncodeOpsworksInstance_Timeouts_Delete(p, ctyVal)
 	EncodeOpsworksInstance_Timeouts_Update(p, ctyVal)
-	EncodeOpsworksInstance_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeOpsworksInstance_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeOpsworksInstance_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
@@ -343,10 +361,6 @@ func EncodeOpsworksInstance_Timeouts_Delete(p Timeouts, vals map[string]cty.Valu
 
 func EncodeOpsworksInstance_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
-}
-
-func EncodeOpsworksInstance_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeOpsworksInstance_Ec2InstanceId(p OpsworksInstanceObservation, vals map[string]cty.Value) {

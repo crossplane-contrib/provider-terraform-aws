@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Wafv2WebAclLoggingConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Wafv2WebAclLoggingConfiguration.")
+	}
+	return EncodeWafv2WebAclLoggingConfiguration(*r), nil
+}
 
 func EncodeWafv2WebAclLoggingConfiguration(r Wafv2WebAclLoggingConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -50,48 +64,16 @@ func EncodeWafv2WebAclLoggingConfiguration_RedactedFields(p []RedactedFields, va
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader(v.SingleHeader, ctyVal)
+		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument(v.SingleQueryArgument, ctyVal)
+		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_UriPath(v.UriPath, ctyVal)
 		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_AllQueryArguments(v.AllQueryArguments, ctyVal)
 		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Body(v.Body, ctyVal)
 		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Method(v.Method, ctyVal)
 		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_QueryString(v.QueryString, ctyVal)
-		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader(v.SingleHeader, ctyVal)
-		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleQueryArgument(v.SingleQueryArgument, ctyVal)
-		EncodeWafv2WebAclLoggingConfiguration_RedactedFields_UriPath(v.UriPath, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["redacted_fields"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_AllQueryArguments(p AllQueryArguments, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["all_query_arguments"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Body(p Body, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["body"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Method(p Method, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["method"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_QueryString(p QueryString, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["query_string"] = cty.ListVal(valsForCollection)
 }
 
 func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_SingleHeader(p SingleHeader, vals map[string]cty.Value) {
@@ -124,4 +106,36 @@ func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_UriPath(p UriPath, val
 
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["uri_path"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_AllQueryArguments(p AllQueryArguments, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["all_query_arguments"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Body(p Body, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["body"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_Method(p Method, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["method"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeWafv2WebAclLoggingConfiguration_RedactedFields_QueryString(p QueryString, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["query_string"] = cty.ListVal(valsForCollection)
 }

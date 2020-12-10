@@ -17,21 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SesReceiptRuleSet)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SesReceiptRuleSet.")
+	}
+	return EncodeSesReceiptRuleSet(*r), nil
+}
 
 func EncodeSesReceiptRuleSet(r SesReceiptRuleSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRuleSet_RuleSetName(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRuleSet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptRuleSet_RuleSetName(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesReceiptRuleSet_RuleSetName(p SesReceiptRuleSetParameters, vals map[string]cty.Value) {
-	vals["rule_set_name"] = cty.StringVal(p.RuleSetName)
-}
-
 func EncodeSesReceiptRuleSet_Id(p SesReceiptRuleSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSesReceiptRuleSet_RuleSetName(p SesReceiptRuleSetParameters, vals map[string]cty.Value) {
+	vals["rule_set_name"] = cty.StringVal(p.RuleSetName)
 }

@@ -52,11 +52,11 @@ type BatchJobDefinitionSpec struct {
 
 // A BatchJobDefinitionParameters defines the desired state of a BatchJobDefinition
 type BatchJobDefinitionParameters struct {
+	Parameters          map[string]string `json:"parameters"`
 	Type                string            `json:"type"`
 	ContainerProperties string            `json:"container_properties"`
 	Id                  string            `json:"id"`
 	Name                string            `json:"name"`
-	Parameters          map[string]string `json:"parameters"`
 	RetryStrategy       RetryStrategy     `json:"retry_strategy"`
 	Timeout             Timeout           `json:"timeout"`
 }

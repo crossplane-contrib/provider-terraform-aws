@@ -65,6 +65,6 @@ type Ec2TransitGatewayRouteTablePropagationStatus struct {
 
 // A Ec2TransitGatewayRouteTablePropagationObservation records the observed state of a Ec2TransitGatewayRouteTablePropagation
 type Ec2TransitGatewayRouteTablePropagationObservation struct {
-	ResourceId   string `json:"resource_id"`
 	ResourceType string `json:"resource_type"`
+	ResourceId   string `json:"resource_id"`
 }

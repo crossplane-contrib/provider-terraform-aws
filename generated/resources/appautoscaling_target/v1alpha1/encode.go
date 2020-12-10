@@ -17,24 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AppautoscalingTarget)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AppautoscalingTarget.")
+	}
+	return EncodeAppautoscalingTarget(*r), nil
+}
 
 func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppautoscalingTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_MaxCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_MinCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ScalableDimension(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ServiceNamespace(r.Spec.ForProvider, ctyVal)
+	EncodeAppautoscalingTarget_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAppautoscalingTarget_Id(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppautoscalingTarget_MaxCapacity(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
@@ -59,4 +69,8 @@ func EncodeAppautoscalingTarget_ScalableDimension(p AppautoscalingTargetParamete
 
 func EncodeAppautoscalingTarget_ServiceNamespace(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["service_namespace"] = cty.StringVal(p.ServiceNamespace)
+}
+
+func EncodeAppautoscalingTarget_Id(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

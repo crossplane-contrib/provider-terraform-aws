@@ -17,20 +17,42 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DocdbClusterParameterGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DocdbClusterParameterGroup.")
+	}
+	return EncodeDocdbClusterParameterGroup(*r), nil
+}
 
 func EncodeDocdbClusterParameterGroup(r DocdbClusterParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDocdbClusterParameterGroup_Description(r.Spec.ForProvider, ctyVal)
+	EncodeDocdbClusterParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterParameterGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDocdbClusterParameterGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDocdbClusterParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbClusterParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeDocdbClusterParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDocdbClusterParameterGroup_Description(p DocdbClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeDocdbClusterParameterGroup_Family(p DocdbClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["family"] = cty.StringVal(p.Family)
 }
 
 func EncodeDocdbClusterParameterGroup_Id(p DocdbClusterParameterGroupParameters, vals map[string]cty.Value) {
@@ -53,26 +75,14 @@ func EncodeDocdbClusterParameterGroup_Tags(p DocdbClusterParameterGroupParameter
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDocdbClusterParameterGroup_Description(p DocdbClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDocdbClusterParameterGroup_Family(p DocdbClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["family"] = cty.StringVal(p.Family)
-}
-
 func EncodeDocdbClusterParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDocdbClusterParameterGroup_Parameter_ApplyMethod(p, ctyVal)
 	EncodeDocdbClusterParameterGroup_Parameter_Name(p, ctyVal)
 	EncodeDocdbClusterParameterGroup_Parameter_Value(p, ctyVal)
+	EncodeDocdbClusterParameterGroup_Parameter_ApplyMethod(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["parameter"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeDocdbClusterParameterGroup_Parameter_ApplyMethod(p Parameter, vals map[string]cty.Value) {
-	vals["apply_method"] = cty.StringVal(p.ApplyMethod)
 }
 
 func EncodeDocdbClusterParameterGroup_Parameter_Name(p Parameter, vals map[string]cty.Value) {
@@ -81,6 +91,10 @@ func EncodeDocdbClusterParameterGroup_Parameter_Name(p Parameter, vals map[strin
 
 func EncodeDocdbClusterParameterGroup_Parameter_Value(p Parameter, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeDocdbClusterParameterGroup_Parameter_ApplyMethod(p Parameter, vals map[string]cty.Value) {
+	vals["apply_method"] = cty.StringVal(p.ApplyMethod)
 }
 
 func EncodeDocdbClusterParameterGroup_Arn(p DocdbClusterParameterGroupObservation, vals map[string]cty.Value) {

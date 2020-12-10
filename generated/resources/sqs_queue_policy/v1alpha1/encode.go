@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SqsQueuePolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SqsQueuePolicy.")
+	}
+	return EncodeSqsQueuePolicy(*r), nil
+}
 
 func EncodeSqsQueuePolicy(r SqsQueuePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)

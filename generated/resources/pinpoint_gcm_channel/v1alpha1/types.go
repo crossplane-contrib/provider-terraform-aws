@@ -52,10 +52,10 @@ type PinpointGcmChannelSpec struct {
 
 // A PinpointGcmChannelParameters defines the desired state of a PinpointGcmChannel
 type PinpointGcmChannelParameters struct {
+	Id            string `json:"id"`
 	ApiKey        string `json:"api_key"`
 	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
-	Id            string `json:"id"`
 }
 
 // A PinpointGcmChannelStatus defines the observed state of a PinpointGcmChannel

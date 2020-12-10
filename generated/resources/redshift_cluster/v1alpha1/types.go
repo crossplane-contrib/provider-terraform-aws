@@ -52,48 +52,48 @@ type RedshiftClusterSpec struct {
 
 // A RedshiftClusterParameters defines the desired state of a RedshiftCluster
 type RedshiftClusterParameters struct {
-	NodeType                         string            `json:"node_type"`
-	Port                             int64             `json:"port"`
-	PreferredMaintenanceWindow       string            `json:"preferred_maintenance_window"`
-	PubliclyAccessible               bool              `json:"publicly_accessible"`
-	SnapshotClusterIdentifier        string            `json:"snapshot_cluster_identifier"`
-	SnapshotIdentifier               string            `json:"snapshot_identifier"`
-	Tags                             map[string]string `json:"tags"`
+	AllowVersionUpgrade              bool              `json:"allow_version_upgrade"`
 	ClusterIdentifier                string            `json:"cluster_identifier"`
-	Id                               string            `json:"id"`
-	KmsKeyId                         string            `json:"kms_key_id"`
+	Encrypted                        bool              `json:"encrypted"`
 	MasterPassword                   string            `json:"master_password"`
 	OwnerAccount                     string            `json:"owner_account"`
-	AvailabilityZone                 string            `json:"availability_zone"`
 	ClusterSecurityGroups            []string          `json:"cluster_security_groups"`
-	Encrypted                        bool              `json:"encrypted"`
-	AllowVersionUpgrade              bool              `json:"allow_version_upgrade"`
-	SkipFinalSnapshot                bool              `json:"skip_final_snapshot"`
-	VpcSecurityGroupIds              []string          `json:"vpc_security_group_ids"`
-	AutomatedSnapshotRetentionPeriod int64             `json:"automated_snapshot_retention_period"`
-	DatabaseName                     string            `json:"database_name"`
-	FinalSnapshotIdentifier          string            `json:"final_snapshot_identifier"`
-	IamRoles                         []string          `json:"iam_roles"`
-	NumberOfNodes                    int64             `json:"number_of_nodes"`
-	ClusterParameterGroupName        string            `json:"cluster_parameter_group_name"`
-	ClusterType                      string            `json:"cluster_type"`
-	EnhancedVpcRouting               bool              `json:"enhanced_vpc_routing"`
-	MasterUsername                   string            `json:"master_username"`
-	ClusterRevisionNumber            string            `json:"cluster_revision_number"`
-	ElasticIp                        string            `json:"elastic_ip"`
-	ClusterPublicKey                 string            `json:"cluster_public_key"`
-	ClusterSubnetGroupName           string            `json:"cluster_subnet_group_name"`
 	ClusterVersion                   string            `json:"cluster_version"`
+	EnhancedVpcRouting               bool              `json:"enhanced_vpc_routing"`
+	Tags                             map[string]string `json:"tags"`
+	AutomatedSnapshotRetentionPeriod int64             `json:"automated_snapshot_retention_period"`
+	ClusterPublicKey                 string            `json:"cluster_public_key"`
+	ClusterType                      string            `json:"cluster_type"`
+	NodeType                         string            `json:"node_type"`
+	NumberOfNodes                    int64             `json:"number_of_nodes"`
+	SkipFinalSnapshot                bool              `json:"skip_final_snapshot"`
+	PubliclyAccessible               bool              `json:"publicly_accessible"`
+	FinalSnapshotIdentifier          string            `json:"final_snapshot_identifier"`
+	KmsKeyId                         string            `json:"kms_key_id"`
+	ClusterSubnetGroupName           string            `json:"cluster_subnet_group_name"`
+	DatabaseName                     string            `json:"database_name"`
+	Id                               string            `json:"id"`
+	PreferredMaintenanceWindow       string            `json:"preferred_maintenance_window"`
+	SnapshotIdentifier               string            `json:"snapshot_identifier"`
+	ElasticIp                        string            `json:"elastic_ip"`
 	Endpoint                         string            `json:"endpoint"`
+	IamRoles                         []string          `json:"iam_roles"`
+	MasterUsername                   string            `json:"master_username"`
+	SnapshotClusterIdentifier        string            `json:"snapshot_cluster_identifier"`
+	VpcSecurityGroupIds              []string          `json:"vpc_security_group_ids"`
+	AvailabilityZone                 string            `json:"availability_zone"`
+	ClusterParameterGroupName        string            `json:"cluster_parameter_group_name"`
+	ClusterRevisionNumber            string            `json:"cluster_revision_number"`
+	Port                             int64             `json:"port"`
 	Logging                          Logging           `json:"logging"`
 	SnapshotCopy                     SnapshotCopy      `json:"snapshot_copy"`
 	Timeouts                         Timeouts          `json:"timeouts"`
 }
 
 type Logging struct {
-	S3KeyPrefix string `json:"s3_key_prefix"`
 	BucketName  string `json:"bucket_name"`
 	Enable      bool   `json:"enable"`
+	S3KeyPrefix string `json:"s3_key_prefix"`
 }
 
 type SnapshotCopy struct {
@@ -116,6 +116,6 @@ type RedshiftClusterStatus struct {
 
 // A RedshiftClusterObservation records the observed state of a RedshiftCluster
 type RedshiftClusterObservation struct {
-	DnsName string `json:"dns_name"`
 	Arn     string `json:"arn"`
+	DnsName string `json:"dns_name"`
 }

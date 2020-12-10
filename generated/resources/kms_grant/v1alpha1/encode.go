@@ -17,23 +17,45 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*KmsGrant)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a KmsGrant.")
+	}
+	return EncodeKmsGrant(*r), nil
+}
 
 func EncodeKmsGrant(r KmsGrant) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeKmsGrant_RetireOnDelete(r.Spec.ForProvider, ctyVal)
+	EncodeKmsGrant_RetiringPrincipal(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_GrantCreationTokens(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_GranteePrincipal(r.Spec.ForProvider, ctyVal)
-	EncodeKmsGrant_KeyId(r.Spec.ForProvider, ctyVal)
-	EncodeKmsGrant_RetiringPrincipal(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKmsGrant_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_Name(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_Operations(r.Spec.ForProvider, ctyVal)
-	EncodeKmsGrant_RetireOnDelete(r.Spec.ForProvider, ctyVal)
 	EncodeKmsGrant_Constraints(r.Spec.ForProvider.Constraints, ctyVal)
 	EncodeKmsGrant_GrantId(r.Status.AtProvider, ctyVal)
 	EncodeKmsGrant_GrantToken(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeKmsGrant_RetireOnDelete(p KmsGrantParameters, vals map[string]cty.Value) {
+	vals["retire_on_delete"] = cty.BoolVal(p.RetireOnDelete)
+}
+
+func EncodeKmsGrant_RetiringPrincipal(p KmsGrantParameters, vals map[string]cty.Value) {
+	vals["retiring_principal"] = cty.StringVal(p.RetiringPrincipal)
 }
 
 func EncodeKmsGrant_GrantCreationTokens(p KmsGrantParameters, vals map[string]cty.Value) {
@@ -48,16 +70,12 @@ func EncodeKmsGrant_GranteePrincipal(p KmsGrantParameters, vals map[string]cty.V
 	vals["grantee_principal"] = cty.StringVal(p.GranteePrincipal)
 }
 
-func EncodeKmsGrant_KeyId(p KmsGrantParameters, vals map[string]cty.Value) {
-	vals["key_id"] = cty.StringVal(p.KeyId)
-}
-
-func EncodeKmsGrant_RetiringPrincipal(p KmsGrantParameters, vals map[string]cty.Value) {
-	vals["retiring_principal"] = cty.StringVal(p.RetiringPrincipal)
-}
-
 func EncodeKmsGrant_Id(p KmsGrantParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeKmsGrant_KeyId(p KmsGrantParameters, vals map[string]cty.Value) {
+	vals["key_id"] = cty.StringVal(p.KeyId)
 }
 
 func EncodeKmsGrant_Name(p KmsGrantParameters, vals map[string]cty.Value) {
@@ -70,10 +88,6 @@ func EncodeKmsGrant_Operations(p KmsGrantParameters, vals map[string]cty.Value) 
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["operations"] = cty.SetVal(colVals)
-}
-
-func EncodeKmsGrant_RetireOnDelete(p KmsGrantParameters, vals map[string]cty.Value) {
-	vals["retire_on_delete"] = cty.BoolVal(p.RetireOnDelete)
 }
 
 func EncodeKmsGrant_Constraints(p Constraints, vals map[string]cty.Value) {

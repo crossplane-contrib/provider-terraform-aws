@@ -52,22 +52,22 @@ type Ec2TrafficMirrorFilterRuleSpec struct {
 
 // A Ec2TrafficMirrorFilterRuleParameters defines the desired state of a Ec2TrafficMirrorFilterRule
 type Ec2TrafficMirrorFilterRuleParameters struct {
+	DestinationCidrBlock  string               `json:"destination_cidr_block"`
 	Id                    string               `json:"id"`
 	RuleAction            string               `json:"rule_action"`
 	SourceCidrBlock       string               `json:"source_cidr_block"`
-	RuleNumber            int64                `json:"rule_number"`
 	TrafficDirection      string               `json:"traffic_direction"`
-	TrafficMirrorFilterId string               `json:"traffic_mirror_filter_id"`
 	Description           string               `json:"description"`
-	DestinationCidrBlock  string               `json:"destination_cidr_block"`
 	Protocol              int64                `json:"protocol"`
+	RuleNumber            int64                `json:"rule_number"`
+	TrafficMirrorFilterId string               `json:"traffic_mirror_filter_id"`
 	DestinationPortRange  DestinationPortRange `json:"destination_port_range"`
 	SourcePortRange       SourcePortRange      `json:"source_port_range"`
 }
 
 type DestinationPortRange struct {
-	FromPort int64 `json:"from_port"`
 	ToPort   int64 `json:"to_port"`
+	FromPort int64 `json:"from_port"`
 }
 
 type SourcePortRange struct {

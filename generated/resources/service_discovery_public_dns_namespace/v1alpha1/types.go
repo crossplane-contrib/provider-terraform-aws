@@ -52,10 +52,10 @@ type ServiceDiscoveryPublicDnsNamespaceSpec struct {
 
 // A ServiceDiscoveryPublicDnsNamespaceParameters defines the desired state of a ServiceDiscoveryPublicDnsNamespace
 type ServiceDiscoveryPublicDnsNamespaceParameters struct {
-	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
+	Name        string            `json:"name"`
 }
 
 // A ServiceDiscoveryPublicDnsNamespaceStatus defines the observed state of a ServiceDiscoveryPublicDnsNamespace

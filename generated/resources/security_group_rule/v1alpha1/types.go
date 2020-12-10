@@ -52,18 +52,18 @@ type SecurityGroupRuleSpec struct {
 
 // A SecurityGroupRuleParameters defines the desired state of a SecurityGroupRule
 type SecurityGroupRuleParameters struct {
-	CidrBlocks            []string `json:"cidr_blocks"`
-	Ipv6CidrBlocks        []string `json:"ipv6_cidr_blocks"`
-	ToPort                int64    `json:"to_port"`
-	Type                  string   `json:"type"`
+	PrefixListIds         []string `json:"prefix_list_ids"`
 	Protocol              string   `json:"protocol"`
 	SecurityGroupId       string   `json:"security_group_id"`
 	Self                  bool     `json:"self"`
 	SourceSecurityGroupId string   `json:"source_security_group_id"`
 	Description           string   `json:"description"`
-	FromPort              int64    `json:"from_port"`
 	Id                    string   `json:"id"`
-	PrefixListIds         []string `json:"prefix_list_ids"`
+	Ipv6CidrBlocks        []string `json:"ipv6_cidr_blocks"`
+	ToPort                int64    `json:"to_port"`
+	Type                  string   `json:"type"`
+	CidrBlocks            []string `json:"cidr_blocks"`
+	FromPort              int64    `json:"from_port"`
 }
 
 // A SecurityGroupRuleStatus defines the observed state of a SecurityGroupRule

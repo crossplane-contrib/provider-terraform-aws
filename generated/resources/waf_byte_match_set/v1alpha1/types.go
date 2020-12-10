@@ -58,9 +58,9 @@ type WafByteMatchSetParameters struct {
 }
 
 type ByteMatchTuples struct {
+	PositionalConstraint string       `json:"positional_constraint"`
 	TargetString         string       `json:"target_string"`
 	TextTransformation   string       `json:"text_transformation"`
-	PositionalConstraint string       `json:"positional_constraint"`
 	FieldToMatch         FieldToMatch `json:"field_to_match"`
 }
 

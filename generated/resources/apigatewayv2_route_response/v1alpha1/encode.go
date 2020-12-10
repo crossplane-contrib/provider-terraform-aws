@@ -17,19 +17,41 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2RouteResponse)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2RouteResponse.")
+	}
+	return EncodeApigatewayv2RouteResponse(*r), nil
+}
 
 func EncodeApigatewayv2RouteResponse(r Apigatewayv2RouteResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApigatewayv2RouteResponse_RouteResponseKey(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2RouteResponse_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2RouteResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2RouteResponse_ModelSelectionExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2RouteResponse_ResponseModels(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2RouteResponse_RouteId(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2RouteResponse_RouteResponseKey(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2RouteResponse_ApiId(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApigatewayv2RouteResponse_RouteResponseKey(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
+	vals["route_response_key"] = cty.StringVal(p.RouteResponseKey)
+}
+
+func EncodeApigatewayv2RouteResponse_ApiId(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApigatewayv2RouteResponse_Id(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
@@ -50,12 +72,4 @@ func EncodeApigatewayv2RouteResponse_ResponseModels(p Apigatewayv2RouteResponseP
 
 func EncodeApigatewayv2RouteResponse_RouteId(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	vals["route_id"] = cty.StringVal(p.RouteId)
-}
-
-func EncodeApigatewayv2RouteResponse_RouteResponseKey(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
-	vals["route_response_key"] = cty.StringVal(p.RouteResponseKey)
-}
-
-func EncodeApigatewayv2RouteResponse_ApiId(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }

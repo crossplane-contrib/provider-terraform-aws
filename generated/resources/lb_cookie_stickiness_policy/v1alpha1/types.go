@@ -52,11 +52,11 @@ type LbCookieStickinessPolicySpec struct {
 
 // A LbCookieStickinessPolicyParameters defines the desired state of a LbCookieStickinessPolicy
 type LbCookieStickinessPolicyParameters struct {
+	LoadBalancer           string `json:"load_balancer"`
 	Name                   string `json:"name"`
 	CookieExpirationPeriod int64  `json:"cookie_expiration_period"`
 	Id                     string `json:"id"`
 	LbPort                 int64  `json:"lb_port"`
-	LoadBalancer           string `json:"load_balancer"`
 }
 
 // A LbCookieStickinessPolicyStatus defines the observed state of a LbCookieStickinessPolicy

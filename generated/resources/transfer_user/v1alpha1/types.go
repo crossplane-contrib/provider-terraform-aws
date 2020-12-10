@@ -52,20 +52,20 @@ type TransferUserSpec struct {
 
 // A TransferUserParameters defines the desired state of a TransferUser
 type TransferUserParameters struct {
-	HomeDirectory         string                `json:"home_directory"`
-	Policy                string                `json:"policy"`
 	Role                  string                `json:"role"`
-	ServerId              string                `json:"server_id"`
 	Tags                  map[string]string     `json:"tags"`
 	UserName              string                `json:"user_name"`
+	Policy                string                `json:"policy"`
+	HomeDirectory         string                `json:"home_directory"`
 	HomeDirectoryType     string                `json:"home_directory_type"`
 	Id                    string                `json:"id"`
+	ServerId              string                `json:"server_id"`
 	HomeDirectoryMappings HomeDirectoryMappings `json:"home_directory_mappings"`
 }
 
 type HomeDirectoryMappings struct {
-	Entry  string `json:"entry"`
 	Target string `json:"target"`
+	Entry  string `json:"entry"`
 }
 
 // A TransferUserStatus defines the observed state of a TransferUser

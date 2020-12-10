@@ -17,21 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SesReceiptFilter)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SesReceiptFilter.")
+	}
+	return EncodeSesReceiptFilter(*r), nil
+}
 
 func EncodeSesReceiptFilter(r SesReceiptFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptFilter_Cidr(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptFilter_Cidr(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSesReceiptFilter_Cidr(p SesReceiptFilterParameters, vals map[string]cty.Value) {
-	vals["cidr"] = cty.StringVal(p.Cidr)
 }
 
 func EncodeSesReceiptFilter_Id(p SesReceiptFilterParameters, vals map[string]cty.Value) {
@@ -44,6 +54,10 @@ func EncodeSesReceiptFilter_Name(p SesReceiptFilterParameters, vals map[string]c
 
 func EncodeSesReceiptFilter_Policy(p SesReceiptFilterParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeSesReceiptFilter_Cidr(p SesReceiptFilterParameters, vals map[string]cty.Value) {
+	vals["cidr"] = cty.StringVal(p.Cidr)
 }
 
 func EncodeSesReceiptFilter_Arn(p SesReceiptFilterObservation, vals map[string]cty.Value) {

@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*MediaPackageChannel)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a MediaPackageChannel.")
+	}
+	return EncodeMediaPackageChannel(*r), nil
+}
 
 func EncodeMediaPackageChannel(r MediaPackageChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -26,8 +40,8 @@ func EncodeMediaPackageChannel(r MediaPackageChannel) cty.Value {
 	EncodeMediaPackageChannel_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMediaPackageChannel_HlsIngest(r.Status.AtProvider.HlsIngest, ctyVal)
 	EncodeMediaPackageChannel_Arn(r.Status.AtProvider, ctyVal)
+	EncodeMediaPackageChannel_HlsIngest(r.Status.AtProvider.HlsIngest, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -49,6 +63,10 @@ func EncodeMediaPackageChannel_Tags(p MediaPackageChannelParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeMediaPackageChannel_Arn(p MediaPackageChannelObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeMediaPackageChannel_HlsIngest(p []HlsIngest, vals map[string]cty.Value) {
@@ -83,8 +101,4 @@ func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Url(p IngestEndpoints, 
 
 func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Username(p IngestEndpoints, vals map[string]cty.Value) {
 	vals["username"] = cty.StringVal(p.Username)
-}
-
-func EncodeMediaPackageChannel_Arn(p MediaPackageChannelObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

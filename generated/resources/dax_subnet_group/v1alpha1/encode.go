@@ -17,25 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DaxSubnetGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DaxSubnetGroup.")
+	}
+	return EncodeDaxSubnetGroup(*r), nil
+}
 
 func EncodeDaxSubnetGroup(r DaxSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDaxSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDaxSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
+	EncodeDaxSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
+	EncodeDaxSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_VpcId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDaxSubnetGroup_Description(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDaxSubnetGroup_Id(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDaxSubnetGroup_Name(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
@@ -48,6 +54,14 @@ func EncodeDaxSubnetGroup_SubnetIds(p DaxSubnetGroupParameters, vals map[string]
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["subnet_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeDaxSubnetGroup_Description(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeDaxSubnetGroup_Id(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDaxSubnetGroup_VpcId(p DaxSubnetGroupObservation, vals map[string]cty.Value) {

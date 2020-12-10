@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GuarddutyOrganizationConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GuarddutyOrganizationConfiguration.")
+	}
+	return EncodeGuarddutyOrganizationConfiguration(*r), nil
+}
 
 func EncodeGuarddutyOrganizationConfiguration(r GuarddutyOrganizationConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyOrganizationConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyOrganizationConfiguration_AutoEnable(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyOrganizationConfiguration_DetectorId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyOrganizationConfiguration_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGuarddutyOrganizationConfiguration_Id(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGuarddutyOrganizationConfiguration_AutoEnable(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
@@ -35,8 +53,4 @@ func EncodeGuarddutyOrganizationConfiguration_AutoEnable(p GuarddutyOrganization
 
 func EncodeGuarddutyOrganizationConfiguration_DetectorId(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
-}
-
-func EncodeGuarddutyOrganizationConfiguration_Id(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

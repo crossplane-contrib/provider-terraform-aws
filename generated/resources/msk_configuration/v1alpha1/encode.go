@@ -17,19 +17,41 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*MskConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a MskConfiguration.")
+	}
+	return EncodeMskConfiguration(*r), nil
+}
 
 func EncodeMskConfiguration(r MskConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeMskConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeMskConfiguration_ServerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_KafkaVersions(r.Spec.ForProvider, ctyVal)
-	EncodeMskConfiguration_Name(r.Spec.ForProvider, ctyVal)
-	EncodeMskConfiguration_ServerProperties(r.Spec.ForProvider, ctyVal)
-	EncodeMskConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMskConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
+	EncodeMskConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeMskConfiguration_Name(p MskConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeMskConfiguration_ServerProperties(p MskConfigurationParameters, vals map[string]cty.Value) {
+	vals["server_properties"] = cty.StringVal(p.ServerProperties)
 }
 
 func EncodeMskConfiguration_Description(p MskConfigurationParameters, vals map[string]cty.Value) {
@@ -48,18 +70,10 @@ func EncodeMskConfiguration_KafkaVersions(p MskConfigurationParameters, vals map
 	vals["kafka_versions"] = cty.SetVal(colVals)
 }
 
-func EncodeMskConfiguration_Name(p MskConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeMskConfiguration_ServerProperties(p MskConfigurationParameters, vals map[string]cty.Value) {
-	vals["server_properties"] = cty.StringVal(p.ServerProperties)
+func EncodeMskConfiguration_LatestRevision(p MskConfigurationObservation, vals map[string]cty.Value) {
+	vals["latest_revision"] = cty.NumberIntVal(p.LatestRevision)
 }
 
 func EncodeMskConfiguration_Arn(p MskConfigurationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeMskConfiguration_LatestRevision(p MskConfigurationObservation, vals map[string]cty.Value) {
-	vals["latest_revision"] = cty.NumberIntVal(p.LatestRevision)
 }

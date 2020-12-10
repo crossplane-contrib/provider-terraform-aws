@@ -52,16 +52,20 @@ type AppsyncDatasourceSpec struct {
 
 // A AppsyncDatasourceParameters defines the desired state of a AppsyncDatasource
 type AppsyncDatasourceParameters struct {
+	ApiId               string              `json:"api_id"`
+	Description         string              `json:"description"`
 	Id                  string              `json:"id"`
 	Name                string              `json:"name"`
 	ServiceRoleArn      string              `json:"service_role_arn"`
 	Type                string              `json:"type"`
-	ApiId               string              `json:"api_id"`
-	Description         string              `json:"description"`
+	HttpConfig          HttpConfig          `json:"http_config"`
 	LambdaConfig        LambdaConfig        `json:"lambda_config"`
 	DynamodbConfig      DynamodbConfig      `json:"dynamodb_config"`
 	ElasticsearchConfig ElasticsearchConfig `json:"elasticsearch_config"`
-	HttpConfig          HttpConfig          `json:"http_config"`
+}
+
+type HttpConfig struct {
+	Endpoint string `json:"endpoint"`
 }
 
 type LambdaConfig struct {
@@ -77,10 +81,6 @@ type DynamodbConfig struct {
 type ElasticsearchConfig struct {
 	Endpoint string `json:"endpoint"`
 	Region   string `json:"region"`
-}
-
-type HttpConfig struct {
-	Endpoint string `json:"endpoint"`
 }
 
 // A AppsyncDatasourceStatus defines the observed state of a AppsyncDatasource

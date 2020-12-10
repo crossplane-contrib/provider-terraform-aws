@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamRolePolicy)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamRolePolicy.")
+	}
+	return EncodeIamRolePolicy(*r), nil
+}
 
 func EncodeIamRolePolicy(r IamRolePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Role(r.Spec.ForProvider, ctyVal)
+	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamRolePolicy_Name(p IamRolePolicyParameters, vals map[string]cty.Value) {
@@ -49,4 +59,8 @@ func EncodeIamRolePolicy_Policy(p IamRolePolicyParameters, vals map[string]cty.V
 
 func EncodeIamRolePolicy_Role(p IamRolePolicyParameters, vals map[string]cty.Value) {
 	vals["role"] = cty.StringVal(p.Role)
+}
+
+func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

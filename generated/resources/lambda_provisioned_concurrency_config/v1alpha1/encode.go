@@ -17,18 +17,36 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*LambdaProvisionedConcurrencyConfig)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a LambdaProvisionedConcurrencyConfig.")
+	}
+	return EncodeLambdaProvisionedConcurrencyConfig(*r), nil
+}
 
 func EncodeLambdaProvisionedConcurrencyConfig(r LambdaProvisionedConcurrencyConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLambdaProvisionedConcurrencyConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Qualifier(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaProvisionedConcurrencyConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLambdaProvisionedConcurrencyConfig_FunctionName(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
+	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaProvisionedConcurrencyConfig_Id(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
@@ -41,10 +59,6 @@ func EncodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(p 
 
 func EncodeLambdaProvisionedConcurrencyConfig_Qualifier(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	vals["qualifier"] = cty.StringVal(p.Qualifier)
-}
-
-func EncodeLambdaProvisionedConcurrencyConfig_FunctionName(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
-	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaProvisionedConcurrencyConfig_Timeouts(p Timeouts, vals map[string]cty.Value) {

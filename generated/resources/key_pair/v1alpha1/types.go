@@ -67,7 +67,7 @@ type KeyPairStatus struct {
 
 // A KeyPairObservation records the observed state of a KeyPair
 type KeyPairObservation struct {
-	KeyPairId   string `json:"key_pair_id"`
 	Arn         string `json:"arn"`
 	Fingerprint string `json:"fingerprint"`
+	KeyPairId   string `json:"key_pair_id"`
 }

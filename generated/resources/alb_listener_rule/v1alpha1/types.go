@@ -52,17 +52,17 @@ type AlbListenerRuleSpec struct {
 
 // A AlbListenerRuleParameters defines the desired state of a AlbListenerRule
 type AlbListenerRuleParameters struct {
-	Id          string      `json:"id"`
 	ListenerArn string      `json:"listener_arn"`
 	Priority    int64       `json:"priority"`
+	Id          string      `json:"id"`
 	Action      []Action    `json:"action"`
 	Condition   []Condition `json:"condition"`
 }
 
 type Action struct {
+	Type                string              `json:"type"`
 	Order               int64               `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
-	Type                string              `json:"type"`
 	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
 	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
@@ -82,17 +82,17 @@ type AuthenticateCognito struct {
 }
 
 type AuthenticateOidc struct {
-	ClientSecret                     string            `json:"client_secret"`
-	Scope                            string            `json:"scope"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int64             `json:"session_timeout"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
 	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
 	ClientId                         string            `json:"client_id"`
 	Issuer                           string            `json:"issuer"`
+	Scope                            string            `json:"scope"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	ClientSecret                     string            `json:"client_secret"`
 	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
 }
 
 type FixedResponse struct {
@@ -117,34 +117,21 @@ type TargetGroup struct {
 }
 
 type Redirect struct {
-	Host       string `json:"host"`
-	Path       string `json:"path"`
-	Port       string `json:"port"`
 	Protocol   string `json:"protocol"`
 	Query      string `json:"query"`
 	StatusCode string `json:"status_code"`
+	Host       string `json:"host"`
+	Path       string `json:"path"`
+	Port       string `json:"port"`
 }
 
 type Condition struct {
-	HostHeader        HostHeader        `json:"host_header"`
-	HttpHeader        HttpHeader        `json:"http_header"`
-	HttpRequestMethod HttpRequestMethod `json:"http_request_method"`
 	PathPattern       PathPattern       `json:"path_pattern"`
 	QueryString       QueryString       `json:"query_string"`
 	SourceIp          SourceIp          `json:"source_ip"`
-}
-
-type HostHeader struct {
-	Values []string `json:"values"`
-}
-
-type HttpHeader struct {
-	HttpHeaderName string   `json:"http_header_name"`
-	Values         []string `json:"values"`
-}
-
-type HttpRequestMethod struct {
-	Values []string `json:"values"`
+	HostHeader        HostHeader        `json:"host_header"`
+	HttpHeader        HttpHeader        `json:"http_header"`
+	HttpRequestMethod HttpRequestMethod `json:"http_request_method"`
 }
 
 type PathPattern struct {
@@ -157,6 +144,19 @@ type QueryString struct {
 }
 
 type SourceIp struct {
+	Values []string `json:"values"`
+}
+
+type HostHeader struct {
+	Values []string `json:"values"`
+}
+
+type HttpHeader struct {
+	HttpHeaderName string   `json:"http_header_name"`
+	Values         []string `json:"values"`
+}
+
+type HttpRequestMethod struct {
 	Values []string `json:"values"`
 }
 

@@ -66,8 +66,8 @@ type MediaPackageChannelStatus struct {
 
 // A MediaPackageChannelObservation records the observed state of a MediaPackageChannel
 type MediaPackageChannelObservation struct {
-	HlsIngest []HlsIngest `json:"hls_ingest"`
 	Arn       string      `json:"arn"`
+	HlsIngest []HlsIngest `json:"hls_ingest"`
 }
 
 type HlsIngest struct {

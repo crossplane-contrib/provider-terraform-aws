@@ -17,35 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*InspectorAssessmentTemplate)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a InspectorAssessmentTemplate.")
+	}
+	return EncodeInspectorAssessmentTemplate(*r), nil
+}
 
 func EncodeInspectorAssessmentTemplate(r InspectorAssessmentTemplate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeInspectorAssessmentTemplate_RulesPackageArns(r.Spec.ForProvider, ctyVal)
+	EncodeInspectorAssessmentTemplate_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_TargetArn(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Duration(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Name(r.Spec.ForProvider, ctyVal)
-	EncodeInspectorAssessmentTemplate_RulesPackageArns(r.Spec.ForProvider, ctyVal)
-	EncodeInspectorAssessmentTemplate_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeInspectorAssessmentTemplate_TargetArn(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["target_arn"] = cty.StringVal(p.TargetArn)
-}
-
-func EncodeInspectorAssessmentTemplate_Duration(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["duration"] = cty.NumberIntVal(p.Duration)
-}
-
-func EncodeInspectorAssessmentTemplate_Id(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeInspectorAssessmentTemplate_Name(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeInspectorAssessmentTemplate_RulesPackageArns(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
@@ -62,6 +60,22 @@ func EncodeInspectorAssessmentTemplate_Tags(p InspectorAssessmentTemplateParamet
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeInspectorAssessmentTemplate_TargetArn(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	vals["target_arn"] = cty.StringVal(p.TargetArn)
+}
+
+func EncodeInspectorAssessmentTemplate_Duration(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	vals["duration"] = cty.NumberIntVal(p.Duration)
+}
+
+func EncodeInspectorAssessmentTemplate_Id(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeInspectorAssessmentTemplate_Name(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeInspectorAssessmentTemplate_Arn(p InspectorAssessmentTemplateObservation, vals map[string]cty.Value) {

@@ -17,25 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SesEventDestination)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SesEventDestination.")
+	}
+	return EncodeSesEventDestination(*r), nil
+}
 
 func EncodeSesEventDestination(r SesEventDestination) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesEventDestination_ConfigurationSetName(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_MatchingTypes(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSesEventDestination_ConfigurationSetName(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_CloudwatchDestination(r.Spec.ForProvider.CloudwatchDestination, ctyVal)
 	EncodeSesEventDestination_KinesisDestination(r.Spec.ForProvider.KinesisDestination, ctyVal)
 	EncodeSesEventDestination_SnsDestination(r.Spec.ForProvider.SnsDestination, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSesEventDestination_ConfigurationSetName(p SesEventDestinationParameters, vals map[string]cty.Value) {
-	vals["configuration_set_name"] = cty.StringVal(p.ConfigurationSetName)
 }
 
 func EncodeSesEventDestination_Enabled(p SesEventDestinationParameters, vals map[string]cty.Value) {
@@ -56,6 +66,10 @@ func EncodeSesEventDestination_MatchingTypes(p SesEventDestinationParameters, va
 
 func EncodeSesEventDestination_Name(p SesEventDestinationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSesEventDestination_ConfigurationSetName(p SesEventDestinationParameters, vals map[string]cty.Value) {
+	vals["configuration_set_name"] = cty.StringVal(p.ConfigurationSetName)
 }
 
 func EncodeSesEventDestination_CloudwatchDestination(p CloudwatchDestination, vals map[string]cty.Value) {

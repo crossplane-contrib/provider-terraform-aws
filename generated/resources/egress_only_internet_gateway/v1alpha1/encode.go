@@ -17,24 +17,30 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*EgressOnlyInternetGateway)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a EgressOnlyInternetGateway.")
+	}
+	return EncodeEgressOnlyInternetGateway(*r), nil
+}
 
 func EncodeEgressOnlyInternetGateway(r EgressOnlyInternetGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEgressOnlyInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEgressOnlyInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeEgressOnlyInternetGateway_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEgressOnlyInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEgressOnlyInternetGateway_Tags(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeEgressOnlyInternetGateway_VpcId(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
@@ -43,4 +49,12 @@ func EncodeEgressOnlyInternetGateway_VpcId(p EgressOnlyInternetGatewayParameters
 
 func EncodeEgressOnlyInternetGateway_Id(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEgressOnlyInternetGateway_Tags(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }

@@ -60,9 +60,9 @@ type WafRuleGroupParameters struct {
 }
 
 type ActivatedRule struct {
-	RuleId   string `json:"rule_id"`
 	Type     string `json:"type"`
 	Priority int64  `json:"priority"`
+	RuleId   string `json:"rule_id"`
 	Action   Action `json:"action"`
 }
 

@@ -52,25 +52,25 @@ type WorklinkFleetSpec struct {
 
 // A WorklinkFleetParameters defines the desired state of a WorklinkFleet
 type WorklinkFleetParameters struct {
-	DeviceCaCertificate        string           `json:"device_ca_certificate"`
+	DisplayName                string           `json:"display_name"`
 	Id                         string           `json:"id"`
-	Name                       string           `json:"name"`
 	OptimizeForEndUserLocation bool             `json:"optimize_for_end_user_location"`
 	AuditStreamArn             string           `json:"audit_stream_arn"`
-	DisplayName                string           `json:"display_name"`
-	Network                    Network          `json:"network"`
+	DeviceCaCertificate        string           `json:"device_ca_certificate"`
+	Name                       string           `json:"name"`
 	IdentityProvider           IdentityProvider `json:"identity_provider"`
+	Network                    Network          `json:"network"`
+}
+
+type IdentityProvider struct {
+	Type         string `json:"type"`
+	SamlMetadata string `json:"saml_metadata"`
 }
 
 type Network struct {
 	SecurityGroupIds []string `json:"security_group_ids"`
 	SubnetIds        []string `json:"subnet_ids"`
 	VpcId            string   `json:"vpc_id"`
-}
-
-type IdentityProvider struct {
-	SamlMetadata string `json:"saml_metadata"`
-	Type         string `json:"type"`
 }
 
 // A WorklinkFleetStatus defines the observed state of a WorklinkFleet
@@ -81,8 +81,8 @@ type WorklinkFleetStatus struct {
 
 // A WorklinkFleetObservation records the observed state of a WorklinkFleet
 type WorklinkFleetObservation struct {
+	LastUpdatedTime string `json:"last_updated_time"`
 	Arn             string `json:"arn"`
 	CompanyCode     string `json:"company_code"`
 	CreatedTime     string `json:"created_time"`
-	LastUpdatedTime string `json:"last_updated_time"`
 }

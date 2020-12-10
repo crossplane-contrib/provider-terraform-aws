@@ -57,28 +57,28 @@ type SagemakerModelParameters struct {
 	Id                     string            `json:"id"`
 	Name                   string            `json:"name"`
 	Tags                   map[string]string `json:"tags"`
+	Container              Container         `json:"container"`
 	PrimaryContainer       PrimaryContainer  `json:"primary_container"`
 	VpcConfig              VpcConfig         `json:"vpc_config"`
-	Container              Container         `json:"container"`
 }
 
-type PrimaryContainer struct {
+type Container struct {
+	ModelDataUrl      string            `json:"model_data_url"`
 	ContainerHostname string            `json:"container_hostname"`
 	Environment       map[string]string `json:"environment"`
 	Image             string            `json:"image"`
+}
+
+type PrimaryContainer struct {
+	Image             string            `json:"image"`
 	ModelDataUrl      string            `json:"model_data_url"`
+	ContainerHostname string            `json:"container_hostname"`
+	Environment       map[string]string `json:"environment"`
 }
 
 type VpcConfig struct {
 	SecurityGroupIds []string `json:"security_group_ids"`
 	Subnets          []string `json:"subnets"`
-}
-
-type Container struct {
-	ContainerHostname string            `json:"container_hostname"`
-	Environment       map[string]string `json:"environment"`
-	Image             string            `json:"image"`
-	ModelDataUrl      string            `json:"model_data_url"`
 }
 
 // A SagemakerModelStatus defines the observed state of a SagemakerModel

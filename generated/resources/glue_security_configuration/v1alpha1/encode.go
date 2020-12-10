@@ -17,24 +17,38 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueSecurityConfiguration)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueSecurityConfiguration.")
+	}
+	return EncodeGlueSecurityConfiguration(*r), nil
+}
 
 func EncodeGlueSecurityConfiguration(r GlueSecurityConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueSecurityConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueSecurityConfiguration_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlueSecurityConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueSecurityConfiguration_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlueSecurityConfiguration_Name(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeGlueSecurityConfiguration_Id(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGlueSecurityConfiguration_Name(p GlueSecurityConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration(p EncryptionConfiguration, vals map[string]cty.Value) {
@@ -50,18 +64,18 @@ func EncodeGlueSecurityConfiguration_EncryptionConfiguration(p EncryptionConfigu
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption(p CloudwatchEncryption, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p, ctyVal)
 	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p, ctyVal)
+	EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["cloudwatch_encryption"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p CloudwatchEncryption, vals map[string]cty.Value) {
-	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
-}
-
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_CloudwatchEncryptionMode(p CloudwatchEncryption, vals map[string]cty.Value) {
 	vals["cloudwatch_encryption_mode"] = cty.StringVal(p.CloudwatchEncryptionMode)
+}
+
+func EncodeGlueSecurityConfiguration_EncryptionConfiguration_CloudwatchEncryption_KmsKeyArn(p CloudwatchEncryption, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
 func EncodeGlueSecurityConfiguration_EncryptionConfiguration_JobBookmarksEncryption(p JobBookmarksEncryption, vals map[string]cty.Value) {

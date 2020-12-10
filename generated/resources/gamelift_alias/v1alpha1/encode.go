@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GameliftAlias)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GameliftAlias.")
+	}
+	return EncodeGameliftAlias(*r), nil
+}
 
 func EncodeGameliftAlias(r GameliftAlias) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -54,15 +68,11 @@ func EncodeGameliftAlias_Name(p GameliftAliasParameters, vals map[string]cty.Val
 func EncodeGameliftAlias_RoutingStrategy(p RoutingStrategy, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGameliftAlias_RoutingStrategy_Type(p, ctyVal)
 	EncodeGameliftAlias_RoutingStrategy_FleetId(p, ctyVal)
 	EncodeGameliftAlias_RoutingStrategy_Message(p, ctyVal)
+	EncodeGameliftAlias_RoutingStrategy_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["routing_strategy"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGameliftAlias_RoutingStrategy_Type(p RoutingStrategy, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeGameliftAlias_RoutingStrategy_FleetId(p RoutingStrategy, vals map[string]cty.Value) {
@@ -71,6 +81,10 @@ func EncodeGameliftAlias_RoutingStrategy_FleetId(p RoutingStrategy, vals map[str
 
 func EncodeGameliftAlias_RoutingStrategy_Message(p RoutingStrategy, vals map[string]cty.Value) {
 	vals["message"] = cty.StringVal(p.Message)
+}
+
+func EncodeGameliftAlias_RoutingStrategy_Type(p RoutingStrategy, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeGameliftAlias_Arn(p GameliftAliasObservation, vals map[string]cty.Value) {

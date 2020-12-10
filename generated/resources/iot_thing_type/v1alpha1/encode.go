@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IotThingType)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IotThingType.")
+	}
+	return EncodeIotThingType(*r), nil
+}
 
 func EncodeIotThingType(r IotThingType) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -45,10 +59,14 @@ func EncodeIotThingType_Name(p IotThingTypeParameters, vals map[string]cty.Value
 func EncodeIotThingType_Properties(p Properties, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeIotThingType_Properties_SearchableAttributes(p, ctyVal)
 	EncodeIotThingType_Properties_Description(p, ctyVal)
+	EncodeIotThingType_Properties_SearchableAttributes(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["properties"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeIotThingType_Properties_Description(p Properties, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeIotThingType_Properties_SearchableAttributes(p Properties, vals map[string]cty.Value) {
@@ -57,10 +75,6 @@ func EncodeIotThingType_Properties_SearchableAttributes(p Properties, vals map[s
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["searchable_attributes"] = cty.SetVal(colVals)
-}
-
-func EncodeIotThingType_Properties_Description(p Properties, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeIotThingType_Arn(p IotThingTypeObservation, vals map[string]cty.Value) {

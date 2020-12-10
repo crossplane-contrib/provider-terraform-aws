@@ -17,24 +17,38 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*Apigatewayv2Api)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a Apigatewayv2Api.")
+	}
+	return EncodeApigatewayv2Api(*r), nil
+}
 
 func EncodeApigatewayv2Api(r Apigatewayv2Api) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Api_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Api_RouteSelectionExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Api_Body(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Api_CredentialsArn(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Api_Version(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Api_ApiKeySelectionExpression(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Api_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Api_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Api_Target(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Api_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Api_Version(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Api_CredentialsArn(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Api_DisableExecuteApiEndpoint(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Api_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Api_ProtocolType(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Api_RouteKey(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Api_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Api_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Api_ApiKeySelectionExpression(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Api_RouteSelectionExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Api_CorsConfiguration(r.Spec.ForProvider.CorsConfiguration, ctyVal)
 	EncodeApigatewayv2Api_ExecutionArn(r.Status.AtProvider, ctyVal)
 	EncodeApigatewayv2Api_ApiEndpoint(r.Status.AtProvider, ctyVal)
@@ -42,44 +56,24 @@ func EncodeApigatewayv2Api(r Apigatewayv2Api) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2Api_Description(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeApigatewayv2Api_RouteSelectionExpression(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
-	vals["route_selection_expression"] = cty.StringVal(p.RouteSelectionExpression)
-}
-
 func EncodeApigatewayv2Api_Body(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
 	vals["body"] = cty.StringVal(p.Body)
 }
 
-func EncodeApigatewayv2Api_CredentialsArn(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
-	vals["credentials_arn"] = cty.StringVal(p.CredentialsArn)
-}
-
-func EncodeApigatewayv2Api_Version(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
-	vals["version"] = cty.StringVal(p.Version)
-}
-
-func EncodeApigatewayv2Api_ApiKeySelectionExpression(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
-	vals["api_key_selection_expression"] = cty.StringVal(p.ApiKeySelectionExpression)
-}
-
-func EncodeApigatewayv2Api_Name(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeApigatewayv2Api_Description(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApigatewayv2Api_Target(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
 	vals["target"] = cty.StringVal(p.Target)
 }
 
-func EncodeApigatewayv2Api_Tags(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeApigatewayv2Api_Version(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
+	vals["version"] = cty.StringVal(p.Version)
+}
+
+func EncodeApigatewayv2Api_CredentialsArn(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
+	vals["credentials_arn"] = cty.StringVal(p.CredentialsArn)
 }
 
 func EncodeApigatewayv2Api_DisableExecuteApiEndpoint(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
@@ -96,6 +90,26 @@ func EncodeApigatewayv2Api_ProtocolType(p Apigatewayv2ApiParameters, vals map[st
 
 func EncodeApigatewayv2Api_RouteKey(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
 	vals["route_key"] = cty.StringVal(p.RouteKey)
+}
+
+func EncodeApigatewayv2Api_Name(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeApigatewayv2Api_Tags(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeApigatewayv2Api_ApiKeySelectionExpression(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
+	vals["api_key_selection_expression"] = cty.StringVal(p.ApiKeySelectionExpression)
+}
+
+func EncodeApigatewayv2Api_RouteSelectionExpression(p Apigatewayv2ApiParameters, vals map[string]cty.Value) {
+	vals["route_selection_expression"] = cty.StringVal(p.RouteSelectionExpression)
 }
 
 func EncodeApigatewayv2Api_CorsConfiguration(p CorsConfiguration, vals map[string]cty.Value) {

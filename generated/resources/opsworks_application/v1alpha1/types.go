@@ -52,21 +52,21 @@ type OpsworksApplicationSpec struct {
 
 // A OpsworksApplicationParameters defines the desired state of a OpsworksApplication
 type OpsworksApplicationParameters struct {
-	DataSourceType         string           `json:"data_source_type"`
-	DocumentRoot           string           `json:"document_root"`
-	Domains                []string         `json:"domains"`
-	Name                   string           `json:"name"`
-	Description            string           `json:"description"`
-	EnableSsl              bool             `json:"enable_ssl"`
-	Id                     string           `json:"id"`
-	AwsFlowRubySettings    string           `json:"aws_flow_ruby_settings"`
-	DataSourceDatabaseName string           `json:"data_source_database_name"`
 	StackId                string           `json:"stack_id"`
 	Type                   string           `json:"type"`
-	AutoBundleOnDeploy     string           `json:"auto_bundle_on_deploy"`
-	DataSourceArn          string           `json:"data_source_arn"`
-	RailsEnv               string           `json:"rails_env"`
+	AwsFlowRubySettings    string           `json:"aws_flow_ruby_settings"`
+	DataSourceDatabaseName string           `json:"data_source_database_name"`
 	ShortName              string           `json:"short_name"`
+	Domains                []string         `json:"domains"`
+	Id                     string           `json:"id"`
+	RailsEnv               string           `json:"rails_env"`
+	DataSourceArn          string           `json:"data_source_arn"`
+	Description            string           `json:"description"`
+	DocumentRoot           string           `json:"document_root"`
+	EnableSsl              bool             `json:"enable_ssl"`
+	Name                   string           `json:"name"`
+	AutoBundleOnDeploy     string           `json:"auto_bundle_on_deploy"`
+	DataSourceType         string           `json:"data_source_type"`
 	Environment            Environment      `json:"environment"`
 	SslConfiguration       SslConfiguration `json:"ssl_configuration"`
 	AppSource              AppSource        `json:"app_source"`
@@ -79,18 +79,18 @@ type Environment struct {
 }
 
 type SslConfiguration struct {
+	Certificate string `json:"certificate"`
 	Chain       string `json:"chain"`
 	PrivateKey  string `json:"private_key"`
-	Certificate string `json:"certificate"`
 }
 
 type AppSource struct {
+	Password string `json:"password"`
+	Revision string `json:"revision"`
 	SshKey   string `json:"ssh_key"`
 	Type     string `json:"type"`
 	Url      string `json:"url"`
 	Username string `json:"username"`
-	Password string `json:"password"`
-	Revision string `json:"revision"`
 }
 
 // A OpsworksApplicationStatus defines the observed state of a OpsworksApplication

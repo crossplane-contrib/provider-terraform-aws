@@ -52,26 +52,26 @@ type DxPrivateVirtualInterfaceSpec struct {
 
 // A DxPrivateVirtualInterfaceParameters defines the desired state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceParameters struct {
-	AmazonAddress   string            `json:"amazon_address"`
-	BgpAsn          int64             `json:"bgp_asn"`
-	ConnectionId    string            `json:"connection_id"`
-	Id              string            `json:"id"`
-	Name            string            `json:"name"`
 	Vlan            int64             `json:"vlan"`
-	AddressFamily   string            `json:"address_family"`
 	DxGatewayId     string            `json:"dx_gateway_id"`
+	ConnectionId    string            `json:"connection_id"`
 	Mtu             int64             `json:"mtu"`
-	VpnGatewayId    string            `json:"vpn_gateway_id"`
-	BgpAuthKey      string            `json:"bgp_auth_key"`
-	CustomerAddress string            `json:"customer_address"`
 	Tags            map[string]string `json:"tags"`
+	AddressFamily   string            `json:"address_family"`
+	AmazonAddress   string            `json:"amazon_address"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
+	Name            string            `json:"name"`
+	VpnGatewayId    string            `json:"vpn_gateway_id"`
+	BgpAsn          int64             `json:"bgp_asn"`
+	CustomerAddress string            `json:"customer_address"`
+	Id              string            `json:"id"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DxPrivateVirtualInterfaceStatus defines the observed state of a DxPrivateVirtualInterface
@@ -83,7 +83,7 @@ type DxPrivateVirtualInterfaceStatus struct {
 // A DxPrivateVirtualInterfaceObservation records the observed state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceObservation struct {
 	Arn               string `json:"arn"`
-	AmazonSideAsn     string `json:"amazon_side_asn"`
 	AwsDevice         string `json:"aws_device"`
+	AmazonSideAsn     string `json:"amazon_side_asn"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 }

@@ -52,29 +52,29 @@ type FsxLustreFileSystemSpec struct {
 
 // A FsxLustreFileSystemParameters defines the desired state of a FsxLustreFileSystem
 type FsxLustreFileSystemParameters struct {
-	PerUnitStorageThroughput      int64             `json:"per_unit_storage_throughput"`
-	StorageType                   string            `json:"storage_type"`
-	DeploymentType                string            `json:"deployment_type"`
 	KmsKeyId                      string            `json:"kms_key_id"`
-	StorageCapacity               int64             `json:"storage_capacity"`
-	AutoImportPolicy              string            `json:"auto_import_policy"`
-	DailyAutomaticBackupStartTime string            `json:"daily_automatic_backup_start_time"`
-	Id                            string            `json:"id"`
+	StorageType                   string            `json:"storage_type"`
+	Tags                          map[string]string `json:"tags"`
 	SecurityGroupIds              []string          `json:"security_group_ids"`
+	WeeklyMaintenanceStartTime    string            `json:"weekly_maintenance_start_time"`
+	DailyAutomaticBackupStartTime string            `json:"daily_automatic_backup_start_time"`
+	DriveCacheType                string            `json:"drive_cache_type"`
+	ImportPath                    string            `json:"import_path"`
+	AutoImportPolicy              string            `json:"auto_import_policy"`
+	Id                            string            `json:"id"`
+	PerUnitStorageThroughput      int64             `json:"per_unit_storage_throughput"`
+	StorageCapacity               int64             `json:"storage_capacity"`
 	SubnetIds                     []string          `json:"subnet_ids"`
 	AutomaticBackupRetentionDays  int64             `json:"automatic_backup_retention_days"`
-	ImportedFileChunkSize         int64             `json:"imported_file_chunk_size"`
-	Tags                          map[string]string `json:"tags"`
-	WeeklyMaintenanceStartTime    string            `json:"weekly_maintenance_start_time"`
-	DriveCacheType                string            `json:"drive_cache_type"`
+	DeploymentType                string            `json:"deployment_type"`
 	ExportPath                    string            `json:"export_path"`
-	ImportPath                    string            `json:"import_path"`
+	ImportedFileChunkSize         int64             `json:"imported_file_chunk_size"`
 	Timeouts                      Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A FsxLustreFileSystemStatus defines the observed state of a FsxLustreFileSystem
@@ -87,8 +87,8 @@ type FsxLustreFileSystemStatus struct {
 type FsxLustreFileSystemObservation struct {
 	VpcId               string   `json:"vpc_id"`
 	DnsName             string   `json:"dns_name"`
-	NetworkInterfaceIds []string `json:"network_interface_ids"`
 	OwnerId             string   `json:"owner_id"`
 	Arn                 string   `json:"arn"`
+	NetworkInterfaceIds []string `json:"network_interface_ids"`
 	MountName           string   `json:"mount_name"`
 }

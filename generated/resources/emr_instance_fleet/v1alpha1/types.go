@@ -52,20 +52,20 @@ type EmrInstanceFleetSpec struct {
 
 // A EmrInstanceFleetParameters defines the desired state of a EmrInstanceFleet
 type EmrInstanceFleetParameters struct {
-	TargetSpotCapacity     int64                `json:"target_spot_capacity"`
 	ClusterId              string               `json:"cluster_id"`
 	Id                     string               `json:"id"`
 	Name                   string               `json:"name"`
 	TargetOnDemandCapacity int64                `json:"target_on_demand_capacity"`
+	TargetSpotCapacity     int64                `json:"target_spot_capacity"`
 	InstanceTypeConfigs    InstanceTypeConfigs  `json:"instance_type_configs"`
 	LaunchSpecifications   LaunchSpecifications `json:"launch_specifications"`
 }
 
 type InstanceTypeConfigs struct {
-	WeightedCapacity                    int64          `json:"weighted_capacity"`
 	BidPrice                            string         `json:"bid_price"`
 	BidPriceAsPercentageOfOnDemandPrice int64          `json:"bid_price_as_percentage_of_on_demand_price"`
 	InstanceType                        string         `json:"instance_type"`
+	WeightedCapacity                    int64          `json:"weighted_capacity"`
 	Configurations                      Configurations `json:"configurations"`
 	EbsConfig                           EbsConfig      `json:"ebs_config"`
 }
@@ -83,8 +83,12 @@ type EbsConfig struct {
 }
 
 type LaunchSpecifications struct {
-	SpotSpecification     SpotSpecification     `json:"spot_specification"`
 	OnDemandSpecification OnDemandSpecification `json:"on_demand_specification"`
+	SpotSpecification     SpotSpecification     `json:"spot_specification"`
+}
+
+type OnDemandSpecification struct {
+	AllocationStrategy string `json:"allocation_strategy"`
 }
 
 type SpotSpecification struct {
@@ -92,10 +96,6 @@ type SpotSpecification struct {
 	BlockDurationMinutes   int64  `json:"block_duration_minutes"`
 	TimeoutAction          string `json:"timeout_action"`
 	TimeoutDurationMinutes int64  `json:"timeout_duration_minutes"`
-}
-
-type OnDemandSpecification struct {
-	AllocationStrategy string `json:"allocation_strategy"`
 }
 
 // A EmrInstanceFleetStatus defines the observed state of a EmrInstanceFleet

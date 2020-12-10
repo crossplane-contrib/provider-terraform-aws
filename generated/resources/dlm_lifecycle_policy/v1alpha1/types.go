@@ -52,11 +52,11 @@ type DlmLifecyclePolicySpec struct {
 
 // A DlmLifecyclePolicyParameters defines the desired state of a DlmLifecyclePolicy
 type DlmLifecyclePolicyParameters struct {
+	Description      string            `json:"description"`
 	ExecutionRoleArn string            `json:"execution_role_arn"`
 	Id               string            `json:"id"`
 	State            string            `json:"state"`
 	Tags             map[string]string `json:"tags"`
-	Description      string            `json:"description"`
 	PolicyDetails    PolicyDetails     `json:"policy_details"`
 }
 
@@ -70,18 +70,18 @@ type Schedule struct {
 	CopyTags   bool              `json:"copy_tags"`
 	Name       string            `json:"name"`
 	TagsToAdd  map[string]string `json:"tags_to_add"`
-	RetainRule RetainRule        `json:"retain_rule"`
 	CreateRule CreateRule        `json:"create_rule"`
-}
-
-type RetainRule struct {
-	Count int64 `json:"count"`
+	RetainRule RetainRule        `json:"retain_rule"`
 }
 
 type CreateRule struct {
 	Interval     int64    `json:"interval"`
 	IntervalUnit string   `json:"interval_unit"`
 	Times        []string `json:"times"`
+}
+
+type RetainRule struct {
+	Count int64 `json:"count"`
 }
 
 // A DlmLifecyclePolicyStatus defines the observed state of a DlmLifecyclePolicy

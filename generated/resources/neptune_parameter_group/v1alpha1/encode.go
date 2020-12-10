@@ -17,31 +17,33 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*NeptuneParameterGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a NeptuneParameterGroup.")
+	}
+	return EncodeNeptuneParameterGroup(*r), nil
+}
 
 func EncodeNeptuneParameterGroup(r NeptuneParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNeptuneParameterGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeNeptuneParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneParameterGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeNeptuneParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNeptuneParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeNeptuneParameterGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeNeptuneParameterGroup_Name(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeNeptuneParameterGroup_Tags(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeNeptuneParameterGroup_Description(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
@@ -54,6 +56,18 @@ func EncodeNeptuneParameterGroup_Family(p NeptuneParameterGroupParameters, vals 
 
 func EncodeNeptuneParameterGroup_Id(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeNeptuneParameterGroup_Name(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeNeptuneParameterGroup_Tags(p NeptuneParameterGroupParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeNeptuneParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {

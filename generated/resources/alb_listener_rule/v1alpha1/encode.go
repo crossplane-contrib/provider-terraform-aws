@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AlbListenerRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AlbListenerRule.")
+	}
+	return EncodeAlbListenerRule(*r), nil
+}
 
 func EncodeAlbListenerRule(r AlbListenerRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListenerRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListenerRule_ListenerArn(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListenerRule_Priority(r.Spec.ForProvider, ctyVal)
+	EncodeAlbListenerRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListenerRule_Action(r.Spec.ForProvider.Action, ctyVal)
 	EncodeAlbListenerRule_Condition(r.Spec.ForProvider.Condition, ctyVal)
 	EncodeAlbListenerRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAlbListenerRule_Id(p AlbListenerRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAlbListenerRule_ListenerArn(p AlbListenerRuleParameters, vals map[string]cty.Value) {
@@ -41,6 +51,10 @@ func EncodeAlbListenerRule_ListenerArn(p AlbListenerRuleParameters, vals map[str
 
 func EncodeAlbListenerRule_Priority(p AlbListenerRuleParameters, vals map[string]cty.Value) {
 	vals["priority"] = cty.NumberIntVal(p.Priority)
+}
+
+func EncodeAlbListenerRule_Id(p AlbListenerRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAlbListenerRule_Action(p []Action, vals map[string]cty.Value) {
@@ -75,7 +89,6 @@ func EncodeAlbListenerRule_Action_Type(p Action, vals map[string]cty.Value) {
 func EncodeAlbListenerRule_Action_AuthenticateCognito(p AuthenticateCognito, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListenerRule_Action_AuthenticateCognito_UserPoolArn(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateCognito_UserPoolClientId(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateCognito_UserPoolDomain(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateCognito_AuthenticationRequestExtraParams(p, ctyVal)
@@ -83,12 +96,9 @@ func EncodeAlbListenerRule_Action_AuthenticateCognito(p AuthenticateCognito, val
 	EncodeAlbListenerRule_Action_AuthenticateCognito_Scope(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateCognito_SessionCookieName(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateCognito_SessionTimeout(p, ctyVal)
+	EncodeAlbListenerRule_Action_AuthenticateCognito_UserPoolArn(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["authenticate_cognito"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAlbListenerRule_Action_AuthenticateCognito_UserPoolArn(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["user_pool_arn"] = cty.StringVal(p.UserPoolArn)
 }
 
 func EncodeAlbListenerRule_Action_AuthenticateCognito_UserPoolClientId(p AuthenticateCognito, vals map[string]cty.Value) {
@@ -123,19 +133,23 @@ func EncodeAlbListenerRule_Action_AuthenticateCognito_SessionTimeout(p Authentic
 	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
 }
 
+func EncodeAlbListenerRule_Action_AuthenticateCognito_UserPoolArn(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["user_pool_arn"] = cty.StringVal(p.UserPoolArn)
+}
+
 func EncodeAlbListenerRule_Action_AuthenticateOidc(p AuthenticateOidc, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
 	EncodeAlbListenerRule_Action_AuthenticateOidc_ClientSecret(p, ctyVal)
-	EncodeAlbListenerRule_Action_AuthenticateOidc_Scope(p, ctyVal)
-	EncodeAlbListenerRule_Action_AuthenticateOidc_TokenEndpoint(p, ctyVal)
-	EncodeAlbListenerRule_Action_AuthenticateOidc_UserInfoEndpoint(p, ctyVal)
+	EncodeAlbListenerRule_Action_AuthenticateOidc_Issuer(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateOidc_SessionCookieName(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateOidc_SessionTimeout(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateOidc_AuthenticationRequestExtraParams(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateOidc_AuthorizationEndpoint(p, ctyVal)
+	EncodeAlbListenerRule_Action_AuthenticateOidc_Scope(p, ctyVal)
+	EncodeAlbListenerRule_Action_AuthenticateOidc_TokenEndpoint(p, ctyVal)
+	EncodeAlbListenerRule_Action_AuthenticateOidc_UserInfoEndpoint(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateOidc_ClientId(p, ctyVal)
-	EncodeAlbListenerRule_Action_AuthenticateOidc_Issuer(p, ctyVal)
 	EncodeAlbListenerRule_Action_AuthenticateOidc_OnUnauthenticatedRequest(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["authenticate_oidc"] = cty.ListVal(valsForCollection)
@@ -145,16 +159,8 @@ func EncodeAlbListenerRule_Action_AuthenticateOidc_ClientSecret(p AuthenticateOi
 	vals["client_secret"] = cty.StringVal(p.ClientSecret)
 }
 
-func EncodeAlbListenerRule_Action_AuthenticateOidc_Scope(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["scope"] = cty.StringVal(p.Scope)
-}
-
-func EncodeAlbListenerRule_Action_AuthenticateOidc_TokenEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["token_endpoint"] = cty.StringVal(p.TokenEndpoint)
-}
-
-func EncodeAlbListenerRule_Action_AuthenticateOidc_UserInfoEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["user_info_endpoint"] = cty.StringVal(p.UserInfoEndpoint)
+func EncodeAlbListenerRule_Action_AuthenticateOidc_Issuer(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["issuer"] = cty.StringVal(p.Issuer)
 }
 
 func EncodeAlbListenerRule_Action_AuthenticateOidc_SessionCookieName(p AuthenticateOidc, vals map[string]cty.Value) {
@@ -177,12 +183,20 @@ func EncodeAlbListenerRule_Action_AuthenticateOidc_AuthorizationEndpoint(p Authe
 	vals["authorization_endpoint"] = cty.StringVal(p.AuthorizationEndpoint)
 }
 
-func EncodeAlbListenerRule_Action_AuthenticateOidc_ClientId(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["client_id"] = cty.StringVal(p.ClientId)
+func EncodeAlbListenerRule_Action_AuthenticateOidc_Scope(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["scope"] = cty.StringVal(p.Scope)
 }
 
-func EncodeAlbListenerRule_Action_AuthenticateOidc_Issuer(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["issuer"] = cty.StringVal(p.Issuer)
+func EncodeAlbListenerRule_Action_AuthenticateOidc_TokenEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["token_endpoint"] = cty.StringVal(p.TokenEndpoint)
+}
+
+func EncodeAlbListenerRule_Action_AuthenticateOidc_UserInfoEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["user_info_endpoint"] = cty.StringVal(p.UserInfoEndpoint)
+}
+
+func EncodeAlbListenerRule_Action_AuthenticateOidc_ClientId(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["client_id"] = cty.StringVal(p.ClientId)
 }
 
 func EncodeAlbListenerRule_Action_AuthenticateOidc_OnUnauthenticatedRequest(p AuthenticateOidc, vals map[string]cty.Value) {
@@ -297,15 +311,31 @@ func EncodeAlbListenerRule_Condition(p []Condition, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeAlbListenerRule_Condition_SourceIp(v.SourceIp, ctyVal)
 		EncodeAlbListenerRule_Condition_HostHeader(v.HostHeader, ctyVal)
 		EncodeAlbListenerRule_Condition_HttpHeader(v.HttpHeader, ctyVal)
 		EncodeAlbListenerRule_Condition_HttpRequestMethod(v.HttpRequestMethod, ctyVal)
 		EncodeAlbListenerRule_Condition_PathPattern(v.PathPattern, ctyVal)
 		EncodeAlbListenerRule_Condition_QueryString(v.QueryString, ctyVal)
-		EncodeAlbListenerRule_Condition_SourceIp(v.SourceIp, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["condition"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeAlbListenerRule_Condition_SourceIp(p SourceIp, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAlbListenerRule_Condition_SourceIp_Values(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["source_ip"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeAlbListenerRule_Condition_SourceIp_Values(p SourceIp, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Values {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["values"] = cty.SetVal(colVals)
 }
 
 func EncodeAlbListenerRule_Condition_HostHeader(p HostHeader, vals map[string]cty.Value) {
@@ -392,22 +422,6 @@ func EncodeAlbListenerRule_Condition_QueryString_Key(p QueryString, vals map[str
 
 func EncodeAlbListenerRule_Condition_QueryString_Value(p QueryString, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
-}
-
-func EncodeAlbListenerRule_Condition_SourceIp(p SourceIp, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListenerRule_Condition_SourceIp_Values(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["source_ip"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAlbListenerRule_Condition_SourceIp_Values(p SourceIp, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Values {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["values"] = cty.SetVal(colVals)
 }
 
 func EncodeAlbListenerRule_Arn(p AlbListenerRuleObservation, vals map[string]cty.Value) {

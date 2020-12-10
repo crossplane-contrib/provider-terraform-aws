@@ -52,14 +52,14 @@ type AppsyncFunctionSpec struct {
 
 // A AppsyncFunctionParameters defines the desired state of a AppsyncFunction
 type AppsyncFunctionParameters struct {
-	DataSource              string `json:"data_source"`
+	ApiId                   string `json:"api_id"`
 	Description             string `json:"description"`
+	RequestMappingTemplate  string `json:"request_mapping_template"`
+	DataSource              string `json:"data_source"`
 	FunctionVersion         string `json:"function_version"`
 	Id                      string `json:"id"`
 	Name                    string `json:"name"`
-	ApiId                   string `json:"api_id"`
 	ResponseMappingTemplate string `json:"response_mapping_template"`
-	RequestMappingTemplate  string `json:"request_mapping_template"`
 }
 
 // A AppsyncFunctionStatus defines the observed state of a AppsyncFunction

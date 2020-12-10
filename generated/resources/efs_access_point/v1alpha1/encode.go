@@ -17,28 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*EfsAccessPoint)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a EfsAccessPoint.")
+	}
+	return EncodeEfsAccessPoint(*r), nil
+}
 
 func EncodeEfsAccessPoint(r EfsAccessPoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEfsAccessPoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEfsAccessPoint_FileSystemId(r.Spec.ForProvider, ctyVal)
 	EncodeEfsAccessPoint_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEfsAccessPoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEfsAccessPoint_PosixUser(r.Spec.ForProvider.PosixUser, ctyVal)
 	EncodeEfsAccessPoint_RootDirectory(r.Spec.ForProvider.RootDirectory, ctyVal)
-	EncodeEfsAccessPoint_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeEfsAccessPoint_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEfsAccessPoint_FileSystemArn(r.Status.AtProvider, ctyVal)
+	EncodeEfsAccessPoint_OwnerId(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEfsAccessPoint_FileSystemId(p EfsAccessPointParameters, vals map[string]cty.Value) {
-	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
-}
-
-func EncodeEfsAccessPoint_Id(p EfsAccessPointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEfsAccessPoint_Tags(p EfsAccessPointParameters, vals map[string]cty.Value) {
@@ -49,14 +55,26 @@ func EncodeEfsAccessPoint_Tags(p EfsAccessPointParameters, vals map[string]cty.V
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeEfsAccessPoint_FileSystemId(p EfsAccessPointParameters, vals map[string]cty.Value) {
+	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
+}
+
+func EncodeEfsAccessPoint_Id(p EfsAccessPointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeEfsAccessPoint_PosixUser(p PosixUser, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeEfsAccessPoint_PosixUser_Uid(p, ctyVal)
 	EncodeEfsAccessPoint_PosixUser_Gid(p, ctyVal)
 	EncodeEfsAccessPoint_PosixUser_SecondaryGids(p, ctyVal)
-	EncodeEfsAccessPoint_PosixUser_Uid(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["posix_user"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeEfsAccessPoint_PosixUser_Uid(p PosixUser, vals map[string]cty.Value) {
+	vals["uid"] = cty.NumberIntVal(p.Uid)
 }
 
 func EncodeEfsAccessPoint_PosixUser_Gid(p PosixUser, vals map[string]cty.Value) {
@@ -69,10 +87,6 @@ func EncodeEfsAccessPoint_PosixUser_SecondaryGids(p PosixUser, vals map[string]c
 		colVals = append(colVals, cty.NumberIntVal(value))
 	}
 	vals["secondary_gids"] = cty.SetVal(colVals)
-}
-
-func EncodeEfsAccessPoint_PosixUser_Uid(p PosixUser, vals map[string]cty.Value) {
-	vals["uid"] = cty.NumberIntVal(p.Uid)
 }
 
 func EncodeEfsAccessPoint_RootDirectory(p RootDirectory, vals map[string]cty.Value) {
@@ -110,14 +124,14 @@ func EncodeEfsAccessPoint_RootDirectory_CreationInfo_Permissions(p CreationInfo,
 	vals["permissions"] = cty.StringVal(p.Permissions)
 }
 
-func EncodeEfsAccessPoint_OwnerId(p EfsAccessPointObservation, vals map[string]cty.Value) {
-	vals["owner_id"] = cty.StringVal(p.OwnerId)
-}
-
 func EncodeEfsAccessPoint_Arn(p EfsAccessPointObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeEfsAccessPoint_FileSystemArn(p EfsAccessPointObservation, vals map[string]cty.Value) {
 	vals["file_system_arn"] = cty.StringVal(p.FileSystemArn)
+}
+
+func EncodeEfsAccessPoint_OwnerId(p EfsAccessPointObservation, vals map[string]cty.Value) {
+	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }

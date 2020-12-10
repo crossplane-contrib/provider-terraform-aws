@@ -17,38 +17,52 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueUserDefinedFunction)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueUserDefinedFunction.")
+	}
+	return EncodeGlueUserDefinedFunction(*r), nil
+}
 
 func EncodeGlueUserDefinedFunction(r GlueUserDefinedFunction) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueUserDefinedFunction_Name(r.Spec.ForProvider, ctyVal)
-	EncodeGlueUserDefinedFunction_OwnerType(r.Spec.ForProvider, ctyVal)
-	EncodeGlueUserDefinedFunction_CatalogId(r.Spec.ForProvider, ctyVal)
 	EncodeGlueUserDefinedFunction_ClassName(r.Spec.ForProvider, ctyVal)
+	EncodeGlueUserDefinedFunction_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlueUserDefinedFunction_OwnerName(r.Spec.ForProvider, ctyVal)
+	EncodeGlueUserDefinedFunction_OwnerType(r.Spec.ForProvider, ctyVal)
 	EncodeGlueUserDefinedFunction_DatabaseName(r.Spec.ForProvider, ctyVal)
 	EncodeGlueUserDefinedFunction_Id(r.Spec.ForProvider, ctyVal)
-	EncodeGlueUserDefinedFunction_OwnerName(r.Spec.ForProvider, ctyVal)
+	EncodeGlueUserDefinedFunction_CatalogId(r.Spec.ForProvider, ctyVal)
 	EncodeGlueUserDefinedFunction_ResourceUris(r.Spec.ForProvider.ResourceUris, ctyVal)
-	EncodeGlueUserDefinedFunction_CreateTime(r.Status.AtProvider, ctyVal)
 	EncodeGlueUserDefinedFunction_Arn(r.Status.AtProvider, ctyVal)
+	EncodeGlueUserDefinedFunction_CreateTime(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlueUserDefinedFunction_ClassName(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
+	vals["class_name"] = cty.StringVal(p.ClassName)
 }
 
 func EncodeGlueUserDefinedFunction_Name(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeGlueUserDefinedFunction_OwnerName(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
+	vals["owner_name"] = cty.StringVal(p.OwnerName)
+}
+
 func EncodeGlueUserDefinedFunction_OwnerType(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
 	vals["owner_type"] = cty.StringVal(p.OwnerType)
-}
-
-func EncodeGlueUserDefinedFunction_CatalogId(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
-	vals["catalog_id"] = cty.StringVal(p.CatalogId)
-}
-
-func EncodeGlueUserDefinedFunction_ClassName(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
-	vals["class_name"] = cty.StringVal(p.ClassName)
 }
 
 func EncodeGlueUserDefinedFunction_DatabaseName(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
@@ -59,8 +73,8 @@ func EncodeGlueUserDefinedFunction_Id(p GlueUserDefinedFunctionParameters, vals 
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeGlueUserDefinedFunction_OwnerName(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
-	vals["owner_name"] = cty.StringVal(p.OwnerName)
+func EncodeGlueUserDefinedFunction_CatalogId(p GlueUserDefinedFunctionParameters, vals map[string]cty.Value) {
+	vals["catalog_id"] = cty.StringVal(p.CatalogId)
 }
 
 func EncodeGlueUserDefinedFunction_ResourceUris(p []ResourceUris, vals map[string]cty.Value) {
@@ -82,10 +96,10 @@ func EncodeGlueUserDefinedFunction_ResourceUris_Uri(p ResourceUris, vals map[str
 	vals["uri"] = cty.StringVal(p.Uri)
 }
 
-func EncodeGlueUserDefinedFunction_CreateTime(p GlueUserDefinedFunctionObservation, vals map[string]cty.Value) {
-	vals["create_time"] = cty.StringVal(p.CreateTime)
-}
-
 func EncodeGlueUserDefinedFunction_Arn(p GlueUserDefinedFunctionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeGlueUserDefinedFunction_CreateTime(p GlueUserDefinedFunctionObservation, vals map[string]cty.Value) {
+	vals["create_time"] = cty.StringVal(p.CreateTime)
 }

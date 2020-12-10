@@ -52,20 +52,20 @@ type S3AccessPointSpec struct {
 
 // A S3AccessPointParameters defines the desired state of a S3AccessPoint
 type S3AccessPointParameters struct {
-	Bucket                         string                         `json:"bucket"`
 	Id                             string                         `json:"id"`
 	Name                           string                         `json:"name"`
 	Policy                         string                         `json:"policy"`
 	AccountId                      string                         `json:"account_id"`
+	Bucket                         string                         `json:"bucket"`
 	PublicAccessBlockConfiguration PublicAccessBlockConfiguration `json:"public_access_block_configuration"`
 	VpcConfiguration               VpcConfiguration               `json:"vpc_configuration"`
 }
 
 type PublicAccessBlockConfiguration struct {
-	BlockPublicAcls       bool `json:"block_public_acls"`
 	BlockPublicPolicy     bool `json:"block_public_policy"`
 	IgnorePublicAcls      bool `json:"ignore_public_acls"`
 	RestrictPublicBuckets bool `json:"restrict_public_buckets"`
+	BlockPublicAcls       bool `json:"block_public_acls"`
 }
 
 type VpcConfiguration struct {
@@ -80,8 +80,8 @@ type S3AccessPointStatus struct {
 
 // A S3AccessPointObservation records the observed state of a S3AccessPoint
 type S3AccessPointObservation struct {
-	DomainName            string `json:"domain_name"`
-	NetworkOrigin         string `json:"network_origin"`
-	Arn                   string `json:"arn"`
 	HasPublicAccessPolicy bool   `json:"has_public_access_policy"`
+	NetworkOrigin         string `json:"network_origin"`
+	DomainName            string `json:"domain_name"`
+	Arn                   string `json:"arn"`
 }

@@ -52,27 +52,27 @@ type Route53HealthCheckSpec struct {
 
 // A Route53HealthCheckParameters defines the desired state of a Route53HealthCheck
 type Route53HealthCheckParameters struct {
-	Tags                         map[string]string `json:"tags"`
-	CloudwatchAlarmName          string            `json:"cloudwatch_alarm_name"`
-	InvertHealthcheck            bool              `json:"invert_healthcheck"`
-	RequestInterval              int64             `json:"request_interval"`
+	ResourcePath                 string            `json:"resource_path"`
+	ChildHealthThreshold         int64             `json:"child_health_threshold"`
+	CloudwatchAlarmRegion        string            `json:"cloudwatch_alarm_region"`
+	Disabled                     bool              `json:"disabled"`
+	FailureThreshold             int64             `json:"failure_threshold"`
 	Fqdn                         string            `json:"fqdn"`
 	MeasureLatency               bool              `json:"measure_latency"`
-	ResourcePath                 string            `json:"resource_path"`
-	CloudwatchAlarmRegion        string            `json:"cloudwatch_alarm_region"`
+	RequestInterval              int64             `json:"request_interval"`
+	CloudwatchAlarmName          string            `json:"cloudwatch_alarm_name"`
 	EnableSni                    bool              `json:"enable_sni"`
-	FailureThreshold             int64             `json:"failure_threshold"`
-	Port                         int64             `json:"port"`
-	Regions                      []string          `json:"regions"`
-	SearchString                 string            `json:"search_string"`
-	ChildHealthchecks            []string          `json:"child_healthchecks"`
 	Id                           string            `json:"id"`
 	InsufficientDataHealthStatus string            `json:"insufficient_data_health_status"`
-	ReferenceName                string            `json:"reference_name"`
-	Type                         string            `json:"type"`
-	ChildHealthThreshold         int64             `json:"child_health_threshold"`
-	Disabled                     bool              `json:"disabled"`
 	IpAddress                    string            `json:"ip_address"`
+	InvertHealthcheck            bool              `json:"invert_healthcheck"`
+	SearchString                 string            `json:"search_string"`
+	Type                         string            `json:"type"`
+	ChildHealthchecks            []string          `json:"child_healthchecks"`
+	Port                         int64             `json:"port"`
+	ReferenceName                string            `json:"reference_name"`
+	Regions                      []string          `json:"regions"`
+	Tags                         map[string]string `json:"tags"`
 }
 
 // A Route53HealthCheckStatus defines the observed state of a Route53HealthCheck

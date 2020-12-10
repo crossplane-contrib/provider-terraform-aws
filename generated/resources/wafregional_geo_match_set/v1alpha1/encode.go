@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafregionalGeoMatchSet)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafregionalGeoMatchSet.")
+	}
+	return EncodeWafregionalGeoMatchSet(*r), nil
+}
 
 func EncodeWafregionalGeoMatchSet(r WafregionalGeoMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -40,16 +54,16 @@ func EncodeWafregionalGeoMatchSet_Id(p WafregionalGeoMatchSetParameters, vals ma
 func EncodeWafregionalGeoMatchSet_GeoMatchConstraint(p GeoMatchConstraint, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Value(p, ctyVal)
 	EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Type(p, ctyVal)
+	EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Value(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["geo_match_constraint"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Value(p GeoMatchConstraint, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
-}
-
 func EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Type(p GeoMatchConstraint, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeWafregionalGeoMatchSet_GeoMatchConstraint_Value(p GeoMatchConstraint, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }

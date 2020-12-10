@@ -17,21 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueCrawler)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueCrawler.")
+	}
+	return EncodeGlueCrawler(*r), nil
+}
 
 func EncodeGlueCrawler(r GlueCrawler) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueCrawler_Configuration(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_DatabaseName(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Description(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Schedule(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_SecurityConfiguration(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Classifiers(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_Name(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCrawler_Role(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Schedule(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_SecurityConfiguration(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_TablePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Configuration(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Classifiers(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_DatabaseName(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Description(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCrawler_Role(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCrawler_CatalogTarget(r.Spec.ForProvider.CatalogTarget, ctyVal)
 	EncodeGlueCrawler_DynamodbTarget(r.Spec.ForProvider.DynamodbTarget, ctyVal)
@@ -42,16 +56,12 @@ func EncodeGlueCrawler(r GlueCrawler) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeGlueCrawler_Configuration(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["configuration"] = cty.StringVal(p.Configuration)
+func EncodeGlueCrawler_Id(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeGlueCrawler_DatabaseName(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["database_name"] = cty.StringVal(p.DatabaseName)
-}
-
-func EncodeGlueCrawler_Description(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
+func EncodeGlueCrawler_Name(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeGlueCrawler_Schedule(p GlueCrawlerParameters, vals map[string]cty.Value) {
@@ -62,6 +72,14 @@ func EncodeGlueCrawler_SecurityConfiguration(p GlueCrawlerParameters, vals map[s
 	vals["security_configuration"] = cty.StringVal(p.SecurityConfiguration)
 }
 
+func EncodeGlueCrawler_TablePrefix(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["table_prefix"] = cty.StringVal(p.TablePrefix)
+}
+
+func EncodeGlueCrawler_Configuration(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["configuration"] = cty.StringVal(p.Configuration)
+}
+
 func EncodeGlueCrawler_Classifiers(p GlueCrawlerParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.Classifiers {
@@ -70,20 +88,16 @@ func EncodeGlueCrawler_Classifiers(p GlueCrawlerParameters, vals map[string]cty.
 	vals["classifiers"] = cty.ListVal(colVals)
 }
 
-func EncodeGlueCrawler_Id(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeGlueCrawler_DatabaseName(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["database_name"] = cty.StringVal(p.DatabaseName)
 }
 
-func EncodeGlueCrawler_Name(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeGlueCrawler_Description(p GlueCrawlerParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeGlueCrawler_Role(p GlueCrawlerParameters, vals map[string]cty.Value) {
 	vals["role"] = cty.StringVal(p.Role)
-}
-
-func EncodeGlueCrawler_TablePrefix(p GlueCrawlerParameters, vals map[string]cty.Value) {
-	vals["table_prefix"] = cty.StringVal(p.TablePrefix)
 }
 
 func EncodeGlueCrawler_Tags(p GlueCrawlerParameters, vals map[string]cty.Value) {

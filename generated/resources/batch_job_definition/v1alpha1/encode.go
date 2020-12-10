@@ -17,25 +17,35 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*BatchJobDefinition)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a BatchJobDefinition.")
+	}
+	return EncodeBatchJobDefinition(*r), nil
+}
 
 func EncodeBatchJobDefinition(r BatchJobDefinition) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeBatchJobDefinition_Type(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_ContainerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Id(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Name(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Parameters(r.Spec.ForProvider, ctyVal)
+	EncodeBatchJobDefinition_Type(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_RetryStrategy(r.Spec.ForProvider.RetryStrategy, ctyVal)
 	EncodeBatchJobDefinition_Timeout(r.Spec.ForProvider.Timeout, ctyVal)
-	EncodeBatchJobDefinition_Revision(r.Status.AtProvider, ctyVal)
 	EncodeBatchJobDefinition_Arn(r.Status.AtProvider, ctyVal)
+	EncodeBatchJobDefinition_Revision(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeBatchJobDefinition_Type(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeBatchJobDefinition_ContainerProperties(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
@@ -56,6 +66,10 @@ func EncodeBatchJobDefinition_Parameters(p BatchJobDefinitionParameters, vals ma
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["parameters"] = cty.MapVal(mVals)
+}
+
+func EncodeBatchJobDefinition_Type(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeBatchJobDefinition_RetryStrategy(p RetryStrategy, vals map[string]cty.Value) {
@@ -82,10 +96,10 @@ func EncodeBatchJobDefinition_Timeout_AttemptDurationSeconds(p Timeout, vals map
 	vals["attempt_duration_seconds"] = cty.NumberIntVal(p.AttemptDurationSeconds)
 }
 
-func EncodeBatchJobDefinition_Revision(p BatchJobDefinitionObservation, vals map[string]cty.Value) {
-	vals["revision"] = cty.NumberIntVal(p.Revision)
-}
-
 func EncodeBatchJobDefinition_Arn(p BatchJobDefinitionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeBatchJobDefinition_Revision(p BatchJobDefinitionObservation, vals map[string]cty.Value) {
+	vals["revision"] = cty.NumberIntVal(p.Revision)
 }

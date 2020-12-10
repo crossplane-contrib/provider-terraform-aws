@@ -52,8 +52,8 @@ type CloudfrontOriginAccessIdentitySpec struct {
 
 // A CloudfrontOriginAccessIdentityParameters defines the desired state of a CloudfrontOriginAccessIdentity
 type CloudfrontOriginAccessIdentityParameters struct {
-	Id      string `json:"id"`
 	Comment string `json:"comment"`
+	Id      string `json:"id"`
 }
 
 // A CloudfrontOriginAccessIdentityStatus defines the observed state of a CloudfrontOriginAccessIdentity
@@ -64,9 +64,9 @@ type CloudfrontOriginAccessIdentityStatus struct {
 
 // A CloudfrontOriginAccessIdentityObservation records the observed state of a CloudfrontOriginAccessIdentity
 type CloudfrontOriginAccessIdentityObservation struct {
-	IamArn                       string `json:"iam_arn"`
 	S3CanonicalUserId            string `json:"s3_canonical_user_id"`
 	CallerReference              string `json:"caller_reference"`
 	CloudfrontAccessIdentityPath string `json:"cloudfront_access_identity_path"`
 	Etag                         string `json:"etag"`
+	IamArn                       string `json:"iam_arn"`
 }

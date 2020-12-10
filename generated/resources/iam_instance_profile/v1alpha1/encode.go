@@ -17,20 +17,38 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*IamInstanceProfile)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a IamInstanceProfile.")
+	}
+	return EncodeIamInstanceProfile(*r), nil
+}
 
 func EncodeIamInstanceProfile(r IamInstanceProfile) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamInstanceProfile_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Role(r.Spec.ForProvider, ctyVal)
-	EncodeIamInstanceProfile_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_CreateDate(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamInstanceProfile_Id(p IamInstanceProfileParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamInstanceProfile_Name(p IamInstanceProfileParameters, vals map[string]cty.Value) {
@@ -47,10 +65,6 @@ func EncodeIamInstanceProfile_Path(p IamInstanceProfileParameters, vals map[stri
 
 func EncodeIamInstanceProfile_Role(p IamInstanceProfileParameters, vals map[string]cty.Value) {
 	vals["role"] = cty.StringVal(p.Role)
-}
-
-func EncodeIamInstanceProfile_Id(p IamInstanceProfileParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamInstanceProfile_UniqueId(p IamInstanceProfileObservation, vals map[string]cty.Value) {

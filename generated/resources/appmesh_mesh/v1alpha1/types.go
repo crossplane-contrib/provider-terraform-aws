@@ -74,9 +74,9 @@ type AppmeshMeshStatus struct {
 
 // A AppmeshMeshObservation records the observed state of a AppmeshMesh
 type AppmeshMeshObservation struct {
+	CreatedDate     string `json:"created_date"`
 	LastUpdatedDate string `json:"last_updated_date"`
 	MeshOwner       string `json:"mesh_owner"`
 	ResourceOwner   string `json:"resource_owner"`
 	Arn             string `json:"arn"`
-	CreatedDate     string `json:"created_date"`
 }

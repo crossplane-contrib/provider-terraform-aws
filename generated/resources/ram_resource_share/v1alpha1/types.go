@@ -60,8 +60,8 @@ type RamResourceShareParameters struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A RamResourceShareStatus defines the observed state of a RamResourceShare

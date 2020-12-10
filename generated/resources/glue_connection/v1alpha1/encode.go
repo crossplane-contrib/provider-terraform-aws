@@ -17,21 +17,39 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlueConnection)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlueConnection.")
+	}
+	return EncodeGlueConnection(*r), nil
+}
 
 func EncodeGlueConnection(r GlueConnection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueConnection_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueConnection_CatalogId(r.Spec.ForProvider, ctyVal)
 	EncodeGlueConnection_ConnectionProperties(r.Spec.ForProvider, ctyVal)
 	EncodeGlueConnection_ConnectionType(r.Spec.ForProvider, ctyVal)
 	EncodeGlueConnection_Description(r.Spec.ForProvider, ctyVal)
 	EncodeGlueConnection_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueConnection_MatchCriteria(r.Spec.ForProvider, ctyVal)
-	EncodeGlueConnection_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueConnection_PhysicalConnectionRequirements(r.Spec.ForProvider.PhysicalConnectionRequirements, ctyVal)
 	EncodeGlueConnection_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlueConnection_Name(p GlueConnectionParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeGlueConnection_CatalogId(p GlueConnectionParameters, vals map[string]cty.Value) {
@@ -64,10 +82,6 @@ func EncodeGlueConnection_MatchCriteria(p GlueConnectionParameters, vals map[str
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["match_criteria"] = cty.ListVal(colVals)
-}
-
-func EncodeGlueConnection_Name(p GlueConnectionParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeGlueConnection_PhysicalConnectionRequirements(p PhysicalConnectionRequirements, vals map[string]cty.Value) {

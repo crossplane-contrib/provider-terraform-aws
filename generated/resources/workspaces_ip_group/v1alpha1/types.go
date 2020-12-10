@@ -60,8 +60,8 @@ type WorkspacesIpGroupParameters struct {
 }
 
 type Rules struct {
-	Source      string `json:"source"`
 	Description string `json:"description"`
+	Source      string `json:"source"`
 }
 
 // A WorkspacesIpGroupStatus defines the observed state of a WorkspacesIpGroup

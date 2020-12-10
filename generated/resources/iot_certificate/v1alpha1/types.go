@@ -52,9 +52,9 @@ type IotCertificateSpec struct {
 
 // A IotCertificateParameters defines the desired state of a IotCertificate
 type IotCertificateParameters struct {
-	Csr    string `json:"csr"`
 	Id     string `json:"id"`
 	Active bool   `json:"active"`
+	Csr    string `json:"csr"`
 }
 
 // A IotCertificateStatus defines the observed state of a IotCertificate
@@ -65,8 +65,8 @@ type IotCertificateStatus struct {
 
 // A IotCertificateObservation records the observed state of a IotCertificate
 type IotCertificateObservation struct {
-	Arn            string `json:"arn"`
-	CertificatePem string `json:"certificate_pem"`
 	PrivateKey     string `json:"private_key"`
 	PublicKey      string `json:"public_key"`
+	Arn            string `json:"arn"`
+	CertificatePem string `json:"certificate_pem"`
 }

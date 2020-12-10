@@ -56,9 +56,13 @@ type WafregionalWebAclParameters struct {
 	MetricName           string               `json:"metric_name"`
 	Name                 string               `json:"name"`
 	Tags                 map[string]string    `json:"tags"`
+	DefaultAction        DefaultAction        `json:"default_action"`
 	LoggingConfiguration LoggingConfiguration `json:"logging_configuration"`
 	Rule                 Rule                 `json:"rule"`
-	DefaultAction        DefaultAction        `json:"default_action"`
+}
+
+type DefaultAction struct {
+	Type string `json:"type"`
 }
 
 type LoggingConfiguration struct {
@@ -71,14 +75,14 @@ type RedactedFields struct {
 }
 
 type FieldToMatch struct {
-	Data string `json:"data"`
 	Type string `json:"type"`
+	Data string `json:"data"`
 }
 
 type Rule struct {
+	Type           string         `json:"type"`
 	Priority       int64          `json:"priority"`
 	RuleId         string         `json:"rule_id"`
-	Type           string         `json:"type"`
 	Action         Action         `json:"action"`
 	OverrideAction OverrideAction `json:"override_action"`
 }
@@ -88,10 +92,6 @@ type Action struct {
 }
 
 type OverrideAction struct {
-	Type string `json:"type"`
-}
-
-type DefaultAction struct {
 	Type string `json:"type"`
 }
 

@@ -17,17 +17,39 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*QldbLedger)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a QldbLedger.")
+	}
+	return EncodeQldbLedger(*r), nil
+}
 
 func EncodeQldbLedger(r QldbLedger) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeQldbLedger_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_DeletionProtection(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Id(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Name(r.Spec.ForProvider, ctyVal)
-	EncodeQldbLedger_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeQldbLedger_Tags(p QldbLedgerParameters, vals map[string]cty.Value) {
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeQldbLedger_DeletionProtection(p QldbLedgerParameters, vals map[string]cty.Value) {
@@ -40,14 +62,6 @@ func EncodeQldbLedger_Id(p QldbLedgerParameters, vals map[string]cty.Value) {
 
 func EncodeQldbLedger_Name(p QldbLedgerParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeQldbLedger_Tags(p QldbLedgerParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeQldbLedger_Arn(p QldbLedgerObservation, vals map[string]cty.Value) {

@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*BackupSelection)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a BackupSelection.")
+	}
+	return EncodeBackupSelection(*r), nil
+}
 
 func EncodeBackupSelection(r BackupSelection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -59,15 +73,11 @@ func EncodeBackupSelection_Resources(p BackupSelectionParameters, vals map[strin
 func EncodeBackupSelection_SelectionTag(p SelectionTag, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeBackupSelection_SelectionTag_Value(p, ctyVal)
 	EncodeBackupSelection_SelectionTag_Key(p, ctyVal)
 	EncodeBackupSelection_SelectionTag_Type(p, ctyVal)
+	EncodeBackupSelection_SelectionTag_Value(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["selection_tag"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeBackupSelection_SelectionTag_Value(p SelectionTag, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeBackupSelection_SelectionTag_Key(p SelectionTag, vals map[string]cty.Value) {
@@ -76,4 +86,8 @@ func EncodeBackupSelection_SelectionTag_Key(p SelectionTag, vals map[string]cty.
 
 func EncodeBackupSelection_SelectionTag_Type(p SelectionTag, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeBackupSelection_SelectionTag_Value(p SelectionTag, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }

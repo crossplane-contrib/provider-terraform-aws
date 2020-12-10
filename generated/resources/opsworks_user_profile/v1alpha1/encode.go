@@ -17,22 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*OpsworksUserProfile)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a OpsworksUserProfile.")
+	}
+	return EncodeOpsworksUserProfile(*r), nil
+}
 
 func EncodeOpsworksUserProfile(r OpsworksUserProfile) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksUserProfile_SshUsername(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_UserArn(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_AllowSelfManagement(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_SshPublicKey(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksUserProfile_SshUsername(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOpsworksUserProfile_SshUsername(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	vals["ssh_username"] = cty.StringVal(p.SshUsername)
 }
 
 func EncodeOpsworksUserProfile_UserArn(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
@@ -49,4 +59,8 @@ func EncodeOpsworksUserProfile_Id(p OpsworksUserProfileParameters, vals map[stri
 
 func EncodeOpsworksUserProfile_SshPublicKey(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
 	vals["ssh_public_key"] = cty.StringVal(p.SshPublicKey)
+}
+
+func EncodeOpsworksUserProfile_SshUsername(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
+	vals["ssh_username"] = cty.StringVal(p.SshUsername)
 }

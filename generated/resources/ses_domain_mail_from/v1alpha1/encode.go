@@ -17,25 +17,31 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SesDomainMailFrom)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SesDomainMailFrom.")
+	}
+	return EncodeSesDomainMailFrom(*r), nil
+}
 
 func EncodeSesDomainMailFrom(r SesDomainMailFrom) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesDomainMailFrom_BehaviorOnMxFailure(r.Spec.ForProvider, ctyVal)
-	EncodeSesDomainMailFrom_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainMailFrom_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainMailFrom_MailFromDomain(r.Spec.ForProvider, ctyVal)
+	EncodeSesDomainMailFrom_BehaviorOnMxFailure(r.Spec.ForProvider, ctyVal)
+	EncodeSesDomainMailFrom_Domain(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSesDomainMailFrom_BehaviorOnMxFailure(p SesDomainMailFromParameters, vals map[string]cty.Value) {
-	vals["behavior_on_mx_failure"] = cty.StringVal(p.BehaviorOnMxFailure)
-}
-
-func EncodeSesDomainMailFrom_Domain(p SesDomainMailFromParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
 }
 
 func EncodeSesDomainMailFrom_Id(p SesDomainMailFromParameters, vals map[string]cty.Value) {
@@ -44,4 +50,12 @@ func EncodeSesDomainMailFrom_Id(p SesDomainMailFromParameters, vals map[string]c
 
 func EncodeSesDomainMailFrom_MailFromDomain(p SesDomainMailFromParameters, vals map[string]cty.Value) {
 	vals["mail_from_domain"] = cty.StringVal(p.MailFromDomain)
+}
+
+func EncodeSesDomainMailFrom_BehaviorOnMxFailure(p SesDomainMailFromParameters, vals map[string]cty.Value) {
+	vals["behavior_on_mx_failure"] = cty.StringVal(p.BehaviorOnMxFailure)
+}
+
+func EncodeSesDomainMailFrom_Domain(p SesDomainMailFromParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
 }

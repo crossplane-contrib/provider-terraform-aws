@@ -52,12 +52,12 @@ type AthenaWorkgroupSpec struct {
 
 // A AthenaWorkgroupParameters defines the desired state of a AthenaWorkgroup
 type AthenaWorkgroupParameters struct {
+	Tags          map[string]string `json:"tags"`
+	Description   string            `json:"description"`
 	ForceDestroy  bool              `json:"force_destroy"`
 	Id            string            `json:"id"`
 	Name          string            `json:"name"`
 	State         string            `json:"state"`
-	Tags          map[string]string `json:"tags"`
-	Description   string            `json:"description"`
 	Configuration Configuration     `json:"configuration"`
 }
 

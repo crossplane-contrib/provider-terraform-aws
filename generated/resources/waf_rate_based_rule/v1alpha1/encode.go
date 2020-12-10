@@ -17,20 +17,46 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WafRateBasedRule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WafRateBasedRule.")
+	}
+	return EncodeWafRateBasedRule(*r), nil
+}
 
 func EncodeWafRateBasedRule(r WafRateBasedRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeWafRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeWafRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_RateKey(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_RateLimit(r.Spec.ForProvider, ctyVal)
+	EncodeWafRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeWafRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Predicates(r.Spec.ForProvider.Predicates, ctyVal)
 	EncodeWafRateBasedRule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWafRateBasedRule_Name(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafRateBasedRule_RateKey(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["rate_key"] = cty.StringVal(p.RateKey)
+}
+
+func EncodeWafRateBasedRule_RateLimit(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
 }
 
 func EncodeWafRateBasedRule_Tags(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
@@ -49,26 +75,18 @@ func EncodeWafRateBasedRule_MetricName(p WafRateBasedRuleParameters, vals map[st
 	vals["metric_name"] = cty.StringVal(p.MetricName)
 }
 
-func EncodeWafRateBasedRule_Name(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeWafRateBasedRule_RateKey(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["rate_key"] = cty.StringVal(p.RateKey)
-}
-
-func EncodeWafRateBasedRule_RateLimit(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
-}
-
 func EncodeWafRateBasedRule_Predicates(p Predicates, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafRateBasedRule_Predicates_Type(p, ctyVal)
 	EncodeWafRateBasedRule_Predicates_DataId(p, ctyVal)
 	EncodeWafRateBasedRule_Predicates_Negated(p, ctyVal)
-	EncodeWafRateBasedRule_Predicates_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["predicates"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeWafRateBasedRule_Predicates_Type(p Predicates, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafRateBasedRule_Predicates_DataId(p Predicates, vals map[string]cty.Value) {
@@ -77,10 +95,6 @@ func EncodeWafRateBasedRule_Predicates_DataId(p Predicates, vals map[string]cty.
 
 func EncodeWafRateBasedRule_Predicates_Negated(p Predicates, vals map[string]cty.Value) {
 	vals["negated"] = cty.BoolVal(p.Negated)
-}
-
-func EncodeWafRateBasedRule_Predicates_Type(p Predicates, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafRateBasedRule_Arn(p WafRateBasedRuleObservation, vals map[string]cty.Value) {

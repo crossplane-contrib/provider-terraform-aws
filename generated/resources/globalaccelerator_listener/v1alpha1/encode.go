@@ -17,18 +17,36 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlobalacceleratorListener)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlobalacceleratorListener.")
+	}
+	return EncodeGlobalacceleratorListener(*r), nil
+}
 
 func EncodeGlobalacceleratorListener(r GlobalacceleratorListener) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlobalacceleratorListener_AcceleratorArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_ClientAffinity(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_Protocol(r.Spec.ForProvider, ctyVal)
-	EncodeGlobalacceleratorListener_AcceleratorArn(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_PortRange(r.Spec.ForProvider.PortRange, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlobalacceleratorListener_AcceleratorArn(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
+	vals["accelerator_arn"] = cty.StringVal(p.AcceleratorArn)
 }
 
 func EncodeGlobalacceleratorListener_ClientAffinity(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
@@ -41,10 +59,6 @@ func EncodeGlobalacceleratorListener_Id(p GlobalacceleratorListenerParameters, v
 
 func EncodeGlobalacceleratorListener_Protocol(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
 	vals["protocol"] = cty.StringVal(p.Protocol)
-}
-
-func EncodeGlobalacceleratorListener_AcceleratorArn(p GlobalacceleratorListenerParameters, vals map[string]cty.Value) {
-	vals["accelerator_arn"] = cty.StringVal(p.AcceleratorArn)
 }
 
 func EncodeGlobalacceleratorListener_PortRange(p []PortRange, vals map[string]cty.Value) {

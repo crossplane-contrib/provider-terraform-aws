@@ -59,9 +59,9 @@ type CognitoIdentityPoolRolesAttachmentParameters struct {
 }
 
 type RoleMapping struct {
-	AmbiguousRoleResolution string        `json:"ambiguous_role_resolution"`
 	IdentityProvider        string        `json:"identity_provider"`
 	Type                    string        `json:"type"`
+	AmbiguousRoleResolution string        `json:"ambiguous_role_resolution"`
 	MappingRule             []MappingRule `json:"mapping_rule"`
 }
 

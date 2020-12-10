@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CodebuildReportGroup)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CodebuildReportGroup.")
+	}
+	return EncodeCodebuildReportGroup(*r), nil
+}
 
 func EncodeCodebuildReportGroup(r CodebuildReportGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -27,8 +41,8 @@ func EncodeCodebuildReportGroup(r CodebuildReportGroup) cty.Value {
 	EncodeCodebuildReportGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildReportGroup_Type(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildReportGroup_ExportConfig(r.Spec.ForProvider.ExportConfig, ctyVal)
-	EncodeCodebuildReportGroup_Arn(r.Status.AtProvider, ctyVal)
 	EncodeCodebuildReportGroup_Created(r.Status.AtProvider, ctyVal)
+	EncodeCodebuildReportGroup_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -97,10 +111,10 @@ func EncodeCodebuildReportGroup_ExportConfig_S3Destination_Path(p S3Destination,
 	vals["path"] = cty.StringVal(p.Path)
 }
 
-func EncodeCodebuildReportGroup_Arn(p CodebuildReportGroupObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeCodebuildReportGroup_Created(p CodebuildReportGroupObservation, vals map[string]cty.Value) {
 	vals["created"] = cty.StringVal(p.Created)
+}
+
+func EncodeCodebuildReportGroup_Arn(p CodebuildReportGroupObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

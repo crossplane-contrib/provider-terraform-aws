@@ -17,19 +17,37 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*OpsworksPermission)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a OpsworksPermission.")
+	}
+	return EncodeOpsworksPermission(*r), nil
+}
 
 func EncodeOpsworksPermission(r OpsworksPermission) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeOpsworksPermission_Level(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_StackId(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_UserArn(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_AllowSsh(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_AllowSudo(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_Id(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksPermission_Level(r.Spec.ForProvider, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeOpsworksPermission_Level(p OpsworksPermissionParameters, vals map[string]cty.Value) {
+	vals["level"] = cty.StringVal(p.Level)
 }
 
 func EncodeOpsworksPermission_StackId(p OpsworksPermissionParameters, vals map[string]cty.Value) {
@@ -50,8 +68,4 @@ func EncodeOpsworksPermission_AllowSudo(p OpsworksPermissionParameters, vals map
 
 func EncodeOpsworksPermission_Id(p OpsworksPermissionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeOpsworksPermission_Level(p OpsworksPermissionParameters, vals map[string]cty.Value) {
-	vals["level"] = cty.StringVal(p.Level)
 }

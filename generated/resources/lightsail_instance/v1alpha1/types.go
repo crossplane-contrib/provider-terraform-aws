@@ -52,14 +52,14 @@ type LightsailInstanceSpec struct {
 
 // A LightsailInstanceParameters defines the desired state of a LightsailInstance
 type LightsailInstanceParameters struct {
-	AvailabilityZone string            `json:"availability_zone"`
-	KeyPairName      string            `json:"key_pair_name"`
-	Name             string            `json:"name"`
-	UserData         string            `json:"user_data"`
-	BlueprintId      string            `json:"blueprint_id"`
 	Id               string            `json:"id"`
+	KeyPairName      string            `json:"key_pair_name"`
 	Tags             map[string]string `json:"tags"`
+	BlueprintId      string            `json:"blueprint_id"`
 	BundleId         string            `json:"bundle_id"`
+	UserData         string            `json:"user_data"`
+	AvailabilityZone string            `json:"availability_zone"`
+	Name             string            `json:"name"`
 }
 
 // A LightsailInstanceStatus defines the observed state of a LightsailInstance
@@ -70,13 +70,13 @@ type LightsailInstanceStatus struct {
 
 // A LightsailInstanceObservation records the observed state of a LightsailInstance
 type LightsailInstanceObservation struct {
-	Ipv6Address      string `json:"ipv6_address"`
-	PrivateIpAddress string `json:"private_ip_address"`
-	PublicIpAddress  string `json:"public_ip_address"`
 	CreatedAt        string `json:"created_at"`
-	IsStaticIp       bool   `json:"is_static_ip"`
-	Arn              string `json:"arn"`
-	CpuCount         int64  `json:"cpu_count"`
-	RamSize          int64  `json:"ram_size"`
+	PrivateIpAddress string `json:"private_ip_address"`
 	Username         string `json:"username"`
+	CpuCount         int64  `json:"cpu_count"`
+	Arn              string `json:"arn"`
+	Ipv6Address      string `json:"ipv6_address"`
+	PublicIpAddress  string `json:"public_ip_address"`
+	RamSize          int64  `json:"ram_size"`
+	IsStaticIp       bool   `json:"is_static_ip"`
 }

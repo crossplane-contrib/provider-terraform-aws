@@ -52,24 +52,24 @@ type ApiGatewayStageSpec struct {
 
 // A ApiGatewayStageParameters defines the desired state of a ApiGatewayStage
 type ApiGatewayStageParameters struct {
-	ClientCertificateId  string            `json:"client_certificate_id"`
-	StageName            string            `json:"stage_name"`
+	DocumentationVersion string            `json:"documentation_version"`
 	Tags                 map[string]string `json:"tags"`
+	Description          string            `json:"description"`
+	ClientCertificateId  string            `json:"client_certificate_id"`
+	RestApiId            string            `json:"rest_api_id"`
+	StageName            string            `json:"stage_name"`
 	Variables            map[string]string `json:"variables"`
+	DeploymentId         string            `json:"deployment_id"`
+	Id                   string            `json:"id"`
 	CacheClusterEnabled  bool              `json:"cache_cluster_enabled"`
 	XrayTracingEnabled   bool              `json:"xray_tracing_enabled"`
 	CacheClusterSize     string            `json:"cache_cluster_size"`
-	Id                   string            `json:"id"`
-	RestApiId            string            `json:"rest_api_id"`
-	DeploymentId         string            `json:"deployment_id"`
-	Description          string            `json:"description"`
-	DocumentationVersion string            `json:"documentation_version"`
 	AccessLogSettings    AccessLogSettings `json:"access_log_settings"`
 }
 
 type AccessLogSettings struct {
-	Format         string `json:"format"`
 	DestinationArn string `json:"destination_arn"`
+	Format         string `json:"format"`
 }
 
 // A ApiGatewayStageStatus defines the observed state of a ApiGatewayStage

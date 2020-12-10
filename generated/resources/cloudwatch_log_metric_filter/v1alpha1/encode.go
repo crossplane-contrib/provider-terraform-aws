@@ -17,26 +17,32 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CloudwatchLogMetricFilter)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CloudwatchLogMetricFilter.")
+	}
+	return EncodeCloudwatchLogMetricFilter(*r), nil
+}
 
 func EncodeCloudwatchLogMetricFilter(r CloudwatchLogMetricFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogMetricFilter_LogGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogMetricFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogMetricFilter_Pattern(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogMetricFilter_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogMetricFilter_LogGroupName(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogMetricFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogMetricFilter_MetricTransformation(r.Spec.ForProvider.MetricTransformation, ctyVal)
 
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogMetricFilter_LogGroupName(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
-	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
-}
-
-func EncodeCloudwatchLogMetricFilter_Name(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeCloudwatchLogMetricFilter_Pattern(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
@@ -47,19 +53,23 @@ func EncodeCloudwatchLogMetricFilter_Id(p CloudwatchLogMetricFilterParameters, v
 	vals["id"] = cty.StringVal(p.Id)
 }
 
+func EncodeCloudwatchLogMetricFilter_LogGroupName(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
+	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
+}
+
+func EncodeCloudwatchLogMetricFilter_Name(p CloudwatchLogMetricFilterParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
 func EncodeCloudwatchLogMetricFilter_MetricTransformation(p MetricTransformation, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogMetricFilter_MetricTransformation_DefaultValue(p, ctyVal)
 	EncodeCloudwatchLogMetricFilter_MetricTransformation_Name(p, ctyVal)
 	EncodeCloudwatchLogMetricFilter_MetricTransformation_Namespace(p, ctyVal)
 	EncodeCloudwatchLogMetricFilter_MetricTransformation_Value(p, ctyVal)
+	EncodeCloudwatchLogMetricFilter_MetricTransformation_DefaultValue(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["metric_transformation"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCloudwatchLogMetricFilter_MetricTransformation_DefaultValue(p MetricTransformation, vals map[string]cty.Value) {
-	vals["default_value"] = cty.StringVal(p.DefaultValue)
 }
 
 func EncodeCloudwatchLogMetricFilter_MetricTransformation_Name(p MetricTransformation, vals map[string]cty.Value) {
@@ -72,4 +82,8 @@ func EncodeCloudwatchLogMetricFilter_MetricTransformation_Namespace(p MetricTran
 
 func EncodeCloudwatchLogMetricFilter_MetricTransformation_Value(p MetricTransformation, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeCloudwatchLogMetricFilter_MetricTransformation_DefaultValue(p MetricTransformation, vals map[string]cty.Value) {
+	vals["default_value"] = cty.StringVal(p.DefaultValue)
 }

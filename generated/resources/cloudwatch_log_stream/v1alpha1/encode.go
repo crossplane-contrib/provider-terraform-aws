@@ -17,16 +17,34 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*CloudwatchLogStream)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a CloudwatchLogStream.")
+	}
+	return EncodeCloudwatchLogStream(*r), nil
+}
 
 func EncodeCloudwatchLogStream(r CloudwatchLogStream) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchLogStream_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Name(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogStream_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudwatchLogStream_Id(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogStream_LogGroupName(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
@@ -35,10 +53,6 @@ func EncodeCloudwatchLogStream_LogGroupName(p CloudwatchLogStreamParameters, val
 
 func EncodeCloudwatchLogStream_Name(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeCloudwatchLogStream_Id(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogStream_Arn(p CloudwatchLogStreamObservation, vals map[string]cty.Value) {

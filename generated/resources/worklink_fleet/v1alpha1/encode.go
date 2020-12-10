@@ -17,28 +17,50 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*WorklinkFleet)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a WorklinkFleet.")
+	}
+	return EncodeWorklinkFleet(*r), nil
+}
 
 func EncodeWorklinkFleet(r WorklinkFleet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWorklinkFleet_AuditStreamArn(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkFleet_DeviceCaCertificate(r.Spec.ForProvider, ctyVal)
+	EncodeWorklinkFleet_DisplayName(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkFleet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkFleet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkFleet_OptimizeForEndUserLocation(r.Spec.ForProvider, ctyVal)
-	EncodeWorklinkFleet_AuditStreamArn(r.Spec.ForProvider, ctyVal)
-	EncodeWorklinkFleet_DisplayName(r.Spec.ForProvider, ctyVal)
-	EncodeWorklinkFleet_Network(r.Spec.ForProvider.Network, ctyVal)
 	EncodeWorklinkFleet_IdentityProvider(r.Spec.ForProvider.IdentityProvider, ctyVal)
+	EncodeWorklinkFleet_Network(r.Spec.ForProvider.Network, ctyVal)
 	EncodeWorklinkFleet_Arn(r.Status.AtProvider, ctyVal)
+	EncodeWorklinkFleet_LastUpdatedTime(r.Status.AtProvider, ctyVal)
 	EncodeWorklinkFleet_CompanyCode(r.Status.AtProvider, ctyVal)
 	EncodeWorklinkFleet_CreatedTime(r.Status.AtProvider, ctyVal)
-	EncodeWorklinkFleet_LastUpdatedTime(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWorklinkFleet_AuditStreamArn(p WorklinkFleetParameters, vals map[string]cty.Value) {
+	vals["audit_stream_arn"] = cty.StringVal(p.AuditStreamArn)
 }
 
 func EncodeWorklinkFleet_DeviceCaCertificate(p WorklinkFleetParameters, vals map[string]cty.Value) {
 	vals["device_ca_certificate"] = cty.StringVal(p.DeviceCaCertificate)
+}
+
+func EncodeWorklinkFleet_DisplayName(p WorklinkFleetParameters, vals map[string]cty.Value) {
+	vals["display_name"] = cty.StringVal(p.DisplayName)
 }
 
 func EncodeWorklinkFleet_Id(p WorklinkFleetParameters, vals map[string]cty.Value) {
@@ -53,12 +75,21 @@ func EncodeWorklinkFleet_OptimizeForEndUserLocation(p WorklinkFleetParameters, v
 	vals["optimize_for_end_user_location"] = cty.BoolVal(p.OptimizeForEndUserLocation)
 }
 
-func EncodeWorklinkFleet_AuditStreamArn(p WorklinkFleetParameters, vals map[string]cty.Value) {
-	vals["audit_stream_arn"] = cty.StringVal(p.AuditStreamArn)
+func EncodeWorklinkFleet_IdentityProvider(p IdentityProvider, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeWorklinkFleet_IdentityProvider_SamlMetadata(p, ctyVal)
+	EncodeWorklinkFleet_IdentityProvider_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["identity_provider"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWorklinkFleet_DisplayName(p WorklinkFleetParameters, vals map[string]cty.Value) {
-	vals["display_name"] = cty.StringVal(p.DisplayName)
+func EncodeWorklinkFleet_IdentityProvider_SamlMetadata(p IdentityProvider, vals map[string]cty.Value) {
+	vals["saml_metadata"] = cty.StringVal(p.SamlMetadata)
+}
+
+func EncodeWorklinkFleet_IdentityProvider_Type(p IdentityProvider, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWorklinkFleet_Network(p Network, vals map[string]cty.Value) {
@@ -91,25 +122,12 @@ func EncodeWorklinkFleet_Network_VpcId(p Network, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeWorklinkFleet_IdentityProvider(p IdentityProvider, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeWorklinkFleet_IdentityProvider_SamlMetadata(p, ctyVal)
-	EncodeWorklinkFleet_IdentityProvider_Type(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["identity_provider"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeWorklinkFleet_IdentityProvider_SamlMetadata(p IdentityProvider, vals map[string]cty.Value) {
-	vals["saml_metadata"] = cty.StringVal(p.SamlMetadata)
-}
-
-func EncodeWorklinkFleet_IdentityProvider_Type(p IdentityProvider, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
 func EncodeWorklinkFleet_Arn(p WorklinkFleetObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeWorklinkFleet_LastUpdatedTime(p WorklinkFleetObservation, vals map[string]cty.Value) {
+	vals["last_updated_time"] = cty.StringVal(p.LastUpdatedTime)
 }
 
 func EncodeWorklinkFleet_CompanyCode(p WorklinkFleetObservation, vals map[string]cty.Value) {
@@ -118,8 +136,4 @@ func EncodeWorklinkFleet_CompanyCode(p WorklinkFleetObservation, vals map[string
 
 func EncodeWorklinkFleet_CreatedTime(p WorklinkFleetObservation, vals map[string]cty.Value) {
 	vals["created_time"] = cty.StringVal(p.CreatedTime)
-}
-
-func EncodeWorklinkFleet_LastUpdatedTime(p WorklinkFleetObservation, vals map[string]cty.Value) {
-	vals["last_updated_time"] = cty.StringVal(p.LastUpdatedTime)
 }

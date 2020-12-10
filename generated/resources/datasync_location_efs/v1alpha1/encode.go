@@ -17,8 +17,22 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*DatasyncLocationEfs)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a DatasyncLocationEfs.")
+	}
+	return EncodeDatasyncLocationEfs(*r), nil
+}
 
 func EncodeDatasyncLocationEfs(r DatasyncLocationEfs) cty.Value {
 	ctyVal := make(map[string]cty.Value)
@@ -27,8 +41,8 @@ func EncodeDatasyncLocationEfs(r DatasyncLocationEfs) cty.Value {
 	EncodeDatasyncLocationEfs_Subdirectory(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationEfs_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationEfs_Ec2Config(r.Spec.ForProvider.Ec2Config, ctyVal)
-	EncodeDatasyncLocationEfs_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationEfs_Uri(r.Status.AtProvider, ctyVal)
+	EncodeDatasyncLocationEfs_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -73,10 +87,10 @@ func EncodeDatasyncLocationEfs_Ec2Config_SubnetArn(p Ec2Config, vals map[string]
 	vals["subnet_arn"] = cty.StringVal(p.SubnetArn)
 }
 
-func EncodeDatasyncLocationEfs_Arn(p DatasyncLocationEfsObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeDatasyncLocationEfs_Uri(p DatasyncLocationEfsObservation, vals map[string]cty.Value) {
 	vals["uri"] = cty.StringVal(p.Uri)
+}
+
+func EncodeDatasyncLocationEfs_Arn(p DatasyncLocationEfsObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

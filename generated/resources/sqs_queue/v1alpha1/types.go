@@ -52,21 +52,21 @@ type SqsQueueSpec struct {
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
+	DelaySeconds                 int64             `json:"delay_seconds"`
+	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
+	Tags                         map[string]string `json:"tags"`
+	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
 	FifoQueue                    bool              `json:"fifo_queue"`
-	RedrivePolicy                string            `json:"redrive_policy"`
+	KmsMasterKeyId               string            `json:"kms_master_key_id"`
 	MaxMessageSize               int64             `json:"max_message_size"`
 	Name                         string            `json:"name"`
-	Tags                         map[string]string `json:"tags"`
-	Policy                       string            `json:"policy"`
-	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
-	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
-	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
-	Id                           string            `json:"id"`
-	KmsMasterKeyId               string            `json:"kms_master_key_id"`
 	NamePrefix                   string            `json:"name_prefix"`
-	DelaySeconds                 int64             `json:"delay_seconds"`
+	Policy                       string            `json:"policy"`
+	Id                           string            `json:"id"`
+	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
 	KmsDataKeyReusePeriodSeconds int64             `json:"kms_data_key_reuse_period_seconds"`
-	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
+	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
+	RedrivePolicy                string            `json:"redrive_policy"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue

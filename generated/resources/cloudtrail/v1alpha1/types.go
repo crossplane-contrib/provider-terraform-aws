@@ -52,20 +52,20 @@ type CloudtrailSpec struct {
 
 // A CloudtrailParameters defines the desired state of a Cloudtrail
 type CloudtrailParameters struct {
-	EnableLogging              bool              `json:"enable_logging"`
-	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
-	Name                       string            `json:"name"`
-	SnsTopicName               string            `json:"sns_topic_name"`
-	Id                         string            `json:"id"`
-	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
-	IsOrganizationTrail        bool              `json:"is_organization_trail"`
-	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
-	EnableLogFileValidation    bool              `json:"enable_log_file_validation"`
 	Tags                       map[string]string `json:"tags"`
-	CloudWatchLogsGroupArn     string            `json:"cloud_watch_logs_group_arn"`
-	KmsKeyId                   string            `json:"kms_key_id"`
+	Id                         string            `json:"id"`
+	IsOrganizationTrail        bool              `json:"is_organization_trail"`
 	S3BucketName               string            `json:"s3_bucket_name"`
 	S3KeyPrefix                string            `json:"s3_key_prefix"`
+	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
+	KmsKeyId                   string            `json:"kms_key_id"`
+	Name                       string            `json:"name"`
+	EnableLogFileValidation    bool              `json:"enable_log_file_validation"`
+	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
+	EnableLogging              bool              `json:"enable_logging"`
+	SnsTopicName               string            `json:"sns_topic_name"`
+	CloudWatchLogsGroupArn     string            `json:"cloud_watch_logs_group_arn"`
+	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
 	EventSelector              []EventSelector   `json:"event_selector"`
 	InsightSelector            InsightSelector   `json:"insight_selector"`
 }
@@ -93,6 +93,6 @@ type CloudtrailStatus struct {
 
 // A CloudtrailObservation records the observed state of a Cloudtrail
 type CloudtrailObservation struct {
-	Arn        string `json:"arn"`
 	HomeRegion string `json:"home_region"`
+	Arn        string `json:"arn"`
 }

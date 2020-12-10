@@ -52,10 +52,10 @@ type WafRuleSpec struct {
 
 // A WafRuleParameters defines the desired state of a WafRule
 type WafRuleParameters struct {
-	Id         string            `json:"id"`
-	MetricName string            `json:"metric_name"`
 	Name       string            `json:"name"`
 	Tags       map[string]string `json:"tags"`
+	Id         string            `json:"id"`
+	MetricName string            `json:"metric_name"`
 	Predicates Predicates        `json:"predicates"`
 }
 

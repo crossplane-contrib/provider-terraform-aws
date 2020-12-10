@@ -17,38 +17,48 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*AutoscalingSchedule)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a AutoscalingSchedule.")
+	}
+	return EncodeAutoscalingSchedule(*r), nil
+}
 
 func EncodeAutoscalingSchedule(r AutoscalingSchedule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAutoscalingSchedule_ScheduledActionName(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingSchedule_EndTime(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_AutoscalingGroupName(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_DesiredCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingSchedule_MaxSize(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_MinSize(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_Recurrence(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_StartTime(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingSchedule_AutoscalingGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingSchedule_DesiredCapacity(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_EndTime(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_MaxSize(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingSchedule_ScheduledActionName(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingSchedule_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAutoscalingSchedule_ScheduledActionName(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["scheduled_action_name"] = cty.StringVal(p.ScheduledActionName)
+func EncodeAutoscalingSchedule_AutoscalingGroupName(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["autoscaling_group_name"] = cty.StringVal(p.AutoscalingGroupName)
 }
 
-func EncodeAutoscalingSchedule_EndTime(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["end_time"] = cty.StringVal(p.EndTime)
+func EncodeAutoscalingSchedule_DesiredCapacity(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["desired_capacity"] = cty.NumberIntVal(p.DesiredCapacity)
 }
 
 func EncodeAutoscalingSchedule_Id(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAutoscalingSchedule_MaxSize(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["max_size"] = cty.NumberIntVal(p.MaxSize)
 }
 
 func EncodeAutoscalingSchedule_MinSize(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
@@ -63,12 +73,16 @@ func EncodeAutoscalingSchedule_StartTime(p AutoscalingScheduleParameters, vals m
 	vals["start_time"] = cty.StringVal(p.StartTime)
 }
 
-func EncodeAutoscalingSchedule_AutoscalingGroupName(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["autoscaling_group_name"] = cty.StringVal(p.AutoscalingGroupName)
+func EncodeAutoscalingSchedule_EndTime(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["end_time"] = cty.StringVal(p.EndTime)
 }
 
-func EncodeAutoscalingSchedule_DesiredCapacity(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	vals["desired_capacity"] = cty.NumberIntVal(p.DesiredCapacity)
+func EncodeAutoscalingSchedule_MaxSize(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["max_size"] = cty.NumberIntVal(p.MaxSize)
+}
+
+func EncodeAutoscalingSchedule_ScheduledActionName(p AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	vals["scheduled_action_name"] = cty.StringVal(p.ScheduledActionName)
 }
 
 func EncodeAutoscalingSchedule_Arn(p AutoscalingScheduleObservation, vals map[string]cty.Value) {

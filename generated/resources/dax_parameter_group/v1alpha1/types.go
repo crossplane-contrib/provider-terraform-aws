@@ -59,8 +59,8 @@ type DaxParameterGroupParameters struct {
 }
 
 type Parameters struct {
-	Name  string `json:"name"`
 	Value string `json:"value"`
+	Name  string `json:"name"`
 }
 
 // A DaxParameterGroupStatus defines the observed state of a DaxParameterGroup

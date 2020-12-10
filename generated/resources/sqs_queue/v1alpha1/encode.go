@@ -17,44 +17,42 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*SqsQueue)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a SqsQueue.")
+	}
+	return EncodeSqsQueue(*r), nil
+}
 
 func EncodeSqsQueue(r SqsQueue) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSqsQueue_FifoQueue(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_RedrivePolicy(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_MaxMessageSize(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueue_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_ReceiveWaitTimeSeconds(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueue_VisibilityTimeoutSeconds(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_ContentBasedDeduplication(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_KmsMasterKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeSqsQueue_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueue_DelaySeconds(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueue_KmsDataKeyReusePeriodSeconds(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_ReceiveWaitTimeSeconds(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_KmsMasterKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueue_MessageRetentionSeconds(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_RedrivePolicy(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_MaxMessageSize(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_FifoQueue(r.Spec.ForProvider, ctyVal)
+	EncodeSqsQueue_ContentBasedDeduplication(r.Spec.ForProvider, ctyVal)
 	EncodeSqsQueue_Arn(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSqsQueue_FifoQueue(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["fifo_queue"] = cty.BoolVal(p.FifoQueue)
-}
-
-func EncodeSqsQueue_RedrivePolicy(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["redrive_policy"] = cty.StringVal(p.RedrivePolicy)
-}
-
-func EncodeSqsQueue_MaxMessageSize(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["max_message_size"] = cty.NumberIntVal(p.MaxMessageSize)
-}
-
-func EncodeSqsQueue_Name(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSqsQueue_Tags(p SqsQueueParameters, vals map[string]cty.Value) {
@@ -65,32 +63,8 @@ func EncodeSqsQueue_Tags(p SqsQueueParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSqsQueue_Policy(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeSqsQueue_ReceiveWaitTimeSeconds(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["receive_wait_time_seconds"] = cty.NumberIntVal(p.ReceiveWaitTimeSeconds)
-}
-
 func EncodeSqsQueue_VisibilityTimeoutSeconds(p SqsQueueParameters, vals map[string]cty.Value) {
 	vals["visibility_timeout_seconds"] = cty.NumberIntVal(p.VisibilityTimeoutSeconds)
-}
-
-func EncodeSqsQueue_ContentBasedDeduplication(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["content_based_deduplication"] = cty.BoolVal(p.ContentBasedDeduplication)
-}
-
-func EncodeSqsQueue_Id(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSqsQueue_KmsMasterKeyId(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["kms_master_key_id"] = cty.StringVal(p.KmsMasterKeyId)
-}
-
-func EncodeSqsQueue_NamePrefix(p SqsQueueParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeSqsQueue_DelaySeconds(p SqsQueueParameters, vals map[string]cty.Value) {
@@ -101,8 +75,48 @@ func EncodeSqsQueue_KmsDataKeyReusePeriodSeconds(p SqsQueueParameters, vals map[
 	vals["kms_data_key_reuse_period_seconds"] = cty.NumberIntVal(p.KmsDataKeyReusePeriodSeconds)
 }
 
+func EncodeSqsQueue_Policy(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeSqsQueue_ReceiveWaitTimeSeconds(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["receive_wait_time_seconds"] = cty.NumberIntVal(p.ReceiveWaitTimeSeconds)
+}
+
+func EncodeSqsQueue_KmsMasterKeyId(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["kms_master_key_id"] = cty.StringVal(p.KmsMasterKeyId)
+}
+
 func EncodeSqsQueue_MessageRetentionSeconds(p SqsQueueParameters, vals map[string]cty.Value) {
 	vals["message_retention_seconds"] = cty.NumberIntVal(p.MessageRetentionSeconds)
+}
+
+func EncodeSqsQueue_Name(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSqsQueue_NamePrefix(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeSqsQueue_RedrivePolicy(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["redrive_policy"] = cty.StringVal(p.RedrivePolicy)
+}
+
+func EncodeSqsQueue_Id(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSqsQueue_MaxMessageSize(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["max_message_size"] = cty.NumberIntVal(p.MaxMessageSize)
+}
+
+func EncodeSqsQueue_FifoQueue(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["fifo_queue"] = cty.BoolVal(p.FifoQueue)
+}
+
+func EncodeSqsQueue_ContentBasedDeduplication(p SqsQueueParameters, vals map[string]cty.Value) {
+	vals["content_based_deduplication"] = cty.BoolVal(p.ContentBasedDeduplication)
 }
 
 func EncodeSqsQueue_Arn(p SqsQueueObservation, vals map[string]cty.Value) {

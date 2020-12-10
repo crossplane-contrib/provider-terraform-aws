@@ -52,8 +52,8 @@ type WafregionalByteMatchSetSpec struct {
 
 // A WafregionalByteMatchSetParameters defines the desired state of a WafregionalByteMatchSet
 type WafregionalByteMatchSetParameters struct {
-	Name            string          `json:"name"`
 	Id              string          `json:"id"`
+	Name            string          `json:"name"`
 	ByteMatchTuples ByteMatchTuples `json:"byte_match_tuples"`
 }
 

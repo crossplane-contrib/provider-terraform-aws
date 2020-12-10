@@ -52,17 +52,17 @@ type EbsVolumeSpec struct {
 
 // A EbsVolumeParameters defines the desired state of a EbsVolume
 type EbsVolumeParameters struct {
-	Type               string            `json:"type"`
-	AvailabilityZone   string            `json:"availability_zone"`
-	Id                 string            `json:"id"`
-	KmsKeyId           string            `json:"kms_key_id"`
-	MultiAttachEnabled bool              `json:"multi_attach_enabled"`
-	SnapshotId         string            `json:"snapshot_id"`
-	Tags               map[string]string `json:"tags"`
-	Encrypted          bool              `json:"encrypted"`
 	Iops               int64             `json:"iops"`
+	Tags               map[string]string `json:"tags"`
+	MultiAttachEnabled bool              `json:"multi_attach_enabled"`
 	OutpostArn         string            `json:"outpost_arn"`
 	Size               int64             `json:"size"`
+	SnapshotId         string            `json:"snapshot_id"`
+	AvailabilityZone   string            `json:"availability_zone"`
+	Encrypted          bool              `json:"encrypted"`
+	Id                 string            `json:"id"`
+	KmsKeyId           string            `json:"kms_key_id"`
+	Type               string            `json:"type"`
 }
 
 // A EbsVolumeStatus defines the observed state of a EbsVolume

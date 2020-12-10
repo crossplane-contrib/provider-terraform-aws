@@ -17,19 +17,41 @@
 package v1alpha1
 
 import (
+	"fmt"
+	
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/hashicorp/terraform/providers"
 )
+
+type ctyEncoder struct{}
+
+func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (cty.Value, error) {
+	r, ok := mr.(*GlacierVault)
+	if !ok {
+		return cty.NilVal, fmt.Errorf("EncodeType received a resource.Managed value which is not a GlacierVault.")
+	}
+	return EncodeGlacierVault(*r), nil
+}
 
 func EncodeGlacierVault(r GlacierVault) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlacierVault_Name(r.Spec.ForProvider, ctyVal)
-	EncodeGlacierVault_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVault_AccessPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVault_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGlacierVault_Name(r.Spec.ForProvider, ctyVal)
+	EncodeGlacierVault_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVault_Notification(r.Spec.ForProvider.Notification, ctyVal)
 	EncodeGlacierVault_Arn(r.Status.AtProvider, ctyVal)
 	EncodeGlacierVault_Location(r.Status.AtProvider, ctyVal)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlacierVault_AccessPolicy(p GlacierVaultParameters, vals map[string]cty.Value) {
+	vals["access_policy"] = cty.StringVal(p.AccessPolicy)
+}
+
+func EncodeGlacierVault_Id(p GlacierVaultParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGlacierVault_Name(p GlacierVaultParameters, vals map[string]cty.Value) {
@@ -44,25 +66,13 @@ func EncodeGlacierVault_Tags(p GlacierVaultParameters, vals map[string]cty.Value
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeGlacierVault_AccessPolicy(p GlacierVaultParameters, vals map[string]cty.Value) {
-	vals["access_policy"] = cty.StringVal(p.AccessPolicy)
-}
-
-func EncodeGlacierVault_Id(p GlacierVaultParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeGlacierVault_Notification(p Notification, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlacierVault_Notification_SnsTopic(p, ctyVal)
 	EncodeGlacierVault_Notification_Events(p, ctyVal)
+	EncodeGlacierVault_Notification_SnsTopic(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["notification"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlacierVault_Notification_SnsTopic(p Notification, vals map[string]cty.Value) {
-	vals["sns_topic"] = cty.StringVal(p.SnsTopic)
 }
 
 func EncodeGlacierVault_Notification_Events(p Notification, vals map[string]cty.Value) {
@@ -71,6 +81,10 @@ func EncodeGlacierVault_Notification_Events(p Notification, vals map[string]cty.
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["events"] = cty.SetVal(colVals)
+}
+
+func EncodeGlacierVault_Notification_SnsTopic(p Notification, vals map[string]cty.Value) {
+	vals["sns_topic"] = cty.StringVal(p.SnsTopic)
 }
 
 func EncodeGlacierVault_Arn(p GlacierVaultObservation, vals map[string]cty.Value) {

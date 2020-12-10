@@ -67,6 +67,6 @@ type CloudfrontPublicKeyStatus struct {
 
 // A CloudfrontPublicKeyObservation records the observed state of a CloudfrontPublicKey
 type CloudfrontPublicKeyObservation struct {
-	CallerReference string `json:"caller_reference"`
 	Etag            string `json:"etag"`
+	CallerReference string `json:"caller_reference"`
 }
