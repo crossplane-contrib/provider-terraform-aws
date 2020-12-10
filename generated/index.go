@@ -2,7 +2,7 @@ package generated
 
 import (
 	"github.com/crossplane/provider-terraform-gcp/generated/provider/v1alpha1"
-	"github.com/crossplane/terraform-provider-runtime/pkg/plugin"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
 const ProviderReferenceName string = "aws"

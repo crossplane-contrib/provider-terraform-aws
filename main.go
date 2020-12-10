@@ -26,10 +26,10 @@ import (
 
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 	"github.com/crossplane/provider-terraform-gcp/generated"
-	"github.com/crossplane/terraform-provider-runtime/pkg/client"
-	"github.com/crossplane/terraform-provider-runtime/pkg/plugin"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/client"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 
-	"github.com/crossplane/terraform-provider-runtime/pkg/controller"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/controller"
 )
 
 func main() {
@@ -43,7 +43,7 @@ func main() {
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	zl := zap.New(zap.UseDevMode(*debug))
-	log := logging.NewLogrLogger(zl.WithName("terraform-provider-runtime"))
+	log := logging.NewLogrLogger(zl.WithName("terraform-runtime"))
 	if *debug {
 		// The controller-runtime runs with a no-op logger by default. It is
 		// *very* verbose even at info level, so we only provide it a real
