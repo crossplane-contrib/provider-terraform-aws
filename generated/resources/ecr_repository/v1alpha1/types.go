@@ -47,18 +47,23 @@ type EcrRepositoryList struct {
 // A EcrRepositorySpec defines the desired state of a EcrRepository
 type EcrRepositorySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EcrRepositoryParameters `json:",inline"`
+	ForProvider                  EcrRepositoryParameters `json:"forProvider"`
 }
 
 // A EcrRepositoryParameters defines the desired state of a EcrRepository
 type EcrRepositoryParameters struct {
-	Tags                       map[string]string          `json:"tags"`
 	Id                         string                     `json:"id"`
 	ImageTagMutability         string                     `json:"image_tag_mutability"`
 	Name                       string                     `json:"name"`
+	Tags                       map[string]string          `json:"tags"`
+	EncryptionConfiguration    EncryptionConfiguration    `json:"encryption_configuration"`
 	ImageScanningConfiguration ImageScanningConfiguration `json:"image_scanning_configuration"`
 	Timeouts                   Timeouts                   `json:"timeouts"`
-	EncryptionConfiguration    EncryptionConfiguration    `json:"encryption_configuration"`
+}
+
+type EncryptionConfiguration struct {
+	EncryptionType string `json:"encryption_type"`
+	KmsKey         string `json:"kms_key"`
 }
 
 type ImageScanningConfiguration struct {
@@ -69,15 +74,10 @@ type Timeouts struct {
 	Delete string `json:"delete"`
 }
 
-type EncryptionConfiguration struct {
-	EncryptionType string `json:"encryption_type"`
-	KmsKey         string `json:"kms_key"`
-}
-
 // A EcrRepositoryStatus defines the observed state of a EcrRepository
 type EcrRepositoryStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EcrRepositoryObservation `json:",inline"`
+	AtProvider                     EcrRepositoryObservation `json:"atProvider"`
 }
 
 // A EcrRepositoryObservation records the observed state of a EcrRepository

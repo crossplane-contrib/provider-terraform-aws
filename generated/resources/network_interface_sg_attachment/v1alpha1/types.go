@@ -47,7 +47,7 @@ type NetworkInterfaceSgAttachmentList struct {
 // A NetworkInterfaceSgAttachmentSpec defines the desired state of a NetworkInterfaceSgAttachment
 type NetworkInterfaceSgAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NetworkInterfaceSgAttachmentParameters `json:",inline"`
+	ForProvider                  NetworkInterfaceSgAttachmentParameters `json:"forProvider"`
 }
 
 // A NetworkInterfaceSgAttachmentParameters defines the desired state of a NetworkInterfaceSgAttachment
@@ -60,7 +60,7 @@ type NetworkInterfaceSgAttachmentParameters struct {
 // A NetworkInterfaceSgAttachmentStatus defines the observed state of a NetworkInterfaceSgAttachment
 type NetworkInterfaceSgAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NetworkInterfaceSgAttachmentObservation `json:",inline"`
+	AtProvider                     NetworkInterfaceSgAttachmentObservation `json:"atProvider"`
 }
 
 // A NetworkInterfaceSgAttachmentObservation records the observed state of a NetworkInterfaceSgAttachment

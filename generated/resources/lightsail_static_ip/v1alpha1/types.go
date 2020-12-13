@@ -47,24 +47,24 @@ type LightsailStaticIpList struct {
 // A LightsailStaticIpSpec defines the desired state of a LightsailStaticIp
 type LightsailStaticIpSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LightsailStaticIpParameters `json:",inline"`
+	ForProvider                  LightsailStaticIpParameters `json:"forProvider"`
 }
 
 // A LightsailStaticIpParameters defines the desired state of a LightsailStaticIp
 type LightsailStaticIpParameters struct {
-	Name string `json:"name"`
 	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // A LightsailStaticIpStatus defines the observed state of a LightsailStaticIp
 type LightsailStaticIpStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LightsailStaticIpObservation `json:",inline"`
+	AtProvider                     LightsailStaticIpObservation `json:"atProvider"`
 }
 
 // A LightsailStaticIpObservation records the observed state of a LightsailStaticIp
 type LightsailStaticIpObservation struct {
-	SupportCode string `json:"support_code"`
 	Arn         string `json:"arn"`
 	IpAddress   string `json:"ip_address"`
+	SupportCode string `json:"support_code"`
 }

@@ -47,7 +47,7 @@ type ServicecatalogPortfolioList struct {
 // A ServicecatalogPortfolioSpec defines the desired state of a ServicecatalogPortfolio
 type ServicecatalogPortfolioSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ServicecatalogPortfolioParameters `json:",inline"`
+	ForProvider                  ServicecatalogPortfolioParameters `json:"forProvider"`
 }
 
 // A ServicecatalogPortfolioParameters defines the desired state of a ServicecatalogPortfolio
@@ -69,7 +69,7 @@ type Timeouts struct {
 // A ServicecatalogPortfolioStatus defines the observed state of a ServicecatalogPortfolio
 type ServicecatalogPortfolioStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ServicecatalogPortfolioObservation `json:",inline"`
+	AtProvider                     ServicecatalogPortfolioObservation `json:"atProvider"`
 }
 
 // A ServicecatalogPortfolioObservation records the observed state of a ServicecatalogPortfolio

@@ -47,15 +47,15 @@ type GameliftAliasList struct {
 // A GameliftAliasSpec defines the desired state of a GameliftAlias
 type GameliftAliasSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GameliftAliasParameters `json:",inline"`
+	ForProvider                  GameliftAliasParameters `json:"forProvider"`
 }
 
 // A GameliftAliasParameters defines the desired state of a GameliftAlias
 type GameliftAliasParameters struct {
+	Description     string            `json:"description"`
 	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	Tags            map[string]string `json:"tags"`
-	Description     string            `json:"description"`
 	RoutingStrategy RoutingStrategy   `json:"routing_strategy"`
 }
 
@@ -68,7 +68,7 @@ type RoutingStrategy struct {
 // A GameliftAliasStatus defines the observed state of a GameliftAlias
 type GameliftAliasStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GameliftAliasObservation `json:",inline"`
+	AtProvider                     GameliftAliasObservation `json:"atProvider"`
 }
 
 // A GameliftAliasObservation records the observed state of a GameliftAlias

@@ -47,24 +47,24 @@ type GuarddutyThreatintelsetList struct {
 // A GuarddutyThreatintelsetSpec defines the desired state of a GuarddutyThreatintelset
 type GuarddutyThreatintelsetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyThreatintelsetParameters `json:",inline"`
+	ForProvider                  GuarddutyThreatintelsetParameters `json:"forProvider"`
 }
 
 // A GuarddutyThreatintelsetParameters defines the desired state of a GuarddutyThreatintelset
 type GuarddutyThreatintelsetParameters struct {
-	DetectorId string            `json:"detector_id"`
-	Format     string            `json:"format"`
 	Id         string            `json:"id"`
 	Location   string            `json:"location"`
 	Name       string            `json:"name"`
 	Tags       map[string]string `json:"tags"`
 	Activate   bool              `json:"activate"`
+	DetectorId string            `json:"detector_id"`
+	Format     string            `json:"format"`
 }
 
 // A GuarddutyThreatintelsetStatus defines the observed state of a GuarddutyThreatintelset
 type GuarddutyThreatintelsetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyThreatintelsetObservation `json:",inline"`
+	AtProvider                     GuarddutyThreatintelsetObservation `json:"atProvider"`
 }
 
 // A GuarddutyThreatintelsetObservation records the observed state of a GuarddutyThreatintelset

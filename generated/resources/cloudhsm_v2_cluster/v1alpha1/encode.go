@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,18 +37,29 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudhsmV2Cluster(r CloudhsmV2Cluster) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudhsmV2Cluster_HsmType(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Cluster_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Cluster_SourceBackupIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Cluster_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Cluster_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeCloudhsmV2Cluster_HsmType(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Cluster_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeCloudhsmV2Cluster_ClusterState(r.Status.AtProvider, ctyVal)
+	EncodeCloudhsmV2Cluster_ClusterCertificates(r.Status.AtProvider.ClusterCertificates, ctyVal)
 	EncodeCloudhsmV2Cluster_ClusterId(r.Status.AtProvider, ctyVal)
+	EncodeCloudhsmV2Cluster_ClusterState(r.Status.AtProvider, ctyVal)
 	EncodeCloudhsmV2Cluster_SecurityGroupId(r.Status.AtProvider, ctyVal)
 	EncodeCloudhsmV2Cluster_VpcId(r.Status.AtProvider, ctyVal)
-	EncodeCloudhsmV2Cluster_ClusterCertificates(r.Status.AtProvider.ClusterCertificates, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudhsmV2Cluster_HsmType(p CloudhsmV2ClusterParameters, vals map[string]cty.Value) {
+	vals["hsm_type"] = cty.StringVal(p.HsmType)
 }
 
 func EncodeCloudhsmV2Cluster_Id(p CloudhsmV2ClusterParameters, vals map[string]cty.Value) {
@@ -67,6 +79,10 @@ func EncodeCloudhsmV2Cluster_SubnetIds(p CloudhsmV2ClusterParameters, vals map[s
 }
 
 func EncodeCloudhsmV2Cluster_Tags(p CloudhsmV2ClusterParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -74,16 +90,16 @@ func EncodeCloudhsmV2Cluster_Tags(p CloudhsmV2ClusterParameters, vals map[string
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeCloudhsmV2Cluster_HsmType(p CloudhsmV2ClusterParameters, vals map[string]cty.Value) {
-	vals["hsm_type"] = cty.StringVal(p.HsmType)
-}
-
 func EncodeCloudhsmV2Cluster_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudhsmV2Cluster_Timeouts_Update(p, ctyVal)
 	EncodeCloudhsmV2Cluster_Timeouts_Create(p, ctyVal)
 	EncodeCloudhsmV2Cluster_Timeouts_Delete(p, ctyVal)
-	EncodeCloudhsmV2Cluster_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudhsmV2Cluster_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
+	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeCloudhsmV2Cluster_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
@@ -94,38 +110,26 @@ func EncodeCloudhsmV2Cluster_Timeouts_Delete(p Timeouts, vals map[string]cty.Val
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeCloudhsmV2Cluster_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
-	vals["update"] = cty.StringVal(p.Update)
-}
-
-func EncodeCloudhsmV2Cluster_ClusterState(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
-	vals["cluster_state"] = cty.StringVal(p.ClusterState)
-}
-
-func EncodeCloudhsmV2Cluster_ClusterId(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
-	vals["cluster_id"] = cty.StringVal(p.ClusterId)
-}
-
-func EncodeCloudhsmV2Cluster_SecurityGroupId(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
-	vals["security_group_id"] = cty.StringVal(p.SecurityGroupId)
-}
-
-func EncodeCloudhsmV2Cluster_VpcId(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
 func EncodeCloudhsmV2Cluster_ClusterCertificates(p []ClusterCertificates, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeCloudhsmV2Cluster_ClusterCertificates_ManufacturerHardwareCertificate(v, ctyVal)
+		EncodeCloudhsmV2Cluster_ClusterCertificates_AwsHardwareCertificate(v, ctyVal)
 		EncodeCloudhsmV2Cluster_ClusterCertificates_ClusterCertificate(v, ctyVal)
 		EncodeCloudhsmV2Cluster_ClusterCertificates_ClusterCsr(v, ctyVal)
 		EncodeCloudhsmV2Cluster_ClusterCertificates_HsmCertificate(v, ctyVal)
-		EncodeCloudhsmV2Cluster_ClusterCertificates_ManufacturerHardwareCertificate(v, ctyVal)
-		EncodeCloudhsmV2Cluster_ClusterCertificates_AwsHardwareCertificate(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["cluster_certificates"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCloudhsmV2Cluster_ClusterCertificates_ManufacturerHardwareCertificate(p ClusterCertificates, vals map[string]cty.Value) {
+	vals["manufacturer_hardware_certificate"] = cty.StringVal(p.ManufacturerHardwareCertificate)
+}
+
+func EncodeCloudhsmV2Cluster_ClusterCertificates_AwsHardwareCertificate(p ClusterCertificates, vals map[string]cty.Value) {
+	vals["aws_hardware_certificate"] = cty.StringVal(p.AwsHardwareCertificate)
 }
 
 func EncodeCloudhsmV2Cluster_ClusterCertificates_ClusterCertificate(p ClusterCertificates, vals map[string]cty.Value) {
@@ -140,10 +144,18 @@ func EncodeCloudhsmV2Cluster_ClusterCertificates_HsmCertificate(p ClusterCertifi
 	vals["hsm_certificate"] = cty.StringVal(p.HsmCertificate)
 }
 
-func EncodeCloudhsmV2Cluster_ClusterCertificates_ManufacturerHardwareCertificate(p ClusterCertificates, vals map[string]cty.Value) {
-	vals["manufacturer_hardware_certificate"] = cty.StringVal(p.ManufacturerHardwareCertificate)
+func EncodeCloudhsmV2Cluster_ClusterId(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
+	vals["cluster_id"] = cty.StringVal(p.ClusterId)
 }
 
-func EncodeCloudhsmV2Cluster_ClusterCertificates_AwsHardwareCertificate(p ClusterCertificates, vals map[string]cty.Value) {
-	vals["aws_hardware_certificate"] = cty.StringVal(p.AwsHardwareCertificate)
+func EncodeCloudhsmV2Cluster_ClusterState(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
+	vals["cluster_state"] = cty.StringVal(p.ClusterState)
+}
+
+func EncodeCloudhsmV2Cluster_SecurityGroupId(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
+	vals["security_group_id"] = cty.StringVal(p.SecurityGroupId)
+}
+
+func EncodeCloudhsmV2Cluster_VpcId(p CloudhsmV2ClusterObservation, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }

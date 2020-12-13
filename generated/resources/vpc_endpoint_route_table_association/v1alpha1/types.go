@@ -47,7 +47,7 @@ type VpcEndpointRouteTableAssociationList struct {
 // A VpcEndpointRouteTableAssociationSpec defines the desired state of a VpcEndpointRouteTableAssociation
 type VpcEndpointRouteTableAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcEndpointRouteTableAssociationParameters `json:",inline"`
+	ForProvider                  VpcEndpointRouteTableAssociationParameters `json:"forProvider"`
 }
 
 // A VpcEndpointRouteTableAssociationParameters defines the desired state of a VpcEndpointRouteTableAssociation
@@ -60,7 +60,7 @@ type VpcEndpointRouteTableAssociationParameters struct {
 // A VpcEndpointRouteTableAssociationStatus defines the observed state of a VpcEndpointRouteTableAssociation
 type VpcEndpointRouteTableAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcEndpointRouteTableAssociationObservation `json:",inline"`
+	AtProvider                     VpcEndpointRouteTableAssociationObservation `json:"atProvider"`
 }
 
 // A VpcEndpointRouteTableAssociationObservation records the observed state of a VpcEndpointRouteTableAssociation

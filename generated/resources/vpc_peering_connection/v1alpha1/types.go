@@ -47,21 +47,27 @@ type VpcPeeringConnectionList struct {
 // A VpcPeeringConnectionSpec defines the desired state of a VpcPeeringConnection
 type VpcPeeringConnectionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcPeeringConnectionParameters `json:",inline"`
+	ForProvider                  VpcPeeringConnectionParameters `json:"forProvider"`
 }
 
 // A VpcPeeringConnectionParameters defines the desired state of a VpcPeeringConnection
 type VpcPeeringConnectionParameters struct {
+	VpcId       string            `json:"vpc_id"`
+	AutoAccept  bool              `json:"auto_accept"`
+	Id          string            `json:"id"`
 	PeerOwnerId string            `json:"peer_owner_id"`
 	PeerRegion  string            `json:"peer_region"`
 	PeerVpcId   string            `json:"peer_vpc_id"`
 	Tags        map[string]string `json:"tags"`
-	VpcId       string            `json:"vpc_id"`
-	AutoAccept  bool              `json:"auto_accept"`
-	Id          string            `json:"id"`
+	Timeouts    Timeouts          `json:"timeouts"`
 	Accepter    Accepter          `json:"accepter"`
 	Requester   Requester         `json:"requester"`
-	Timeouts    Timeouts          `json:"timeouts"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
+	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 type Accepter struct {
@@ -71,21 +77,15 @@ type Accepter struct {
 }
 
 type Requester struct {
-	AllowClassicLinkToRemoteVpc bool `json:"allow_classic_link_to_remote_vpc"`
 	AllowRemoteVpcDnsResolution bool `json:"allow_remote_vpc_dns_resolution"`
 	AllowVpcToRemoteClassicLink bool `json:"allow_vpc_to_remote_classic_link"`
-}
-
-type Timeouts struct {
-	Create string `json:"create"`
-	Delete string `json:"delete"`
-	Update string `json:"update"`
+	AllowClassicLinkToRemoteVpc bool `json:"allow_classic_link_to_remote_vpc"`
 }
 
 // A VpcPeeringConnectionStatus defines the observed state of a VpcPeeringConnection
 type VpcPeeringConnectionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcPeeringConnectionObservation `json:",inline"`
+	AtProvider                     VpcPeeringConnectionObservation `json:"atProvider"`
 }
 
 // A VpcPeeringConnectionObservation records the observed state of a VpcPeeringConnection

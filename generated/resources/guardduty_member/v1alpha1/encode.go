@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyMember(r GuarddutyMember) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyMember_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_DisableEmailNotification(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Email(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_InvitationMessage(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Invite(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_AccountId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyMember_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeGuarddutyMember_RelationshipStatus(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGuarddutyMember_DetectorId(p GuarddutyMemberParameters, vals map[string]cty.Value) {
+	vals["detector_id"] = cty.StringVal(p.DetectorId)
 }
 
 func EncodeGuarddutyMember_DisableEmailNotification(p GuarddutyMemberParameters, vals map[string]cty.Value) {
@@ -70,10 +82,6 @@ func EncodeGuarddutyMember_Invite(p GuarddutyMemberParameters, vals map[string]c
 
 func EncodeGuarddutyMember_AccountId(p GuarddutyMemberParameters, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
-}
-
-func EncodeGuarddutyMember_DetectorId(p GuarddutyMemberParameters, vals map[string]cty.Value) {
-	vals["detector_id"] = cty.StringVal(p.DetectorId)
 }
 
 func EncodeGuarddutyMember_Timeouts(p Timeouts, vals map[string]cty.Value) {

@@ -47,20 +47,20 @@ type EcrLifecyclePolicyList struct {
 // A EcrLifecyclePolicySpec defines the desired state of a EcrLifecyclePolicy
 type EcrLifecyclePolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EcrLifecyclePolicyParameters `json:",inline"`
+	ForProvider                  EcrLifecyclePolicyParameters `json:"forProvider"`
 }
 
 // A EcrLifecyclePolicyParameters defines the desired state of a EcrLifecyclePolicy
 type EcrLifecyclePolicyParameters struct {
-	Id         string `json:"id"`
 	Policy     string `json:"policy"`
 	Repository string `json:"repository"`
+	Id         string `json:"id"`
 }
 
 // A EcrLifecyclePolicyStatus defines the observed state of a EcrLifecyclePolicy
 type EcrLifecyclePolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EcrLifecyclePolicyObservation `json:",inline"`
+	AtProvider                     EcrLifecyclePolicyObservation `json:"atProvider"`
 }
 
 // A EcrLifecyclePolicyObservation records the observed state of a EcrLifecyclePolicy

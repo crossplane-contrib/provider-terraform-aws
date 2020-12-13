@@ -47,18 +47,18 @@ type KinesisVideoStreamList struct {
 // A KinesisVideoStreamSpec defines the desired state of a KinesisVideoStream
 type KinesisVideoStreamSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  KinesisVideoStreamParameters `json:",inline"`
+	ForProvider                  KinesisVideoStreamParameters `json:"forProvider"`
 }
 
 // A KinesisVideoStreamParameters defines the desired state of a KinesisVideoStream
 type KinesisVideoStreamParameters struct {
-	DeviceName           string            `json:"device_name"`
+	DataRetentionInHours int64             `json:"data_retention_in_hours"`
 	Id                   string            `json:"id"`
+	Name                 string            `json:"name"`
+	DeviceName           string            `json:"device_name"`
 	KmsKeyId             string            `json:"kms_key_id"`
 	MediaType            string            `json:"media_type"`
-	Name                 string            `json:"name"`
 	Tags                 map[string]string `json:"tags"`
-	DataRetentionInHours int64             `json:"data_retention_in_hours"`
 	Timeouts             Timeouts          `json:"timeouts"`
 }
 
@@ -71,12 +71,12 @@ type Timeouts struct {
 // A KinesisVideoStreamStatus defines the observed state of a KinesisVideoStream
 type KinesisVideoStreamStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     KinesisVideoStreamObservation `json:",inline"`
+	AtProvider                     KinesisVideoStreamObservation `json:"atProvider"`
 }
 
 // A KinesisVideoStreamObservation records the observed state of a KinesisVideoStream
 type KinesisVideoStreamObservation struct {
 	Version      string `json:"version"`
-	CreationTime string `json:"creation_time"`
 	Arn          string `json:"arn"`
+	CreationTime string `json:"creation_time"`
 }

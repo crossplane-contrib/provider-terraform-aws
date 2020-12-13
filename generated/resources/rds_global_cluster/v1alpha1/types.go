@@ -47,36 +47,36 @@ type RdsGlobalClusterList struct {
 // A RdsGlobalClusterSpec defines the desired state of a RdsGlobalCluster
 type RdsGlobalClusterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RdsGlobalClusterParameters `json:",inline"`
+	ForProvider                  RdsGlobalClusterParameters `json:"forProvider"`
 }
 
 // A RdsGlobalClusterParameters defines the desired state of a RdsGlobalCluster
 type RdsGlobalClusterParameters struct {
-	DatabaseName              string `json:"database_name"`
-	Engine                    string `json:"engine"`
-	EngineVersion             string `json:"engine_version"`
-	ForceDestroy              bool   `json:"force_destroy"`
-	Id                        string `json:"id"`
-	DeletionProtection        bool   `json:"deletion_protection"`
 	GlobalClusterIdentifier   string `json:"global_cluster_identifier"`
 	SourceDbClusterIdentifier string `json:"source_db_cluster_identifier"`
 	StorageEncrypted          bool   `json:"storage_encrypted"`
+	DatabaseName              string `json:"database_name"`
+	EngineVersion             string `json:"engine_version"`
+	Engine                    string `json:"engine"`
+	ForceDestroy              bool   `json:"force_destroy"`
+	Id                        string `json:"id"`
+	DeletionProtection        bool   `json:"deletion_protection"`
 }
 
 // A RdsGlobalClusterStatus defines the observed state of a RdsGlobalCluster
 type RdsGlobalClusterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RdsGlobalClusterObservation `json:",inline"`
+	AtProvider                     RdsGlobalClusterObservation `json:"atProvider"`
 }
 
 // A RdsGlobalClusterObservation records the observed state of a RdsGlobalCluster
 type RdsGlobalClusterObservation struct {
-	Arn                     string                 `json:"arn"`
 	GlobalClusterResourceId string                 `json:"global_cluster_resource_id"`
 	GlobalClusterMembers    []GlobalClusterMembers `json:"global_cluster_members"`
+	Arn                     string                 `json:"arn"`
 }
 
 type GlobalClusterMembers struct {
-	DbClusterArn string `json:"db_cluster_arn"`
 	IsWriter     bool   `json:"is_writer"`
+	DbClusterArn string `json:"db_cluster_arn"`
 }

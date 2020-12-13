@@ -47,20 +47,20 @@ type ElbAttachmentList struct {
 // A ElbAttachmentSpec defines the desired state of a ElbAttachment
 type ElbAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElbAttachmentParameters `json:",inline"`
+	ForProvider                  ElbAttachmentParameters `json:"forProvider"`
 }
 
 // A ElbAttachmentParameters defines the desired state of a ElbAttachment
 type ElbAttachmentParameters struct {
+	Elb      string `json:"elb"`
 	Id       string `json:"id"`
 	Instance string `json:"instance"`
-	Elb      string `json:"elb"`
 }
 
 // A ElbAttachmentStatus defines the observed state of a ElbAttachment
 type ElbAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElbAttachmentObservation `json:",inline"`
+	AtProvider                     ElbAttachmentObservation `json:"atProvider"`
 }
 
 // A ElbAttachmentObservation records the observed state of a ElbAttachment

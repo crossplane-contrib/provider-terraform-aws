@@ -47,14 +47,14 @@ type Ec2TransitGatewayVpcAttachmentAccepterList struct {
 // A Ec2TransitGatewayVpcAttachmentAccepterSpec defines the desired state of a Ec2TransitGatewayVpcAttachmentAccepter
 type Ec2TransitGatewayVpcAttachmentAccepterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayVpcAttachmentAccepterParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayVpcAttachmentAccepterParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayVpcAttachmentAccepterParameters defines the desired state of a Ec2TransitGatewayVpcAttachmentAccepter
 type Ec2TransitGatewayVpcAttachmentAccepterParameters struct {
 	Id                                         string            `json:"id"`
-	Tags                                       map[string]string `json:"tags"`
 	TransitGatewayAttachmentId                 string            `json:"transit_gateway_attachment_id"`
+	Tags                                       map[string]string `json:"tags"`
 	TransitGatewayDefaultRouteTableAssociation bool              `json:"transit_gateway_default_route_table_association"`
 	TransitGatewayDefaultRouteTablePropagation bool              `json:"transit_gateway_default_route_table_propagation"`
 }
@@ -62,15 +62,15 @@ type Ec2TransitGatewayVpcAttachmentAccepterParameters struct {
 // A Ec2TransitGatewayVpcAttachmentAccepterStatus defines the observed state of a Ec2TransitGatewayVpcAttachmentAccepter
 type Ec2TransitGatewayVpcAttachmentAccepterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayVpcAttachmentAccepterObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayVpcAttachmentAccepterObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayVpcAttachmentAccepterObservation records the observed state of a Ec2TransitGatewayVpcAttachmentAccepter
 type Ec2TransitGatewayVpcAttachmentAccepterObservation struct {
-	VpcOwnerId       string   `json:"vpc_owner_id"`
-	SubnetIds        []string `json:"subnet_ids"`
-	TransitGatewayId string   `json:"transit_gateway_id"`
-	VpcId            string   `json:"vpc_id"`
 	DnsSupport       string   `json:"dns_support"`
 	Ipv6Support      string   `json:"ipv6_support"`
+	VpcId            string   `json:"vpc_id"`
+	SubnetIds        []string `json:"subnet_ids"`
+	TransitGatewayId string   `json:"transit_gateway_id"`
+	VpcOwnerId       string   `json:"vpc_owner_id"`
 }

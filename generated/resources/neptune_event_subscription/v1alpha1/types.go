@@ -47,37 +47,37 @@ type NeptuneEventSubscriptionList struct {
 // A NeptuneEventSubscriptionSpec defines the desired state of a NeptuneEventSubscription
 type NeptuneEventSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NeptuneEventSubscriptionParameters `json:",inline"`
+	ForProvider                  NeptuneEventSubscriptionParameters `json:"forProvider"`
 }
 
 // A NeptuneEventSubscriptionParameters defines the desired state of a NeptuneEventSubscription
 type NeptuneEventSubscriptionParameters struct {
-	Name            string            `json:"name"`
-	SourceIds       []string          `json:"source_ids"`
-	Tags            map[string]string `json:"tags"`
 	SourceType      string            `json:"source_type"`
+	Tags            map[string]string `json:"tags"`
 	Enabled         bool              `json:"enabled"`
 	EventCategories []string          `json:"event_categories"`
 	Id              string            `json:"id"`
 	NamePrefix      string            `json:"name_prefix"`
+	SourceIds       []string          `json:"source_ids"`
+	Name            string            `json:"name"`
 	SnsTopicArn     string            `json:"sns_topic_arn"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
 }
 
 // A NeptuneEventSubscriptionStatus defines the observed state of a NeptuneEventSubscription
 type NeptuneEventSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NeptuneEventSubscriptionObservation `json:",inline"`
+	AtProvider                     NeptuneEventSubscriptionObservation `json:"atProvider"`
 }
 
 // A NeptuneEventSubscriptionObservation records the observed state of a NeptuneEventSubscription
 type NeptuneEventSubscriptionObservation struct {
-	Arn           string `json:"arn"`
 	CustomerAwsId string `json:"customer_aws_id"`
+	Arn           string `json:"arn"`
 }

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLoadBalancerPolicy(r LoadBalancerPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLoadBalancerPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerPolicy_LoadBalancerName(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerPolicy_PolicyName(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerPolicy_PolicyTypeName(r.Spec.ForProvider, ctyVal)
-	EncodeLoadBalancerPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerPolicy_PolicyAttribute(r.Spec.ForProvider.PolicyAttribute, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLoadBalancerPolicy_Id(p LoadBalancerPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLoadBalancerPolicy_LoadBalancerName(p LoadBalancerPolicyParameters, vals map[string]cty.Value) {
@@ -55,10 +67,6 @@ func EncodeLoadBalancerPolicy_PolicyName(p LoadBalancerPolicyParameters, vals ma
 
 func EncodeLoadBalancerPolicy_PolicyTypeName(p LoadBalancerPolicyParameters, vals map[string]cty.Value) {
 	vals["policy_type_name"] = cty.StringVal(p.PolicyTypeName)
-}
-
-func EncodeLoadBalancerPolicy_Id(p LoadBalancerPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLoadBalancerPolicy_PolicyAttribute(p PolicyAttribute, vals map[string]cty.Value) {

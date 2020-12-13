@@ -47,49 +47,49 @@ type OpsworksStackList struct {
 // A OpsworksStackSpec defines the desired state of a OpsworksStack
 type OpsworksStackSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksStackParameters `json:",inline"`
+	ForProvider                  OpsworksStackParameters `json:"forProvider"`
 }
 
 // A OpsworksStackParameters defines the desired state of a OpsworksStack
 type OpsworksStackParameters struct {
-	DefaultInstanceProfileArn   string                `json:"default_instance_profile_arn"`
-	Id                          string                `json:"id"`
-	Name                        string                `json:"name"`
-	UseCustomCookbooks          bool                  `json:"use_custom_cookbooks"`
-	BerkshelfVersion            string                `json:"berkshelf_version"`
-	CustomJson                  string                `json:"custom_json"`
-	DefaultSshKeyName           string                `json:"default_ssh_key_name"`
-	ManageBerkshelf             bool                  `json:"manage_berkshelf"`
 	ServiceRoleArn              string                `json:"service_role_arn"`
-	Tags                        map[string]string     `json:"tags"`
-	UseOpsworksSecurityGroups   bool                  `json:"use_opsworks_security_groups"`
-	Color                       string                `json:"color"`
-	ConfigurationManagerName    string                `json:"configuration_manager_name"`
-	ConfigurationManagerVersion string                `json:"configuration_manager_version"`
+	CustomJson                  string                `json:"custom_json"`
+	DefaultOs                   string                `json:"default_os"`
 	DefaultSubnetId             string                `json:"default_subnet_id"`
 	HostnameTheme               string                `json:"hostname_theme"`
+	Name                        string                `json:"name"`
+	BerkshelfVersion            string                `json:"berkshelf_version"`
+	DefaultInstanceProfileArn   string                `json:"default_instance_profile_arn"`
 	VpcId                       string                `json:"vpc_id"`
+	UseCustomCookbooks          bool                  `json:"use_custom_cookbooks"`
 	AgentVersion                string                `json:"agent_version"`
-	DefaultAvailabilityZone     string                `json:"default_availability_zone"`
-	DefaultOs                   string                `json:"default_os"`
-	DefaultRootDeviceType       string                `json:"default_root_device_type"`
+	Color                       string                `json:"color"`
+	ManageBerkshelf             bool                  `json:"manage_berkshelf"`
 	Region                      string                `json:"region"`
+	Tags                        map[string]string     `json:"tags"`
+	Id                          string                `json:"id"`
+	UseOpsworksSecurityGroups   bool                  `json:"use_opsworks_security_groups"`
+	ConfigurationManagerName    string                `json:"configuration_manager_name"`
+	ConfigurationManagerVersion string                `json:"configuration_manager_version"`
+	DefaultAvailabilityZone     string                `json:"default_availability_zone"`
+	DefaultRootDeviceType       string                `json:"default_root_device_type"`
+	DefaultSshKeyName           string                `json:"default_ssh_key_name"`
 	CustomCookbooksSource       CustomCookbooksSource `json:"custom_cookbooks_source"`
 }
 
 type CustomCookbooksSource struct {
+	Username string `json:"username"`
 	Password string `json:"password"`
 	Revision string `json:"revision"`
 	SshKey   string `json:"ssh_key"`
 	Type     string `json:"type"`
 	Url      string `json:"url"`
-	Username string `json:"username"`
 }
 
 // A OpsworksStackStatus defines the observed state of a OpsworksStack
 type OpsworksStackStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksStackObservation `json:",inline"`
+	AtProvider                     OpsworksStackObservation `json:"atProvider"`
 }
 
 // A OpsworksStackObservation records the observed state of a OpsworksStack

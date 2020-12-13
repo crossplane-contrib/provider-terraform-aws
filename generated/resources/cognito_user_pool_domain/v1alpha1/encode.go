@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,23 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCognitoUserPoolDomain(r CognitoUserPoolDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPoolDomain_Domain(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_CertificateArn(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoUserPoolDomain_CloudfrontDistributionArn(r.Status.AtProvider, ctyVal)
+	EncodeCognitoUserPoolDomain_Domain(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_S3Bucket(r.Status.AtProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_Version(r.Status.AtProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_AwsAccountId(r.Status.AtProvider, ctyVal)
+	EncodeCognitoUserPoolDomain_CloudfrontDistributionArn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoUserPoolDomain_Domain(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
-}
-
-func EncodeCognitoUserPoolDomain_Id(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCognitoUserPoolDomain_UserPoolId(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
@@ -63,8 +63,12 @@ func EncodeCognitoUserPoolDomain_CertificateArn(p CognitoUserPoolDomainParameter
 	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
-func EncodeCognitoUserPoolDomain_CloudfrontDistributionArn(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
-	vals["cloudfront_distribution_arn"] = cty.StringVal(p.CloudfrontDistributionArn)
+func EncodeCognitoUserPoolDomain_Domain(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
+}
+
+func EncodeCognitoUserPoolDomain_Id(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCognitoUserPoolDomain_S3Bucket(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
@@ -77,4 +81,8 @@ func EncodeCognitoUserPoolDomain_Version(p CognitoUserPoolDomainObservation, val
 
 func EncodeCognitoUserPoolDomain_AwsAccountId(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
 	vals["aws_account_id"] = cty.StringVal(p.AwsAccountId)
+}
+
+func EncodeCognitoUserPoolDomain_CloudfrontDistributionArn(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
+	vals["cloudfront_distribution_arn"] = cty.StringVal(p.CloudfrontDistributionArn)
 }

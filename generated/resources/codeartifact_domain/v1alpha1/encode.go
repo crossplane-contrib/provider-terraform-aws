@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -39,11 +40,18 @@ func EncodeCodeartifactDomain(r CodeartifactDomain) cty.Value {
 	EncodeCodeartifactDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_EncryptionKey(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCodeartifactDomain_Owner(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_RepositoryCount(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_Arn(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_AssetSizeBytes(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_CreatedTime(r.Status.AtProvider, ctyVal)
+	EncodeCodeartifactDomain_Owner(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -57,10 +65,6 @@ func EncodeCodeartifactDomain_EncryptionKey(p CodeartifactDomainParameters, vals
 
 func EncodeCodeartifactDomain_Id(p CodeartifactDomainParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCodeartifactDomain_Owner(p CodeartifactDomainObservation, vals map[string]cty.Value) {
-	vals["owner"] = cty.StringVal(p.Owner)
 }
 
 func EncodeCodeartifactDomain_RepositoryCount(p CodeartifactDomainObservation, vals map[string]cty.Value) {
@@ -77,4 +81,8 @@ func EncodeCodeartifactDomain_AssetSizeBytes(p CodeartifactDomainObservation, va
 
 func EncodeCodeartifactDomain_CreatedTime(p CodeartifactDomainObservation, vals map[string]cty.Value) {
 	vals["created_time"] = cty.StringVal(p.CreatedTime)
+}
+
+func EncodeCodeartifactDomain_Owner(p CodeartifactDomainObservation, vals map[string]cty.Value) {
+	vals["owner"] = cty.StringVal(p.Owner)
 }

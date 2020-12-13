@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,27 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAthenaWorkgroup(r AthenaWorkgroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAthenaWorkgroup_State(r.Spec.ForProvider, ctyVal)
-	EncodeAthenaWorkgroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaWorkgroup_State(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaWorkgroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaWorkgroup_Configuration(r.Spec.ForProvider.Configuration, ctyVal)
 	EncodeAthenaWorkgroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAthenaWorkgroup_State(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
-	vals["state"] = cty.StringVal(p.State)
-}
-
-func EncodeAthenaWorkgroup_Tags(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeAthenaWorkgroup_Description(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
@@ -75,15 +71,35 @@ func EncodeAthenaWorkgroup_Name(p AthenaWorkgroupParameters, vals map[string]cty
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeAthenaWorkgroup_State(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
+	vals["state"] = cty.StringVal(p.State)
+}
+
+func EncodeAthenaWorkgroup_Tags(p AthenaWorkgroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
 func EncodeAthenaWorkgroup_Configuration(p Configuration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeAthenaWorkgroup_Configuration_PublishCloudwatchMetricsEnabled(p, ctyVal)
 	EncodeAthenaWorkgroup_Configuration_BytesScannedCutoffPerQuery(p, ctyVal)
 	EncodeAthenaWorkgroup_Configuration_EnforceWorkgroupConfiguration(p, ctyVal)
-	EncodeAthenaWorkgroup_Configuration_PublishCloudwatchMetricsEnabled(p, ctyVal)
 	EncodeAthenaWorkgroup_Configuration_ResultConfiguration(p.ResultConfiguration, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeAthenaWorkgroup_Configuration_PublishCloudwatchMetricsEnabled(p Configuration, vals map[string]cty.Value) {
+	vals["publish_cloudwatch_metrics_enabled"] = cty.BoolVal(p.PublishCloudwatchMetricsEnabled)
 }
 
 func EncodeAthenaWorkgroup_Configuration_BytesScannedCutoffPerQuery(p Configuration, vals map[string]cty.Value) {
@@ -92,10 +108,6 @@ func EncodeAthenaWorkgroup_Configuration_BytesScannedCutoffPerQuery(p Configurat
 
 func EncodeAthenaWorkgroup_Configuration_EnforceWorkgroupConfiguration(p Configuration, vals map[string]cty.Value) {
 	vals["enforce_workgroup_configuration"] = cty.BoolVal(p.EnforceWorkgroupConfiguration)
-}
-
-func EncodeAthenaWorkgroup_Configuration_PublishCloudwatchMetricsEnabled(p Configuration, vals map[string]cty.Value) {
-	vals["publish_cloudwatch_metrics_enabled"] = cty.BoolVal(p.PublishCloudwatchMetricsEnabled)
 }
 
 func EncodeAthenaWorkgroup_Configuration_ResultConfiguration(p ResultConfiguration, vals map[string]cty.Value) {

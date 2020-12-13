@@ -47,7 +47,7 @@ type EipAssociationList struct {
 // A EipAssociationSpec defines the desired state of a EipAssociation
 type EipAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EipAssociationParameters `json:",inline"`
+	ForProvider                  EipAssociationParameters `json:"forProvider"`
 }
 
 // A EipAssociationParameters defines the desired state of a EipAssociation
@@ -64,7 +64,7 @@ type EipAssociationParameters struct {
 // A EipAssociationStatus defines the observed state of a EipAssociation
 type EipAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EipAssociationObservation `json:",inline"`
+	AtProvider                     EipAssociationObservation `json:"atProvider"`
 }
 
 // A EipAssociationObservation records the observed state of a EipAssociation

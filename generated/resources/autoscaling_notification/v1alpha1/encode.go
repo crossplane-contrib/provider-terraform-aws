@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAutoscalingNotification(r AutoscalingNotification) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAutoscalingNotification_GroupNames(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_Notifications(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_TopicArn(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingNotification_GroupNames(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAutoscalingNotification_GroupNames(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.GroupNames {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["group_names"] = cty.SetVal(colVals)
 }
 
 func EncodeAutoscalingNotification_Id(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
@@ -58,12 +74,4 @@ func EncodeAutoscalingNotification_Notifications(p AutoscalingNotificationParame
 
 func EncodeAutoscalingNotification_TopicArn(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
 	vals["topic_arn"] = cty.StringVal(p.TopicArn)
-}
-
-func EncodeAutoscalingNotification_GroupNames(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.GroupNames {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["group_names"] = cty.SetVal(colVals)
 }

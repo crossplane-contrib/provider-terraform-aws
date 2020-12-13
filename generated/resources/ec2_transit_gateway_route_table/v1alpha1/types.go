@@ -47,24 +47,24 @@ type Ec2TransitGatewayRouteTableList struct {
 // A Ec2TransitGatewayRouteTableSpec defines the desired state of a Ec2TransitGatewayRouteTable
 type Ec2TransitGatewayRouteTableSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayRouteTableParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayRouteTableParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayRouteTableParameters defines the desired state of a Ec2TransitGatewayRouteTable
 type Ec2TransitGatewayRouteTableParameters struct {
+	Id               string            `json:"id"`
 	Tags             map[string]string `json:"tags"`
 	TransitGatewayId string            `json:"transit_gateway_id"`
-	Id               string            `json:"id"`
 }
 
 // A Ec2TransitGatewayRouteTableStatus defines the observed state of a Ec2TransitGatewayRouteTable
 type Ec2TransitGatewayRouteTableStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayRouteTableObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayRouteTableObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayRouteTableObservation records the observed state of a Ec2TransitGatewayRouteTable
 type Ec2TransitGatewayRouteTableObservation struct {
-	DefaultAssociationRouteTable bool `json:"default_association_route_table"`
 	DefaultPropagationRouteTable bool `json:"default_propagation_route_table"`
+	DefaultAssociationRouteTable bool `json:"default_association_route_table"`
 }

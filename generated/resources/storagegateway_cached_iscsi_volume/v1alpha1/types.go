@@ -47,36 +47,36 @@ type StoragegatewayCachedIscsiVolumeList struct {
 // A StoragegatewayCachedIscsiVolumeSpec defines the desired state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  StoragegatewayCachedIscsiVolumeParameters `json:",inline"`
+	ForProvider                  StoragegatewayCachedIscsiVolumeParameters `json:"forProvider"`
 }
 
 // A StoragegatewayCachedIscsiVolumeParameters defines the desired state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeParameters struct {
-	GatewayArn         string            `json:"gateway_arn"`
-	Id                 string            `json:"id"`
-	KmsKey             string            `json:"kms_key"`
 	TargetName         string            `json:"target_name"`
+	KmsEncrypted       bool              `json:"kms_encrypted"`
+	NetworkInterfaceId string            `json:"network_interface_id"`
+	Tags               map[string]string `json:"tags"`
+	Id                 string            `json:"id"`
 	VolumeSizeInBytes  int64             `json:"volume_size_in_bytes"`
+	GatewayArn         string            `json:"gateway_arn"`
+	KmsKey             string            `json:"kms_key"`
 	SnapshotId         string            `json:"snapshot_id"`
 	SourceVolumeArn    string            `json:"source_volume_arn"`
-	NetworkInterfaceId string            `json:"network_interface_id"`
-	KmsEncrypted       bool              `json:"kms_encrypted"`
-	Tags               map[string]string `json:"tags"`
 }
 
 // A StoragegatewayCachedIscsiVolumeStatus defines the observed state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     StoragegatewayCachedIscsiVolumeObservation `json:",inline"`
+	AtProvider                     StoragegatewayCachedIscsiVolumeObservation `json:"atProvider"`
 }
 
 // A StoragegatewayCachedIscsiVolumeObservation records the observed state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeObservation struct {
-	VolumeId             string `json:"volume_id"`
-	LunNumber            int64  `json:"lun_number"`
-	NetworkInterfacePort int64  `json:"network_interface_port"`
-	Arn                  string `json:"arn"`
-	ChapEnabled          bool   `json:"chap_enabled"`
 	TargetArn            string `json:"target_arn"`
 	VolumeArn            string `json:"volume_arn"`
+	ChapEnabled          bool   `json:"chap_enabled"`
+	LunNumber            int64  `json:"lun_number"`
+	Arn                  string `json:"arn"`
+	VolumeId             string `json:"volume_id"`
+	NetworkInterfacePort int64  `json:"network_interface_port"`
 }

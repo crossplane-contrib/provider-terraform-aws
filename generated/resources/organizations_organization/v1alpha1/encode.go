@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,30 +37,25 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeOrganizationsOrganization(r OrganizationsOrganization) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOrganizationsOrganization_EnabledPolicyTypes(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsOrganization_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsOrganization_AwsServiceAccessPrincipals(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsOrganization_EnabledPolicyTypes(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsOrganization_FeatureSet(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsOrganization_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsOrganization_MasterAccountId(r.Status.AtProvider, ctyVal)
-	EncodeOrganizationsOrganization_Arn(r.Status.AtProvider, ctyVal)
-	EncodeOrganizationsOrganization_MasterAccountEmail(r.Status.AtProvider, ctyVal)
-	EncodeOrganizationsOrganization_MasterAccountArn(r.Status.AtProvider, ctyVal)
 	EncodeOrganizationsOrganization_NonMasterAccounts(r.Status.AtProvider.NonMasterAccounts, ctyVal)
+	EncodeOrganizationsOrganization_Arn(r.Status.AtProvider, ctyVal)
+	EncodeOrganizationsOrganization_MasterAccountArn(r.Status.AtProvider, ctyVal)
+	EncodeOrganizationsOrganization_MasterAccountEmail(r.Status.AtProvider, ctyVal)
 	EncodeOrganizationsOrganization_Roots(r.Status.AtProvider.Roots, ctyVal)
 	EncodeOrganizationsOrganization_Accounts(r.Status.AtProvider.Accounts, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOrganizationsOrganization_EnabledPolicyTypes(p OrganizationsOrganizationParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.EnabledPolicyTypes {
-		colVals = append(colVals, cty.StringVal(value))
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["enabled_policy_types"] = cty.SetVal(colVals)
-}
-
-func EncodeOrganizationsOrganization_Id(p OrganizationsOrganizationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeOrganizationsOrganization_AwsServiceAccessPrincipals(p OrganizationsOrganizationParameters, vals map[string]cty.Value) {
@@ -70,38 +66,42 @@ func EncodeOrganizationsOrganization_AwsServiceAccessPrincipals(p OrganizationsO
 	vals["aws_service_access_principals"] = cty.SetVal(colVals)
 }
 
+func EncodeOrganizationsOrganization_EnabledPolicyTypes(p OrganizationsOrganizationParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.EnabledPolicyTypes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["enabled_policy_types"] = cty.SetVal(colVals)
+}
+
 func EncodeOrganizationsOrganization_FeatureSet(p OrganizationsOrganizationParameters, vals map[string]cty.Value) {
 	vals["feature_set"] = cty.StringVal(p.FeatureSet)
+}
+
+func EncodeOrganizationsOrganization_Id(p OrganizationsOrganizationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeOrganizationsOrganization_MasterAccountId(p OrganizationsOrganizationObservation, vals map[string]cty.Value) {
 	vals["master_account_id"] = cty.StringVal(p.MasterAccountId)
 }
 
-func EncodeOrganizationsOrganization_Arn(p OrganizationsOrganizationObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeOrganizationsOrganization_MasterAccountEmail(p OrganizationsOrganizationObservation, vals map[string]cty.Value) {
-	vals["master_account_email"] = cty.StringVal(p.MasterAccountEmail)
-}
-
-func EncodeOrganizationsOrganization_MasterAccountArn(p OrganizationsOrganizationObservation, vals map[string]cty.Value) {
-	vals["master_account_arn"] = cty.StringVal(p.MasterAccountArn)
-}
-
 func EncodeOrganizationsOrganization_NonMasterAccounts(p []NonMasterAccounts, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeOrganizationsOrganization_NonMasterAccounts_Name(v, ctyVal)
 		EncodeOrganizationsOrganization_NonMasterAccounts_Status(v, ctyVal)
 		EncodeOrganizationsOrganization_NonMasterAccounts_Arn(v, ctyVal)
 		EncodeOrganizationsOrganization_NonMasterAccounts_Email(v, ctyVal)
 		EncodeOrganizationsOrganization_NonMasterAccounts_Id(v, ctyVal)
-		EncodeOrganizationsOrganization_NonMasterAccounts_Name(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["non_master_accounts"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeOrganizationsOrganization_NonMasterAccounts_Name(p NonMasterAccounts, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeOrganizationsOrganization_NonMasterAccounts_Status(p NonMasterAccounts, vals map[string]cty.Value) {
@@ -120,21 +120,33 @@ func EncodeOrganizationsOrganization_NonMasterAccounts_Id(p NonMasterAccounts, v
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeOrganizationsOrganization_NonMasterAccounts_Name(p NonMasterAccounts, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeOrganizationsOrganization_Arn(p OrganizationsOrganizationObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeOrganizationsOrganization_MasterAccountArn(p OrganizationsOrganizationObservation, vals map[string]cty.Value) {
+	vals["master_account_arn"] = cty.StringVal(p.MasterAccountArn)
+}
+
+func EncodeOrganizationsOrganization_MasterAccountEmail(p OrganizationsOrganizationObservation, vals map[string]cty.Value) {
+	vals["master_account_email"] = cty.StringVal(p.MasterAccountEmail)
 }
 
 func EncodeOrganizationsOrganization_Roots(p []Roots, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeOrganizationsOrganization_Roots_Name(v, ctyVal)
 		EncodeOrganizationsOrganization_Roots_PolicyTypes(v.PolicyTypes, ctyVal)
 		EncodeOrganizationsOrganization_Roots_Arn(v, ctyVal)
 		EncodeOrganizationsOrganization_Roots_Id(v, ctyVal)
-		EncodeOrganizationsOrganization_Roots_Name(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["roots"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeOrganizationsOrganization_Roots_Name(p Roots, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeOrganizationsOrganization_Roots_PolicyTypes(p []PolicyTypes, vals map[string]cty.Value) {
@@ -164,22 +176,26 @@ func EncodeOrganizationsOrganization_Roots_Id(p Roots, vals map[string]cty.Value
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeOrganizationsOrganization_Roots_Name(p Roots, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeOrganizationsOrganization_Accounts(p []Accounts, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeOrganizationsOrganization_Accounts_Id(v, ctyVal)
+		EncodeOrganizationsOrganization_Accounts_Name(v, ctyVal)
 		EncodeOrganizationsOrganization_Accounts_Status(v, ctyVal)
 		EncodeOrganizationsOrganization_Accounts_Arn(v, ctyVal)
 		EncodeOrganizationsOrganization_Accounts_Email(v, ctyVal)
-		EncodeOrganizationsOrganization_Accounts_Id(v, ctyVal)
-		EncodeOrganizationsOrganization_Accounts_Name(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["accounts"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeOrganizationsOrganization_Accounts_Id(p Accounts, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeOrganizationsOrganization_Accounts_Name(p Accounts, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeOrganizationsOrganization_Accounts_Status(p Accounts, vals map[string]cty.Value) {
@@ -192,12 +208,4 @@ func EncodeOrganizationsOrganization_Accounts_Arn(p Accounts, vals map[string]ct
 
 func EncodeOrganizationsOrganization_Accounts_Email(p Accounts, vals map[string]cty.Value) {
 	vals["email"] = cty.StringVal(p.Email)
-}
-
-func EncodeOrganizationsOrganization_Accounts_Id(p Accounts, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeOrganizationsOrganization_Accounts_Name(p Accounts, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }

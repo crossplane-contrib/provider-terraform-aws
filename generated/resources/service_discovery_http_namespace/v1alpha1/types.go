@@ -47,21 +47,21 @@ type ServiceDiscoveryHttpNamespaceList struct {
 // A ServiceDiscoveryHttpNamespaceSpec defines the desired state of a ServiceDiscoveryHttpNamespace
 type ServiceDiscoveryHttpNamespaceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ServiceDiscoveryHttpNamespaceParameters `json:",inline"`
+	ForProvider                  ServiceDiscoveryHttpNamespaceParameters `json:"forProvider"`
 }
 
 // A ServiceDiscoveryHttpNamespaceParameters defines the desired state of a ServiceDiscoveryHttpNamespace
 type ServiceDiscoveryHttpNamespaceParameters struct {
-	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
+	Tags        map[string]string `json:"tags"`
 }
 
 // A ServiceDiscoveryHttpNamespaceStatus defines the observed state of a ServiceDiscoveryHttpNamespace
 type ServiceDiscoveryHttpNamespaceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ServiceDiscoveryHttpNamespaceObservation `json:",inline"`
+	AtProvider                     ServiceDiscoveryHttpNamespaceObservation `json:"atProvider"`
 }
 
 // A ServiceDiscoveryHttpNamespaceObservation records the observed state of a ServiceDiscoveryHttpNamespace

@@ -47,7 +47,7 @@ type ElasticsearchDomainPolicyList struct {
 // A ElasticsearchDomainPolicySpec defines the desired state of a ElasticsearchDomainPolicy
 type ElasticsearchDomainPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticsearchDomainPolicyParameters `json:",inline"`
+	ForProvider                  ElasticsearchDomainPolicyParameters `json:"forProvider"`
 }
 
 // A ElasticsearchDomainPolicyParameters defines the desired state of a ElasticsearchDomainPolicy
@@ -60,7 +60,7 @@ type ElasticsearchDomainPolicyParameters struct {
 // A ElasticsearchDomainPolicyStatus defines the observed state of a ElasticsearchDomainPolicy
 type ElasticsearchDomainPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticsearchDomainPolicyObservation `json:",inline"`
+	AtProvider                     ElasticsearchDomainPolicyObservation `json:"atProvider"`
 }
 
 // A ElasticsearchDomainPolicyObservation records the observed state of a ElasticsearchDomainPolicy

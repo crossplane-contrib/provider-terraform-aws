@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=ses-event-destination.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

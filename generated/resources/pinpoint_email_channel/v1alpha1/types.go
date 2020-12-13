@@ -47,23 +47,23 @@ type PinpointEmailChannelList struct {
 // A PinpointEmailChannelSpec defines the desired state of a PinpointEmailChannel
 type PinpointEmailChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointEmailChannelParameters `json:",inline"`
+	ForProvider                  PinpointEmailChannelParameters `json:"forProvider"`
 }
 
 // A PinpointEmailChannelParameters defines the desired state of a PinpointEmailChannel
 type PinpointEmailChannelParameters struct {
-	ApplicationId string `json:"application_id"`
-	Enabled       bool   `json:"enabled"`
-	FromAddress   string `json:"from_address"`
 	Id            string `json:"id"`
 	Identity      string `json:"identity"`
 	RoleArn       string `json:"role_arn"`
+	ApplicationId string `json:"application_id"`
+	Enabled       bool   `json:"enabled"`
+	FromAddress   string `json:"from_address"`
 }
 
 // A PinpointEmailChannelStatus defines the observed state of a PinpointEmailChannel
 type PinpointEmailChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointEmailChannelObservation `json:",inline"`
+	AtProvider                     PinpointEmailChannelObservation `json:"atProvider"`
 }
 
 // A PinpointEmailChannelObservation records the observed state of a PinpointEmailChannel

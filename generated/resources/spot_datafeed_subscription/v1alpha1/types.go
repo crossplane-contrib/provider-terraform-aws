@@ -47,7 +47,7 @@ type SpotDatafeedSubscriptionList struct {
 // A SpotDatafeedSubscriptionSpec defines the desired state of a SpotDatafeedSubscription
 type SpotDatafeedSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SpotDatafeedSubscriptionParameters `json:",inline"`
+	ForProvider                  SpotDatafeedSubscriptionParameters `json:"forProvider"`
 }
 
 // A SpotDatafeedSubscriptionParameters defines the desired state of a SpotDatafeedSubscription
@@ -60,7 +60,7 @@ type SpotDatafeedSubscriptionParameters struct {
 // A SpotDatafeedSubscriptionStatus defines the observed state of a SpotDatafeedSubscription
 type SpotDatafeedSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SpotDatafeedSubscriptionObservation `json:",inline"`
+	AtProvider                     SpotDatafeedSubscriptionObservation `json:"atProvider"`
 }
 
 // A SpotDatafeedSubscriptionObservation records the observed state of a SpotDatafeedSubscription

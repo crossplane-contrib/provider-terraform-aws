@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayRequestValidator(r ApiGatewayRequestValidator) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayRequestValidator_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRequestValidator_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRequestValidator_ValidateRequestBody(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRequestValidator_ValidateRequestParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRequestValidator_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRequestValidator_Name(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayRequestValidator_Name(p ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApiGatewayRequestValidator_RestApiId(p ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
@@ -59,8 +71,4 @@ func EncodeApiGatewayRequestValidator_ValidateRequestParameters(p ApiGatewayRequ
 
 func EncodeApiGatewayRequestValidator_Id(p ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayRequestValidator_Name(p ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }

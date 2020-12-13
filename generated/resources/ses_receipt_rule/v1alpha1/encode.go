@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,23 +37,38 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesReceiptRule(r SesReceiptRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSesReceiptRule_ScanEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptRule_TlsPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_After(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_Recipients(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptRule_RuleSetName(r.Spec.ForProvider, ctyVal)
-	EncodeSesReceiptRule_ScanEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeSesReceiptRule_TlsPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptRule_AddHeaderAction(r.Spec.ForProvider.AddHeaderAction, ctyVal)
+	EncodeSesReceiptRule_BounceAction(r.Spec.ForProvider.BounceAction, ctyVal)
 	EncodeSesReceiptRule_LambdaAction(r.Spec.ForProvider.LambdaAction, ctyVal)
 	EncodeSesReceiptRule_S3Action(r.Spec.ForProvider.S3Action, ctyVal)
 	EncodeSesReceiptRule_SnsAction(r.Spec.ForProvider.SnsAction, ctyVal)
 	EncodeSesReceiptRule_StopAction(r.Spec.ForProvider.StopAction, ctyVal)
 	EncodeSesReceiptRule_WorkmailAction(r.Spec.ForProvider.WorkmailAction, ctyVal)
-	EncodeSesReceiptRule_AddHeaderAction(r.Spec.ForProvider.AddHeaderAction, ctyVal)
-	EncodeSesReceiptRule_BounceAction(r.Spec.ForProvider.BounceAction, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSesReceiptRule_ScanEnabled(p SesReceiptRuleParameters, vals map[string]cty.Value) {
+	vals["scan_enabled"] = cty.BoolVal(p.ScanEnabled)
+}
+
+func EncodeSesReceiptRule_TlsPolicy(p SesReceiptRuleParameters, vals map[string]cty.Value) {
+	vals["tls_policy"] = cty.StringVal(p.TlsPolicy)
 }
 
 func EncodeSesReceiptRule_After(p SesReceiptRuleParameters, vals map[string]cty.Value) {
@@ -83,12 +99,63 @@ func EncodeSesReceiptRule_RuleSetName(p SesReceiptRuleParameters, vals map[strin
 	vals["rule_set_name"] = cty.StringVal(p.RuleSetName)
 }
 
-func EncodeSesReceiptRule_ScanEnabled(p SesReceiptRuleParameters, vals map[string]cty.Value) {
-	vals["scan_enabled"] = cty.BoolVal(p.ScanEnabled)
+func EncodeSesReceiptRule_AddHeaderAction(p AddHeaderAction, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSesReceiptRule_AddHeaderAction_HeaderName(p, ctyVal)
+	EncodeSesReceiptRule_AddHeaderAction_HeaderValue(p, ctyVal)
+	EncodeSesReceiptRule_AddHeaderAction_Position(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["add_header_action"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeSesReceiptRule_TlsPolicy(p SesReceiptRuleParameters, vals map[string]cty.Value) {
-	vals["tls_policy"] = cty.StringVal(p.TlsPolicy)
+func EncodeSesReceiptRule_AddHeaderAction_HeaderName(p AddHeaderAction, vals map[string]cty.Value) {
+	vals["header_name"] = cty.StringVal(p.HeaderName)
+}
+
+func EncodeSesReceiptRule_AddHeaderAction_HeaderValue(p AddHeaderAction, vals map[string]cty.Value) {
+	vals["header_value"] = cty.StringVal(p.HeaderValue)
+}
+
+func EncodeSesReceiptRule_AddHeaderAction_Position(p AddHeaderAction, vals map[string]cty.Value) {
+	vals["position"] = cty.NumberIntVal(p.Position)
+}
+
+func EncodeSesReceiptRule_BounceAction(p BounceAction, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSesReceiptRule_BounceAction_Message(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_Position(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_Sender(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_SmtpReplyCode(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_StatusCode(p, ctyVal)
+	EncodeSesReceiptRule_BounceAction_TopicArn(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["bounce_action"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeSesReceiptRule_BounceAction_Message(p BounceAction, vals map[string]cty.Value) {
+	vals["message"] = cty.StringVal(p.Message)
+}
+
+func EncodeSesReceiptRule_BounceAction_Position(p BounceAction, vals map[string]cty.Value) {
+	vals["position"] = cty.NumberIntVal(p.Position)
+}
+
+func EncodeSesReceiptRule_BounceAction_Sender(p BounceAction, vals map[string]cty.Value) {
+	vals["sender"] = cty.StringVal(p.Sender)
+}
+
+func EncodeSesReceiptRule_BounceAction_SmtpReplyCode(p BounceAction, vals map[string]cty.Value) {
+	vals["smtp_reply_code"] = cty.StringVal(p.SmtpReplyCode)
+}
+
+func EncodeSesReceiptRule_BounceAction_StatusCode(p BounceAction, vals map[string]cty.Value) {
+	vals["status_code"] = cty.StringVal(p.StatusCode)
+}
+
+func EncodeSesReceiptRule_BounceAction_TopicArn(p BounceAction, vals map[string]cty.Value) {
+	vals["topic_arn"] = cty.StringVal(p.TopicArn)
 }
 
 func EncodeSesReceiptRule_LambdaAction(p LambdaAction, vals map[string]cty.Value) {
@@ -121,17 +188,13 @@ func EncodeSesReceiptRule_LambdaAction_TopicArn(p LambdaAction, vals map[string]
 func EncodeSesReceiptRule_S3Action(p S3Action, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRule_S3Action_ObjectKeyPrefix(p, ctyVal)
 	EncodeSesReceiptRule_S3Action_Position(p, ctyVal)
 	EncodeSesReceiptRule_S3Action_TopicArn(p, ctyVal)
 	EncodeSesReceiptRule_S3Action_BucketName(p, ctyVal)
 	EncodeSesReceiptRule_S3Action_KmsKeyArn(p, ctyVal)
+	EncodeSesReceiptRule_S3Action_ObjectKeyPrefix(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["s3_action"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesReceiptRule_S3Action_ObjectKeyPrefix(p S3Action, vals map[string]cty.Value) {
-	vals["object_key_prefix"] = cty.StringVal(p.ObjectKeyPrefix)
 }
 
 func EncodeSesReceiptRule_S3Action_Position(p S3Action, vals map[string]cty.Value) {
@@ -148,6 +211,10 @@ func EncodeSesReceiptRule_S3Action_BucketName(p S3Action, vals map[string]cty.Va
 
 func EncodeSesReceiptRule_S3Action_KmsKeyArn(p S3Action, vals map[string]cty.Value) {
 	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
+}
+
+func EncodeSesReceiptRule_S3Action_ObjectKeyPrefix(p S3Action, vals map[string]cty.Value) {
+	vals["object_key_prefix"] = cty.StringVal(p.ObjectKeyPrefix)
 }
 
 func EncodeSesReceiptRule_SnsAction(p SnsAction, vals map[string]cty.Value) {
@@ -208,64 +275,5 @@ func EncodeSesReceiptRule_WorkmailAction_Position(p WorkmailAction, vals map[str
 }
 
 func EncodeSesReceiptRule_WorkmailAction_TopicArn(p WorkmailAction, vals map[string]cty.Value) {
-	vals["topic_arn"] = cty.StringVal(p.TopicArn)
-}
-
-func EncodeSesReceiptRule_AddHeaderAction(p AddHeaderAction, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRule_AddHeaderAction_HeaderName(p, ctyVal)
-	EncodeSesReceiptRule_AddHeaderAction_HeaderValue(p, ctyVal)
-	EncodeSesReceiptRule_AddHeaderAction_Position(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["add_header_action"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesReceiptRule_AddHeaderAction_HeaderName(p AddHeaderAction, vals map[string]cty.Value) {
-	vals["header_name"] = cty.StringVal(p.HeaderName)
-}
-
-func EncodeSesReceiptRule_AddHeaderAction_HeaderValue(p AddHeaderAction, vals map[string]cty.Value) {
-	vals["header_value"] = cty.StringVal(p.HeaderValue)
-}
-
-func EncodeSesReceiptRule_AddHeaderAction_Position(p AddHeaderAction, vals map[string]cty.Value) {
-	vals["position"] = cty.NumberIntVal(p.Position)
-}
-
-func EncodeSesReceiptRule_BounceAction(p BounceAction, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptRule_BounceAction_Message(p, ctyVal)
-	EncodeSesReceiptRule_BounceAction_Position(p, ctyVal)
-	EncodeSesReceiptRule_BounceAction_Sender(p, ctyVal)
-	EncodeSesReceiptRule_BounceAction_SmtpReplyCode(p, ctyVal)
-	EncodeSesReceiptRule_BounceAction_StatusCode(p, ctyVal)
-	EncodeSesReceiptRule_BounceAction_TopicArn(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["bounce_action"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesReceiptRule_BounceAction_Message(p BounceAction, vals map[string]cty.Value) {
-	vals["message"] = cty.StringVal(p.Message)
-}
-
-func EncodeSesReceiptRule_BounceAction_Position(p BounceAction, vals map[string]cty.Value) {
-	vals["position"] = cty.NumberIntVal(p.Position)
-}
-
-func EncodeSesReceiptRule_BounceAction_Sender(p BounceAction, vals map[string]cty.Value) {
-	vals["sender"] = cty.StringVal(p.Sender)
-}
-
-func EncodeSesReceiptRule_BounceAction_SmtpReplyCode(p BounceAction, vals map[string]cty.Value) {
-	vals["smtp_reply_code"] = cty.StringVal(p.SmtpReplyCode)
-}
-
-func EncodeSesReceiptRule_BounceAction_StatusCode(p BounceAction, vals map[string]cty.Value) {
-	vals["status_code"] = cty.StringVal(p.StatusCode)
-}
-
-func EncodeSesReceiptRule_BounceAction_TopicArn(p BounceAction, vals map[string]cty.Value) {
 	vals["topic_arn"] = cty.StringVal(p.TopicArn)
 }

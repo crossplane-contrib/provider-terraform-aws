@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,17 +37,32 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCognitoIdentityPool(r CognitoIdentityPool) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoIdentityPool_AllowUnauthenticatedIdentities(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoIdentityPool_DeveloperProviderName(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityPool_OpenidConnectProviderArns(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityPool_SamlProviderArns(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityPool_SupportedLoginProviders(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityPool_AllowUnauthenticatedIdentities(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoIdentityPool_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityPool_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityPool_IdentityPoolName(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityPool_DeveloperProviderName(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityPool_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityPool_CognitoIdentityProviders(r.Spec.ForProvider.CognitoIdentityProviders, ctyVal)
 	EncodeCognitoIdentityPool_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCognitoIdentityPool_AllowUnauthenticatedIdentities(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
+	vals["allow_unauthenticated_identities"] = cty.BoolVal(p.AllowUnauthenticatedIdentities)
+}
+
+func EncodeCognitoIdentityPool_DeveloperProviderName(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
+	vals["developer_provider_name"] = cty.StringVal(p.DeveloperProviderName)
 }
 
 func EncodeCognitoIdentityPool_OpenidConnectProviderArns(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
@@ -66,6 +82,10 @@ func EncodeCognitoIdentityPool_SamlProviderArns(p CognitoIdentityPoolParameters,
 }
 
 func EncodeCognitoIdentityPool_SupportedLoginProviders(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
+	if len(p.SupportedLoginProviders) == 0 {
+		vals["supported_login_providers"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.SupportedLoginProviders {
 		mVals[key] = cty.StringVal(value)
@@ -73,8 +93,16 @@ func EncodeCognitoIdentityPool_SupportedLoginProviders(p CognitoIdentityPoolPara
 	vals["supported_login_providers"] = cty.MapVal(mVals)
 }
 
-func EncodeCognitoIdentityPool_AllowUnauthenticatedIdentities(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
-	vals["allow_unauthenticated_identities"] = cty.BoolVal(p.AllowUnauthenticatedIdentities)
+func EncodeCognitoIdentityPool_Tags(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCognitoIdentityPool_Id(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
@@ -83,18 +111,6 @@ func EncodeCognitoIdentityPool_Id(p CognitoIdentityPoolParameters, vals map[stri
 
 func EncodeCognitoIdentityPool_IdentityPoolName(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
 	vals["identity_pool_name"] = cty.StringVal(p.IdentityPoolName)
-}
-
-func EncodeCognitoIdentityPool_DeveloperProviderName(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
-	vals["developer_provider_name"] = cty.StringVal(p.DeveloperProviderName)
-}
-
-func EncodeCognitoIdentityPool_Tags(p CognitoIdentityPoolParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCognitoIdentityPool_CognitoIdentityProviders(p CognitoIdentityProviders, vals map[string]cty.Value) {

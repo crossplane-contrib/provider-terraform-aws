@@ -47,26 +47,26 @@ type IotThingTypeList struct {
 // A IotThingTypeSpec defines the desired state of a IotThingType
 type IotThingTypeSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IotThingTypeParameters `json:",inline"`
+	ForProvider                  IotThingTypeParameters `json:"forProvider"`
 }
 
 // A IotThingTypeParameters defines the desired state of a IotThingType
 type IotThingTypeParameters struct {
-	Deprecated bool       `json:"deprecated"`
 	Id         string     `json:"id"`
 	Name       string     `json:"name"`
+	Deprecated bool       `json:"deprecated"`
 	Properties Properties `json:"properties"`
 }
 
 type Properties struct {
-	Description          string   `json:"description"`
 	SearchableAttributes []string `json:"searchable_attributes"`
+	Description          string   `json:"description"`
 }
 
 // A IotThingTypeStatus defines the observed state of a IotThingType
 type IotThingTypeStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IotThingTypeObservation `json:",inline"`
+	AtProvider                     IotThingTypeObservation `json:"atProvider"`
 }
 
 // A IotThingTypeObservation records the observed state of a IotThingType

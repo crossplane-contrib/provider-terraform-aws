@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,34 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSnapshotCopyGrant(r RedshiftSnapshotCopyGrant) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotCopyGrant_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotCopyGrant_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotCopyGrant_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotCopyGrant_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeRedshiftSnapshotCopyGrant_KmsKeyId(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+}
+
+func EncodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	vals["snapshot_copy_grant_name"] = cty.StringVal(p.SnapshotCopyGrantName)
+}
+
 func EncodeRedshiftSnapshotCopyGrant_Tags(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -54,14 +74,6 @@ func EncodeRedshiftSnapshotCopyGrant_Tags(p RedshiftSnapshotCopyGrantParameters,
 
 func EncodeRedshiftSnapshotCopyGrant_Id(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRedshiftSnapshotCopyGrant_KmsKeyId(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
-func EncodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
-	vals["snapshot_copy_grant_name"] = cty.StringVal(p.SnapshotCopyGrantName)
 }
 
 func EncodeRedshiftSnapshotCopyGrant_Arn(p RedshiftSnapshotCopyGrantObservation, vals map[string]cty.Value) {

@@ -47,20 +47,20 @@ type VpnGatewayAttachmentList struct {
 // A VpnGatewayAttachmentSpec defines the desired state of a VpnGatewayAttachment
 type VpnGatewayAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpnGatewayAttachmentParameters `json:",inline"`
+	ForProvider                  VpnGatewayAttachmentParameters `json:"forProvider"`
 }
 
 // A VpnGatewayAttachmentParameters defines the desired state of a VpnGatewayAttachment
 type VpnGatewayAttachmentParameters struct {
-	VpnGatewayId string `json:"vpn_gateway_id"`
 	Id           string `json:"id"`
 	VpcId        string `json:"vpc_id"`
+	VpnGatewayId string `json:"vpn_gateway_id"`
 }
 
 // A VpnGatewayAttachmentStatus defines the observed state of a VpnGatewayAttachment
 type VpnGatewayAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpnGatewayAttachmentObservation `json:",inline"`
+	AtProvider                     VpnGatewayAttachmentObservation `json:"atProvider"`
 }
 
 // A VpnGatewayAttachmentObservation records the observed state of a VpnGatewayAttachment

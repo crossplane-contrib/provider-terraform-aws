@@ -47,15 +47,15 @@ type EcsClusterList struct {
 // A EcsClusterSpec defines the desired state of a EcsCluster
 type EcsClusterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EcsClusterParameters `json:",inline"`
+	ForProvider                  EcsClusterParameters `json:"forProvider"`
 }
 
 // A EcsClusterParameters defines the desired state of a EcsCluster
 type EcsClusterParameters struct {
-	CapacityProviders               []string                        `json:"capacity_providers"`
-	Id                              string                          `json:"id"`
 	Name                            string                          `json:"name"`
 	Tags                            map[string]string               `json:"tags"`
+	CapacityProviders               []string                        `json:"capacity_providers"`
+	Id                              string                          `json:"id"`
 	DefaultCapacityProviderStrategy DefaultCapacityProviderStrategy `json:"default_capacity_provider_strategy"`
 	Setting                         Setting                         `json:"setting"`
 }
@@ -74,7 +74,7 @@ type Setting struct {
 // A EcsClusterStatus defines the observed state of a EcsCluster
 type EcsClusterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EcsClusterObservation `json:",inline"`
+	AtProvider                     EcsClusterObservation `json:"atProvider"`
 }
 
 // A EcsClusterObservation records the observed state of a EcsCluster

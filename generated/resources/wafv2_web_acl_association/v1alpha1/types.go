@@ -47,7 +47,7 @@ type Wafv2WebAclAssociationList struct {
 // A Wafv2WebAclAssociationSpec defines the desired state of a Wafv2WebAclAssociation
 type Wafv2WebAclAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Wafv2WebAclAssociationParameters `json:",inline"`
+	ForProvider                  Wafv2WebAclAssociationParameters `json:"forProvider"`
 }
 
 // A Wafv2WebAclAssociationParameters defines the desired state of a Wafv2WebAclAssociation
@@ -60,7 +60,7 @@ type Wafv2WebAclAssociationParameters struct {
 // A Wafv2WebAclAssociationStatus defines the observed state of a Wafv2WebAclAssociation
 type Wafv2WebAclAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Wafv2WebAclAssociationObservation `json:",inline"`
+	AtProvider                     Wafv2WebAclAssociationObservation `json:"atProvider"`
 }
 
 // A Wafv2WebAclAssociationObservation records the observed state of a Wafv2WebAclAssociation

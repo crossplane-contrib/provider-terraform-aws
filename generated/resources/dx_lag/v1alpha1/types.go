@@ -47,28 +47,28 @@ type DxLagList struct {
 // A DxLagSpec defines the desired state of a DxLag
 type DxLagSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxLagParameters `json:",inline"`
+	ForProvider                  DxLagParameters `json:"forProvider"`
 }
 
 // A DxLagParameters defines the desired state of a DxLag
 type DxLagParameters struct {
-	ForceDestroy         bool              `json:"force_destroy"`
-	Id                   string            `json:"id"`
 	Location             string            `json:"location"`
+	Id                   string            `json:"id"`
 	Name                 string            `json:"name"`
 	Tags                 map[string]string `json:"tags"`
 	ConnectionsBandwidth string            `json:"connections_bandwidth"`
+	ForceDestroy         bool              `json:"force_destroy"`
 }
 
 // A DxLagStatus defines the observed state of a DxLag
 type DxLagStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxLagObservation `json:",inline"`
+	AtProvider                     DxLagObservation `json:"atProvider"`
 }
 
 // A DxLagObservation records the observed state of a DxLag
 type DxLagObservation struct {
-	Arn                  string `json:"arn"`
-	HasLogicalRedundancy string `json:"has_logical_redundancy"`
 	JumboFrameCapable    bool   `json:"jumbo_frame_capable"`
+	HasLogicalRedundancy string `json:"has_logical_redundancy"`
+	Arn                  string `json:"arn"`
 }

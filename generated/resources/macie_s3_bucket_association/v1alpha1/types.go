@@ -47,15 +47,15 @@ type MacieS3BucketAssociationList struct {
 // A MacieS3BucketAssociationSpec defines the desired state of a MacieS3BucketAssociation
 type MacieS3BucketAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MacieS3BucketAssociationParameters `json:",inline"`
+	ForProvider                  MacieS3BucketAssociationParameters `json:"forProvider"`
 }
 
 // A MacieS3BucketAssociationParameters defines the desired state of a MacieS3BucketAssociation
 type MacieS3BucketAssociationParameters struct {
-	BucketName         string             `json:"bucket_name"`
-	Id                 string             `json:"id"`
 	MemberAccountId    string             `json:"member_account_id"`
 	Prefix             string             `json:"prefix"`
+	BucketName         string             `json:"bucket_name"`
+	Id                 string             `json:"id"`
 	ClassificationType ClassificationType `json:"classification_type"`
 }
 
@@ -67,7 +67,7 @@ type ClassificationType struct {
 // A MacieS3BucketAssociationStatus defines the observed state of a MacieS3BucketAssociation
 type MacieS3BucketAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MacieS3BucketAssociationObservation `json:",inline"`
+	AtProvider                     MacieS3BucketAssociationObservation `json:"atProvider"`
 }
 
 // A MacieS3BucketAssociationObservation records the observed state of a MacieS3BucketAssociation

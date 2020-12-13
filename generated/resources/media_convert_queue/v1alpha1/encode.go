@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,23 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeMediaConvertQueue(r MediaConvertQueue) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMediaConvertQueue_Description(r.Spec.ForProvider, ctyVal)
-	EncodeMediaConvertQueue_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaConvertQueue_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMediaConvertQueue_PricingPlan(r.Spec.ForProvider, ctyVal)
 	EncodeMediaConvertQueue_Status(r.Spec.ForProvider, ctyVal)
 	EncodeMediaConvertQueue_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeMediaConvertQueue_Description(r.Spec.ForProvider, ctyVal)
+	EncodeMediaConvertQueue_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaConvertQueue_ReservationPlanSettings(r.Spec.ForProvider.ReservationPlanSettings, ctyVal)
 	EncodeMediaConvertQueue_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeMediaConvertQueue_Description(p MediaConvertQueueParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeMediaConvertQueue_Id(p MediaConvertQueueParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMediaConvertQueue_Name(p MediaConvertQueueParameters, vals map[string]cty.Value) {
@@ -68,6 +68,10 @@ func EncodeMediaConvertQueue_Status(p MediaConvertQueueParameters, vals map[stri
 }
 
 func EncodeMediaConvertQueue_Tags(p MediaConvertQueueParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -75,14 +79,26 @@ func EncodeMediaConvertQueue_Tags(p MediaConvertQueueParameters, vals map[string
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeMediaConvertQueue_Description(p MediaConvertQueueParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeMediaConvertQueue_Id(p MediaConvertQueueParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeMediaConvertQueue_ReservationPlanSettings(p ReservationPlanSettings, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeMediaConvertQueue_ReservationPlanSettings_ReservedSlots(p, ctyVal)
 	EncodeMediaConvertQueue_ReservationPlanSettings_Commitment(p, ctyVal)
 	EncodeMediaConvertQueue_ReservationPlanSettings_RenewalType(p, ctyVal)
-	EncodeMediaConvertQueue_ReservationPlanSettings_ReservedSlots(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["reservation_plan_settings"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeMediaConvertQueue_ReservationPlanSettings_ReservedSlots(p ReservationPlanSettings, vals map[string]cty.Value) {
+	vals["reserved_slots"] = cty.NumberIntVal(p.ReservedSlots)
 }
 
 func EncodeMediaConvertQueue_ReservationPlanSettings_Commitment(p ReservationPlanSettings, vals map[string]cty.Value) {
@@ -91,10 +107,6 @@ func EncodeMediaConvertQueue_ReservationPlanSettings_Commitment(p ReservationPla
 
 func EncodeMediaConvertQueue_ReservationPlanSettings_RenewalType(p ReservationPlanSettings, vals map[string]cty.Value) {
 	vals["renewal_type"] = cty.StringVal(p.RenewalType)
-}
-
-func EncodeMediaConvertQueue_ReservationPlanSettings_ReservedSlots(p ReservationPlanSettings, vals map[string]cty.Value) {
-	vals["reserved_slots"] = cty.NumberIntVal(p.ReservedSlots)
 }
 
 func EncodeMediaConvertQueue_Arn(p MediaConvertQueueObservation, vals map[string]cty.Value) {

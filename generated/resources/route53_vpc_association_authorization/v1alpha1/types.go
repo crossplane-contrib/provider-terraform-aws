@@ -47,7 +47,7 @@ type Route53VpcAssociationAuthorizationList struct {
 // A Route53VpcAssociationAuthorizationSpec defines the desired state of a Route53VpcAssociationAuthorization
 type Route53VpcAssociationAuthorizationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53VpcAssociationAuthorizationParameters `json:",inline"`
+	ForProvider                  Route53VpcAssociationAuthorizationParameters `json:"forProvider"`
 }
 
 // A Route53VpcAssociationAuthorizationParameters defines the desired state of a Route53VpcAssociationAuthorization
@@ -61,7 +61,7 @@ type Route53VpcAssociationAuthorizationParameters struct {
 // A Route53VpcAssociationAuthorizationStatus defines the observed state of a Route53VpcAssociationAuthorization
 type Route53VpcAssociationAuthorizationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53VpcAssociationAuthorizationObservation `json:",inline"`
+	AtProvider                     Route53VpcAssociationAuthorizationObservation `json:"atProvider"`
 }
 
 // A Route53VpcAssociationAuthorizationObservation records the observed state of a Route53VpcAssociationAuthorization

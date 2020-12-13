@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,28 +37,59 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSsmParameter(r SsmParameter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSsmParameter_Tier(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_AllowedPattern(r.Spec.ForProvider, ctyVal)
+	EncodeSsmParameter_Description(r.Spec.ForProvider, ctyVal)
+	EncodeSsmParameter_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeSsmParameter_Tier(r.Spec.ForProvider, ctyVal)
+	EncodeSsmParameter_Type(r.Spec.ForProvider, ctyVal)
+	EncodeSsmParameter_Value(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_DataType(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_Overwrite(r.Spec.ForProvider, ctyVal)
-	EncodeSsmParameter_Description(r.Spec.ForProvider, ctyVal)
-	EncodeSsmParameter_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSsmParameter_Type(r.Spec.ForProvider, ctyVal)
-	EncodeSsmParameter_Value(r.Spec.ForProvider, ctyVal)
 	EncodeSsmParameter_Version(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSsmParameter_AllowedPattern(p SsmParameterParameters, vals map[string]cty.Value) {
+	vals["allowed_pattern"] = cty.StringVal(p.AllowedPattern)
+}
+
+func EncodeSsmParameter_Description(p SsmParameterParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmParameter_Tags(p SsmParameterParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSsmParameter_Tier(p SsmParameterParameters, vals map[string]cty.Value) {
 	vals["tier"] = cty.StringVal(p.Tier)
 }
 
-func EncodeSsmParameter_AllowedPattern(p SsmParameterParameters, vals map[string]cty.Value) {
-	vals["allowed_pattern"] = cty.StringVal(p.AllowedPattern)
+func EncodeSsmParameter_Type(p SsmParameterParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeSsmParameter_Value(p SsmParameterParameters, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeSsmParameter_Arn(p SsmParameterParameters, vals map[string]cty.Value) {
@@ -82,26 +114,6 @@ func EncodeSsmParameter_Name(p SsmParameterParameters, vals map[string]cty.Value
 
 func EncodeSsmParameter_Overwrite(p SsmParameterParameters, vals map[string]cty.Value) {
 	vals["overwrite"] = cty.BoolVal(p.Overwrite)
-}
-
-func EncodeSsmParameter_Description(p SsmParameterParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSsmParameter_Tags(p SsmParameterParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSsmParameter_Type(p SsmParameterParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeSsmParameter_Value(p SsmParameterParameters, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeSsmParameter_Version(p SsmParameterObservation, vals map[string]cty.Value) {

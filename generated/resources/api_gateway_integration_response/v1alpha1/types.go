@@ -47,26 +47,26 @@ type ApiGatewayIntegrationResponseList struct {
 // A ApiGatewayIntegrationResponseSpec defines the desired state of a ApiGatewayIntegrationResponse
 type ApiGatewayIntegrationResponseSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayIntegrationResponseParameters `json:",inline"`
+	ForProvider                  ApiGatewayIntegrationResponseParameters `json:"forProvider"`
 }
 
 // A ApiGatewayIntegrationResponseParameters defines the desired state of a ApiGatewayIntegrationResponse
 type ApiGatewayIntegrationResponseParameters struct {
 	SelectionPattern   string            `json:"selection_pattern"`
-	StatusCode         string            `json:"status_code"`
 	HttpMethod         string            `json:"http_method"`
-	Id                 string            `json:"id"`
 	ResourceId         string            `json:"resource_id"`
+	ResponseParameters map[string]string `json:"response_parameters"`
 	RestApiId          string            `json:"rest_api_id"`
 	ContentHandling    string            `json:"content_handling"`
-	ResponseParameters map[string]string `json:"response_parameters"`
+	Id                 string            `json:"id"`
 	ResponseTemplates  map[string]string `json:"response_templates"`
+	StatusCode         string            `json:"status_code"`
 }
 
 // A ApiGatewayIntegrationResponseStatus defines the observed state of a ApiGatewayIntegrationResponse
 type ApiGatewayIntegrationResponseStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayIntegrationResponseObservation `json:",inline"`
+	AtProvider                     ApiGatewayIntegrationResponseObservation `json:"atProvider"`
 }
 
 // A ApiGatewayIntegrationResponseObservation records the observed state of a ApiGatewayIntegrationResponse

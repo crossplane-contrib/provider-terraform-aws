@@ -47,22 +47,22 @@ type IamUserPolicyList struct {
 // A IamUserPolicySpec defines the desired state of a IamUserPolicy
 type IamUserPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamUserPolicyParameters `json:",inline"`
+	ForProvider                  IamUserPolicyParameters `json:"forProvider"`
 }
 
 // A IamUserPolicyParameters defines the desired state of a IamUserPolicy
 type IamUserPolicyParameters struct {
-	Policy     string `json:"policy"`
-	User       string `json:"user"`
 	Id         string `json:"id"`
 	Name       string `json:"name"`
 	NamePrefix string `json:"name_prefix"`
+	Policy     string `json:"policy"`
+	User       string `json:"user"`
 }
 
 // A IamUserPolicyStatus defines the observed state of a IamUserPolicy
 type IamUserPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamUserPolicyObservation `json:",inline"`
+	AtProvider                     IamUserPolicyObservation `json:"atProvider"`
 }
 
 // A IamUserPolicyObservation records the observed state of a IamUserPolicy

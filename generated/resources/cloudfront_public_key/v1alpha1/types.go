@@ -47,26 +47,26 @@ type CloudfrontPublicKeyList struct {
 // A CloudfrontPublicKeySpec defines the desired state of a CloudfrontPublicKey
 type CloudfrontPublicKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudfrontPublicKeyParameters `json:",inline"`
+	ForProvider                  CloudfrontPublicKeyParameters `json:"forProvider"`
 }
 
 // A CloudfrontPublicKeyParameters defines the desired state of a CloudfrontPublicKey
 type CloudfrontPublicKeyParameters struct {
+	Name       string `json:"name"`
+	NamePrefix string `json:"name_prefix"`
 	Comment    string `json:"comment"`
 	EncodedKey string `json:"encoded_key"`
 	Id         string `json:"id"`
-	Name       string `json:"name"`
-	NamePrefix string `json:"name_prefix"`
 }
 
 // A CloudfrontPublicKeyStatus defines the observed state of a CloudfrontPublicKey
 type CloudfrontPublicKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudfrontPublicKeyObservation `json:",inline"`
+	AtProvider                     CloudfrontPublicKeyObservation `json:"atProvider"`
 }
 
 // A CloudfrontPublicKeyObservation records the observed state of a CloudfrontPublicKey
 type CloudfrontPublicKeyObservation struct {
-	Etag            string `json:"etag"`
 	CallerReference string `json:"caller_reference"`
+	Etag            string `json:"etag"`
 }

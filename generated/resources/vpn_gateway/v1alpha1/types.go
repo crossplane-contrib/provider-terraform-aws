@@ -47,22 +47,22 @@ type VpnGatewayList struct {
 // A VpnGatewaySpec defines the desired state of a VpnGateway
 type VpnGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpnGatewayParameters `json:",inline"`
+	ForProvider                  VpnGatewayParameters `json:"forProvider"`
 }
 
 // A VpnGatewayParameters defines the desired state of a VpnGateway
 type VpnGatewayParameters struct {
-	AmazonSideAsn    string            `json:"amazon_side_asn"`
-	AvailabilityZone string            `json:"availability_zone"`
 	Id               string            `json:"id"`
 	Tags             map[string]string `json:"tags"`
 	VpcId            string            `json:"vpc_id"`
+	AmazonSideAsn    string            `json:"amazon_side_asn"`
+	AvailabilityZone string            `json:"availability_zone"`
 }
 
 // A VpnGatewayStatus defines the observed state of a VpnGateway
 type VpnGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpnGatewayObservation `json:",inline"`
+	AtProvider                     VpnGatewayObservation `json:"atProvider"`
 }
 
 // A VpnGatewayObservation records the observed state of a VpnGateway

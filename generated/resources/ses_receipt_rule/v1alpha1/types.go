@@ -47,7 +47,7 @@ type SesReceiptRuleList struct {
 // A SesReceiptRuleSpec defines the desired state of a SesReceiptRule
 type SesReceiptRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesReceiptRuleParameters `json:",inline"`
+	ForProvider                  SesReceiptRuleParameters `json:"forProvider"`
 }
 
 // A SesReceiptRuleParameters defines the desired state of a SesReceiptRule
@@ -60,13 +60,48 @@ type SesReceiptRuleParameters struct {
 	Name            string          `json:"name"`
 	Recipients      []string        `json:"recipients"`
 	RuleSetName     string          `json:"rule_set_name"`
-	StopAction      StopAction      `json:"stop_action"`
-	WorkmailAction  WorkmailAction  `json:"workmail_action"`
 	AddHeaderAction AddHeaderAction `json:"add_header_action"`
 	BounceAction    BounceAction    `json:"bounce_action"`
 	LambdaAction    LambdaAction    `json:"lambda_action"`
 	S3Action        S3Action        `json:"s3_action"`
 	SnsAction       SnsAction       `json:"sns_action"`
+	StopAction      StopAction      `json:"stop_action"`
+	WorkmailAction  WorkmailAction  `json:"workmail_action"`
+}
+
+type AddHeaderAction struct {
+	HeaderName  string `json:"header_name"`
+	HeaderValue string `json:"header_value"`
+	Position    int64  `json:"position"`
+}
+
+type BounceAction struct {
+	Message       string `json:"message"`
+	Position      int64  `json:"position"`
+	Sender        string `json:"sender"`
+	SmtpReplyCode string `json:"smtp_reply_code"`
+	StatusCode    string `json:"status_code"`
+	TopicArn      string `json:"topic_arn"`
+}
+
+type LambdaAction struct {
+	FunctionArn    string `json:"function_arn"`
+	InvocationType string `json:"invocation_type"`
+	Position       int64  `json:"position"`
+	TopicArn       string `json:"topic_arn"`
+}
+
+type S3Action struct {
+	Position        int64  `json:"position"`
+	TopicArn        string `json:"topic_arn"`
+	BucketName      string `json:"bucket_name"`
+	KmsKeyArn       string `json:"kms_key_arn"`
+	ObjectKeyPrefix string `json:"object_key_prefix"`
+}
+
+type SnsAction struct {
+	Position int64  `json:"position"`
+	TopicArn string `json:"topic_arn"`
 }
 
 type StopAction struct {
@@ -81,45 +116,10 @@ type WorkmailAction struct {
 	TopicArn        string `json:"topic_arn"`
 }
 
-type AddHeaderAction struct {
-	HeaderName  string `json:"header_name"`
-	HeaderValue string `json:"header_value"`
-	Position    int64  `json:"position"`
-}
-
-type BounceAction struct {
-	TopicArn      string `json:"topic_arn"`
-	Message       string `json:"message"`
-	Position      int64  `json:"position"`
-	Sender        string `json:"sender"`
-	SmtpReplyCode string `json:"smtp_reply_code"`
-	StatusCode    string `json:"status_code"`
-}
-
-type LambdaAction struct {
-	FunctionArn    string `json:"function_arn"`
-	InvocationType string `json:"invocation_type"`
-	Position       int64  `json:"position"`
-	TopicArn       string `json:"topic_arn"`
-}
-
-type S3Action struct {
-	TopicArn        string `json:"topic_arn"`
-	BucketName      string `json:"bucket_name"`
-	KmsKeyArn       string `json:"kms_key_arn"`
-	ObjectKeyPrefix string `json:"object_key_prefix"`
-	Position        int64  `json:"position"`
-}
-
-type SnsAction struct {
-	Position int64  `json:"position"`
-	TopicArn string `json:"topic_arn"`
-}
-
 // A SesReceiptRuleStatus defines the observed state of a SesReceiptRule
 type SesReceiptRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesReceiptRuleObservation `json:",inline"`
+	AtProvider                     SesReceiptRuleObservation `json:"atProvider"`
 }
 
 // A SesReceiptRuleObservation records the observed state of a SesReceiptRule

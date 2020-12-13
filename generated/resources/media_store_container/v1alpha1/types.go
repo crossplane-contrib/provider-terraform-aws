@@ -47,7 +47,7 @@ type MediaStoreContainerList struct {
 // A MediaStoreContainerSpec defines the desired state of a MediaStoreContainer
 type MediaStoreContainerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MediaStoreContainerParameters `json:",inline"`
+	ForProvider                  MediaStoreContainerParameters `json:"forProvider"`
 }
 
 // A MediaStoreContainerParameters defines the desired state of a MediaStoreContainer
@@ -60,7 +60,7 @@ type MediaStoreContainerParameters struct {
 // A MediaStoreContainerStatus defines the observed state of a MediaStoreContainer
 type MediaStoreContainerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MediaStoreContainerObservation `json:",inline"`
+	AtProvider                     MediaStoreContainerObservation `json:"atProvider"`
 }
 
 // A MediaStoreContainerObservation records the observed state of a MediaStoreContainer

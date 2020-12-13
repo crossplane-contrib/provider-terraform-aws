@@ -47,7 +47,7 @@ type MediaStoreContainerPolicyList struct {
 // A MediaStoreContainerPolicySpec defines the desired state of a MediaStoreContainerPolicy
 type MediaStoreContainerPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MediaStoreContainerPolicyParameters `json:",inline"`
+	ForProvider                  MediaStoreContainerPolicyParameters `json:"forProvider"`
 }
 
 // A MediaStoreContainerPolicyParameters defines the desired state of a MediaStoreContainerPolicy
@@ -60,7 +60,7 @@ type MediaStoreContainerPolicyParameters struct {
 // A MediaStoreContainerPolicyStatus defines the observed state of a MediaStoreContainerPolicy
 type MediaStoreContainerPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MediaStoreContainerPolicyObservation `json:",inline"`
+	AtProvider                     MediaStoreContainerPolicyObservation `json:"atProvider"`
 }
 
 // A MediaStoreContainerPolicyObservation records the observed state of a MediaStoreContainerPolicy

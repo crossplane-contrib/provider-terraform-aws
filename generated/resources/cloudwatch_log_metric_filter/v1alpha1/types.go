@@ -47,29 +47,29 @@ type CloudwatchLogMetricFilterList struct {
 // A CloudwatchLogMetricFilterSpec defines the desired state of a CloudwatchLogMetricFilter
 type CloudwatchLogMetricFilterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchLogMetricFilterParameters `json:",inline"`
+	ForProvider                  CloudwatchLogMetricFilterParameters `json:"forProvider"`
 }
 
 // A CloudwatchLogMetricFilterParameters defines the desired state of a CloudwatchLogMetricFilter
 type CloudwatchLogMetricFilterParameters struct {
-	Id                   string               `json:"id"`
-	LogGroupName         string               `json:"log_group_name"`
 	Name                 string               `json:"name"`
 	Pattern              string               `json:"pattern"`
+	Id                   string               `json:"id"`
+	LogGroupName         string               `json:"log_group_name"`
 	MetricTransformation MetricTransformation `json:"metric_transformation"`
 }
 
 type MetricTransformation struct {
-	DefaultValue string `json:"default_value"`
-	Name         string `json:"name"`
 	Namespace    string `json:"namespace"`
 	Value        string `json:"value"`
+	DefaultValue string `json:"default_value"`
+	Name         string `json:"name"`
 }
 
 // A CloudwatchLogMetricFilterStatus defines the observed state of a CloudwatchLogMetricFilter
 type CloudwatchLogMetricFilterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchLogMetricFilterObservation `json:",inline"`
+	AtProvider                     CloudwatchLogMetricFilterObservation `json:"atProvider"`
 }
 
 // A CloudwatchLogMetricFilterObservation records the observed state of a CloudwatchLogMetricFilter

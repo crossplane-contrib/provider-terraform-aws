@@ -121,6 +121,16 @@ func (in *OpsworksNodejsAppLayerParameters) DeepCopyInto(out *OpsworksNodejsAppL
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.CustomDeployRecipes != nil {
+		in, out := &in.CustomDeployRecipes, &out.CustomDeployRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.CustomSecurityGroupIds != nil {
+		in, out := &in.CustomSecurityGroupIds, &out.CustomSecurityGroupIds
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	if in.CustomSetupRecipes != nil {
 		in, out := &in.CustomSetupRecipes, &out.CustomSetupRecipes
 		*out = make([]string, len(*in))
@@ -128,21 +138,6 @@ func (in *OpsworksNodejsAppLayerParameters) DeepCopyInto(out *OpsworksNodejsAppL
 	}
 	if in.CustomShutdownRecipes != nil {
 		in, out := &in.CustomShutdownRecipes, &out.CustomShutdownRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomDeployRecipes != nil {
-		in, out := &in.CustomDeployRecipes, &out.CustomDeployRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomConfigureRecipes != nil {
-		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomSecurityGroupIds != nil {
-		in, out := &in.CustomSecurityGroupIds, &out.CustomSecurityGroupIds
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
@@ -157,6 +152,11 @@ func (in *OpsworksNodejsAppLayerParameters) DeepCopyInto(out *OpsworksNodejsAppL
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.CustomConfigureRecipes != nil {
+		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
 	}
 	out.EbsVolume = in.EbsVolume
 }

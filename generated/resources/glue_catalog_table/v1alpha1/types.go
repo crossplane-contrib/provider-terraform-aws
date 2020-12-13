@@ -47,39 +47,56 @@ type GlueCatalogTableList struct {
 // A GlueCatalogTableSpec defines the desired state of a GlueCatalogTable
 type GlueCatalogTableSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueCatalogTableParameters `json:",inline"`
+	ForProvider                  GlueCatalogTableParameters `json:"forProvider"`
 }
 
 // A GlueCatalogTableParameters defines the desired state of a GlueCatalogTable
 type GlueCatalogTableParameters struct {
-	ViewOriginalText  string            `json:"view_original_text"`
-	CatalogId         string            `json:"catalog_id"`
+	Id                string            `json:"id"`
+	Name              string            `json:"name"`
 	Parameters        map[string]string `json:"parameters"`
 	Retention         int64             `json:"retention"`
 	TableType         string            `json:"table_type"`
-	Name              string            `json:"name"`
-	Owner             string            `json:"owner"`
-	ViewExpandedText  string            `json:"view_expanded_text"`
+	ViewOriginalText  string            `json:"view_original_text"`
+	CatalogId         string            `json:"catalog_id"`
 	DatabaseName      string            `json:"database_name"`
 	Description       string            `json:"description"`
-	Id                string            `json:"id"`
-	StorageDescriptor StorageDescriptor `json:"storage_descriptor"`
+	Owner             string            `json:"owner"`
+	ViewExpandedText  string            `json:"view_expanded_text"`
 	PartitionKeys     PartitionKeys     `json:"partition_keys"`
+	StorageDescriptor StorageDescriptor `json:"storage_descriptor"`
+}
+
+type PartitionKeys struct {
+	Comment string `json:"comment"`
+	Name    string `json:"name"`
+	Type    string `json:"type"`
 }
 
 type StorageDescriptor struct {
+	Location               string            `json:"location"`
+	NumberOfBuckets        int64             `json:"number_of_buckets"`
+	OutputFormat           string            `json:"output_format"`
 	Parameters             map[string]string `json:"parameters"`
 	StoredAsSubDirectories bool              `json:"stored_as_sub_directories"`
 	BucketColumns          []string          `json:"bucket_columns"`
 	Compressed             bool              `json:"compressed"`
 	InputFormat            string            `json:"input_format"`
-	Location               string            `json:"location"`
-	NumberOfBuckets        int64             `json:"number_of_buckets"`
-	OutputFormat           string            `json:"output_format"`
-	SerDeInfo              SerDeInfo         `json:"ser_de_info"`
-	SkewedInfo             SkewedInfo        `json:"skewed_info"`
 	SortColumns            SortColumns       `json:"sort_columns"`
 	Columns                Columns           `json:"columns"`
+	SerDeInfo              SerDeInfo         `json:"ser_de_info"`
+	SkewedInfo             SkewedInfo        `json:"skewed_info"`
+}
+
+type SortColumns struct {
+	Column    string `json:"column"`
+	SortOrder int64  `json:"sort_order"`
+}
+
+type Columns struct {
+	Name    string `json:"name"`
+	Type    string `json:"type"`
+	Comment string `json:"comment"`
 }
 
 type SerDeInfo struct {
@@ -94,27 +111,10 @@ type SkewedInfo struct {
 	SkewedColumnValues            []string          `json:"skewed_column_values"`
 }
 
-type SortColumns struct {
-	Column    string `json:"column"`
-	SortOrder int64  `json:"sort_order"`
-}
-
-type Columns struct {
-	Comment string `json:"comment"`
-	Name    string `json:"name"`
-	Type    string `json:"type"`
-}
-
-type PartitionKeys struct {
-	Comment string `json:"comment"`
-	Name    string `json:"name"`
-	Type    string `json:"type"`
-}
-
 // A GlueCatalogTableStatus defines the observed state of a GlueCatalogTable
 type GlueCatalogTableStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueCatalogTableObservation `json:",inline"`
+	AtProvider                     GlueCatalogTableObservation `json:"atProvider"`
 }
 
 // A GlueCatalogTableObservation records the observed state of a GlueCatalogTable

@@ -47,41 +47,41 @@ type DxHostedPrivateVirtualInterfaceList struct {
 // A DxHostedPrivateVirtualInterfaceSpec defines the desired state of a DxHostedPrivateVirtualInterface
 type DxHostedPrivateVirtualInterfaceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxHostedPrivateVirtualInterfaceParameters `json:",inline"`
+	ForProvider                  DxHostedPrivateVirtualInterfaceParameters `json:"forProvider"`
 }
 
 // A DxHostedPrivateVirtualInterfaceParameters defines the desired state of a DxHostedPrivateVirtualInterface
 type DxHostedPrivateVirtualInterfaceParameters struct {
-	AmazonAddress   string   `json:"amazon_address"`
-	BgpAuthKey      string   `json:"bgp_auth_key"`
-	Id              string   `json:"id"`
-	AddressFamily   string   `json:"address_family"`
+	CustomerAddress string   `json:"customer_address"`
 	Name            string   `json:"name"`
 	Vlan            int64    `json:"vlan"`
-	Mtu             int64    `json:"mtu"`
+	AddressFamily   string   `json:"address_family"`
+	AmazonAddress   string   `json:"amazon_address"`
 	ConnectionId    string   `json:"connection_id"`
-	CustomerAddress string   `json:"customer_address"`
-	OwnerAccountId  string   `json:"owner_account_id"`
+	Id              string   `json:"id"`
+	Mtu             int64    `json:"mtu"`
 	BgpAsn          int64    `json:"bgp_asn"`
+	BgpAuthKey      string   `json:"bgp_auth_key"`
+	OwnerAccountId  string   `json:"owner_account_id"`
 	Timeouts        Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DxHostedPrivateVirtualInterfaceStatus defines the observed state of a DxHostedPrivateVirtualInterface
 type DxHostedPrivateVirtualInterfaceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxHostedPrivateVirtualInterfaceObservation `json:",inline"`
+	AtProvider                     DxHostedPrivateVirtualInterfaceObservation `json:"atProvider"`
 }
 
 // A DxHostedPrivateVirtualInterfaceObservation records the observed state of a DxHostedPrivateVirtualInterface
 type DxHostedPrivateVirtualInterfaceObservation struct {
 	Arn               string `json:"arn"`
-	AwsDevice         string `json:"aws_device"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
+	AwsDevice         string `json:"aws_device"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
 }

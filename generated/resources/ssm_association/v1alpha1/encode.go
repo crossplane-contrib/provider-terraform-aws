@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,29 +37,28 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSsmAssociation(r SsmAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSsmAssociation_AssociationName(r.Spec.ForProvider, ctyVal)
-	EncodeSsmAssociation_ComplianceSeverity(r.Spec.ForProvider, ctyVal)
 	EncodeSsmAssociation_DocumentVersion(r.Spec.ForProvider, ctyVal)
 	EncodeSsmAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSsmAssociation_ScheduleExpression(r.Spec.ForProvider, ctyVal)
-	EncodeSsmAssociation_AutomationTargetParameterName(r.Spec.ForProvider, ctyVal)
-	EncodeSsmAssociation_InstanceId(r.Spec.ForProvider, ctyVal)
 	EncodeSsmAssociation_MaxConcurrency(r.Spec.ForProvider, ctyVal)
 	EncodeSsmAssociation_MaxErrors(r.Spec.ForProvider, ctyVal)
 	EncodeSsmAssociation_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSsmAssociation_AssociationName(r.Spec.ForProvider, ctyVal)
+	EncodeSsmAssociation_AutomationTargetParameterName(r.Spec.ForProvider, ctyVal)
+	EncodeSsmAssociation_ComplianceSeverity(r.Spec.ForProvider, ctyVal)
+	EncodeSsmAssociation_InstanceId(r.Spec.ForProvider, ctyVal)
 	EncodeSsmAssociation_Parameters(r.Spec.ForProvider, ctyVal)
-	EncodeSsmAssociation_OutputLocation(r.Spec.ForProvider.OutputLocation, ctyVal)
+	EncodeSsmAssociation_ScheduleExpression(r.Spec.ForProvider, ctyVal)
 	EncodeSsmAssociation_Targets(r.Spec.ForProvider.Targets, ctyVal)
+	EncodeSsmAssociation_OutputLocation(r.Spec.ForProvider.OutputLocation, ctyVal)
 	EncodeSsmAssociation_AssociationId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSsmAssociation_AssociationName(p SsmAssociationParameters, vals map[string]cty.Value) {
-	vals["association_name"] = cty.StringVal(p.AssociationName)
-}
-
-func EncodeSsmAssociation_ComplianceSeverity(p SsmAssociationParameters, vals map[string]cty.Value) {
-	vals["compliance_severity"] = cty.StringVal(p.ComplianceSeverity)
 }
 
 func EncodeSsmAssociation_DocumentVersion(p SsmAssociationParameters, vals map[string]cty.Value) {
@@ -67,18 +67,6 @@ func EncodeSsmAssociation_DocumentVersion(p SsmAssociationParameters, vals map[s
 
 func EncodeSsmAssociation_Id(p SsmAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSsmAssociation_ScheduleExpression(p SsmAssociationParameters, vals map[string]cty.Value) {
-	vals["schedule_expression"] = cty.StringVal(p.ScheduleExpression)
-}
-
-func EncodeSsmAssociation_AutomationTargetParameterName(p SsmAssociationParameters, vals map[string]cty.Value) {
-	vals["automation_target_parameter_name"] = cty.StringVal(p.AutomationTargetParameterName)
-}
-
-func EncodeSsmAssociation_InstanceId(p SsmAssociationParameters, vals map[string]cty.Value) {
-	vals["instance_id"] = cty.StringVal(p.InstanceId)
 }
 
 func EncodeSsmAssociation_MaxConcurrency(p SsmAssociationParameters, vals map[string]cty.Value) {
@@ -93,12 +81,59 @@ func EncodeSsmAssociation_Name(p SsmAssociationParameters, vals map[string]cty.V
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeSsmAssociation_AssociationName(p SsmAssociationParameters, vals map[string]cty.Value) {
+	vals["association_name"] = cty.StringVal(p.AssociationName)
+}
+
+func EncodeSsmAssociation_AutomationTargetParameterName(p SsmAssociationParameters, vals map[string]cty.Value) {
+	vals["automation_target_parameter_name"] = cty.StringVal(p.AutomationTargetParameterName)
+}
+
+func EncodeSsmAssociation_ComplianceSeverity(p SsmAssociationParameters, vals map[string]cty.Value) {
+	vals["compliance_severity"] = cty.StringVal(p.ComplianceSeverity)
+}
+
+func EncodeSsmAssociation_InstanceId(p SsmAssociationParameters, vals map[string]cty.Value) {
+	vals["instance_id"] = cty.StringVal(p.InstanceId)
+}
+
 func EncodeSsmAssociation_Parameters(p SsmAssociationParameters, vals map[string]cty.Value) {
+	if len(p.Parameters) == 0 {
+		vals["parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Parameters {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["parameters"] = cty.MapVal(mVals)
+}
+
+func EncodeSsmAssociation_ScheduleExpression(p SsmAssociationParameters, vals map[string]cty.Value) {
+	vals["schedule_expression"] = cty.StringVal(p.ScheduleExpression)
+}
+
+func EncodeSsmAssociation_Targets(p []Targets, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeSsmAssociation_Targets_Key(v, ctyVal)
+		EncodeSsmAssociation_Targets_Values(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["targets"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSsmAssociation_Targets_Key(p Targets, vals map[string]cty.Value) {
+	vals["key"] = cty.StringVal(p.Key)
+}
+
+func EncodeSsmAssociation_Targets_Values(p Targets, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Values {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["values"] = cty.ListVal(colVals)
 }
 
 func EncodeSsmAssociation_OutputLocation(p OutputLocation, vals map[string]cty.Value) {
@@ -116,29 +151,6 @@ func EncodeSsmAssociation_OutputLocation_S3BucketName(p OutputLocation, vals map
 
 func EncodeSsmAssociation_OutputLocation_S3KeyPrefix(p OutputLocation, vals map[string]cty.Value) {
 	vals["s3_key_prefix"] = cty.StringVal(p.S3KeyPrefix)
-}
-
-func EncodeSsmAssociation_Targets(p []Targets, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeSsmAssociation_Targets_Values(v, ctyVal)
-		EncodeSsmAssociation_Targets_Key(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["targets"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeSsmAssociation_Targets_Values(p Targets, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Values {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["values"] = cty.ListVal(colVals)
-}
-
-func EncodeSsmAssociation_Targets_Key(p Targets, vals map[string]cty.Value) {
-	vals["key"] = cty.StringVal(p.Key)
 }
 
 func EncodeSsmAssociation_AssociationId(p SsmAssociationObservation, vals map[string]cty.Value) {

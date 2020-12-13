@@ -47,7 +47,7 @@ type CodebuildReportGroupList struct {
 // A CodebuildReportGroupSpec defines the desired state of a CodebuildReportGroup
 type CodebuildReportGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodebuildReportGroupParameters `json:",inline"`
+	ForProvider                  CodebuildReportGroupParameters `json:"forProvider"`
 }
 
 // A CodebuildReportGroupParameters defines the desired state of a CodebuildReportGroup
@@ -65,17 +65,17 @@ type ExportConfig struct {
 }
 
 type S3Destination struct {
+	Bucket             string `json:"bucket"`
 	EncryptionDisabled bool   `json:"encryption_disabled"`
 	EncryptionKey      string `json:"encryption_key"`
 	Packaging          string `json:"packaging"`
 	Path               string `json:"path"`
-	Bucket             string `json:"bucket"`
 }
 
 // A CodebuildReportGroupStatus defines the observed state of a CodebuildReportGroup
 type CodebuildReportGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodebuildReportGroupObservation `json:",inline"`
+	AtProvider                     CodebuildReportGroupObservation `json:"atProvider"`
 }
 
 // A CodebuildReportGroupObservation records the observed state of a CodebuildReportGroup

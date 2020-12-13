@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,30 +37,65 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeMqBroker(r MqBroker) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMqBroker_EngineVersion(r.Spec.ForProvider, ctyVal)
-	EncodeMqBroker_HostInstanceType(r.Spec.ForProvider, ctyVal)
-	EncodeMqBroker_SecurityGroups(r.Spec.ForProvider, ctyVal)
 	EncodeMqBroker_ApplyImmediately(r.Spec.ForProvider, ctyVal)
 	EncodeMqBroker_BrokerName(r.Spec.ForProvider, ctyVal)
-	EncodeMqBroker_PubliclyAccessible(r.Spec.ForProvider, ctyVal)
-	EncodeMqBroker_SubnetIds(r.Spec.ForProvider, ctyVal)
-	EncodeMqBroker_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMqBroker_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
 	EncodeMqBroker_DeploymentMode(r.Spec.ForProvider, ctyVal)
-	EncodeMqBroker_EngineType(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_EngineVersion(r.Spec.ForProvider, ctyVal)
 	EncodeMqBroker_Id(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_SubnetIds(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_EngineType(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_HostInstanceType(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_SecurityGroups(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_PubliclyAccessible(r.Spec.ForProvider, ctyVal)
+	EncodeMqBroker_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeMqBroker_Configuration(r.Spec.ForProvider.Configuration, ctyVal)
 	EncodeMqBroker_EncryptionOptions(r.Spec.ForProvider.EncryptionOptions, ctyVal)
 	EncodeMqBroker_Logs(r.Spec.ForProvider.Logs, ctyVal)
 	EncodeMqBroker_MaintenanceWindowStartTime(r.Spec.ForProvider.MaintenanceWindowStartTime, ctyVal)
 	EncodeMqBroker_User(r.Spec.ForProvider.User, ctyVal)
-	EncodeMqBroker_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMqBroker_Instances(r.Status.AtProvider.Instances, ctyVal)
+	EncodeMqBroker_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeMqBroker_ApplyImmediately(p MqBrokerParameters, vals map[string]cty.Value) {
+	vals["apply_immediately"] = cty.BoolVal(p.ApplyImmediately)
+}
+
+func EncodeMqBroker_BrokerName(p MqBrokerParameters, vals map[string]cty.Value) {
+	vals["broker_name"] = cty.StringVal(p.BrokerName)
+}
+
+func EncodeMqBroker_DeploymentMode(p MqBrokerParameters, vals map[string]cty.Value) {
+	vals["deployment_mode"] = cty.StringVal(p.DeploymentMode)
 }
 
 func EncodeMqBroker_EngineVersion(p MqBrokerParameters, vals map[string]cty.Value) {
 	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+}
+
+func EncodeMqBroker_Id(p MqBrokerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeMqBroker_SubnetIds(p MqBrokerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SubnetIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["subnet_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeMqBroker_EngineType(p MqBrokerParameters, vals map[string]cty.Value) {
+	vals["engine_type"] = cty.StringVal(p.EngineType)
 }
 
 func EncodeMqBroker_HostInstanceType(p MqBrokerParameters, vals map[string]cty.Value) {
@@ -74,48 +110,24 @@ func EncodeMqBroker_SecurityGroups(p MqBrokerParameters, vals map[string]cty.Val
 	vals["security_groups"] = cty.SetVal(colVals)
 }
 
-func EncodeMqBroker_ApplyImmediately(p MqBrokerParameters, vals map[string]cty.Value) {
-	vals["apply_immediately"] = cty.BoolVal(p.ApplyImmediately)
-}
-
-func EncodeMqBroker_BrokerName(p MqBrokerParameters, vals map[string]cty.Value) {
-	vals["broker_name"] = cty.StringVal(p.BrokerName)
+func EncodeMqBroker_AutoMinorVersionUpgrade(p MqBrokerParameters, vals map[string]cty.Value) {
+	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
 }
 
 func EncodeMqBroker_PubliclyAccessible(p MqBrokerParameters, vals map[string]cty.Value) {
 	vals["publicly_accessible"] = cty.BoolVal(p.PubliclyAccessible)
 }
 
-func EncodeMqBroker_SubnetIds(p MqBrokerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SubnetIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["subnet_ids"] = cty.SetVal(colVals)
-}
-
 func EncodeMqBroker_Tags(p MqBrokerParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeMqBroker_AutoMinorVersionUpgrade(p MqBrokerParameters, vals map[string]cty.Value) {
-	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
-}
-
-func EncodeMqBroker_DeploymentMode(p MqBrokerParameters, vals map[string]cty.Value) {
-	vals["deployment_mode"] = cty.StringVal(p.DeploymentMode)
-}
-
-func EncodeMqBroker_EngineType(p MqBrokerParameters, vals map[string]cty.Value) {
-	vals["engine_type"] = cty.StringVal(p.EngineType)
-}
-
-func EncodeMqBroker_Id(p MqBrokerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMqBroker_Configuration(p Configuration, vals map[string]cty.Value) {
@@ -138,18 +150,18 @@ func EncodeMqBroker_Configuration_Revision(p Configuration, vals map[string]cty.
 func EncodeMqBroker_EncryptionOptions(p EncryptionOptions, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeMqBroker_EncryptionOptions_KmsKeyId(p, ctyVal)
 	EncodeMqBroker_EncryptionOptions_UseAwsOwnedKey(p, ctyVal)
+	EncodeMqBroker_EncryptionOptions_KmsKeyId(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["encryption_options"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeMqBroker_EncryptionOptions_KmsKeyId(p EncryptionOptions, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
-}
-
 func EncodeMqBroker_EncryptionOptions_UseAwsOwnedKey(p EncryptionOptions, vals map[string]cty.Value) {
 	vals["use_aws_owned_key"] = cty.BoolVal(p.UseAwsOwnedKey)
+}
+
+func EncodeMqBroker_EncryptionOptions_KmsKeyId(p EncryptionOptions, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
 func EncodeMqBroker_Logs(p Logs, vals map[string]cty.Value) {
@@ -172,11 +184,15 @@ func EncodeMqBroker_Logs_General(p Logs, vals map[string]cty.Value) {
 func EncodeMqBroker_MaintenanceWindowStartTime(p MaintenanceWindowStartTime, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeMqBroker_MaintenanceWindowStartTime_TimeZone(p, ctyVal)
 	EncodeMqBroker_MaintenanceWindowStartTime_DayOfWeek(p, ctyVal)
 	EncodeMqBroker_MaintenanceWindowStartTime_TimeOfDay(p, ctyVal)
-	EncodeMqBroker_MaintenanceWindowStartTime_TimeZone(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["maintenance_window_start_time"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeMqBroker_MaintenanceWindowStartTime_TimeZone(p MaintenanceWindowStartTime, vals map[string]cty.Value) {
+	vals["time_zone"] = cty.StringVal(p.TimeZone)
 }
 
 func EncodeMqBroker_MaintenanceWindowStartTime_DayOfWeek(p MaintenanceWindowStartTime, vals map[string]cty.Value) {
@@ -185,10 +201,6 @@ func EncodeMqBroker_MaintenanceWindowStartTime_DayOfWeek(p MaintenanceWindowStar
 
 func EncodeMqBroker_MaintenanceWindowStartTime_TimeOfDay(p MaintenanceWindowStartTime, vals map[string]cty.Value) {
 	vals["time_of_day"] = cty.StringVal(p.TimeOfDay)
-}
-
-func EncodeMqBroker_MaintenanceWindowStartTime_TimeZone(p MaintenanceWindowStartTime, vals map[string]cty.Value) {
-	vals["time_zone"] = cty.StringVal(p.TimeZone)
 }
 
 func EncodeMqBroker_User(p []User, vals map[string]cty.Value) {
@@ -224,20 +236,20 @@ func EncodeMqBroker_User_ConsoleAccess(p User, vals map[string]cty.Value) {
 	vals["console_access"] = cty.BoolVal(p.ConsoleAccess)
 }
 
-func EncodeMqBroker_Arn(p MqBrokerObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeMqBroker_Instances(p []Instances, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeMqBroker_Instances_IpAddress(v, ctyVal)
 		EncodeMqBroker_Instances_ConsoleUrl(v, ctyVal)
 		EncodeMqBroker_Instances_Endpoints(v, ctyVal)
-		EncodeMqBroker_Instances_IpAddress(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["instances"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeMqBroker_Instances_IpAddress(p Instances, vals map[string]cty.Value) {
+	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
 func EncodeMqBroker_Instances_ConsoleUrl(p Instances, vals map[string]cty.Value) {
@@ -252,6 +264,6 @@ func EncodeMqBroker_Instances_Endpoints(p Instances, vals map[string]cty.Value) 
 	vals["endpoints"] = cty.ListVal(colVals)
 }
 
-func EncodeMqBroker_Instances_IpAddress(p Instances, vals map[string]cty.Value) {
-	vals["ip_address"] = cty.StringVal(p.IpAddress)
+func EncodeMqBroker_Arn(p MqBrokerObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

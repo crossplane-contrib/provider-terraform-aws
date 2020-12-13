@@ -47,22 +47,21 @@ type GluePartitionList struct {
 // A GluePartitionSpec defines the desired state of a GluePartition
 type GluePartitionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GluePartitionParameters `json:",inline"`
+	ForProvider                  GluePartitionParameters `json:"forProvider"`
 }
 
 // A GluePartitionParameters defines the desired state of a GluePartition
 type GluePartitionParameters struct {
-	TableName         string            `json:"table_name"`
-	Parameters        map[string]string `json:"parameters"`
-	PartitionValues   []string          `json:"partition_values"`
 	CatalogId         string            `json:"catalog_id"`
 	DatabaseName      string            `json:"database_name"`
+	Parameters        map[string]string `json:"parameters"`
+	TableName         string            `json:"table_name"`
 	Id                string            `json:"id"`
+	PartitionValues   []string          `json:"partition_values"`
 	StorageDescriptor StorageDescriptor `json:"storage_descriptor"`
 }
 
 type StorageDescriptor struct {
-	NumberOfBuckets        int64             `json:"number_of_buckets"`
 	OutputFormat           string            `json:"output_format"`
 	Parameters             map[string]string `json:"parameters"`
 	StoredAsSubDirectories bool              `json:"stored_as_sub_directories"`
@@ -70,6 +69,7 @@ type StorageDescriptor struct {
 	Compressed             bool              `json:"compressed"`
 	InputFormat            string            `json:"input_format"`
 	Location               string            `json:"location"`
+	NumberOfBuckets        int64             `json:"number_of_buckets"`
 	Columns                Columns           `json:"columns"`
 	SerDeInfo              SerDeInfo         `json:"ser_de_info"`
 	SkewedInfo             SkewedInfo        `json:"skewed_info"`
@@ -89,9 +89,9 @@ type SerDeInfo struct {
 }
 
 type SkewedInfo struct {
+	SkewedColumnNames             []string          `json:"skewed_column_names"`
 	SkewedColumnValueLocationMaps map[string]string `json:"skewed_column_value_location_maps"`
 	SkewedColumnValues            []string          `json:"skewed_column_values"`
-	SkewedColumnNames             []string          `json:"skewed_column_names"`
 }
 
 type SortColumns struct {
@@ -102,12 +102,12 @@ type SortColumns struct {
 // A GluePartitionStatus defines the observed state of a GluePartition
 type GluePartitionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GluePartitionObservation `json:",inline"`
+	AtProvider                     GluePartitionObservation `json:"atProvider"`
 }
 
 // A GluePartitionObservation records the observed state of a GluePartition
 type GluePartitionObservation struct {
-	LastAccessedTime string `json:"last_accessed_time"`
 	CreationTime     string `json:"creation_time"`
+	LastAccessedTime string `json:"last_accessed_time"`
 	LastAnalyzedTime string `json:"last_analyzed_time"`
 }

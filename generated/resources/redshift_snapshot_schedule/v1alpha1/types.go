@@ -47,24 +47,24 @@ type RedshiftSnapshotScheduleList struct {
 // A RedshiftSnapshotScheduleSpec defines the desired state of a RedshiftSnapshotSchedule
 type RedshiftSnapshotScheduleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RedshiftSnapshotScheduleParameters `json:",inline"`
+	ForProvider                  RedshiftSnapshotScheduleParameters `json:"forProvider"`
 }
 
 // A RedshiftSnapshotScheduleParameters defines the desired state of a RedshiftSnapshotSchedule
 type RedshiftSnapshotScheduleParameters struct {
+	Tags             map[string]string `json:"tags"`
 	Definitions      []string          `json:"definitions"`
 	Description      string            `json:"description"`
 	ForceDestroy     bool              `json:"force_destroy"`
 	Id               string            `json:"id"`
 	Identifier       string            `json:"identifier"`
 	IdentifierPrefix string            `json:"identifier_prefix"`
-	Tags             map[string]string `json:"tags"`
 }
 
 // A RedshiftSnapshotScheduleStatus defines the observed state of a RedshiftSnapshotSchedule
 type RedshiftSnapshotScheduleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RedshiftSnapshotScheduleObservation `json:",inline"`
+	AtProvider                     RedshiftSnapshotScheduleObservation `json:"atProvider"`
 }
 
 // A RedshiftSnapshotScheduleObservation records the observed state of a RedshiftSnapshotSchedule

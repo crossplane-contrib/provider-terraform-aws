@@ -47,32 +47,32 @@ type SqsQueueList struct {
 // A SqsQueueSpec defines the desired state of a SqsQueue
 type SqsQueueSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SqsQueueParameters `json:",inline"`
+	ForProvider                  SqsQueueParameters `json:"forProvider"`
 }
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
-	DelaySeconds                 int64             `json:"delay_seconds"`
-	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
-	Tags                         map[string]string `json:"tags"`
-	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
 	FifoQueue                    bool              `json:"fifo_queue"`
 	KmsMasterKeyId               string            `json:"kms_master_key_id"`
-	MaxMessageSize               int64             `json:"max_message_size"`
+	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
 	Name                         string            `json:"name"`
+	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
+	Tags                         map[string]string `json:"tags"`
+	DelaySeconds                 int64             `json:"delay_seconds"`
+	KmsDataKeyReusePeriodSeconds int64             `json:"kms_data_key_reuse_period_seconds"`
+	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
+	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
+	Id                           string            `json:"id"`
 	NamePrefix                   string            `json:"name_prefix"`
 	Policy                       string            `json:"policy"`
-	Id                           string            `json:"id"`
-	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
-	KmsDataKeyReusePeriodSeconds int64             `json:"kms_data_key_reuse_period_seconds"`
-	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
+	MaxMessageSize               int64             `json:"max_message_size"`
 	RedrivePolicy                string            `json:"redrive_policy"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue
 type SqsQueueStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SqsQueueObservation `json:",inline"`
+	AtProvider                     SqsQueueObservation `json:"atProvider"`
 }
 
 // A SqsQueueObservation records the observed state of a SqsQueue

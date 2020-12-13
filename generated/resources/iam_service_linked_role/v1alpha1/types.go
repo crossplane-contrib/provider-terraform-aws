@@ -47,28 +47,28 @@ type IamServiceLinkedRoleList struct {
 // A IamServiceLinkedRoleSpec defines the desired state of a IamServiceLinkedRole
 type IamServiceLinkedRoleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamServiceLinkedRoleParameters `json:",inline"`
+	ForProvider                  IamServiceLinkedRoleParameters `json:"forProvider"`
 }
 
 // A IamServiceLinkedRoleParameters defines the desired state of a IamServiceLinkedRole
 type IamServiceLinkedRoleParameters struct {
-	CustomSuffix   string `json:"custom_suffix"`
-	AwsServiceName string `json:"aws_service_name"`
 	Description    string `json:"description"`
+	AwsServiceName string `json:"aws_service_name"`
+	CustomSuffix   string `json:"custom_suffix"`
 	Id             string `json:"id"`
 }
 
 // A IamServiceLinkedRoleStatus defines the observed state of a IamServiceLinkedRole
 type IamServiceLinkedRoleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamServiceLinkedRoleObservation `json:",inline"`
+	AtProvider                     IamServiceLinkedRoleObservation `json:"atProvider"`
 }
 
 // A IamServiceLinkedRoleObservation records the observed state of a IamServiceLinkedRole
 type IamServiceLinkedRoleObservation struct {
-	Arn        string `json:"arn"`
+	CreateDate string `json:"create_date"`
 	Name       string `json:"name"`
 	Path       string `json:"path"`
 	UniqueId   string `json:"unique_id"`
-	CreateDate string `json:"create_date"`
+	Arn        string `json:"arn"`
 }

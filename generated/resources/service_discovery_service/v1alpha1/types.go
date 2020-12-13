@@ -47,19 +47,23 @@ type ServiceDiscoveryServiceList struct {
 // A ServiceDiscoveryServiceSpec defines the desired state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ServiceDiscoveryServiceParameters `json:",inline"`
+	ForProvider                  ServiceDiscoveryServiceParameters `json:"forProvider"`
 }
 
 // A ServiceDiscoveryServiceParameters defines the desired state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceParameters struct {
+	Tags                    map[string]string       `json:"tags"`
 	Description             string                  `json:"description"`
 	Id                      string                  `json:"id"`
 	Name                    string                  `json:"name"`
 	NamespaceId             string                  `json:"namespace_id"`
-	Tags                    map[string]string       `json:"tags"`
+	HealthCheckCustomConfig HealthCheckCustomConfig `json:"health_check_custom_config"`
 	DnsConfig               DnsConfig               `json:"dns_config"`
 	HealthCheckConfig       HealthCheckConfig       `json:"health_check_config"`
-	HealthCheckCustomConfig HealthCheckCustomConfig `json:"health_check_custom_config"`
+}
+
+type HealthCheckCustomConfig struct {
+	FailureThreshold int64 `json:"failure_threshold"`
 }
 
 type DnsConfig struct {
@@ -79,14 +83,10 @@ type HealthCheckConfig struct {
 	Type             string `json:"type"`
 }
 
-type HealthCheckCustomConfig struct {
-	FailureThreshold int64 `json:"failure_threshold"`
-}
-
 // A ServiceDiscoveryServiceStatus defines the observed state of a ServiceDiscoveryService
 type ServiceDiscoveryServiceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ServiceDiscoveryServiceObservation `json:",inline"`
+	AtProvider                     ServiceDiscoveryServiceObservation `json:"atProvider"`
 }
 
 // A ServiceDiscoveryServiceObservation records the observed state of a ServiceDiscoveryService

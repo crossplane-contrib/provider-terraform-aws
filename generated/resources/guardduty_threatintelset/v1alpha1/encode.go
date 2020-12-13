@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,23 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyThreatintelset(r GuarddutyThreatintelset) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGuarddutyThreatintelset_DetectorId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyThreatintelset_Format(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Location(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Activate(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyThreatintelset_DetectorId(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyThreatintelset_Format(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGuarddutyThreatintelset_DetectorId(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
-	vals["detector_id"] = cty.StringVal(p.DetectorId)
-}
-
-func EncodeGuarddutyThreatintelset_Format(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
-	vals["format"] = cty.StringVal(p.Format)
 }
 
 func EncodeGuarddutyThreatintelset_Id(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
@@ -68,6 +68,10 @@ func EncodeGuarddutyThreatintelset_Name(p GuarddutyThreatintelsetParameters, val
 }
 
 func EncodeGuarddutyThreatintelset_Tags(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -77,6 +81,14 @@ func EncodeGuarddutyThreatintelset_Tags(p GuarddutyThreatintelsetParameters, val
 
 func EncodeGuarddutyThreatintelset_Activate(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	vals["activate"] = cty.BoolVal(p.Activate)
+}
+
+func EncodeGuarddutyThreatintelset_DetectorId(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	vals["detector_id"] = cty.StringVal(p.DetectorId)
+}
+
+func EncodeGuarddutyThreatintelset_Format(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	vals["format"] = cty.StringVal(p.Format)
 }
 
 func EncodeGuarddutyThreatintelset_Arn(p GuarddutyThreatintelsetObservation, vals map[string]cty.Value) {

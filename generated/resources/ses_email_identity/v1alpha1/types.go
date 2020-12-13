@@ -47,19 +47,19 @@ type SesEmailIdentityList struct {
 // A SesEmailIdentitySpec defines the desired state of a SesEmailIdentity
 type SesEmailIdentitySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesEmailIdentityParameters `json:",inline"`
+	ForProvider                  SesEmailIdentityParameters `json:"forProvider"`
 }
 
 // A SesEmailIdentityParameters defines the desired state of a SesEmailIdentity
 type SesEmailIdentityParameters struct {
-	Email string `json:"email"`
 	Id    string `json:"id"`
+	Email string `json:"email"`
 }
 
 // A SesEmailIdentityStatus defines the observed state of a SesEmailIdentity
 type SesEmailIdentityStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesEmailIdentityObservation `json:",inline"`
+	AtProvider                     SesEmailIdentityObservation `json:"atProvider"`
 }
 
 // A SesEmailIdentityObservation records the observed state of a SesEmailIdentity

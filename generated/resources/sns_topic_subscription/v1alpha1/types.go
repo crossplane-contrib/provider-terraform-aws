@@ -47,26 +47,26 @@ type SnsTopicSubscriptionList struct {
 // A SnsTopicSubscriptionSpec defines the desired state of a SnsTopicSubscription
 type SnsTopicSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SnsTopicSubscriptionParameters `json:",inline"`
+	ForProvider                  SnsTopicSubscriptionParameters `json:"forProvider"`
 }
 
 // A SnsTopicSubscriptionParameters defines the desired state of a SnsTopicSubscription
 type SnsTopicSubscriptionParameters struct {
-	DeliveryPolicy               string `json:"delivery_policy"`
+	Protocol                     string `json:"protocol"`
+	RawMessageDelivery           bool   `json:"raw_message_delivery"`
 	Endpoint                     string `json:"endpoint"`
 	EndpointAutoConfirms         bool   `json:"endpoint_auto_confirms"`
-	RawMessageDelivery           bool   `json:"raw_message_delivery"`
-	ConfirmationTimeoutInMinutes int64  `json:"confirmation_timeout_in_minutes"`
 	FilterPolicy                 string `json:"filter_policy"`
 	Id                           string `json:"id"`
-	Protocol                     string `json:"protocol"`
+	ConfirmationTimeoutInMinutes int64  `json:"confirmation_timeout_in_minutes"`
+	DeliveryPolicy               string `json:"delivery_policy"`
 	TopicArn                     string `json:"topic_arn"`
 }
 
 // A SnsTopicSubscriptionStatus defines the observed state of a SnsTopicSubscription
 type SnsTopicSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SnsTopicSubscriptionObservation `json:",inline"`
+	AtProvider                     SnsTopicSubscriptionObservation `json:"atProvider"`
 }
 
 // A SnsTopicSubscriptionObservation records the observed state of a SnsTopicSubscription

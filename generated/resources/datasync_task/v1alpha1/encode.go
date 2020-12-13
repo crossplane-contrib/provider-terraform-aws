@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -45,6 +46,13 @@ func EncodeDatasyncTask(r DatasyncTask) cty.Value {
 	EncodeDatasyncTask_Options(r.Spec.ForProvider.Options, ctyVal)
 	EncodeDatasyncTask_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDatasyncTask_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -53,6 +61,10 @@ func EncodeDatasyncTask_SourceLocationArn(p DatasyncTaskParameters, vals map[str
 }
 
 func EncodeDatasyncTask_Tags(p DatasyncTaskParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -79,17 +91,33 @@ func EncodeDatasyncTask_Name(p DatasyncTaskParameters, vals map[string]cty.Value
 func EncodeDatasyncTask_Options(p Options, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeDatasyncTask_Options_Atime(p, ctyVal)
+	EncodeDatasyncTask_Options_BytesPerSecond(p, ctyVal)
+	EncodeDatasyncTask_Options_Mtime(p, ctyVal)
+	EncodeDatasyncTask_Options_PosixPermissions(p, ctyVal)
 	EncodeDatasyncTask_Options_PreserveDevices(p, ctyVal)
 	EncodeDatasyncTask_Options_Uid(p, ctyVal)
 	EncodeDatasyncTask_Options_VerifyMode(p, ctyVal)
-	EncodeDatasyncTask_Options_Atime(p, ctyVal)
-	EncodeDatasyncTask_Options_BytesPerSecond(p, ctyVal)
 	EncodeDatasyncTask_Options_Gid(p, ctyVal)
-	EncodeDatasyncTask_Options_Mtime(p, ctyVal)
-	EncodeDatasyncTask_Options_PosixPermissions(p, ctyVal)
 	EncodeDatasyncTask_Options_PreserveDeletedFiles(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["options"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeDatasyncTask_Options_Atime(p Options, vals map[string]cty.Value) {
+	vals["atime"] = cty.StringVal(p.Atime)
+}
+
+func EncodeDatasyncTask_Options_BytesPerSecond(p Options, vals map[string]cty.Value) {
+	vals["bytes_per_second"] = cty.NumberIntVal(p.BytesPerSecond)
+}
+
+func EncodeDatasyncTask_Options_Mtime(p Options, vals map[string]cty.Value) {
+	vals["mtime"] = cty.StringVal(p.Mtime)
+}
+
+func EncodeDatasyncTask_Options_PosixPermissions(p Options, vals map[string]cty.Value) {
+	vals["posix_permissions"] = cty.StringVal(p.PosixPermissions)
 }
 
 func EncodeDatasyncTask_Options_PreserveDevices(p Options, vals map[string]cty.Value) {
@@ -104,24 +132,8 @@ func EncodeDatasyncTask_Options_VerifyMode(p Options, vals map[string]cty.Value)
 	vals["verify_mode"] = cty.StringVal(p.VerifyMode)
 }
 
-func EncodeDatasyncTask_Options_Atime(p Options, vals map[string]cty.Value) {
-	vals["atime"] = cty.StringVal(p.Atime)
-}
-
-func EncodeDatasyncTask_Options_BytesPerSecond(p Options, vals map[string]cty.Value) {
-	vals["bytes_per_second"] = cty.NumberIntVal(p.BytesPerSecond)
-}
-
 func EncodeDatasyncTask_Options_Gid(p Options, vals map[string]cty.Value) {
 	vals["gid"] = cty.StringVal(p.Gid)
-}
-
-func EncodeDatasyncTask_Options_Mtime(p Options, vals map[string]cty.Value) {
-	vals["mtime"] = cty.StringVal(p.Mtime)
-}
-
-func EncodeDatasyncTask_Options_PosixPermissions(p Options, vals map[string]cty.Value) {
-	vals["posix_permissions"] = cty.StringVal(p.PosixPermissions)
 }
 
 func EncodeDatasyncTask_Options_PreserveDeletedFiles(p Options, vals map[string]cty.Value) {

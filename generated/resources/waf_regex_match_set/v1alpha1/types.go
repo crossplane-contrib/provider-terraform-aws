@@ -47,7 +47,7 @@ type WafRegexMatchSetList struct {
 // A WafRegexMatchSetSpec defines the desired state of a WafRegexMatchSet
 type WafRegexMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafRegexMatchSetParameters `json:",inline"`
+	ForProvider                  WafRegexMatchSetParameters `json:"forProvider"`
 }
 
 // A WafRegexMatchSetParameters defines the desired state of a WafRegexMatchSet
@@ -58,20 +58,20 @@ type WafRegexMatchSetParameters struct {
 }
 
 type RegexMatchTuple struct {
-	RegexPatternSetId  string       `json:"regex_pattern_set_id"`
 	TextTransformation string       `json:"text_transformation"`
+	RegexPatternSetId  string       `json:"regex_pattern_set_id"`
 	FieldToMatch       FieldToMatch `json:"field_to_match"`
 }
 
 type FieldToMatch struct {
-	Data string `json:"data"`
 	Type string `json:"type"`
+	Data string `json:"data"`
 }
 
 // A WafRegexMatchSetStatus defines the observed state of a WafRegexMatchSet
 type WafRegexMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafRegexMatchSetObservation `json:",inline"`
+	AtProvider                     WafRegexMatchSetObservation `json:"atProvider"`
 }
 
 // A WafRegexMatchSetObservation records the observed state of a WafRegexMatchSet

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,27 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeConfigRemediationConfiguration(r ConfigRemediationConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigRemediationConfiguration_TargetType(r.Spec.ForProvider, ctyVal)
-	EncodeConfigRemediationConfiguration_TargetVersion(r.Spec.ForProvider, ctyVal)
-	EncodeConfigRemediationConfiguration_ConfigRuleName(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_ResourceType(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_TargetId(r.Spec.ForProvider, ctyVal)
+	EncodeConfigRemediationConfiguration_TargetType(r.Spec.ForProvider, ctyVal)
+	EncodeConfigRemediationConfiguration_TargetVersion(r.Spec.ForProvider, ctyVal)
+	EncodeConfigRemediationConfiguration_ConfigRuleName(r.Spec.ForProvider, ctyVal)
 	EncodeConfigRemediationConfiguration_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeConfigRemediationConfiguration_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeConfigRemediationConfiguration_TargetType(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
-	vals["target_type"] = cty.StringVal(p.TargetType)
-}
-
-func EncodeConfigRemediationConfiguration_TargetVersion(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
-	vals["target_version"] = cty.StringVal(p.TargetVersion)
-}
-
-func EncodeConfigRemediationConfiguration_ConfigRuleName(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
-	vals["config_rule_name"] = cty.StringVal(p.ConfigRuleName)
 }
 
 func EncodeConfigRemediationConfiguration_Id(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
@@ -71,16 +67,32 @@ func EncodeConfigRemediationConfiguration_TargetId(p ConfigRemediationConfigurat
 	vals["target_id"] = cty.StringVal(p.TargetId)
 }
 
+func EncodeConfigRemediationConfiguration_TargetType(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
+	vals["target_type"] = cty.StringVal(p.TargetType)
+}
+
+func EncodeConfigRemediationConfiguration_TargetVersion(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
+	vals["target_version"] = cty.StringVal(p.TargetVersion)
+}
+
+func EncodeConfigRemediationConfiguration_ConfigRuleName(p ConfigRemediationConfigurationParameters, vals map[string]cty.Value) {
+	vals["config_rule_name"] = cty.StringVal(p.ConfigRuleName)
+}
+
 func EncodeConfigRemediationConfiguration_Parameter(p []Parameter, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeConfigRemediationConfiguration_Parameter_StaticValue(v, ctyVal)
 		EncodeConfigRemediationConfiguration_Parameter_Name(v, ctyVal)
 		EncodeConfigRemediationConfiguration_Parameter_ResourceValue(v, ctyVal)
-		EncodeConfigRemediationConfiguration_Parameter_StaticValue(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["parameter"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeConfigRemediationConfiguration_Parameter_StaticValue(p Parameter, vals map[string]cty.Value) {
+	vals["static_value"] = cty.StringVal(p.StaticValue)
 }
 
 func EncodeConfigRemediationConfiguration_Parameter_Name(p Parameter, vals map[string]cty.Value) {
@@ -89,10 +101,6 @@ func EncodeConfigRemediationConfiguration_Parameter_Name(p Parameter, vals map[s
 
 func EncodeConfigRemediationConfiguration_Parameter_ResourceValue(p Parameter, vals map[string]cty.Value) {
 	vals["resource_value"] = cty.StringVal(p.ResourceValue)
-}
-
-func EncodeConfigRemediationConfiguration_Parameter_StaticValue(p Parameter, vals map[string]cty.Value) {
-	vals["static_value"] = cty.StringVal(p.StaticValue)
 }
 
 func EncodeConfigRemediationConfiguration_Arn(p ConfigRemediationConfigurationObservation, vals map[string]cty.Value) {

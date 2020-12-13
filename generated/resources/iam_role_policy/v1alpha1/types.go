@@ -47,22 +47,22 @@ type IamRolePolicyList struct {
 // A IamRolePolicySpec defines the desired state of a IamRolePolicy
 type IamRolePolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamRolePolicyParameters `json:",inline"`
+	ForProvider                  IamRolePolicyParameters `json:"forProvider"`
 }
 
 // A IamRolePolicyParameters defines the desired state of a IamRolePolicy
 type IamRolePolicyParameters struct {
-	Policy     string `json:"policy"`
-	Role       string `json:"role"`
 	Id         string `json:"id"`
 	Name       string `json:"name"`
 	NamePrefix string `json:"name_prefix"`
+	Policy     string `json:"policy"`
+	Role       string `json:"role"`
 }
 
 // A IamRolePolicyStatus defines the observed state of a IamRolePolicy
 type IamRolePolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamRolePolicyObservation `json:",inline"`
+	AtProvider                     IamRolePolicyObservation `json:"atProvider"`
 }
 
 // A IamRolePolicyObservation records the observed state of a IamRolePolicy

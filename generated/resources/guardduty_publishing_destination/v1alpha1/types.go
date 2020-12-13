@@ -47,22 +47,22 @@ type GuarddutyPublishingDestinationList struct {
 // A GuarddutyPublishingDestinationSpec defines the desired state of a GuarddutyPublishingDestination
 type GuarddutyPublishingDestinationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyPublishingDestinationParameters `json:",inline"`
+	ForProvider                  GuarddutyPublishingDestinationParameters `json:"forProvider"`
 }
 
 // A GuarddutyPublishingDestinationParameters defines the desired state of a GuarddutyPublishingDestination
 type GuarddutyPublishingDestinationParameters struct {
+	Id              string `json:"id"`
+	KmsKeyArn       string `json:"kms_key_arn"`
 	DestinationArn  string `json:"destination_arn"`
 	DestinationType string `json:"destination_type"`
 	DetectorId      string `json:"detector_id"`
-	Id              string `json:"id"`
-	KmsKeyArn       string `json:"kms_key_arn"`
 }
 
 // A GuarddutyPublishingDestinationStatus defines the observed state of a GuarddutyPublishingDestination
 type GuarddutyPublishingDestinationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyPublishingDestinationObservation `json:",inline"`
+	AtProvider                     GuarddutyPublishingDestinationObservation `json:"atProvider"`
 }
 
 // A GuarddutyPublishingDestinationObservation records the observed state of a GuarddutyPublishingDestination

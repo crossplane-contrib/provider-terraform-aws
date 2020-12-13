@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -43,9 +44,16 @@ func EncodeEcrRepository(r EcrRepository) cty.Value {
 	EncodeEcrRepository_EncryptionConfiguration(r.Spec.ForProvider.EncryptionConfiguration, ctyVal)
 	EncodeEcrRepository_ImageScanningConfiguration(r.Spec.ForProvider.ImageScanningConfiguration, ctyVal)
 	EncodeEcrRepository_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeEcrRepository_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEcrRepository_RegistryId(r.Status.AtProvider, ctyVal)
 	EncodeEcrRepository_RepositoryUrl(r.Status.AtProvider, ctyVal)
+	EncodeEcrRepository_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -62,6 +70,10 @@ func EncodeEcrRepository_Name(p EcrRepositoryParameters, vals map[string]cty.Val
 }
 
 func EncodeEcrRepository_Tags(p EcrRepositoryParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -108,14 +120,14 @@ func EncodeEcrRepository_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) 
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeEcrRepository_Arn(p EcrRepositoryObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeEcrRepository_RegistryId(p EcrRepositoryObservation, vals map[string]cty.Value) {
 	vals["registry_id"] = cty.StringVal(p.RegistryId)
 }
 
 func EncodeEcrRepository_RepositoryUrl(p EcrRepositoryObservation, vals map[string]cty.Value) {
 	vals["repository_url"] = cty.StringVal(p.RepositoryUrl)
+}
+
+func EncodeEcrRepository_Arn(p EcrRepositoryObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

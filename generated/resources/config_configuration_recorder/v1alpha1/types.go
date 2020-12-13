@@ -47,14 +47,14 @@ type ConfigConfigurationRecorderList struct {
 // A ConfigConfigurationRecorderSpec defines the desired state of a ConfigConfigurationRecorder
 type ConfigConfigurationRecorderSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ConfigConfigurationRecorderParameters `json:",inline"`
+	ForProvider                  ConfigConfigurationRecorderParameters `json:"forProvider"`
 }
 
 // A ConfigConfigurationRecorderParameters defines the desired state of a ConfigConfigurationRecorder
 type ConfigConfigurationRecorderParameters struct {
+	Id             string         `json:"id"`
 	Name           string         `json:"name"`
 	RoleArn        string         `json:"role_arn"`
-	Id             string         `json:"id"`
 	RecordingGroup RecordingGroup `json:"recording_group"`
 }
 
@@ -67,7 +67,7 @@ type RecordingGroup struct {
 // A ConfigConfigurationRecorderStatus defines the observed state of a ConfigConfigurationRecorder
 type ConfigConfigurationRecorderStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ConfigConfigurationRecorderObservation `json:",inline"`
+	AtProvider                     ConfigConfigurationRecorderObservation `json:"atProvider"`
 }
 
 // A ConfigConfigurationRecorderObservation records the observed state of a ConfigConfigurationRecorder

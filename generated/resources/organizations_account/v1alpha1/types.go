@@ -47,30 +47,30 @@ type OrganizationsAccountList struct {
 // A OrganizationsAccountSpec defines the desired state of a OrganizationsAccount
 type OrganizationsAccountSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OrganizationsAccountParameters `json:",inline"`
+	ForProvider                  OrganizationsAccountParameters `json:"forProvider"`
 }
 
 // A OrganizationsAccountParameters defines the desired state of a OrganizationsAccount
 type OrganizationsAccountParameters struct {
-	IamUserAccessToBilling string            `json:"iam_user_access_to_billing"`
-	Id                     string            `json:"id"`
 	RoleName               string            `json:"role_name"`
-	Tags                   map[string]string `json:"tags"`
+	IamUserAccessToBilling string            `json:"iam_user_access_to_billing"`
 	Email                  string            `json:"email"`
-	ParentId               string            `json:"parent_id"`
+	Id                     string            `json:"id"`
 	Name                   string            `json:"name"`
+	ParentId               string            `json:"parent_id"`
+	Tags                   map[string]string `json:"tags"`
 }
 
 // A OrganizationsAccountStatus defines the observed state of a OrganizationsAccount
 type OrganizationsAccountStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OrganizationsAccountObservation `json:",inline"`
+	AtProvider                     OrganizationsAccountObservation `json:"atProvider"`
 }
 
 // A OrganizationsAccountObservation records the observed state of a OrganizationsAccount
 type OrganizationsAccountObservation struct {
-	JoinedTimestamp string `json:"joined_timestamp"`
-	Arn             string `json:"arn"`
-	Status          string `json:"status"`
 	JoinedMethod    string `json:"joined_method"`
+	JoinedTimestamp string `json:"joined_timestamp"`
+	Status          string `json:"status"`
+	Arn             string `json:"arn"`
 }

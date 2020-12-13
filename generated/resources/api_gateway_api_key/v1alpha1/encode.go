@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,24 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayApiKey(r ApiGatewayApiKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayApiKey_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayApiKey_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Value(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Description(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayApiKey_LastUpdatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayApiKey_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayApiKey_Description(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeApiGatewayApiKey_Enabled(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeApiGatewayApiKey_Id(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
@@ -65,6 +65,10 @@ func EncodeApiGatewayApiKey_Name(p ApiGatewayApiKeyParameters, vals map[string]c
 }
 
 func EncodeApiGatewayApiKey_Tags(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -74,6 +78,14 @@ func EncodeApiGatewayApiKey_Tags(p ApiGatewayApiKeyParameters, vals map[string]c
 
 func EncodeApiGatewayApiKey_Value(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeApiGatewayApiKey_Description(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeApiGatewayApiKey_Enabled(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeApiGatewayApiKey_CreatedDate(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {

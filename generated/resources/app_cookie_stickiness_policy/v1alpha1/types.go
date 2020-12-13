@@ -47,22 +47,22 @@ type AppCookieStickinessPolicyList struct {
 // A AppCookieStickinessPolicySpec defines the desired state of a AppCookieStickinessPolicy
 type AppCookieStickinessPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppCookieStickinessPolicyParameters `json:",inline"`
+	ForProvider                  AppCookieStickinessPolicyParameters `json:"forProvider"`
 }
 
 // A AppCookieStickinessPolicyParameters defines the desired state of a AppCookieStickinessPolicy
 type AppCookieStickinessPolicyParameters struct {
-	Name         string `json:"name"`
 	CookieName   string `json:"cookie_name"`
 	Id           string `json:"id"`
 	LbPort       int64  `json:"lb_port"`
 	LoadBalancer string `json:"load_balancer"`
+	Name         string `json:"name"`
 }
 
 // A AppCookieStickinessPolicyStatus defines the observed state of a AppCookieStickinessPolicy
 type AppCookieStickinessPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppCookieStickinessPolicyObservation `json:",inline"`
+	AtProvider                     AppCookieStickinessPolicyObservation `json:"atProvider"`
 }
 
 // A AppCookieStickinessPolicyObservation records the observed state of a AppCookieStickinessPolicy

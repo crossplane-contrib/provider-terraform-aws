@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,17 +37,32 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAppmeshVirtualRouter(r AppmeshVirtualRouter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshVirtualRouter_MeshName(r.Spec.ForProvider, ctyVal)
+	EncodeAppmeshVirtualRouter_MeshOwner(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAppmeshVirtualRouter_MeshName(r.Spec.ForProvider, ctyVal)
-	EncodeAppmeshVirtualRouter_MeshOwner(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_Spec(r.Spec.ForProvider.Spec, ctyVal)
 	EncodeAppmeshVirtualRouter_CreatedDate(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshVirtualRouter_ResourceOwner(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_Arn(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshVirtualRouter_LastUpdatedDate(r.Status.AtProvider, ctyVal)
+	EncodeAppmeshVirtualRouter_ResourceOwner(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAppmeshVirtualRouter_MeshName(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+	vals["mesh_name"] = cty.StringVal(p.MeshName)
+}
+
+func EncodeAppmeshVirtualRouter_MeshOwner(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
 }
 
 func EncodeAppmeshVirtualRouter_Name(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
@@ -54,6 +70,10 @@ func EncodeAppmeshVirtualRouter_Name(p AppmeshVirtualRouterParameters, vals map[
 }
 
 func EncodeAppmeshVirtualRouter_Tags(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -63,14 +83,6 @@ func EncodeAppmeshVirtualRouter_Tags(p AppmeshVirtualRouterParameters, vals map[
 
 func EncodeAppmeshVirtualRouter_Id(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAppmeshVirtualRouter_MeshName(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
-	vals["mesh_name"] = cty.StringVal(p.MeshName)
-}
-
-func EncodeAppmeshVirtualRouter_MeshOwner(p AppmeshVirtualRouterParameters, vals map[string]cty.Value) {
-	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
 }
 
 func EncodeAppmeshVirtualRouter_Spec(p Spec, vals map[string]cty.Value) {
@@ -110,14 +122,14 @@ func EncodeAppmeshVirtualRouter_CreatedDate(p AppmeshVirtualRouterObservation, v
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
-func EncodeAppmeshVirtualRouter_ResourceOwner(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
-	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
-}
-
 func EncodeAppmeshVirtualRouter_Arn(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeAppmeshVirtualRouter_LastUpdatedDate(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
 	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
+}
+
+func EncodeAppmeshVirtualRouter_ResourceOwner(p AppmeshVirtualRouterObservation, vals map[string]cty.Value) {
+	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
 }

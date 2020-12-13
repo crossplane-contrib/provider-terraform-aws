@@ -47,7 +47,7 @@ type SagemakerNotebookInstanceLifecycleConfigurationList struct {
 // A SagemakerNotebookInstanceLifecycleConfigurationSpec defines the desired state of a SagemakerNotebookInstanceLifecycleConfiguration
 type SagemakerNotebookInstanceLifecycleConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SagemakerNotebookInstanceLifecycleConfigurationParameters `json:",inline"`
+	ForProvider                  SagemakerNotebookInstanceLifecycleConfigurationParameters `json:"forProvider"`
 }
 
 // A SagemakerNotebookInstanceLifecycleConfigurationParameters defines the desired state of a SagemakerNotebookInstanceLifecycleConfiguration
@@ -61,7 +61,7 @@ type SagemakerNotebookInstanceLifecycleConfigurationParameters struct {
 // A SagemakerNotebookInstanceLifecycleConfigurationStatus defines the observed state of a SagemakerNotebookInstanceLifecycleConfiguration
 type SagemakerNotebookInstanceLifecycleConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SagemakerNotebookInstanceLifecycleConfigurationObservation `json:",inline"`
+	AtProvider                     SagemakerNotebookInstanceLifecycleConfigurationObservation `json:"atProvider"`
 }
 
 // A SagemakerNotebookInstanceLifecycleConfigurationObservation records the observed state of a SagemakerNotebookInstanceLifecycleConfiguration

@@ -47,7 +47,7 @@ type VpnGatewayRoutePropagationList struct {
 // A VpnGatewayRoutePropagationSpec defines the desired state of a VpnGatewayRoutePropagation
 type VpnGatewayRoutePropagationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpnGatewayRoutePropagationParameters `json:",inline"`
+	ForProvider                  VpnGatewayRoutePropagationParameters `json:"forProvider"`
 }
 
 // A VpnGatewayRoutePropagationParameters defines the desired state of a VpnGatewayRoutePropagation
@@ -60,7 +60,7 @@ type VpnGatewayRoutePropagationParameters struct {
 // A VpnGatewayRoutePropagationStatus defines the observed state of a VpnGatewayRoutePropagation
 type VpnGatewayRoutePropagationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpnGatewayRoutePropagationObservation `json:",inline"`
+	AtProvider                     VpnGatewayRoutePropagationObservation `json:"atProvider"`
 }
 
 // A VpnGatewayRoutePropagationObservation records the observed state of a VpnGatewayRoutePropagation

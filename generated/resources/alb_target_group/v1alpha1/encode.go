@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,27 +37,54 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAlbTargetGroup(r AlbTargetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbTargetGroup_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroup_SlowStart(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroup_TargetType(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroup_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroup_LambdaMultiValueHeadersEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroup_ProxyProtocolV2(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroup_TargetType(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroup_LoadBalancingAlgorithmType(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroup_Port(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroup_ProxyProtocolV2(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroup_Protocol(r.Spec.ForProvider, ctyVal)
-	EncodeAlbTargetGroup_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroup_SlowStart(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroup_DeregistrationDelay(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroup_HealthCheck(r.Spec.ForProvider.HealthCheck, ctyVal)
 	EncodeAlbTargetGroup_Stickiness(r.Spec.ForProvider.Stickiness, ctyVal)
 	EncodeAlbTargetGroup_ArnSuffix(r.Status.AtProvider, ctyVal)
 	EncodeAlbTargetGroup_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeAlbTargetGroup_VpcId(p AlbTargetGroupParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeAlbTargetGroup_Id(p AlbTargetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAlbTargetGroup_LambdaMultiValueHeadersEnabled(p AlbTargetGroupParameters, vals map[string]cty.Value) {
+	vals["lambda_multi_value_headers_enabled"] = cty.BoolVal(p.LambdaMultiValueHeadersEnabled)
+}
+
+func EncodeAlbTargetGroup_ProxyProtocolV2(p AlbTargetGroupParameters, vals map[string]cty.Value) {
+	vals["proxy_protocol_v2"] = cty.BoolVal(p.ProxyProtocolV2)
+}
+
 func EncodeAlbTargetGroup_Tags(p AlbTargetGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -64,20 +92,8 @@ func EncodeAlbTargetGroup_Tags(p AlbTargetGroupParameters, vals map[string]cty.V
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeAlbTargetGroup_NamePrefix(p AlbTargetGroupParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeAlbTargetGroup_SlowStart(p AlbTargetGroupParameters, vals map[string]cty.Value) {
-	vals["slow_start"] = cty.NumberIntVal(p.SlowStart)
-}
-
 func EncodeAlbTargetGroup_TargetType(p AlbTargetGroupParameters, vals map[string]cty.Value) {
 	vals["target_type"] = cty.StringVal(p.TargetType)
-}
-
-func EncodeAlbTargetGroup_LambdaMultiValueHeadersEnabled(p AlbTargetGroupParameters, vals map[string]cty.Value) {
-	vals["lambda_multi_value_headers_enabled"] = cty.BoolVal(p.LambdaMultiValueHeadersEnabled)
 }
 
 func EncodeAlbTargetGroup_LoadBalancingAlgorithmType(p AlbTargetGroupParameters, vals map[string]cty.Value) {
@@ -88,14 +104,6 @@ func EncodeAlbTargetGroup_Port(p AlbTargetGroupParameters, vals map[string]cty.V
 	vals["port"] = cty.NumberIntVal(p.Port)
 }
 
-func EncodeAlbTargetGroup_ProxyProtocolV2(p AlbTargetGroupParameters, vals map[string]cty.Value) {
-	vals["proxy_protocol_v2"] = cty.BoolVal(p.ProxyProtocolV2)
-}
-
-func EncodeAlbTargetGroup_Id(p AlbTargetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeAlbTargetGroup_Name(p AlbTargetGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
@@ -104,28 +112,44 @@ func EncodeAlbTargetGroup_Protocol(p AlbTargetGroupParameters, vals map[string]c
 	vals["protocol"] = cty.StringVal(p.Protocol)
 }
 
-func EncodeAlbTargetGroup_VpcId(p AlbTargetGroupParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
+func EncodeAlbTargetGroup_SlowStart(p AlbTargetGroupParameters, vals map[string]cty.Value) {
+	vals["slow_start"] = cty.NumberIntVal(p.SlowStart)
 }
 
 func EncodeAlbTargetGroup_DeregistrationDelay(p AlbTargetGroupParameters, vals map[string]cty.Value) {
 	vals["deregistration_delay"] = cty.NumberIntVal(p.DeregistrationDelay)
 }
 
+func EncodeAlbTargetGroup_NamePrefix(p AlbTargetGroupParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
 func EncodeAlbTargetGroup_HealthCheck(p HealthCheck, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeAlbTargetGroup_HealthCheck_HealthyThreshold(p, ctyVal)
+	EncodeAlbTargetGroup_HealthCheck_UnhealthyThreshold(p, ctyVal)
+	EncodeAlbTargetGroup_HealthCheck_Enabled(p, ctyVal)
 	EncodeAlbTargetGroup_HealthCheck_Interval(p, ctyVal)
 	EncodeAlbTargetGroup_HealthCheck_Matcher(p, ctyVal)
 	EncodeAlbTargetGroup_HealthCheck_Path(p, ctyVal)
 	EncodeAlbTargetGroup_HealthCheck_Port(p, ctyVal)
 	EncodeAlbTargetGroup_HealthCheck_Protocol(p, ctyVal)
 	EncodeAlbTargetGroup_HealthCheck_Timeout(p, ctyVal)
-	EncodeAlbTargetGroup_HealthCheck_HealthyThreshold(p, ctyVal)
-	EncodeAlbTargetGroup_HealthCheck_UnhealthyThreshold(p, ctyVal)
-	EncodeAlbTargetGroup_HealthCheck_Enabled(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["health_check"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeAlbTargetGroup_HealthCheck_HealthyThreshold(p HealthCheck, vals map[string]cty.Value) {
+	vals["healthy_threshold"] = cty.NumberIntVal(p.HealthyThreshold)
+}
+
+func EncodeAlbTargetGroup_HealthCheck_UnhealthyThreshold(p HealthCheck, vals map[string]cty.Value) {
+	vals["unhealthy_threshold"] = cty.NumberIntVal(p.UnhealthyThreshold)
+}
+
+func EncodeAlbTargetGroup_HealthCheck_Enabled(p HealthCheck, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeAlbTargetGroup_HealthCheck_Interval(p HealthCheck, vals map[string]cty.Value) {
@@ -150,18 +174,6 @@ func EncodeAlbTargetGroup_HealthCheck_Protocol(p HealthCheck, vals map[string]ct
 
 func EncodeAlbTargetGroup_HealthCheck_Timeout(p HealthCheck, vals map[string]cty.Value) {
 	vals["timeout"] = cty.NumberIntVal(p.Timeout)
-}
-
-func EncodeAlbTargetGroup_HealthCheck_HealthyThreshold(p HealthCheck, vals map[string]cty.Value) {
-	vals["healthy_threshold"] = cty.NumberIntVal(p.HealthyThreshold)
-}
-
-func EncodeAlbTargetGroup_HealthCheck_UnhealthyThreshold(p HealthCheck, vals map[string]cty.Value) {
-	vals["unhealthy_threshold"] = cty.NumberIntVal(p.UnhealthyThreshold)
-}
-
-func EncodeAlbTargetGroup_HealthCheck_Enabled(p HealthCheck, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeAlbTargetGroup_Stickiness(p Stickiness, vals map[string]cty.Value) {

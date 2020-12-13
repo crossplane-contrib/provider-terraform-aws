@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,43 +37,30 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayMethod(r ApiGatewayMethod) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayMethod_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethod_ApiKeyRequired(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayMethod_Authorization(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayMethod_AuthorizationScopes(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethod_AuthorizerId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethod_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethod_RequestValidatorId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayMethod_ResourceId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayMethod_Authorization(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayMethod_AuthorizationScopes(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethod_HttpMethod(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethod_RequestModels(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethod_RequestParameters(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayMethod_ResourceId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayMethod_RestApiId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayMethod_RestApiId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayMethod_ApiKeyRequired(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
 	vals["api_key_required"] = cty.BoolVal(p.ApiKeyRequired)
-}
-
-func EncodeApiGatewayMethod_AuthorizerId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
-	vals["authorizer_id"] = cty.StringVal(p.AuthorizerId)
-}
-
-func EncodeApiGatewayMethod_Id(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayMethod_RequestValidatorId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
-	vals["request_validator_id"] = cty.StringVal(p.RequestValidatorId)
-}
-
-func EncodeApiGatewayMethod_ResourceId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
-	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }
 
 func EncodeApiGatewayMethod_Authorization(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
@@ -87,11 +75,27 @@ func EncodeApiGatewayMethod_AuthorizationScopes(p ApiGatewayMethodParameters, va
 	vals["authorization_scopes"] = cty.SetVal(colVals)
 }
 
+func EncodeApiGatewayMethod_AuthorizerId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
+	vals["authorizer_id"] = cty.StringVal(p.AuthorizerId)
+}
+
+func EncodeApiGatewayMethod_Id(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApiGatewayMethod_RequestValidatorId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
+	vals["request_validator_id"] = cty.StringVal(p.RequestValidatorId)
+}
+
 func EncodeApiGatewayMethod_HttpMethod(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
 	vals["http_method"] = cty.StringVal(p.HttpMethod)
 }
 
 func EncodeApiGatewayMethod_RequestModels(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
+	if len(p.RequestModels) == 0 {
+		vals["request_models"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.RequestModels {
 		mVals[key] = cty.StringVal(value)
@@ -100,9 +104,21 @@ func EncodeApiGatewayMethod_RequestModels(p ApiGatewayMethodParameters, vals map
 }
 
 func EncodeApiGatewayMethod_RequestParameters(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
+	if len(p.RequestParameters) == 0 {
+		vals["request_parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.RequestParameters {
 		mVals[key] = cty.BoolVal(value)
 	}
 	vals["request_parameters"] = cty.MapVal(mVals)
+}
+
+func EncodeApiGatewayMethod_ResourceId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
+	vals["resource_id"] = cty.StringVal(p.ResourceId)
+}
+
+func EncodeApiGatewayMethod_RestApiId(p ApiGatewayMethodParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }

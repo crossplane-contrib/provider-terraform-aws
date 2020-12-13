@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,14 +37,33 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotThing(r IotThing) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIotThing_Attributes(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_ThingTypeName(r.Spec.ForProvider, ctyVal)
-	EncodeIotThing_Attributes(r.Spec.ForProvider, ctyVal)
-	EncodeIotThing_Version(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_DefaultClientId(r.Status.AtProvider, ctyVal)
+	EncodeIotThing_Version(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIotThing_Attributes(p IotThingParameters, vals map[string]cty.Value) {
+	if len(p.Attributes) == 0 {
+		vals["attributes"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Attributes {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["attributes"] = cty.MapVal(mVals)
 }
 
 func EncodeIotThing_Id(p IotThingParameters, vals map[string]cty.Value) {
@@ -58,22 +78,14 @@ func EncodeIotThing_ThingTypeName(p IotThingParameters, vals map[string]cty.Valu
 	vals["thing_type_name"] = cty.StringVal(p.ThingTypeName)
 }
 
-func EncodeIotThing_Attributes(p IotThingParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Attributes {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["attributes"] = cty.MapVal(mVals)
-}
-
-func EncodeIotThing_Version(p IotThingObservation, vals map[string]cty.Value) {
-	vals["version"] = cty.NumberIntVal(p.Version)
-}
-
 func EncodeIotThing_Arn(p IotThingObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeIotThing_DefaultClientId(p IotThingObservation, vals map[string]cty.Value) {
 	vals["default_client_id"] = cty.StringVal(p.DefaultClientId)
+}
+
+func EncodeIotThing_Version(p IotThingObservation, vals map[string]cty.Value) {
+	vals["version"] = cty.NumberIntVal(p.Version)
 }

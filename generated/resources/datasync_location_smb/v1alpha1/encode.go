@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,18 +37,29 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDatasyncLocationSmb(r DatasyncLocationSmb) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDatasyncLocationSmb_User(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationSmb_AgentArns(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationSmb_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationSmb_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationSmb_ServerHostname(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationSmb_Password(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationSmb_Subdirectory(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationSmb_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationSmb_User(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationSmb_Password(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationSmb_ServerHostname(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationSmb_MountOptions(r.Spec.ForProvider.MountOptions, ctyVal)
-	EncodeDatasyncLocationSmb_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationSmb_Uri(r.Status.AtProvider, ctyVal)
+	EncodeDatasyncLocationSmb_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDatasyncLocationSmb_User(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
+	vals["user"] = cty.StringVal(p.User)
 }
 
 func EncodeDatasyncLocationSmb_AgentArns(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
@@ -66,19 +78,15 @@ func EncodeDatasyncLocationSmb_Id(p DatasyncLocationSmbParameters, vals map[stri
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeDatasyncLocationSmb_ServerHostname(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
-	vals["server_hostname"] = cty.StringVal(p.ServerHostname)
-}
-
-func EncodeDatasyncLocationSmb_Password(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
-	vals["password"] = cty.StringVal(p.Password)
-}
-
 func EncodeDatasyncLocationSmb_Subdirectory(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
 	vals["subdirectory"] = cty.StringVal(p.Subdirectory)
 }
 
 func EncodeDatasyncLocationSmb_Tags(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -86,8 +94,12 @@ func EncodeDatasyncLocationSmb_Tags(p DatasyncLocationSmbParameters, vals map[st
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDatasyncLocationSmb_User(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
-	vals["user"] = cty.StringVal(p.User)
+func EncodeDatasyncLocationSmb_Password(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
+	vals["password"] = cty.StringVal(p.Password)
+}
+
+func EncodeDatasyncLocationSmb_ServerHostname(p DatasyncLocationSmbParameters, vals map[string]cty.Value) {
+	vals["server_hostname"] = cty.StringVal(p.ServerHostname)
 }
 
 func EncodeDatasyncLocationSmb_MountOptions(p MountOptions, vals map[string]cty.Value) {
@@ -102,10 +114,10 @@ func EncodeDatasyncLocationSmb_MountOptions_Version(p MountOptions, vals map[str
 	vals["version"] = cty.StringVal(p.Version)
 }
 
-func EncodeDatasyncLocationSmb_Arn(p DatasyncLocationSmbObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeDatasyncLocationSmb_Uri(p DatasyncLocationSmbObservation, vals map[string]cty.Value) {
 	vals["uri"] = cty.StringVal(p.Uri)
+}
+
+func EncodeDatasyncLocationSmb_Arn(p DatasyncLocationSmbObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

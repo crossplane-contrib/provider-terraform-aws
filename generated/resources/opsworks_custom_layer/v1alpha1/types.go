@@ -47,50 +47,50 @@ type OpsworksCustomLayerList struct {
 // A OpsworksCustomLayerSpec defines the desired state of a OpsworksCustomLayer
 type OpsworksCustomLayerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksCustomLayerParameters `json:",inline"`
+	ForProvider                  OpsworksCustomLayerParameters `json:"forProvider"`
 }
 
 // A OpsworksCustomLayerParameters defines the desired state of a OpsworksCustomLayer
 type OpsworksCustomLayerParameters struct {
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	AutoHealing              bool              `json:"auto_healing"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	SystemPackages           []string          `json:"system_packages"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	CustomJson               string            `json:"custom_json"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
 	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	Id                       string            `json:"id"`
-	Name                     string            `json:"name"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	CustomJson               string            `json:"custom_json"`
+	Tags                     map[string]string `json:"tags"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	SystemPackages           []string          `json:"system_packages"`
 	ShortName                string            `json:"short_name"`
 	StackId                  string            `json:"stack_id"`
-	Tags                     map[string]string `json:"tags"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	AutoHealing              bool              `json:"auto_healing"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	Id                       string            `json:"id"`
+	Name                     string            `json:"name"`
 	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
+	Encrypted     bool   `json:"encrypted"`
+	Iops          int64  `json:"iops"`
 	MountPoint    string `json:"mount_point"`
 	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
 	Size          int64  `json:"size"`
 	Type          string `json:"type"`
-	Encrypted     bool   `json:"encrypted"`
-	Iops          int64  `json:"iops"`
 }
 
 // A OpsworksCustomLayerStatus defines the observed state of a OpsworksCustomLayer
 type OpsworksCustomLayerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksCustomLayerObservation `json:",inline"`
+	AtProvider                     OpsworksCustomLayerObservation `json:"atProvider"`
 }
 
 // A OpsworksCustomLayerObservation records the observed state of a OpsworksCustomLayer

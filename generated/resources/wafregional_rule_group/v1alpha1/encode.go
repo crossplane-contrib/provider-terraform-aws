@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,24 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafregionalRuleGroup(r WafregionalRuleGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalRuleGroup_MetricName(r.Spec.ForProvider, ctyVal)
-	EncodeWafregionalRuleGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRuleGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRuleGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRuleGroup_MetricName(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalRuleGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRuleGroup_ActivatedRule(r.Spec.ForProvider.ActivatedRule, ctyVal)
 	EncodeWafregionalRuleGroup_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeWafregionalRuleGroup_MetricName(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
-	vals["metric_name"] = cty.StringVal(p.MetricName)
-}
-
-func EncodeWafregionalRuleGroup_Name(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeWafregionalRuleGroup_Tags(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -65,15 +69,27 @@ func EncodeWafregionalRuleGroup_Id(p WafregionalRuleGroupParameters, vals map[st
 	vals["id"] = cty.StringVal(p.Id)
 }
 
+func EncodeWafregionalRuleGroup_MetricName(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
+	vals["metric_name"] = cty.StringVal(p.MetricName)
+}
+
+func EncodeWafregionalRuleGroup_Name(p WafregionalRuleGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
 func EncodeWafregionalRuleGroup_ActivatedRule(p ActivatedRule, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalRuleGroup_ActivatedRule_Priority(p, ctyVal)
 	EncodeWafregionalRuleGroup_ActivatedRule_RuleId(p, ctyVal)
 	EncodeWafregionalRuleGroup_ActivatedRule_Type(p, ctyVal)
-	EncodeWafregionalRuleGroup_ActivatedRule_Priority(p, ctyVal)
 	EncodeWafregionalRuleGroup_ActivatedRule_Action(p.Action, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["activated_rule"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeWafregionalRuleGroup_ActivatedRule_Priority(p ActivatedRule, vals map[string]cty.Value) {
+	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafregionalRuleGroup_ActivatedRule_RuleId(p ActivatedRule, vals map[string]cty.Value) {
@@ -82,10 +98,6 @@ func EncodeWafregionalRuleGroup_ActivatedRule_RuleId(p ActivatedRule, vals map[s
 
 func EncodeWafregionalRuleGroup_ActivatedRule_Type(p ActivatedRule, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeWafregionalRuleGroup_ActivatedRule_Priority(p ActivatedRule, vals map[string]cty.Value) {
-	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafregionalRuleGroup_ActivatedRule_Action(p Action, vals map[string]cty.Value) {

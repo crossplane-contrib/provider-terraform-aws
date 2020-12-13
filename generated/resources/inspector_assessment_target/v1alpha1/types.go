@@ -47,7 +47,7 @@ type InspectorAssessmentTargetList struct {
 // A InspectorAssessmentTargetSpec defines the desired state of a InspectorAssessmentTarget
 type InspectorAssessmentTargetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  InspectorAssessmentTargetParameters `json:",inline"`
+	ForProvider                  InspectorAssessmentTargetParameters `json:"forProvider"`
 }
 
 // A InspectorAssessmentTargetParameters defines the desired state of a InspectorAssessmentTarget
@@ -60,7 +60,7 @@ type InspectorAssessmentTargetParameters struct {
 // A InspectorAssessmentTargetStatus defines the observed state of a InspectorAssessmentTarget
 type InspectorAssessmentTargetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     InspectorAssessmentTargetObservation `json:",inline"`
+	AtProvider                     InspectorAssessmentTargetObservation `json:"atProvider"`
 }
 
 // A InspectorAssessmentTargetObservation records the observed state of a InspectorAssessmentTarget

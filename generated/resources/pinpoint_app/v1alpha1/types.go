@@ -47,7 +47,7 @@ type PinpointAppList struct {
 // A PinpointAppSpec defines the desired state of a PinpointApp
 type PinpointAppSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointAppParameters `json:",inline"`
+	ForProvider                  PinpointAppParameters `json:"forProvider"`
 }
 
 // A PinpointAppParameters defines the desired state of a PinpointApp
@@ -68,10 +68,10 @@ type CampaignHook struct {
 }
 
 type Limits struct {
+	MessagesPerSecond int64 `json:"messages_per_second"`
 	Total             int64 `json:"total"`
 	Daily             int64 `json:"daily"`
 	MaximumDuration   int64 `json:"maximum_duration"`
-	MessagesPerSecond int64 `json:"messages_per_second"`
 }
 
 type QuietTime struct {
@@ -82,7 +82,7 @@ type QuietTime struct {
 // A PinpointAppStatus defines the observed state of a PinpointApp
 type PinpointAppStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointAppObservation `json:",inline"`
+	AtProvider                     PinpointAppObservation `json:"atProvider"`
 }
 
 // A PinpointAppObservation records the observed state of a PinpointApp

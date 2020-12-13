@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEfsFileSystemPolicy(r EfsFileSystemPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEfsFileSystemPolicy_FileSystemId(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystemPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystemPolicy_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeEfsFileSystemPolicy_FileSystemId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEfsFileSystemPolicy_FileSystemId(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
-	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
 }
 
 func EncodeEfsFileSystemPolicy_Id(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
@@ -53,4 +57,8 @@ func EncodeEfsFileSystemPolicy_Id(p EfsFileSystemPolicyParameters, vals map[stri
 
 func EncodeEfsFileSystemPolicy_Policy(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeEfsFileSystemPolicy_FileSystemId(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
+	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
 }

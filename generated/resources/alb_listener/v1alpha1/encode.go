@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,28 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAlbListener(r AlbListener) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListener_Port(r.Spec.ForProvider, ctyVal)
-	EncodeAlbListener_Protocol(r.Spec.ForProvider, ctyVal)
-	EncodeAlbListener_SslPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListener_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListener_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListener_LoadBalancerArn(r.Spec.ForProvider, ctyVal)
+	EncodeAlbListener_Port(r.Spec.ForProvider, ctyVal)
+	EncodeAlbListener_Protocol(r.Spec.ForProvider, ctyVal)
+	EncodeAlbListener_SslPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListener_DefaultAction(r.Spec.ForProvider.DefaultAction, ctyVal)
 	EncodeAlbListener_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeAlbListener_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAlbListener_Port(p AlbListenerParameters, vals map[string]cty.Value) {
-	vals["port"] = cty.NumberIntVal(p.Port)
-}
-
-func EncodeAlbListener_Protocol(p AlbListenerParameters, vals map[string]cty.Value) {
-	vals["protocol"] = cty.StringVal(p.Protocol)
-}
-
-func EncodeAlbListener_SslPolicy(p AlbListenerParameters, vals map[string]cty.Value) {
-	vals["ssl_policy"] = cty.StringVal(p.SslPolicy)
 }
 
 func EncodeAlbListener_CertificateArn(p AlbListenerParameters, vals map[string]cty.Value) {
@@ -72,6 +68,18 @@ func EncodeAlbListener_LoadBalancerArn(p AlbListenerParameters, vals map[string]
 	vals["load_balancer_arn"] = cty.StringVal(p.LoadBalancerArn)
 }
 
+func EncodeAlbListener_Port(p AlbListenerParameters, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
+}
+
+func EncodeAlbListener_Protocol(p AlbListenerParameters, vals map[string]cty.Value) {
+	vals["protocol"] = cty.StringVal(p.Protocol)
+}
+
+func EncodeAlbListener_SslPolicy(p AlbListenerParameters, vals map[string]cty.Value) {
+	vals["ssl_policy"] = cty.StringVal(p.SslPolicy)
+}
+
 func EncodeAlbListener_DefaultAction(p []DefaultAction, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
@@ -79,11 +87,11 @@ func EncodeAlbListener_DefaultAction(p []DefaultAction, vals map[string]cty.Valu
 		EncodeAlbListener_DefaultAction_Order(v, ctyVal)
 		EncodeAlbListener_DefaultAction_TargetGroupArn(v, ctyVal)
 		EncodeAlbListener_DefaultAction_Type(v, ctyVal)
+		EncodeAlbListener_DefaultAction_AuthenticateCognito(v.AuthenticateCognito, ctyVal)
 		EncodeAlbListener_DefaultAction_AuthenticateOidc(v.AuthenticateOidc, ctyVal)
 		EncodeAlbListener_DefaultAction_FixedResponse(v.FixedResponse, ctyVal)
 		EncodeAlbListener_DefaultAction_Forward(v.Forward, ctyVal)
 		EncodeAlbListener_DefaultAction_Redirect(v.Redirect, ctyVal)
-		EncodeAlbListener_DefaultAction_AuthenticateCognito(v.AuthenticateCognito, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["default_action"] = cty.ListVal(valsForCollection)
@@ -101,41 +109,50 @@ func EncodeAlbListener_DefaultAction_Type(p DefaultAction, vals map[string]cty.V
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc(p AuthenticateOidc, vals map[string]cty.Value) {
+func EncodeAlbListener_DefaultAction_AuthenticateCognito(p AuthenticateCognito, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_Scope(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_UserInfoEndpoint(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthenticationRequestExtraParams(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_ClientId(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_ClientSecret(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_Issuer(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateOidc_TokenEndpoint(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_Scope(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionCookieName(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionTimeout(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolArn(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolClientId(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolDomain(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_AuthenticationRequestExtraParams(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateCognito_OnUnauthenticatedRequest(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["authenticate_oidc"] = cty.ListVal(valsForCollection)
+	vals["authenticate_cognito"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["on_unauthenticated_request"] = cty.StringVal(p.OnUnauthenticatedRequest)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_Scope(p AuthenticateOidc, vals map[string]cty.Value) {
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_Scope(p AuthenticateCognito, vals map[string]cty.Value) {
 	vals["scope"] = cty.StringVal(p.Scope)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p AuthenticateOidc, vals map[string]cty.Value) {
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionCookieName(p AuthenticateCognito, vals map[string]cty.Value) {
 	vals["session_cookie_name"] = cty.StringVal(p.SessionCookieName)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_UserInfoEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["user_info_endpoint"] = cty.StringVal(p.UserInfoEndpoint)
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionTimeout(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthenticationRequestExtraParams(p AuthenticateOidc, vals map[string]cty.Value) {
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolArn(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["user_pool_arn"] = cty.StringVal(p.UserPoolArn)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolClientId(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["user_pool_client_id"] = cty.StringVal(p.UserPoolClientId)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolDomain(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["user_pool_domain"] = cty.StringVal(p.UserPoolDomain)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_AuthenticationRequestExtraParams(p AuthenticateCognito, vals map[string]cty.Value) {
+	if len(p.AuthenticationRequestExtraParams) == 0 {
+		vals["authentication_request_extra_params"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.AuthenticationRequestExtraParams {
 		mVals[key] = cty.StringVal(value)
@@ -143,12 +160,38 @@ func EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthenticationRequestExtra
 	vals["authentication_request_extra_params"] = cty.MapVal(mVals)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["authorization_endpoint"] = cty.StringVal(p.AuthorizationEndpoint)
+func EncodeAlbListener_DefaultAction_AuthenticateCognito_OnUnauthenticatedRequest(p AuthenticateCognito, vals map[string]cty.Value) {
+	vals["on_unauthenticated_request"] = cty.StringVal(p.OnUnauthenticatedRequest)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_ClientId(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["client_id"] = cty.StringVal(p.ClientId)
+func EncodeAlbListener_DefaultAction_AuthenticateOidc(p AuthenticateOidc, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_TokenEndpoint(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_UserInfoEndpoint(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_ClientSecret(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_Issuer(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthenticationRequestExtraParams(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_ClientId(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_Scope(p, ctyVal)
+	EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["authenticate_oidc"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_TokenEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["token_endpoint"] = cty.StringVal(p.TokenEndpoint)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_UserInfoEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["user_info_endpoint"] = cty.StringVal(p.UserInfoEndpoint)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthorizationEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["authorization_endpoint"] = cty.StringVal(p.AuthorizationEndpoint)
 }
 
 func EncodeAlbListener_DefaultAction_AuthenticateOidc_ClientSecret(p AuthenticateOidc, vals map[string]cty.Value) {
@@ -159,26 +202,46 @@ func EncodeAlbListener_DefaultAction_AuthenticateOidc_Issuer(p AuthenticateOidc,
 	vals["issuer"] = cty.StringVal(p.Issuer)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_OnUnauthenticatedRequest(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["on_unauthenticated_request"] = cty.StringVal(p.OnUnauthenticatedRequest)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateOidc_TokenEndpoint(p AuthenticateOidc, vals map[string]cty.Value) {
-	vals["token_endpoint"] = cty.StringVal(p.TokenEndpoint)
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionCookieName(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["session_cookie_name"] = cty.StringVal(p.SessionCookieName)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_AuthenticationRequestExtraParams(p AuthenticateOidc, vals map[string]cty.Value) {
+	if len(p.AuthenticationRequestExtraParams) == 0 {
+		vals["authentication_request_extra_params"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.AuthenticationRequestExtraParams {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["authentication_request_extra_params"] = cty.MapVal(mVals)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_ClientId(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["client_id"] = cty.StringVal(p.ClientId)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_Scope(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["scope"] = cty.StringVal(p.Scope)
+}
+
+func EncodeAlbListener_DefaultAction_AuthenticateOidc_SessionTimeout(p AuthenticateOidc, vals map[string]cty.Value) {
+	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
 }
 
 func EncodeAlbListener_DefaultAction_FixedResponse(p FixedResponse, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListener_DefaultAction_FixedResponse_ContentType(p, ctyVal)
 	EncodeAlbListener_DefaultAction_FixedResponse_MessageBody(p, ctyVal)
 	EncodeAlbListener_DefaultAction_FixedResponse_StatusCode(p, ctyVal)
+	EncodeAlbListener_DefaultAction_FixedResponse_ContentType(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["fixed_response"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAlbListener_DefaultAction_FixedResponse_ContentType(p FixedResponse, vals map[string]cty.Value) {
-	vals["content_type"] = cty.StringVal(p.ContentType)
 }
 
 func EncodeAlbListener_DefaultAction_FixedResponse_MessageBody(p FixedResponse, vals map[string]cty.Value) {
@@ -187,6 +250,10 @@ func EncodeAlbListener_DefaultAction_FixedResponse_MessageBody(p FixedResponse, 
 
 func EncodeAlbListener_DefaultAction_FixedResponse_StatusCode(p FixedResponse, vals map[string]cty.Value) {
 	vals["status_code"] = cty.StringVal(p.StatusCode)
+}
+
+func EncodeAlbListener_DefaultAction_FixedResponse_ContentType(p FixedResponse, vals map[string]cty.Value) {
+	vals["content_type"] = cty.StringVal(p.ContentType)
 }
 
 func EncodeAlbListener_DefaultAction_Forward(p Forward, vals map[string]cty.Value) {
@@ -237,18 +304,14 @@ func EncodeAlbListener_DefaultAction_Forward_TargetGroup_Weight(p TargetGroup, v
 func EncodeAlbListener_DefaultAction_Redirect(p Redirect, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListener_DefaultAction_Redirect_StatusCode(p, ctyVal)
 	EncodeAlbListener_DefaultAction_Redirect_Host(p, ctyVal)
 	EncodeAlbListener_DefaultAction_Redirect_Path(p, ctyVal)
 	EncodeAlbListener_DefaultAction_Redirect_Port(p, ctyVal)
 	EncodeAlbListener_DefaultAction_Redirect_Protocol(p, ctyVal)
 	EncodeAlbListener_DefaultAction_Redirect_Query(p, ctyVal)
+	EncodeAlbListener_DefaultAction_Redirect_StatusCode(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["redirect"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAlbListener_DefaultAction_Redirect_StatusCode(p Redirect, vals map[string]cty.Value) {
-	vals["status_code"] = cty.StringVal(p.StatusCode)
 }
 
 func EncodeAlbListener_DefaultAction_Redirect_Host(p Redirect, vals map[string]cty.Value) {
@@ -271,55 +334,8 @@ func EncodeAlbListener_DefaultAction_Redirect_Query(p Redirect, vals map[string]
 	vals["query"] = cty.StringVal(p.Query)
 }
 
-func EncodeAlbListener_DefaultAction_AuthenticateCognito(p AuthenticateCognito, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_OnUnauthenticatedRequest(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_Scope(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionCookieName(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionTimeout(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolArn(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolClientId(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolDomain(p, ctyVal)
-	EncodeAlbListener_DefaultAction_AuthenticateCognito_AuthenticationRequestExtraParams(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["authenticate_cognito"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_OnUnauthenticatedRequest(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["on_unauthenticated_request"] = cty.StringVal(p.OnUnauthenticatedRequest)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_Scope(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["scope"] = cty.StringVal(p.Scope)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionCookieName(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["session_cookie_name"] = cty.StringVal(p.SessionCookieName)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_SessionTimeout(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["session_timeout"] = cty.NumberIntVal(p.SessionTimeout)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolArn(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["user_pool_arn"] = cty.StringVal(p.UserPoolArn)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolClientId(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["user_pool_client_id"] = cty.StringVal(p.UserPoolClientId)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_UserPoolDomain(p AuthenticateCognito, vals map[string]cty.Value) {
-	vals["user_pool_domain"] = cty.StringVal(p.UserPoolDomain)
-}
-
-func EncodeAlbListener_DefaultAction_AuthenticateCognito_AuthenticationRequestExtraParams(p AuthenticateCognito, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.AuthenticationRequestExtraParams {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["authentication_request_extra_params"] = cty.MapVal(mVals)
+func EncodeAlbListener_DefaultAction_Redirect_StatusCode(p Redirect, vals map[string]cty.Value) {
+	vals["status_code"] = cty.StringVal(p.StatusCode)
 }
 
 func EncodeAlbListener_Timeouts(p Timeouts, vals map[string]cty.Value) {

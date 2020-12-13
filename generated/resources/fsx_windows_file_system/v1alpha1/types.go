@@ -47,38 +47,38 @@ type FsxWindowsFileSystemList struct {
 // A FsxWindowsFileSystemSpec defines the desired state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  FsxWindowsFileSystemParameters `json:",inline"`
+	ForProvider                  FsxWindowsFileSystemParameters `json:"forProvider"`
 }
 
 // A FsxWindowsFileSystemParameters defines the desired state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemParameters struct {
-	CopyTagsToBackups             bool                       `json:"copy_tags_to_backups"`
 	DailyAutomaticBackupStartTime string                     `json:"daily_automatic_backup_start_time"`
-	SubnetIds                     []string                   `json:"subnet_ids"`
-	Tags                          map[string]string          `json:"tags"`
-	ActiveDirectoryId             string                     `json:"active_directory_id"`
 	Id                            string                     `json:"id"`
 	KmsKeyId                      string                     `json:"kms_key_id"`
 	SecurityGroupIds              []string                   `json:"security_group_ids"`
-	SkipFinalBackup               bool                       `json:"skip_final_backup"`
 	StorageCapacity               int64                      `json:"storage_capacity"`
-	StorageType                   string                     `json:"storage_type"`
-	AutomaticBackupRetentionDays  int64                      `json:"automatic_backup_retention_days"`
-	WeeklyMaintenanceStartTime    string                     `json:"weekly_maintenance_start_time"`
-	PreferredSubnetId             string                     `json:"preferred_subnet_id"`
-	ThroughputCapacity            int64                      `json:"throughput_capacity"`
+	Tags                          map[string]string          `json:"tags"`
+	ActiveDirectoryId             string                     `json:"active_directory_id"`
 	DeploymentType                string                     `json:"deployment_type"`
+	SubnetIds                     []string                   `json:"subnet_ids"`
+	CopyTagsToBackups             bool                       `json:"copy_tags_to_backups"`
+	PreferredSubnetId             string                     `json:"preferred_subnet_id"`
+	SkipFinalBackup               bool                       `json:"skip_final_backup"`
+	StorageType                   string                     `json:"storage_type"`
+	ThroughputCapacity            int64                      `json:"throughput_capacity"`
+	WeeklyMaintenanceStartTime    string                     `json:"weekly_maintenance_start_time"`
+	AutomaticBackupRetentionDays  int64                      `json:"automatic_backup_retention_days"`
 	SelfManagedActiveDirectory    SelfManagedActiveDirectory `json:"self_managed_active_directory"`
 	Timeouts                      Timeouts                   `json:"timeouts"`
 }
 
 type SelfManagedActiveDirectory struct {
+	DnsIps                              []string `json:"dns_ips"`
+	DomainName                          string   `json:"domain_name"`
 	FileSystemAdministratorsGroup       string   `json:"file_system_administrators_group"`
 	OrganizationalUnitDistinguishedName string   `json:"organizational_unit_distinguished_name"`
 	Password                            string   `json:"password"`
 	Username                            string   `json:"username"`
-	DnsIps                              []string `json:"dns_ips"`
-	DomainName                          string   `json:"domain_name"`
 }
 
 type Timeouts struct {
@@ -89,16 +89,16 @@ type Timeouts struct {
 // A FsxWindowsFileSystemStatus defines the observed state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     FsxWindowsFileSystemObservation `json:",inline"`
+	AtProvider                     FsxWindowsFileSystemObservation `json:"atProvider"`
 }
 
 // A FsxWindowsFileSystemObservation records the observed state of a FsxWindowsFileSystem
 type FsxWindowsFileSystemObservation struct {
 	OwnerId                      string   `json:"owner_id"`
-	PreferredFileServerIp        string   `json:"preferred_file_server_ip"`
-	NetworkInterfaceIds          []string `json:"network_interface_ids"`
-	DnsName                      string   `json:"dns_name"`
 	Arn                          string   `json:"arn"`
-	RemoteAdministrationEndpoint string   `json:"remote_administration_endpoint"`
 	VpcId                        string   `json:"vpc_id"`
+	DnsName                      string   `json:"dns_name"`
+	NetworkInterfaceIds          []string `json:"network_interface_ids"`
+	PreferredFileServerIp        string   `json:"preferred_file_server_ip"`
+	RemoteAdministrationEndpoint string   `json:"remote_administration_endpoint"`
 }

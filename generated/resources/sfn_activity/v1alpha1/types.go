@@ -47,7 +47,7 @@ type SfnActivityList struct {
 // A SfnActivitySpec defines the desired state of a SfnActivity
 type SfnActivitySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SfnActivityParameters `json:",inline"`
+	ForProvider                  SfnActivityParameters `json:"forProvider"`
 }
 
 // A SfnActivityParameters defines the desired state of a SfnActivity
@@ -60,7 +60,7 @@ type SfnActivityParameters struct {
 // A SfnActivityStatus defines the observed state of a SfnActivity
 type SfnActivityStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SfnActivityObservation `json:",inline"`
+	AtProvider                     SfnActivityObservation `json:"atProvider"`
 }
 
 // A SfnActivityObservation records the observed state of a SfnActivity

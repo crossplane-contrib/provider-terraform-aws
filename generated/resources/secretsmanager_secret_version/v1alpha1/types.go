@@ -47,26 +47,26 @@ type SecretsmanagerSecretVersionList struct {
 // A SecretsmanagerSecretVersionSpec defines the desired state of a SecretsmanagerSecretVersion
 type SecretsmanagerSecretVersionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecretsmanagerSecretVersionParameters `json:",inline"`
+	ForProvider                  SecretsmanagerSecretVersionParameters `json:"forProvider"`
 }
 
 // A SecretsmanagerSecretVersionParameters defines the desired state of a SecretsmanagerSecretVersion
 type SecretsmanagerSecretVersionParameters struct {
+	Id            string   `json:"id"`
+	SecretBinary  string   `json:"secret_binary"`
 	SecretId      string   `json:"secret_id"`
 	SecretString  string   `json:"secret_string"`
 	VersionStages []string `json:"version_stages"`
-	Id            string   `json:"id"`
-	SecretBinary  string   `json:"secret_binary"`
 }
 
 // A SecretsmanagerSecretVersionStatus defines the observed state of a SecretsmanagerSecretVersion
 type SecretsmanagerSecretVersionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecretsmanagerSecretVersionObservation `json:",inline"`
+	AtProvider                     SecretsmanagerSecretVersionObservation `json:"atProvider"`
 }
 
 // A SecretsmanagerSecretVersionObservation records the observed state of a SecretsmanagerSecretVersion
 type SecretsmanagerSecretVersionObservation struct {
-	VersionId string `json:"version_id"`
 	Arn       string `json:"arn"`
+	VersionId string `json:"version_id"`
 }

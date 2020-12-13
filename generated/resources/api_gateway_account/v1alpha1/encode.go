@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -39,6 +40,13 @@ func EncodeApiGatewayAccount(r ApiGatewayAccount) cty.Value {
 	EncodeApiGatewayAccount_CloudwatchRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAccount_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAccount_ThrottleSettings(r.Status.AtProvider.ThrottleSettings, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -54,17 +62,17 @@ func EncodeApiGatewayAccount_ThrottleSettings(p []ThrottleSettings, vals map[str
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeApiGatewayAccount_ThrottleSettings_RateLimit(v, ctyVal)
 		EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(v, ctyVal)
+		EncodeApiGatewayAccount_ThrottleSettings_RateLimit(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["throttle_settings"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeApiGatewayAccount_ThrottleSettings_RateLimit(p ThrottleSettings, vals map[string]cty.Value) {
-	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
-}
-
 func EncodeApiGatewayAccount_ThrottleSettings_BurstLimit(p ThrottleSettings, vals map[string]cty.Value) {
 	vals["burst_limit"] = cty.NumberIntVal(p.BurstLimit)
+}
+
+func EncodeApiGatewayAccount_ThrottleSettings_RateLimit(p ThrottleSettings, vals map[string]cty.Value) {
+	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
 }

@@ -47,22 +47,22 @@ type SesTemplateList struct {
 // A SesTemplateSpec defines the desired state of a SesTemplate
 type SesTemplateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesTemplateParameters `json:",inline"`
+	ForProvider                  SesTemplateParameters `json:"forProvider"`
 }
 
 // A SesTemplateParameters defines the desired state of a SesTemplate
 type SesTemplateParameters struct {
+	Html    string `json:"html"`
+	Id      string `json:"id"`
 	Name    string `json:"name"`
 	Subject string `json:"subject"`
 	Text    string `json:"text"`
-	Html    string `json:"html"`
-	Id      string `json:"id"`
 }
 
 // A SesTemplateStatus defines the observed state of a SesTemplate
 type SesTemplateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesTemplateObservation `json:",inline"`
+	AtProvider                     SesTemplateObservation `json:"atProvider"`
 }
 
 // A SesTemplateObservation records the observed state of a SesTemplate

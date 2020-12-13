@@ -47,7 +47,7 @@ type LicensemanagerAssociationList struct {
 // A LicensemanagerAssociationSpec defines the desired state of a LicensemanagerAssociation
 type LicensemanagerAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LicensemanagerAssociationParameters `json:",inline"`
+	ForProvider                  LicensemanagerAssociationParameters `json:"forProvider"`
 }
 
 // A LicensemanagerAssociationParameters defines the desired state of a LicensemanagerAssociation
@@ -60,7 +60,7 @@ type LicensemanagerAssociationParameters struct {
 // A LicensemanagerAssociationStatus defines the observed state of a LicensemanagerAssociation
 type LicensemanagerAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LicensemanagerAssociationObservation `json:",inline"`
+	AtProvider                     LicensemanagerAssociationObservation `json:"atProvider"`
 }
 
 // A LicensemanagerAssociationObservation records the observed state of a LicensemanagerAssociation

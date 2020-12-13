@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2Tag(r Ec2Tag) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2Tag_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Key(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Value(r.Spec.ForProvider, ctyVal)
+	EncodeEc2Tag_Id(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2Tag_Id(p Ec2TagParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2Tag_Key(p Ec2TagParameters, vals map[string]cty.Value) {
@@ -58,4 +62,8 @@ func EncodeEc2Tag_ResourceId(p Ec2TagParameters, vals map[string]cty.Value) {
 
 func EncodeEc2Tag_Value(p Ec2TagParameters, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeEc2Tag_Id(p Ec2TagParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

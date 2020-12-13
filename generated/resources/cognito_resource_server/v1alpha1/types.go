@@ -47,7 +47,7 @@ type CognitoResourceServerList struct {
 // A CognitoResourceServerSpec defines the desired state of a CognitoResourceServer
 type CognitoResourceServerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CognitoResourceServerParameters `json:",inline"`
+	ForProvider                  CognitoResourceServerParameters `json:"forProvider"`
 }
 
 // A CognitoResourceServerParameters defines the desired state of a CognitoResourceServer
@@ -67,7 +67,7 @@ type Scope struct {
 // A CognitoResourceServerStatus defines the observed state of a CognitoResourceServer
 type CognitoResourceServerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CognitoResourceServerObservation `json:",inline"`
+	AtProvider                     CognitoResourceServerObservation `json:"atProvider"`
 }
 
 // A CognitoResourceServerObservation records the observed state of a CognitoResourceServer

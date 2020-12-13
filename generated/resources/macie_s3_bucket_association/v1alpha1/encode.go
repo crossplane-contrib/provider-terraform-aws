@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeMacieS3BucketAssociation(r MacieS3BucketAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeMacieS3BucketAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeMacieS3BucketAssociation_Prefix(r.Spec.ForProvider, ctyVal)
 	EncodeMacieS3BucketAssociation_BucketName(r.Spec.ForProvider, ctyVal)
 	EncodeMacieS3BucketAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeMacieS3BucketAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeMacieS3BucketAssociation_ClassificationType(r.Spec.ForProvider.ClassificationType, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeMacieS3BucketAssociation_MemberAccountId(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
+	vals["member_account_id"] = cty.StringVal(p.MemberAccountId)
 }
 
 func EncodeMacieS3BucketAssociation_Prefix(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
@@ -55,10 +67,6 @@ func EncodeMacieS3BucketAssociation_BucketName(p MacieS3BucketAssociationParamet
 
 func EncodeMacieS3BucketAssociation_Id(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeMacieS3BucketAssociation_MemberAccountId(p MacieS3BucketAssociationParameters, vals map[string]cty.Value) {
-	vals["member_account_id"] = cty.StringVal(p.MemberAccountId)
 }
 
 func EncodeMacieS3BucketAssociation_ClassificationType(p ClassificationType, vals map[string]cty.Value) {

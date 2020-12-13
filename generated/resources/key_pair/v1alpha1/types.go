@@ -47,27 +47,27 @@ type KeyPairList struct {
 // A KeyPairSpec defines the desired state of a KeyPair
 type KeyPairSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  KeyPairParameters `json:",inline"`
+	ForProvider                  KeyPairParameters `json:"forProvider"`
 }
 
 // A KeyPairParameters defines the desired state of a KeyPair
 type KeyPairParameters struct {
-	Id            string            `json:"id"`
 	KeyName       string            `json:"key_name"`
 	KeyNamePrefix string            `json:"key_name_prefix"`
 	PublicKey     string            `json:"public_key"`
 	Tags          map[string]string `json:"tags"`
+	Id            string            `json:"id"`
 }
 
 // A KeyPairStatus defines the observed state of a KeyPair
 type KeyPairStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     KeyPairObservation `json:",inline"`
+	AtProvider                     KeyPairObservation `json:"atProvider"`
 }
 
 // A KeyPairObservation records the observed state of a KeyPair
 type KeyPairObservation struct {
+	KeyPairId   string `json:"key_pair_id"`
 	Arn         string `json:"arn"`
 	Fingerprint string `json:"fingerprint"`
-	KeyPairId   string `json:"key_pair_id"`
 }

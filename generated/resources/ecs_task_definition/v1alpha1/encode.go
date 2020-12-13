@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,49 +37,60 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEcsTaskDefinition(r EcsTaskDefinition) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcsTaskDefinition_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_ExecutionRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_PidMode(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_TaskRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_NetworkMode(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_RequiresCompatibilities(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_ContainerDefinitions(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_IpcMode(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_Memory(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_Cpu(r.Spec.ForProvider, ctyVal)
 	EncodeEcsTaskDefinition_Family(r.Spec.ForProvider, ctyVal)
-	EncodeEcsTaskDefinition_PlacementConstraints(r.Spec.ForProvider.PlacementConstraints, ctyVal)
+	EncodeEcsTaskDefinition_ContainerDefinitions(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_ExecutionRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_Memory(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_NetworkMode(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_TaskRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_RequiresCompatibilities(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_Cpu(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_PidMode(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEcsTaskDefinition_IpcMode(r.Spec.ForProvider, ctyVal)
 	EncodeEcsTaskDefinition_ProxyConfiguration(r.Spec.ForProvider.ProxyConfiguration, ctyVal)
 	EncodeEcsTaskDefinition_Volume(r.Spec.ForProvider.Volume, ctyVal)
 	EncodeEcsTaskDefinition_InferenceAccelerator(r.Spec.ForProvider.InferenceAccelerator, ctyVal)
+	EncodeEcsTaskDefinition_PlacementConstraints(r.Spec.ForProvider.PlacementConstraints, ctyVal)
 	EncodeEcsTaskDefinition_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEcsTaskDefinition_Revision(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEcsTaskDefinition_Tags(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeEcsTaskDefinition_Family(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	vals["family"] = cty.StringVal(p.Family)
+}
+
+func EncodeEcsTaskDefinition_ContainerDefinitions(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	vals["container_definitions"] = cty.StringVal(p.ContainerDefinitions)
 }
 
 func EncodeEcsTaskDefinition_ExecutionRoleArn(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
 	vals["execution_role_arn"] = cty.StringVal(p.ExecutionRoleArn)
 }
 
-func EncodeEcsTaskDefinition_PidMode(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	vals["pid_mode"] = cty.StringVal(p.PidMode)
+func EncodeEcsTaskDefinition_Memory(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	vals["memory"] = cty.StringVal(p.Memory)
+}
+
+func EncodeEcsTaskDefinition_NetworkMode(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	vals["network_mode"] = cty.StringVal(p.NetworkMode)
 }
 
 func EncodeEcsTaskDefinition_TaskRoleArn(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
 	vals["task_role_arn"] = cty.StringVal(p.TaskRoleArn)
 }
 
-func EncodeEcsTaskDefinition_NetworkMode(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	vals["network_mode"] = cty.StringVal(p.NetworkMode)
+func EncodeEcsTaskDefinition_Id(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEcsTaskDefinition_RequiresCompatibilities(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
@@ -89,64 +101,45 @@ func EncodeEcsTaskDefinition_RequiresCompatibilities(p EcsTaskDefinitionParamete
 	vals["requires_compatibilities"] = cty.SetVal(colVals)
 }
 
-func EncodeEcsTaskDefinition_ContainerDefinitions(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	vals["container_definitions"] = cty.StringVal(p.ContainerDefinitions)
+func EncodeEcsTaskDefinition_Cpu(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	vals["cpu"] = cty.StringVal(p.Cpu)
+}
+
+func EncodeEcsTaskDefinition_PidMode(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	vals["pid_mode"] = cty.StringVal(p.PidMode)
+}
+
+func EncodeEcsTaskDefinition_Tags(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeEcsTaskDefinition_IpcMode(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
 	vals["ipc_mode"] = cty.StringVal(p.IpcMode)
 }
 
-func EncodeEcsTaskDefinition_Id(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEcsTaskDefinition_Memory(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	vals["memory"] = cty.StringVal(p.Memory)
-}
-
-func EncodeEcsTaskDefinition_Cpu(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	vals["cpu"] = cty.StringVal(p.Cpu)
-}
-
-func EncodeEcsTaskDefinition_Family(p EcsTaskDefinitionParameters, vals map[string]cty.Value) {
-	vals["family"] = cty.StringVal(p.Family)
-}
-
-func EncodeEcsTaskDefinition_PlacementConstraints(p []PlacementConstraints, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeEcsTaskDefinition_PlacementConstraints_Expression(v, ctyVal)
-		EncodeEcsTaskDefinition_PlacementConstraints_Type(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["placement_constraints"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeEcsTaskDefinition_PlacementConstraints_Expression(p PlacementConstraints, vals map[string]cty.Value) {
-	vals["expression"] = cty.StringVal(p.Expression)
-}
-
-func EncodeEcsTaskDefinition_PlacementConstraints_Type(p PlacementConstraints, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
 func EncodeEcsTaskDefinition_ProxyConfiguration(p ProxyConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcsTaskDefinition_ProxyConfiguration_ContainerName(p, ctyVal)
 	EncodeEcsTaskDefinition_ProxyConfiguration_Properties(p, ctyVal)
 	EncodeEcsTaskDefinition_ProxyConfiguration_Type(p, ctyVal)
+	EncodeEcsTaskDefinition_ProxyConfiguration_ContainerName(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["proxy_configuration"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeEcsTaskDefinition_ProxyConfiguration_ContainerName(p ProxyConfiguration, vals map[string]cty.Value) {
-	vals["container_name"] = cty.StringVal(p.ContainerName)
-}
-
 func EncodeEcsTaskDefinition_ProxyConfiguration_Properties(p ProxyConfiguration, vals map[string]cty.Value) {
+	if len(p.Properties) == 0 {
+		vals["properties"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Properties {
 		mVals[key] = cty.StringVal(value)
@@ -156,6 +149,10 @@ func EncodeEcsTaskDefinition_ProxyConfiguration_Properties(p ProxyConfiguration,
 
 func EncodeEcsTaskDefinition_ProxyConfiguration_Type(p ProxyConfiguration, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeEcsTaskDefinition_ProxyConfiguration_ContainerName(p ProxyConfiguration, vals map[string]cty.Value) {
+	vals["container_name"] = cty.StringVal(p.ContainerName)
 }
 
 func EncodeEcsTaskDefinition_Volume(p Volume, vals map[string]cty.Value) {
@@ -180,24 +177,20 @@ func EncodeEcsTaskDefinition_Volume_Name(p Volume, vals map[string]cty.Value) {
 func EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration(p DockerVolumeConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_DriverOpts(p, ctyVal)
 	EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_Labels(p, ctyVal)
 	EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_Scope(p, ctyVal)
 	EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_Autoprovision(p, ctyVal)
 	EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_Driver(p, ctyVal)
+	EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_DriverOpts(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["docker_volume_configuration"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_DriverOpts(p DockerVolumeConfiguration, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.DriverOpts {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["driver_opts"] = cty.MapVal(mVals)
-}
-
 func EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_Labels(p DockerVolumeConfiguration, vals map[string]cty.Value) {
+	if len(p.Labels) == 0 {
+		vals["labels"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Labels {
 		mVals[key] = cty.StringVal(value)
@@ -217,24 +210,28 @@ func EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_Driver(p DockerVol
 	vals["driver"] = cty.StringVal(p.Driver)
 }
 
+func EncodeEcsTaskDefinition_Volume_DockerVolumeConfiguration_DriverOpts(p DockerVolumeConfiguration, vals map[string]cty.Value) {
+	if len(p.DriverOpts) == 0 {
+		vals["driver_opts"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.DriverOpts {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["driver_opts"] = cty.MapVal(mVals)
+}
+
 func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration(p EfsVolumeConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_FileSystemId(p, ctyVal)
-	EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_RootDirectory(p, ctyVal)
 	EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_TransitEncryption(p, ctyVal)
 	EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_TransitEncryptionPort(p, ctyVal)
+	EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_FileSystemId(p, ctyVal)
+	EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_RootDirectory(p, ctyVal)
 	EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_AuthorizationConfig(p.AuthorizationConfig, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["efs_volume_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_FileSystemId(p EfsVolumeConfiguration, vals map[string]cty.Value) {
-	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
-}
-
-func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_RootDirectory(p EfsVolumeConfiguration, vals map[string]cty.Value) {
-	vals["root_directory"] = cty.StringVal(p.RootDirectory)
 }
 
 func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_TransitEncryption(p EfsVolumeConfiguration, vals map[string]cty.Value) {
@@ -243,6 +240,14 @@ func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_TransitEncryption(p E
 
 func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_TransitEncryptionPort(p EfsVolumeConfiguration, vals map[string]cty.Value) {
 	vals["transit_encryption_port"] = cty.NumberIntVal(p.TransitEncryptionPort)
+}
+
+func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_FileSystemId(p EfsVolumeConfiguration, vals map[string]cty.Value) {
+	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
+}
+
+func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_RootDirectory(p EfsVolumeConfiguration, vals map[string]cty.Value) {
+	vals["root_directory"] = cty.StringVal(p.RootDirectory)
 }
 
 func EncodeEcsTaskDefinition_Volume_EfsVolumeConfiguration_AuthorizationConfig(p AuthorizationConfig, vals map[string]cty.Value) {
@@ -277,6 +282,25 @@ func EncodeEcsTaskDefinition_InferenceAccelerator_DeviceName(p InferenceAccelera
 
 func EncodeEcsTaskDefinition_InferenceAccelerator_DeviceType(p InferenceAccelerator, vals map[string]cty.Value) {
 	vals["device_type"] = cty.StringVal(p.DeviceType)
+}
+
+func EncodeEcsTaskDefinition_PlacementConstraints(p []PlacementConstraints, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeEcsTaskDefinition_PlacementConstraints_Expression(v, ctyVal)
+		EncodeEcsTaskDefinition_PlacementConstraints_Type(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["placement_constraints"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeEcsTaskDefinition_PlacementConstraints_Expression(p PlacementConstraints, vals map[string]cty.Value) {
+	vals["expression"] = cty.StringVal(p.Expression)
+}
+
+func EncodeEcsTaskDefinition_PlacementConstraints_Type(p PlacementConstraints, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeEcsTaskDefinition_Arn(p EcsTaskDefinitionObservation, vals map[string]cty.Value) {

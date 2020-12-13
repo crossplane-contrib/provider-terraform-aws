@@ -47,7 +47,7 @@ type VpnConnectionRouteList struct {
 // A VpnConnectionRouteSpec defines the desired state of a VpnConnectionRoute
 type VpnConnectionRouteSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpnConnectionRouteParameters `json:",inline"`
+	ForProvider                  VpnConnectionRouteParameters `json:"forProvider"`
 }
 
 // A VpnConnectionRouteParameters defines the desired state of a VpnConnectionRoute
@@ -60,7 +60,7 @@ type VpnConnectionRouteParameters struct {
 // A VpnConnectionRouteStatus defines the observed state of a VpnConnectionRoute
 type VpnConnectionRouteStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpnConnectionRouteObservation `json:",inline"`
+	AtProvider                     VpnConnectionRouteObservation `json:"atProvider"`
 }
 
 // A VpnConnectionRouteObservation records the observed state of a VpnConnectionRoute

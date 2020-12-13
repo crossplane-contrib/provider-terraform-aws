@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -45,6 +46,13 @@ func EncodeAppautoscalingPolicy(r AppautoscalingPolicy) cty.Value {
 	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration(r.Spec.ForProvider.StepScalingPolicyConfiguration, ctyVal)
 	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration(r.Spec.ForProvider.TargetTrackingScalingPolicyConfiguration, ctyVal)
 	EncodeAppautoscalingPolicy_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -75,17 +83,13 @@ func EncodeAppautoscalingPolicy_ServiceNamespace(p AppautoscalingPolicyParameter
 func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration(p StepScalingPolicyConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_MinAdjustmentMagnitude(p, ctyVal)
 	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_AdjustmentType(p, ctyVal)
 	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_Cooldown(p, ctyVal)
 	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_MetricAggregationType(p, ctyVal)
+	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_MinAdjustmentMagnitude(p, ctyVal)
 	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment(p.StepAdjustment, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["step_scaling_policy_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_MinAdjustmentMagnitude(p StepScalingPolicyConfiguration, vals map[string]cty.Value) {
-	vals["min_adjustment_magnitude"] = cty.NumberIntVal(p.MinAdjustmentMagnitude)
 }
 
 func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_AdjustmentType(p StepScalingPolicyConfiguration, vals map[string]cty.Value) {
@@ -100,18 +104,18 @@ func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_MetricAggregation
 	vals["metric_aggregation_type"] = cty.StringVal(p.MetricAggregationType)
 }
 
+func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_MinAdjustmentMagnitude(p StepScalingPolicyConfiguration, vals map[string]cty.Value) {
+	vals["min_adjustment_magnitude"] = cty.NumberIntVal(p.MinAdjustmentMagnitude)
+}
+
 func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment(p StepAdjustment, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_MetricIntervalLowerBound(p, ctyVal)
 	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_MetricIntervalUpperBound(p, ctyVal)
 	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_ScalingAdjustment(p, ctyVal)
+	EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_MetricIntervalLowerBound(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["step_adjustment"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_MetricIntervalLowerBound(p StepAdjustment, vals map[string]cty.Value) {
-	vals["metric_interval_lower_bound"] = cty.StringVal(p.MetricIntervalLowerBound)
 }
 
 func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_MetricIntervalUpperBound(p StepAdjustment, vals map[string]cty.Value) {
@@ -122,25 +126,21 @@ func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_Sc
 	vals["scaling_adjustment"] = cty.NumberIntVal(p.ScalingAdjustment)
 }
 
+func EncodeAppautoscalingPolicy_StepScalingPolicyConfiguration_StepAdjustment_MetricIntervalLowerBound(p StepAdjustment, vals map[string]cty.Value) {
+	vals["metric_interval_lower_bound"] = cty.StringVal(p.MetricIntervalLowerBound)
+}
+
 func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration(p TargetTrackingScalingPolicyConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_ScaleOutCooldown(p, ctyVal)
-	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_TargetValue(p, ctyVal)
 	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_DisableScaleIn(p, ctyVal)
 	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_ScaleInCooldown(p, ctyVal)
+	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_ScaleOutCooldown(p, ctyVal)
+	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_TargetValue(p, ctyVal)
 	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_CustomizedMetricSpecification(p.CustomizedMetricSpecification, ctyVal)
 	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification(p.PredefinedMetricSpecification, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["target_tracking_scaling_policy_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_ScaleOutCooldown(p TargetTrackingScalingPolicyConfiguration, vals map[string]cty.Value) {
-	vals["scale_out_cooldown"] = cty.NumberIntVal(p.ScaleOutCooldown)
-}
-
-func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_TargetValue(p TargetTrackingScalingPolicyConfiguration, vals map[string]cty.Value) {
-	vals["target_value"] = cty.NumberIntVal(p.TargetValue)
 }
 
 func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_DisableScaleIn(p TargetTrackingScalingPolicyConfiguration, vals map[string]cty.Value) {
@@ -149,6 +149,14 @@ func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_Disable
 
 func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_ScaleInCooldown(p TargetTrackingScalingPolicyConfiguration, vals map[string]cty.Value) {
 	vals["scale_in_cooldown"] = cty.NumberIntVal(p.ScaleInCooldown)
+}
+
+func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_ScaleOutCooldown(p TargetTrackingScalingPolicyConfiguration, vals map[string]cty.Value) {
+	vals["scale_out_cooldown"] = cty.NumberIntVal(p.ScaleOutCooldown)
+}
+
+func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_TargetValue(p TargetTrackingScalingPolicyConfiguration, vals map[string]cty.Value) {
+	vals["target_value"] = cty.NumberIntVal(p.TargetValue)
 }
 
 func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_CustomizedMetricSpecification(p CustomizedMetricSpecification, vals map[string]cty.Value) {
@@ -199,18 +207,18 @@ func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_Customi
 func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification(p PredefinedMetricSpecification, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification_PredefinedMetricType(p, ctyVal)
 	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification_ResourceLabel(p, ctyVal)
+	EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification_PredefinedMetricType(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["predefined_metric_specification"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification_PredefinedMetricType(p PredefinedMetricSpecification, vals map[string]cty.Value) {
-	vals["predefined_metric_type"] = cty.StringVal(p.PredefinedMetricType)
-}
-
 func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification_ResourceLabel(p PredefinedMetricSpecification, vals map[string]cty.Value) {
 	vals["resource_label"] = cty.StringVal(p.ResourceLabel)
+}
+
+func EncodeAppautoscalingPolicy_TargetTrackingScalingPolicyConfiguration_PredefinedMetricSpecification_PredefinedMetricType(p PredefinedMetricSpecification, vals map[string]cty.Value) {
+	vals["predefined_metric_type"] = cty.StringVal(p.PredefinedMetricType)
 }
 
 func EncodeAppautoscalingPolicy_Arn(p AppautoscalingPolicyObservation, vals map[string]cty.Value) {

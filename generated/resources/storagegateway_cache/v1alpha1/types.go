@@ -47,20 +47,20 @@ type StoragegatewayCacheList struct {
 // A StoragegatewayCacheSpec defines the desired state of a StoragegatewayCache
 type StoragegatewayCacheSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  StoragegatewayCacheParameters `json:",inline"`
+	ForProvider                  StoragegatewayCacheParameters `json:"forProvider"`
 }
 
 // A StoragegatewayCacheParameters defines the desired state of a StoragegatewayCache
 type StoragegatewayCacheParameters struct {
-	GatewayArn string `json:"gateway_arn"`
 	Id         string `json:"id"`
 	DiskId     string `json:"disk_id"`
+	GatewayArn string `json:"gateway_arn"`
 }
 
 // A StoragegatewayCacheStatus defines the observed state of a StoragegatewayCache
 type StoragegatewayCacheStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     StoragegatewayCacheObservation `json:",inline"`
+	AtProvider                     StoragegatewayCacheObservation `json:"atProvider"`
 }
 
 // A StoragegatewayCacheObservation records the observed state of a StoragegatewayCache

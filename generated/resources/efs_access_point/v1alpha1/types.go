@@ -47,22 +47,16 @@ type EfsAccessPointList struct {
 // A EfsAccessPointSpec defines the desired state of a EfsAccessPoint
 type EfsAccessPointSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EfsAccessPointParameters `json:",inline"`
+	ForProvider                  EfsAccessPointParameters `json:"forProvider"`
 }
 
 // A EfsAccessPointParameters defines the desired state of a EfsAccessPoint
 type EfsAccessPointParameters struct {
+	Tags          map[string]string `json:"tags"`
 	FileSystemId  string            `json:"file_system_id"`
 	Id            string            `json:"id"`
-	Tags          map[string]string `json:"tags"`
-	PosixUser     PosixUser         `json:"posix_user"`
 	RootDirectory RootDirectory     `json:"root_directory"`
-}
-
-type PosixUser struct {
-	Gid           int64   `json:"gid"`
-	SecondaryGids []int64 `json:"secondary_gids"`
-	Uid           int64   `json:"uid"`
+	PosixUser     PosixUser         `json:"posix_user"`
 }
 
 type RootDirectory struct {
@@ -71,20 +65,26 @@ type RootDirectory struct {
 }
 
 type CreationInfo struct {
+	Permissions string `json:"permissions"`
 	OwnerGid    int64  `json:"owner_gid"`
 	OwnerUid    int64  `json:"owner_uid"`
-	Permissions string `json:"permissions"`
+}
+
+type PosixUser struct {
+	Uid           int64   `json:"uid"`
+	Gid           int64   `json:"gid"`
+	SecondaryGids []int64 `json:"secondary_gids"`
 }
 
 // A EfsAccessPointStatus defines the observed state of a EfsAccessPoint
 type EfsAccessPointStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EfsAccessPointObservation `json:",inline"`
+	AtProvider                     EfsAccessPointObservation `json:"atProvider"`
 }
 
 // A EfsAccessPointObservation records the observed state of a EfsAccessPoint
 type EfsAccessPointObservation struct {
-	FileSystemArn string `json:"file_system_arn"`
 	OwnerId       string `json:"owner_id"`
 	Arn           string `json:"arn"`
+	FileSystemArn string `json:"file_system_arn"`
 }

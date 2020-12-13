@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeElasticacheParameterGroup(r ElasticacheParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeElasticacheParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheParameterGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeElasticacheParameterGroup_Name(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeElasticacheParameterGroup_Description(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
@@ -55,10 +67,6 @@ func EncodeElasticacheParameterGroup_Family(p ElasticacheParameterGroupParameter
 
 func EncodeElasticacheParameterGroup_Id(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeElasticacheParameterGroup_Name(p ElasticacheParameterGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeElasticacheParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {

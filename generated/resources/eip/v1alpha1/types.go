@@ -47,42 +47,42 @@ type EipList struct {
 // A EipSpec defines the desired state of a Eip
 type EipSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EipParameters `json:",inline"`
+	ForProvider                  EipParameters `json:"forProvider"`
 }
 
 // A EipParameters defines the desired state of a Eip
 type EipParameters struct {
+	Tags                   map[string]string `json:"tags"`
+	Vpc                    bool              `json:"vpc"`
 	AssociateWithPrivateIp string            `json:"associate_with_private_ip"`
+	Id                     string            `json:"id"`
 	CustomerOwnedIpv4Pool  string            `json:"customer_owned_ipv4_pool"`
 	Instance               string            `json:"instance"`
 	NetworkInterface       string            `json:"network_interface"`
-	Tags                   map[string]string `json:"tags"`
-	Id                     string            `json:"id"`
 	PublicIpv4Pool         string            `json:"public_ipv4_pool"`
-	Vpc                    bool              `json:"vpc"`
 	Timeouts               Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Delete string `json:"delete"`
 	Read   string `json:"read"`
 	Update string `json:"update"`
-	Delete string `json:"delete"`
 }
 
 // A EipStatus defines the observed state of a Eip
 type EipStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EipObservation `json:",inline"`
+	AtProvider                     EipObservation `json:"atProvider"`
 }
 
 // A EipObservation records the observed state of a Eip
 type EipObservation struct {
 	AssociationId   string `json:"association_id"`
-	CustomerOwnedIp string `json:"customer_owned_ip"`
 	Domain          string `json:"domain"`
-	PublicIp        string `json:"public_ip"`
-	PrivateDns      string `json:"private_dns"`
-	PrivateIp       string `json:"private_ip"`
-	PublicDns       string `json:"public_dns"`
 	AllocationId    string `json:"allocation_id"`
+	CustomerOwnedIp string `json:"customer_owned_ip"`
+	PrivateDns      string `json:"private_dns"`
+	PublicDns       string `json:"public_dns"`
+	PublicIp        string `json:"public_ip"`
+	PrivateIp       string `json:"private_ip"`
 }

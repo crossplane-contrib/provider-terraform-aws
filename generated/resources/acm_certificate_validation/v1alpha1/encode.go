@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAcmCertificateValidation(r AcmCertificateValidation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAcmCertificateValidation_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_ValidationRecordFqdns(r.Spec.ForProvider, ctyVal)
-	EncodeAcmCertificateValidation_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAcmCertificateValidation_CertificateArn(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
+	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeAcmCertificateValidation_Id(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
@@ -54,10 +66,6 @@ func EncodeAcmCertificateValidation_ValidationRecordFqdns(p AcmCertificateValida
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["validation_record_fqdns"] = cty.SetVal(colVals)
-}
-
-func EncodeAcmCertificateValidation_CertificateArn(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
-	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeAcmCertificateValidation_Timeouts(p Timeouts, vals map[string]cty.Value) {

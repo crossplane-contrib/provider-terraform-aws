@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -45,10 +46,21 @@ func EncodeDefaultNetworkAcl(r DefaultNetworkAcl) cty.Value {
 	EncodeDefaultNetworkAcl_VpcId(r.Status.AtProvider, ctyVal)
 	EncodeDefaultNetworkAcl_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDefaultNetworkAcl_OwnerId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeDefaultNetworkAcl_Tags(p DefaultNetworkAclParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -75,17 +87,37 @@ func EncodeDefaultNetworkAcl_SubnetIds(p DefaultNetworkAclParameters, vals map[s
 func EncodeDefaultNetworkAcl_Egress(p Egress, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeDefaultNetworkAcl_Egress_Action(p, ctyVal)
+	EncodeDefaultNetworkAcl_Egress_FromPort(p, ctyVal)
+	EncodeDefaultNetworkAcl_Egress_ToPort(p, ctyVal)
+	EncodeDefaultNetworkAcl_Egress_RuleNo(p, ctyVal)
+	EncodeDefaultNetworkAcl_Egress_CidrBlock(p, ctyVal)
 	EncodeDefaultNetworkAcl_Egress_IcmpCode(p, ctyVal)
 	EncodeDefaultNetworkAcl_Egress_IcmpType(p, ctyVal)
-	EncodeDefaultNetworkAcl_Egress_Protocol(p, ctyVal)
-	EncodeDefaultNetworkAcl_Egress_RuleNo(p, ctyVal)
-	EncodeDefaultNetworkAcl_Egress_FromPort(p, ctyVal)
-	EncodeDefaultNetworkAcl_Egress_CidrBlock(p, ctyVal)
 	EncodeDefaultNetworkAcl_Egress_Ipv6CidrBlock(p, ctyVal)
-	EncodeDefaultNetworkAcl_Egress_ToPort(p, ctyVal)
-	EncodeDefaultNetworkAcl_Egress_Action(p, ctyVal)
+	EncodeDefaultNetworkAcl_Egress_Protocol(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["egress"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeDefaultNetworkAcl_Egress_Action(p Egress, vals map[string]cty.Value) {
+	vals["action"] = cty.StringVal(p.Action)
+}
+
+func EncodeDefaultNetworkAcl_Egress_FromPort(p Egress, vals map[string]cty.Value) {
+	vals["from_port"] = cty.NumberIntVal(p.FromPort)
+}
+
+func EncodeDefaultNetworkAcl_Egress_ToPort(p Egress, vals map[string]cty.Value) {
+	vals["to_port"] = cty.NumberIntVal(p.ToPort)
+}
+
+func EncodeDefaultNetworkAcl_Egress_RuleNo(p Egress, vals map[string]cty.Value) {
+	vals["rule_no"] = cty.NumberIntVal(p.RuleNo)
+}
+
+func EncodeDefaultNetworkAcl_Egress_CidrBlock(p Egress, vals map[string]cty.Value) {
+	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
 }
 
 func EncodeDefaultNetworkAcl_Egress_IcmpCode(p Egress, vals map[string]cty.Value) {
@@ -96,56 +128,32 @@ func EncodeDefaultNetworkAcl_Egress_IcmpType(p Egress, vals map[string]cty.Value
 	vals["icmp_type"] = cty.NumberIntVal(p.IcmpType)
 }
 
-func EncodeDefaultNetworkAcl_Egress_Protocol(p Egress, vals map[string]cty.Value) {
-	vals["protocol"] = cty.StringVal(p.Protocol)
-}
-
-func EncodeDefaultNetworkAcl_Egress_RuleNo(p Egress, vals map[string]cty.Value) {
-	vals["rule_no"] = cty.NumberIntVal(p.RuleNo)
-}
-
-func EncodeDefaultNetworkAcl_Egress_FromPort(p Egress, vals map[string]cty.Value) {
-	vals["from_port"] = cty.NumberIntVal(p.FromPort)
-}
-
-func EncodeDefaultNetworkAcl_Egress_CidrBlock(p Egress, vals map[string]cty.Value) {
-	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
-}
-
 func EncodeDefaultNetworkAcl_Egress_Ipv6CidrBlock(p Egress, vals map[string]cty.Value) {
 	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
 }
 
-func EncodeDefaultNetworkAcl_Egress_ToPort(p Egress, vals map[string]cty.Value) {
-	vals["to_port"] = cty.NumberIntVal(p.ToPort)
-}
-
-func EncodeDefaultNetworkAcl_Egress_Action(p Egress, vals map[string]cty.Value) {
-	vals["action"] = cty.StringVal(p.Action)
+func EncodeDefaultNetworkAcl_Egress_Protocol(p Egress, vals map[string]cty.Value) {
+	vals["protocol"] = cty.StringVal(p.Protocol)
 }
 
 func EncodeDefaultNetworkAcl_Ingress(p Ingress, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDefaultNetworkAcl_Ingress_RuleNo(p, ctyVal)
-	EncodeDefaultNetworkAcl_Ingress_Action(p, ctyVal)
+	EncodeDefaultNetworkAcl_Ingress_CidrBlock(p, ctyVal)
 	EncodeDefaultNetworkAcl_Ingress_IcmpCode(p, ctyVal)
 	EncodeDefaultNetworkAcl_Ingress_IcmpType(p, ctyVal)
+	EncodeDefaultNetworkAcl_Ingress_RuleNo(p, ctyVal)
+	EncodeDefaultNetworkAcl_Ingress_Action(p, ctyVal)
 	EncodeDefaultNetworkAcl_Ingress_Ipv6CidrBlock(p, ctyVal)
-	EncodeDefaultNetworkAcl_Ingress_CidrBlock(p, ctyVal)
-	EncodeDefaultNetworkAcl_Ingress_FromPort(p, ctyVal)
 	EncodeDefaultNetworkAcl_Ingress_Protocol(p, ctyVal)
 	EncodeDefaultNetworkAcl_Ingress_ToPort(p, ctyVal)
+	EncodeDefaultNetworkAcl_Ingress_FromPort(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["ingress"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeDefaultNetworkAcl_Ingress_RuleNo(p Ingress, vals map[string]cty.Value) {
-	vals["rule_no"] = cty.NumberIntVal(p.RuleNo)
-}
-
-func EncodeDefaultNetworkAcl_Ingress_Action(p Ingress, vals map[string]cty.Value) {
-	vals["action"] = cty.StringVal(p.Action)
+func EncodeDefaultNetworkAcl_Ingress_CidrBlock(p Ingress, vals map[string]cty.Value) {
+	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
 }
 
 func EncodeDefaultNetworkAcl_Ingress_IcmpCode(p Ingress, vals map[string]cty.Value) {
@@ -156,16 +164,16 @@ func EncodeDefaultNetworkAcl_Ingress_IcmpType(p Ingress, vals map[string]cty.Val
 	vals["icmp_type"] = cty.NumberIntVal(p.IcmpType)
 }
 
+func EncodeDefaultNetworkAcl_Ingress_RuleNo(p Ingress, vals map[string]cty.Value) {
+	vals["rule_no"] = cty.NumberIntVal(p.RuleNo)
+}
+
+func EncodeDefaultNetworkAcl_Ingress_Action(p Ingress, vals map[string]cty.Value) {
+	vals["action"] = cty.StringVal(p.Action)
+}
+
 func EncodeDefaultNetworkAcl_Ingress_Ipv6CidrBlock(p Ingress, vals map[string]cty.Value) {
 	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
-}
-
-func EncodeDefaultNetworkAcl_Ingress_CidrBlock(p Ingress, vals map[string]cty.Value) {
-	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
-}
-
-func EncodeDefaultNetworkAcl_Ingress_FromPort(p Ingress, vals map[string]cty.Value) {
-	vals["from_port"] = cty.NumberIntVal(p.FromPort)
 }
 
 func EncodeDefaultNetworkAcl_Ingress_Protocol(p Ingress, vals map[string]cty.Value) {
@@ -174,6 +182,10 @@ func EncodeDefaultNetworkAcl_Ingress_Protocol(p Ingress, vals map[string]cty.Val
 
 func EncodeDefaultNetworkAcl_Ingress_ToPort(p Ingress, vals map[string]cty.Value) {
 	vals["to_port"] = cty.NumberIntVal(p.ToPort)
+}
+
+func EncodeDefaultNetworkAcl_Ingress_FromPort(p Ingress, vals map[string]cty.Value) {
+	vals["from_port"] = cty.NumberIntVal(p.FromPort)
 }
 
 func EncodeDefaultNetworkAcl_VpcId(p DefaultNetworkAclObservation, vals map[string]cty.Value) {

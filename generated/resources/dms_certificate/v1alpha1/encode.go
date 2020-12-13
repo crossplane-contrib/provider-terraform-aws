@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDmsCertificate(r DmsCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDmsCertificate_CertificateId(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificatePem(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificateWallet(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDmsCertificate_CertificateId(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificateArn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDmsCertificate_CertificateId(p DmsCertificateParameters, vals map[string]cty.Value) {
+	vals["certificate_id"] = cty.StringVal(p.CertificateId)
 }
 
 func EncodeDmsCertificate_CertificatePem(p DmsCertificateParameters, vals map[string]cty.Value) {
@@ -54,10 +66,6 @@ func EncodeDmsCertificate_CertificateWallet(p DmsCertificateParameters, vals map
 
 func EncodeDmsCertificate_Id(p DmsCertificateParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDmsCertificate_CertificateId(p DmsCertificateParameters, vals map[string]cty.Value) {
-	vals["certificate_id"] = cty.StringVal(p.CertificateId)
 }
 
 func EncodeDmsCertificate_CertificateArn(p DmsCertificateObservation, vals map[string]cty.Value) {

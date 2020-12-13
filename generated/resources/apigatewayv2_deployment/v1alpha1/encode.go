@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApigatewayv2Deployment(r Apigatewayv2Deployment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Deployment_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_Triggers(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Deployment_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_AutoDeployed(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApigatewayv2Deployment_ApiId(p Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApigatewayv2Deployment_Description(p Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
@@ -57,11 +61,19 @@ func EncodeApigatewayv2Deployment_Id(p Apigatewayv2DeploymentParameters, vals ma
 }
 
 func EncodeApigatewayv2Deployment_Triggers(p Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
+	if len(p.Triggers) == 0 {
+		vals["triggers"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Triggers {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["triggers"] = cty.MapVal(mVals)
+}
+
+func EncodeApigatewayv2Deployment_ApiId(p Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApigatewayv2Deployment_AutoDeployed(p Apigatewayv2DeploymentObservation, vals map[string]cty.Value) {

@@ -47,22 +47,22 @@ type DxHostedTransitVirtualInterfaceList struct {
 // A DxHostedTransitVirtualInterfaceSpec defines the desired state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxHostedTransitVirtualInterfaceParameters `json:",inline"`
+	ForProvider                  DxHostedTransitVirtualInterfaceParameters `json:"forProvider"`
 }
 
 // A DxHostedTransitVirtualInterfaceParameters defines the desired state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceParameters struct {
-	ConnectionId    string   `json:"connection_id"`
-	Mtu             int64    `json:"mtu"`
-	CustomerAddress string   `json:"customer_address"`
-	Name            string   `json:"name"`
-	Vlan            int64    `json:"vlan"`
 	AddressFamily   string   `json:"address_family"`
 	BgpAsn          int64    `json:"bgp_asn"`
-	BgpAuthKey      string   `json:"bgp_auth_key"`
+	Name            string   `json:"name"`
 	OwnerAccountId  string   `json:"owner_account_id"`
 	AmazonAddress   string   `json:"amazon_address"`
+	ConnectionId    string   `json:"connection_id"`
+	Vlan            int64    `json:"vlan"`
+	BgpAuthKey      string   `json:"bgp_auth_key"`
+	CustomerAddress string   `json:"customer_address"`
 	Id              string   `json:"id"`
+	Mtu             int64    `json:"mtu"`
 	Timeouts        Timeouts `json:"timeouts"`
 }
 
@@ -75,13 +75,13 @@ type Timeouts struct {
 // A DxHostedTransitVirtualInterfaceStatus defines the observed state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxHostedTransitVirtualInterfaceObservation `json:",inline"`
+	AtProvider                     DxHostedTransitVirtualInterfaceObservation `json:"atProvider"`
 }
 
 // A DxHostedTransitVirtualInterfaceObservation records the observed state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceObservation struct {
+	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
 	AwsDevice         string `json:"aws_device"`
 	Arn               string `json:"arn"`
-	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 }

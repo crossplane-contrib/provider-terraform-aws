@@ -47,26 +47,28 @@ type Wafv2WebAclLoggingConfigurationList struct {
 // A Wafv2WebAclLoggingConfigurationSpec defines the desired state of a Wafv2WebAclLoggingConfiguration
 type Wafv2WebAclLoggingConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Wafv2WebAclLoggingConfigurationParameters `json:",inline"`
+	ForProvider                  Wafv2WebAclLoggingConfigurationParameters `json:"forProvider"`
 }
 
 // A Wafv2WebAclLoggingConfigurationParameters defines the desired state of a Wafv2WebAclLoggingConfiguration
 type Wafv2WebAclLoggingConfigurationParameters struct {
+	Id                    string           `json:"id"`
 	LogDestinationConfigs []string         `json:"log_destination_configs"`
 	ResourceArn           string           `json:"resource_arn"`
-	Id                    string           `json:"id"`
 	RedactedFields        []RedactedFields `json:"redacted_fields"`
 }
 
 type RedactedFields struct {
+	UriPath             UriPath             `json:"uri_path"`
 	AllQueryArguments   AllQueryArguments   `json:"all_query_arguments"`
 	Body                Body                `json:"body"`
 	Method              Method              `json:"method"`
 	QueryString         QueryString         `json:"query_string"`
 	SingleHeader        SingleHeader        `json:"single_header"`
 	SingleQueryArgument SingleQueryArgument `json:"single_query_argument"`
-	UriPath             UriPath             `json:"uri_path"`
 }
+
+type UriPath struct{}
 
 type AllQueryArguments struct{}
 
@@ -84,12 +86,10 @@ type SingleQueryArgument struct {
 	Name string `json:"name"`
 }
 
-type UriPath struct{}
-
 // A Wafv2WebAclLoggingConfigurationStatus defines the observed state of a Wafv2WebAclLoggingConfiguration
 type Wafv2WebAclLoggingConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Wafv2WebAclLoggingConfigurationObservation `json:",inline"`
+	AtProvider                     Wafv2WebAclLoggingConfigurationObservation `json:"atProvider"`
 }
 
 // A Wafv2WebAclLoggingConfigurationObservation records the observed state of a Wafv2WebAclLoggingConfiguration

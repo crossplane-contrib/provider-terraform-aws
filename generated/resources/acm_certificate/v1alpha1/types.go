@@ -47,20 +47,20 @@ type AcmCertificateList struct {
 // A AcmCertificateSpec defines the desired state of a AcmCertificate
 type AcmCertificateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AcmCertificateParameters `json:",inline"`
+	ForProvider                  AcmCertificateParameters `json:"forProvider"`
 }
 
 // A AcmCertificateParameters defines the desired state of a AcmCertificate
 type AcmCertificateParameters struct {
-	DomainName              string            `json:"domain_name"`
 	ValidationMethod        string            `json:"validation_method"`
-	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
-	CertificateChain        string            `json:"certificate_chain"`
 	Id                      string            `json:"id"`
 	PrivateKey              string            `json:"private_key"`
 	SubjectAlternativeNames []string          `json:"subject_alternative_names"`
 	Tags                    map[string]string `json:"tags"`
+	CertificateAuthorityArn string            `json:"certificate_authority_arn"`
 	CertificateBody         string            `json:"certificate_body"`
+	CertificateChain        string            `json:"certificate_chain"`
+	DomainName              string            `json:"domain_name"`
 	Options                 Options           `json:"options"`
 }
 
@@ -71,14 +71,14 @@ type Options struct {
 // A AcmCertificateStatus defines the observed state of a AcmCertificate
 type AcmCertificateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AcmCertificateObservation `json:",inline"`
+	AtProvider                     AcmCertificateObservation `json:"atProvider"`
 }
 
 // A AcmCertificateObservation records the observed state of a AcmCertificate
 type AcmCertificateObservation struct {
-	DomainValidationOptions []DomainValidationOptions `json:"domain_validation_options"`
 	Status                  string                    `json:"status"`
 	ValidationEmails        []string                  `json:"validation_emails"`
+	DomainValidationOptions []DomainValidationOptions `json:"domain_validation_options"`
 	Arn                     string                    `json:"arn"`
 }
 

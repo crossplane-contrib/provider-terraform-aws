@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,14 +37,41 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApigatewayv2RouteResponse(r Apigatewayv2RouteResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2RouteResponse_RouteResponseKey(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2RouteResponse_ApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2RouteResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2RouteResponse_ModelSelectionExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2RouteResponse_ResponseModels(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2RouteResponse_RouteId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2RouteResponse_RouteResponseKey(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2RouteResponse_ApiId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2RouteResponse_Id(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApigatewayv2RouteResponse_ModelSelectionExpression(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
+	vals["model_selection_expression"] = cty.StringVal(p.ModelSelectionExpression)
+}
+
+func EncodeApigatewayv2RouteResponse_ResponseModels(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
+	if len(p.ResponseModels) == 0 {
+		vals["response_models"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.ResponseModels {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["response_models"] = cty.MapVal(mVals)
+}
+
+func EncodeApigatewayv2RouteResponse_RouteId(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
+	vals["route_id"] = cty.StringVal(p.RouteId)
 }
 
 func EncodeApigatewayv2RouteResponse_RouteResponseKey(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
@@ -56,20 +84,4 @@ func EncodeApigatewayv2RouteResponse_ApiId(p Apigatewayv2RouteResponseParameters
 
 func EncodeApigatewayv2RouteResponse_Id(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApigatewayv2RouteResponse_ModelSelectionExpression(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
-	vals["model_selection_expression"] = cty.StringVal(p.ModelSelectionExpression)
-}
-
-func EncodeApigatewayv2RouteResponse_ResponseModels(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.ResponseModels {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["response_models"] = cty.MapVal(mVals)
-}
-
-func EncodeApigatewayv2RouteResponse_RouteId(p Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
-	vals["route_id"] = cty.StringVal(p.RouteId)
 }

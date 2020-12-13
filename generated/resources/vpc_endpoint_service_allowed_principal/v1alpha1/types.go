@@ -47,7 +47,7 @@ type VpcEndpointServiceAllowedPrincipalList struct {
 // A VpcEndpointServiceAllowedPrincipalSpec defines the desired state of a VpcEndpointServiceAllowedPrincipal
 type VpcEndpointServiceAllowedPrincipalSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcEndpointServiceAllowedPrincipalParameters `json:",inline"`
+	ForProvider                  VpcEndpointServiceAllowedPrincipalParameters `json:"forProvider"`
 }
 
 // A VpcEndpointServiceAllowedPrincipalParameters defines the desired state of a VpcEndpointServiceAllowedPrincipal
@@ -60,7 +60,7 @@ type VpcEndpointServiceAllowedPrincipalParameters struct {
 // A VpcEndpointServiceAllowedPrincipalStatus defines the observed state of a VpcEndpointServiceAllowedPrincipal
 type VpcEndpointServiceAllowedPrincipalStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcEndpointServiceAllowedPrincipalObservation `json:",inline"`
+	AtProvider                     VpcEndpointServiceAllowedPrincipalObservation `json:"atProvider"`
 }
 
 // A VpcEndpointServiceAllowedPrincipalObservation records the observed state of a VpcEndpointServiceAllowedPrincipal

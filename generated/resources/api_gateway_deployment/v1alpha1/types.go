@@ -47,29 +47,29 @@ type ApiGatewayDeploymentList struct {
 // A ApiGatewayDeploymentSpec defines the desired state of a ApiGatewayDeployment
 type ApiGatewayDeploymentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayDeploymentParameters `json:",inline"`
+	ForProvider                  ApiGatewayDeploymentParameters `json:"forProvider"`
 }
 
 // A ApiGatewayDeploymentParameters defines the desired state of a ApiGatewayDeployment
 type ApiGatewayDeploymentParameters struct {
+	Description      string            `json:"description"`
+	StageDescription string            `json:"stage_description"`
+	Triggers         map[string]string `json:"triggers"`
+	Variables        map[string]string `json:"variables"`
+	Id               string            `json:"id"`
 	RestApiId        string            `json:"rest_api_id"`
 	StageName        string            `json:"stage_name"`
-	Triggers         map[string]string `json:"triggers"`
-	Description      string            `json:"description"`
-	Id               string            `json:"id"`
-	StageDescription string            `json:"stage_description"`
-	Variables        map[string]string `json:"variables"`
 }
 
 // A ApiGatewayDeploymentStatus defines the observed state of a ApiGatewayDeployment
 type ApiGatewayDeploymentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayDeploymentObservation `json:",inline"`
+	AtProvider                     ApiGatewayDeploymentObservation `json:"atProvider"`
 }
 
 // A ApiGatewayDeploymentObservation records the observed state of a ApiGatewayDeployment
 type ApiGatewayDeploymentObservation struct {
-	InvokeUrl    string `json:"invoke_url"`
 	ExecutionArn string `json:"execution_arn"`
 	CreatedDate  string `json:"created_date"`
+	InvokeUrl    string `json:"invoke_url"`
 }

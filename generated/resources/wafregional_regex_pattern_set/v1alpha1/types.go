@@ -47,7 +47,7 @@ type WafregionalRegexPatternSetList struct {
 // A WafregionalRegexPatternSetSpec defines the desired state of a WafregionalRegexPatternSet
 type WafregionalRegexPatternSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalRegexPatternSetParameters `json:",inline"`
+	ForProvider                  WafregionalRegexPatternSetParameters `json:"forProvider"`
 }
 
 // A WafregionalRegexPatternSetParameters defines the desired state of a WafregionalRegexPatternSet
@@ -60,7 +60,7 @@ type WafregionalRegexPatternSetParameters struct {
 // A WafregionalRegexPatternSetStatus defines the observed state of a WafregionalRegexPatternSet
 type WafregionalRegexPatternSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalRegexPatternSetObservation `json:",inline"`
+	AtProvider                     WafregionalRegexPatternSetObservation `json:"atProvider"`
 }
 
 // A WafregionalRegexPatternSetObservation records the observed state of a WafregionalRegexPatternSet

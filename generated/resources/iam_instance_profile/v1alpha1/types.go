@@ -47,7 +47,7 @@ type IamInstanceProfileList struct {
 // A IamInstanceProfileSpec defines the desired state of a IamInstanceProfile
 type IamInstanceProfileSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamInstanceProfileParameters `json:",inline"`
+	ForProvider                  IamInstanceProfileParameters `json:"forProvider"`
 }
 
 // A IamInstanceProfileParameters defines the desired state of a IamInstanceProfile
@@ -62,7 +62,7 @@ type IamInstanceProfileParameters struct {
 // A IamInstanceProfileStatus defines the observed state of a IamInstanceProfile
 type IamInstanceProfileStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamInstanceProfileObservation `json:",inline"`
+	AtProvider                     IamInstanceProfileObservation `json:"atProvider"`
 }
 
 // A IamInstanceProfileObservation records the observed state of a IamInstanceProfile

@@ -47,7 +47,7 @@ type PinpointAdmChannelList struct {
 // A PinpointAdmChannelSpec defines the desired state of a PinpointAdmChannel
 type PinpointAdmChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointAdmChannelParameters `json:",inline"`
+	ForProvider                  PinpointAdmChannelParameters `json:"forProvider"`
 }
 
 // A PinpointAdmChannelParameters defines the desired state of a PinpointAdmChannel
@@ -62,7 +62,7 @@ type PinpointAdmChannelParameters struct {
 // A PinpointAdmChannelStatus defines the observed state of a PinpointAdmChannel
 type PinpointAdmChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointAdmChannelObservation `json:",inline"`
+	AtProvider                     PinpointAdmChannelObservation `json:"atProvider"`
 }
 
 // A PinpointAdmChannelObservation records the observed state of a PinpointAdmChannel

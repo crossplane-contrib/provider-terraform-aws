@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,19 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafRegexPatternSet(r WafRegexPatternSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRegexPatternSet_RegexPatternStrings(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafRegexPatternSet_RegexPatternStrings(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafRegexPatternSet_RegexPatternStrings(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.RegexPatternStrings {
-		colVals = append(colVals, cty.StringVal(value))
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["regex_pattern_strings"] = cty.SetVal(colVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeWafRegexPatternSet_Id(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
@@ -57,6 +57,14 @@ func EncodeWafRegexPatternSet_Id(p WafRegexPatternSetParameters, vals map[string
 
 func EncodeWafRegexPatternSet_Name(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafRegexPatternSet_RegexPatternStrings(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.RegexPatternStrings {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["regex_pattern_strings"] = cty.SetVal(colVals)
 }
 
 func EncodeWafRegexPatternSet_Arn(p WafRegexPatternSetObservation, vals map[string]cty.Value) {

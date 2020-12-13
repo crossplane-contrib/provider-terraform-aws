@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,18 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotCertificate(r IotCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIotCertificate_Active(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Csr(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIotCertificate_Active(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_PrivateKey(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_PublicKey(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_CertificatePem(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIotCertificate_Active(p IotCertificateParameters, vals map[string]cty.Value) {
-	vals["active"] = cty.BoolVal(p.Active)
 }
 
 func EncodeIotCertificate_Csr(p IotCertificateParameters, vals map[string]cty.Value) {
@@ -56,6 +60,10 @@ func EncodeIotCertificate_Csr(p IotCertificateParameters, vals map[string]cty.Va
 
 func EncodeIotCertificate_Id(p IotCertificateParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeIotCertificate_Active(p IotCertificateParameters, vals map[string]cty.Value) {
+	vals["active"] = cty.BoolVal(p.Active)
 }
 
 func EncodeIotCertificate_PrivateKey(p IotCertificateObservation, vals map[string]cty.Value) {

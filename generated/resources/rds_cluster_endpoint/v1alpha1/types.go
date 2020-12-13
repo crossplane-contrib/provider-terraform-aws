@@ -47,28 +47,28 @@ type RdsClusterEndpointList struct {
 // A RdsClusterEndpointSpec defines the desired state of a RdsClusterEndpoint
 type RdsClusterEndpointSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RdsClusterEndpointParameters `json:",inline"`
+	ForProvider                  RdsClusterEndpointParameters `json:"forProvider"`
 }
 
 // A RdsClusterEndpointParameters defines the desired state of a RdsClusterEndpoint
 type RdsClusterEndpointParameters struct {
-	ClusterEndpointIdentifier string            `json:"cluster_endpoint_identifier"`
-	ExcludedMembers           []string          `json:"excluded_members"`
-	StaticMembers             []string          `json:"static_members"`
 	Tags                      map[string]string `json:"tags"`
+	ClusterEndpointIdentifier string            `json:"cluster_endpoint_identifier"`
 	ClusterIdentifier         string            `json:"cluster_identifier"`
 	CustomEndpointType        string            `json:"custom_endpoint_type"`
+	ExcludedMembers           []string          `json:"excluded_members"`
 	Id                        string            `json:"id"`
+	StaticMembers             []string          `json:"static_members"`
 }
 
 // A RdsClusterEndpointStatus defines the observed state of a RdsClusterEndpoint
 type RdsClusterEndpointStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RdsClusterEndpointObservation `json:",inline"`
+	AtProvider                     RdsClusterEndpointObservation `json:"atProvider"`
 }
 
 // A RdsClusterEndpointObservation records the observed state of a RdsClusterEndpoint
 type RdsClusterEndpointObservation struct {
-	Arn      string `json:"arn"`
 	Endpoint string `json:"endpoint"`
+	Arn      string `json:"arn"`
 }

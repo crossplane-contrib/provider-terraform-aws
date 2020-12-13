@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,14 +37,25 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodebuildWebhook(r CodebuildWebhook) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodebuildWebhook_BranchFilter(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildWebhook_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildWebhook_ProjectName(r.Spec.ForProvider, ctyVal)
-	EncodeCodebuildWebhook_BranchFilter(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildWebhook_FilterGroup(r.Spec.ForProvider.FilterGroup, ctyVal)
 	EncodeCodebuildWebhook_PayloadUrl(r.Status.AtProvider, ctyVal)
 	EncodeCodebuildWebhook_Secret(r.Status.AtProvider, ctyVal)
 	EncodeCodebuildWebhook_Url(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCodebuildWebhook_BranchFilter(p CodebuildWebhookParameters, vals map[string]cty.Value) {
+	vals["branch_filter"] = cty.StringVal(p.BranchFilter)
 }
 
 func EncodeCodebuildWebhook_Id(p CodebuildWebhookParameters, vals map[string]cty.Value) {
@@ -52,10 +64,6 @@ func EncodeCodebuildWebhook_Id(p CodebuildWebhookParameters, vals map[string]cty
 
 func EncodeCodebuildWebhook_ProjectName(p CodebuildWebhookParameters, vals map[string]cty.Value) {
 	vals["project_name"] = cty.StringVal(p.ProjectName)
-}
-
-func EncodeCodebuildWebhook_BranchFilter(p CodebuildWebhookParameters, vals map[string]cty.Value) {
-	vals["branch_filter"] = cty.StringVal(p.BranchFilter)
 }
 
 func EncodeCodebuildWebhook_FilterGroup(p FilterGroup, vals map[string]cty.Value) {
@@ -69,11 +77,15 @@ func EncodeCodebuildWebhook_FilterGroup(p FilterGroup, vals map[string]cty.Value
 func EncodeCodebuildWebhook_FilterGroup_Filter(p Filter, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodebuildWebhook_FilterGroup_Filter_ExcludeMatchedPattern(p, ctyVal)
 	EncodeCodebuildWebhook_FilterGroup_Filter_Pattern(p, ctyVal)
 	EncodeCodebuildWebhook_FilterGroup_Filter_Type(p, ctyVal)
-	EncodeCodebuildWebhook_FilterGroup_Filter_ExcludeMatchedPattern(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["filter"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCodebuildWebhook_FilterGroup_Filter_ExcludeMatchedPattern(p Filter, vals map[string]cty.Value) {
+	vals["exclude_matched_pattern"] = cty.BoolVal(p.ExcludeMatchedPattern)
 }
 
 func EncodeCodebuildWebhook_FilterGroup_Filter_Pattern(p Filter, vals map[string]cty.Value) {
@@ -82,10 +94,6 @@ func EncodeCodebuildWebhook_FilterGroup_Filter_Pattern(p Filter, vals map[string
 
 func EncodeCodebuildWebhook_FilterGroup_Filter_Type(p Filter, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeCodebuildWebhook_FilterGroup_Filter_ExcludeMatchedPattern(p Filter, vals map[string]cty.Value) {
-	vals["exclude_matched_pattern"] = cty.BoolVal(p.ExcludeMatchedPattern)
 }
 
 func EncodeCodebuildWebhook_PayloadUrl(p CodebuildWebhookObservation, vals map[string]cty.Value) {

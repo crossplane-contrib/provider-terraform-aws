@@ -47,22 +47,22 @@ type CodebuildSourceCredentialList struct {
 // A CodebuildSourceCredentialSpec defines the desired state of a CodebuildSourceCredential
 type CodebuildSourceCredentialSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodebuildSourceCredentialParameters `json:",inline"`
+	ForProvider                  CodebuildSourceCredentialParameters `json:"forProvider"`
 }
 
 // A CodebuildSourceCredentialParameters defines the desired state of a CodebuildSourceCredential
 type CodebuildSourceCredentialParameters struct {
+	ServerType string `json:"server_type"`
+	Token      string `json:"token"`
 	UserName   string `json:"user_name"`
 	AuthType   string `json:"auth_type"`
 	Id         string `json:"id"`
-	ServerType string `json:"server_type"`
-	Token      string `json:"token"`
 }
 
 // A CodebuildSourceCredentialStatus defines the observed state of a CodebuildSourceCredential
 type CodebuildSourceCredentialStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodebuildSourceCredentialObservation `json:",inline"`
+	AtProvider                     CodebuildSourceCredentialObservation `json:"atProvider"`
 }
 
 // A CodebuildSourceCredentialObservation records the observed state of a CodebuildSourceCredential

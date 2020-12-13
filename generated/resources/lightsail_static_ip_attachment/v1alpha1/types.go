@@ -47,20 +47,20 @@ type LightsailStaticIpAttachmentList struct {
 // A LightsailStaticIpAttachmentSpec defines the desired state of a LightsailStaticIpAttachment
 type LightsailStaticIpAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LightsailStaticIpAttachmentParameters `json:",inline"`
+	ForProvider                  LightsailStaticIpAttachmentParameters `json:"forProvider"`
 }
 
 // A LightsailStaticIpAttachmentParameters defines the desired state of a LightsailStaticIpAttachment
 type LightsailStaticIpAttachmentParameters struct {
+	InstanceName string `json:"instance_name"`
 	StaticIpName string `json:"static_ip_name"`
 	Id           string `json:"id"`
-	InstanceName string `json:"instance_name"`
 }
 
 // A LightsailStaticIpAttachmentStatus defines the observed state of a LightsailStaticIpAttachment
 type LightsailStaticIpAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LightsailStaticIpAttachmentObservation `json:",inline"`
+	AtProvider                     LightsailStaticIpAttachmentObservation `json:"atProvider"`
 }
 
 // A LightsailStaticIpAttachmentObservation records the observed state of a LightsailStaticIpAttachment

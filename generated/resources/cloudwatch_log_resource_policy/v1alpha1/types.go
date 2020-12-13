@@ -47,20 +47,20 @@ type CloudwatchLogResourcePolicyList struct {
 // A CloudwatchLogResourcePolicySpec defines the desired state of a CloudwatchLogResourcePolicy
 type CloudwatchLogResourcePolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchLogResourcePolicyParameters `json:",inline"`
+	ForProvider                  CloudwatchLogResourcePolicyParameters `json:"forProvider"`
 }
 
 // A CloudwatchLogResourcePolicyParameters defines the desired state of a CloudwatchLogResourcePolicy
 type CloudwatchLogResourcePolicyParameters struct {
-	PolicyName     string `json:"policy_name"`
 	Id             string `json:"id"`
 	PolicyDocument string `json:"policy_document"`
+	PolicyName     string `json:"policy_name"`
 }
 
 // A CloudwatchLogResourcePolicyStatus defines the observed state of a CloudwatchLogResourcePolicy
 type CloudwatchLogResourcePolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchLogResourcePolicyObservation `json:",inline"`
+	AtProvider                     CloudwatchLogResourcePolicyObservation `json:"atProvider"`
 }
 
 // A CloudwatchLogResourcePolicyObservation records the observed state of a CloudwatchLogResourcePolicy

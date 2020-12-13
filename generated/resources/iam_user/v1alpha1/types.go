@@ -47,27 +47,27 @@ type IamUserList struct {
 // A IamUserSpec defines the desired state of a IamUser
 type IamUserSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamUserParameters `json:",inline"`
+	ForProvider                  IamUserParameters `json:"forProvider"`
 }
 
 // A IamUserParameters defines the desired state of a IamUser
 type IamUserParameters struct {
-	Tags                map[string]string `json:"tags"`
 	ForceDestroy        bool              `json:"force_destroy"`
 	Id                  string            `json:"id"`
 	Name                string            `json:"name"`
 	Path                string            `json:"path"`
 	PermissionsBoundary string            `json:"permissions_boundary"`
+	Tags                map[string]string `json:"tags"`
 }
 
 // A IamUserStatus defines the observed state of a IamUser
 type IamUserStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamUserObservation `json:",inline"`
+	AtProvider                     IamUserObservation `json:"atProvider"`
 }
 
 // A IamUserObservation records the observed state of a IamUser
 type IamUserObservation struct {
-	UniqueId string `json:"unique_id"`
 	Arn      string `json:"arn"`
+	UniqueId string `json:"unique_id"`
 }

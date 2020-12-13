@@ -47,26 +47,26 @@ type Ec2TrafficMirrorSessionList struct {
 // A Ec2TrafficMirrorSessionSpec defines the desired state of a Ec2TrafficMirrorSession
 type Ec2TrafficMirrorSessionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TrafficMirrorSessionParameters `json:",inline"`
+	ForProvider                  Ec2TrafficMirrorSessionParameters `json:"forProvider"`
 }
 
 // A Ec2TrafficMirrorSessionParameters defines the desired state of a Ec2TrafficMirrorSession
 type Ec2TrafficMirrorSessionParameters struct {
+	PacketLength          int64             `json:"packet_length"`
 	SessionNumber         int64             `json:"session_number"`
-	Tags                  map[string]string `json:"tags"`
 	TrafficMirrorFilterId string            `json:"traffic_mirror_filter_id"`
 	TrafficMirrorTargetId string            `json:"traffic_mirror_target_id"`
-	PacketLength          int64             `json:"packet_length"`
-	NetworkInterfaceId    string            `json:"network_interface_id"`
-	VirtualNetworkId      int64             `json:"virtual_network_id"`
 	Description           string            `json:"description"`
+	NetworkInterfaceId    string            `json:"network_interface_id"`
 	Id                    string            `json:"id"`
+	Tags                  map[string]string `json:"tags"`
+	VirtualNetworkId      int64             `json:"virtual_network_id"`
 }
 
 // A Ec2TrafficMirrorSessionStatus defines the observed state of a Ec2TrafficMirrorSession
 type Ec2TrafficMirrorSessionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TrafficMirrorSessionObservation `json:",inline"`
+	AtProvider                     Ec2TrafficMirrorSessionObservation `json:"atProvider"`
 }
 
 // A Ec2TrafficMirrorSessionObservation records the observed state of a Ec2TrafficMirrorSession

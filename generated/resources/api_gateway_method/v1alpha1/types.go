@@ -47,28 +47,28 @@ type ApiGatewayMethodList struct {
 // A ApiGatewayMethodSpec defines the desired state of a ApiGatewayMethod
 type ApiGatewayMethodSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayMethodParameters `json:",inline"`
+	ForProvider                  ApiGatewayMethodParameters `json:"forProvider"`
 }
 
 // A ApiGatewayMethodParameters defines the desired state of a ApiGatewayMethod
 type ApiGatewayMethodParameters struct {
-	ResourceId          string            `json:"resource_id"`
 	ApiKeyRequired      bool              `json:"api_key_required"`
+	Authorization       string            `json:"authorization"`
 	AuthorizationScopes []string          `json:"authorization_scopes"`
 	AuthorizerId        string            `json:"authorizer_id"`
 	Id                  string            `json:"id"`
-	RequestModels       map[string]string `json:"request_models"`
-	Authorization       string            `json:"authorization"`
-	HttpMethod          string            `json:"http_method"`
-	RequestParameters   map[string]bool   `json:"request_parameters"`
 	RequestValidatorId  string            `json:"request_validator_id"`
+	HttpMethod          string            `json:"http_method"`
+	RequestModels       map[string]string `json:"request_models"`
+	RequestParameters   map[string]bool   `json:"request_parameters"`
+	ResourceId          string            `json:"resource_id"`
 	RestApiId           string            `json:"rest_api_id"`
 }
 
 // A ApiGatewayMethodStatus defines the observed state of a ApiGatewayMethod
 type ApiGatewayMethodStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayMethodObservation `json:",inline"`
+	AtProvider                     ApiGatewayMethodObservation `json:"atProvider"`
 }
 
 // A ApiGatewayMethodObservation records the observed state of a ApiGatewayMethod

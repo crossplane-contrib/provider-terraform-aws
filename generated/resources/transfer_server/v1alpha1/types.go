@@ -47,39 +47,39 @@ type TransferServerList struct {
 // A TransferServerSpec defines the desired state of a TransferServer
 type TransferServerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  TransferServerParameters `json:",inline"`
+	ForProvider                  TransferServerParameters `json:"forProvider"`
 }
 
 // A TransferServerParameters defines the desired state of a TransferServer
 type TransferServerParameters struct {
 	Tags                 map[string]string `json:"tags"`
 	EndpointType         string            `json:"endpoint_type"`
-	Id                   string            `json:"id"`
-	InvocationRole       string            `json:"invocation_role"`
-	LoggingRole          string            `json:"logging_role"`
-	Url                  string            `json:"url"`
-	ForceDestroy         bool              `json:"force_destroy"`
 	HostKey              string            `json:"host_key"`
 	IdentityProviderType string            `json:"identity_provider_type"`
+	InvocationRole       string            `json:"invocation_role"`
+	LoggingRole          string            `json:"logging_role"`
+	ForceDestroy         bool              `json:"force_destroy"`
+	Id                   string            `json:"id"`
+	Url                  string            `json:"url"`
 	EndpointDetails      EndpointDetails   `json:"endpoint_details"`
 }
 
 type EndpointDetails struct {
-	VpcId                string   `json:"vpc_id"`
 	AddressAllocationIds []string `json:"address_allocation_ids"`
 	SubnetIds            []string `json:"subnet_ids"`
 	VpcEndpointId        string   `json:"vpc_endpoint_id"`
+	VpcId                string   `json:"vpc_id"`
 }
 
 // A TransferServerStatus defines the observed state of a TransferServer
 type TransferServerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     TransferServerObservation `json:",inline"`
+	AtProvider                     TransferServerObservation `json:"atProvider"`
 }
 
 // A TransferServerObservation records the observed state of a TransferServer
 type TransferServerObservation struct {
-	Endpoint           string `json:"endpoint"`
-	HostKeyFingerprint string `json:"host_key_fingerprint"`
 	Arn                string `json:"arn"`
+	HostKeyFingerprint string `json:"host_key_fingerprint"`
+	Endpoint           string `json:"endpoint"`
 }

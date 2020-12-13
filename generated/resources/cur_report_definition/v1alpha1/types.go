@@ -47,29 +47,29 @@ type CurReportDefinitionList struct {
 // A CurReportDefinitionSpec defines the desired state of a CurReportDefinition
 type CurReportDefinitionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CurReportDefinitionParameters `json:",inline"`
+	ForProvider                  CurReportDefinitionParameters `json:"forProvider"`
 }
 
 // A CurReportDefinitionParameters defines the desired state of a CurReportDefinition
 type CurReportDefinitionParameters struct {
-	S3Region                 string   `json:"s3_region"`
 	AdditionalSchemaElements []string `json:"additional_schema_elements"`
+	Id                       string   `json:"id"`
+	RefreshClosedReports     bool     `json:"refresh_closed_reports"`
+	ReportName               string   `json:"report_name"`
+	S3Region                 string   `json:"s3_region"`
+	TimeUnit                 string   `json:"time_unit"`
+	AdditionalArtifacts      []string `json:"additional_artifacts"`
 	Compression              string   `json:"compression"`
 	Format                   string   `json:"format"`
-	Id                       string   `json:"id"`
-	ReportName               string   `json:"report_name"`
+	ReportVersioning         string   `json:"report_versioning"`
 	S3Bucket                 string   `json:"s3_bucket"`
 	S3Prefix                 string   `json:"s3_prefix"`
-	AdditionalArtifacts      []string `json:"additional_artifacts"`
-	RefreshClosedReports     bool     `json:"refresh_closed_reports"`
-	ReportVersioning         string   `json:"report_versioning"`
-	TimeUnit                 string   `json:"time_unit"`
 }
 
 // A CurReportDefinitionStatus defines the observed state of a CurReportDefinition
 type CurReportDefinitionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CurReportDefinitionObservation `json:",inline"`
+	AtProvider                     CurReportDefinitionObservation `json:"atProvider"`
 }
 
 // A CurReportDefinitionObservation records the observed state of a CurReportDefinition

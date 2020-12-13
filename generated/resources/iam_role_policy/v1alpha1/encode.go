@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamRolePolicy(r IamRolePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Role(r.Spec.ForProvider, ctyVal)
-	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamRolePolicy_Name(p IamRolePolicyParameters, vals map[string]cty.Value) {
@@ -59,8 +71,4 @@ func EncodeIamRolePolicy_Policy(p IamRolePolicyParameters, vals map[string]cty.V
 
 func EncodeIamRolePolicy_Role(p IamRolePolicyParameters, vals map[string]cty.Value) {
 	vals["role"] = cty.StringVal(p.Role)
-}
-
-func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

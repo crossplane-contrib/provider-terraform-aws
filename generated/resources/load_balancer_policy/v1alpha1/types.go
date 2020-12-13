@@ -47,7 +47,7 @@ type LoadBalancerPolicyList struct {
 // A LoadBalancerPolicySpec defines the desired state of a LoadBalancerPolicy
 type LoadBalancerPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LoadBalancerPolicyParameters `json:",inline"`
+	ForProvider                  LoadBalancerPolicyParameters `json:"forProvider"`
 }
 
 // A LoadBalancerPolicyParameters defines the desired state of a LoadBalancerPolicy
@@ -67,7 +67,7 @@ type PolicyAttribute struct {
 // A LoadBalancerPolicyStatus defines the observed state of a LoadBalancerPolicy
 type LoadBalancerPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LoadBalancerPolicyObservation `json:",inline"`
+	AtProvider                     LoadBalancerPolicyObservation `json:"atProvider"`
 }
 
 // A LoadBalancerPolicyObservation records the observed state of a LoadBalancerPolicy

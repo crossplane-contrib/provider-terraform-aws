@@ -47,22 +47,22 @@ type RedshiftSubnetGroupList struct {
 // A RedshiftSubnetGroupSpec defines the desired state of a RedshiftSubnetGroup
 type RedshiftSubnetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RedshiftSubnetGroupParameters `json:",inline"`
+	ForProvider                  RedshiftSubnetGroupParameters `json:"forProvider"`
 }
 
 // A RedshiftSubnetGroupParameters defines the desired state of a RedshiftSubnetGroup
 type RedshiftSubnetGroupParameters struct {
+	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	SubnetIds   []string          `json:"subnet_ids"`
 	Tags        map[string]string `json:"tags"`
-	Description string            `json:"description"`
 }
 
 // A RedshiftSubnetGroupStatus defines the observed state of a RedshiftSubnetGroup
 type RedshiftSubnetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RedshiftSubnetGroupObservation `json:",inline"`
+	AtProvider                     RedshiftSubnetGroupObservation `json:"atProvider"`
 }
 
 // A RedshiftSubnetGroupObservation records the observed state of a RedshiftSubnetGroup

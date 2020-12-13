@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -41,14 +42,25 @@ func EncodeServiceDiscoveryService(r ServiceDiscoveryService) cty.Value {
 	EncodeServiceDiscoveryService_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryService_NamespaceId(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryService_HealthCheckConfig(r.Spec.ForProvider.HealthCheckConfig, ctyVal)
 	EncodeServiceDiscoveryService_HealthCheckCustomConfig(r.Spec.ForProvider.HealthCheckCustomConfig, ctyVal)
 	EncodeServiceDiscoveryService_DnsConfig(r.Spec.ForProvider.DnsConfig, ctyVal)
+	EncodeServiceDiscoveryService_HealthCheckConfig(r.Spec.ForProvider.HealthCheckConfig, ctyVal)
 	EncodeServiceDiscoveryService_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeServiceDiscoveryService_Tags(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -70,28 +82,6 @@ func EncodeServiceDiscoveryService_Name(p ServiceDiscoveryServiceParameters, val
 
 func EncodeServiceDiscoveryService_NamespaceId(p ServiceDiscoveryServiceParameters, vals map[string]cty.Value) {
 	vals["namespace_id"] = cty.StringVal(p.NamespaceId)
-}
-
-func EncodeServiceDiscoveryService_HealthCheckConfig(p HealthCheckConfig, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(p, ctyVal)
-	EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(p, ctyVal)
-	EncodeServiceDiscoveryService_HealthCheckConfig_Type(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["health_check_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(p HealthCheckConfig, vals map[string]cty.Value) {
-	vals["failure_threshold"] = cty.NumberIntVal(p.FailureThreshold)
-}
-
-func EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(p HealthCheckConfig, vals map[string]cty.Value) {
-	vals["resource_path"] = cty.StringVal(p.ResourcePath)
-}
-
-func EncodeServiceDiscoveryService_HealthCheckConfig_Type(p HealthCheckConfig, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeServiceDiscoveryService_HealthCheckCustomConfig(p HealthCheckCustomConfig, vals map[string]cty.Value) {
@@ -128,19 +118,41 @@ func EncodeServiceDiscoveryService_DnsConfig_DnsRecords(p []DnsRecords, vals map
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(v, ctyVal)
 		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(v, ctyVal)
+		EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["dns_records"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(p DnsRecords, vals map[string]cty.Value) {
+	vals["ttl"] = cty.NumberIntVal(p.Ttl)
 }
 
 func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Type(p DnsRecords, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeServiceDiscoveryService_DnsConfig_DnsRecords_Ttl(p DnsRecords, vals map[string]cty.Value) {
-	vals["ttl"] = cty.NumberIntVal(p.Ttl)
+func EncodeServiceDiscoveryService_HealthCheckConfig(p HealthCheckConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(p, ctyVal)
+	EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(p, ctyVal)
+	EncodeServiceDiscoveryService_HealthCheckConfig_Type(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["health_check_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeServiceDiscoveryService_HealthCheckConfig_FailureThreshold(p HealthCheckConfig, vals map[string]cty.Value) {
+	vals["failure_threshold"] = cty.NumberIntVal(p.FailureThreshold)
+}
+
+func EncodeServiceDiscoveryService_HealthCheckConfig_ResourcePath(p HealthCheckConfig, vals map[string]cty.Value) {
+	vals["resource_path"] = cty.StringVal(p.ResourcePath)
+}
+
+func EncodeServiceDiscoveryService_HealthCheckConfig_Type(p HealthCheckConfig, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeServiceDiscoveryService_Arn(p ServiceDiscoveryServiceObservation, vals map[string]cty.Value) {

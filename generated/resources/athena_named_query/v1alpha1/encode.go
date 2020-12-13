@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,22 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAthenaNamedQuery(r AthenaNamedQuery) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAthenaNamedQuery_Name(r.Spec.ForProvider, ctyVal)
-	EncodeAthenaNamedQuery_Query(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaNamedQuery_Workgroup(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaNamedQuery_Database(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaNamedQuery_Description(r.Spec.ForProvider, ctyVal)
 	EncodeAthenaNamedQuery_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaNamedQuery_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAthenaNamedQuery_Query(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAthenaNamedQuery_Name(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeAthenaNamedQuery_Query(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
-	vals["query"] = cty.StringVal(p.Query)
 }
 
 func EncodeAthenaNamedQuery_Workgroup(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
@@ -68,4 +68,12 @@ func EncodeAthenaNamedQuery_Description(p AthenaNamedQueryParameters, vals map[s
 
 func EncodeAthenaNamedQuery_Id(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAthenaNamedQuery_Name(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeAthenaNamedQuery_Query(p AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	vals["query"] = cty.StringVal(p.Query)
 }

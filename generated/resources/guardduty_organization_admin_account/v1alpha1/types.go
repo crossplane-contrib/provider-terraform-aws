@@ -47,19 +47,19 @@ type GuarddutyOrganizationAdminAccountList struct {
 // A GuarddutyOrganizationAdminAccountSpec defines the desired state of a GuarddutyOrganizationAdminAccount
 type GuarddutyOrganizationAdminAccountSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyOrganizationAdminAccountParameters `json:",inline"`
+	ForProvider                  GuarddutyOrganizationAdminAccountParameters `json:"forProvider"`
 }
 
 // A GuarddutyOrganizationAdminAccountParameters defines the desired state of a GuarddutyOrganizationAdminAccount
 type GuarddutyOrganizationAdminAccountParameters struct {
-	Id             string `json:"id"`
 	AdminAccountId string `json:"admin_account_id"`
+	Id             string `json:"id"`
 }
 
 // A GuarddutyOrganizationAdminAccountStatus defines the observed state of a GuarddutyOrganizationAdminAccount
 type GuarddutyOrganizationAdminAccountStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyOrganizationAdminAccountObservation `json:",inline"`
+	AtProvider                     GuarddutyOrganizationAdminAccountObservation `json:"atProvider"`
 }
 
 // A GuarddutyOrganizationAdminAccountObservation records the observed state of a GuarddutyOrganizationAdminAccount

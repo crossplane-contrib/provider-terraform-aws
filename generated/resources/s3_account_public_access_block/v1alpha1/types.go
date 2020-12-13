@@ -47,23 +47,23 @@ type S3AccountPublicAccessBlockList struct {
 // A S3AccountPublicAccessBlockSpec defines the desired state of a S3AccountPublicAccessBlock
 type S3AccountPublicAccessBlockSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3AccountPublicAccessBlockParameters `json:",inline"`
+	ForProvider                  S3AccountPublicAccessBlockParameters `json:"forProvider"`
 }
 
 // A S3AccountPublicAccessBlockParameters defines the desired state of a S3AccountPublicAccessBlock
 type S3AccountPublicAccessBlockParameters struct {
+	IgnorePublicAcls      bool   `json:"ignore_public_acls"`
 	RestrictPublicBuckets bool   `json:"restrict_public_buckets"`
 	AccountId             string `json:"account_id"`
 	BlockPublicAcls       bool   `json:"block_public_acls"`
 	BlockPublicPolicy     bool   `json:"block_public_policy"`
 	Id                    string `json:"id"`
-	IgnorePublicAcls      bool   `json:"ignore_public_acls"`
 }
 
 // A S3AccountPublicAccessBlockStatus defines the observed state of a S3AccountPublicAccessBlock
 type S3AccountPublicAccessBlockStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3AccountPublicAccessBlockObservation `json:",inline"`
+	AtProvider                     S3AccountPublicAccessBlockObservation `json:"atProvider"`
 }
 
 // A S3AccountPublicAccessBlockObservation records the observed state of a S3AccountPublicAccessBlock

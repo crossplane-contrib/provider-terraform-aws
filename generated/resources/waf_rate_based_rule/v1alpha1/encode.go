@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,30 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafRateBasedRule(r WafRateBasedRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_RateKey(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_RateLimit(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeWafRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeWafRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRateBasedRule_Predicates(r.Spec.ForProvider.Predicates, ctyVal)
 	EncodeWafRateBasedRule_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWafRateBasedRule_Id(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafRateBasedRule_MetricName(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["metric_name"] = cty.StringVal(p.MetricName)
 }
 
 func EncodeWafRateBasedRule_Name(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
@@ -60,6 +76,10 @@ func EncodeWafRateBasedRule_RateLimit(p WafRateBasedRuleParameters, vals map[str
 }
 
 func EncodeWafRateBasedRule_Tags(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -67,26 +87,14 @@ func EncodeWafRateBasedRule_Tags(p WafRateBasedRuleParameters, vals map[string]c
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeWafRateBasedRule_Id(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeWafRateBasedRule_MetricName(p WafRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["metric_name"] = cty.StringVal(p.MetricName)
-}
-
 func EncodeWafRateBasedRule_Predicates(p Predicates, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRateBasedRule_Predicates_Type(p, ctyVal)
 	EncodeWafRateBasedRule_Predicates_DataId(p, ctyVal)
 	EncodeWafRateBasedRule_Predicates_Negated(p, ctyVal)
+	EncodeWafRateBasedRule_Predicates_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["predicates"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafRateBasedRule_Predicates_Type(p Predicates, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafRateBasedRule_Predicates_DataId(p Predicates, vals map[string]cty.Value) {
@@ -95,6 +103,10 @@ func EncodeWafRateBasedRule_Predicates_DataId(p Predicates, vals map[string]cty.
 
 func EncodeWafRateBasedRule_Predicates_Negated(p Predicates, vals map[string]cty.Value) {
 	vals["negated"] = cty.BoolVal(p.Negated)
+}
+
+func EncodeWafRateBasedRule_Predicates_Type(p Predicates, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeWafRateBasedRule_Arn(p WafRateBasedRuleObservation, vals map[string]cty.Value) {

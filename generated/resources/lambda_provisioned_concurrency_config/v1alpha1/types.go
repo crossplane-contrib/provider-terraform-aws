@@ -47,7 +47,7 @@ type LambdaProvisionedConcurrencyConfigList struct {
 // A LambdaProvisionedConcurrencyConfigSpec defines the desired state of a LambdaProvisionedConcurrencyConfig
 type LambdaProvisionedConcurrencyConfigSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LambdaProvisionedConcurrencyConfigParameters `json:",inline"`
+	ForProvider                  LambdaProvisionedConcurrencyConfigParameters `json:"forProvider"`
 }
 
 // A LambdaProvisionedConcurrencyConfigParameters defines the desired state of a LambdaProvisionedConcurrencyConfig
@@ -67,7 +67,7 @@ type Timeouts struct {
 // A LambdaProvisionedConcurrencyConfigStatus defines the observed state of a LambdaProvisionedConcurrencyConfig
 type LambdaProvisionedConcurrencyConfigStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LambdaProvisionedConcurrencyConfigObservation `json:",inline"`
+	AtProvider                     LambdaProvisionedConcurrencyConfigObservation `json:"atProvider"`
 }
 
 // A LambdaProvisionedConcurrencyConfigObservation records the observed state of a LambdaProvisionedConcurrencyConfig

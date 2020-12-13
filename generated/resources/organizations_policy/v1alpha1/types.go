@@ -47,7 +47,7 @@ type OrganizationsPolicyList struct {
 // A OrganizationsPolicySpec defines the desired state of a OrganizationsPolicy
 type OrganizationsPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OrganizationsPolicyParameters `json:",inline"`
+	ForProvider                  OrganizationsPolicyParameters `json:"forProvider"`
 }
 
 // A OrganizationsPolicyParameters defines the desired state of a OrganizationsPolicy
@@ -63,7 +63,7 @@ type OrganizationsPolicyParameters struct {
 // A OrganizationsPolicyStatus defines the observed state of a OrganizationsPolicy
 type OrganizationsPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OrganizationsPolicyObservation `json:",inline"`
+	AtProvider                     OrganizationsPolicyObservation `json:"atProvider"`
 }
 
 // A OrganizationsPolicyObservation records the observed state of a OrganizationsPolicy

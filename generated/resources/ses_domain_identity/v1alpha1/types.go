@@ -47,23 +47,23 @@ type SesDomainIdentityList struct {
 // A SesDomainIdentitySpec defines the desired state of a SesDomainIdentity
 type SesDomainIdentitySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesDomainIdentityParameters `json:",inline"`
+	ForProvider                  SesDomainIdentityParameters `json:"forProvider"`
 }
 
 // A SesDomainIdentityParameters defines the desired state of a SesDomainIdentity
 type SesDomainIdentityParameters struct {
-	Domain string `json:"domain"`
 	Id     string `json:"id"`
+	Domain string `json:"domain"`
 }
 
 // A SesDomainIdentityStatus defines the observed state of a SesDomainIdentity
 type SesDomainIdentityStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesDomainIdentityObservation `json:",inline"`
+	AtProvider                     SesDomainIdentityObservation `json:"atProvider"`
 }
 
 // A SesDomainIdentityObservation records the observed state of a SesDomainIdentity
 type SesDomainIdentityObservation struct {
-	Arn               string `json:"arn"`
 	VerificationToken string `json:"verification_token"`
+	Arn               string `json:"arn"`
 }

@@ -47,29 +47,29 @@ type SnsPlatformApplicationList struct {
 // A SnsPlatformApplicationSpec defines the desired state of a SnsPlatformApplication
 type SnsPlatformApplicationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SnsPlatformApplicationParameters `json:",inline"`
+	ForProvider                  SnsPlatformApplicationParameters `json:"forProvider"`
 }
 
 // A SnsPlatformApplicationParameters defines the desired state of a SnsPlatformApplication
 type SnsPlatformApplicationParameters struct {
-	EventEndpointUpdatedTopicArn string `json:"event_endpoint_updated_topic_arn"`
-	Id                           string `json:"id"`
-	PlatformCredential           string `json:"platform_credential"`
 	PlatformPrincipal            string `json:"platform_principal"`
-	SuccessFeedbackSampleRate    string `json:"success_feedback_sample_rate"`
-	SuccessFeedbackRoleArn       string `json:"success_feedback_role_arn"`
 	EventDeliveryFailureTopicArn string `json:"event_delivery_failure_topic_arn"`
 	EventEndpointCreatedTopicArn string `json:"event_endpoint_created_topic_arn"`
-	EventEndpointDeletedTopicArn string `json:"event_endpoint_deleted_topic_arn"`
 	FailureFeedbackRoleArn       string `json:"failure_feedback_role_arn"`
-	Name                         string `json:"name"`
+	Id                           string `json:"id"`
 	Platform                     string `json:"platform"`
+	SuccessFeedbackRoleArn       string `json:"success_feedback_role_arn"`
+	SuccessFeedbackSampleRate    string `json:"success_feedback_sample_rate"`
+	EventEndpointDeletedTopicArn string `json:"event_endpoint_deleted_topic_arn"`
+	EventEndpointUpdatedTopicArn string `json:"event_endpoint_updated_topic_arn"`
+	Name                         string `json:"name"`
+	PlatformCredential           string `json:"platform_credential"`
 }
 
 // A SnsPlatformApplicationStatus defines the observed state of a SnsPlatformApplication
 type SnsPlatformApplicationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SnsPlatformApplicationObservation `json:",inline"`
+	AtProvider                     SnsPlatformApplicationObservation `json:"atProvider"`
 }
 
 // A SnsPlatformApplicationObservation records the observed state of a SnsPlatformApplication

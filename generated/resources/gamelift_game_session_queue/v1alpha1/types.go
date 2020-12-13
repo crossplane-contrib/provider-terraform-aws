@@ -47,7 +47,7 @@ type GameliftGameSessionQueueList struct {
 // A GameliftGameSessionQueueSpec defines the desired state of a GameliftGameSessionQueue
 type GameliftGameSessionQueueSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GameliftGameSessionQueueParameters `json:",inline"`
+	ForProvider                  GameliftGameSessionQueueParameters `json:"forProvider"`
 }
 
 // A GameliftGameSessionQueueParameters defines the desired state of a GameliftGameSessionQueue
@@ -68,7 +68,7 @@ type PlayerLatencyPolicy struct {
 // A GameliftGameSessionQueueStatus defines the observed state of a GameliftGameSessionQueue
 type GameliftGameSessionQueueStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GameliftGameSessionQueueObservation `json:",inline"`
+	AtProvider                     GameliftGameSessionQueueObservation `json:"atProvider"`
 }
 
 // A GameliftGameSessionQueueObservation records the observed state of a GameliftGameSessionQueue

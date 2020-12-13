@@ -47,20 +47,20 @@ type OrganizationsPolicyAttachmentList struct {
 // A OrganizationsPolicyAttachmentSpec defines the desired state of a OrganizationsPolicyAttachment
 type OrganizationsPolicyAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OrganizationsPolicyAttachmentParameters `json:",inline"`
+	ForProvider                  OrganizationsPolicyAttachmentParameters `json:"forProvider"`
 }
 
 // A OrganizationsPolicyAttachmentParameters defines the desired state of a OrganizationsPolicyAttachment
 type OrganizationsPolicyAttachmentParameters struct {
+	TargetId string `json:"target_id"`
 	Id       string `json:"id"`
 	PolicyId string `json:"policy_id"`
-	TargetId string `json:"target_id"`
 }
 
 // A OrganizationsPolicyAttachmentStatus defines the observed state of a OrganizationsPolicyAttachment
 type OrganizationsPolicyAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OrganizationsPolicyAttachmentObservation `json:",inline"`
+	AtProvider                     OrganizationsPolicyAttachmentObservation `json:"atProvider"`
 }
 
 // A OrganizationsPolicyAttachmentObservation records the observed state of a OrganizationsPolicyAttachment

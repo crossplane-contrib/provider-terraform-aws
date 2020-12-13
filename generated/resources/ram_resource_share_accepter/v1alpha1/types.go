@@ -47,13 +47,13 @@ type RamResourceShareAccepterList struct {
 // A RamResourceShareAccepterSpec defines the desired state of a RamResourceShareAccepter
 type RamResourceShareAccepterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RamResourceShareAccepterParameters `json:",inline"`
+	ForProvider                  RamResourceShareAccepterParameters `json:"forProvider"`
 }
 
 // A RamResourceShareAccepterParameters defines the desired state of a RamResourceShareAccepter
 type RamResourceShareAccepterParameters struct {
-	ShareArn string   `json:"share_arn"`
 	Id       string   `json:"id"`
+	ShareArn string   `json:"share_arn"`
 	Timeouts Timeouts `json:"timeouts"`
 }
 
@@ -65,16 +65,16 @@ type Timeouts struct {
 // A RamResourceShareAccepterStatus defines the observed state of a RamResourceShareAccepter
 type RamResourceShareAccepterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RamResourceShareAccepterObservation `json:",inline"`
+	AtProvider                     RamResourceShareAccepterObservation `json:"atProvider"`
 }
 
 // A RamResourceShareAccepterObservation records the observed state of a RamResourceShareAccepter
 type RamResourceShareAccepterObservation struct {
-	InvitationArn     string   `json:"invitation_arn"`
 	ReceiverAccountId string   `json:"receiver_account_id"`
-	ShareId           string   `json:"share_id"`
-	ShareName         string   `json:"share_name"`
 	Resources         []string `json:"resources"`
 	SenderAccountId   string   `json:"sender_account_id"`
+	ShareName         string   `json:"share_name"`
 	Status            string   `json:"status"`
+	InvitationArn     string   `json:"invitation_arn"`
+	ShareId           string   `json:"share_id"`
 }

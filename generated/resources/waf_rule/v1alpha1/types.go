@@ -47,28 +47,28 @@ type WafRuleList struct {
 // A WafRuleSpec defines the desired state of a WafRule
 type WafRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafRuleParameters `json:",inline"`
+	ForProvider                  WafRuleParameters `json:"forProvider"`
 }
 
 // A WafRuleParameters defines the desired state of a WafRule
 type WafRuleParameters struct {
-	Name       string            `json:"name"`
-	Tags       map[string]string `json:"tags"`
 	Id         string            `json:"id"`
 	MetricName string            `json:"metric_name"`
+	Name       string            `json:"name"`
+	Tags       map[string]string `json:"tags"`
 	Predicates Predicates        `json:"predicates"`
 }
 
 type Predicates struct {
-	DataId  string `json:"data_id"`
 	Negated bool   `json:"negated"`
 	Type    string `json:"type"`
+	DataId  string `json:"data_id"`
 }
 
 // A WafRuleStatus defines the observed state of a WafRule
 type WafRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafRuleObservation `json:",inline"`
+	AtProvider                     WafRuleObservation `json:"atProvider"`
 }
 
 // A WafRuleObservation records the observed state of a WafRule

@@ -47,23 +47,23 @@ type CloudwatchLogGroupList struct {
 // A CloudwatchLogGroupSpec defines the desired state of a CloudwatchLogGroup
 type CloudwatchLogGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchLogGroupParameters `json:",inline"`
+	ForProvider                  CloudwatchLogGroupParameters `json:"forProvider"`
 }
 
 // A CloudwatchLogGroupParameters defines the desired state of a CloudwatchLogGroup
 type CloudwatchLogGroupParameters struct {
-	RetentionInDays int64             `json:"retention_in_days"`
-	Tags            map[string]string `json:"tags"`
 	Id              string            `json:"id"`
 	KmsKeyId        string            `json:"kms_key_id"`
 	Name            string            `json:"name"`
 	NamePrefix      string            `json:"name_prefix"`
+	RetentionInDays int64             `json:"retention_in_days"`
+	Tags            map[string]string `json:"tags"`
 }
 
 // A CloudwatchLogGroupStatus defines the observed state of a CloudwatchLogGroup
 type CloudwatchLogGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchLogGroupObservation `json:",inline"`
+	AtProvider                     CloudwatchLogGroupObservation `json:"atProvider"`
 }
 
 // A CloudwatchLogGroupObservation records the observed state of a CloudwatchLogGroup

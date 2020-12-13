@@ -47,35 +47,35 @@ type KmsGrantList struct {
 // A KmsGrantSpec defines the desired state of a KmsGrant
 type KmsGrantSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  KmsGrantParameters `json:",inline"`
+	ForProvider                  KmsGrantParameters `json:"forProvider"`
 }
 
 // A KmsGrantParameters defines the desired state of a KmsGrant
 type KmsGrantParameters struct {
-	KeyId               string      `json:"key_id"`
+	RetiringPrincipal   string      `json:"retiring_principal"`
+	GranteePrincipal    string      `json:"grantee_principal"`
 	Operations          []string    `json:"operations"`
 	RetireOnDelete      bool        `json:"retire_on_delete"`
-	GrantCreationTokens []string    `json:"grant_creation_tokens"`
-	GranteePrincipal    string      `json:"grantee_principal"`
-	Id                  string      `json:"id"`
 	Name                string      `json:"name"`
-	RetiringPrincipal   string      `json:"retiring_principal"`
+	GrantCreationTokens []string    `json:"grant_creation_tokens"`
+	Id                  string      `json:"id"`
+	KeyId               string      `json:"key_id"`
 	Constraints         Constraints `json:"constraints"`
 }
 
 type Constraints struct {
-	EncryptionContextEquals map[string]string `json:"encryption_context_equals"`
 	EncryptionContextSubset map[string]string `json:"encryption_context_subset"`
+	EncryptionContextEquals map[string]string `json:"encryption_context_equals"`
 }
 
 // A KmsGrantStatus defines the observed state of a KmsGrant
 type KmsGrantStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     KmsGrantObservation `json:",inline"`
+	AtProvider                     KmsGrantObservation `json:"atProvider"`
 }
 
 // A KmsGrantObservation records the observed state of a KmsGrant
 type KmsGrantObservation struct {
-	GrantToken string `json:"grant_token"`
 	GrantId    string `json:"grant_id"`
+	GrantToken string `json:"grant_token"`
 }

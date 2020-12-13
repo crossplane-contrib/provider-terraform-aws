@@ -47,38 +47,27 @@ type GlueCrawlerList struct {
 // A GlueCrawlerSpec defines the desired state of a GlueCrawler
 type GlueCrawlerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueCrawlerParameters `json:",inline"`
+	ForProvider                  GlueCrawlerParameters `json:"forProvider"`
 }
 
 // A GlueCrawlerParameters defines the desired state of a GlueCrawler
 type GlueCrawlerParameters struct {
+	Classifiers           []string           `json:"classifiers"`
 	DatabaseName          string             `json:"database_name"`
+	Description           string             `json:"description"`
+	Name                  string             `json:"name"`
+	SecurityConfiguration string             `json:"security_configuration"`
 	TablePrefix           string             `json:"table_prefix"`
 	Tags                  map[string]string  `json:"tags"`
-	Classifiers           []string           `json:"classifiers"`
+	Configuration         string             `json:"configuration"`
 	Id                    string             `json:"id"`
-	Name                  string             `json:"name"`
 	Role                  string             `json:"role"`
 	Schedule              string             `json:"schedule"`
-	SecurityConfiguration string             `json:"security_configuration"`
-	Configuration         string             `json:"configuration"`
-	Description           string             `json:"description"`
-	S3Target              S3Target           `json:"s3_target"`
-	SchemaChangePolicy    SchemaChangePolicy `json:"schema_change_policy"`
 	CatalogTarget         CatalogTarget      `json:"catalog_target"`
 	DynamodbTarget        DynamodbTarget     `json:"dynamodb_target"`
 	JdbcTarget            JdbcTarget         `json:"jdbc_target"`
-}
-
-type S3Target struct {
-	Exclusions     []string `json:"exclusions"`
-	Path           string   `json:"path"`
-	ConnectionName string   `json:"connection_name"`
-}
-
-type SchemaChangePolicy struct {
-	DeleteBehavior string `json:"delete_behavior"`
-	UpdateBehavior string `json:"update_behavior"`
+	S3Target              S3Target           `json:"s3_target"`
+	SchemaChangePolicy    SchemaChangePolicy `json:"schema_change_policy"`
 }
 
 type CatalogTarget struct {
@@ -87,9 +76,9 @@ type CatalogTarget struct {
 }
 
 type DynamodbTarget struct {
+	Path     string `json:"path"`
 	ScanAll  bool   `json:"scan_all"`
 	ScanRate int64  `json:"scan_rate"`
-	Path     string `json:"path"`
 }
 
 type JdbcTarget struct {
@@ -98,10 +87,21 @@ type JdbcTarget struct {
 	Path           string   `json:"path"`
 }
 
+type S3Target struct {
+	ConnectionName string   `json:"connection_name"`
+	Exclusions     []string `json:"exclusions"`
+	Path           string   `json:"path"`
+}
+
+type SchemaChangePolicy struct {
+	DeleteBehavior string `json:"delete_behavior"`
+	UpdateBehavior string `json:"update_behavior"`
+}
+
 // A GlueCrawlerStatus defines the observed state of a GlueCrawler
 type GlueCrawlerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueCrawlerObservation `json:",inline"`
+	AtProvider                     GlueCrawlerObservation `json:"atProvider"`
 }
 
 // A GlueCrawlerObservation records the observed state of a GlueCrawler

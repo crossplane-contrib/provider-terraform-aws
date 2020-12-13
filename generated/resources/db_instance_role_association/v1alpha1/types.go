@@ -47,21 +47,21 @@ type DbInstanceRoleAssociationList struct {
 // A DbInstanceRoleAssociationSpec defines the desired state of a DbInstanceRoleAssociation
 type DbInstanceRoleAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbInstanceRoleAssociationParameters `json:",inline"`
+	ForProvider                  DbInstanceRoleAssociationParameters `json:"forProvider"`
 }
 
 // A DbInstanceRoleAssociationParameters defines the desired state of a DbInstanceRoleAssociation
 type DbInstanceRoleAssociationParameters struct {
-	RoleArn              string `json:"role_arn"`
 	DbInstanceIdentifier string `json:"db_instance_identifier"`
 	FeatureName          string `json:"feature_name"`
 	Id                   string `json:"id"`
+	RoleArn              string `json:"role_arn"`
 }
 
 // A DbInstanceRoleAssociationStatus defines the observed state of a DbInstanceRoleAssociation
 type DbInstanceRoleAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbInstanceRoleAssociationObservation `json:",inline"`
+	AtProvider                     DbInstanceRoleAssociationObservation `json:"atProvider"`
 }
 
 // A DbInstanceRoleAssociationObservation records the observed state of a DbInstanceRoleAssociation

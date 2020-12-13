@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,39 +37,58 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayStage(r ApiGatewayStage) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayStage_CacheClusterEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayStage_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayStage_ClientCertificateId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayStage_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayStage_CacheClusterEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayStage_CacheClusterSize(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayStage_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayStage_StageName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayStage_XrayTracingEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayStage_ClientCertificateId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayStage_DeploymentId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayStage_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayStage_DocumentationVersion(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayStage_Variables(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayStage_CacheClusterSize(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayStage_RestApiId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayStage_Variables(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayStage_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayStage_AccessLogSettings(r.Spec.ForProvider.AccessLogSettings, ctyVal)
+	EncodeApiGatewayStage_InvokeUrl(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayStage_Arn(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayStage_ExecutionArn(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayStage_InvokeUrl(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayStage_ClientCertificateId(p ApiGatewayStageParameters, vals map[string]cty.Value) {
+	vals["client_certificate_id"] = cty.StringVal(p.ClientCertificateId)
+}
+
+func EncodeApiGatewayStage_Tags(p ApiGatewayStageParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeApiGatewayStage_CacheClusterEnabled(p ApiGatewayStageParameters, vals map[string]cty.Value) {
 	vals["cache_cluster_enabled"] = cty.BoolVal(p.CacheClusterEnabled)
 }
 
-func EncodeApiGatewayStage_Id(p ApiGatewayStageParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeApiGatewayStage_CacheClusterSize(p ApiGatewayStageParameters, vals map[string]cty.Value) {
+	vals["cache_cluster_size"] = cty.StringVal(p.CacheClusterSize)
 }
 
-func EncodeApiGatewayStage_Tags(p ApiGatewayStageParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeApiGatewayStage_Description(p ApiGatewayStageParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayStage_StageName(p ApiGatewayStageParameters, vals map[string]cty.Value) {
@@ -79,23 +99,23 @@ func EncodeApiGatewayStage_XrayTracingEnabled(p ApiGatewayStageParameters, vals 
 	vals["xray_tracing_enabled"] = cty.BoolVal(p.XrayTracingEnabled)
 }
 
-func EncodeApiGatewayStage_ClientCertificateId(p ApiGatewayStageParameters, vals map[string]cty.Value) {
-	vals["client_certificate_id"] = cty.StringVal(p.ClientCertificateId)
-}
-
 func EncodeApiGatewayStage_DeploymentId(p ApiGatewayStageParameters, vals map[string]cty.Value) {
 	vals["deployment_id"] = cty.StringVal(p.DeploymentId)
-}
-
-func EncodeApiGatewayStage_Description(p ApiGatewayStageParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayStage_DocumentationVersion(p ApiGatewayStageParameters, vals map[string]cty.Value) {
 	vals["documentation_version"] = cty.StringVal(p.DocumentationVersion)
 }
 
+func EncodeApiGatewayStage_RestApiId(p ApiGatewayStageParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
+}
+
 func EncodeApiGatewayStage_Variables(p ApiGatewayStageParameters, vals map[string]cty.Value) {
+	if len(p.Variables) == 0 {
+		vals["variables"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Variables {
 		mVals[key] = cty.StringVal(value)
@@ -103,12 +123,8 @@ func EncodeApiGatewayStage_Variables(p ApiGatewayStageParameters, vals map[strin
 	vals["variables"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayStage_CacheClusterSize(p ApiGatewayStageParameters, vals map[string]cty.Value) {
-	vals["cache_cluster_size"] = cty.StringVal(p.CacheClusterSize)
-}
-
-func EncodeApiGatewayStage_RestApiId(p ApiGatewayStageParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
+func EncodeApiGatewayStage_Id(p ApiGatewayStageParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayStage_AccessLogSettings(p AccessLogSettings, vals map[string]cty.Value) {
@@ -128,14 +144,14 @@ func EncodeApiGatewayStage_AccessLogSettings_Format(p AccessLogSettings, vals ma
 	vals["format"] = cty.StringVal(p.Format)
 }
 
+func EncodeApiGatewayStage_InvokeUrl(p ApiGatewayStageObservation, vals map[string]cty.Value) {
+	vals["invoke_url"] = cty.StringVal(p.InvokeUrl)
+}
+
 func EncodeApiGatewayStage_Arn(p ApiGatewayStageObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeApiGatewayStage_ExecutionArn(p ApiGatewayStageObservation, vals map[string]cty.Value) {
 	vals["execution_arn"] = cty.StringVal(p.ExecutionArn)
-}
-
-func EncodeApiGatewayStage_InvokeUrl(p ApiGatewayStageObservation, vals map[string]cty.Value) {
-	vals["invoke_url"] = cty.StringVal(p.InvokeUrl)
 }

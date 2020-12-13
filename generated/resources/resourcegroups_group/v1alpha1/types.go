@@ -47,15 +47,15 @@ type ResourcegroupsGroupList struct {
 // A ResourcegroupsGroupSpec defines the desired state of a ResourcegroupsGroup
 type ResourcegroupsGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ResourcegroupsGroupParameters `json:",inline"`
+	ForProvider                  ResourcegroupsGroupParameters `json:"forProvider"`
 }
 
 // A ResourcegroupsGroupParameters defines the desired state of a ResourcegroupsGroup
 type ResourcegroupsGroupParameters struct {
+	Description   string            `json:"description"`
 	Id            string            `json:"id"`
 	Name          string            `json:"name"`
 	Tags          map[string]string `json:"tags"`
-	Description   string            `json:"description"`
 	ResourceQuery ResourceQuery     `json:"resource_query"`
 }
 
@@ -67,7 +67,7 @@ type ResourceQuery struct {
 // A ResourcegroupsGroupStatus defines the observed state of a ResourcegroupsGroup
 type ResourcegroupsGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ResourcegroupsGroupObservation `json:",inline"`
+	AtProvider                     ResourcegroupsGroupObservation `json:"atProvider"`
 }
 
 // A ResourcegroupsGroupObservation records the observed state of a ResourcegroupsGroup

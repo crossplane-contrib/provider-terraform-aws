@@ -47,18 +47,18 @@ type GlueConnectionList struct {
 // A GlueConnectionSpec defines the desired state of a GlueConnection
 type GlueConnectionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueConnectionParameters `json:",inline"`
+	ForProvider                  GlueConnectionParameters `json:"forProvider"`
 }
 
 // A GlueConnectionParameters defines the desired state of a GlueConnection
 type GlueConnectionParameters struct {
+	Name                           string                         `json:"name"`
 	CatalogId                      string                         `json:"catalog_id"`
 	ConnectionProperties           map[string]string              `json:"connection_properties"`
 	ConnectionType                 string                         `json:"connection_type"`
 	Description                    string                         `json:"description"`
 	Id                             string                         `json:"id"`
 	MatchCriteria                  []string                       `json:"match_criteria"`
-	Name                           string                         `json:"name"`
 	PhysicalConnectionRequirements PhysicalConnectionRequirements `json:"physical_connection_requirements"`
 }
 
@@ -71,7 +71,7 @@ type PhysicalConnectionRequirements struct {
 // A GlueConnectionStatus defines the observed state of a GlueConnection
 type GlueConnectionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueConnectionObservation `json:",inline"`
+	AtProvider                     GlueConnectionObservation `json:"atProvider"`
 }
 
 // A GlueConnectionObservation records the observed state of a GlueConnection

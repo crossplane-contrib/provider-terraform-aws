@@ -47,14 +47,14 @@ type EcsCapacityProviderList struct {
 // A EcsCapacityProviderSpec defines the desired state of a EcsCapacityProvider
 type EcsCapacityProviderSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EcsCapacityProviderParameters `json:",inline"`
+	ForProvider                  EcsCapacityProviderParameters `json:"forProvider"`
 }
 
 // A EcsCapacityProviderParameters defines the desired state of a EcsCapacityProvider
 type EcsCapacityProviderParameters struct {
+	Tags                     map[string]string        `json:"tags"`
 	Id                       string                   `json:"id"`
 	Name                     string                   `json:"name"`
-	Tags                     map[string]string        `json:"tags"`
 	AutoScalingGroupProvider AutoScalingGroupProvider `json:"auto_scaling_group_provider"`
 }
 
@@ -65,16 +65,16 @@ type AutoScalingGroupProvider struct {
 }
 
 type ManagedScaling struct {
-	MaximumScalingStepSize int64  `json:"maximum_scaling_step_size"`
 	MinimumScalingStepSize int64  `json:"minimum_scaling_step_size"`
 	Status                 string `json:"status"`
 	TargetCapacity         int64  `json:"target_capacity"`
+	MaximumScalingStepSize int64  `json:"maximum_scaling_step_size"`
 }
 
 // A EcsCapacityProviderStatus defines the observed state of a EcsCapacityProvider
 type EcsCapacityProviderStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EcsCapacityProviderObservation `json:",inline"`
+	AtProvider                     EcsCapacityProviderObservation `json:"atProvider"`
 }
 
 // A EcsCapacityProviderObservation records the observed state of a EcsCapacityProvider

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -40,8 +41,15 @@ func EncodeApiGatewayUsagePlanKey(r ApiGatewayUsagePlanKey) cty.Value {
 	EncodeApiGatewayUsagePlanKey_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_KeyType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_UsagePlanId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayUsagePlanKey_Name(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Value(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayUsagePlanKey_Name(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -61,10 +69,10 @@ func EncodeApiGatewayUsagePlanKey_UsagePlanId(p ApiGatewayUsagePlanKeyParameters
 	vals["usage_plan_id"] = cty.StringVal(p.UsagePlanId)
 }
 
-func EncodeApiGatewayUsagePlanKey_Name(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeApiGatewayUsagePlanKey_Value(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
 	vals["value"] = cty.StringVal(p.Value)
+}
+
+func EncodeApiGatewayUsagePlanKey_Name(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }

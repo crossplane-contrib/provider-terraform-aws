@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,31 +37,50 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSagemakerNotebookInstance(r SagemakerNotebookInstance) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSagemakerNotebookInstance_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_InstanceType(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_LifecycleConfigName(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstance_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstance_KmsKeyId(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstance_RootAccess(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_SecurityGroups(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_DirectInternetAccess(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_RootAccess(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstance_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstance_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSagemakerNotebookInstance_RoleArn(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodeSagemakerNotebookInstance_InstanceType(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	vals["instance_type"] = cty.StringVal(p.InstanceType)
 }
 
+func EncodeSagemakerNotebookInstance_LifecycleConfigName(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["lifecycle_config_name"] = cty.StringVal(p.LifecycleConfigName)
+}
+
+func EncodeSagemakerNotebookInstance_Name(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
 func EncodeSagemakerNotebookInstance_KmsKeyId(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
-func EncodeSagemakerNotebookInstance_LifecycleConfigName(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["lifecycle_config_name"] = cty.StringVal(p.LifecycleConfigName)
+func EncodeSagemakerNotebookInstance_RootAccess(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	vals["root_access"] = cty.StringVal(p.RootAccess)
 }
 
 func EncodeSagemakerNotebookInstance_SecurityGroups(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
@@ -76,6 +96,10 @@ func EncodeSagemakerNotebookInstance_SubnetId(p SagemakerNotebookInstanceParamet
 }
 
 func EncodeSagemakerNotebookInstance_Tags(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -87,20 +111,8 @@ func EncodeSagemakerNotebookInstance_DirectInternetAccess(p SagemakerNotebookIns
 	vals["direct_internet_access"] = cty.StringVal(p.DirectInternetAccess)
 }
 
-func EncodeSagemakerNotebookInstance_RoleArn(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeSagemakerNotebookInstance_RootAccess(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["root_access"] = cty.StringVal(p.RootAccess)
-}
-
 func EncodeSagemakerNotebookInstance_Id(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSagemakerNotebookInstance_Name(p SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSagemakerNotebookInstance_Arn(p SagemakerNotebookInstanceObservation, vals map[string]cty.Value) {

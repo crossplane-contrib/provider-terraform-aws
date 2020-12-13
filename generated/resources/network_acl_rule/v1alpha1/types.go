@@ -47,29 +47,29 @@ type NetworkAclRuleList struct {
 // A NetworkAclRuleSpec defines the desired state of a NetworkAclRule
 type NetworkAclRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NetworkAclRuleParameters `json:",inline"`
+	ForProvider                  NetworkAclRuleParameters `json:"forProvider"`
 }
 
 // A NetworkAclRuleParameters defines the desired state of a NetworkAclRule
 type NetworkAclRuleParameters struct {
-	FromPort      int64  `json:"from_port"`
-	IcmpCode      string `json:"icmp_code"`
-	NetworkAclId  string `json:"network_acl_id"`
-	Protocol      string `json:"protocol"`
-	RuleAction    string `json:"rule_action"`
-	CidrBlock     string `json:"cidr_block"`
 	IcmpType      string `json:"icmp_type"`
 	Id            string `json:"id"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
-	RuleNumber    int64  `json:"rule_number"`
+	Protocol      string `json:"protocol"`
+	RuleAction    string `json:"rule_action"`
 	ToPort        int64  `json:"to_port"`
 	Egress        bool   `json:"egress"`
+	FromPort      int64  `json:"from_port"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	NetworkAclId  string `json:"network_acl_id"`
+	RuleNumber    int64  `json:"rule_number"`
+	CidrBlock     string `json:"cidr_block"`
+	IcmpCode      string `json:"icmp_code"`
 }
 
 // A NetworkAclRuleStatus defines the observed state of a NetworkAclRule
 type NetworkAclRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NetworkAclRuleObservation `json:",inline"`
+	AtProvider                     NetworkAclRuleObservation `json:"atProvider"`
 }
 
 // A NetworkAclRuleObservation records the observed state of a NetworkAclRule

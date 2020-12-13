@@ -47,17 +47,17 @@ type Route53ResolverRuleList struct {
 // A Route53ResolverRuleSpec defines the desired state of a Route53ResolverRule
 type Route53ResolverRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53ResolverRuleParameters `json:",inline"`
+	ForProvider                  Route53ResolverRuleParameters `json:"forProvider"`
 }
 
 // A Route53ResolverRuleParameters defines the desired state of a Route53ResolverRule
 type Route53ResolverRuleParameters struct {
+	Tags               map[string]string `json:"tags"`
+	RuleType           string            `json:"rule_type"`
 	DomainName         string            `json:"domain_name"`
 	Id                 string            `json:"id"`
-	ResolverEndpointId string            `json:"resolver_endpoint_id"`
-	Tags               map[string]string `json:"tags"`
 	Name               string            `json:"name"`
-	RuleType           string            `json:"rule_type"`
+	ResolverEndpointId string            `json:"resolver_endpoint_id"`
 	TargetIp           TargetIp          `json:"target_ip"`
 	Timeouts           Timeouts          `json:"timeouts"`
 }
@@ -76,12 +76,12 @@ type Timeouts struct {
 // A Route53ResolverRuleStatus defines the observed state of a Route53ResolverRule
 type Route53ResolverRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53ResolverRuleObservation `json:",inline"`
+	AtProvider                     Route53ResolverRuleObservation `json:"atProvider"`
 }
 
 // A Route53ResolverRuleObservation records the observed state of a Route53ResolverRule
 type Route53ResolverRuleObservation struct {
+	ShareStatus string `json:"share_status"`
 	Arn         string `json:"arn"`
 	OwnerId     string `json:"owner_id"`
-	ShareStatus string `json:"share_status"`
 }

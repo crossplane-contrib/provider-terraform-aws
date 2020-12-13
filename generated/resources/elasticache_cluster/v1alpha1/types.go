@@ -47,40 +47,40 @@ type ElasticacheClusterList struct {
 // A ElasticacheClusterSpec defines the desired state of a ElasticacheCluster
 type ElasticacheClusterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticacheClusterParameters `json:",inline"`
+	ForProvider                  ElasticacheClusterParameters `json:"forProvider"`
 }
 
 // A ElasticacheClusterParameters defines the desired state of a ElasticacheCluster
 type ElasticacheClusterParameters struct {
-	SnapshotWindow             string            `json:"snapshot_window"`
+	Id                         string            `json:"id"`
+	NumCacheNodes              int64             `json:"num_cache_nodes"`
+	SnapshotRetentionLimit     int64             `json:"snapshot_retention_limit"`
+	EngineVersion              string            `json:"engine_version"`
+	SnapshotName               string            `json:"snapshot_name"`
+	AzMode                     string            `json:"az_mode"`
+	Engine                     string            `json:"engine"`
+	ReplicationGroupId         string            `json:"replication_group_id"`
+	NodeType                   string            `json:"node_type"`
+	Port                       int64             `json:"port"`
+	AvailabilityZone           string            `json:"availability_zone"`
+	PreferredAvailabilityZones []string          `json:"preferred_availability_zones"`
+	SecurityGroupIds           []string          `json:"security_group_ids"`
+	SubnetGroupName            string            `json:"subnet_group_name"`
 	ClusterId                  string            `json:"cluster_id"`
 	SecurityGroupNames         []string          `json:"security_group_names"`
-	Tags                       map[string]string `json:"tags"`
-	PreferredAvailabilityZones []string          `json:"preferred_availability_zones"`
-	AzMode                     string            `json:"az_mode"`
-	NumCacheNodes              int64             `json:"num_cache_nodes"`
-	SnapshotName               string            `json:"snapshot_name"`
-	Engine                     string            `json:"engine"`
-	EngineVersion              string            `json:"engine_version"`
-	SnapshotRetentionLimit     int64             `json:"snapshot_retention_limit"`
-	NotificationTopicArn       string            `json:"notification_topic_arn"`
-	Port                       int64             `json:"port"`
-	SubnetGroupName            string            `json:"subnet_group_name"`
-	NodeType                   string            `json:"node_type"`
-	ParameterGroupName         string            `json:"parameter_group_name"`
-	ReplicationGroupId         string            `json:"replication_group_id"`
 	MaintenanceWindow          string            `json:"maintenance_window"`
-	SecurityGroupIds           []string          `json:"security_group_ids"`
+	NotificationTopicArn       string            `json:"notification_topic_arn"`
 	SnapshotArns               []string          `json:"snapshot_arns"`
 	ApplyImmediately           bool              `json:"apply_immediately"`
-	AvailabilityZone           string            `json:"availability_zone"`
-	Id                         string            `json:"id"`
+	ParameterGroupName         string            `json:"parameter_group_name"`
+	SnapshotWindow             string            `json:"snapshot_window"`
+	Tags                       map[string]string `json:"tags"`
 }
 
 // A ElasticacheClusterStatus defines the observed state of a ElasticacheCluster
 type ElasticacheClusterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticacheClusterObservation `json:",inline"`
+	AtProvider                     ElasticacheClusterObservation `json:"atProvider"`
 }
 
 // A ElasticacheClusterObservation records the observed state of a ElasticacheCluster
@@ -92,8 +92,8 @@ type ElasticacheClusterObservation struct {
 }
 
 type CacheNodes struct {
-	Id               string `json:"id"`
-	Port             int64  `json:"port"`
 	Address          string `json:"address"`
 	AvailabilityZone string `json:"availability_zone"`
+	Id               string `json:"id"`
+	Port             int64  `json:"port"`
 }

@@ -47,15 +47,15 @@ type ElasticacheParameterGroupList struct {
 // A ElasticacheParameterGroupSpec defines the desired state of a ElasticacheParameterGroup
 type ElasticacheParameterGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticacheParameterGroupParameters `json:",inline"`
+	ForProvider                  ElasticacheParameterGroupParameters `json:"forProvider"`
 }
 
 // A ElasticacheParameterGroupParameters defines the desired state of a ElasticacheParameterGroup
 type ElasticacheParameterGroupParameters struct {
+	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Family      string    `json:"family"`
 	Id          string    `json:"id"`
-	Name        string    `json:"name"`
 	Parameter   Parameter `json:"parameter"`
 }
 
@@ -67,7 +67,7 @@ type Parameter struct {
 // A ElasticacheParameterGroupStatus defines the observed state of a ElasticacheParameterGroup
 type ElasticacheParameterGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticacheParameterGroupObservation `json:",inline"`
+	AtProvider                     ElasticacheParameterGroupObservation `json:"atProvider"`
 }
 
 // A ElasticacheParameterGroupObservation records the observed state of a ElasticacheParameterGroup

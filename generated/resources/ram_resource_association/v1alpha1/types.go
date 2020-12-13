@@ -47,20 +47,20 @@ type RamResourceAssociationList struct {
 // A RamResourceAssociationSpec defines the desired state of a RamResourceAssociation
 type RamResourceAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RamResourceAssociationParameters `json:",inline"`
+	ForProvider                  RamResourceAssociationParameters `json:"forProvider"`
 }
 
 // A RamResourceAssociationParameters defines the desired state of a RamResourceAssociation
 type RamResourceAssociationParameters struct {
-	ResourceArn      string `json:"resource_arn"`
 	ResourceShareArn string `json:"resource_share_arn"`
 	Id               string `json:"id"`
+	ResourceArn      string `json:"resource_arn"`
 }
 
 // A RamResourceAssociationStatus defines the observed state of a RamResourceAssociation
 type RamResourceAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RamResourceAssociationObservation `json:",inline"`
+	AtProvider                     RamResourceAssociationObservation `json:"atProvider"`
 }
 
 // A RamResourceAssociationObservation records the observed state of a RamResourceAssociation

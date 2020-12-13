@@ -47,25 +47,25 @@ type KmsAliasList struct {
 // A KmsAliasSpec defines the desired state of a KmsAlias
 type KmsAliasSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  KmsAliasParameters `json:",inline"`
+	ForProvider                  KmsAliasParameters `json:"forProvider"`
 }
 
 // A KmsAliasParameters defines the desired state of a KmsAlias
 type KmsAliasParameters struct {
+	TargetKeyId string `json:"target_key_id"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
 	NamePrefix  string `json:"name_prefix"`
-	TargetKeyId string `json:"target_key_id"`
 }
 
 // A KmsAliasStatus defines the observed state of a KmsAlias
 type KmsAliasStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     KmsAliasObservation `json:",inline"`
+	AtProvider                     KmsAliasObservation `json:"atProvider"`
 }
 
 // A KmsAliasObservation records the observed state of a KmsAlias
 type KmsAliasObservation struct {
-	TargetKeyArn string `json:"target_key_arn"`
 	Arn          string `json:"arn"`
+	TargetKeyArn string `json:"target_key_arn"`
 }

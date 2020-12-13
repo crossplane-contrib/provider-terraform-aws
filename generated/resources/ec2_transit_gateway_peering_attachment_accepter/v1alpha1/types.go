@@ -47,7 +47,7 @@ type Ec2TransitGatewayPeeringAttachmentAccepterList struct {
 // A Ec2TransitGatewayPeeringAttachmentAccepterSpec defines the desired state of a Ec2TransitGatewayPeeringAttachmentAccepter
 type Ec2TransitGatewayPeeringAttachmentAccepterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayPeeringAttachmentAccepterParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayPeeringAttachmentAccepterParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayPeeringAttachmentAccepterParameters defines the desired state of a Ec2TransitGatewayPeeringAttachmentAccepter
@@ -60,13 +60,13 @@ type Ec2TransitGatewayPeeringAttachmentAccepterParameters struct {
 // A Ec2TransitGatewayPeeringAttachmentAccepterStatus defines the observed state of a Ec2TransitGatewayPeeringAttachmentAccepter
 type Ec2TransitGatewayPeeringAttachmentAccepterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayPeeringAttachmentAccepterObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayPeeringAttachmentAccepterObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayPeeringAttachmentAccepterObservation records the observed state of a Ec2TransitGatewayPeeringAttachmentAccepter
 type Ec2TransitGatewayPeeringAttachmentAccepterObservation struct {
-	PeerTransitGatewayId string `json:"peer_transit_gateway_id"`
-	TransitGatewayId     string `json:"transit_gateway_id"`
 	PeerAccountId        string `json:"peer_account_id"`
 	PeerRegion           string `json:"peer_region"`
+	PeerTransitGatewayId string `json:"peer_transit_gateway_id"`
+	TransitGatewayId     string `json:"transit_gateway_id"`
 }

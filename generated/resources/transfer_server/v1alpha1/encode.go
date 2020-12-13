@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -39,20 +40,31 @@ func EncodeTransferServer(r TransferServer) cty.Value {
 	EncodeTransferServer_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeTransferServer_EndpointType(r.Spec.ForProvider, ctyVal)
 	EncodeTransferServer_HostKey(r.Spec.ForProvider, ctyVal)
-	EncodeTransferServer_LoggingRole(r.Spec.ForProvider, ctyVal)
-	EncodeTransferServer_Url(r.Spec.ForProvider, ctyVal)
-	EncodeTransferServer_ForceDestroy(r.Spec.ForProvider, ctyVal)
-	EncodeTransferServer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeTransferServer_IdentityProviderType(r.Spec.ForProvider, ctyVal)
 	EncodeTransferServer_InvocationRole(r.Spec.ForProvider, ctyVal)
+	EncodeTransferServer_LoggingRole(r.Spec.ForProvider, ctyVal)
+	EncodeTransferServer_ForceDestroy(r.Spec.ForProvider, ctyVal)
+	EncodeTransferServer_Id(r.Spec.ForProvider, ctyVal)
+	EncodeTransferServer_Url(r.Spec.ForProvider, ctyVal)
 	EncodeTransferServer_EndpointDetails(r.Spec.ForProvider.EndpointDetails, ctyVal)
-	EncodeTransferServer_Endpoint(r.Status.AtProvider, ctyVal)
-	EncodeTransferServer_HostKeyFingerprint(r.Status.AtProvider, ctyVal)
 	EncodeTransferServer_Arn(r.Status.AtProvider, ctyVal)
+	EncodeTransferServer_HostKeyFingerprint(r.Status.AtProvider, ctyVal)
+	EncodeTransferServer_Endpoint(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeTransferServer_Tags(p TransferServerParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -68,12 +80,16 @@ func EncodeTransferServer_HostKey(p TransferServerParameters, vals map[string]ct
 	vals["host_key"] = cty.StringVal(p.HostKey)
 }
 
-func EncodeTransferServer_LoggingRole(p TransferServerParameters, vals map[string]cty.Value) {
-	vals["logging_role"] = cty.StringVal(p.LoggingRole)
+func EncodeTransferServer_IdentityProviderType(p TransferServerParameters, vals map[string]cty.Value) {
+	vals["identity_provider_type"] = cty.StringVal(p.IdentityProviderType)
 }
 
-func EncodeTransferServer_Url(p TransferServerParameters, vals map[string]cty.Value) {
-	vals["url"] = cty.StringVal(p.Url)
+func EncodeTransferServer_InvocationRole(p TransferServerParameters, vals map[string]cty.Value) {
+	vals["invocation_role"] = cty.StringVal(p.InvocationRole)
+}
+
+func EncodeTransferServer_LoggingRole(p TransferServerParameters, vals map[string]cty.Value) {
+	vals["logging_role"] = cty.StringVal(p.LoggingRole)
 }
 
 func EncodeTransferServer_ForceDestroy(p TransferServerParameters, vals map[string]cty.Value) {
@@ -84,12 +100,8 @@ func EncodeTransferServer_Id(p TransferServerParameters, vals map[string]cty.Val
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeTransferServer_IdentityProviderType(p TransferServerParameters, vals map[string]cty.Value) {
-	vals["identity_provider_type"] = cty.StringVal(p.IdentityProviderType)
-}
-
-func EncodeTransferServer_InvocationRole(p TransferServerParameters, vals map[string]cty.Value) {
-	vals["invocation_role"] = cty.StringVal(p.InvocationRole)
+func EncodeTransferServer_Url(p TransferServerParameters, vals map[string]cty.Value) {
+	vals["url"] = cty.StringVal(p.Url)
 }
 
 func EncodeTransferServer_EndpointDetails(p EndpointDetails, vals map[string]cty.Value) {
@@ -127,14 +139,14 @@ func EncodeTransferServer_EndpointDetails_VpcId(p EndpointDetails, vals map[stri
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeTransferServer_Endpoint(p TransferServerObservation, vals map[string]cty.Value) {
-	vals["endpoint"] = cty.StringVal(p.Endpoint)
+func EncodeTransferServer_Arn(p TransferServerObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeTransferServer_HostKeyFingerprint(p TransferServerObservation, vals map[string]cty.Value) {
 	vals["host_key_fingerprint"] = cty.StringVal(p.HostKeyFingerprint)
 }
 
-func EncodeTransferServer_Arn(p TransferServerObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeTransferServer_Endpoint(p TransferServerObservation, vals map[string]cty.Value) {
+	vals["endpoint"] = cty.StringVal(p.Endpoint)
 }

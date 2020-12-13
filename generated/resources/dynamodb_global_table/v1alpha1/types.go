@@ -47,7 +47,7 @@ type DynamodbGlobalTableList struct {
 // A DynamodbGlobalTableSpec defines the desired state of a DynamodbGlobalTable
 type DynamodbGlobalTableSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DynamodbGlobalTableParameters `json:",inline"`
+	ForProvider                  DynamodbGlobalTableParameters `json:"forProvider"`
 }
 
 // A DynamodbGlobalTableParameters defines the desired state of a DynamodbGlobalTable
@@ -71,7 +71,7 @@ type Timeouts struct {
 // A DynamodbGlobalTableStatus defines the observed state of a DynamodbGlobalTable
 type DynamodbGlobalTableStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DynamodbGlobalTableObservation `json:",inline"`
+	AtProvider                     DynamodbGlobalTableObservation `json:"atProvider"`
 }
 
 // A DynamodbGlobalTableObservation records the observed state of a DynamodbGlobalTable

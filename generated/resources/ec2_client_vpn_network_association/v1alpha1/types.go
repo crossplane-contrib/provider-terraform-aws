@@ -47,7 +47,7 @@ type Ec2ClientVpnNetworkAssociationList struct {
 // A Ec2ClientVpnNetworkAssociationSpec defines the desired state of a Ec2ClientVpnNetworkAssociation
 type Ec2ClientVpnNetworkAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2ClientVpnNetworkAssociationParameters `json:",inline"`
+	ForProvider                  Ec2ClientVpnNetworkAssociationParameters `json:"forProvider"`
 }
 
 // A Ec2ClientVpnNetworkAssociationParameters defines the desired state of a Ec2ClientVpnNetworkAssociation
@@ -61,7 +61,7 @@ type Ec2ClientVpnNetworkAssociationParameters struct {
 // A Ec2ClientVpnNetworkAssociationStatus defines the observed state of a Ec2ClientVpnNetworkAssociation
 type Ec2ClientVpnNetworkAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2ClientVpnNetworkAssociationObservation `json:",inline"`
+	AtProvider                     Ec2ClientVpnNetworkAssociationObservation `json:"atProvider"`
 }
 
 // A Ec2ClientVpnNetworkAssociationObservation records the observed state of a Ec2ClientVpnNetworkAssociation

@@ -47,7 +47,7 @@ type BackupVaultList struct {
 // A BackupVaultSpec defines the desired state of a BackupVault
 type BackupVaultSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  BackupVaultParameters `json:",inline"`
+	ForProvider                  BackupVaultParameters `json:"forProvider"`
 }
 
 // A BackupVaultParameters defines the desired state of a BackupVault
@@ -61,11 +61,11 @@ type BackupVaultParameters struct {
 // A BackupVaultStatus defines the observed state of a BackupVault
 type BackupVaultStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     BackupVaultObservation `json:",inline"`
+	AtProvider                     BackupVaultObservation `json:"atProvider"`
 }
 
 // A BackupVaultObservation records the observed state of a BackupVault
 type BackupVaultObservation struct {
-	RecoveryPoints int64  `json:"recovery_points"`
 	Arn            string `json:"arn"`
+	RecoveryPoints int64  `json:"recovery_points"`
 }

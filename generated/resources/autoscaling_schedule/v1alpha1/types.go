@@ -47,26 +47,26 @@ type AutoscalingScheduleList struct {
 // A AutoscalingScheduleSpec defines the desired state of a AutoscalingSchedule
 type AutoscalingScheduleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AutoscalingScheduleParameters `json:",inline"`
+	ForProvider                  AutoscalingScheduleParameters `json:"forProvider"`
 }
 
 // A AutoscalingScheduleParameters defines the desired state of a AutoscalingSchedule
 type AutoscalingScheduleParameters struct {
-	Id                   string `json:"id"`
-	MinSize              int64  `json:"min_size"`
-	EndTime              string `json:"end_time"`
 	AutoscalingGroupName string `json:"autoscaling_group_name"`
-	DesiredCapacity      int64  `json:"desired_capacity"`
+	EndTime              string `json:"end_time"`
 	MaxSize              int64  `json:"max_size"`
 	Recurrence           string `json:"recurrence"`
 	ScheduledActionName  string `json:"scheduled_action_name"`
+	DesiredCapacity      int64  `json:"desired_capacity"`
+	Id                   string `json:"id"`
+	MinSize              int64  `json:"min_size"`
 	StartTime            string `json:"start_time"`
 }
 
 // A AutoscalingScheduleStatus defines the observed state of a AutoscalingSchedule
 type AutoscalingScheduleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AutoscalingScheduleObservation `json:",inline"`
+	AtProvider                     AutoscalingScheduleObservation `json:"atProvider"`
 }
 
 // A AutoscalingScheduleObservation records the observed state of a AutoscalingSchedule

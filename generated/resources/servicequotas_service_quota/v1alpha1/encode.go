@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -38,15 +39,22 @@ func EncodeServicequotasServiceQuota(r ServicequotasServiceQuota) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeServicequotasServiceQuota_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServicequotasServiceQuota_QuotaCode(r.Spec.ForProvider, ctyVal)
-	EncodeServicequotasServiceQuota_ServiceCode(r.Spec.ForProvider, ctyVal)
 	EncodeServicequotasServiceQuota_Value(r.Spec.ForProvider, ctyVal)
+	EncodeServicequotasServiceQuota_ServiceCode(r.Spec.ForProvider, ctyVal)
+	EncodeServicequotasServiceQuota_DefaultValue(r.Status.AtProvider, ctyVal)
+	EncodeServicequotasServiceQuota_ServiceName(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_Adjustable(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_Arn(r.Status.AtProvider, ctyVal)
-	EncodeServicequotasServiceQuota_ServiceName(r.Status.AtProvider, ctyVal)
-	EncodeServicequotasServiceQuota_DefaultValue(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_QuotaName(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_RequestId(r.Status.AtProvider, ctyVal)
 	EncodeServicequotasServiceQuota_RequestStatus(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -58,12 +66,20 @@ func EncodeServicequotasServiceQuota_QuotaCode(p ServicequotasServiceQuotaParame
 	vals["quota_code"] = cty.StringVal(p.QuotaCode)
 }
 
+func EncodeServicequotasServiceQuota_Value(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
+	vals["value"] = cty.NumberIntVal(p.Value)
+}
+
 func EncodeServicequotasServiceQuota_ServiceCode(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
 	vals["service_code"] = cty.StringVal(p.ServiceCode)
 }
 
-func EncodeServicequotasServiceQuota_Value(p ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
-	vals["value"] = cty.NumberIntVal(p.Value)
+func EncodeServicequotasServiceQuota_DefaultValue(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	vals["default_value"] = cty.NumberIntVal(p.DefaultValue)
+}
+
+func EncodeServicequotasServiceQuota_ServiceName(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	vals["service_name"] = cty.StringVal(p.ServiceName)
 }
 
 func EncodeServicequotasServiceQuota_Adjustable(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
@@ -72,14 +88,6 @@ func EncodeServicequotasServiceQuota_Adjustable(p ServicequotasServiceQuotaObser
 
 func EncodeServicequotasServiceQuota_Arn(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeServicequotasServiceQuota_ServiceName(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	vals["service_name"] = cty.StringVal(p.ServiceName)
-}
-
-func EncodeServicequotasServiceQuota_DefaultValue(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	vals["default_value"] = cty.NumberIntVal(p.DefaultValue)
 }
 
 func EncodeServicequotasServiceQuota_QuotaName(p ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {

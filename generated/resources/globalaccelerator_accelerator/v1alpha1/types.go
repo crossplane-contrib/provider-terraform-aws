@@ -47,29 +47,29 @@ type GlobalacceleratorAcceleratorList struct {
 // A GlobalacceleratorAcceleratorSpec defines the desired state of a GlobalacceleratorAccelerator
 type GlobalacceleratorAcceleratorSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlobalacceleratorAcceleratorParameters `json:",inline"`
+	ForProvider                  GlobalacceleratorAcceleratorParameters `json:"forProvider"`
 }
 
 // A GlobalacceleratorAcceleratorParameters defines the desired state of a GlobalacceleratorAccelerator
 type GlobalacceleratorAcceleratorParameters struct {
-	IpAddressType string            `json:"ip_address_type"`
 	Name          string            `json:"name"`
 	Tags          map[string]string `json:"tags"`
 	Enabled       bool              `json:"enabled"`
 	Id            string            `json:"id"`
+	IpAddressType string            `json:"ip_address_type"`
 	Attributes    Attributes        `json:"attributes"`
 }
 
 type Attributes struct {
+	FlowLogsS3Prefix string `json:"flow_logs_s3_prefix"`
 	FlowLogsEnabled  bool   `json:"flow_logs_enabled"`
 	FlowLogsS3Bucket string `json:"flow_logs_s3_bucket"`
-	FlowLogsS3Prefix string `json:"flow_logs_s3_prefix"`
 }
 
 // A GlobalacceleratorAcceleratorStatus defines the observed state of a GlobalacceleratorAccelerator
 type GlobalacceleratorAcceleratorStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlobalacceleratorAcceleratorObservation `json:",inline"`
+	AtProvider                     GlobalacceleratorAcceleratorObservation `json:"atProvider"`
 }
 
 // A GlobalacceleratorAcceleratorObservation records the observed state of a GlobalacceleratorAccelerator

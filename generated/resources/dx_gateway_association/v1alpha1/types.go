@@ -47,17 +47,17 @@ type DxGatewayAssociationList struct {
 // A DxGatewayAssociationSpec defines the desired state of a DxGatewayAssociation
 type DxGatewayAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxGatewayAssociationParameters `json:",inline"`
+	ForProvider                  DxGatewayAssociationParameters `json:"forProvider"`
 }
 
 // A DxGatewayAssociationParameters defines the desired state of a DxGatewayAssociation
 type DxGatewayAssociationParameters struct {
-	AllowedPrefixes                 []string `json:"allowed_prefixes"`
-	ProposalId                      string   `json:"proposal_id"`
-	AssociatedGatewayId             string   `json:"associated_gateway_id"`
-	AssociatedGatewayOwnerAccountId string   `json:"associated_gateway_owner_account_id"`
 	DxGatewayId                     string   `json:"dx_gateway_id"`
+	ProposalId                      string   `json:"proposal_id"`
+	AssociatedGatewayOwnerAccountId string   `json:"associated_gateway_owner_account_id"`
 	Id                              string   `json:"id"`
+	AllowedPrefixes                 []string `json:"allowed_prefixes"`
+	AssociatedGatewayId             string   `json:"associated_gateway_id"`
 	Timeouts                        Timeouts `json:"timeouts"`
 }
 
@@ -70,12 +70,12 @@ type Timeouts struct {
 // A DxGatewayAssociationStatus defines the observed state of a DxGatewayAssociation
 type DxGatewayAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxGatewayAssociationObservation `json:",inline"`
+	AtProvider                     DxGatewayAssociationObservation `json:"atProvider"`
 }
 
 // A DxGatewayAssociationObservation records the observed state of a DxGatewayAssociation
 type DxGatewayAssociationObservation struct {
 	AssociatedGatewayType   string `json:"associated_gateway_type"`
-	DxGatewayOwnerAccountId string `json:"dx_gateway_owner_account_id"`
 	DxGatewayAssociationId  string `json:"dx_gateway_association_id"`
+	DxGatewayOwnerAccountId string `json:"dx_gateway_owner_account_id"`
 }

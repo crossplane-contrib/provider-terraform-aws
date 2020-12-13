@@ -47,7 +47,7 @@ type Ec2TransitGatewayPeeringAttachmentList struct {
 // A Ec2TransitGatewayPeeringAttachmentSpec defines the desired state of a Ec2TransitGatewayPeeringAttachment
 type Ec2TransitGatewayPeeringAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayPeeringAttachmentParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayPeeringAttachmentParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayPeeringAttachmentParameters defines the desired state of a Ec2TransitGatewayPeeringAttachment
@@ -63,7 +63,7 @@ type Ec2TransitGatewayPeeringAttachmentParameters struct {
 // A Ec2TransitGatewayPeeringAttachmentStatus defines the observed state of a Ec2TransitGatewayPeeringAttachment
 type Ec2TransitGatewayPeeringAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayPeeringAttachmentObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayPeeringAttachmentObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayPeeringAttachmentObservation records the observed state of a Ec2TransitGatewayPeeringAttachment

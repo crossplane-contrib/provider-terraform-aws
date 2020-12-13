@@ -47,30 +47,30 @@ type WafregionalRateBasedRuleList struct {
 // A WafregionalRateBasedRuleSpec defines the desired state of a WafregionalRateBasedRule
 type WafregionalRateBasedRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalRateBasedRuleParameters `json:",inline"`
+	ForProvider                  WafregionalRateBasedRuleParameters `json:"forProvider"`
 }
 
 // A WafregionalRateBasedRuleParameters defines the desired state of a WafregionalRateBasedRule
 type WafregionalRateBasedRuleParameters struct {
-	RateKey    string            `json:"rate_key"`
-	RateLimit  int64             `json:"rate_limit"`
-	Tags       map[string]string `json:"tags"`
 	Id         string            `json:"id"`
 	MetricName string            `json:"metric_name"`
 	Name       string            `json:"name"`
+	RateKey    string            `json:"rate_key"`
+	RateLimit  int64             `json:"rate_limit"`
+	Tags       map[string]string `json:"tags"`
 	Predicate  Predicate         `json:"predicate"`
 }
 
 type Predicate struct {
-	Type    string `json:"type"`
 	DataId  string `json:"data_id"`
 	Negated bool   `json:"negated"`
+	Type    string `json:"type"`
 }
 
 // A WafregionalRateBasedRuleStatus defines the observed state of a WafregionalRateBasedRule
 type WafregionalRateBasedRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalRateBasedRuleObservation `json:",inline"`
+	AtProvider                     WafregionalRateBasedRuleObservation `json:"atProvider"`
 }
 
 // A WafregionalRateBasedRuleObservation records the observed state of a WafregionalRateBasedRule

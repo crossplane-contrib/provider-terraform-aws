@@ -47,20 +47,20 @@ type FlowLogList struct {
 // A FlowLogSpec defines the desired state of a FlowLog
 type FlowLogSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  FlowLogParameters `json:",inline"`
+	ForProvider                  FlowLogParameters `json:"forProvider"`
 }
 
 // A FlowLogParameters defines the desired state of a FlowLog
 type FlowLogParameters struct {
-	EniId                  string            `json:"eni_id"`
 	IamRoleArn             string            `json:"iam_role_arn"`
-	Id                     string            `json:"id"`
-	LogDestination         string            `json:"log_destination"`
-	LogFormat              string            `json:"log_format"`
+	LogDestinationType     string            `json:"log_destination_type"`
 	MaxAggregationInterval int64             `json:"max_aggregation_interval"`
 	SubnetId               string            `json:"subnet_id"`
 	Tags                   map[string]string `json:"tags"`
-	LogDestinationType     string            `json:"log_destination_type"`
+	EniId                  string            `json:"eni_id"`
+	Id                     string            `json:"id"`
+	LogDestination         string            `json:"log_destination"`
+	LogFormat              string            `json:"log_format"`
 	LogGroupName           string            `json:"log_group_name"`
 	TrafficType            string            `json:"traffic_type"`
 	VpcId                  string            `json:"vpc_id"`
@@ -69,7 +69,7 @@ type FlowLogParameters struct {
 // A FlowLogStatus defines the observed state of a FlowLog
 type FlowLogStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     FlowLogObservation `json:",inline"`
+	AtProvider                     FlowLogObservation `json:"atProvider"`
 }
 
 // A FlowLogObservation records the observed state of a FlowLog

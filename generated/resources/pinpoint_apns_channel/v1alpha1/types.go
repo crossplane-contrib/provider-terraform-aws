@@ -47,27 +47,27 @@ type PinpointApnsChannelList struct {
 // A PinpointApnsChannelSpec defines the desired state of a PinpointApnsChannel
 type PinpointApnsChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointApnsChannelParameters `json:",inline"`
+	ForProvider                  PinpointApnsChannelParameters `json:"forProvider"`
 }
 
 // A PinpointApnsChannelParameters defines the desired state of a PinpointApnsChannel
 type PinpointApnsChannelParameters struct {
-	Id                          string `json:"id"`
-	TokenKeyId                  string `json:"token_key_id"`
 	ApplicationId               string `json:"application_id"`
-	DefaultAuthenticationMethod string `json:"default_authentication_method"`
-	Enabled                     bool   `json:"enabled"`
+	BundleId                    string `json:"bundle_id"`
+	TokenKeyId                  string `json:"token_key_id"`
 	TeamId                      string `json:"team_id"`
 	TokenKey                    string `json:"token_key"`
-	BundleId                    string `json:"bundle_id"`
 	Certificate                 string `json:"certificate"`
+	DefaultAuthenticationMethod string `json:"default_authentication_method"`
+	Enabled                     bool   `json:"enabled"`
+	Id                          string `json:"id"`
 	PrivateKey                  string `json:"private_key"`
 }
 
 // A PinpointApnsChannelStatus defines the observed state of a PinpointApnsChannel
 type PinpointApnsChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointApnsChannelObservation `json:",inline"`
+	AtProvider                     PinpointApnsChannelObservation `json:"atProvider"`
 }
 
 // A PinpointApnsChannelObservation records the observed state of a PinpointApnsChannel

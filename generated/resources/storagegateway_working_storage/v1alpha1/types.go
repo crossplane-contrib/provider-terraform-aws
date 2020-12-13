@@ -47,20 +47,20 @@ type StoragegatewayWorkingStorageList struct {
 // A StoragegatewayWorkingStorageSpec defines the desired state of a StoragegatewayWorkingStorage
 type StoragegatewayWorkingStorageSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  StoragegatewayWorkingStorageParameters `json:",inline"`
+	ForProvider                  StoragegatewayWorkingStorageParameters `json:"forProvider"`
 }
 
 // A StoragegatewayWorkingStorageParameters defines the desired state of a StoragegatewayWorkingStorage
 type StoragegatewayWorkingStorageParameters struct {
-	DiskId     string `json:"disk_id"`
 	GatewayArn string `json:"gateway_arn"`
 	Id         string `json:"id"`
+	DiskId     string `json:"disk_id"`
 }
 
 // A StoragegatewayWorkingStorageStatus defines the observed state of a StoragegatewayWorkingStorage
 type StoragegatewayWorkingStorageStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     StoragegatewayWorkingStorageObservation `json:",inline"`
+	AtProvider                     StoragegatewayWorkingStorageObservation `json:"atProvider"`
 }
 
 // A StoragegatewayWorkingStorageObservation records the observed state of a StoragegatewayWorkingStorage

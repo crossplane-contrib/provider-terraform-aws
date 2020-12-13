@@ -47,24 +47,24 @@ type Wafv2IpSetList struct {
 // A Wafv2IpSetSpec defines the desired state of a Wafv2IpSet
 type Wafv2IpSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Wafv2IpSetParameters `json:",inline"`
+	ForProvider                  Wafv2IpSetParameters `json:"forProvider"`
 }
 
 // A Wafv2IpSetParameters defines the desired state of a Wafv2IpSet
 type Wafv2IpSetParameters struct {
+	Tags             map[string]string `json:"tags"`
+	Name             string            `json:"name"`
+	Scope            string            `json:"scope"`
+	Description      string            `json:"description"`
 	Id               string            `json:"id"`
 	IpAddressVersion string            `json:"ip_address_version"`
-	Scope            string            `json:"scope"`
 	Addresses        []string          `json:"addresses"`
-	Description      string            `json:"description"`
-	Name             string            `json:"name"`
-	Tags             map[string]string `json:"tags"`
 }
 
 // A Wafv2IpSetStatus defines the observed state of a Wafv2IpSet
 type Wafv2IpSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Wafv2IpSetObservation `json:",inline"`
+	AtProvider                     Wafv2IpSetObservation `json:"atProvider"`
 }
 
 // A Wafv2IpSetObservation records the observed state of a Wafv2IpSet

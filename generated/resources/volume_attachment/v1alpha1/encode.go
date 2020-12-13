@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,26 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVolumeAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_SkipDestroy(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_DeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_ForceDetach(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_Id(r.Spec.ForProvider, ctyVal)
+	EncodeVolumeAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
+	EncodeVolumeAttachment_SkipDestroy(r.Spec.ForProvider, ctyVal)
+	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVolumeAttachment_InstanceId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["instance_id"] = cty.StringVal(p.InstanceId)
-}
-
-func EncodeVolumeAttachment_SkipDestroy(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["skip_destroy"] = cty.BoolVal(p.SkipDestroy)
-}
-
-func EncodeVolumeAttachment_VolumeId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["volume_id"] = cty.StringVal(p.VolumeId)
 }
 
 func EncodeVolumeAttachment_DeviceName(p VolumeAttachmentParameters, vals map[string]cty.Value) {
@@ -68,4 +64,16 @@ func EncodeVolumeAttachment_ForceDetach(p VolumeAttachmentParameters, vals map[s
 
 func EncodeVolumeAttachment_Id(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeVolumeAttachment_InstanceId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["instance_id"] = cty.StringVal(p.InstanceId)
+}
+
+func EncodeVolumeAttachment_SkipDestroy(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["skip_destroy"] = cty.BoolVal(p.SkipDestroy)
+}
+
+func EncodeVolumeAttachment_VolumeId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["volume_id"] = cty.StringVal(p.VolumeId)
 }

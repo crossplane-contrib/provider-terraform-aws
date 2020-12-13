@@ -47,7 +47,7 @@ type CodedeployDeploymentConfigList struct {
 // A CodedeployDeploymentConfigSpec defines the desired state of a CodedeployDeploymentConfig
 type CodedeployDeploymentConfigSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodedeployDeploymentConfigParameters `json:",inline"`
+	ForProvider                  CodedeployDeploymentConfigParameters `json:"forProvider"`
 }
 
 // A CodedeployDeploymentConfigParameters defines the desired state of a CodedeployDeploymentConfig
@@ -66,13 +66,8 @@ type MinimumHealthyHosts struct {
 
 type TrafficRoutingConfig struct {
 	Type            string          `json:"type"`
-	TimeBasedCanary TimeBasedCanary `json:"time_based_canary"`
 	TimeBasedLinear TimeBasedLinear `json:"time_based_linear"`
-}
-
-type TimeBasedCanary struct {
-	Interval   int64 `json:"interval"`
-	Percentage int64 `json:"percentage"`
+	TimeBasedCanary TimeBasedCanary `json:"time_based_canary"`
 }
 
 type TimeBasedLinear struct {
@@ -80,10 +75,15 @@ type TimeBasedLinear struct {
 	Percentage int64 `json:"percentage"`
 }
 
+type TimeBasedCanary struct {
+	Interval   int64 `json:"interval"`
+	Percentage int64 `json:"percentage"`
+}
+
 // A CodedeployDeploymentConfigStatus defines the observed state of a CodedeployDeploymentConfig
 type CodedeployDeploymentConfigStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodedeployDeploymentConfigObservation `json:",inline"`
+	AtProvider                     CodedeployDeploymentConfigObservation `json:"atProvider"`
 }
 
 // A CodedeployDeploymentConfigObservation records the observed state of a CodedeployDeploymentConfig

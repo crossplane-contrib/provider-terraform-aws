@@ -47,27 +47,27 @@ type Ec2TrafficMirrorFilterRuleList struct {
 // A Ec2TrafficMirrorFilterRuleSpec defines the desired state of a Ec2TrafficMirrorFilterRule
 type Ec2TrafficMirrorFilterRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TrafficMirrorFilterRuleParameters `json:",inline"`
+	ForProvider                  Ec2TrafficMirrorFilterRuleParameters `json:"forProvider"`
 }
 
 // A Ec2TrafficMirrorFilterRuleParameters defines the desired state of a Ec2TrafficMirrorFilterRule
 type Ec2TrafficMirrorFilterRuleParameters struct {
-	DestinationCidrBlock  string               `json:"destination_cidr_block"`
-	Id                    string               `json:"id"`
-	RuleAction            string               `json:"rule_action"`
+	RuleNumber            int64                `json:"rule_number"`
 	SourceCidrBlock       string               `json:"source_cidr_block"`
 	TrafficDirection      string               `json:"traffic_direction"`
-	Description           string               `json:"description"`
-	Protocol              int64                `json:"protocol"`
-	RuleNumber            int64                `json:"rule_number"`
 	TrafficMirrorFilterId string               `json:"traffic_mirror_filter_id"`
+	Description           string               `json:"description"`
+	DestinationCidrBlock  string               `json:"destination_cidr_block"`
+	Id                    string               `json:"id"`
+	Protocol              int64                `json:"protocol"`
+	RuleAction            string               `json:"rule_action"`
 	DestinationPortRange  DestinationPortRange `json:"destination_port_range"`
 	SourcePortRange       SourcePortRange      `json:"source_port_range"`
 }
 
 type DestinationPortRange struct {
-	ToPort   int64 `json:"to_port"`
 	FromPort int64 `json:"from_port"`
+	ToPort   int64 `json:"to_port"`
 }
 
 type SourcePortRange struct {
@@ -78,7 +78,7 @@ type SourcePortRange struct {
 // A Ec2TrafficMirrorFilterRuleStatus defines the observed state of a Ec2TrafficMirrorFilterRule
 type Ec2TrafficMirrorFilterRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TrafficMirrorFilterRuleObservation `json:",inline"`
+	AtProvider                     Ec2TrafficMirrorFilterRuleObservation `json:"atProvider"`
 }
 
 // A Ec2TrafficMirrorFilterRuleObservation records the observed state of a Ec2TrafficMirrorFilterRule

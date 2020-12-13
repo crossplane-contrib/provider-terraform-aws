@@ -47,19 +47,19 @@ type DbProxyList struct {
 // A DbProxySpec defines the desired state of a DbProxy
 type DbProxySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbProxyParameters `json:",inline"`
+	ForProvider                  DbProxyParameters `json:"forProvider"`
 }
 
 // A DbProxyParameters defines the desired state of a DbProxy
 type DbProxyParameters struct {
 	RequireTls          bool              `json:"require_tls"`
-	VpcSubnetIds        []string          `json:"vpc_subnet_ids"`
+	RoleArn             string            `json:"role_arn"`
+	Tags                map[string]string `json:"tags"`
 	DebugLogging        bool              `json:"debug_logging"`
 	EngineFamily        string            `json:"engine_family"`
 	Name                string            `json:"name"`
-	RoleArn             string            `json:"role_arn"`
-	Tags                map[string]string `json:"tags"`
 	VpcSecurityGroupIds []string          `json:"vpc_security_group_ids"`
+	VpcSubnetIds        []string          `json:"vpc_subnet_ids"`
 	Id                  string            `json:"id"`
 	IdleClientTimeout   int64             `json:"idle_client_timeout"`
 	Auth                []Auth            `json:"auth"`
@@ -74,19 +74,19 @@ type Auth struct {
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A DbProxyStatus defines the observed state of a DbProxy
 type DbProxyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbProxyObservation `json:",inline"`
+	AtProvider                     DbProxyObservation `json:"atProvider"`
 }
 
 // A DbProxyObservation records the observed state of a DbProxy
 type DbProxyObservation struct {
-	Endpoint string `json:"endpoint"`
 	Arn      string `json:"arn"`
+	Endpoint string `json:"endpoint"`
 }

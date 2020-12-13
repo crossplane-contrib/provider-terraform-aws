@@ -47,19 +47,19 @@ type FmsAdminAccountList struct {
 // A FmsAdminAccountSpec defines the desired state of a FmsAdminAccount
 type FmsAdminAccountSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  FmsAdminAccountParameters `json:",inline"`
+	ForProvider                  FmsAdminAccountParameters `json:"forProvider"`
 }
 
 // A FmsAdminAccountParameters defines the desired state of a FmsAdminAccount
 type FmsAdminAccountParameters struct {
-	AccountId string `json:"account_id"`
 	Id        string `json:"id"`
+	AccountId string `json:"account_id"`
 }
 
 // A FmsAdminAccountStatus defines the observed state of a FmsAdminAccount
 type FmsAdminAccountStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     FmsAdminAccountObservation `json:",inline"`
+	AtProvider                     FmsAdminAccountObservation `json:"atProvider"`
 }
 
 // A FmsAdminAccountObservation records the observed state of a FmsAdminAccount

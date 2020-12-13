@@ -47,25 +47,25 @@ type CloudtrailList struct {
 // A CloudtrailSpec defines the desired state of a Cloudtrail
 type CloudtrailSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudtrailParameters `json:",inline"`
+	ForProvider                  CloudtrailParameters `json:"forProvider"`
 }
 
 // A CloudtrailParameters defines the desired state of a Cloudtrail
 type CloudtrailParameters struct {
-	Tags                       map[string]string `json:"tags"`
-	Id                         string            `json:"id"`
-	IsOrganizationTrail        bool              `json:"is_organization_trail"`
-	S3BucketName               string            `json:"s3_bucket_name"`
-	S3KeyPrefix                string            `json:"s3_key_prefix"`
-	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
-	KmsKeyId                   string            `json:"kms_key_id"`
-	Name                       string            `json:"name"`
 	EnableLogFileValidation    bool              `json:"enable_log_file_validation"`
-	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
 	EnableLogging              bool              `json:"enable_logging"`
-	SnsTopicName               string            `json:"sns_topic_name"`
+	S3BucketName               string            `json:"s3_bucket_name"`
 	CloudWatchLogsGroupArn     string            `json:"cloud_watch_logs_group_arn"`
+	IncludeGlobalServiceEvents bool              `json:"include_global_service_events"`
+	IsOrganizationTrail        bool              `json:"is_organization_trail"`
+	KmsKeyId                   string            `json:"kms_key_id"`
+	Tags                       map[string]string `json:"tags"`
+	S3KeyPrefix                string            `json:"s3_key_prefix"`
+	SnsTopicName               string            `json:"sns_topic_name"`
 	CloudWatchLogsRoleArn      string            `json:"cloud_watch_logs_role_arn"`
+	Id                         string            `json:"id"`
+	IsMultiRegionTrail         bool              `json:"is_multi_region_trail"`
+	Name                       string            `json:"name"`
 	EventSelector              []EventSelector   `json:"event_selector"`
 	InsightSelector            InsightSelector   `json:"insight_selector"`
 }
@@ -88,11 +88,11 @@ type InsightSelector struct {
 // A CloudtrailStatus defines the observed state of a Cloudtrail
 type CloudtrailStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudtrailObservation `json:",inline"`
+	AtProvider                     CloudtrailObservation `json:"atProvider"`
 }
 
 // A CloudtrailObservation records the observed state of a Cloudtrail
 type CloudtrailObservation struct {
-	HomeRegion string `json:"home_region"`
 	Arn        string `json:"arn"`
+	HomeRegion string `json:"home_region"`
 }

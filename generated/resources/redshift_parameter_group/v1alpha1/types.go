@@ -47,16 +47,16 @@ type RedshiftParameterGroupList struct {
 // A RedshiftParameterGroupSpec defines the desired state of a RedshiftParameterGroup
 type RedshiftParameterGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RedshiftParameterGroupParameters `json:",inline"`
+	ForProvider                  RedshiftParameterGroupParameters `json:"forProvider"`
 }
 
 // A RedshiftParameterGroupParameters defines the desired state of a RedshiftParameterGroup
 type RedshiftParameterGroupParameters struct {
+	Description string            `json:"description"`
 	Family      string            `json:"family"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
-	Description string            `json:"description"`
 	Parameter   Parameter         `json:"parameter"`
 }
 
@@ -68,7 +68,7 @@ type Parameter struct {
 // A RedshiftParameterGroupStatus defines the observed state of a RedshiftParameterGroup
 type RedshiftParameterGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RedshiftParameterGroupObservation `json:",inline"`
+	AtProvider                     RedshiftParameterGroupObservation `json:"atProvider"`
 }
 
 // A RedshiftParameterGroupObservation records the observed state of a RedshiftParameterGroup

@@ -47,36 +47,36 @@ type LightsailInstanceList struct {
 // A LightsailInstanceSpec defines the desired state of a LightsailInstance
 type LightsailInstanceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LightsailInstanceParameters `json:",inline"`
+	ForProvider                  LightsailInstanceParameters `json:"forProvider"`
 }
 
 // A LightsailInstanceParameters defines the desired state of a LightsailInstance
 type LightsailInstanceParameters struct {
-	Id               string            `json:"id"`
-	KeyPairName      string            `json:"key_pair_name"`
-	Tags             map[string]string `json:"tags"`
-	BlueprintId      string            `json:"blueprint_id"`
-	BundleId         string            `json:"bundle_id"`
-	UserData         string            `json:"user_data"`
 	AvailabilityZone string            `json:"availability_zone"`
+	BlueprintId      string            `json:"blueprint_id"`
 	Name             string            `json:"name"`
+	Tags             map[string]string `json:"tags"`
+	BundleId         string            `json:"bundle_id"`
+	KeyPairName      string            `json:"key_pair_name"`
+	UserData         string            `json:"user_data"`
+	Id               string            `json:"id"`
 }
 
 // A LightsailInstanceStatus defines the observed state of a LightsailInstance
 type LightsailInstanceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LightsailInstanceObservation `json:",inline"`
+	AtProvider                     LightsailInstanceObservation `json:"atProvider"`
 }
 
 // A LightsailInstanceObservation records the observed state of a LightsailInstance
 type LightsailInstanceObservation struct {
-	CreatedAt        string `json:"created_at"`
-	PrivateIpAddress string `json:"private_ip_address"`
-	Username         string `json:"username"`
-	CpuCount         int64  `json:"cpu_count"`
-	Arn              string `json:"arn"`
-	Ipv6Address      string `json:"ipv6_address"`
-	PublicIpAddress  string `json:"public_ip_address"`
-	RamSize          int64  `json:"ram_size"`
 	IsStaticIp       bool   `json:"is_static_ip"`
+	PublicIpAddress  string `json:"public_ip_address"`
+	Ipv6Address      string `json:"ipv6_address"`
+	CpuCount         int64  `json:"cpu_count"`
+	RamSize          int64  `json:"ram_size"`
+	Arn              string `json:"arn"`
+	CreatedAt        string `json:"created_at"`
+	Username         string `json:"username"`
+	PrivateIpAddress string `json:"private_ip_address"`
 }

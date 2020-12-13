@@ -47,40 +47,40 @@ type S3BucketObjectList struct {
 // A S3BucketObjectSpec defines the desired state of a S3BucketObject
 type S3BucketObjectSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3BucketObjectParameters `json:",inline"`
+	ForProvider                  S3BucketObjectParameters `json:"forProvider"`
 }
 
 // A S3BucketObjectParameters defines the desired state of a S3BucketObject
 type S3BucketObjectParameters struct {
-	Tags                      map[string]string `json:"tags"`
-	Content                   string            `json:"content"`
-	ContentEncoding           string            `json:"content_encoding"`
-	ContentType               string            `json:"content_type"`
-	ForceDestroy              bool              `json:"force_destroy"`
-	KmsKeyId                  string            `json:"kms_key_id"`
-	ObjectLockMode            string            `json:"object_lock_mode"`
-	Source                    string            `json:"source"`
-	ContentDisposition        string            `json:"content_disposition"`
-	ServerSideEncryption      string            `json:"server_side_encryption"`
-	Bucket                    string            `json:"bucket"`
-	ContentLanguage           string            `json:"content_language"`
-	Id                        string            `json:"id"`
-	Key                       string            `json:"key"`
-	Metadata                  map[string]string `json:"metadata"`
-	ObjectLockLegalHoldStatus string            `json:"object_lock_legal_hold_status"`
-	ObjectLockRetainUntilDate string            `json:"object_lock_retain_until_date"`
-	WebsiteRedirect           string            `json:"website_redirect"`
 	Acl                       string            `json:"acl"`
-	CacheControl              string            `json:"cache_control"`
+	ContentDisposition        string            `json:"content_disposition"`
+	ContentEncoding           string            `json:"content_encoding"`
+	ContentLanguage           string            `json:"content_language"`
+	ContentType               string            `json:"content_type"`
+	KmsKeyId                  string            `json:"kms_key_id"`
+	ObjectLockRetainUntilDate string            `json:"object_lock_retain_until_date"`
+	Content                   string            `json:"content"`
 	ContentBase64             string            `json:"content_base64"`
 	Etag                      string            `json:"etag"`
+	ForceDestroy              bool              `json:"force_destroy"`
+	Key                       string            `json:"key"`
+	ObjectLockLegalHoldStatus string            `json:"object_lock_legal_hold_status"`
+	ObjectLockMode            string            `json:"object_lock_mode"`
+	WebsiteRedirect           string            `json:"website_redirect"`
+	Metadata                  map[string]string `json:"metadata"`
+	Source                    string            `json:"source"`
 	StorageClass              string            `json:"storage_class"`
+	Tags                      map[string]string `json:"tags"`
+	Bucket                    string            `json:"bucket"`
+	CacheControl              string            `json:"cache_control"`
+	Id                        string            `json:"id"`
+	ServerSideEncryption      string            `json:"server_side_encryption"`
 }
 
 // A S3BucketObjectStatus defines the observed state of a S3BucketObject
 type S3BucketObjectStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3BucketObjectObservation `json:",inline"`
+	AtProvider                     S3BucketObjectObservation `json:"atProvider"`
 }
 
 // A S3BucketObjectObservation records the observed state of a S3BucketObject

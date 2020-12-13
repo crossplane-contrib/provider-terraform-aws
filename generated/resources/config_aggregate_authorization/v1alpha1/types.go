@@ -47,21 +47,21 @@ type ConfigAggregateAuthorizationList struct {
 // A ConfigAggregateAuthorizationSpec defines the desired state of a ConfigAggregateAuthorization
 type ConfigAggregateAuthorizationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ConfigAggregateAuthorizationParameters `json:",inline"`
+	ForProvider                  ConfigAggregateAuthorizationParameters `json:"forProvider"`
 }
 
 // A ConfigAggregateAuthorizationParameters defines the desired state of a ConfigAggregateAuthorization
 type ConfigAggregateAuthorizationParameters struct {
-	Region    string            `json:"region"`
 	Tags      map[string]string `json:"tags"`
 	AccountId string            `json:"account_id"`
 	Id        string            `json:"id"`
+	Region    string            `json:"region"`
 }
 
 // A ConfigAggregateAuthorizationStatus defines the observed state of a ConfigAggregateAuthorization
 type ConfigAggregateAuthorizationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ConfigAggregateAuthorizationObservation `json:",inline"`
+	AtProvider                     ConfigAggregateAuthorizationObservation `json:"atProvider"`
 }
 
 // A ConfigAggregateAuthorizationObservation records the observed state of a ConfigAggregateAuthorization

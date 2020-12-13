@@ -47,7 +47,7 @@ type WafSqlInjectionMatchSetList struct {
 // A WafSqlInjectionMatchSetSpec defines the desired state of a WafSqlInjectionMatchSet
 type WafSqlInjectionMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafSqlInjectionMatchSetParameters `json:",inline"`
+	ForProvider                  WafSqlInjectionMatchSetParameters `json:"forProvider"`
 }
 
 // A WafSqlInjectionMatchSetParameters defines the desired state of a WafSqlInjectionMatchSet
@@ -63,14 +63,14 @@ type SqlInjectionMatchTuples struct {
 }
 
 type FieldToMatch struct {
-	Data string `json:"data"`
 	Type string `json:"type"`
+	Data string `json:"data"`
 }
 
 // A WafSqlInjectionMatchSetStatus defines the observed state of a WafSqlInjectionMatchSet
 type WafSqlInjectionMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafSqlInjectionMatchSetObservation `json:",inline"`
+	AtProvider                     WafSqlInjectionMatchSetObservation `json:"atProvider"`
 }
 
 // A WafSqlInjectionMatchSetObservation records the observed state of a WafSqlInjectionMatchSet

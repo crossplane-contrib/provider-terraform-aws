@@ -47,7 +47,7 @@ type SagemakerEndpointConfigurationList struct {
 // A SagemakerEndpointConfigurationSpec defines the desired state of a SagemakerEndpointConfiguration
 type SagemakerEndpointConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SagemakerEndpointConfigurationParameters `json:",inline"`
+	ForProvider                  SagemakerEndpointConfigurationParameters `json:"forProvider"`
 }
 
 // A SagemakerEndpointConfigurationParameters defines the desired state of a SagemakerEndpointConfiguration
@@ -60,18 +60,18 @@ type SagemakerEndpointConfigurationParameters struct {
 }
 
 type ProductionVariants struct {
+	InitialInstanceCount int64  `json:"initial_instance_count"`
 	InitialVariantWeight int64  `json:"initial_variant_weight"`
 	InstanceType         string `json:"instance_type"`
 	ModelName            string `json:"model_name"`
 	VariantName          string `json:"variant_name"`
 	AcceleratorType      string `json:"accelerator_type"`
-	InitialInstanceCount int64  `json:"initial_instance_count"`
 }
 
 // A SagemakerEndpointConfigurationStatus defines the observed state of a SagemakerEndpointConfiguration
 type SagemakerEndpointConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SagemakerEndpointConfigurationObservation `json:",inline"`
+	AtProvider                     SagemakerEndpointConfigurationObservation `json:"atProvider"`
 }
 
 // A SagemakerEndpointConfigurationObservation records the observed state of a SagemakerEndpointConfiguration

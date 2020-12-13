@@ -47,23 +47,23 @@ type Apigatewayv2RouteResponseList struct {
 // A Apigatewayv2RouteResponseSpec defines the desired state of a Apigatewayv2RouteResponse
 type Apigatewayv2RouteResponseSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2RouteResponseParameters `json:",inline"`
+	ForProvider                  Apigatewayv2RouteResponseParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2RouteResponseParameters defines the desired state of a Apigatewayv2RouteResponse
 type Apigatewayv2RouteResponseParameters struct {
-	ApiId                    string            `json:"api_id"`
-	Id                       string            `json:"id"`
 	ModelSelectionExpression string            `json:"model_selection_expression"`
 	ResponseModels           map[string]string `json:"response_models"`
 	RouteId                  string            `json:"route_id"`
 	RouteResponseKey         string            `json:"route_response_key"`
+	ApiId                    string            `json:"api_id"`
+	Id                       string            `json:"id"`
 }
 
 // A Apigatewayv2RouteResponseStatus defines the observed state of a Apigatewayv2RouteResponse
 type Apigatewayv2RouteResponseStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2RouteResponseObservation `json:",inline"`
+	AtProvider                     Apigatewayv2RouteResponseObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2RouteResponseObservation records the observed state of a Apigatewayv2RouteResponse

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,25 +37,28 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPrivateVirtualInterfaceAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
-	EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
-}
-
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -68,6 +72,14 @@ func EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(p DxHosted
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
+}
+
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
+}
+
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {

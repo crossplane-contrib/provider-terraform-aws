@@ -47,7 +47,7 @@ type DatasyncLocationS3List struct {
 // A DatasyncLocationS3Spec defines the desired state of a DatasyncLocationS3
 type DatasyncLocationS3Spec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatasyncLocationS3Parameters `json:",inline"`
+	ForProvider                  DatasyncLocationS3Parameters `json:"forProvider"`
 }
 
 // A DatasyncLocationS3Parameters defines the desired state of a DatasyncLocationS3
@@ -66,7 +66,7 @@ type S3Config struct {
 // A DatasyncLocationS3Status defines the observed state of a DatasyncLocationS3
 type DatasyncLocationS3Status struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatasyncLocationS3Observation `json:",inline"`
+	AtProvider                     DatasyncLocationS3Observation `json:"atProvider"`
 }
 
 // A DatasyncLocationS3Observation records the observed state of a DatasyncLocationS3

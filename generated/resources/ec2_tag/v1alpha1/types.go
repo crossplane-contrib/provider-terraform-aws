@@ -47,21 +47,21 @@ type Ec2TagList struct {
 // A Ec2TagSpec defines the desired state of a Ec2Tag
 type Ec2TagSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TagParameters `json:",inline"`
+	ForProvider                  Ec2TagParameters `json:"forProvider"`
 }
 
 // A Ec2TagParameters defines the desired state of a Ec2Tag
 type Ec2TagParameters struct {
-	Id         string `json:"id"`
 	Key        string `json:"key"`
 	ResourceId string `json:"resource_id"`
 	Value      string `json:"value"`
+	Id         string `json:"id"`
 }
 
 // A Ec2TagStatus defines the observed state of a Ec2Tag
 type Ec2TagStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TagObservation `json:",inline"`
+	AtProvider                     Ec2TagObservation `json:"atProvider"`
 }
 
 // A Ec2TagObservation records the observed state of a Ec2Tag

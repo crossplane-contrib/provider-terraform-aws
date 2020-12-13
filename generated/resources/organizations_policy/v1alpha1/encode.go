@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,14 +37,29 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeOrganizationsPolicy(r OrganizationsPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeOrganizationsPolicy_Content(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsPolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Type(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsPolicy_Content(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsPolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicy_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeOrganizationsPolicy_Content(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["content"] = cty.StringVal(p.Content)
+}
+
+func EncodeOrganizationsPolicy_Description(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeOrganizationsPolicy_Id(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
@@ -55,6 +71,10 @@ func EncodeOrganizationsPolicy_Name(p OrganizationsPolicyParameters, vals map[st
 }
 
 func EncodeOrganizationsPolicy_Tags(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -64,14 +84,6 @@ func EncodeOrganizationsPolicy_Tags(p OrganizationsPolicyParameters, vals map[st
 
 func EncodeOrganizationsPolicy_Type(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeOrganizationsPolicy_Content(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["content"] = cty.StringVal(p.Content)
-}
-
-func EncodeOrganizationsPolicy_Description(p OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeOrganizationsPolicy_Arn(p OrganizationsPolicyObservation, vals map[string]cty.Value) {

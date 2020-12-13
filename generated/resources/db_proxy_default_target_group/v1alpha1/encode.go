@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -42,6 +43,13 @@ func EncodeDbProxyDefaultTargetGroup(r DbProxyDefaultTargetGroup) cty.Value {
 	EncodeDbProxyDefaultTargetGroup_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_Name(r.Status.AtProvider, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -56,13 +64,17 @@ func EncodeDbProxyDefaultTargetGroup_Id(p DbProxyDefaultTargetGroupParameters, v
 func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig(p ConnectionPoolConfig, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_InitQuery(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_MaxConnectionsPercent(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_MaxIdleConnectionsPercent(p, ctyVal)
 	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_SessionPinningFilters(p, ctyVal)
-	EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["connection_pool_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p ConnectionPoolConfig, vals map[string]cty.Value) {
+	vals["connection_borrow_timeout"] = cty.NumberIntVal(p.ConnectionBorrowTimeout)
 }
 
 func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_InitQuery(p ConnectionPoolConfig, vals map[string]cty.Value) {
@@ -83,10 +95,6 @@ func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_SessionPinningFilters(
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["session_pinning_filters"] = cty.SetVal(colVals)
-}
-
-func EncodeDbProxyDefaultTargetGroup_ConnectionPoolConfig_ConnectionBorrowTimeout(p ConnectionPoolConfig, vals map[string]cty.Value) {
-	vals["connection_borrow_timeout"] = cty.NumberIntVal(p.ConnectionBorrowTimeout)
 }
 
 func EncodeDbProxyDefaultTargetGroup_Timeouts(p Timeouts, vals map[string]cty.Value) {

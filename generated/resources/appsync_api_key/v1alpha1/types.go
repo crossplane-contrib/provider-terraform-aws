@@ -47,21 +47,21 @@ type AppsyncApiKeyList struct {
 // A AppsyncApiKeySpec defines the desired state of a AppsyncApiKey
 type AppsyncApiKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppsyncApiKeyParameters `json:",inline"`
+	ForProvider                  AppsyncApiKeyParameters `json:"forProvider"`
 }
 
 // A AppsyncApiKeyParameters defines the desired state of a AppsyncApiKey
 type AppsyncApiKeyParameters struct {
+	Id          string `json:"id"`
 	ApiId       string `json:"api_id"`
 	Description string `json:"description"`
 	Expires     string `json:"expires"`
-	Id          string `json:"id"`
 }
 
 // A AppsyncApiKeyStatus defines the observed state of a AppsyncApiKey
 type AppsyncApiKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppsyncApiKeyObservation `json:",inline"`
+	AtProvider                     AppsyncApiKeyObservation `json:"atProvider"`
 }
 
 // A AppsyncApiKeyObservation records the observed state of a AppsyncApiKey

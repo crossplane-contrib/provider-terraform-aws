@@ -47,7 +47,7 @@ type IamRolePolicyAttachmentList struct {
 // A IamRolePolicyAttachmentSpec defines the desired state of a IamRolePolicyAttachment
 type IamRolePolicyAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamRolePolicyAttachmentParameters `json:",inline"`
+	ForProvider                  IamRolePolicyAttachmentParameters `json:"forProvider"`
 }
 
 // A IamRolePolicyAttachmentParameters defines the desired state of a IamRolePolicyAttachment
@@ -60,7 +60,7 @@ type IamRolePolicyAttachmentParameters struct {
 // A IamRolePolicyAttachmentStatus defines the observed state of a IamRolePolicyAttachment
 type IamRolePolicyAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamRolePolicyAttachmentObservation `json:",inline"`
+	AtProvider                     IamRolePolicyAttachmentObservation `json:"atProvider"`
 }
 
 // A IamRolePolicyAttachmentObservation records the observed state of a IamRolePolicyAttachment

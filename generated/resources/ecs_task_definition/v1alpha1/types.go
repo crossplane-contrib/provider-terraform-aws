@@ -47,23 +47,23 @@ type EcsTaskDefinitionList struct {
 // A EcsTaskDefinitionSpec defines the desired state of a EcsTaskDefinition
 type EcsTaskDefinitionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EcsTaskDefinitionParameters `json:",inline"`
+	ForProvider                  EcsTaskDefinitionParameters `json:"forProvider"`
 }
 
 // A EcsTaskDefinitionParameters defines the desired state of a EcsTaskDefinition
 type EcsTaskDefinitionParameters struct {
-	ExecutionRoleArn        string                 `json:"execution_role_arn"`
-	NetworkMode             string                 `json:"network_mode"`
-	RequiresCompatibilities []string               `json:"requires_compatibilities"`
-	ContainerDefinitions    string                 `json:"container_definitions"`
-	IpcMode                 string                 `json:"ipc_mode"`
-	TaskRoleArn             string                 `json:"task_role_arn"`
-	Memory                  string                 `json:"memory"`
-	PidMode                 string                 `json:"pid_mode"`
-	Cpu                     string                 `json:"cpu"`
 	Family                  string                 `json:"family"`
+	ContainerDefinitions    string                 `json:"container_definitions"`
+	ExecutionRoleArn        string                 `json:"execution_role_arn"`
+	Memory                  string                 `json:"memory"`
+	NetworkMode             string                 `json:"network_mode"`
+	TaskRoleArn             string                 `json:"task_role_arn"`
 	Id                      string                 `json:"id"`
+	RequiresCompatibilities []string               `json:"requires_compatibilities"`
+	Cpu                     string                 `json:"cpu"`
+	PidMode                 string                 `json:"pid_mode"`
 	Tags                    map[string]string      `json:"tags"`
+	IpcMode                 string                 `json:"ipc_mode"`
 	ProxyConfiguration      ProxyConfiguration     `json:"proxy_configuration"`
 	Volume                  Volume                 `json:"volume"`
 	InferenceAccelerator    InferenceAccelerator   `json:"inference_accelerator"`
@@ -84,18 +84,18 @@ type Volume struct {
 }
 
 type DockerVolumeConfiguration struct {
+	Labels        map[string]string `json:"labels"`
+	Scope         string            `json:"scope"`
 	Autoprovision bool              `json:"autoprovision"`
 	Driver        string            `json:"driver"`
 	DriverOpts    map[string]string `json:"driver_opts"`
-	Labels        map[string]string `json:"labels"`
-	Scope         string            `json:"scope"`
 }
 
 type EfsVolumeConfiguration struct {
-	FileSystemId          string              `json:"file_system_id"`
-	RootDirectory         string              `json:"root_directory"`
 	TransitEncryption     string              `json:"transit_encryption"`
 	TransitEncryptionPort int64               `json:"transit_encryption_port"`
+	FileSystemId          string              `json:"file_system_id"`
+	RootDirectory         string              `json:"root_directory"`
 	AuthorizationConfig   AuthorizationConfig `json:"authorization_config"`
 }
 
@@ -110,14 +110,14 @@ type InferenceAccelerator struct {
 }
 
 type PlacementConstraints struct {
-	Type       string `json:"type"`
 	Expression string `json:"expression"`
+	Type       string `json:"type"`
 }
 
 // A EcsTaskDefinitionStatus defines the observed state of a EcsTaskDefinition
 type EcsTaskDefinitionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EcsTaskDefinitionObservation `json:",inline"`
+	AtProvider                     EcsTaskDefinitionObservation `json:"atProvider"`
 }
 
 // A EcsTaskDefinitionObservation records the observed state of a EcsTaskDefinition

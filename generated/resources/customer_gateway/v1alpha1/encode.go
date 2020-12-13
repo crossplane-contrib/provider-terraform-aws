@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,21 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCustomerGateway(r CustomerGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCustomerGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Type(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_BgpAsn(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_IpAddress(r.Spec.ForProvider, ctyVal)
+	EncodeCustomerGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCustomerGateway_Tags(p CustomerGatewayParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeCustomerGateway_Type(p CustomerGatewayParameters, vals map[string]cty.Value) {
@@ -67,6 +67,18 @@ func EncodeCustomerGateway_Id(p CustomerGatewayParameters, vals map[string]cty.V
 
 func EncodeCustomerGateway_IpAddress(p CustomerGatewayParameters, vals map[string]cty.Value) {
 	vals["ip_address"] = cty.StringVal(p.IpAddress)
+}
+
+func EncodeCustomerGateway_Tags(p CustomerGatewayParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCustomerGateway_Arn(p CustomerGatewayObservation, vals map[string]cty.Value) {

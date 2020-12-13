@@ -47,7 +47,7 @@ type IotPolicyAttachmentList struct {
 // A IotPolicyAttachmentSpec defines the desired state of a IotPolicyAttachment
 type IotPolicyAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IotPolicyAttachmentParameters `json:",inline"`
+	ForProvider                  IotPolicyAttachmentParameters `json:"forProvider"`
 }
 
 // A IotPolicyAttachmentParameters defines the desired state of a IotPolicyAttachment
@@ -60,7 +60,7 @@ type IotPolicyAttachmentParameters struct {
 // A IotPolicyAttachmentStatus defines the observed state of a IotPolicyAttachment
 type IotPolicyAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IotPolicyAttachmentObservation `json:",inline"`
+	AtProvider                     IotPolicyAttachmentObservation `json:"atProvider"`
 }
 
 // A IotPolicyAttachmentObservation records the observed state of a IotPolicyAttachment

@@ -47,49 +47,49 @@ type OpsworksStaticWebLayerList struct {
 // A OpsworksStaticWebLayerSpec defines the desired state of a OpsworksStaticWebLayer
 type OpsworksStaticWebLayerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksStaticWebLayerParameters `json:",inline"`
+	ForProvider                  OpsworksStaticWebLayerParameters `json:"forProvider"`
 }
 
 // A OpsworksStaticWebLayerParameters defines the desired state of a OpsworksStaticWebLayer
 type OpsworksStaticWebLayerParameters struct {
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	Tags                     map[string]string `json:"tags"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
 	Id                       string            `json:"id"`
-	StackId                  string            `json:"stack_id"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	Name                     string            `json:"name"`
-	SystemPackages           []string          `json:"system_packages"`
 	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
 	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomJson               string            `json:"custom_json"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	AutoHealing              bool              `json:"auto_healing"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
+	StackId                  string            `json:"stack_id"`
+	SystemPackages           []string          `json:"system_packages"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	Name                     string            `json:"name"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
 	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
 	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	Tags                     map[string]string `json:"tags"`
-	AutoHealing              bool              `json:"auto_healing"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomJson               string            `json:"custom_json"`
 	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
+	Encrypted     bool   `json:"encrypted"`
+	Iops          int64  `json:"iops"`
+	MountPoint    string `json:"mount_point"`
 	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
 	Size          int64  `json:"size"`
 	Type          string `json:"type"`
-	Encrypted     bool   `json:"encrypted"`
-	Iops          int64  `json:"iops"`
-	MountPoint    string `json:"mount_point"`
 }
 
 // A OpsworksStaticWebLayerStatus defines the observed state of a OpsworksStaticWebLayer
 type OpsworksStaticWebLayerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksStaticWebLayerObservation `json:",inline"`
+	AtProvider                     OpsworksStaticWebLayerObservation `json:"atProvider"`
 }
 
 // A OpsworksStaticWebLayerObservation records the observed state of a OpsworksStaticWebLayer

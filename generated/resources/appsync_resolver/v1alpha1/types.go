@@ -47,25 +47,21 @@ type AppsyncResolverList struct {
 // A AppsyncResolverSpec defines the desired state of a AppsyncResolver
 type AppsyncResolverSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppsyncResolverParameters `json:",inline"`
+	ForProvider                  AppsyncResolverParameters `json:"forProvider"`
 }
 
 // A AppsyncResolverParameters defines the desired state of a AppsyncResolver
 type AppsyncResolverParameters struct {
+	DataSource       string         `json:"data_source"`
+	Kind             string         `json:"kind"`
+	Field            string         `json:"field"`
+	Id               string         `json:"id"`
+	RequestTemplate  string         `json:"request_template"`
 	ResponseTemplate string         `json:"response_template"`
 	Type             string         `json:"type"`
-	Id               string         `json:"id"`
-	Kind             string         `json:"kind"`
-	RequestTemplate  string         `json:"request_template"`
 	ApiId            string         `json:"api_id"`
-	DataSource       string         `json:"data_source"`
-	Field            string         `json:"field"`
-	PipelineConfig   PipelineConfig `json:"pipeline_config"`
 	CachingConfig    CachingConfig  `json:"caching_config"`
-}
-
-type PipelineConfig struct {
-	Functions []string `json:"functions"`
+	PipelineConfig   PipelineConfig `json:"pipeline_config"`
 }
 
 type CachingConfig struct {
@@ -73,10 +69,14 @@ type CachingConfig struct {
 	Ttl         int64    `json:"ttl"`
 }
 
+type PipelineConfig struct {
+	Functions []string `json:"functions"`
+}
+
 // A AppsyncResolverStatus defines the observed state of a AppsyncResolver
 type AppsyncResolverStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppsyncResolverObservation `json:",inline"`
+	AtProvider                     AppsyncResolverObservation `json:"atProvider"`
 }
 
 // A AppsyncResolverObservation records the observed state of a AppsyncResolver

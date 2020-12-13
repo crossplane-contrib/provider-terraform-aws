@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,32 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSnsPlatformApplication(r SnsPlatformApplication) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSnsPlatformApplication_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSnsPlatformApplication_Platform(r.Spec.ForProvider, ctyVal)
-	EncodeSnsPlatformApplication_PlatformCredential(r.Spec.ForProvider, ctyVal)
 	EncodeSnsPlatformApplication_PlatformPrincipal(r.Spec.ForProvider, ctyVal)
 	EncodeSnsPlatformApplication_EventDeliveryFailureTopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsPlatformApplication_EventEndpointCreatedTopicArn(r.Spec.ForProvider, ctyVal)
-	EncodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsPlatformApplication_FailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsPlatformApplication_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSnsPlatformApplication_Platform(r.Spec.ForProvider, ctyVal)
 	EncodeSnsPlatformApplication_SuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsPlatformApplication_SuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
 	EncodeSnsPlatformApplication_EventEndpointDeletedTopicArn(r.Spec.ForProvider, ctyVal)
-	EncodeSnsPlatformApplication_FailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSnsPlatformApplication_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsPlatformApplication_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSnsPlatformApplication_PlatformCredential(r.Spec.ForProvider, ctyVal)
 	EncodeSnsPlatformApplication_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSnsPlatformApplication_Name(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSnsPlatformApplication_Platform(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	vals["platform"] = cty.StringVal(p.Platform)
-}
-
-func EncodeSnsPlatformApplication_PlatformCredential(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	vals["platform_credential"] = cty.StringVal(p.PlatformCredential)
 }
 
 func EncodeSnsPlatformApplication_PlatformPrincipal(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
@@ -76,8 +72,16 @@ func EncodeSnsPlatformApplication_EventEndpointCreatedTopicArn(p SnsPlatformAppl
 	vals["event_endpoint_created_topic_arn"] = cty.StringVal(p.EventEndpointCreatedTopicArn)
 }
 
-func EncodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	vals["event_endpoint_updated_topic_arn"] = cty.StringVal(p.EventEndpointUpdatedTopicArn)
+func EncodeSnsPlatformApplication_FailureFeedbackRoleArn(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	vals["failure_feedback_role_arn"] = cty.StringVal(p.FailureFeedbackRoleArn)
+}
+
+func EncodeSnsPlatformApplication_Id(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSnsPlatformApplication_Platform(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	vals["platform"] = cty.StringVal(p.Platform)
 }
 
 func EncodeSnsPlatformApplication_SuccessFeedbackRoleArn(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
@@ -92,12 +96,16 @@ func EncodeSnsPlatformApplication_EventEndpointDeletedTopicArn(p SnsPlatformAppl
 	vals["event_endpoint_deleted_topic_arn"] = cty.StringVal(p.EventEndpointDeletedTopicArn)
 }
 
-func EncodeSnsPlatformApplication_FailureFeedbackRoleArn(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	vals["failure_feedback_role_arn"] = cty.StringVal(p.FailureFeedbackRoleArn)
+func EncodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	vals["event_endpoint_updated_topic_arn"] = cty.StringVal(p.EventEndpointUpdatedTopicArn)
 }
 
-func EncodeSnsPlatformApplication_Id(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeSnsPlatformApplication_Name(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSnsPlatformApplication_PlatformCredential(p SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	vals["platform_credential"] = cty.StringVal(p.PlatformCredential)
 }
 
 func EncodeSnsPlatformApplication_Arn(p SnsPlatformApplicationObservation, vals map[string]cty.Value) {

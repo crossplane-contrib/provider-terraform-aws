@@ -47,7 +47,7 @@ type CodedeployAppList struct {
 // A CodedeployAppSpec defines the desired state of a CodedeployApp
 type CodedeployAppSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodedeployAppParameters `json:",inline"`
+	ForProvider                  CodedeployAppParameters `json:"forProvider"`
 }
 
 // A CodedeployAppParameters defines the desired state of a CodedeployApp
@@ -61,7 +61,7 @@ type CodedeployAppParameters struct {
 // A CodedeployAppStatus defines the observed state of a CodedeployApp
 type CodedeployAppStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodedeployAppObservation `json:",inline"`
+	AtProvider                     CodedeployAppObservation `json:"atProvider"`
 }
 
 // A CodedeployAppObservation records the observed state of a CodedeployApp

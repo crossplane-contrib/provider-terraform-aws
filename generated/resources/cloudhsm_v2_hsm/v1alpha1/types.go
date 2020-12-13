@@ -47,7 +47,7 @@ type CloudhsmV2HsmList struct {
 // A CloudhsmV2HsmSpec defines the desired state of a CloudhsmV2Hsm
 type CloudhsmV2HsmSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudhsmV2HsmParameters `json:",inline"`
+	ForProvider                  CloudhsmV2HsmParameters `json:"forProvider"`
 }
 
 // A CloudhsmV2HsmParameters defines the desired state of a CloudhsmV2Hsm
@@ -69,12 +69,12 @@ type Timeouts struct {
 // A CloudhsmV2HsmStatus defines the observed state of a CloudhsmV2Hsm
 type CloudhsmV2HsmStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudhsmV2HsmObservation `json:",inline"`
+	AtProvider                     CloudhsmV2HsmObservation `json:"atProvider"`
 }
 
 // A CloudhsmV2HsmObservation records the observed state of a CloudhsmV2Hsm
 type CloudhsmV2HsmObservation struct {
+	HsmState string `json:"hsm_state"`
 	HsmEniId string `json:"hsm_eni_id"`
 	HsmId    string `json:"hsm_id"`
-	HsmState string `json:"hsm_state"`
 }

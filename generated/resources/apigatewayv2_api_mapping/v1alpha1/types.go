@@ -47,22 +47,22 @@ type Apigatewayv2ApiMappingList struct {
 // A Apigatewayv2ApiMappingSpec defines the desired state of a Apigatewayv2ApiMapping
 type Apigatewayv2ApiMappingSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2ApiMappingParameters `json:",inline"`
+	ForProvider                  Apigatewayv2ApiMappingParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2ApiMappingParameters defines the desired state of a Apigatewayv2ApiMapping
 type Apigatewayv2ApiMappingParameters struct {
+	ApiId         string `json:"api_id"`
+	ApiMappingKey string `json:"api_mapping_key"`
 	DomainName    string `json:"domain_name"`
 	Id            string `json:"id"`
 	Stage         string `json:"stage"`
-	ApiId         string `json:"api_id"`
-	ApiMappingKey string `json:"api_mapping_key"`
 }
 
 // A Apigatewayv2ApiMappingStatus defines the observed state of a Apigatewayv2ApiMapping
 type Apigatewayv2ApiMappingStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2ApiMappingObservation `json:",inline"`
+	AtProvider                     Apigatewayv2ApiMappingObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2ApiMappingObservation records the observed state of a Apigatewayv2ApiMapping

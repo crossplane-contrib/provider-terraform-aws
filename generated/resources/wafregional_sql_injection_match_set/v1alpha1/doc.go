@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=wafregional-sql-injection-match-set.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

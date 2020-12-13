@@ -47,7 +47,7 @@ type SnsTopicPolicyList struct {
 // A SnsTopicPolicySpec defines the desired state of a SnsTopicPolicy
 type SnsTopicPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SnsTopicPolicyParameters `json:",inline"`
+	ForProvider                  SnsTopicPolicyParameters `json:"forProvider"`
 }
 
 // A SnsTopicPolicyParameters defines the desired state of a SnsTopicPolicy
@@ -60,7 +60,7 @@ type SnsTopicPolicyParameters struct {
 // A SnsTopicPolicyStatus defines the observed state of a SnsTopicPolicy
 type SnsTopicPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SnsTopicPolicyObservation `json:",inline"`
+	AtProvider                     SnsTopicPolicyObservation `json:"atProvider"`
 }
 
 // A SnsTopicPolicyObservation records the observed state of a SnsTopicPolicy

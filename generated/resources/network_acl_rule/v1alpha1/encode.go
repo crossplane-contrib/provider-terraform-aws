@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,32 +37,35 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeNetworkAclRule(r NetworkAclRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNetworkAclRule_IcmpCode(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_IcmpType(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_Ipv6CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_Protocol(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_RuleAction(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_ToPort(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_Egress(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_FromPort(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_IcmpType(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_Ipv6CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_NetworkAclId(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_RuleNumber(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_CidrBlock(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_IcmpCode(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNetworkAclRule_IcmpCode(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["icmp_code"] = cty.StringVal(p.IcmpCode)
+func EncodeNetworkAclRule_IcmpType(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["icmp_type"] = cty.StringVal(p.IcmpType)
 }
 
 func EncodeNetworkAclRule_Id(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeNetworkAclRule_Ipv6CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
 }
 
 func EncodeNetworkAclRule_Protocol(p NetworkAclRuleParameters, vals map[string]cty.Value) {
@@ -76,10 +80,6 @@ func EncodeNetworkAclRule_ToPort(p NetworkAclRuleParameters, vals map[string]cty
 	vals["to_port"] = cty.NumberIntVal(p.ToPort)
 }
 
-func EncodeNetworkAclRule_CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
-}
-
 func EncodeNetworkAclRule_Egress(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["egress"] = cty.BoolVal(p.Egress)
 }
@@ -88,8 +88,8 @@ func EncodeNetworkAclRule_FromPort(p NetworkAclRuleParameters, vals map[string]c
 	vals["from_port"] = cty.NumberIntVal(p.FromPort)
 }
 
-func EncodeNetworkAclRule_IcmpType(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["icmp_type"] = cty.StringVal(p.IcmpType)
+func EncodeNetworkAclRule_Ipv6CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["ipv6_cidr_block"] = cty.StringVal(p.Ipv6CidrBlock)
 }
 
 func EncodeNetworkAclRule_NetworkAclId(p NetworkAclRuleParameters, vals map[string]cty.Value) {
@@ -98,4 +98,12 @@ func EncodeNetworkAclRule_NetworkAclId(p NetworkAclRuleParameters, vals map[stri
 
 func EncodeNetworkAclRule_RuleNumber(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["rule_number"] = cty.NumberIntVal(p.RuleNumber)
+}
+
+func EncodeNetworkAclRule_CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
+}
+
+func EncodeNetworkAclRule_IcmpCode(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["icmp_code"] = cty.StringVal(p.IcmpCode)
 }

@@ -47,7 +47,7 @@ type SecurityhubProductSubscriptionList struct {
 // A SecurityhubProductSubscriptionSpec defines the desired state of a SecurityhubProductSubscription
 type SecurityhubProductSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecurityhubProductSubscriptionParameters `json:",inline"`
+	ForProvider                  SecurityhubProductSubscriptionParameters `json:"forProvider"`
 }
 
 // A SecurityhubProductSubscriptionParameters defines the desired state of a SecurityhubProductSubscription
@@ -59,7 +59,7 @@ type SecurityhubProductSubscriptionParameters struct {
 // A SecurityhubProductSubscriptionStatus defines the observed state of a SecurityhubProductSubscription
 type SecurityhubProductSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecurityhubProductSubscriptionObservation `json:",inline"`
+	AtProvider                     SecurityhubProductSubscriptionObservation `json:"atProvider"`
 }
 
 // A SecurityhubProductSubscriptionObservation records the observed state of a SecurityhubProductSubscription

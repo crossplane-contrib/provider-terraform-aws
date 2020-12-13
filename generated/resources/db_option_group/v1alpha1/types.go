@@ -47,18 +47,18 @@ type DbOptionGroupList struct {
 // A DbOptionGroupSpec defines the desired state of a DbOptionGroup
 type DbOptionGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbOptionGroupParameters `json:",inline"`
+	ForProvider                  DbOptionGroupParameters `json:"forProvider"`
 }
 
 // A DbOptionGroupParameters defines the desired state of a DbOptionGroup
 type DbOptionGroupParameters struct {
+	OptionGroupDescription string            `json:"option_group_description"`
 	Tags                   map[string]string `json:"tags"`
 	EngineName             string            `json:"engine_name"`
 	Id                     string            `json:"id"`
 	MajorEngineVersion     string            `json:"major_engine_version"`
 	Name                   string            `json:"name"`
 	NamePrefix             string            `json:"name_prefix"`
-	OptionGroupDescription string            `json:"option_group_description"`
 	Option                 Option            `json:"option"`
 	Timeouts               Timeouts          `json:"timeouts"`
 }
@@ -84,7 +84,7 @@ type Timeouts struct {
 // A DbOptionGroupStatus defines the observed state of a DbOptionGroup
 type DbOptionGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbOptionGroupObservation `json:",inline"`
+	AtProvider                     DbOptionGroupObservation `json:"atProvider"`
 }
 
 // A DbOptionGroupObservation records the observed state of a DbOptionGroup

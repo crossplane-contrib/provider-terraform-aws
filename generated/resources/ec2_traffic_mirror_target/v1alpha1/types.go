@@ -47,22 +47,22 @@ type Ec2TrafficMirrorTargetList struct {
 // A Ec2TrafficMirrorTargetSpec defines the desired state of a Ec2TrafficMirrorTarget
 type Ec2TrafficMirrorTargetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TrafficMirrorTargetParameters `json:",inline"`
+	ForProvider                  Ec2TrafficMirrorTargetParameters `json:"forProvider"`
 }
 
 // A Ec2TrafficMirrorTargetParameters defines the desired state of a Ec2TrafficMirrorTarget
 type Ec2TrafficMirrorTargetParameters struct {
+	Tags                   map[string]string `json:"tags"`
 	Description            string            `json:"description"`
 	Id                     string            `json:"id"`
 	NetworkInterfaceId     string            `json:"network_interface_id"`
 	NetworkLoadBalancerArn string            `json:"network_load_balancer_arn"`
-	Tags                   map[string]string `json:"tags"`
 }
 
 // A Ec2TrafficMirrorTargetStatus defines the observed state of a Ec2TrafficMirrorTarget
 type Ec2TrafficMirrorTargetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TrafficMirrorTargetObservation `json:",inline"`
+	AtProvider                     Ec2TrafficMirrorTargetObservation `json:"atProvider"`
 }
 
 // A Ec2TrafficMirrorTargetObservation records the observed state of a Ec2TrafficMirrorTarget

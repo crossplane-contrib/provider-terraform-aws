@@ -47,14 +47,14 @@ type AcmCertificateValidationList struct {
 // A AcmCertificateValidationSpec defines the desired state of a AcmCertificateValidation
 type AcmCertificateValidationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AcmCertificateValidationParameters `json:",inline"`
+	ForProvider                  AcmCertificateValidationParameters `json:"forProvider"`
 }
 
 // A AcmCertificateValidationParameters defines the desired state of a AcmCertificateValidation
 type AcmCertificateValidationParameters struct {
+	CertificateArn        string   `json:"certificate_arn"`
 	Id                    string   `json:"id"`
 	ValidationRecordFqdns []string `json:"validation_record_fqdns"`
-	CertificateArn        string   `json:"certificate_arn"`
 	Timeouts              Timeouts `json:"timeouts"`
 }
 
@@ -65,7 +65,7 @@ type Timeouts struct {
 // A AcmCertificateValidationStatus defines the observed state of a AcmCertificateValidation
 type AcmCertificateValidationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AcmCertificateValidationObservation `json:",inline"`
+	AtProvider                     AcmCertificateValidationObservation `json:"atProvider"`
 }
 
 // A AcmCertificateValidationObservation records the observed state of a AcmCertificateValidation

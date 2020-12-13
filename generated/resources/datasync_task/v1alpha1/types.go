@@ -47,7 +47,7 @@ type DatasyncTaskList struct {
 // A DatasyncTaskSpec defines the desired state of a DatasyncTask
 type DatasyncTaskSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatasyncTaskParameters `json:",inline"`
+	ForProvider                  DatasyncTaskParameters `json:"forProvider"`
 }
 
 // A DatasyncTaskParameters defines the desired state of a DatasyncTask
@@ -63,15 +63,15 @@ type DatasyncTaskParameters struct {
 }
 
 type Options struct {
-	VerifyMode           string `json:"verify_mode"`
 	Atime                string `json:"atime"`
 	BytesPerSecond       int64  `json:"bytes_per_second"`
-	Gid                  string `json:"gid"`
-	PosixPermissions     string `json:"posix_permissions"`
-	PreserveDeletedFiles string `json:"preserve_deleted_files"`
-	PreserveDevices      string `json:"preserve_devices"`
 	Mtime                string `json:"mtime"`
+	PosixPermissions     string `json:"posix_permissions"`
+	PreserveDevices      string `json:"preserve_devices"`
 	Uid                  string `json:"uid"`
+	VerifyMode           string `json:"verify_mode"`
+	Gid                  string `json:"gid"`
+	PreserveDeletedFiles string `json:"preserve_deleted_files"`
 }
 
 type Timeouts struct {
@@ -81,7 +81,7 @@ type Timeouts struct {
 // A DatasyncTaskStatus defines the observed state of a DatasyncTask
 type DatasyncTaskStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatasyncTaskObservation `json:",inline"`
+	AtProvider                     DatasyncTaskObservation `json:"atProvider"`
 }
 
 // A DatasyncTaskObservation records the observed state of a DatasyncTask

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,31 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEmrInstanceFleet(r EmrInstanceFleet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEmrInstanceFleet_ClusterId(r.Spec.ForProvider, ctyVal)
+	EncodeEmrInstanceFleet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceFleet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceFleet_TargetOnDemandCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceFleet_TargetSpotCapacity(r.Spec.ForProvider, ctyVal)
-	EncodeEmrInstanceFleet_ClusterId(r.Spec.ForProvider, ctyVal)
-	EncodeEmrInstanceFleet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEmrInstanceFleet_InstanceTypeConfigs(r.Spec.ForProvider.InstanceTypeConfigs, ctyVal)
 	EncodeEmrInstanceFleet_LaunchSpecifications(r.Spec.ForProvider.LaunchSpecifications, ctyVal)
 	EncodeEmrInstanceFleet_ProvisionedOnDemandCapacity(r.Status.AtProvider, ctyVal)
 	EncodeEmrInstanceFleet_ProvisionedSpotCapacity(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEmrInstanceFleet_ClusterId(p EmrInstanceFleetParameters, vals map[string]cty.Value) {
+	vals["cluster_id"] = cty.StringVal(p.ClusterId)
+}
+
+func EncodeEmrInstanceFleet_Id(p EmrInstanceFleetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEmrInstanceFleet_Name(p EmrInstanceFleetParameters, vals map[string]cty.Value) {
@@ -58,14 +74,6 @@ func EncodeEmrInstanceFleet_TargetOnDemandCapacity(p EmrInstanceFleetParameters,
 
 func EncodeEmrInstanceFleet_TargetSpotCapacity(p EmrInstanceFleetParameters, vals map[string]cty.Value) {
 	vals["target_spot_capacity"] = cty.NumberIntVal(p.TargetSpotCapacity)
-}
-
-func EncodeEmrInstanceFleet_ClusterId(p EmrInstanceFleetParameters, vals map[string]cty.Value) {
-	vals["cluster_id"] = cty.StringVal(p.ClusterId)
-}
-
-func EncodeEmrInstanceFleet_Id(p EmrInstanceFleetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEmrInstanceFleet_InstanceTypeConfigs(p InstanceTypeConfigs, vals map[string]cty.Value) {
@@ -111,6 +119,10 @@ func EncodeEmrInstanceFleet_InstanceTypeConfigs_Configurations_Classification(p 
 }
 
 func EncodeEmrInstanceFleet_InstanceTypeConfigs_Configurations_Properties(p Configurations, vals map[string]cty.Value) {
+	if len(p.Properties) == 0 {
+		vals["properties"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Properties {
 		mVals[key] = cty.StringVal(value)
@@ -169,16 +181,12 @@ func EncodeEmrInstanceFleet_LaunchSpecifications_OnDemandSpecification_Allocatio
 func EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification(p SpotSpecification, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_TimeoutDurationMinutes(p, ctyVal)
 	EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_AllocationStrategy(p, ctyVal)
 	EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_BlockDurationMinutes(p, ctyVal)
 	EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_TimeoutAction(p, ctyVal)
+	EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_TimeoutDurationMinutes(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["spot_specification"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_TimeoutDurationMinutes(p SpotSpecification, vals map[string]cty.Value) {
-	vals["timeout_duration_minutes"] = cty.NumberIntVal(p.TimeoutDurationMinutes)
 }
 
 func EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_AllocationStrategy(p SpotSpecification, vals map[string]cty.Value) {
@@ -191,6 +199,10 @@ func EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_BlockDuration
 
 func EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_TimeoutAction(p SpotSpecification, vals map[string]cty.Value) {
 	vals["timeout_action"] = cty.StringVal(p.TimeoutAction)
+}
+
+func EncodeEmrInstanceFleet_LaunchSpecifications_SpotSpecification_TimeoutDurationMinutes(p SpotSpecification, vals map[string]cty.Value) {
+	vals["timeout_duration_minutes"] = cty.NumberIntVal(p.TimeoutDurationMinutes)
 }
 
 func EncodeEmrInstanceFleet_ProvisionedOnDemandCapacity(p EmrInstanceFleetObservation, vals map[string]cty.Value) {

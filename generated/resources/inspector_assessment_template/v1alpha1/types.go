@@ -47,23 +47,23 @@ type InspectorAssessmentTemplateList struct {
 // A InspectorAssessmentTemplateSpec defines the desired state of a InspectorAssessmentTemplate
 type InspectorAssessmentTemplateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  InspectorAssessmentTemplateParameters `json:",inline"`
+	ForProvider                  InspectorAssessmentTemplateParameters `json:"forProvider"`
 }
 
 // A InspectorAssessmentTemplateParameters defines the desired state of a InspectorAssessmentTemplate
 type InspectorAssessmentTemplateParameters struct {
-	RulesPackageArns []string          `json:"rules_package_arns"`
-	Tags             map[string]string `json:"tags"`
-	TargetArn        string            `json:"target_arn"`
 	Duration         int64             `json:"duration"`
 	Id               string            `json:"id"`
 	Name             string            `json:"name"`
+	RulesPackageArns []string          `json:"rules_package_arns"`
+	Tags             map[string]string `json:"tags"`
+	TargetArn        string            `json:"target_arn"`
 }
 
 // A InspectorAssessmentTemplateStatus defines the observed state of a InspectorAssessmentTemplate
 type InspectorAssessmentTemplateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     InspectorAssessmentTemplateObservation `json:",inline"`
+	AtProvider                     InspectorAssessmentTemplateObservation `json:"atProvider"`
 }
 
 // A InspectorAssessmentTemplateObservation records the observed state of a InspectorAssessmentTemplate

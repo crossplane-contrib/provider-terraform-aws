@@ -47,23 +47,33 @@ type MskClusterList struct {
 // A MskClusterSpec defines the desired state of a MskCluster
 type MskClusterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MskClusterParameters `json:",inline"`
+	ForProvider                  MskClusterParameters `json:"forProvider"`
 }
 
 // A MskClusterParameters defines the desired state of a MskCluster
 type MskClusterParameters struct {
-	Id                   string               `json:"id"`
+	Tags                 map[string]string    `json:"tags"`
+	ClusterName          string               `json:"cluster_name"`
 	EnhancedMonitoring   string               `json:"enhanced_monitoring"`
+	Id                   string               `json:"id"`
 	KafkaVersion         string               `json:"kafka_version"`
 	NumberOfBrokerNodes  int64                `json:"number_of_broker_nodes"`
-	ClusterName          string               `json:"cluster_name"`
-	Tags                 map[string]string    `json:"tags"`
+	EncryptionInfo       EncryptionInfo       `json:"encryption_info"`
 	LoggingInfo          LoggingInfo          `json:"logging_info"`
 	OpenMonitoring       OpenMonitoring       `json:"open_monitoring"`
 	BrokerNodeGroupInfo  BrokerNodeGroupInfo  `json:"broker_node_group_info"`
 	ClientAuthentication ClientAuthentication `json:"client_authentication"`
 	ConfigurationInfo    ConfigurationInfo    `json:"configuration_info"`
-	EncryptionInfo       EncryptionInfo       `json:"encryption_info"`
+}
+
+type EncryptionInfo struct {
+	EncryptionAtRestKmsKeyArn string              `json:"encryption_at_rest_kms_key_arn"`
+	EncryptionInTransit       EncryptionInTransit `json:"encryption_in_transit"`
+}
+
+type EncryptionInTransit struct {
+	ClientBroker string `json:"client_broker"`
+	InCluster    bool   `json:"in_cluster"`
 }
 
 type LoggingInfo struct {
@@ -71,9 +81,14 @@ type LoggingInfo struct {
 }
 
 type BrokerLogs struct {
+	CloudwatchLogs CloudwatchLogs `json:"cloudwatch_logs"`
 	Firehose       Firehose       `json:"firehose"`
 	S3             S3             `json:"s3"`
-	CloudwatchLogs CloudwatchLogs `json:"cloudwatch_logs"`
+}
+
+type CloudwatchLogs struct {
+	Enabled  bool   `json:"enabled"`
+	LogGroup string `json:"log_group"`
 }
 
 type Firehose struct {
@@ -82,14 +97,9 @@ type Firehose struct {
 }
 
 type S3 struct {
-	Prefix  string `json:"prefix"`
 	Bucket  string `json:"bucket"`
 	Enabled bool   `json:"enabled"`
-}
-
-type CloudwatchLogs struct {
-	Enabled  bool   `json:"enabled"`
-	LogGroup string `json:"log_group"`
+	Prefix  string `json:"prefix"`
 }
 
 type OpenMonitoring struct {
@@ -110,11 +120,11 @@ type NodeExporter struct {
 }
 
 type BrokerNodeGroupInfo struct {
-	InstanceType   string   `json:"instance_type"`
-	SecurityGroups []string `json:"security_groups"`
 	AzDistribution string   `json:"az_distribution"`
 	ClientSubnets  []string `json:"client_subnets"`
 	EbsVolumeSize  int64    `json:"ebs_volume_size"`
+	InstanceType   string   `json:"instance_type"`
+	SecurityGroups []string `json:"security_groups"`
 }
 
 type ClientAuthentication struct {
@@ -130,27 +140,17 @@ type ConfigurationInfo struct {
 	Revision int64  `json:"revision"`
 }
 
-type EncryptionInfo struct {
-	EncryptionAtRestKmsKeyArn string              `json:"encryption_at_rest_kms_key_arn"`
-	EncryptionInTransit       EncryptionInTransit `json:"encryption_in_transit"`
-}
-
-type EncryptionInTransit struct {
-	ClientBroker string `json:"client_broker"`
-	InCluster    bool   `json:"in_cluster"`
-}
-
 // A MskClusterStatus defines the observed state of a MskCluster
 type MskClusterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MskClusterObservation `json:",inline"`
+	AtProvider                     MskClusterObservation `json:"atProvider"`
 }
 
 // A MskClusterObservation records the observed state of a MskCluster
 type MskClusterObservation struct {
-	Arn                    string `json:"arn"`
 	BootstrapBrokers       string `json:"bootstrap_brokers"`
 	BootstrapBrokersTls    string `json:"bootstrap_brokers_tls"`
 	CurrentVersion         string `json:"current_version"`
 	ZookeeperConnectString string `json:"zookeeper_connect_string"`
+	Arn                    string `json:"arn"`
 }

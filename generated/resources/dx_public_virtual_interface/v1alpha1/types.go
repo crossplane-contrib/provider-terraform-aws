@@ -47,21 +47,21 @@ type DxPublicVirtualInterfaceList struct {
 // A DxPublicVirtualInterfaceSpec defines the desired state of a DxPublicVirtualInterface
 type DxPublicVirtualInterfaceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxPublicVirtualInterfaceParameters `json:",inline"`
+	ForProvider                  DxPublicVirtualInterfaceParameters `json:"forProvider"`
 }
 
 // A DxPublicVirtualInterfaceParameters defines the desired state of a DxPublicVirtualInterface
 type DxPublicVirtualInterfaceParameters struct {
 	ConnectionId        string            `json:"connection_id"`
-	RouteFilterPrefixes []string          `json:"route_filter_prefixes"`
-	Vlan                int64             `json:"vlan"`
-	AddressFamily       string            `json:"address_family"`
-	BgpAsn              int64             `json:"bgp_asn"`
-	BgpAuthKey          string            `json:"bgp_auth_key"`
 	Id                  string            `json:"id"`
-	CustomerAddress     string            `json:"customer_address"`
-	Name                string            `json:"name"`
+	Vlan                int64             `json:"vlan"`
 	AmazonAddress       string            `json:"amazon_address"`
+	BgpAsn              int64             `json:"bgp_asn"`
+	Name                string            `json:"name"`
+	BgpAuthKey          string            `json:"bgp_auth_key"`
+	CustomerAddress     string            `json:"customer_address"`
+	AddressFamily       string            `json:"address_family"`
+	RouteFilterPrefixes []string          `json:"route_filter_prefixes"`
 	Tags                map[string]string `json:"tags"`
 	Timeouts            Timeouts          `json:"timeouts"`
 }
@@ -74,12 +74,12 @@ type Timeouts struct {
 // A DxPublicVirtualInterfaceStatus defines the observed state of a DxPublicVirtualInterface
 type DxPublicVirtualInterfaceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxPublicVirtualInterfaceObservation `json:",inline"`
+	AtProvider                     DxPublicVirtualInterfaceObservation `json:"atProvider"`
 }
 
 // A DxPublicVirtualInterfaceObservation records the observed state of a DxPublicVirtualInterface
 type DxPublicVirtualInterfaceObservation struct {
+	AwsDevice     string `json:"aws_device"`
 	Arn           string `json:"arn"`
 	AmazonSideAsn string `json:"amazon_side_asn"`
-	AwsDevice     string `json:"aws_device"`
 }

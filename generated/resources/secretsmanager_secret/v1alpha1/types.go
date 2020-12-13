@@ -47,20 +47,20 @@ type SecretsmanagerSecretList struct {
 // A SecretsmanagerSecretSpec defines the desired state of a SecretsmanagerSecret
 type SecretsmanagerSecretSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecretsmanagerSecretParameters `json:",inline"`
+	ForProvider                  SecretsmanagerSecretParameters `json:"forProvider"`
 }
 
 // A SecretsmanagerSecretParameters defines the desired state of a SecretsmanagerSecret
 type SecretsmanagerSecretParameters struct {
+	Id                   string            `json:"id"`
+	KmsKeyId             string            `json:"kms_key_id"`
+	Name                 string            `json:"name"`
+	NamePrefix           string            `json:"name_prefix"`
 	Policy               string            `json:"policy"`
 	RecoveryWindowInDays int64             `json:"recovery_window_in_days"`
 	Tags                 map[string]string `json:"tags"`
-	Id                   string            `json:"id"`
-	NamePrefix           string            `json:"name_prefix"`
-	KmsKeyId             string            `json:"kms_key_id"`
-	Name                 string            `json:"name"`
-	RotationLambdaArn    string            `json:"rotation_lambda_arn"`
 	Description          string            `json:"description"`
+	RotationLambdaArn    string            `json:"rotation_lambda_arn"`
 	RotationRules        RotationRules     `json:"rotation_rules"`
 }
 
@@ -71,11 +71,11 @@ type RotationRules struct {
 // A SecretsmanagerSecretStatus defines the observed state of a SecretsmanagerSecret
 type SecretsmanagerSecretStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecretsmanagerSecretObservation `json:",inline"`
+	AtProvider                     SecretsmanagerSecretObservation `json:"atProvider"`
 }
 
 // A SecretsmanagerSecretObservation records the observed state of a SecretsmanagerSecret
 type SecretsmanagerSecretObservation struct {
-	RotationEnabled bool   `json:"rotation_enabled"`
 	Arn             string `json:"arn"`
+	RotationEnabled bool   `json:"rotation_enabled"`
 }

@@ -47,29 +47,29 @@ type StoragegatewaySmbFileShareList struct {
 // A StoragegatewaySmbFileShareSpec defines the desired state of a StoragegatewaySmbFileShare
 type StoragegatewaySmbFileShareSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  StoragegatewaySmbFileShareParameters `json:",inline"`
+	ForProvider                  StoragegatewaySmbFileShareParameters `json:"forProvider"`
 }
 
 // A StoragegatewaySmbFileShareParameters defines the desired state of a StoragegatewaySmbFileShare
 type StoragegatewaySmbFileShareParameters struct {
-	AuditDestinationArn  string            `json:"audit_destination_arn"`
-	Id                   string            `json:"id"`
-	KmsEncrypted         bool              `json:"kms_encrypted"`
-	KmsKeyArn            string            `json:"kms_key_arn"`
-	ObjectAcl            string            `json:"object_acl"`
-	ValidUserList        []string          `json:"valid_user_list"`
-	AdminUserList        []string          `json:"admin_user_list"`
 	CaseSensitivity      string            `json:"case_sensitivity"`
-	GuessMimeTypeEnabled bool              `json:"guess_mime_type_enabled"`
+	KmsEncrypted         bool              `json:"kms_encrypted"`
+	ReadOnly             bool              `json:"read_only"`
+	RequesterPays        bool              `json:"requester_pays"`
+	SmbAclEnabled        bool              `json:"smb_acl_enabled"`
+	AuditDestinationArn  string            `json:"audit_destination_arn"`
+	ValidUserList        []string          `json:"valid_user_list"`
+	DefaultStorageClass  string            `json:"default_storage_class"`
+	ObjectAcl            string            `json:"object_acl"`
 	RoleArn              string            `json:"role_arn"`
 	Authentication       string            `json:"authentication"`
 	GatewayArn           string            `json:"gateway_arn"`
-	LocationArn          string            `json:"location_arn"`
-	ReadOnly             bool              `json:"read_only"`
-	DefaultStorageClass  string            `json:"default_storage_class"`
+	GuessMimeTypeEnabled bool              `json:"guess_mime_type_enabled"`
+	Id                   string            `json:"id"`
 	InvalidUserList      []string          `json:"invalid_user_list"`
-	RequesterPays        bool              `json:"requester_pays"`
-	SmbAclEnabled        bool              `json:"smb_acl_enabled"`
+	KmsKeyArn            string            `json:"kms_key_arn"`
+	LocationArn          string            `json:"location_arn"`
+	AdminUserList        []string          `json:"admin_user_list"`
 	Tags                 map[string]string `json:"tags"`
 	CacheAttributes      CacheAttributes   `json:"cache_attributes"`
 	Timeouts             Timeouts          `json:"timeouts"`
@@ -80,20 +80,20 @@ type CacheAttributes struct {
 }
 
 type Timeouts struct {
+	Delete string `json:"delete"`
 	Update string `json:"update"`
 	Create string `json:"create"`
-	Delete string `json:"delete"`
 }
 
 // A StoragegatewaySmbFileShareStatus defines the observed state of a StoragegatewaySmbFileShare
 type StoragegatewaySmbFileShareStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     StoragegatewaySmbFileShareObservation `json:",inline"`
+	AtProvider                     StoragegatewaySmbFileShareObservation `json:"atProvider"`
 }
 
 // A StoragegatewaySmbFileShareObservation records the observed state of a StoragegatewaySmbFileShare
 type StoragegatewaySmbFileShareObservation struct {
-	Arn         string `json:"arn"`
 	Path        string `json:"path"`
 	FileshareId string `json:"fileshare_id"`
+	Arn         string `json:"arn"`
 }

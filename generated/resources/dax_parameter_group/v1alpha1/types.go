@@ -47,7 +47,7 @@ type DaxParameterGroupList struct {
 // A DaxParameterGroupSpec defines the desired state of a DaxParameterGroup
 type DaxParameterGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DaxParameterGroupParameters `json:",inline"`
+	ForProvider                  DaxParameterGroupParameters `json:"forProvider"`
 }
 
 // A DaxParameterGroupParameters defines the desired state of a DaxParameterGroup
@@ -59,14 +59,14 @@ type DaxParameterGroupParameters struct {
 }
 
 type Parameters struct {
-	Value string `json:"value"`
 	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // A DaxParameterGroupStatus defines the observed state of a DaxParameterGroup
 type DaxParameterGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DaxParameterGroupObservation `json:",inline"`
+	AtProvider                     DaxParameterGroupObservation `json:"atProvider"`
 }
 
 // A DaxParameterGroupObservation records the observed state of a DaxParameterGroup

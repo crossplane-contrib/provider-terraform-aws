@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,31 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodePlacementGroup(r PlacementGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodePlacementGroup_Strategy(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodePlacementGroup_Strategy(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Arn(r.Status.AtProvider, ctyVal)
 	EncodePlacementGroup_PlacementGroupId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodePlacementGroup_Strategy(p PlacementGroupParameters, vals map[string]cty.Value) {
+	vals["strategy"] = cty.StringVal(p.Strategy)
+}
+
 func EncodePlacementGroup_Tags(p PlacementGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -59,10 +75,6 @@ func EncodePlacementGroup_Id(p PlacementGroupParameters, vals map[string]cty.Val
 
 func EncodePlacementGroup_Name(p PlacementGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodePlacementGroup_Strategy(p PlacementGroupParameters, vals map[string]cty.Value) {
-	vals["strategy"] = cty.StringVal(p.Strategy)
 }
 
 func EncodePlacementGroup_Arn(p PlacementGroupObservation, vals map[string]cty.Value) {

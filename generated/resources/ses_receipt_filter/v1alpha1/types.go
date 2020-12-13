@@ -47,7 +47,7 @@ type SesReceiptFilterList struct {
 // A SesReceiptFilterSpec defines the desired state of a SesReceiptFilter
 type SesReceiptFilterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesReceiptFilterParameters `json:",inline"`
+	ForProvider                  SesReceiptFilterParameters `json:"forProvider"`
 }
 
 // A SesReceiptFilterParameters defines the desired state of a SesReceiptFilter
@@ -61,7 +61,7 @@ type SesReceiptFilterParameters struct {
 // A SesReceiptFilterStatus defines the observed state of a SesReceiptFilter
 type SesReceiptFilterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesReceiptFilterObservation `json:",inline"`
+	AtProvider                     SesReceiptFilterObservation `json:"atProvider"`
 }
 
 // A SesReceiptFilterObservation records the observed state of a SesReceiptFilter

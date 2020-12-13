@@ -47,7 +47,7 @@ type WafregionalWebAclList struct {
 // A WafregionalWebAclSpec defines the desired state of a WafregionalWebAcl
 type WafregionalWebAclSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalWebAclParameters `json:",inline"`
+	ForProvider                  WafregionalWebAclParameters `json:"forProvider"`
 }
 
 // A WafregionalWebAclParameters defines the desired state of a WafregionalWebAcl
@@ -75,14 +75,14 @@ type RedactedFields struct {
 }
 
 type FieldToMatch struct {
-	Type string `json:"type"`
 	Data string `json:"data"`
+	Type string `json:"type"`
 }
 
 type Rule struct {
+	RuleId         string         `json:"rule_id"`
 	Type           string         `json:"type"`
 	Priority       int64          `json:"priority"`
-	RuleId         string         `json:"rule_id"`
 	Action         Action         `json:"action"`
 	OverrideAction OverrideAction `json:"override_action"`
 }
@@ -98,7 +98,7 @@ type OverrideAction struct {
 // A WafregionalWebAclStatus defines the observed state of a WafregionalWebAcl
 type WafregionalWebAclStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalWebAclObservation `json:",inline"`
+	AtProvider                     WafregionalWebAclObservation `json:"atProvider"`
 }
 
 // A WafregionalWebAclObservation records the observed state of a WafregionalWebAcl

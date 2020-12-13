@@ -47,18 +47,18 @@ type GuarddutyMemberList struct {
 // A GuarddutyMemberSpec defines the desired state of a GuarddutyMember
 type GuarddutyMemberSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyMemberParameters `json:",inline"`
+	ForProvider                  GuarddutyMemberParameters `json:"forProvider"`
 }
 
 // A GuarddutyMemberParameters defines the desired state of a GuarddutyMember
 type GuarddutyMemberParameters struct {
-	AccountId                string   `json:"account_id"`
 	DetectorId               string   `json:"detector_id"`
 	DisableEmailNotification bool     `json:"disable_email_notification"`
 	Email                    string   `json:"email"`
 	Id                       string   `json:"id"`
 	InvitationMessage        string   `json:"invitation_message"`
 	Invite                   bool     `json:"invite"`
+	AccountId                string   `json:"account_id"`
 	Timeouts                 Timeouts `json:"timeouts"`
 }
 
@@ -70,7 +70,7 @@ type Timeouts struct {
 // A GuarddutyMemberStatus defines the observed state of a GuarddutyMember
 type GuarddutyMemberStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyMemberObservation `json:",inline"`
+	AtProvider                     GuarddutyMemberObservation `json:"atProvider"`
 }
 
 // A GuarddutyMemberObservation records the observed state of a GuarddutyMember

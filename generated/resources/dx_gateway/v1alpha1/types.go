@@ -47,7 +47,7 @@ type DxGatewayList struct {
 // A DxGatewaySpec defines the desired state of a DxGateway
 type DxGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxGatewayParameters `json:",inline"`
+	ForProvider                  DxGatewayParameters `json:"forProvider"`
 }
 
 // A DxGatewayParameters defines the desired state of a DxGateway
@@ -66,7 +66,7 @@ type Timeouts struct {
 // A DxGatewayStatus defines the observed state of a DxGateway
 type DxGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxGatewayObservation `json:",inline"`
+	AtProvider                     DxGatewayObservation `json:"atProvider"`
 }
 
 // A DxGatewayObservation records the observed state of a DxGateway

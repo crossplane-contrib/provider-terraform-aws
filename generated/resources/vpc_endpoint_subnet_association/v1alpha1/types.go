@@ -47,7 +47,7 @@ type VpcEndpointSubnetAssociationList struct {
 // A VpcEndpointSubnetAssociationSpec defines the desired state of a VpcEndpointSubnetAssociation
 type VpcEndpointSubnetAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcEndpointSubnetAssociationParameters `json:",inline"`
+	ForProvider                  VpcEndpointSubnetAssociationParameters `json:"forProvider"`
 }
 
 // A VpcEndpointSubnetAssociationParameters defines the desired state of a VpcEndpointSubnetAssociation
@@ -66,7 +66,7 @@ type Timeouts struct {
 // A VpcEndpointSubnetAssociationStatus defines the observed state of a VpcEndpointSubnetAssociation
 type VpcEndpointSubnetAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcEndpointSubnetAssociationObservation `json:",inline"`
+	AtProvider                     VpcEndpointSubnetAssociationObservation `json:"atProvider"`
 }
 
 // A VpcEndpointSubnetAssociationObservation records the observed state of a VpcEndpointSubnetAssociation

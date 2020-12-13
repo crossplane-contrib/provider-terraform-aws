@@ -47,47 +47,47 @@ type NetworkAclList struct {
 // A NetworkAclSpec defines the desired state of a NetworkAcl
 type NetworkAclSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NetworkAclParameters `json:",inline"`
+	ForProvider                  NetworkAclParameters `json:"forProvider"`
 }
 
 // A NetworkAclParameters defines the desired state of a NetworkAcl
 type NetworkAclParameters struct {
+	Tags      map[string]string `json:"tags"`
 	VpcId     string            `json:"vpc_id"`
 	Egress    []Egress          `json:"egress"`
 	Id        string            `json:"id"`
 	Ingress   []Ingress         `json:"ingress"`
 	SubnetIds []string          `json:"subnet_ids"`
-	Tags      map[string]string `json:"tags"`
 }
 
 type Egress struct {
-	Action        string `json:"action"`
-	IcmpCode      int64  `json:"icmp_code"`
-	IcmpType      int64  `json:"icmp_type"`
-	RuleNo        int64  `json:"rule_no"`
-	ToPort        int64  `json:"to_port"`
-	FromPort      int64  `json:"from_port"`
 	CidrBlock     string `json:"cidr_block"`
 	Protocol      string `json:"protocol"`
+	IcmpCode      int64  `json:"icmp_code"`
+	IcmpType      int64  `json:"icmp_type"`
 	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	ToPort        int64  `json:"to_port"`
+	Action        string `json:"action"`
+	FromPort      int64  `json:"from_port"`
+	RuleNo        int64  `json:"rule_no"`
 }
 
 type Ingress struct {
-	IcmpCode      int64  `json:"icmp_code"`
-	IcmpType      int64  `json:"icmp_type"`
-	FromPort      int64  `json:"from_port"`
-	Protocol      string `json:"protocol"`
 	RuleNo        int64  `json:"rule_no"`
+	IcmpType      int64  `json:"icmp_type"`
+	IcmpCode      int64  `json:"icmp_code"`
 	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
-	Action        string `json:"action"`
+	Protocol      string `json:"protocol"`
 	CidrBlock     string `json:"cidr_block"`
 	ToPort        int64  `json:"to_port"`
+	Action        string `json:"action"`
+	FromPort      int64  `json:"from_port"`
 }
 
 // A NetworkAclStatus defines the observed state of a NetworkAcl
 type NetworkAclStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NetworkAclObservation `json:",inline"`
+	AtProvider                     NetworkAclObservation `json:"atProvider"`
 }
 
 // A NetworkAclObservation records the observed state of a NetworkAcl

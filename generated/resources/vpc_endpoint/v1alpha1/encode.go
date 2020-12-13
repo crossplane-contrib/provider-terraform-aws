@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,31 +37,38 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpcEndpoint(r VpcEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcEndpoint_AutoAccept(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpoint_PrivateDnsEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpoint_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpoint_SubnetIds(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpoint_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpoint_RouteTableIds(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpoint_ServiceName(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpoint_VpcEndpointType(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpoint_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpoint_PrivateDnsEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpoint_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpoint_AutoAccept(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpoint_Id(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpoint_ServiceName(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpoint_SubnetIds(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpoint_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpoint_RouteTableIds(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpoint_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeVpcEndpoint_State(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpoint_PrefixListId(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpoint_Arn(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpoint_NetworkInterfaceIds(r.Status.AtProvider, ctyVal)
-	EncodeVpcEndpoint_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpoint_CidrBlocks(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpoint_DnsEntry(r.Status.AtProvider.DnsEntry, ctyVal)
+	EncodeVpcEndpoint_NetworkInterfaceIds(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpoint_Arn(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpoint_OwnerId(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpoint_PrefixListId(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpoint_RequesterManaged(r.Status.AtProvider, ctyVal)
+	EncodeVpcEndpoint_State(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpcEndpoint_AutoAccept(p VpcEndpointParameters, vals map[string]cty.Value) {
-	vals["auto_accept"] = cty.BoolVal(p.AutoAccept)
+func EncodeVpcEndpoint_PrivateDnsEnabled(p VpcEndpointParameters, vals map[string]cty.Value) {
+	vals["private_dns_enabled"] = cty.BoolVal(p.PrivateDnsEnabled)
 }
 
 func EncodeVpcEndpoint_SecurityGroupIds(p VpcEndpointParameters, vals map[string]cty.Value) {
@@ -71,31 +79,11 @@ func EncodeVpcEndpoint_SecurityGroupIds(p VpcEndpointParameters, vals map[string
 	vals["security_group_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeVpcEndpoint_SubnetIds(p VpcEndpointParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SubnetIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["subnet_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeVpcEndpoint_Id(p VpcEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeVpcEndpoint_RouteTableIds(p VpcEndpointParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.RouteTableIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["route_table_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeVpcEndpoint_ServiceName(p VpcEndpointParameters, vals map[string]cty.Value) {
-	vals["service_name"] = cty.StringVal(p.ServiceName)
-}
-
 func EncodeVpcEndpoint_Tags(p VpcEndpointParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -107,16 +95,40 @@ func EncodeVpcEndpoint_VpcEndpointType(p VpcEndpointParameters, vals map[string]
 	vals["vpc_endpoint_type"] = cty.StringVal(p.VpcEndpointType)
 }
 
+func EncodeVpcEndpoint_VpcId(p VpcEndpointParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeVpcEndpoint_AutoAccept(p VpcEndpointParameters, vals map[string]cty.Value) {
+	vals["auto_accept"] = cty.BoolVal(p.AutoAccept)
+}
+
+func EncodeVpcEndpoint_Id(p VpcEndpointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeVpcEndpoint_ServiceName(p VpcEndpointParameters, vals map[string]cty.Value) {
+	vals["service_name"] = cty.StringVal(p.ServiceName)
+}
+
+func EncodeVpcEndpoint_SubnetIds(p VpcEndpointParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SubnetIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["subnet_ids"] = cty.SetVal(colVals)
+}
+
 func EncodeVpcEndpoint_Policy(p VpcEndpointParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }
 
-func EncodeVpcEndpoint_PrivateDnsEnabled(p VpcEndpointParameters, vals map[string]cty.Value) {
-	vals["private_dns_enabled"] = cty.BoolVal(p.PrivateDnsEnabled)
-}
-
-func EncodeVpcEndpoint_VpcId(p VpcEndpointParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
+func EncodeVpcEndpoint_RouteTableIds(p VpcEndpointParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.RouteTableIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["route_table_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeVpcEndpoint_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -137,30 +149,6 @@ func EncodeVpcEndpoint_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 
 func EncodeVpcEndpoint_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
-}
-
-func EncodeVpcEndpoint_State(p VpcEndpointObservation, vals map[string]cty.Value) {
-	vals["state"] = cty.StringVal(p.State)
-}
-
-func EncodeVpcEndpoint_PrefixListId(p VpcEndpointObservation, vals map[string]cty.Value) {
-	vals["prefix_list_id"] = cty.StringVal(p.PrefixListId)
-}
-
-func EncodeVpcEndpoint_Arn(p VpcEndpointObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeVpcEndpoint_NetworkInterfaceIds(p VpcEndpointObservation, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.NetworkInterfaceIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["network_interface_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeVpcEndpoint_OwnerId(p VpcEndpointObservation, vals map[string]cty.Value) {
-	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }
 
 func EncodeVpcEndpoint_CidrBlocks(p VpcEndpointObservation, vals map[string]cty.Value) {
@@ -190,6 +178,30 @@ func EncodeVpcEndpoint_DnsEntry_HostedZoneId(p DnsEntry, vals map[string]cty.Val
 	vals["hosted_zone_id"] = cty.StringVal(p.HostedZoneId)
 }
 
+func EncodeVpcEndpoint_NetworkInterfaceIds(p VpcEndpointObservation, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.NetworkInterfaceIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["network_interface_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeVpcEndpoint_Arn(p VpcEndpointObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeVpcEndpoint_OwnerId(p VpcEndpointObservation, vals map[string]cty.Value) {
+	vals["owner_id"] = cty.StringVal(p.OwnerId)
+}
+
+func EncodeVpcEndpoint_PrefixListId(p VpcEndpointObservation, vals map[string]cty.Value) {
+	vals["prefix_list_id"] = cty.StringVal(p.PrefixListId)
+}
+
 func EncodeVpcEndpoint_RequesterManaged(p VpcEndpointObservation, vals map[string]cty.Value) {
 	vals["requester_managed"] = cty.BoolVal(p.RequesterManaged)
+}
+
+func EncodeVpcEndpoint_State(p VpcEndpointObservation, vals map[string]cty.Value) {
+	vals["state"] = cty.StringVal(p.State)
 }

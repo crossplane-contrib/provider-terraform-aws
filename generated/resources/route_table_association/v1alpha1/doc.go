@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=route-table-association.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

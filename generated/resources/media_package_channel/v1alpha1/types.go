@@ -47,7 +47,7 @@ type MediaPackageChannelList struct {
 // A MediaPackageChannelSpec defines the desired state of a MediaPackageChannel
 type MediaPackageChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MediaPackageChannelParameters `json:",inline"`
+	ForProvider                  MediaPackageChannelParameters `json:"forProvider"`
 }
 
 // A MediaPackageChannelParameters defines the desired state of a MediaPackageChannel
@@ -61,13 +61,13 @@ type MediaPackageChannelParameters struct {
 // A MediaPackageChannelStatus defines the observed state of a MediaPackageChannel
 type MediaPackageChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MediaPackageChannelObservation `json:",inline"`
+	AtProvider                     MediaPackageChannelObservation `json:"atProvider"`
 }
 
 // A MediaPackageChannelObservation records the observed state of a MediaPackageChannel
 type MediaPackageChannelObservation struct {
-	Arn       string      `json:"arn"`
 	HlsIngest []HlsIngest `json:"hls_ingest"`
+	Arn       string      `json:"arn"`
 }
 
 type HlsIngest struct {
@@ -75,7 +75,7 @@ type HlsIngest struct {
 }
 
 type IngestEndpoints struct {
-	Password string `json:"password"`
 	Url      string `json:"url"`
 	Username string `json:"username"`
+	Password string `json:"password"`
 }

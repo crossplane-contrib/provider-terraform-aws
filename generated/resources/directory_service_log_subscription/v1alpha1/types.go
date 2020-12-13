@@ -47,20 +47,20 @@ type DirectoryServiceLogSubscriptionList struct {
 // A DirectoryServiceLogSubscriptionSpec defines the desired state of a DirectoryServiceLogSubscription
 type DirectoryServiceLogSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DirectoryServiceLogSubscriptionParameters `json:",inline"`
+	ForProvider                  DirectoryServiceLogSubscriptionParameters `json:"forProvider"`
 }
 
 // A DirectoryServiceLogSubscriptionParameters defines the desired state of a DirectoryServiceLogSubscription
 type DirectoryServiceLogSubscriptionParameters struct {
+	DirectoryId  string `json:"directory_id"`
 	Id           string `json:"id"`
 	LogGroupName string `json:"log_group_name"`
-	DirectoryId  string `json:"directory_id"`
 }
 
 // A DirectoryServiceLogSubscriptionStatus defines the observed state of a DirectoryServiceLogSubscription
 type DirectoryServiceLogSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DirectoryServiceLogSubscriptionObservation `json:",inline"`
+	AtProvider                     DirectoryServiceLogSubscriptionObservation `json:"atProvider"`
 }
 
 // A DirectoryServiceLogSubscriptionObservation records the observed state of a DirectoryServiceLogSubscription

@@ -47,7 +47,7 @@ type EgressOnlyInternetGatewayList struct {
 // A EgressOnlyInternetGatewaySpec defines the desired state of a EgressOnlyInternetGateway
 type EgressOnlyInternetGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EgressOnlyInternetGatewayParameters `json:",inline"`
+	ForProvider                  EgressOnlyInternetGatewayParameters `json:"forProvider"`
 }
 
 // A EgressOnlyInternetGatewayParameters defines the desired state of a EgressOnlyInternetGateway
@@ -60,7 +60,7 @@ type EgressOnlyInternetGatewayParameters struct {
 // A EgressOnlyInternetGatewayStatus defines the observed state of a EgressOnlyInternetGateway
 type EgressOnlyInternetGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EgressOnlyInternetGatewayObservation `json:",inline"`
+	AtProvider                     EgressOnlyInternetGatewayObservation `json:"atProvider"`
 }
 
 // A EgressOnlyInternetGatewayObservation records the observed state of a EgressOnlyInternetGateway

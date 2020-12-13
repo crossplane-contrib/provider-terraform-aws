@@ -47,34 +47,29 @@ type GlueTriggerList struct {
 // A GlueTriggerSpec defines the desired state of a GlueTrigger
 type GlueTriggerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueTriggerParameters `json:",inline"`
+	ForProvider                  GlueTriggerParameters `json:"forProvider"`
 }
 
 // A GlueTriggerParameters defines the desired state of a GlueTrigger
 type GlueTriggerParameters struct {
-	Description  string            `json:"description"`
-	Enabled      bool              `json:"enabled"`
-	Id           string            `json:"id"`
-	Name         string            `json:"name"`
-	Tags         map[string]string `json:"tags"`
-	WorkflowName string            `json:"workflow_name"`
 	Schedule     string            `json:"schedule"`
+	Tags         map[string]string `json:"tags"`
 	Type         string            `json:"type"`
-	Timeouts     Timeouts          `json:"timeouts"`
+	Description  string            `json:"description"`
+	Name         string            `json:"name"`
+	Id           string            `json:"id"`
+	WorkflowName string            `json:"workflow_name"`
+	Enabled      bool              `json:"enabled"`
 	Actions      []Actions         `json:"actions"`
 	Predicate    Predicate         `json:"predicate"`
-}
-
-type Timeouts struct {
-	Create string `json:"create"`
-	Delete string `json:"delete"`
+	Timeouts     Timeouts          `json:"timeouts"`
 }
 
 type Actions struct {
-	JobName     string            `json:"job_name"`
-	Timeout     int64             `json:"timeout"`
 	Arguments   map[string]string `json:"arguments"`
 	CrawlerName string            `json:"crawler_name"`
+	JobName     string            `json:"job_name"`
+	Timeout     int64             `json:"timeout"`
 }
 
 type Predicate struct {
@@ -90,10 +85,15 @@ type Conditions struct {
 	State           string `json:"state"`
 }
 
+type Timeouts struct {
+	Create string `json:"create"`
+	Delete string `json:"delete"`
+}
+
 // A GlueTriggerStatus defines the observed state of a GlueTrigger
 type GlueTriggerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueTriggerObservation `json:",inline"`
+	AtProvider                     GlueTriggerObservation `json:"atProvider"`
 }
 
 // A GlueTriggerObservation records the observed state of a GlueTrigger

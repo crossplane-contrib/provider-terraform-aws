@@ -47,21 +47,32 @@ type AppsyncDatasourceList struct {
 // A AppsyncDatasourceSpec defines the desired state of a AppsyncDatasource
 type AppsyncDatasourceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppsyncDatasourceParameters `json:",inline"`
+	ForProvider                  AppsyncDatasourceParameters `json:"forProvider"`
 }
 
 // A AppsyncDatasourceParameters defines the desired state of a AppsyncDatasource
 type AppsyncDatasourceParameters struct {
-	ApiId               string              `json:"api_id"`
-	Description         string              `json:"description"`
 	Id                  string              `json:"id"`
 	Name                string              `json:"name"`
 	ServiceRoleArn      string              `json:"service_role_arn"`
 	Type                string              `json:"type"`
-	HttpConfig          HttpConfig          `json:"http_config"`
-	LambdaConfig        LambdaConfig        `json:"lambda_config"`
+	ApiId               string              `json:"api_id"`
+	Description         string              `json:"description"`
 	DynamodbConfig      DynamodbConfig      `json:"dynamodb_config"`
 	ElasticsearchConfig ElasticsearchConfig `json:"elasticsearch_config"`
+	HttpConfig          HttpConfig          `json:"http_config"`
+	LambdaConfig        LambdaConfig        `json:"lambda_config"`
+}
+
+type DynamodbConfig struct {
+	Region               string `json:"region"`
+	TableName            string `json:"table_name"`
+	UseCallerCredentials bool   `json:"use_caller_credentials"`
+}
+
+type ElasticsearchConfig struct {
+	Endpoint string `json:"endpoint"`
+	Region   string `json:"region"`
 }
 
 type HttpConfig struct {
@@ -72,21 +83,10 @@ type LambdaConfig struct {
 	FunctionArn string `json:"function_arn"`
 }
 
-type DynamodbConfig struct {
-	TableName            string `json:"table_name"`
-	UseCallerCredentials bool   `json:"use_caller_credentials"`
-	Region               string `json:"region"`
-}
-
-type ElasticsearchConfig struct {
-	Endpoint string `json:"endpoint"`
-	Region   string `json:"region"`
-}
-
 // A AppsyncDatasourceStatus defines the observed state of a AppsyncDatasource
 type AppsyncDatasourceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppsyncDatasourceObservation `json:",inline"`
+	AtProvider                     AppsyncDatasourceObservation `json:"atProvider"`
 }
 
 // A AppsyncDatasourceObservation records the observed state of a AppsyncDatasource

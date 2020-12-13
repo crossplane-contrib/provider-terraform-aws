@@ -47,22 +47,22 @@ type CodeartifactDomainPermissionsPolicyList struct {
 // A CodeartifactDomainPermissionsPolicySpec defines the desired state of a CodeartifactDomainPermissionsPolicy
 type CodeartifactDomainPermissionsPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodeartifactDomainPermissionsPolicyParameters `json:",inline"`
+	ForProvider                  CodeartifactDomainPermissionsPolicyParameters `json:"forProvider"`
 }
 
 // A CodeartifactDomainPermissionsPolicyParameters defines the desired state of a CodeartifactDomainPermissionsPolicy
 type CodeartifactDomainPermissionsPolicyParameters struct {
+	Domain         string `json:"domain"`
+	DomainOwner    string `json:"domain_owner"`
 	Id             string `json:"id"`
 	PolicyDocument string `json:"policy_document"`
 	PolicyRevision string `json:"policy_revision"`
-	Domain         string `json:"domain"`
-	DomainOwner    string `json:"domain_owner"`
 }
 
 // A CodeartifactDomainPermissionsPolicyStatus defines the observed state of a CodeartifactDomainPermissionsPolicy
 type CodeartifactDomainPermissionsPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodeartifactDomainPermissionsPolicyObservation `json:",inline"`
+	AtProvider                     CodeartifactDomainPermissionsPolicyObservation `json:"atProvider"`
 }
 
 // A CodeartifactDomainPermissionsPolicyObservation records the observed state of a CodeartifactDomainPermissionsPolicy

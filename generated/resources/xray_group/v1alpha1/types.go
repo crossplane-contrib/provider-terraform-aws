@@ -47,7 +47,7 @@ type XrayGroupList struct {
 // A XrayGroupSpec defines the desired state of a XrayGroup
 type XrayGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  XrayGroupParameters `json:",inline"`
+	ForProvider                  XrayGroupParameters `json:"forProvider"`
 }
 
 // A XrayGroupParameters defines the desired state of a XrayGroup
@@ -61,7 +61,7 @@ type XrayGroupParameters struct {
 // A XrayGroupStatus defines the observed state of a XrayGroup
 type XrayGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     XrayGroupObservation `json:",inline"`
+	AtProvider                     XrayGroupObservation `json:"atProvider"`
 }
 
 // A XrayGroupObservation records the observed state of a XrayGroup

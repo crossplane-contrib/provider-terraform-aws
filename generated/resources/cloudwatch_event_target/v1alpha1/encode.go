@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -43,13 +44,20 @@ func EncodeCloudwatchEventTarget(r CloudwatchEventTarget) cty.Value {
 	EncodeCloudwatchEventTarget_Rule(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventTarget_TargetId(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventTarget_Arn(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget(r.Spec.ForProvider.EcsTarget, ctyVal)
-	EncodeCloudwatchEventTarget_InputTransformer(r.Spec.ForProvider.InputTransformer, ctyVal)
-	EncodeCloudwatchEventTarget_KinesisTarget(r.Spec.ForProvider.KinesisTarget, ctyVal)
 	EncodeCloudwatchEventTarget_RunCommandTargets(r.Spec.ForProvider.RunCommandTargets, ctyVal)
 	EncodeCloudwatchEventTarget_SqsTarget(r.Spec.ForProvider.SqsTarget, ctyVal)
 	EncodeCloudwatchEventTarget_BatchTarget(r.Spec.ForProvider.BatchTarget, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget(r.Spec.ForProvider.EcsTarget, ctyVal)
+	EncodeCloudwatchEventTarget_InputTransformer(r.Spec.ForProvider.InputTransformer, ctyVal)
+	EncodeCloudwatchEventTarget_KinesisTarget(r.Spec.ForProvider.KinesisTarget, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -79,102 +87,6 @@ func EncodeCloudwatchEventTarget_TargetId(p CloudwatchEventTargetParameters, val
 
 func EncodeCloudwatchEventTarget_Arn(p CloudwatchEventTargetParameters, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget(p EcsTarget, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchEventTarget_EcsTarget_TaskCount(p, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget_TaskDefinitionArn(p, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget_Group(p, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget_LaunchType(p, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget_PlatformVersion(p, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration(p.NetworkConfiguration, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["ecs_target"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_TaskCount(p EcsTarget, vals map[string]cty.Value) {
-	vals["task_count"] = cty.NumberIntVal(p.TaskCount)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_TaskDefinitionArn(p EcsTarget, vals map[string]cty.Value) {
-	vals["task_definition_arn"] = cty.StringVal(p.TaskDefinitionArn)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_Group(p EcsTarget, vals map[string]cty.Value) {
-	vals["group"] = cty.StringVal(p.Group)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_LaunchType(p EcsTarget, vals map[string]cty.Value) {
-	vals["launch_type"] = cty.StringVal(p.LaunchType)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_PlatformVersion(p EcsTarget, vals map[string]cty.Value) {
-	vals["platform_version"] = cty.StringVal(p.PlatformVersion)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration(p NetworkConfiguration, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_AssignPublicIp(p, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_SecurityGroups(p, ctyVal)
-	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_Subnets(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["network_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_AssignPublicIp(p NetworkConfiguration, vals map[string]cty.Value) {
-	vals["assign_public_ip"] = cty.BoolVal(p.AssignPublicIp)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_SecurityGroups(p NetworkConfiguration, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SecurityGroups {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["security_groups"] = cty.SetVal(colVals)
-}
-
-func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_Subnets(p NetworkConfiguration, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Subnets {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["subnets"] = cty.SetVal(colVals)
-}
-
-func EncodeCloudwatchEventTarget_InputTransformer(p InputTransformer, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchEventTarget_InputTransformer_InputTemplate(p, ctyVal)
-	EncodeCloudwatchEventTarget_InputTransformer_InputPaths(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["input_transformer"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCloudwatchEventTarget_InputTransformer_InputTemplate(p InputTransformer, vals map[string]cty.Value) {
-	vals["input_template"] = cty.StringVal(p.InputTemplate)
-}
-
-func EncodeCloudwatchEventTarget_InputTransformer_InputPaths(p InputTransformer, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.InputPaths {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["input_paths"] = cty.MapVal(mVals)
-}
-
-func EncodeCloudwatchEventTarget_KinesisTarget(p KinesisTarget, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchEventTarget_KinesisTarget_PartitionKeyPath(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["kinesis_target"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCloudwatchEventTarget_KinesisTarget_PartitionKeyPath(p KinesisTarget, vals map[string]cty.Value) {
-	vals["partition_key_path"] = cty.StringVal(p.PartitionKeyPath)
 }
 
 func EncodeCloudwatchEventTarget_RunCommandTargets(p []RunCommandTargets, vals map[string]cty.Value) {
@@ -237,4 +149,104 @@ func EncodeCloudwatchEventTarget_BatchTarget_JobDefinition(p BatchTarget, vals m
 
 func EncodeCloudwatchEventTarget_BatchTarget_JobName(p BatchTarget, vals map[string]cty.Value) {
 	vals["job_name"] = cty.StringVal(p.JobName)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget(p EcsTarget, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchEventTarget_EcsTarget_Group(p, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget_LaunchType(p, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget_PlatformVersion(p, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget_TaskCount(p, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget_TaskDefinitionArn(p, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration(p.NetworkConfiguration, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["ecs_target"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_Group(p EcsTarget, vals map[string]cty.Value) {
+	vals["group"] = cty.StringVal(p.Group)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_LaunchType(p EcsTarget, vals map[string]cty.Value) {
+	vals["launch_type"] = cty.StringVal(p.LaunchType)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_PlatformVersion(p EcsTarget, vals map[string]cty.Value) {
+	vals["platform_version"] = cty.StringVal(p.PlatformVersion)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_TaskCount(p EcsTarget, vals map[string]cty.Value) {
+	vals["task_count"] = cty.NumberIntVal(p.TaskCount)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_TaskDefinitionArn(p EcsTarget, vals map[string]cty.Value) {
+	vals["task_definition_arn"] = cty.StringVal(p.TaskDefinitionArn)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration(p NetworkConfiguration, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_AssignPublicIp(p, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_SecurityGroups(p, ctyVal)
+	EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_Subnets(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["network_configuration"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_AssignPublicIp(p NetworkConfiguration, vals map[string]cty.Value) {
+	vals["assign_public_ip"] = cty.BoolVal(p.AssignPublicIp)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_SecurityGroups(p NetworkConfiguration, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SecurityGroups {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["security_groups"] = cty.SetVal(colVals)
+}
+
+func EncodeCloudwatchEventTarget_EcsTarget_NetworkConfiguration_Subnets(p NetworkConfiguration, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Subnets {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["subnets"] = cty.SetVal(colVals)
+}
+
+func EncodeCloudwatchEventTarget_InputTransformer(p InputTransformer, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchEventTarget_InputTransformer_InputPaths(p, ctyVal)
+	EncodeCloudwatchEventTarget_InputTransformer_InputTemplate(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["input_transformer"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCloudwatchEventTarget_InputTransformer_InputPaths(p InputTransformer, vals map[string]cty.Value) {
+	if len(p.InputPaths) == 0 {
+		vals["input_paths"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.InputPaths {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["input_paths"] = cty.MapVal(mVals)
+}
+
+func EncodeCloudwatchEventTarget_InputTransformer_InputTemplate(p InputTransformer, vals map[string]cty.Value) {
+	vals["input_template"] = cty.StringVal(p.InputTemplate)
+}
+
+func EncodeCloudwatchEventTarget_KinesisTarget(p KinesisTarget, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchEventTarget_KinesisTarget_PartitionKeyPath(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["kinesis_target"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeCloudwatchEventTarget_KinesisTarget_PartitionKeyPath(p KinesisTarget, vals map[string]cty.Value) {
+	vals["partition_key_path"] = cty.StringVal(p.PartitionKeyPath)
 }

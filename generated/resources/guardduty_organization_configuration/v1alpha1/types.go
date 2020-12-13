@@ -47,7 +47,7 @@ type GuarddutyOrganizationConfigurationList struct {
 // A GuarddutyOrganizationConfigurationSpec defines the desired state of a GuarddutyOrganizationConfiguration
 type GuarddutyOrganizationConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyOrganizationConfigurationParameters `json:",inline"`
+	ForProvider                  GuarddutyOrganizationConfigurationParameters `json:"forProvider"`
 }
 
 // A GuarddutyOrganizationConfigurationParameters defines the desired state of a GuarddutyOrganizationConfiguration
@@ -60,7 +60,7 @@ type GuarddutyOrganizationConfigurationParameters struct {
 // A GuarddutyOrganizationConfigurationStatus defines the observed state of a GuarddutyOrganizationConfiguration
 type GuarddutyOrganizationConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyOrganizationConfigurationObservation `json:",inline"`
+	AtProvider                     GuarddutyOrganizationConfigurationObservation `json:"atProvider"`
 }
 
 // A GuarddutyOrganizationConfigurationObservation records the observed state of a GuarddutyOrganizationConfiguration

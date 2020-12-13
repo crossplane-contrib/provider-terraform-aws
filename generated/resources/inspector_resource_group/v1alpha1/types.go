@@ -47,7 +47,7 @@ type InspectorResourceGroupList struct {
 // A InspectorResourceGroupSpec defines the desired state of a InspectorResourceGroup
 type InspectorResourceGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  InspectorResourceGroupParameters `json:",inline"`
+	ForProvider                  InspectorResourceGroupParameters `json:"forProvider"`
 }
 
 // A InspectorResourceGroupParameters defines the desired state of a InspectorResourceGroup
@@ -59,7 +59,7 @@ type InspectorResourceGroupParameters struct {
 // A InspectorResourceGroupStatus defines the observed state of a InspectorResourceGroup
 type InspectorResourceGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     InspectorResourceGroupObservation `json:",inline"`
+	AtProvider                     InspectorResourceGroupObservation `json:"atProvider"`
 }
 
 // A InspectorResourceGroupObservation records the observed state of a InspectorResourceGroup

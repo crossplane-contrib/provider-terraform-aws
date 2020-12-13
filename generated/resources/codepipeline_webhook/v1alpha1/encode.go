@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,28 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodepipelineWebhook(r CodepipelineWebhook) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodepipelineWebhook_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeCodepipelineWebhook_TargetAction(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_TargetPipeline(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_Authentication(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCodepipelineWebhook_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeCodepipelineWebhook_TargetAction(r.Spec.ForProvider, ctyVal)
 	EncodeCodepipelineWebhook_AuthenticationConfiguration(r.Spec.ForProvider.AuthenticationConfiguration, ctyVal)
 	EncodeCodepipelineWebhook_Filter(r.Spec.ForProvider.Filter, ctyVal)
 	EncodeCodepipelineWebhook_Url(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCodepipelineWebhook_Tags(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeCodepipelineWebhook_TargetAction(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
-	vals["target_action"] = cty.StringVal(p.TargetAction)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeCodepipelineWebhook_TargetPipeline(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
@@ -76,21 +72,37 @@ func EncodeCodepipelineWebhook_Name(p CodepipelineWebhookParameters, vals map[st
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeCodepipelineWebhook_Tags(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeCodepipelineWebhook_TargetAction(p CodepipelineWebhookParameters, vals map[string]cty.Value) {
+	vals["target_action"] = cty.StringVal(p.TargetAction)
+}
+
 func EncodeCodepipelineWebhook_AuthenticationConfiguration(p AuthenticationConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodepipelineWebhook_AuthenticationConfiguration_SecretToken(p, ctyVal)
 	EncodeCodepipelineWebhook_AuthenticationConfiguration_AllowedIpRange(p, ctyVal)
+	EncodeCodepipelineWebhook_AuthenticationConfiguration_SecretToken(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["authentication_configuration"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeCodepipelineWebhook_AuthenticationConfiguration_SecretToken(p AuthenticationConfiguration, vals map[string]cty.Value) {
-	vals["secret_token"] = cty.StringVal(p.SecretToken)
-}
-
 func EncodeCodepipelineWebhook_AuthenticationConfiguration_AllowedIpRange(p AuthenticationConfiguration, vals map[string]cty.Value) {
 	vals["allowed_ip_range"] = cty.StringVal(p.AllowedIpRange)
+}
+
+func EncodeCodepipelineWebhook_AuthenticationConfiguration_SecretToken(p AuthenticationConfiguration, vals map[string]cty.Value) {
+	vals["secret_token"] = cty.StringVal(p.SecretToken)
 }
 
 func EncodeCodepipelineWebhook_Filter(p []Filter, vals map[string]cty.Value) {

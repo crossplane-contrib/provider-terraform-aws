@@ -47,7 +47,7 @@ type DlmLifecyclePolicyList struct {
 // A DlmLifecyclePolicySpec defines the desired state of a DlmLifecyclePolicy
 type DlmLifecyclePolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DlmLifecyclePolicyParameters `json:",inline"`
+	ForProvider                  DlmLifecyclePolicyParameters `json:"forProvider"`
 }
 
 // A DlmLifecyclePolicyParameters defines the desired state of a DlmLifecyclePolicy
@@ -87,7 +87,7 @@ type RetainRule struct {
 // A DlmLifecyclePolicyStatus defines the observed state of a DlmLifecyclePolicy
 type DlmLifecyclePolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DlmLifecyclePolicyObservation `json:",inline"`
+	AtProvider                     DlmLifecyclePolicyObservation `json:"atProvider"`
 }
 
 // A DlmLifecyclePolicyObservation records the observed state of a DlmLifecyclePolicy

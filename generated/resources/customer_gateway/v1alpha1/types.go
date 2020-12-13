@@ -47,22 +47,22 @@ type CustomerGatewayList struct {
 // A CustomerGatewaySpec defines the desired state of a CustomerGateway
 type CustomerGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CustomerGatewayParameters `json:",inline"`
+	ForProvider                  CustomerGatewayParameters `json:"forProvider"`
 }
 
 // A CustomerGatewayParameters defines the desired state of a CustomerGateway
 type CustomerGatewayParameters struct {
+	Type      string            `json:"type"`
 	BgpAsn    string            `json:"bgp_asn"`
 	Id        string            `json:"id"`
 	IpAddress string            `json:"ip_address"`
 	Tags      map[string]string `json:"tags"`
-	Type      string            `json:"type"`
 }
 
 // A CustomerGatewayStatus defines the observed state of a CustomerGateway
 type CustomerGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CustomerGatewayObservation `json:",inline"`
+	AtProvider                     CustomerGatewayObservation `json:"atProvider"`
 }
 
 // A CustomerGatewayObservation records the observed state of a CustomerGateway

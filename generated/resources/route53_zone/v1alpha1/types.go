@@ -47,7 +47,7 @@ type Route53ZoneList struct {
 // A Route53ZoneSpec defines the desired state of a Route53Zone
 type Route53ZoneSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53ZoneParameters `json:",inline"`
+	ForProvider                  Route53ZoneParameters `json:"forProvider"`
 }
 
 // A Route53ZoneParameters defines the desired state of a Route53Zone
@@ -69,7 +69,7 @@ type Vpc struct {
 // A Route53ZoneStatus defines the observed state of a Route53Zone
 type Route53ZoneStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53ZoneObservation `json:",inline"`
+	AtProvider                     Route53ZoneObservation `json:"atProvider"`
 }
 
 // A Route53ZoneObservation records the observed state of a Route53Zone

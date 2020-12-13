@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -40,6 +41,13 @@ func EncodeWafSqlInjectionMatchSet(r WafSqlInjectionMatchSet) cty.Value {
 	EncodeWafSqlInjectionMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples(r.Spec.ForProvider.SqlInjectionMatchTuples, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -67,16 +75,16 @@ func EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_TextTransformation(p 
 func EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_FieldToMatch(p FieldToMatch, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_FieldToMatch_Data(p, ctyVal)
 	EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_FieldToMatch_Type(p, ctyVal)
+	EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_FieldToMatch_Data(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["field_to_match"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_FieldToMatch_Data(p FieldToMatch, vals map[string]cty.Value) {
-	vals["data"] = cty.StringVal(p.Data)
-}
-
 func EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_FieldToMatch_Type(p FieldToMatch, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeWafSqlInjectionMatchSet_SqlInjectionMatchTuples_FieldToMatch_Data(p FieldToMatch, vals map[string]cty.Value) {
+	vals["data"] = cty.StringVal(p.Data)
 }

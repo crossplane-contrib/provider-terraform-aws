@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,22 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpcEndpointConnectionNotification(r VpcEndpointConnectionNotification) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcEndpointConnectionNotification_VpcEndpointId(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_ConnectionEvents(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_ConnectionNotificationArn(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_Id(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpointConnectionNotification_VpcEndpointId(r.Spec.ForProvider, ctyVal)
+	EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_NotificationType(r.Status.AtProvider, ctyVal)
 	EncodeVpcEndpointConnectionNotification_State(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcEndpointConnectionNotification_VpcEndpointId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
-	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
-}
-
-func EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
-	vals["vpc_endpoint_service_id"] = cty.StringVal(p.VpcEndpointServiceId)
 }
 
 func EncodeVpcEndpointConnectionNotification_ConnectionEvents(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
@@ -68,6 +68,14 @@ func EncodeVpcEndpointConnectionNotification_ConnectionNotificationArn(p VpcEndp
 
 func EncodeVpcEndpointConnectionNotification_Id(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeVpcEndpointConnectionNotification_VpcEndpointId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
+}
+
+func EncodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	vals["vpc_endpoint_service_id"] = cty.StringVal(p.VpcEndpointServiceId)
 }
 
 func EncodeVpcEndpointConnectionNotification_NotificationType(p VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {

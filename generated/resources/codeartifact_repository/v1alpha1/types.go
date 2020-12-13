@@ -47,16 +47,16 @@ type CodeartifactRepositoryList struct {
 // A CodeartifactRepositorySpec defines the desired state of a CodeartifactRepository
 type CodeartifactRepositorySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodeartifactRepositoryParameters `json:",inline"`
+	ForProvider                  CodeartifactRepositoryParameters `json:"forProvider"`
 }
 
 // A CodeartifactRepositoryParameters defines the desired state of a CodeartifactRepository
 type CodeartifactRepositoryParameters struct {
+	Repository  string   `json:"repository"`
 	Description string   `json:"description"`
 	Domain      string   `json:"domain"`
 	DomainOwner string   `json:"domain_owner"`
 	Id          string   `json:"id"`
-	Repository  string   `json:"repository"`
 	Upstream    Upstream `json:"upstream"`
 }
 
@@ -67,18 +67,18 @@ type Upstream struct {
 // A CodeartifactRepositoryStatus defines the observed state of a CodeartifactRepository
 type CodeartifactRepositoryStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodeartifactRepositoryObservation `json:",inline"`
+	AtProvider                     CodeartifactRepositoryObservation `json:"atProvider"`
 }
 
 // A CodeartifactRepositoryObservation records the observed state of a CodeartifactRepository
 type CodeartifactRepositoryObservation struct {
+	AdministratorAccount string                `json:"administrator_account"`
 	Arn                  string                `json:"arn"`
 	ExternalConnections  []ExternalConnections `json:"external_connections"`
-	AdministratorAccount string                `json:"administrator_account"`
 }
 
 type ExternalConnections struct {
-	ExternalConnectionName string `json:"external_connection_name"`
 	PackageFormat          string `json:"package_format"`
 	Status                 string `json:"status"`
+	ExternalConnectionName string `json:"external_connection_name"`
 }

@@ -47,63 +47,63 @@ type ElbList struct {
 // A ElbSpec defines the desired state of a Elb
 type ElbSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElbParameters `json:",inline"`
+	ForProvider                  ElbParameters `json:"forProvider"`
 }
 
 // A ElbParameters defines the desired state of a Elb
 type ElbParameters struct {
-	ConnectionDrainingTimeout int64             `json:"connection_draining_timeout"`
-	Internal                  bool              `json:"internal"`
-	Subnets                   []string          `json:"subnets"`
-	Name                      string            `json:"name"`
-	AvailabilityZones         []string          `json:"availability_zones"`
-	ConnectionDraining        bool              `json:"connection_draining"`
-	CrossZoneLoadBalancing    bool              `json:"cross_zone_load_balancing"`
-	Id                        string            `json:"id"`
 	SourceSecurityGroup       string            `json:"source_security_group"`
-	IdleTimeout               int64             `json:"idle_timeout"`
-	Instances                 []string          `json:"instances"`
-	NamePrefix                string            `json:"name_prefix"`
-	SecurityGroups            []string          `json:"security_groups"`
+	Subnets                   []string          `json:"subnets"`
 	Tags                      map[string]string `json:"tags"`
-	HealthCheck               HealthCheck       `json:"health_check"`
+	ConnectionDraining        bool              `json:"connection_draining"`
+	IdleTimeout               int64             `json:"idle_timeout"`
+	NamePrefix                string            `json:"name_prefix"`
+	AvailabilityZones         []string          `json:"availability_zones"`
+	Id                        string            `json:"id"`
+	Instances                 []string          `json:"instances"`
+	Internal                  bool              `json:"internal"`
+	SecurityGroups            []string          `json:"security_groups"`
+	ConnectionDrainingTimeout int64             `json:"connection_draining_timeout"`
+	Name                      string            `json:"name"`
+	CrossZoneLoadBalancing    bool              `json:"cross_zone_load_balancing"`
 	Listener                  []Listener        `json:"listener"`
 	AccessLogs                AccessLogs        `json:"access_logs"`
-}
-
-type HealthCheck struct {
-	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
-	HealthyThreshold   int64  `json:"healthy_threshold"`
-	Interval           int64  `json:"interval"`
-	Target             string `json:"target"`
-	Timeout            int64  `json:"timeout"`
+	HealthCheck               HealthCheck       `json:"health_check"`
 }
 
 type Listener struct {
+	LbProtocol       string `json:"lb_protocol"`
+	SslCertificateId string `json:"ssl_certificate_id"`
 	InstancePort     int64  `json:"instance_port"`
 	InstanceProtocol string `json:"instance_protocol"`
 	LbPort           int64  `json:"lb_port"`
-	LbProtocol       string `json:"lb_protocol"`
-	SslCertificateId string `json:"ssl_certificate_id"`
 }
 
 type AccessLogs struct {
+	Bucket       string `json:"bucket"`
 	BucketPrefix string `json:"bucket_prefix"`
 	Enabled      bool   `json:"enabled"`
 	Interval     int64  `json:"interval"`
-	Bucket       string `json:"bucket"`
+}
+
+type HealthCheck struct {
+	Target             string `json:"target"`
+	Timeout            int64  `json:"timeout"`
+	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
+	HealthyThreshold   int64  `json:"healthy_threshold"`
+	Interval           int64  `json:"interval"`
 }
 
 // A ElbStatus defines the observed state of a Elb
 type ElbStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElbObservation `json:",inline"`
+	AtProvider                     ElbObservation `json:"atProvider"`
 }
 
 // A ElbObservation records the observed state of a Elb
 type ElbObservation struct {
+	SourceSecurityGroupId string `json:"source_security_group_id"`
 	Arn                   string `json:"arn"`
 	DnsName               string `json:"dns_name"`
 	ZoneId                string `json:"zone_id"`
-	SourceSecurityGroupId string `json:"source_security_group_id"`
 }

@@ -47,22 +47,28 @@ type ElastictranscoderPipelineList struct {
 // A ElastictranscoderPipelineSpec defines the desired state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElastictranscoderPipelineParameters `json:",inline"`
+	ForProvider                  ElastictranscoderPipelineParameters `json:"forProvider"`
 }
 
 // A ElastictranscoderPipelineParameters defines the desired state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineParameters struct {
+	AwsKmsKeyArn               string                     `json:"aws_kms_key_arn"`
+	Id                         string                     `json:"id"`
 	InputBucket                string                     `json:"input_bucket"`
 	Name                       string                     `json:"name"`
 	OutputBucket               string                     `json:"output_bucket"`
 	Role                       string                     `json:"role"`
-	AwsKmsKeyArn               string                     `json:"aws_kms_key_arn"`
-	Id                         string                     `json:"id"`
+	ContentConfigPermissions   ContentConfigPermissions   `json:"content_config_permissions"`
 	Notifications              Notifications              `json:"notifications"`
 	ThumbnailConfig            ThumbnailConfig            `json:"thumbnail_config"`
 	ThumbnailConfigPermissions ThumbnailConfigPermissions `json:"thumbnail_config_permissions"`
 	ContentConfig              ContentConfig              `json:"content_config"`
-	ContentConfigPermissions   ContentConfigPermissions   `json:"content_config_permissions"`
+}
+
+type ContentConfigPermissions struct {
+	Access      []string `json:"access"`
+	Grantee     string   `json:"grantee"`
+	GranteeType string   `json:"grantee_type"`
 }
 
 type Notifications struct {
@@ -88,16 +94,10 @@ type ContentConfig struct {
 	StorageClass string `json:"storage_class"`
 }
 
-type ContentConfigPermissions struct {
-	Grantee     string   `json:"grantee"`
-	GranteeType string   `json:"grantee_type"`
-	Access      []string `json:"access"`
-}
-
 // A ElastictranscoderPipelineStatus defines the observed state of a ElastictranscoderPipeline
 type ElastictranscoderPipelineStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElastictranscoderPipelineObservation `json:",inline"`
+	AtProvider                     ElastictranscoderPipelineObservation `json:"atProvider"`
 }
 
 // A ElastictranscoderPipelineObservation records the observed state of a ElastictranscoderPipeline

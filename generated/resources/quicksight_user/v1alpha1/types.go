@@ -47,26 +47,26 @@ type QuicksightUserList struct {
 // A QuicksightUserSpec defines the desired state of a QuicksightUser
 type QuicksightUserSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  QuicksightUserParameters `json:",inline"`
+	ForProvider                  QuicksightUserParameters `json:"forProvider"`
 }
 
 // A QuicksightUserParameters defines the desired state of a QuicksightUser
 type QuicksightUserParameters struct {
-	UserRole     string `json:"user_role"`
-	IamArn       string `json:"iam_arn"`
 	IdentityType string `json:"identity_type"`
-	Namespace    string `json:"namespace"`
-	UserName     string `json:"user_name"`
 	AwsAccountId string `json:"aws_account_id"`
-	Email        string `json:"email"`
+	IamArn       string `json:"iam_arn"`
 	Id           string `json:"id"`
 	SessionName  string `json:"session_name"`
+	UserName     string `json:"user_name"`
+	UserRole     string `json:"user_role"`
+	Email        string `json:"email"`
+	Namespace    string `json:"namespace"`
 }
 
 // A QuicksightUserStatus defines the observed state of a QuicksightUser
 type QuicksightUserStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     QuicksightUserObservation `json:",inline"`
+	AtProvider                     QuicksightUserObservation `json:"atProvider"`
 }
 
 // A QuicksightUserObservation records the observed state of a QuicksightUser

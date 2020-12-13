@@ -47,7 +47,7 @@ type S3BucketMetricList struct {
 // A S3BucketMetricSpec defines the desired state of a S3BucketMetric
 type S3BucketMetricSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3BucketMetricParameters `json:",inline"`
+	ForProvider                  S3BucketMetricParameters `json:"forProvider"`
 }
 
 // A S3BucketMetricParameters defines the desired state of a S3BucketMetric
@@ -59,14 +59,14 @@ type S3BucketMetricParameters struct {
 }
 
 type Filter struct {
-	Prefix string            `json:"prefix"`
 	Tags   map[string]string `json:"tags"`
+	Prefix string            `json:"prefix"`
 }
 
 // A S3BucketMetricStatus defines the observed state of a S3BucketMetric
 type S3BucketMetricStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3BucketMetricObservation `json:",inline"`
+	AtProvider                     S3BucketMetricObservation `json:"atProvider"`
 }
 
 // A S3BucketMetricObservation records the observed state of a S3BucketMetric

@@ -47,7 +47,7 @@ type VpcEndpointConnectionNotificationList struct {
 // A VpcEndpointConnectionNotificationSpec defines the desired state of a VpcEndpointConnectionNotification
 type VpcEndpointConnectionNotificationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcEndpointConnectionNotificationParameters `json:",inline"`
+	ForProvider                  VpcEndpointConnectionNotificationParameters `json:"forProvider"`
 }
 
 // A VpcEndpointConnectionNotificationParameters defines the desired state of a VpcEndpointConnectionNotification
@@ -62,7 +62,7 @@ type VpcEndpointConnectionNotificationParameters struct {
 // A VpcEndpointConnectionNotificationStatus defines the observed state of a VpcEndpointConnectionNotification
 type VpcEndpointConnectionNotificationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcEndpointConnectionNotificationObservation `json:",inline"`
+	AtProvider                     VpcEndpointConnectionNotificationObservation `json:"atProvider"`
 }
 
 // A VpcEndpointConnectionNotificationObservation records the observed state of a VpcEndpointConnectionNotification

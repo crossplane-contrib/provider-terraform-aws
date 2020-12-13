@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeBatchJobDefinition(r BatchJobDefinition) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeBatchJobDefinition_Type(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_ContainerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Id(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Name(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_Parameters(r.Spec.ForProvider, ctyVal)
-	EncodeBatchJobDefinition_Type(r.Spec.ForProvider, ctyVal)
 	EncodeBatchJobDefinition_RetryStrategy(r.Spec.ForProvider.RetryStrategy, ctyVal)
 	EncodeBatchJobDefinition_Timeout(r.Spec.ForProvider.Timeout, ctyVal)
 	EncodeBatchJobDefinition_Arn(r.Status.AtProvider, ctyVal)
 	EncodeBatchJobDefinition_Revision(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeBatchJobDefinition_Type(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeBatchJobDefinition_ContainerProperties(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
@@ -61,15 +73,15 @@ func EncodeBatchJobDefinition_Name(p BatchJobDefinitionParameters, vals map[stri
 }
 
 func EncodeBatchJobDefinition_Parameters(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
+	if len(p.Parameters) == 0 {
+		vals["parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Parameters {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["parameters"] = cty.MapVal(mVals)
-}
-
-func EncodeBatchJobDefinition_Type(p BatchJobDefinitionParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeBatchJobDefinition_RetryStrategy(p RetryStrategy, vals map[string]cty.Value) {

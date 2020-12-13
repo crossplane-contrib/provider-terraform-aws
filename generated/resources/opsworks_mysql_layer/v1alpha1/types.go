@@ -47,34 +47,34 @@ type OpsworksMysqlLayerList struct {
 // A OpsworksMysqlLayerSpec defines the desired state of a OpsworksMysqlLayer
 type OpsworksMysqlLayerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksMysqlLayerParameters `json:",inline"`
+	ForProvider                  OpsworksMysqlLayerParameters `json:"forProvider"`
 }
 
 // A OpsworksMysqlLayerParameters defines the desired state of a OpsworksMysqlLayer
 type OpsworksMysqlLayerParameters struct {
-	CustomInstanceProfileArn   string            `json:"custom_instance_profile_arn"`
+	InstallUpdatesOnBoot       bool              `json:"install_updates_on_boot"`
+	Name                       string            `json:"name"`
+	CustomUndeployRecipes      []string          `json:"custom_undeploy_recipes"`
+	DrainElbOnShutdown         bool              `json:"drain_elb_on_shutdown"`
+	CustomConfigureRecipes     []string          `json:"custom_configure_recipes"`
+	CustomDeployRecipes        []string          `json:"custom_deploy_recipes"`
 	CustomJson                 string            `json:"custom_json"`
+	CustomSecurityGroupIds     []string          `json:"custom_security_group_ids"`
+	ElasticLoadBalancer        string            `json:"elastic_load_balancer"`
+	RootPassword               string            `json:"root_password"`
+	AutoAssignPublicIps        bool              `json:"auto_assign_public_ips"`
+	UseEbsOptimizedInstances   bool              `json:"use_ebs_optimized_instances"`
+	RootPasswordOnAllInstances bool              `json:"root_password_on_all_instances"`
+	StackId                    string            `json:"stack_id"`
+	CustomSetupRecipes         []string          `json:"custom_setup_recipes"`
+	InstanceShutdownTimeout    int64             `json:"instance_shutdown_timeout"`
+	Tags                       map[string]string `json:"tags"`
+	AutoHealing                bool              `json:"auto_healing"`
+	CustomInstanceProfileArn   string            `json:"custom_instance_profile_arn"`
 	Id                         string            `json:"id"`
 	SystemPackages             []string          `json:"system_packages"`
-	Tags                       map[string]string `json:"tags"`
-	AutoAssignPublicIps        bool              `json:"auto_assign_public_ips"`
-	CustomConfigureRecipes     []string          `json:"custom_configure_recipes"`
-	Name                       string            `json:"name"`
-	RootPasswordOnAllInstances bool              `json:"root_password_on_all_instances"`
-	InstallUpdatesOnBoot       bool              `json:"install_updates_on_boot"`
-	InstanceShutdownTimeout    int64             `json:"instance_shutdown_timeout"`
-	UseEbsOptimizedInstances   bool              `json:"use_ebs_optimized_instances"`
 	AutoAssignElasticIps       bool              `json:"auto_assign_elastic_ips"`
-	AutoHealing                bool              `json:"auto_healing"`
 	CustomShutdownRecipes      []string          `json:"custom_shutdown_recipes"`
-	ElasticLoadBalancer        string            `json:"elastic_load_balancer"`
-	DrainElbOnShutdown         bool              `json:"drain_elb_on_shutdown"`
-	RootPassword               string            `json:"root_password"`
-	StackId                    string            `json:"stack_id"`
-	CustomDeployRecipes        []string          `json:"custom_deploy_recipes"`
-	CustomSecurityGroupIds     []string          `json:"custom_security_group_ids"`
-	CustomSetupRecipes         []string          `json:"custom_setup_recipes"`
-	CustomUndeployRecipes      []string          `json:"custom_undeploy_recipes"`
 	EbsVolume                  EbsVolume         `json:"ebs_volume"`
 }
 
@@ -91,7 +91,7 @@ type EbsVolume struct {
 // A OpsworksMysqlLayerStatus defines the observed state of a OpsworksMysqlLayer
 type OpsworksMysqlLayerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksMysqlLayerObservation `json:",inline"`
+	AtProvider                     OpsworksMysqlLayerObservation `json:"atProvider"`
 }
 
 // A OpsworksMysqlLayerObservation records the observed state of a OpsworksMysqlLayer

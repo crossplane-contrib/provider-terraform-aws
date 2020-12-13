@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,17 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayBasePathMapping(r ApiGatewayBasePathMapping) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayBasePathMapping_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_BasePath(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_StageName(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayBasePathMapping_ApiId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayBasePathMapping_ApiId(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApiGatewayBasePathMapping_BasePath(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
@@ -63,4 +67,8 @@ func EncodeApiGatewayBasePathMapping_Id(p ApiGatewayBasePathMappingParameters, v
 
 func EncodeApiGatewayBasePathMapping_StageName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	vals["stage_name"] = cty.StringVal(p.StageName)
+}
+
+func EncodeApiGatewayBasePathMapping_ApiId(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }

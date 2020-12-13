@@ -47,7 +47,7 @@ type SsmResourceDataSyncList struct {
 // A SsmResourceDataSyncSpec defines the desired state of a SsmResourceDataSync
 type SsmResourceDataSyncSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmResourceDataSyncParameters `json:",inline"`
+	ForProvider                  SsmResourceDataSyncParameters `json:"forProvider"`
 }
 
 // A SsmResourceDataSyncParameters defines the desired state of a SsmResourceDataSync
@@ -58,17 +58,17 @@ type SsmResourceDataSyncParameters struct {
 }
 
 type S3Destination struct {
+	BucketName string `json:"bucket_name"`
+	KmsKeyArn  string `json:"kms_key_arn"`
 	Prefix     string `json:"prefix"`
 	Region     string `json:"region"`
 	SyncFormat string `json:"sync_format"`
-	BucketName string `json:"bucket_name"`
-	KmsKeyArn  string `json:"kms_key_arn"`
 }
 
 // A SsmResourceDataSyncStatus defines the observed state of a SsmResourceDataSync
 type SsmResourceDataSyncStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmResourceDataSyncObservation `json:",inline"`
+	AtProvider                     SsmResourceDataSyncObservation `json:"atProvider"`
 }
 
 // A SsmResourceDataSyncObservation records the observed state of a SsmResourceDataSync

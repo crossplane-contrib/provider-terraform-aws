@@ -47,22 +47,22 @@ type ApiGatewayBasePathMappingList struct {
 // A ApiGatewayBasePathMappingSpec defines the desired state of a ApiGatewayBasePathMapping
 type ApiGatewayBasePathMappingSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayBasePathMappingParameters `json:",inline"`
+	ForProvider                  ApiGatewayBasePathMappingParameters `json:"forProvider"`
 }
 
 // A ApiGatewayBasePathMappingParameters defines the desired state of a ApiGatewayBasePathMapping
 type ApiGatewayBasePathMappingParameters struct {
-	ApiId      string `json:"api_id"`
 	BasePath   string `json:"base_path"`
 	DomainName string `json:"domain_name"`
 	Id         string `json:"id"`
 	StageName  string `json:"stage_name"`
+	ApiId      string `json:"api_id"`
 }
 
 // A ApiGatewayBasePathMappingStatus defines the observed state of a ApiGatewayBasePathMapping
 type ApiGatewayBasePathMappingStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayBasePathMappingObservation `json:",inline"`
+	AtProvider                     ApiGatewayBasePathMappingObservation `json:"atProvider"`
 }
 
 // A ApiGatewayBasePathMappingObservation records the observed state of a ApiGatewayBasePathMapping

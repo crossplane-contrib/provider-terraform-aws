@@ -121,13 +121,13 @@ func (in *CognitoUserPoolClientParameters) DeepCopyInto(out *CognitoUserPoolClie
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.WriteAttributes != nil {
-		in, out := &in.WriteAttributes, &out.WriteAttributes
+	if in.SupportedIdentityProviders != nil {
+		in, out := &in.SupportedIdentityProviders, &out.SupportedIdentityProviders
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.ExplicitAuthFlows != nil {
-		in, out := &in.ExplicitAuthFlows, &out.ExplicitAuthFlows
+	if in.WriteAttributes != nil {
+		in, out := &in.WriteAttributes, &out.WriteAttributes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
@@ -136,23 +136,23 @@ func (in *CognitoUserPoolClientParameters) DeepCopyInto(out *CognitoUserPoolClie
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.LogoutUrls != nil {
-		in, out := &in.LogoutUrls, &out.LogoutUrls
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
 	if in.AllowedOauthFlows != nil {
 		in, out := &in.AllowedOauthFlows, &out.AllowedOauthFlows
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.SupportedIdentityProviders != nil {
-		in, out := &in.SupportedIdentityProviders, &out.SupportedIdentityProviders
+	if in.AllowedOauthScopes != nil {
+		in, out := &in.AllowedOauthScopes, &out.AllowedOauthScopes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.AllowedOauthScopes != nil {
-		in, out := &in.AllowedOauthScopes, &out.AllowedOauthScopes
+	if in.ExplicitAuthFlows != nil {
+		in, out := &in.ExplicitAuthFlows, &out.ExplicitAuthFlows
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.LogoutUrls != nil {
+		in, out := &in.LogoutUrls, &out.LogoutUrls
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}

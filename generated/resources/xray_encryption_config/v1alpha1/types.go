@@ -47,20 +47,20 @@ type XrayEncryptionConfigList struct {
 // A XrayEncryptionConfigSpec defines the desired state of a XrayEncryptionConfig
 type XrayEncryptionConfigSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  XrayEncryptionConfigParameters `json:",inline"`
+	ForProvider                  XrayEncryptionConfigParameters `json:"forProvider"`
 }
 
 // A XrayEncryptionConfigParameters defines the desired state of a XrayEncryptionConfig
 type XrayEncryptionConfigParameters struct {
+	Id    string `json:"id"`
 	KeyId string `json:"key_id"`
 	Type  string `json:"type"`
-	Id    string `json:"id"`
 }
 
 // A XrayEncryptionConfigStatus defines the observed state of a XrayEncryptionConfig
 type XrayEncryptionConfigStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     XrayEncryptionConfigObservation `json:",inline"`
+	AtProvider                     XrayEncryptionConfigObservation `json:"atProvider"`
 }
 
 // A XrayEncryptionConfigObservation records the observed state of a XrayEncryptionConfig

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,19 +37,34 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAppmeshMesh(r AppmeshMesh) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppmeshMesh_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAppmeshMesh_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppmeshMesh_Spec(r.Spec.ForProvider.Spec, ctyVal)
+	EncodeAppmeshMesh_MeshOwner(r.Status.AtProvider, ctyVal)
+	EncodeAppmeshMesh_ResourceOwner(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_Arn(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeAppmeshMesh_LastUpdatedDate(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshMesh_MeshOwner(r.Status.AtProvider, ctyVal)
-	EncodeAppmeshMesh_ResourceOwner(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeAppmeshMesh_Name(p AppmeshMeshParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
 func EncodeAppmeshMesh_Tags(p AppmeshMeshParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -58,10 +74,6 @@ func EncodeAppmeshMesh_Tags(p AppmeshMeshParameters, vals map[string]cty.Value) 
 
 func EncodeAppmeshMesh_Id(p AppmeshMeshParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAppmeshMesh_Name(p AppmeshMeshParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAppmeshMesh_Spec(p Spec, vals map[string]cty.Value) {
@@ -84,6 +96,14 @@ func EncodeAppmeshMesh_Spec_EgressFilter_Type(p EgressFilter, vals map[string]ct
 	vals["type"] = cty.StringVal(p.Type)
 }
 
+func EncodeAppmeshMesh_MeshOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
+	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
+}
+
+func EncodeAppmeshMesh_ResourceOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
+	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
+}
+
 func EncodeAppmeshMesh_Arn(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
@@ -94,12 +114,4 @@ func EncodeAppmeshMesh_CreatedDate(p AppmeshMeshObservation, vals map[string]cty
 
 func EncodeAppmeshMesh_LastUpdatedDate(p AppmeshMeshObservation, vals map[string]cty.Value) {
 	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
-}
-
-func EncodeAppmeshMesh_MeshOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
-	vals["mesh_owner"] = cty.StringVal(p.MeshOwner)
-}
-
-func EncodeAppmeshMesh_ResourceOwner(p AppmeshMeshObservation, vals map[string]cty.Value) {
-	vals["resource_owner"] = cty.StringVal(p.ResourceOwner)
 }

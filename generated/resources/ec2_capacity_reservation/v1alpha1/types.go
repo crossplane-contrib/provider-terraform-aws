@@ -47,29 +47,29 @@ type Ec2CapacityReservationList struct {
 // A Ec2CapacityReservationSpec defines the desired state of a Ec2CapacityReservation
 type Ec2CapacityReservationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2CapacityReservationParameters `json:",inline"`
+	ForProvider                  Ec2CapacityReservationParameters `json:"forProvider"`
 }
 
 // A Ec2CapacityReservationParameters defines the desired state of a Ec2CapacityReservation
 type Ec2CapacityReservationParameters struct {
-	EndDateType           string            `json:"end_date_type"`
-	InstancePlatform      string            `json:"instance_platform"`
-	InstanceType          string            `json:"instance_type"`
-	Id                    string            `json:"id"`
 	InstanceCount         int64             `json:"instance_count"`
 	InstanceMatchCriteria string            `json:"instance_match_criteria"`
-	Tags                  map[string]string `json:"tags"`
+	InstancePlatform      string            `json:"instance_platform"`
 	AvailabilityZone      string            `json:"availability_zone"`
-	EbsOptimized          bool              `json:"ebs_optimized"`
 	EndDate               string            `json:"end_date"`
-	EphemeralStorage      bool              `json:"ephemeral_storage"`
+	Id                    string            `json:"id"`
+	Tags                  map[string]string `json:"tags"`
 	Tenancy               string            `json:"tenancy"`
+	EbsOptimized          bool              `json:"ebs_optimized"`
+	EndDateType           string            `json:"end_date_type"`
+	EphemeralStorage      bool              `json:"ephemeral_storage"`
+	InstanceType          string            `json:"instance_type"`
 }
 
 // A Ec2CapacityReservationStatus defines the observed state of a Ec2CapacityReservation
 type Ec2CapacityReservationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2CapacityReservationObservation `json:",inline"`
+	AtProvider                     Ec2CapacityReservationObservation `json:"atProvider"`
 }
 
 // A Ec2CapacityReservationObservation records the observed state of a Ec2CapacityReservation

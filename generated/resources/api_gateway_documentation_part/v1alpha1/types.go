@@ -47,29 +47,29 @@ type ApiGatewayDocumentationPartList struct {
 // A ApiGatewayDocumentationPartSpec defines the desired state of a ApiGatewayDocumentationPart
 type ApiGatewayDocumentationPartSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayDocumentationPartParameters `json:",inline"`
+	ForProvider                  ApiGatewayDocumentationPartParameters `json:"forProvider"`
 }
 
 // A ApiGatewayDocumentationPartParameters defines the desired state of a ApiGatewayDocumentationPart
 type ApiGatewayDocumentationPartParameters struct {
+	RestApiId  string   `json:"rest_api_id"`
 	Id         string   `json:"id"`
 	Properties string   `json:"properties"`
-	RestApiId  string   `json:"rest_api_id"`
 	Location   Location `json:"location"`
 }
 
 type Location struct {
+	Type       string `json:"type"`
 	Method     string `json:"method"`
 	Name       string `json:"name"`
 	Path       string `json:"path"`
 	StatusCode string `json:"status_code"`
-	Type       string `json:"type"`
 }
 
 // A ApiGatewayDocumentationPartStatus defines the observed state of a ApiGatewayDocumentationPart
 type ApiGatewayDocumentationPartStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayDocumentationPartObservation `json:",inline"`
+	AtProvider                     ApiGatewayDocumentationPartObservation `json:"atProvider"`
 }
 
 // A ApiGatewayDocumentationPartObservation records the observed state of a ApiGatewayDocumentationPart

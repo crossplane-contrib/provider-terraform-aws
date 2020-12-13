@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -37,18 +38,25 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeEc2ClientVpnEndpoint(r Ec2ClientVpnEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeEc2ClientVpnEndpoint_ClientCidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_SplitTunnel(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_TransportProtocol(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_DnsServers(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_ServerCertificateArn(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnEndpoint_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_SplitTunnel(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_TransportProtocol(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_AuthenticationOptions(r.Spec.ForProvider.AuthenticationOptions, ctyVal)
 	EncodeEc2ClientVpnEndpoint_ConnectionLogOptions(r.Spec.ForProvider.ConnectionLogOptions, ctyVal)
-	EncodeEc2ClientVpnEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_DnsName(r.Status.AtProvider, ctyVal)
 	EncodeEc2ClientVpnEndpoint_Status(r.Status.AtProvider, ctyVal)
+	EncodeEc2ClientVpnEndpoint_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -56,20 +64,20 @@ func EncodeEc2ClientVpnEndpoint_ClientCidrBlock(p Ec2ClientVpnEndpointParameters
 	vals["client_cidr_block"] = cty.StringVal(p.ClientCidrBlock)
 }
 
-func EncodeEc2ClientVpnEndpoint_Description(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
 func EncodeEc2ClientVpnEndpoint_Id(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeEc2ClientVpnEndpoint_SplitTunnel(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	vals["split_tunnel"] = cty.BoolVal(p.SplitTunnel)
-}
-
-func EncodeEc2ClientVpnEndpoint_TransportProtocol(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	vals["transport_protocol"] = cty.StringVal(p.TransportProtocol)
+func EncodeEc2ClientVpnEndpoint_Tags(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeEc2ClientVpnEndpoint_DnsServers(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
@@ -84,29 +92,29 @@ func EncodeEc2ClientVpnEndpoint_ServerCertificateArn(p Ec2ClientVpnEndpointParam
 	vals["server_certificate_arn"] = cty.StringVal(p.ServerCertificateArn)
 }
 
-func EncodeEc2ClientVpnEndpoint_Tags(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeEc2ClientVpnEndpoint_SplitTunnel(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	vals["split_tunnel"] = cty.BoolVal(p.SplitTunnel)
+}
+
+func EncodeEc2ClientVpnEndpoint_TransportProtocol(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	vals["transport_protocol"] = cty.StringVal(p.TransportProtocol)
+}
+
+func EncodeEc2ClientVpnEndpoint_Description(p Ec2ClientVpnEndpointParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeEc2ClientVpnEndpoint_AuthenticationOptions(p []AuthenticationOptions, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeEc2ClientVpnEndpoint_AuthenticationOptions_ActiveDirectoryId(v, ctyVal)
 		EncodeEc2ClientVpnEndpoint_AuthenticationOptions_RootCertificateChainArn(v, ctyVal)
 		EncodeEc2ClientVpnEndpoint_AuthenticationOptions_SamlProviderArn(v, ctyVal)
 		EncodeEc2ClientVpnEndpoint_AuthenticationOptions_Type(v, ctyVal)
+		EncodeEc2ClientVpnEndpoint_AuthenticationOptions_ActiveDirectoryId(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["authentication_options"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEc2ClientVpnEndpoint_AuthenticationOptions_ActiveDirectoryId(p AuthenticationOptions, vals map[string]cty.Value) {
-	vals["active_directory_id"] = cty.StringVal(p.ActiveDirectoryId)
 }
 
 func EncodeEc2ClientVpnEndpoint_AuthenticationOptions_RootCertificateChainArn(p AuthenticationOptions, vals map[string]cty.Value) {
@@ -119,6 +127,10 @@ func EncodeEc2ClientVpnEndpoint_AuthenticationOptions_SamlProviderArn(p Authenti
 
 func EncodeEc2ClientVpnEndpoint_AuthenticationOptions_Type(p AuthenticationOptions, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeEc2ClientVpnEndpoint_AuthenticationOptions_ActiveDirectoryId(p AuthenticationOptions, vals map[string]cty.Value) {
+	vals["active_directory_id"] = cty.StringVal(p.ActiveDirectoryId)
 }
 
 func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions(p ConnectionLogOptions, vals map[string]cty.Value) {
@@ -143,14 +155,14 @@ func EncodeEc2ClientVpnEndpoint_ConnectionLogOptions_Enabled(p ConnectionLogOpti
 	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
-func EncodeEc2ClientVpnEndpoint_Arn(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeEc2ClientVpnEndpoint_DnsName(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
 	vals["dns_name"] = cty.StringVal(p.DnsName)
 }
 
 func EncodeEc2ClientVpnEndpoint_Status(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
 	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeEc2ClientVpnEndpoint_Arn(p Ec2ClientVpnEndpointObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

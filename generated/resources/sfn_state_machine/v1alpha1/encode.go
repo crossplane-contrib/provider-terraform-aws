@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,38 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSfnStateMachine_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Definition(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSfnStateMachine_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeSfnStateMachine_Status(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_CreationDate(r.Status.AtProvider, ctyVal)
-	EncodeSfnStateMachine_Status(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSfnStateMachine_RoleArn(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeSfnStateMachine_Tags(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSfnStateMachine_Definition(p SfnStateMachineParameters, vals map[string]cty.Value) {
@@ -59,16 +83,8 @@ func EncodeSfnStateMachine_Name(p SfnStateMachineParameters, vals map[string]cty
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeSfnStateMachine_RoleArn(p SfnStateMachineParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeSfnStateMachine_Tags(p SfnStateMachineParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeSfnStateMachine_Status(p SfnStateMachineObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
 }
 
 func EncodeSfnStateMachine_Arn(p SfnStateMachineObservation, vals map[string]cty.Value) {
@@ -77,8 +93,4 @@ func EncodeSfnStateMachine_Arn(p SfnStateMachineObservation, vals map[string]cty
 
 func EncodeSfnStateMachine_CreationDate(p SfnStateMachineObservation, vals map[string]cty.Value) {
 	vals["creation_date"] = cty.StringVal(p.CreationDate)
-}
-
-func EncodeSfnStateMachine_Status(p SfnStateMachineObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
 }

@@ -47,28 +47,20 @@ type S3BucketInventoryList struct {
 // A S3BucketInventorySpec defines the desired state of a S3BucketInventory
 type S3BucketInventorySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3BucketInventoryParameters `json:",inline"`
+	ForProvider                  S3BucketInventoryParameters `json:"forProvider"`
 }
 
 // A S3BucketInventoryParameters defines the desired state of a S3BucketInventory
 type S3BucketInventoryParameters struct {
+	Bucket                 string      `json:"bucket"`
 	Enabled                bool        `json:"enabled"`
 	Id                     string      `json:"id"`
 	IncludedObjectVersions string      `json:"included_object_versions"`
 	Name                   string      `json:"name"`
 	OptionalFields         []string    `json:"optional_fields"`
-	Bucket                 string      `json:"bucket"`
+	Destination            Destination `json:"destination"`
 	Filter                 Filter      `json:"filter"`
 	Schedule               Schedule    `json:"schedule"`
-	Destination            Destination `json:"destination"`
-}
-
-type Filter struct {
-	Prefix string `json:"prefix"`
-}
-
-type Schedule struct {
-	Frequency string `json:"frequency"`
 }
 
 type Destination struct {
@@ -94,10 +86,18 @@ type SseKms struct {
 
 type SseS3 struct{}
 
+type Filter struct {
+	Prefix string `json:"prefix"`
+}
+
+type Schedule struct {
+	Frequency string `json:"frequency"`
+}
+
 // A S3BucketInventoryStatus defines the observed state of a S3BucketInventory
 type S3BucketInventoryStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3BucketInventoryObservation `json:",inline"`
+	AtProvider                     S3BucketInventoryObservation `json:"atProvider"`
 }
 
 // A S3BucketInventoryObservation records the observed state of a S3BucketInventory

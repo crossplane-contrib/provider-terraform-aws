@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,28 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudformationStackSet(r CloudformationStackSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudformationStackSet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Description(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_ExecutionRoleName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_Parameters(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_TemplateBody(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_TemplateUrl(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_AdministrationRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Capabilities(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_TemplateUrl(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Name(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_Parameters(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_TemplateBody(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeCloudformationStackSet_StackSetId(r.Status.AtProvider, ctyVal)
 	EncodeCloudformationStackSet_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudformationStackSet_Tags(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeCloudformationStackSet_Description(p CloudformationStackSetParameters, vals map[string]cty.Value) {
@@ -72,20 +72,16 @@ func EncodeCloudformationStackSet_Id(p CloudformationStackSetParameters, vals ma
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCloudformationStackSet_Parameters(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+func EncodeCloudformationStackSet_Tags(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
-	for key, value := range p.Parameters {
+	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
-	vals["parameters"] = cty.MapVal(mVals)
-}
-
-func EncodeCloudformationStackSet_TemplateBody(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["template_body"] = cty.StringVal(p.TemplateBody)
-}
-
-func EncodeCloudformationStackSet_TemplateUrl(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["template_url"] = cty.StringVal(p.TemplateUrl)
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCloudformationStackSet_AdministrationRoleArn(p CloudformationStackSetParameters, vals map[string]cty.Value) {
@@ -100,8 +96,28 @@ func EncodeCloudformationStackSet_Capabilities(p CloudformationStackSetParameter
 	vals["capabilities"] = cty.SetVal(colVals)
 }
 
+func EncodeCloudformationStackSet_TemplateUrl(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["template_url"] = cty.StringVal(p.TemplateUrl)
+}
+
 func EncodeCloudformationStackSet_Name(p CloudformationStackSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeCloudformationStackSet_Parameters(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	if len(p.Parameters) == 0 {
+		vals["parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Parameters {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["parameters"] = cty.MapVal(mVals)
+}
+
+func EncodeCloudformationStackSet_TemplateBody(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["template_body"] = cty.StringVal(p.TemplateBody)
 }
 
 func EncodeCloudformationStackSet_Timeouts(p Timeouts, vals map[string]cty.Value) {

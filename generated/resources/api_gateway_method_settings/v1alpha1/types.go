@@ -47,7 +47,7 @@ type ApiGatewayMethodSettingsList struct {
 // A ApiGatewayMethodSettingsSpec defines the desired state of a ApiGatewayMethodSettings
 type ApiGatewayMethodSettingsSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayMethodSettingsParameters `json:",inline"`
+	ForProvider                  ApiGatewayMethodSettingsParameters `json:"forProvider"`
 }
 
 // A ApiGatewayMethodSettingsParameters defines the desired state of a ApiGatewayMethodSettings
@@ -60,22 +60,22 @@ type ApiGatewayMethodSettingsParameters struct {
 }
 
 type Settings struct {
+	CacheTtlInSeconds                      int64  `json:"cache_ttl_in_seconds"`
 	LoggingLevel                           string `json:"logging_level"`
-	RequireAuthorizationForCacheControl    bool   `json:"require_authorization_for_cache_control"`
-	ThrottlingRateLimit                    int64  `json:"throttling_rate_limit"`
+	MetricsEnabled                         bool   `json:"metrics_enabled"`
 	UnauthorizedCacheControlHeaderStrategy string `json:"unauthorized_cache_control_header_strategy"`
 	CacheDataEncrypted                     bool   `json:"cache_data_encrypted"`
 	CachingEnabled                         bool   `json:"caching_enabled"`
 	DataTraceEnabled                       bool   `json:"data_trace_enabled"`
-	MetricsEnabled                         bool   `json:"metrics_enabled"`
+	RequireAuthorizationForCacheControl    bool   `json:"require_authorization_for_cache_control"`
 	ThrottlingBurstLimit                   int64  `json:"throttling_burst_limit"`
-	CacheTtlInSeconds                      int64  `json:"cache_ttl_in_seconds"`
+	ThrottlingRateLimit                    int64  `json:"throttling_rate_limit"`
 }
 
 // A ApiGatewayMethodSettingsStatus defines the observed state of a ApiGatewayMethodSettings
 type ApiGatewayMethodSettingsStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayMethodSettingsObservation `json:",inline"`
+	AtProvider                     ApiGatewayMethodSettingsObservation `json:"atProvider"`
 }
 
 // A ApiGatewayMethodSettingsObservation records the observed state of a ApiGatewayMethodSettings

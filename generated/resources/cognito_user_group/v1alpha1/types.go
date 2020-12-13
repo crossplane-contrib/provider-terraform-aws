@@ -47,23 +47,23 @@ type CognitoUserGroupList struct {
 // A CognitoUserGroupSpec defines the desired state of a CognitoUserGroup
 type CognitoUserGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CognitoUserGroupParameters `json:",inline"`
+	ForProvider                  CognitoUserGroupParameters `json:"forProvider"`
 }
 
 // A CognitoUserGroupParameters defines the desired state of a CognitoUserGroup
 type CognitoUserGroupParameters struct {
-	UserPoolId  string `json:"user_pool_id"`
 	Description string `json:"description"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
 	Precedence  int64  `json:"precedence"`
 	RoleArn     string `json:"role_arn"`
+	UserPoolId  string `json:"user_pool_id"`
 }
 
 // A CognitoUserGroupStatus defines the observed state of a CognitoUserGroup
 type CognitoUserGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CognitoUserGroupObservation `json:",inline"`
+	AtProvider                     CognitoUserGroupObservation `json:"atProvider"`
 }
 
 // A CognitoUserGroupObservation records the observed state of a CognitoUserGroup

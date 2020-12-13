@@ -47,7 +47,7 @@ type IamAccountAliasList struct {
 // A IamAccountAliasSpec defines the desired state of a IamAccountAlias
 type IamAccountAliasSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamAccountAliasParameters `json:",inline"`
+	ForProvider                  IamAccountAliasParameters `json:"forProvider"`
 }
 
 // A IamAccountAliasParameters defines the desired state of a IamAccountAlias
@@ -59,7 +59,7 @@ type IamAccountAliasParameters struct {
 // A IamAccountAliasStatus defines the observed state of a IamAccountAlias
 type IamAccountAliasStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamAccountAliasObservation `json:",inline"`
+	AtProvider                     IamAccountAliasObservation `json:"atProvider"`
 }
 
 // A IamAccountAliasObservation records the observed state of a IamAccountAlias

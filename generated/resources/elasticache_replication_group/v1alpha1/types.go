@@ -47,37 +47,37 @@ type ElasticacheReplicationGroupList struct {
 // A ElasticacheReplicationGroupSpec defines the desired state of a ElasticacheReplicationGroup
 type ElasticacheReplicationGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticacheReplicationGroupParameters `json:",inline"`
+	ForProvider                  ElasticacheReplicationGroupParameters `json:"forProvider"`
 }
 
 // A ElasticacheReplicationGroupParameters defines the desired state of a ElasticacheReplicationGroup
 type ElasticacheReplicationGroupParameters struct {
-	AtRestEncryptionEnabled     bool              `json:"at_rest_encryption_enabled"`
-	Port                        int64             `json:"port"`
-	SecurityGroupNames          []string          `json:"security_group_names"`
 	SubnetGroupName             string            `json:"subnet_group_name"`
 	AuthToken                   string            `json:"auth_token"`
-	SnapshotArns                []string          `json:"snapshot_arns"`
+	MaintenanceWindow           string            `json:"maintenance_window"`
+	NotificationTopicArn        string            `json:"notification_topic_arn"`
+	SnapshotWindow              string            `json:"snapshot_window"`
+	ParameterGroupName          string            `json:"parameter_group_name"`
+	ReplicationGroupId          string            `json:"replication_group_id"`
+	Engine                      string            `json:"engine"`
+	Id                          string            `json:"id"`
+	Port                        int64             `json:"port"`
 	ApplyImmediately            bool              `json:"apply_immediately"`
 	AutomaticFailoverEnabled    bool              `json:"automatic_failover_enabled"`
 	EngineVersion               string            `json:"engine_version"`
-	MaintenanceWindow           string            `json:"maintenance_window"`
-	NotificationTopicArn        string            `json:"notification_topic_arn"`
-	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
-	SecurityGroupIds            []string          `json:"security_group_ids"`
 	SnapshotRetentionLimit      int64             `json:"snapshot_retention_limit"`
+	AutoMinorVersionUpgrade     bool              `json:"auto_minor_version_upgrade"`
+	KmsKeyId                    string            `json:"kms_key_id"`
 	NumberCacheClusters         int64             `json:"number_cache_clusters"`
 	ReplicationGroupDescription string            `json:"replication_group_description"`
+	SecurityGroupIds            []string          `json:"security_group_ids"`
+	SnapshotName                string            `json:"snapshot_name"`
 	TransitEncryptionEnabled    bool              `json:"transit_encryption_enabled"`
 	AvailabilityZones           []string          `json:"availability_zones"`
-	Id                          string            `json:"id"`
-	ParameterGroupName          string            `json:"parameter_group_name"`
-	ReplicationGroupId          string            `json:"replication_group_id"`
-	SnapshotName                string            `json:"snapshot_name"`
-	Engine                      string            `json:"engine"`
-	KmsKeyId                    string            `json:"kms_key_id"`
 	NodeType                    string            `json:"node_type"`
-	SnapshotWindow              string            `json:"snapshot_window"`
+	AtRestEncryptionEnabled     bool              `json:"at_rest_encryption_enabled"`
+	SecurityGroupNames          []string          `json:"security_group_names"`
+	SnapshotArns                []string          `json:"snapshot_arns"`
 	Tags                        map[string]string `json:"tags"`
 	ClusterMode                 ClusterMode       `json:"cluster_mode"`
 	Timeouts                    Timeouts          `json:"timeouts"`
@@ -97,12 +97,12 @@ type Timeouts struct {
 // A ElasticacheReplicationGroupStatus defines the observed state of a ElasticacheReplicationGroup
 type ElasticacheReplicationGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticacheReplicationGroupObservation `json:",inline"`
+	AtProvider                     ElasticacheReplicationGroupObservation `json:"atProvider"`
 }
 
 // A ElasticacheReplicationGroupObservation records the observed state of a ElasticacheReplicationGroup
 type ElasticacheReplicationGroupObservation struct {
-	PrimaryEndpointAddress       string   `json:"primary_endpoint_address"`
-	ConfigurationEndpointAddress string   `json:"configuration_endpoint_address"`
 	MemberClusters               []string `json:"member_clusters"`
+	ConfigurationEndpointAddress string   `json:"configuration_endpoint_address"`
+	PrimaryEndpointAddress       string   `json:"primary_endpoint_address"`
 }

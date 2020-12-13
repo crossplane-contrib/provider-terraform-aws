@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafRule(r WafRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeWafRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRule_Predicates(r.Spec.ForProvider.Predicates, ctyVal)
 	EncodeWafRule_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWafRule_Id(p WafRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafRule_MetricName(p WafRuleParameters, vals map[string]cty.Value) {
@@ -54,6 +66,10 @@ func EncodeWafRule_Name(p WafRuleParameters, vals map[string]cty.Value) {
 }
 
 func EncodeWafRule_Tags(p WafRuleParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -61,22 +77,14 @@ func EncodeWafRule_Tags(p WafRuleParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeWafRule_Id(p WafRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeWafRule_Predicates(p Predicates, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRule_Predicates_DataId(p, ctyVal)
 	EncodeWafRule_Predicates_Negated(p, ctyVal)
 	EncodeWafRule_Predicates_Type(p, ctyVal)
+	EncodeWafRule_Predicates_DataId(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["predicates"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafRule_Predicates_DataId(p Predicates, vals map[string]cty.Value) {
-	vals["data_id"] = cty.StringVal(p.DataId)
 }
 
 func EncodeWafRule_Predicates_Negated(p Predicates, vals map[string]cty.Value) {
@@ -85,6 +93,10 @@ func EncodeWafRule_Predicates_Negated(p Predicates, vals map[string]cty.Value) {
 
 func EncodeWafRule_Predicates_Type(p Predicates, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeWafRule_Predicates_DataId(p Predicates, vals map[string]cty.Value) {
+	vals["data_id"] = cty.StringVal(p.DataId)
 }
 
 func EncodeWafRule_Arn(p WafRuleObservation, vals map[string]cty.Value) {

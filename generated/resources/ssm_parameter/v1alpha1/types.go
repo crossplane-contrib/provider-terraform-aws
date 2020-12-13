@@ -47,29 +47,29 @@ type SsmParameterList struct {
 // A SsmParameterSpec defines the desired state of a SsmParameter
 type SsmParameterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmParameterParameters `json:",inline"`
+	ForProvider                  SsmParameterParameters `json:"forProvider"`
 }
 
 // A SsmParameterParameters defines the desired state of a SsmParameter
 type SsmParameterParameters struct {
-	Arn            string            `json:"arn"`
-	DataType       string            `json:"data_type"`
-	Id             string            `json:"id"`
-	Name           string            `json:"name"`
-	Value          string            `json:"value"`
 	AllowedPattern string            `json:"allowed_pattern"`
 	Description    string            `json:"description"`
-	KeyId          string            `json:"key_id"`
-	Overwrite      bool              `json:"overwrite"`
 	Tags           map[string]string `json:"tags"`
 	Tier           string            `json:"tier"`
 	Type           string            `json:"type"`
+	Value          string            `json:"value"`
+	Arn            string            `json:"arn"`
+	DataType       string            `json:"data_type"`
+	Id             string            `json:"id"`
+	KeyId          string            `json:"key_id"`
+	Name           string            `json:"name"`
+	Overwrite      bool              `json:"overwrite"`
 }
 
 // A SsmParameterStatus defines the observed state of a SsmParameter
 type SsmParameterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmParameterObservation `json:",inline"`
+	AtProvider                     SsmParameterObservation `json:"atProvider"`
 }
 
 // A SsmParameterObservation records the observed state of a SsmParameter

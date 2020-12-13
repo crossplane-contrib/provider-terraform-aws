@@ -47,53 +47,53 @@ type DefaultSecurityGroupList struct {
 // A DefaultSecurityGroupSpec defines the desired state of a DefaultSecurityGroup
 type DefaultSecurityGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DefaultSecurityGroupParameters `json:",inline"`
+	ForProvider                  DefaultSecurityGroupParameters `json:"forProvider"`
 }
 
 // A DefaultSecurityGroupParameters defines the desired state of a DefaultSecurityGroup
 type DefaultSecurityGroupParameters struct {
-	Egress              []Egress          `json:"egress"`
-	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
-	VpcId               string            `json:"vpc_id"`
 	Id                  string            `json:"id"`
+	VpcId               string            `json:"vpc_id"`
+	Egress              []Egress          `json:"egress"`
 	Ingress             []Ingress         `json:"ingress"`
+	RevokeRulesOnDelete bool              `json:"revoke_rules_on_delete"`
 	Tags                map[string]string `json:"tags"`
 }
 
 type Egress struct {
-	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
 	PrefixListIds  []string `json:"prefix_list_ids"`
-	CidrBlocks     []string `json:"cidr_blocks"`
-	Self           bool     `json:"self"`
-	Description    string   `json:"description"`
-	Protocol       string   `json:"protocol"`
-	FromPort       int64    `json:"from_port"`
-	SecurityGroups []string `json:"security_groups"`
 	ToPort         int64    `json:"to_port"`
+	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
+	Self           bool     `json:"self"`
+	CidrBlocks     []string `json:"cidr_blocks"`
+	Protocol       string   `json:"protocol"`
+	SecurityGroups []string `json:"security_groups"`
+	FromPort       int64    `json:"from_port"`
+	Description    string   `json:"description"`
 }
 
 type Ingress struct {
-	ToPort         int64    `json:"to_port"`
 	PrefixListIds  []string `json:"prefix_list_ids"`
 	Description    string   `json:"description"`
-	FromPort       int64    `json:"from_port"`
 	Ipv6CidrBlocks []string `json:"ipv6_cidr_blocks"`
-	CidrBlocks     []string `json:"cidr_blocks"`
-	SecurityGroups []string `json:"security_groups"`
 	Protocol       string   `json:"protocol"`
+	SecurityGroups []string `json:"security_groups"`
+	CidrBlocks     []string `json:"cidr_blocks"`
+	FromPort       int64    `json:"from_port"`
+	ToPort         int64    `json:"to_port"`
 	Self           bool     `json:"self"`
 }
 
 // A DefaultSecurityGroupStatus defines the observed state of a DefaultSecurityGroup
 type DefaultSecurityGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DefaultSecurityGroupObservation `json:",inline"`
+	AtProvider                     DefaultSecurityGroupObservation `json:"atProvider"`
 }
 
 // A DefaultSecurityGroupObservation records the observed state of a DefaultSecurityGroup
 type DefaultSecurityGroupObservation struct {
-	Arn         string `json:"arn"`
 	Description string `json:"description"`
 	Name        string `json:"name"`
 	OwnerId     string `json:"owner_id"`
+	Arn         string `json:"arn"`
 }

@@ -47,38 +47,26 @@ type LbTargetGroupList struct {
 // A LbTargetGroupSpec defines the desired state of a LbTargetGroup
 type LbTargetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LbTargetGroupParameters `json:",inline"`
+	ForProvider                  LbTargetGroupParameters `json:"forProvider"`
 }
 
 // A LbTargetGroupParameters defines the desired state of a LbTargetGroup
 type LbTargetGroupParameters struct {
-	Port                           int64             `json:"port"`
-	Tags                           map[string]string `json:"tags"`
-	DeregistrationDelay            int64             `json:"deregistration_delay"`
-	Protocol                       string            `json:"protocol"`
 	Id                             string            `json:"id"`
-	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
+	Tags                           map[string]string `json:"tags"`
 	NamePrefix                     string            `json:"name_prefix"`
-	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
+	Port                           int64             `json:"port"`
 	SlowStart                      int64             `json:"slow_start"`
-	TargetType                     string            `json:"target_type"`
-	VpcId                          string            `json:"vpc_id"`
+	ProxyProtocolV2                bool              `json:"proxy_protocol_v2"`
+	DeregistrationDelay            int64             `json:"deregistration_delay"`
+	LambdaMultiValueHeadersEnabled bool              `json:"lambda_multi_value_headers_enabled"`
 	LoadBalancingAlgorithmType     string            `json:"load_balancing_algorithm_type"`
 	Name                           string            `json:"name"`
-	HealthCheck                    HealthCheck       `json:"health_check"`
+	Protocol                       string            `json:"protocol"`
+	TargetType                     string            `json:"target_type"`
+	VpcId                          string            `json:"vpc_id"`
 	Stickiness                     Stickiness        `json:"stickiness"`
-}
-
-type HealthCheck struct {
-	Interval           int64  `json:"interval"`
-	Port               string `json:"port"`
-	Protocol           string `json:"protocol"`
-	Timeout            int64  `json:"timeout"`
-	Enabled            bool   `json:"enabled"`
-	HealthyThreshold   int64  `json:"healthy_threshold"`
-	Matcher            string `json:"matcher"`
-	Path               string `json:"path"`
-	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
+	HealthCheck                    HealthCheck       `json:"health_check"`
 }
 
 type Stickiness struct {
@@ -87,14 +75,26 @@ type Stickiness struct {
 	Type           string `json:"type"`
 }
 
+type HealthCheck struct {
+	Path               string `json:"path"`
+	Protocol           string `json:"protocol"`
+	Timeout            int64  `json:"timeout"`
+	HealthyThreshold   int64  `json:"healthy_threshold"`
+	Matcher            string `json:"matcher"`
+	Port               string `json:"port"`
+	UnhealthyThreshold int64  `json:"unhealthy_threshold"`
+	Enabled            bool   `json:"enabled"`
+	Interval           int64  `json:"interval"`
+}
+
 // A LbTargetGroupStatus defines the observed state of a LbTargetGroup
 type LbTargetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LbTargetGroupObservation `json:",inline"`
+	AtProvider                     LbTargetGroupObservation `json:"atProvider"`
 }
 
 // A LbTargetGroupObservation records the observed state of a LbTargetGroup
 type LbTargetGroupObservation struct {
-	Arn       string `json:"arn"`
 	ArnSuffix string `json:"arn_suffix"`
+	Arn       string `json:"arn"`
 }

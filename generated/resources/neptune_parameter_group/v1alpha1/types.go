@@ -47,29 +47,29 @@ type NeptuneParameterGroupList struct {
 // A NeptuneParameterGroupSpec defines the desired state of a NeptuneParameterGroup
 type NeptuneParameterGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NeptuneParameterGroupParameters `json:",inline"`
+	ForProvider                  NeptuneParameterGroupParameters `json:"forProvider"`
 }
 
 // A NeptuneParameterGroupParameters defines the desired state of a NeptuneParameterGroup
 type NeptuneParameterGroupParameters struct {
+	Family      string            `json:"family"`
+	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
-	Family      string            `json:"family"`
-	Id          string            `json:"id"`
 	Parameter   Parameter         `json:"parameter"`
 }
 
 type Parameter struct {
+	Value       string `json:"value"`
 	ApplyMethod string `json:"apply_method"`
 	Name        string `json:"name"`
-	Value       string `json:"value"`
 }
 
 // A NeptuneParameterGroupStatus defines the observed state of a NeptuneParameterGroup
 type NeptuneParameterGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NeptuneParameterGroupObservation `json:",inline"`
+	AtProvider                     NeptuneParameterGroupObservation `json:"atProvider"`
 }
 
 // A NeptuneParameterGroupObservation records the observed state of a NeptuneParameterGroup

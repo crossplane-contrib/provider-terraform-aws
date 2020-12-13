@@ -47,7 +47,7 @@ type ConfigConfigurationRecorderStatusList struct {
 // A ConfigConfigurationRecorderStatusSpec defines the desired state of a ConfigConfigurationRecorderStatus
 type ConfigConfigurationRecorderStatusSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ConfigConfigurationRecorderStatusParameters `json:",inline"`
+	ForProvider                  ConfigConfigurationRecorderStatusParameters `json:"forProvider"`
 }
 
 // A ConfigConfigurationRecorderStatusParameters defines the desired state of a ConfigConfigurationRecorderStatus
@@ -60,7 +60,7 @@ type ConfigConfigurationRecorderStatusParameters struct {
 // A ConfigConfigurationRecorderStatusStatus defines the observed state of a ConfigConfigurationRecorderStatus
 type ConfigConfigurationRecorderStatusStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ConfigConfigurationRecorderStatusObservation `json:",inline"`
+	AtProvider                     ConfigConfigurationRecorderStatusObservation `json:"atProvider"`
 }
 
 // A ConfigConfigurationRecorderStatusObservation records the observed state of a ConfigConfigurationRecorderStatus

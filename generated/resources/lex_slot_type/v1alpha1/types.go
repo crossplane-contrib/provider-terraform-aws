@@ -47,15 +47,15 @@ type LexSlotTypeList struct {
 // A LexSlotTypeSpec defines the desired state of a LexSlotType
 type LexSlotTypeSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LexSlotTypeParameters `json:",inline"`
+	ForProvider                  LexSlotTypeParameters `json:"forProvider"`
 }
 
 // A LexSlotTypeParameters defines the desired state of a LexSlotType
 type LexSlotTypeParameters struct {
-	CreateVersion          bool               `json:"create_version"`
 	Id                     string             `json:"id"`
 	Name                   string             `json:"name"`
 	ValueSelectionStrategy string             `json:"value_selection_strategy"`
+	CreateVersion          bool               `json:"create_version"`
 	Description            string             `json:"description"`
 	EnumerationValue       []EnumerationValue `json:"enumeration_value"`
 	Timeouts               Timeouts           `json:"timeouts"`
@@ -75,13 +75,13 @@ type Timeouts struct {
 // A LexSlotTypeStatus defines the observed state of a LexSlotType
 type LexSlotTypeStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LexSlotTypeObservation `json:",inline"`
+	AtProvider                     LexSlotTypeObservation `json:"atProvider"`
 }
 
 // A LexSlotTypeObservation records the observed state of a LexSlotType
 type LexSlotTypeObservation struct {
-	Version         string `json:"version"`
+	Checksum        string `json:"checksum"`
 	CreatedDate     string `json:"created_date"`
 	LastUpdatedDate string `json:"last_updated_date"`
-	Checksum        string `json:"checksum"`
+	Version         string `json:"version"`
 }

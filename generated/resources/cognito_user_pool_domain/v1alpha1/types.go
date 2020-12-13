@@ -47,7 +47,7 @@ type CognitoUserPoolDomainList struct {
 // A CognitoUserPoolDomainSpec defines the desired state of a CognitoUserPoolDomain
 type CognitoUserPoolDomainSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CognitoUserPoolDomainParameters `json:",inline"`
+	ForProvider                  CognitoUserPoolDomainParameters `json:"forProvider"`
 }
 
 // A CognitoUserPoolDomainParameters defines the desired state of a CognitoUserPoolDomain
@@ -61,13 +61,13 @@ type CognitoUserPoolDomainParameters struct {
 // A CognitoUserPoolDomainStatus defines the observed state of a CognitoUserPoolDomain
 type CognitoUserPoolDomainStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CognitoUserPoolDomainObservation `json:",inline"`
+	AtProvider                     CognitoUserPoolDomainObservation `json:"atProvider"`
 }
 
 // A CognitoUserPoolDomainObservation records the observed state of a CognitoUserPoolDomain
 type CognitoUserPoolDomainObservation struct {
+	S3Bucket                  string `json:"s3_bucket"`
 	Version                   string `json:"version"`
 	AwsAccountId              string `json:"aws_account_id"`
 	CloudfrontDistributionArn string `json:"cloudfront_distribution_arn"`
-	S3Bucket                  string `json:"s3_bucket"`
 }

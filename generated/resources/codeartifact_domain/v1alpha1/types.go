@@ -47,7 +47,7 @@ type CodeartifactDomainList struct {
 // A CodeartifactDomainSpec defines the desired state of a CodeartifactDomain
 type CodeartifactDomainSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodeartifactDomainParameters `json:",inline"`
+	ForProvider                  CodeartifactDomainParameters `json:"forProvider"`
 }
 
 // A CodeartifactDomainParameters defines the desired state of a CodeartifactDomain
@@ -60,7 +60,7 @@ type CodeartifactDomainParameters struct {
 // A CodeartifactDomainStatus defines the observed state of a CodeartifactDomain
 type CodeartifactDomainStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodeartifactDomainObservation `json:",inline"`
+	AtProvider                     CodeartifactDomainObservation `json:"atProvider"`
 }
 
 // A CodeartifactDomainObservation records the observed state of a CodeartifactDomain

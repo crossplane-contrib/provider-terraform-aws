@@ -47,7 +47,7 @@ type WafRuleGroupList struct {
 // A WafRuleGroupSpec defines the desired state of a WafRuleGroup
 type WafRuleGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafRuleGroupParameters `json:",inline"`
+	ForProvider                  WafRuleGroupParameters `json:"forProvider"`
 }
 
 // A WafRuleGroupParameters defines the desired state of a WafRuleGroup
@@ -60,9 +60,9 @@ type WafRuleGroupParameters struct {
 }
 
 type ActivatedRule struct {
-	Type     string `json:"type"`
 	Priority int64  `json:"priority"`
 	RuleId   string `json:"rule_id"`
+	Type     string `json:"type"`
 	Action   Action `json:"action"`
 }
 
@@ -73,7 +73,7 @@ type Action struct {
 // A WafRuleGroupStatus defines the observed state of a WafRuleGroup
 type WafRuleGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafRuleGroupObservation `json:",inline"`
+	AtProvider                     WafRuleGroupObservation `json:"atProvider"`
 }
 
 // A WafRuleGroupObservation records the observed state of a WafRuleGroup

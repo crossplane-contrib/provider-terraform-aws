@@ -47,21 +47,21 @@ type DmsCertificateList struct {
 // A DmsCertificateSpec defines the desired state of a DmsCertificate
 type DmsCertificateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DmsCertificateParameters `json:",inline"`
+	ForProvider                  DmsCertificateParameters `json:"forProvider"`
 }
 
 // A DmsCertificateParameters defines the desired state of a DmsCertificate
 type DmsCertificateParameters struct {
-	CertificateWallet string `json:"certificate_wallet"`
-	Id                string `json:"id"`
 	CertificateId     string `json:"certificate_id"`
 	CertificatePem    string `json:"certificate_pem"`
+	CertificateWallet string `json:"certificate_wallet"`
+	Id                string `json:"id"`
 }
 
 // A DmsCertificateStatus defines the observed state of a DmsCertificate
 type DmsCertificateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DmsCertificateObservation `json:",inline"`
+	AtProvider                     DmsCertificateObservation `json:"atProvider"`
 }
 
 // A DmsCertificateObservation records the observed state of a DmsCertificate

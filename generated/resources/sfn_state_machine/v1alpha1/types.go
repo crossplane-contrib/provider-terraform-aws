@@ -47,27 +47,27 @@ type SfnStateMachineList struct {
 // A SfnStateMachineSpec defines the desired state of a SfnStateMachine
 type SfnStateMachineSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SfnStateMachineParameters `json:",inline"`
+	ForProvider                  SfnStateMachineParameters `json:"forProvider"`
 }
 
 // A SfnStateMachineParameters defines the desired state of a SfnStateMachine
 type SfnStateMachineParameters struct {
+	RoleArn    string            `json:"role_arn"`
+	Tags       map[string]string `json:"tags"`
 	Definition string            `json:"definition"`
 	Id         string            `json:"id"`
 	Name       string            `json:"name"`
-	RoleArn    string            `json:"role_arn"`
-	Tags       map[string]string `json:"tags"`
 }
 
 // A SfnStateMachineStatus defines the observed state of a SfnStateMachine
 type SfnStateMachineStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SfnStateMachineObservation `json:",inline"`
+	AtProvider                     SfnStateMachineObservation `json:"atProvider"`
 }
 
 // A SfnStateMachineObservation records the observed state of a SfnStateMachine
 type SfnStateMachineObservation struct {
+	Status       string `json:"status"`
 	Arn          string `json:"arn"`
 	CreationDate string `json:"creation_date"`
-	Status       string `json:"status"`
 }

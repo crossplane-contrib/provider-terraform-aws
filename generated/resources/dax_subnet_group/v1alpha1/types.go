@@ -47,7 +47,7 @@ type DaxSubnetGroupList struct {
 // A DaxSubnetGroupSpec defines the desired state of a DaxSubnetGroup
 type DaxSubnetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DaxSubnetGroupParameters `json:",inline"`
+	ForProvider                  DaxSubnetGroupParameters `json:"forProvider"`
 }
 
 // A DaxSubnetGroupParameters defines the desired state of a DaxSubnetGroup
@@ -61,7 +61,7 @@ type DaxSubnetGroupParameters struct {
 // A DaxSubnetGroupStatus defines the observed state of a DaxSubnetGroup
 type DaxSubnetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DaxSubnetGroupObservation `json:",inline"`
+	AtProvider                     DaxSubnetGroupObservation `json:"atProvider"`
 }
 
 // A DaxSubnetGroupObservation records the observed state of a DaxSubnetGroup

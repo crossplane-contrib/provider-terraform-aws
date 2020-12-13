@@ -47,39 +47,39 @@ type WorkspacesWorkspaceList struct {
 // A WorkspacesWorkspaceSpec defines the desired state of a WorkspacesWorkspace
 type WorkspacesWorkspaceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WorkspacesWorkspaceParameters `json:",inline"`
+	ForProvider                  WorkspacesWorkspaceParameters `json:"forProvider"`
 }
 
 // A WorkspacesWorkspaceParameters defines the desired state of a WorkspacesWorkspace
 type WorkspacesWorkspaceParameters struct {
-	DirectoryId                 string              `json:"directory_id"`
+	Id                          string              `json:"id"`
+	UserName                    string              `json:"user_name"`
 	UserVolumeEncryptionEnabled bool                `json:"user_volume_encryption_enabled"`
 	VolumeEncryptionKey         string              `json:"volume_encryption_key"`
-	Tags                        map[string]string   `json:"tags"`
-	UserName                    string              `json:"user_name"`
 	BundleId                    string              `json:"bundle_id"`
-	Id                          string              `json:"id"`
+	DirectoryId                 string              `json:"directory_id"`
 	RootVolumeEncryptionEnabled bool                `json:"root_volume_encryption_enabled"`
+	Tags                        map[string]string   `json:"tags"`
 	WorkspaceProperties         WorkspaceProperties `json:"workspace_properties"`
 }
 
 type WorkspaceProperties struct {
-	RootVolumeSizeGib                   int64  `json:"root_volume_size_gib"`
 	RunningMode                         string `json:"running_mode"`
 	RunningModeAutoStopTimeoutInMinutes int64  `json:"running_mode_auto_stop_timeout_in_minutes"`
 	UserVolumeSizeGib                   int64  `json:"user_volume_size_gib"`
 	ComputeTypeName                     string `json:"compute_type_name"`
+	RootVolumeSizeGib                   int64  `json:"root_volume_size_gib"`
 }
 
 // A WorkspacesWorkspaceStatus defines the observed state of a WorkspacesWorkspace
 type WorkspacesWorkspaceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WorkspacesWorkspaceObservation `json:",inline"`
+	AtProvider                     WorkspacesWorkspaceObservation `json:"atProvider"`
 }
 
 // A WorkspacesWorkspaceObservation records the observed state of a WorkspacesWorkspace
 type WorkspacesWorkspaceObservation struct {
+	ComputerName string `json:"computer_name"`
 	IpAddress    string `json:"ip_address"`
 	State        string `json:"state"`
-	ComputerName string `json:"computer_name"`
 }

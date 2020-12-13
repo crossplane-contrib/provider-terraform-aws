@@ -47,16 +47,16 @@ type AcmpcaCertificateAuthorityList struct {
 // A AcmpcaCertificateAuthoritySpec defines the desired state of a AcmpcaCertificateAuthority
 type AcmpcaCertificateAuthoritySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AcmpcaCertificateAuthorityParameters `json:",inline"`
+	ForProvider                  AcmpcaCertificateAuthorityParameters `json:"forProvider"`
 }
 
 // A AcmpcaCertificateAuthorityParameters defines the desired state of a AcmpcaCertificateAuthority
 type AcmpcaCertificateAuthorityParameters struct {
-	Tags                              map[string]string                 `json:"tags"`
-	Type                              string                            `json:"type"`
-	PermanentDeletionTimeInDays       int64                             `json:"permanent_deletion_time_in_days"`
 	Enabled                           bool                              `json:"enabled"`
 	Id                                string                            `json:"id"`
+	PermanentDeletionTimeInDays       int64                             `json:"permanent_deletion_time_in_days"`
+	Tags                              map[string]string                 `json:"tags"`
+	Type                              string                            `json:"type"`
 	Timeouts                          Timeouts                          `json:"timeouts"`
 	CertificateAuthorityConfiguration CertificateAuthorityConfiguration `json:"certificate_authority_configuration"`
 	RevocationConfiguration           RevocationConfiguration           `json:"revocation_configuration"`
@@ -73,19 +73,19 @@ type CertificateAuthorityConfiguration struct {
 }
 
 type Subject struct {
+	Country                    string `json:"country"`
+	GenerationQualifier        string `json:"generation_qualifier"`
+	GivenName                  string `json:"given_name"`
+	Organization               string `json:"organization"`
+	OrganizationalUnit         string `json:"organizational_unit"`
+	Pseudonym                  string `json:"pseudonym"`
+	Surname                    string `json:"surname"`
+	CommonName                 string `json:"common_name"`
+	Title                      string `json:"title"`
 	Initials                   string `json:"initials"`
 	Locality                   string `json:"locality"`
-	Organization               string `json:"organization"`
-	Pseudonym                  string `json:"pseudonym"`
 	State                      string `json:"state"`
-	CommonName                 string `json:"common_name"`
 	DistinguishedNameQualifier string `json:"distinguished_name_qualifier"`
-	GenerationQualifier        string `json:"generation_qualifier"`
-	Surname                    string `json:"surname"`
-	Title                      string `json:"title"`
-	Country                    string `json:"country"`
-	GivenName                  string `json:"given_name"`
-	OrganizationalUnit         string `json:"organizational_unit"`
 }
 
 type RevocationConfiguration struct {
@@ -102,17 +102,17 @@ type CrlConfiguration struct {
 // A AcmpcaCertificateAuthorityStatus defines the observed state of a AcmpcaCertificateAuthority
 type AcmpcaCertificateAuthorityStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AcmpcaCertificateAuthorityObservation `json:",inline"`
+	AtProvider                     AcmpcaCertificateAuthorityObservation `json:"atProvider"`
 }
 
 // A AcmpcaCertificateAuthorityObservation records the observed state of a AcmpcaCertificateAuthority
 type AcmpcaCertificateAuthorityObservation struct {
-	Serial                    string `json:"serial"`
 	Status                    string `json:"status"`
-	CertificateSigningRequest string `json:"certificate_signing_request"`
-	NotAfter                  string `json:"not_after"`
-	NotBefore                 string `json:"not_before"`
 	Arn                       string `json:"arn"`
 	Certificate               string `json:"certificate"`
 	CertificateChain          string `json:"certificate_chain"`
+	NotAfter                  string `json:"not_after"`
+	CertificateSigningRequest string `json:"certificate_signing_request"`
+	NotBefore                 string `json:"not_before"`
+	Serial                    string `json:"serial"`
 }

@@ -47,53 +47,53 @@ type BudgetsBudgetList struct {
 // A BudgetsBudgetSpec defines the desired state of a BudgetsBudget
 type BudgetsBudgetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  BudgetsBudgetParameters `json:",inline"`
+	ForProvider                  BudgetsBudgetParameters `json:"forProvider"`
 }
 
 // A BudgetsBudgetParameters defines the desired state of a BudgetsBudget
 type BudgetsBudgetParameters struct {
+	TimePeriodEnd   string            `json:"time_period_end"`
+	TimePeriodStart string            `json:"time_period_start"`
+	TimeUnit        string            `json:"time_unit"`
+	BudgetType      string            `json:"budget_type"`
 	Id              string            `json:"id"`
+	LimitAmount     string            `json:"limit_amount"`
 	LimitUnit       string            `json:"limit_unit"`
 	Name            string            `json:"name"`
 	NamePrefix      string            `json:"name_prefix"`
-	TimePeriodEnd   string            `json:"time_period_end"`
-	BudgetType      string            `json:"budget_type"`
-	CostFilters     map[string]string `json:"cost_filters"`
-	LimitAmount     string            `json:"limit_amount"`
-	TimePeriodStart string            `json:"time_period_start"`
-	TimeUnit        string            `json:"time_unit"`
 	AccountId       string            `json:"account_id"`
+	CostFilters     map[string]string `json:"cost_filters"`
 	CostTypes       CostTypes         `json:"cost_types"`
 	Notification    Notification      `json:"notification"`
 }
 
 type CostTypes struct {
-	IncludeRefund            bool `json:"include_refund"`
+	IncludeSubscription      bool `json:"include_subscription"`
 	IncludeSupport           bool `json:"include_support"`
 	IncludeTax               bool `json:"include_tax"`
-	UseBlended               bool `json:"use_blended"`
 	UseAmortized             bool `json:"use_amortized"`
-	IncludeCredit            bool `json:"include_credit"`
 	IncludeDiscount          bool `json:"include_discount"`
 	IncludeOtherSubscription bool `json:"include_other_subscription"`
+	IncludeRefund            bool `json:"include_refund"`
+	UseBlended               bool `json:"use_blended"`
+	IncludeCredit            bool `json:"include_credit"`
 	IncludeRecurring         bool `json:"include_recurring"`
-	IncludeSubscription      bool `json:"include_subscription"`
 	IncludeUpfront           bool `json:"include_upfront"`
 }
 
 type Notification struct {
+	SubscriberEmailAddresses []string `json:"subscriber_email_addresses"`
+	SubscriberSnsTopicArns   []string `json:"subscriber_sns_topic_arns"`
 	Threshold                int64    `json:"threshold"`
 	ThresholdType            string   `json:"threshold_type"`
 	ComparisonOperator       string   `json:"comparison_operator"`
 	NotificationType         string   `json:"notification_type"`
-	SubscriberEmailAddresses []string `json:"subscriber_email_addresses"`
-	SubscriberSnsTopicArns   []string `json:"subscriber_sns_topic_arns"`
 }
 
 // A BudgetsBudgetStatus defines the observed state of a BudgetsBudget
 type BudgetsBudgetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     BudgetsBudgetObservation `json:",inline"`
+	AtProvider                     BudgetsBudgetObservation `json:"atProvider"`
 }
 
 // A BudgetsBudgetObservation records the observed state of a BudgetsBudget

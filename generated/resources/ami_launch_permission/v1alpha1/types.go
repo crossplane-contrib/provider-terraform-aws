@@ -47,7 +47,7 @@ type AmiLaunchPermissionList struct {
 // A AmiLaunchPermissionSpec defines the desired state of a AmiLaunchPermission
 type AmiLaunchPermissionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AmiLaunchPermissionParameters `json:",inline"`
+	ForProvider                  AmiLaunchPermissionParameters `json:"forProvider"`
 }
 
 // A AmiLaunchPermissionParameters defines the desired state of a AmiLaunchPermission
@@ -60,7 +60,7 @@ type AmiLaunchPermissionParameters struct {
 // A AmiLaunchPermissionStatus defines the observed state of a AmiLaunchPermission
 type AmiLaunchPermissionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AmiLaunchPermissionObservation `json:",inline"`
+	AtProvider                     AmiLaunchPermissionObservation `json:"atProvider"`
 }
 
 // A AmiLaunchPermissionObservation records the observed state of a AmiLaunchPermission

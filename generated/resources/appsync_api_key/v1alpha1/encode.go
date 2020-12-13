@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAppsyncApiKey(r AppsyncApiKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppsyncApiKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Description(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Expires(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncApiKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Key(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAppsyncApiKey_Id(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppsyncApiKey_ApiId(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
@@ -54,10 +66,6 @@ func EncodeAppsyncApiKey_Description(p AppsyncApiKeyParameters, vals map[string]
 
 func EncodeAppsyncApiKey_Expires(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
 	vals["expires"] = cty.StringVal(p.Expires)
-}
-
-func EncodeAppsyncApiKey_Id(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppsyncApiKey_Key(p AppsyncApiKeyObservation, vals map[string]cty.Value) {

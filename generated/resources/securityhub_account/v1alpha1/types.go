@@ -47,7 +47,7 @@ type SecurityhubAccountList struct {
 // A SecurityhubAccountSpec defines the desired state of a SecurityhubAccount
 type SecurityhubAccountSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecurityhubAccountParameters `json:",inline"`
+	ForProvider                  SecurityhubAccountParameters `json:"forProvider"`
 }
 
 // A SecurityhubAccountParameters defines the desired state of a SecurityhubAccount
@@ -58,7 +58,7 @@ type SecurityhubAccountParameters struct {
 // A SecurityhubAccountStatus defines the observed state of a SecurityhubAccount
 type SecurityhubAccountStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecurityhubAccountObservation `json:",inline"`
+	AtProvider                     SecurityhubAccountObservation `json:"atProvider"`
 }
 
 // A SecurityhubAccountObservation records the observed state of a SecurityhubAccount

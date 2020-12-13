@@ -47,7 +47,7 @@ type CloudwatchLogDestinationPolicyList struct {
 // A CloudwatchLogDestinationPolicySpec defines the desired state of a CloudwatchLogDestinationPolicy
 type CloudwatchLogDestinationPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchLogDestinationPolicyParameters `json:",inline"`
+	ForProvider                  CloudwatchLogDestinationPolicyParameters `json:"forProvider"`
 }
 
 // A CloudwatchLogDestinationPolicyParameters defines the desired state of a CloudwatchLogDestinationPolicy
@@ -60,7 +60,7 @@ type CloudwatchLogDestinationPolicyParameters struct {
 // A CloudwatchLogDestinationPolicyStatus defines the observed state of a CloudwatchLogDestinationPolicy
 type CloudwatchLogDestinationPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchLogDestinationPolicyObservation `json:",inline"`
+	AtProvider                     CloudwatchLogDestinationPolicyObservation `json:"atProvider"`
 }
 
 // A CloudwatchLogDestinationPolicyObservation records the observed state of a CloudwatchLogDestinationPolicy

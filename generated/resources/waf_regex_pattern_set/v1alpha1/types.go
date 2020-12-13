@@ -47,20 +47,20 @@ type WafRegexPatternSetList struct {
 // A WafRegexPatternSetSpec defines the desired state of a WafRegexPatternSet
 type WafRegexPatternSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafRegexPatternSetParameters `json:",inline"`
+	ForProvider                  WafRegexPatternSetParameters `json:"forProvider"`
 }
 
 // A WafRegexPatternSetParameters defines the desired state of a WafRegexPatternSet
 type WafRegexPatternSetParameters struct {
+	Id                  string   `json:"id"`
 	Name                string   `json:"name"`
 	RegexPatternStrings []string `json:"regex_pattern_strings"`
-	Id                  string   `json:"id"`
 }
 
 // A WafRegexPatternSetStatus defines the observed state of a WafRegexPatternSet
 type WafRegexPatternSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafRegexPatternSetObservation `json:",inline"`
+	AtProvider                     WafRegexPatternSetObservation `json:"atProvider"`
 }
 
 // A WafRegexPatternSetObservation records the observed state of a WafRegexPatternSet

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,18 +37,53 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamAccountPasswordPolicy(r IamAccountPasswordPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamAccountPasswordPolicy_HardExpiry(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccountPasswordPolicy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccountPasswordPolicy_MaxPasswordAge(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccountPasswordPolicy_PasswordReusePrevention(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccountPasswordPolicy_RequireSymbols(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccountPasswordPolicy_RequireUppercaseCharacters(r.Spec.ForProvider, ctyVal)
+	EncodeIamAccountPasswordPolicy_AllowUsersToChangePassword(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccountPasswordPolicy_MinimumPasswordLength(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccountPasswordPolicy_RequireLowercaseCharacters(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccountPasswordPolicy_RequireNumbers(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountPasswordPolicy_RequireSymbols(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountPasswordPolicy_AllowUsersToChangePassword(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountPasswordPolicy_HardExpiry(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountPasswordPolicy_MaxPasswordAge(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountPasswordPolicy_RequireUppercaseCharacters(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountPasswordPolicy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountPasswordPolicy_PasswordReusePrevention(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccountPasswordPolicy_ExpirePasswords(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamAccountPasswordPolicy_HardExpiry(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	vals["hard_expiry"] = cty.BoolVal(p.HardExpiry)
+}
+
+func EncodeIamAccountPasswordPolicy_Id(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeIamAccountPasswordPolicy_MaxPasswordAge(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	vals["max_password_age"] = cty.NumberIntVal(p.MaxPasswordAge)
+}
+
+func EncodeIamAccountPasswordPolicy_PasswordReusePrevention(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	vals["password_reuse_prevention"] = cty.NumberIntVal(p.PasswordReusePrevention)
+}
+
+func EncodeIamAccountPasswordPolicy_RequireSymbols(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	vals["require_symbols"] = cty.BoolVal(p.RequireSymbols)
+}
+
+func EncodeIamAccountPasswordPolicy_RequireUppercaseCharacters(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	vals["require_uppercase_characters"] = cty.BoolVal(p.RequireUppercaseCharacters)
+}
+
+func EncodeIamAccountPasswordPolicy_AllowUsersToChangePassword(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	vals["allow_users_to_change_password"] = cty.BoolVal(p.AllowUsersToChangePassword)
 }
 
 func EncodeIamAccountPasswordPolicy_MinimumPasswordLength(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
@@ -60,34 +96,6 @@ func EncodeIamAccountPasswordPolicy_RequireLowercaseCharacters(p IamAccountPassw
 
 func EncodeIamAccountPasswordPolicy_RequireNumbers(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
 	vals["require_numbers"] = cty.BoolVal(p.RequireNumbers)
-}
-
-func EncodeIamAccountPasswordPolicy_RequireSymbols(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	vals["require_symbols"] = cty.BoolVal(p.RequireSymbols)
-}
-
-func EncodeIamAccountPasswordPolicy_AllowUsersToChangePassword(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	vals["allow_users_to_change_password"] = cty.BoolVal(p.AllowUsersToChangePassword)
-}
-
-func EncodeIamAccountPasswordPolicy_HardExpiry(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	vals["hard_expiry"] = cty.BoolVal(p.HardExpiry)
-}
-
-func EncodeIamAccountPasswordPolicy_MaxPasswordAge(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	vals["max_password_age"] = cty.NumberIntVal(p.MaxPasswordAge)
-}
-
-func EncodeIamAccountPasswordPolicy_RequireUppercaseCharacters(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	vals["require_uppercase_characters"] = cty.BoolVal(p.RequireUppercaseCharacters)
-}
-
-func EncodeIamAccountPasswordPolicy_Id(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamAccountPasswordPolicy_PasswordReusePrevention(p IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	vals["password_reuse_prevention"] = cty.NumberIntVal(p.PasswordReusePrevention)
 }
 
 func EncodeIamAccountPasswordPolicy_ExpirePasswords(p IamAccountPasswordPolicyObservation, vals map[string]cty.Value) {

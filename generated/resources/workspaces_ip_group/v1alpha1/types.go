@@ -47,15 +47,15 @@ type WorkspacesIpGroupList struct {
 // A WorkspacesIpGroupSpec defines the desired state of a WorkspacesIpGroup
 type WorkspacesIpGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WorkspacesIpGroupParameters `json:",inline"`
+	ForProvider                  WorkspacesIpGroupParameters `json:"forProvider"`
 }
 
 // A WorkspacesIpGroupParameters defines the desired state of a WorkspacesIpGroup
 type WorkspacesIpGroupParameters struct {
+	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
-	Tags        map[string]string `json:"tags"`
 	Rules       Rules             `json:"rules"`
 }
 
@@ -67,7 +67,7 @@ type Rules struct {
 // A WorkspacesIpGroupStatus defines the observed state of a WorkspacesIpGroup
 type WorkspacesIpGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WorkspacesIpGroupObservation `json:",inline"`
+	AtProvider                     WorkspacesIpGroupObservation `json:"atProvider"`
 }
 
 // A WorkspacesIpGroupObservation records the observed state of a WorkspacesIpGroup

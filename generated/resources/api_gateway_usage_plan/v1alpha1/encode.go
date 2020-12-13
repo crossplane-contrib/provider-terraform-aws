@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,31 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayUsagePlan(r ApiGatewayUsagePlan) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayUsagePlan_Description(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayUsagePlan_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_ProductCode(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlan_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayUsagePlan_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayUsagePlan_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayUsagePlan_ApiStages(r.Spec.ForProvider.ApiStages, ctyVal)
 	EncodeApiGatewayUsagePlan_QuotaSettings(r.Spec.ForProvider.QuotaSettings, ctyVal)
 	EncodeApiGatewayUsagePlan_ThrottleSettings(r.Spec.ForProvider.ThrottleSettings, ctyVal)
+	EncodeApiGatewayUsagePlan_ApiStages(r.Spec.ForProvider.ApiStages, ctyVal)
 	EncodeApiGatewayUsagePlan_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayUsagePlan_Description(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeApiGatewayUsagePlan_Id(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayUsagePlan_Name(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
@@ -57,36 +73,15 @@ func EncodeApiGatewayUsagePlan_ProductCode(p ApiGatewayUsagePlanParameters, vals
 }
 
 func EncodeApiGatewayUsagePlan_Tags(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeApiGatewayUsagePlan_Description(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeApiGatewayUsagePlan_Id(p ApiGatewayUsagePlanParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayUsagePlan_ApiStages(p ApiStages, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayUsagePlan_ApiStages_ApiId(p, ctyVal)
-	EncodeApiGatewayUsagePlan_ApiStages_Stage(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["api_stages"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeApiGatewayUsagePlan_ApiStages_ApiId(p ApiStages, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
-}
-
-func EncodeApiGatewayUsagePlan_ApiStages_Stage(p ApiStages, vals map[string]cty.Value) {
-	vals["stage"] = cty.StringVal(p.Stage)
 }
 
 func EncodeApiGatewayUsagePlan_QuotaSettings(p QuotaSettings, vals map[string]cty.Value) {
@@ -126,6 +121,23 @@ func EncodeApiGatewayUsagePlan_ThrottleSettings_BurstLimit(p ThrottleSettings, v
 
 func EncodeApiGatewayUsagePlan_ThrottleSettings_RateLimit(p ThrottleSettings, vals map[string]cty.Value) {
 	vals["rate_limit"] = cty.NumberIntVal(p.RateLimit)
+}
+
+func EncodeApiGatewayUsagePlan_ApiStages(p ApiStages, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayUsagePlan_ApiStages_ApiId(p, ctyVal)
+	EncodeApiGatewayUsagePlan_ApiStages_Stage(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["api_stages"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeApiGatewayUsagePlan_ApiStages_ApiId(p ApiStages, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
+}
+
+func EncodeApiGatewayUsagePlan_ApiStages_Stage(p ApiStages, vals map[string]cty.Value) {
+	vals["stage"] = cty.StringVal(p.Stage)
 }
 
 func EncodeApiGatewayUsagePlan_Arn(p ApiGatewayUsagePlanObservation, vals map[string]cty.Value) {

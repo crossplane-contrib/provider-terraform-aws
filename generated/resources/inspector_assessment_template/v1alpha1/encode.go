@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,34 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeInspectorAssessmentTemplate(r InspectorAssessmentTemplate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeInspectorAssessmentTemplate_RulesPackageArns(r.Spec.ForProvider, ctyVal)
-	EncodeInspectorAssessmentTemplate_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeInspectorAssessmentTemplate_TargetArn(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Duration(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Name(r.Spec.ForProvider, ctyVal)
+	EncodeInspectorAssessmentTemplate_RulesPackageArns(r.Spec.ForProvider, ctyVal)
+	EncodeInspectorAssessmentTemplate_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeInspectorAssessmentTemplate_TargetArn(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeInspectorAssessmentTemplate_RulesPackageArns(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.RulesPackageArns {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["rules_package_arns"] = cty.SetVal(colVals)
-}
-
-func EncodeInspectorAssessmentTemplate_Tags(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeInspectorAssessmentTemplate_TargetArn(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["target_arn"] = cty.StringVal(p.TargetArn)
 }
 
 func EncodeInspectorAssessmentTemplate_Duration(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
@@ -76,6 +64,30 @@ func EncodeInspectorAssessmentTemplate_Id(p InspectorAssessmentTemplateParameter
 
 func EncodeInspectorAssessmentTemplate_Name(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeInspectorAssessmentTemplate_RulesPackageArns(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.RulesPackageArns {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["rules_package_arns"] = cty.SetVal(colVals)
+}
+
+func EncodeInspectorAssessmentTemplate_Tags(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeInspectorAssessmentTemplate_TargetArn(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	vals["target_arn"] = cty.StringVal(p.TargetArn)
 }
 
 func EncodeInspectorAssessmentTemplate_Arn(p InspectorAssessmentTemplateObservation, vals map[string]cty.Value) {

@@ -47,13 +47,13 @@ type WafByteMatchSetList struct {
 // A WafByteMatchSetSpec defines the desired state of a WafByteMatchSet
 type WafByteMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafByteMatchSetParameters `json:",inline"`
+	ForProvider                  WafByteMatchSetParameters `json:"forProvider"`
 }
 
 // A WafByteMatchSetParameters defines the desired state of a WafByteMatchSet
 type WafByteMatchSetParameters struct {
-	Id              string          `json:"id"`
 	Name            string          `json:"name"`
+	Id              string          `json:"id"`
 	ByteMatchTuples ByteMatchTuples `json:"byte_match_tuples"`
 }
 
@@ -72,7 +72,7 @@ type FieldToMatch struct {
 // A WafByteMatchSetStatus defines the observed state of a WafByteMatchSet
 type WafByteMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafByteMatchSetObservation `json:",inline"`
+	AtProvider                     WafByteMatchSetObservation `json:"atProvider"`
 }
 
 // A WafByteMatchSetObservation records the observed state of a WafByteMatchSet

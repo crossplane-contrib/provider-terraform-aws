@@ -47,27 +47,27 @@ type ApiGatewayAuthorizerList struct {
 // A ApiGatewayAuthorizerSpec defines the desired state of a ApiGatewayAuthorizer
 type ApiGatewayAuthorizerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayAuthorizerParameters `json:",inline"`
+	ForProvider                  ApiGatewayAuthorizerParameters `json:"forProvider"`
 }
 
 // A ApiGatewayAuthorizerParameters defines the desired state of a ApiGatewayAuthorizer
 type ApiGatewayAuthorizerParameters struct {
+	AuthorizerUri                string   `json:"authorizer_uri"`
+	IdentitySource               string   `json:"identity_source"`
+	IdentityValidationExpression string   `json:"identity_validation_expression"`
+	AuthorizerResultTtlInSeconds int64    `json:"authorizer_result_ttl_in_seconds"`
+	Id                           string   `json:"id"`
+	Name                         string   `json:"name"`
+	ProviderArns                 []string `json:"provider_arns"`
 	RestApiId                    string   `json:"rest_api_id"`
 	Type                         string   `json:"type"`
 	AuthorizerCredentials        string   `json:"authorizer_credentials"`
-	AuthorizerUri                string   `json:"authorizer_uri"`
-	IdentitySource               string   `json:"identity_source"`
-	Name                         string   `json:"name"`
-	ProviderArns                 []string `json:"provider_arns"`
-	AuthorizerResultTtlInSeconds int64    `json:"authorizer_result_ttl_in_seconds"`
-	Id                           string   `json:"id"`
-	IdentityValidationExpression string   `json:"identity_validation_expression"`
 }
 
 // A ApiGatewayAuthorizerStatus defines the observed state of a ApiGatewayAuthorizer
 type ApiGatewayAuthorizerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayAuthorizerObservation `json:",inline"`
+	AtProvider                     ApiGatewayAuthorizerObservation `json:"atProvider"`
 }
 
 // A ApiGatewayAuthorizerObservation records the observed state of a ApiGatewayAuthorizer

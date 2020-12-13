@@ -47,33 +47,33 @@ type GlobalacceleratorEndpointGroupList struct {
 // A GlobalacceleratorEndpointGroupSpec defines the desired state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlobalacceleratorEndpointGroupParameters `json:",inline"`
+	ForProvider                  GlobalacceleratorEndpointGroupParameters `json:"forProvider"`
 }
 
 // A GlobalacceleratorEndpointGroupParameters defines the desired state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupParameters struct {
-	HealthCheckPath            string                  `json:"health_check_path"`
+	HealthCheckPort            int64                   `json:"health_check_port"`
+	HealthCheckProtocol        string                  `json:"health_check_protocol"`
 	Id                         string                  `json:"id"`
 	ListenerArn                string                  `json:"listener_arn"`
 	TrafficDialPercentage      int64                   `json:"traffic_dial_percentage"`
 	EndpointGroupRegion        string                  `json:"endpoint_group_region"`
-	HealthCheckIntervalSeconds int64                   `json:"health_check_interval_seconds"`
-	HealthCheckPort            int64                   `json:"health_check_port"`
-	HealthCheckProtocol        string                  `json:"health_check_protocol"`
+	HealthCheckPath            string                  `json:"health_check_path"`
 	ThresholdCount             int64                   `json:"threshold_count"`
+	HealthCheckIntervalSeconds int64                   `json:"health_check_interval_seconds"`
 	EndpointConfiguration      []EndpointConfiguration `json:"endpoint_configuration"`
 }
 
 type EndpointConfiguration struct {
-	ClientIpPreservationEnabled bool   `json:"client_ip_preservation_enabled"`
 	EndpointId                  string `json:"endpoint_id"`
 	Weight                      int64  `json:"weight"`
+	ClientIpPreservationEnabled bool   `json:"client_ip_preservation_enabled"`
 }
 
 // A GlobalacceleratorEndpointGroupStatus defines the observed state of a GlobalacceleratorEndpointGroup
 type GlobalacceleratorEndpointGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlobalacceleratorEndpointGroupObservation `json:",inline"`
+	AtProvider                     GlobalacceleratorEndpointGroupObservation `json:"atProvider"`
 }
 
 // A GlobalacceleratorEndpointGroupObservation records the observed state of a GlobalacceleratorEndpointGroup

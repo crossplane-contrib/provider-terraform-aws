@@ -47,28 +47,28 @@ type DxConnectionList struct {
 // A DxConnectionSpec defines the desired state of a DxConnection
 type DxConnectionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxConnectionParameters `json:",inline"`
+	ForProvider                  DxConnectionParameters `json:"forProvider"`
 }
 
 // A DxConnectionParameters defines the desired state of a DxConnection
 type DxConnectionParameters struct {
-	Id        string            `json:"id"`
 	Location  string            `json:"location"`
 	Name      string            `json:"name"`
-	Tags      map[string]string `json:"tags"`
+	Id        string            `json:"id"`
 	Bandwidth string            `json:"bandwidth"`
+	Tags      map[string]string `json:"tags"`
 }
 
 // A DxConnectionStatus defines the observed state of a DxConnection
 type DxConnectionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxConnectionObservation `json:",inline"`
+	AtProvider                     DxConnectionObservation `json:"atProvider"`
 }
 
 // A DxConnectionObservation records the observed state of a DxConnection
 type DxConnectionObservation struct {
-	AwsDevice            string `json:"aws_device"`
-	JumboFrameCapable    bool   `json:"jumbo_frame_capable"`
 	Arn                  string `json:"arn"`
+	AwsDevice            string `json:"aws_device"`
 	HasLogicalRedundancy string `json:"has_logical_redundancy"`
+	JumboFrameCapable    bool   `json:"jumbo_frame_capable"`
 }

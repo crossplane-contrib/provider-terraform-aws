@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -41,6 +42,13 @@ func EncodeOrganizationsOrganizationalUnit(r OrganizationsOrganizationalUnit) ct
 	EncodeOrganizationsOrganizationalUnit_ParentId(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsOrganizationalUnit_Accounts(r.Status.AtProvider.Accounts, ctyVal)
 	EncodeOrganizationsOrganizationalUnit_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -60,17 +68,13 @@ func EncodeOrganizationsOrganizationalUnit_Accounts(p []Accounts, vals map[strin
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeOrganizationsOrganizationalUnit_Accounts_Arn(v, ctyVal)
 		EncodeOrganizationsOrganizationalUnit_Accounts_Email(v, ctyVal)
 		EncodeOrganizationsOrganizationalUnit_Accounts_Id(v, ctyVal)
 		EncodeOrganizationsOrganizationalUnit_Accounts_Name(v, ctyVal)
+		EncodeOrganizationsOrganizationalUnit_Accounts_Arn(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["accounts"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeOrganizationsOrganizationalUnit_Accounts_Arn(p Accounts, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeOrganizationsOrganizationalUnit_Accounts_Email(p Accounts, vals map[string]cty.Value) {
@@ -83,6 +87,10 @@ func EncodeOrganizationsOrganizationalUnit_Accounts_Id(p Accounts, vals map[stri
 
 func EncodeOrganizationsOrganizationalUnit_Accounts_Name(p Accounts, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeOrganizationsOrganizationalUnit_Accounts_Arn(p Accounts, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeOrganizationsOrganizationalUnit_Arn(p OrganizationsOrganizationalUnitObservation, vals map[string]cty.Value) {

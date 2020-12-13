@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,40 +37,35 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeTransferUser(r TransferUser) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeTransferUser_UserName(r.Spec.ForProvider, ctyVal)
-	EncodeTransferUser_HomeDirectoryType(r.Spec.ForProvider, ctyVal)
-	EncodeTransferUser_Id(r.Spec.ForProvider, ctyVal)
 	EncodeTransferUser_ServerId(r.Spec.ForProvider, ctyVal)
-	EncodeTransferUser_Role(r.Spec.ForProvider, ctyVal)
 	EncodeTransferUser_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeTransferUser_HomeDirectory(r.Spec.ForProvider, ctyVal)
+	EncodeTransferUser_HomeDirectoryType(r.Spec.ForProvider, ctyVal)
+	EncodeTransferUser_Id(r.Spec.ForProvider, ctyVal)
 	EncodeTransferUser_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeTransferUser_Role(r.Spec.ForProvider, ctyVal)
+	EncodeTransferUser_UserName(r.Spec.ForProvider, ctyVal)
 	EncodeTransferUser_HomeDirectoryMappings(r.Spec.ForProvider.HomeDirectoryMappings, ctyVal)
 	EncodeTransferUser_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeTransferUser_UserName(p TransferUserParameters, vals map[string]cty.Value) {
-	vals["user_name"] = cty.StringVal(p.UserName)
-}
-
-func EncodeTransferUser_HomeDirectoryType(p TransferUserParameters, vals map[string]cty.Value) {
-	vals["home_directory_type"] = cty.StringVal(p.HomeDirectoryType)
-}
-
-func EncodeTransferUser_Id(p TransferUserParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeTransferUser_ServerId(p TransferUserParameters, vals map[string]cty.Value) {
 	vals["server_id"] = cty.StringVal(p.ServerId)
 }
 
-func EncodeTransferUser_Role(p TransferUserParameters, vals map[string]cty.Value) {
-	vals["role"] = cty.StringVal(p.Role)
-}
-
 func EncodeTransferUser_Tags(p TransferUserParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -81,25 +77,41 @@ func EncodeTransferUser_HomeDirectory(p TransferUserParameters, vals map[string]
 	vals["home_directory"] = cty.StringVal(p.HomeDirectory)
 }
 
+func EncodeTransferUser_HomeDirectoryType(p TransferUserParameters, vals map[string]cty.Value) {
+	vals["home_directory_type"] = cty.StringVal(p.HomeDirectoryType)
+}
+
+func EncodeTransferUser_Id(p TransferUserParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeTransferUser_Policy(p TransferUserParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeTransferUser_Role(p TransferUserParameters, vals map[string]cty.Value) {
+	vals["role"] = cty.StringVal(p.Role)
+}
+
+func EncodeTransferUser_UserName(p TransferUserParameters, vals map[string]cty.Value) {
+	vals["user_name"] = cty.StringVal(p.UserName)
 }
 
 func EncodeTransferUser_HomeDirectoryMappings(p HomeDirectoryMappings, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeTransferUser_HomeDirectoryMappings_Entry(p, ctyVal)
 	EncodeTransferUser_HomeDirectoryMappings_Target(p, ctyVal)
+	EncodeTransferUser_HomeDirectoryMappings_Entry(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["home_directory_mappings"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeTransferUser_HomeDirectoryMappings_Entry(p HomeDirectoryMappings, vals map[string]cty.Value) {
-	vals["entry"] = cty.StringVal(p.Entry)
-}
-
 func EncodeTransferUser_HomeDirectoryMappings_Target(p HomeDirectoryMappings, vals map[string]cty.Value) {
 	vals["target"] = cty.StringVal(p.Target)
+}
+
+func EncodeTransferUser_HomeDirectoryMappings_Entry(p HomeDirectoryMappings, vals map[string]cty.Value) {
+	vals["entry"] = cty.StringVal(p.Entry)
 }
 
 func EncodeTransferUser_Arn(p TransferUserObservation, vals map[string]cty.Value) {

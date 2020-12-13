@@ -47,29 +47,29 @@ type SecurityGroupRuleList struct {
 // A SecurityGroupRuleSpec defines the desired state of a SecurityGroupRule
 type SecurityGroupRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecurityGroupRuleParameters `json:",inline"`
+	ForProvider                  SecurityGroupRuleParameters `json:"forProvider"`
 }
 
 // A SecurityGroupRuleParameters defines the desired state of a SecurityGroupRule
 type SecurityGroupRuleParameters struct {
-	PrefixListIds         []string `json:"prefix_list_ids"`
 	Protocol              string   `json:"protocol"`
 	SecurityGroupId       string   `json:"security_group_id"`
 	Self                  bool     `json:"self"`
-	SourceSecurityGroupId string   `json:"source_security_group_id"`
-	Description           string   `json:"description"`
-	Id                    string   `json:"id"`
-	Ipv6CidrBlocks        []string `json:"ipv6_cidr_blocks"`
 	ToPort                int64    `json:"to_port"`
+	Description           string   `json:"description"`
+	FromPort              int64    `json:"from_port"`
+	Id                    string   `json:"id"`
+	SourceSecurityGroupId string   `json:"source_security_group_id"`
 	Type                  string   `json:"type"`
 	CidrBlocks            []string `json:"cidr_blocks"`
-	FromPort              int64    `json:"from_port"`
+	Ipv6CidrBlocks        []string `json:"ipv6_cidr_blocks"`
+	PrefixListIds         []string `json:"prefix_list_ids"`
 }
 
 // A SecurityGroupRuleStatus defines the observed state of a SecurityGroupRule
 type SecurityGroupRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecurityGroupRuleObservation `json:",inline"`
+	AtProvider                     SecurityGroupRuleObservation `json:"atProvider"`
 }
 
 // A SecurityGroupRuleObservation records the observed state of a SecurityGroupRule

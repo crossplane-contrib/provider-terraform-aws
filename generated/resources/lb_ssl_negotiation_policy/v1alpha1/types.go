@@ -47,7 +47,7 @@ type LbSslNegotiationPolicyList struct {
 // A LbSslNegotiationPolicySpec defines the desired state of a LbSslNegotiationPolicy
 type LbSslNegotiationPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LbSslNegotiationPolicyParameters `json:",inline"`
+	ForProvider                  LbSslNegotiationPolicyParameters `json:"forProvider"`
 }
 
 // A LbSslNegotiationPolicyParameters defines the desired state of a LbSslNegotiationPolicy
@@ -67,7 +67,7 @@ type Attribute struct {
 // A LbSslNegotiationPolicyStatus defines the observed state of a LbSslNegotiationPolicy
 type LbSslNegotiationPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LbSslNegotiationPolicyObservation `json:",inline"`
+	AtProvider                     LbSslNegotiationPolicyObservation `json:"atProvider"`
 }
 
 // A LbSslNegotiationPolicyObservation records the observed state of a LbSslNegotiationPolicy

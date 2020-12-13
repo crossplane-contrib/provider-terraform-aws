@@ -47,12 +47,11 @@ type IamServerCertificateList struct {
 // A IamServerCertificateSpec defines the desired state of a IamServerCertificate
 type IamServerCertificateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamServerCertificateParameters `json:",inline"`
+	ForProvider                  IamServerCertificateParameters `json:"forProvider"`
 }
 
 // A IamServerCertificateParameters defines the desired state of a IamServerCertificate
 type IamServerCertificateParameters struct {
-	Path             string `json:"path"`
 	PrivateKey       string `json:"private_key"`
 	Arn              string `json:"arn"`
 	CertificateBody  string `json:"certificate_body"`
@@ -60,12 +59,13 @@ type IamServerCertificateParameters struct {
 	Id               string `json:"id"`
 	Name             string `json:"name"`
 	NamePrefix       string `json:"name_prefix"`
+	Path             string `json:"path"`
 }
 
 // A IamServerCertificateStatus defines the observed state of a IamServerCertificate
 type IamServerCertificateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamServerCertificateObservation `json:",inline"`
+	AtProvider                     IamServerCertificateObservation `json:"atProvider"`
 }
 
 // A IamServerCertificateObservation records the observed state of a IamServerCertificate

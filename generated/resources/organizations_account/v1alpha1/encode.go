@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,58 +37,61 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeOrganizationsAccount(r OrganizationsAccount) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOrganizationsAccount_ParentId(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsAccount_RoleName(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsAccount_Name(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsAccount_Email(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsAccount_IamUserAccessToBilling(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsAccount_Email(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsAccount_Id(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsAccount_Name(r.Spec.ForProvider, ctyVal)
+	EncodeOrganizationsAccount_ParentId(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsAccount_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsAccount_Status(r.Status.AtProvider, ctyVal)
-	EncodeOrganizationsAccount_Arn(r.Status.AtProvider, ctyVal)
 	EncodeOrganizationsAccount_JoinedMethod(r.Status.AtProvider, ctyVal)
 	EncodeOrganizationsAccount_JoinedTimestamp(r.Status.AtProvider, ctyVal)
+	EncodeOrganizationsAccount_Status(r.Status.AtProvider, ctyVal)
+	EncodeOrganizationsAccount_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOrganizationsAccount_ParentId(p OrganizationsAccountParameters, vals map[string]cty.Value) {
-	vals["parent_id"] = cty.StringVal(p.ParentId)
 }
 
 func EncodeOrganizationsAccount_RoleName(p OrganizationsAccountParameters, vals map[string]cty.Value) {
 	vals["role_name"] = cty.StringVal(p.RoleName)
 }
 
-func EncodeOrganizationsAccount_Name(p OrganizationsAccountParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeOrganizationsAccount_IamUserAccessToBilling(p OrganizationsAccountParameters, vals map[string]cty.Value) {
+	vals["iam_user_access_to_billing"] = cty.StringVal(p.IamUserAccessToBilling)
 }
 
 func EncodeOrganizationsAccount_Email(p OrganizationsAccountParameters, vals map[string]cty.Value) {
 	vals["email"] = cty.StringVal(p.Email)
 }
 
-func EncodeOrganizationsAccount_IamUserAccessToBilling(p OrganizationsAccountParameters, vals map[string]cty.Value) {
-	vals["iam_user_access_to_billing"] = cty.StringVal(p.IamUserAccessToBilling)
-}
-
 func EncodeOrganizationsAccount_Id(p OrganizationsAccountParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
+func EncodeOrganizationsAccount_Name(p OrganizationsAccountParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeOrganizationsAccount_ParentId(p OrganizationsAccountParameters, vals map[string]cty.Value) {
+	vals["parent_id"] = cty.StringVal(p.ParentId)
+}
+
 func EncodeOrganizationsAccount_Tags(p OrganizationsAccountParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeOrganizationsAccount_Status(p OrganizationsAccountObservation, vals map[string]cty.Value) {
-	vals["status"] = cty.StringVal(p.Status)
-}
-
-func EncodeOrganizationsAccount_Arn(p OrganizationsAccountObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeOrganizationsAccount_JoinedMethod(p OrganizationsAccountObservation, vals map[string]cty.Value) {
@@ -96,4 +100,12 @@ func EncodeOrganizationsAccount_JoinedMethod(p OrganizationsAccountObservation, 
 
 func EncodeOrganizationsAccount_JoinedTimestamp(p OrganizationsAccountObservation, vals map[string]cty.Value) {
 	vals["joined_timestamp"] = cty.StringVal(p.JoinedTimestamp)
+}
+
+func EncodeOrganizationsAccount_Status(p OrganizationsAccountObservation, vals map[string]cty.Value) {
+	vals["status"] = cty.StringVal(p.Status)
+}
+
+func EncodeOrganizationsAccount_Arn(p OrganizationsAccountObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

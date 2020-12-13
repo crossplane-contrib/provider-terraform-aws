@@ -47,16 +47,16 @@ type Wafv2RegexPatternSetList struct {
 // A Wafv2RegexPatternSetSpec defines the desired state of a Wafv2RegexPatternSet
 type Wafv2RegexPatternSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Wafv2RegexPatternSetParameters `json:",inline"`
+	ForProvider                  Wafv2RegexPatternSetParameters `json:"forProvider"`
 }
 
 // A Wafv2RegexPatternSetParameters defines the desired state of a Wafv2RegexPatternSet
 type Wafv2RegexPatternSetParameters struct {
+	Description       string              `json:"description"`
+	Id                string              `json:"id"`
 	Name              string              `json:"name"`
 	Scope             string              `json:"scope"`
 	Tags              map[string]string   `json:"tags"`
-	Description       string              `json:"description"`
-	Id                string              `json:"id"`
 	RegularExpression []RegularExpression `json:"regular_expression"`
 }
 
@@ -67,7 +67,7 @@ type RegularExpression struct {
 // A Wafv2RegexPatternSetStatus defines the observed state of a Wafv2RegexPatternSet
 type Wafv2RegexPatternSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Wafv2RegexPatternSetObservation `json:",inline"`
+	AtProvider                     Wafv2RegexPatternSetObservation `json:"atProvider"`
 }
 
 // A Wafv2RegexPatternSetObservation records the observed state of a Wafv2RegexPatternSet

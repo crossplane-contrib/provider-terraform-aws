@@ -47,21 +47,21 @@ type DatapipelinePipelineList struct {
 // A DatapipelinePipelineSpec defines the desired state of a DatapipelinePipeline
 type DatapipelinePipelineSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatapipelinePipelineParameters `json:",inline"`
+	ForProvider                  DatapipelinePipelineParameters `json:"forProvider"`
 }
 
 // A DatapipelinePipelineParameters defines the desired state of a DatapipelinePipeline
 type DatapipelinePipelineParameters struct {
+	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
-	Tags        map[string]string `json:"tags"`
 }
 
 // A DatapipelinePipelineStatus defines the observed state of a DatapipelinePipeline
 type DatapipelinePipelineStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatapipelinePipelineObservation `json:",inline"`
+	AtProvider                     DatapipelinePipelineObservation `json:"atProvider"`
 }
 
 // A DatapipelinePipelineObservation records the observed state of a DatapipelinePipeline

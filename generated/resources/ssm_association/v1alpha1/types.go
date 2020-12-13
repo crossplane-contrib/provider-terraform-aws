@@ -47,22 +47,22 @@ type SsmAssociationList struct {
 // A SsmAssociationSpec defines the desired state of a SsmAssociation
 type SsmAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmAssociationParameters `json:",inline"`
+	ForProvider                  SsmAssociationParameters `json:"forProvider"`
 }
 
 // A SsmAssociationParameters defines the desired state of a SsmAssociation
 type SsmAssociationParameters struct {
 	DocumentVersion               string            `json:"document_version"`
-	InstanceId                    string            `json:"instance_id"`
-	AssociationName               string            `json:"association_name"`
-	ComplianceSeverity            string            `json:"compliance_severity"`
-	MaxErrors                     string            `json:"max_errors"`
-	Name                          string            `json:"name"`
-	Parameters                    map[string]string `json:"parameters"`
-	ScheduleExpression            string            `json:"schedule_expression"`
-	AutomationTargetParameterName string            `json:"automation_target_parameter_name"`
 	Id                            string            `json:"id"`
 	MaxConcurrency                string            `json:"max_concurrency"`
+	MaxErrors                     string            `json:"max_errors"`
+	Name                          string            `json:"name"`
+	AssociationName               string            `json:"association_name"`
+	AutomationTargetParameterName string            `json:"automation_target_parameter_name"`
+	ComplianceSeverity            string            `json:"compliance_severity"`
+	InstanceId                    string            `json:"instance_id"`
+	Parameters                    map[string]string `json:"parameters"`
+	ScheduleExpression            string            `json:"schedule_expression"`
 	Targets                       []Targets         `json:"targets"`
 	OutputLocation                OutputLocation    `json:"output_location"`
 }
@@ -80,7 +80,7 @@ type OutputLocation struct {
 // A SsmAssociationStatus defines the observed state of a SsmAssociation
 type SsmAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmAssociationObservation `json:",inline"`
+	AtProvider                     SsmAssociationObservation `json:"atProvider"`
 }
 
 // A SsmAssociationObservation records the observed state of a SsmAssociation

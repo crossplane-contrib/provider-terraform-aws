@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSecurityGroup(r RedshiftSecurityGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRedshiftSecurityGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSecurityGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSecurityGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSecurityGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSecurityGroup_Ingress(r.Spec.ForProvider.Ingress, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRedshiftSecurityGroup_Name(p RedshiftSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeRedshiftSecurityGroup_Description(p RedshiftSecurityGroupParameters, vals map[string]cty.Value) {
@@ -50,10 +62,6 @@ func EncodeRedshiftSecurityGroup_Description(p RedshiftSecurityGroupParameters, 
 
 func EncodeRedshiftSecurityGroup_Id(p RedshiftSecurityGroupParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRedshiftSecurityGroup_Name(p RedshiftSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeRedshiftSecurityGroup_Ingress(p []Ingress, vals map[string]cty.Value) {

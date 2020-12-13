@@ -47,38 +47,38 @@ type SubnetList struct {
 // A SubnetSpec defines the desired state of a Subnet
 type SubnetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SubnetParameters `json:",inline"`
+	ForProvider                  SubnetParameters `json:"forProvider"`
 }
 
 // A SubnetParameters defines the desired state of a Subnet
 type SubnetParameters struct {
-	CidrBlock                   string            `json:"cidr_block"`
+	Tags                        map[string]string `json:"tags"`
 	VpcId                       string            `json:"vpc_id"`
-	MapPublicIpOnLaunch         bool              `json:"map_public_ip_on_launch"`
 	AssignIpv6AddressOnCreation bool              `json:"assign_ipv6_address_on_creation"`
 	AvailabilityZone            string            `json:"availability_zone"`
-	AvailabilityZoneId          string            `json:"availability_zone_id"`
 	Id                          string            `json:"id"`
 	Ipv6CidrBlock               string            `json:"ipv6_cidr_block"`
+	AvailabilityZoneId          string            `json:"availability_zone_id"`
+	CidrBlock                   string            `json:"cidr_block"`
+	MapPublicIpOnLaunch         bool              `json:"map_public_ip_on_launch"`
 	OutpostArn                  string            `json:"outpost_arn"`
-	Tags                        map[string]string `json:"tags"`
 	Timeouts                    Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A SubnetStatus defines the observed state of a Subnet
 type SubnetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SubnetObservation `json:",inline"`
+	AtProvider                     SubnetObservation `json:"atProvider"`
 }
 
 // A SubnetObservation records the observed state of a Subnet
 type SubnetObservation struct {
 	Arn                        string `json:"arn"`
-	Ipv6CidrBlockAssociationId string `json:"ipv6_cidr_block_association_id"`
 	OwnerId                    string `json:"owner_id"`
+	Ipv6CidrBlockAssociationId string `json:"ipv6_cidr_block_association_id"`
 }

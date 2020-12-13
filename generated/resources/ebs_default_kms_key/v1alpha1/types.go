@@ -47,7 +47,7 @@ type EbsDefaultKmsKeyList struct {
 // A EbsDefaultKmsKeySpec defines the desired state of a EbsDefaultKmsKey
 type EbsDefaultKmsKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EbsDefaultKmsKeyParameters `json:",inline"`
+	ForProvider                  EbsDefaultKmsKeyParameters `json:"forProvider"`
 }
 
 // A EbsDefaultKmsKeyParameters defines the desired state of a EbsDefaultKmsKey
@@ -59,7 +59,7 @@ type EbsDefaultKmsKeyParameters struct {
 // A EbsDefaultKmsKeyStatus defines the observed state of a EbsDefaultKmsKey
 type EbsDefaultKmsKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EbsDefaultKmsKeyObservation `json:",inline"`
+	AtProvider                     EbsDefaultKmsKeyObservation `json:"atProvider"`
 }
 
 // A EbsDefaultKmsKeyObservation records the observed state of a EbsDefaultKmsKey

@@ -47,7 +47,7 @@ type MskConfigurationList struct {
 // A MskConfigurationSpec defines the desired state of a MskConfiguration
 type MskConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MskConfigurationParameters `json:",inline"`
+	ForProvider                  MskConfigurationParameters `json:"forProvider"`
 }
 
 // A MskConfigurationParameters defines the desired state of a MskConfiguration
@@ -62,11 +62,11 @@ type MskConfigurationParameters struct {
 // A MskConfigurationStatus defines the observed state of a MskConfiguration
 type MskConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MskConfigurationObservation `json:",inline"`
+	AtProvider                     MskConfigurationObservation `json:"atProvider"`
 }
 
 // A MskConfigurationObservation records the observed state of a MskConfiguration
 type MskConfigurationObservation struct {
-	LatestRevision int64  `json:"latest_revision"`
 	Arn            string `json:"arn"`
+	LatestRevision int64  `json:"latest_revision"`
 }

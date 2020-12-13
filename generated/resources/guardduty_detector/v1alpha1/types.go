@@ -47,7 +47,7 @@ type GuarddutyDetectorList struct {
 // A GuarddutyDetectorSpec defines the desired state of a GuarddutyDetector
 type GuarddutyDetectorSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyDetectorParameters `json:",inline"`
+	ForProvider                  GuarddutyDetectorParameters `json:"forProvider"`
 }
 
 // A GuarddutyDetectorParameters defines the desired state of a GuarddutyDetector
@@ -61,7 +61,7 @@ type GuarddutyDetectorParameters struct {
 // A GuarddutyDetectorStatus defines the observed state of a GuarddutyDetector
 type GuarddutyDetectorStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyDetectorObservation `json:",inline"`
+	AtProvider                     GuarddutyDetectorObservation `json:"atProvider"`
 }
 
 // A GuarddutyDetectorObservation records the observed state of a GuarddutyDetector

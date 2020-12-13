@@ -47,34 +47,34 @@ type LambdaLayerVersionList struct {
 // A LambdaLayerVersionSpec defines the desired state of a LambdaLayerVersion
 type LambdaLayerVersionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LambdaLayerVersionParameters `json:",inline"`
+	ForProvider                  LambdaLayerVersionParameters `json:"forProvider"`
 }
 
 // A LambdaLayerVersionParameters defines the desired state of a LambdaLayerVersion
 type LambdaLayerVersionParameters struct {
+	CompatibleRuntimes []string `json:"compatible_runtimes"`
+	LayerName          string   `json:"layer_name"`
+	SourceCodeHash     string   `json:"source_code_hash"`
+	Description        string   `json:"description"`
+	S3Bucket           string   `json:"s3_bucket"`
+	S3ObjectVersion    string   `json:"s3_object_version"`
+	Id                 string   `json:"id"`
 	LicenseInfo        string   `json:"license_info"`
 	S3Key              string   `json:"s3_key"`
-	SourceCodeHash     string   `json:"source_code_hash"`
-	Id                 string   `json:"id"`
-	S3ObjectVersion    string   `json:"s3_object_version"`
 	Filename           string   `json:"filename"`
-	S3Bucket           string   `json:"s3_bucket"`
-	CompatibleRuntimes []string `json:"compatible_runtimes"`
-	Description        string   `json:"description"`
-	LayerName          string   `json:"layer_name"`
 }
 
 // A LambdaLayerVersionStatus defines the observed state of a LambdaLayerVersion
 type LambdaLayerVersionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LambdaLayerVersionObservation `json:",inline"`
+	AtProvider                     LambdaLayerVersionObservation `json:"atProvider"`
 }
 
 // A LambdaLayerVersionObservation records the observed state of a LambdaLayerVersion
 type LambdaLayerVersionObservation struct {
-	Version        string `json:"version"`
-	SourceCodeSize int64  `json:"source_code_size"`
 	Arn            string `json:"arn"`
-	LayerArn       string `json:"layer_arn"`
 	CreatedDate    string `json:"created_date"`
+	LayerArn       string `json:"layer_arn"`
+	SourceCodeSize int64  `json:"source_code_size"`
+	Version        string `json:"version"`
 }

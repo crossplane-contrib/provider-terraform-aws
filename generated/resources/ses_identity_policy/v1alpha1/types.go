@@ -47,21 +47,21 @@ type SesIdentityPolicyList struct {
 // A SesIdentityPolicySpec defines the desired state of a SesIdentityPolicy
 type SesIdentityPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesIdentityPolicyParameters `json:",inline"`
+	ForProvider                  SesIdentityPolicyParameters `json:"forProvider"`
 }
 
 // A SesIdentityPolicyParameters defines the desired state of a SesIdentityPolicy
 type SesIdentityPolicyParameters struct {
-	Name     string `json:"name"`
 	Policy   string `json:"policy"`
 	Id       string `json:"id"`
 	Identity string `json:"identity"`
+	Name     string `json:"name"`
 }
 
 // A SesIdentityPolicyStatus defines the observed state of a SesIdentityPolicy
 type SesIdentityPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesIdentityPolicyObservation `json:",inline"`
+	AtProvider                     SesIdentityPolicyObservation `json:"atProvider"`
 }
 
 // A SesIdentityPolicyObservation records the observed state of a SesIdentityPolicy

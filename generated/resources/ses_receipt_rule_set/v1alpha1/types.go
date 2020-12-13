@@ -47,19 +47,19 @@ type SesReceiptRuleSetList struct {
 // A SesReceiptRuleSetSpec defines the desired state of a SesReceiptRuleSet
 type SesReceiptRuleSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesReceiptRuleSetParameters `json:",inline"`
+	ForProvider                  SesReceiptRuleSetParameters `json:"forProvider"`
 }
 
 // A SesReceiptRuleSetParameters defines the desired state of a SesReceiptRuleSet
 type SesReceiptRuleSetParameters struct {
-	RuleSetName string `json:"rule_set_name"`
 	Id          string `json:"id"`
+	RuleSetName string `json:"rule_set_name"`
 }
 
 // A SesReceiptRuleSetStatus defines the observed state of a SesReceiptRuleSet
 type SesReceiptRuleSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesReceiptRuleSetObservation `json:",inline"`
+	AtProvider                     SesReceiptRuleSetObservation `json:"atProvider"`
 }
 
 // A SesReceiptRuleSetObservation records the observed state of a SesReceiptRuleSet

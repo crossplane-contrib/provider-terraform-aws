@@ -47,27 +47,27 @@ type IamAccountPasswordPolicyList struct {
 // A IamAccountPasswordPolicySpec defines the desired state of a IamAccountPasswordPolicy
 type IamAccountPasswordPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamAccountPasswordPolicyParameters `json:",inline"`
+	ForProvider                  IamAccountPasswordPolicyParameters `json:"forProvider"`
 }
 
 // A IamAccountPasswordPolicyParameters defines the desired state of a IamAccountPasswordPolicy
 type IamAccountPasswordPolicyParameters struct {
 	HardExpiry                 bool   `json:"hard_expiry"`
+	Id                         string `json:"id"`
 	MaxPasswordAge             int64  `json:"max_password_age"`
-	MinimumPasswordLength      int64  `json:"minimum_password_length"`
-	RequireNumbers             bool   `json:"require_numbers"`
+	PasswordReusePrevention    int64  `json:"password_reuse_prevention"`
 	RequireSymbols             bool   `json:"require_symbols"`
 	RequireUppercaseCharacters bool   `json:"require_uppercase_characters"`
 	AllowUsersToChangePassword bool   `json:"allow_users_to_change_password"`
-	Id                         string `json:"id"`
-	PasswordReusePrevention    int64  `json:"password_reuse_prevention"`
+	MinimumPasswordLength      int64  `json:"minimum_password_length"`
 	RequireLowercaseCharacters bool   `json:"require_lowercase_characters"`
+	RequireNumbers             bool   `json:"require_numbers"`
 }
 
 // A IamAccountPasswordPolicyStatus defines the observed state of a IamAccountPasswordPolicy
 type IamAccountPasswordPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamAccountPasswordPolicyObservation `json:",inline"`
+	AtProvider                     IamAccountPasswordPolicyObservation `json:"atProvider"`
 }
 
 // A IamAccountPasswordPolicyObservation records the observed state of a IamAccountPasswordPolicy

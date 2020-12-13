@@ -47,21 +47,21 @@ type PinpointGcmChannelList struct {
 // A PinpointGcmChannelSpec defines the desired state of a PinpointGcmChannel
 type PinpointGcmChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointGcmChannelParameters `json:",inline"`
+	ForProvider                  PinpointGcmChannelParameters `json:"forProvider"`
 }
 
 // A PinpointGcmChannelParameters defines the desired state of a PinpointGcmChannel
 type PinpointGcmChannelParameters struct {
-	Id            string `json:"id"`
-	ApiKey        string `json:"api_key"`
 	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
+	Id            string `json:"id"`
+	ApiKey        string `json:"api_key"`
 }
 
 // A PinpointGcmChannelStatus defines the observed state of a PinpointGcmChannel
 type PinpointGcmChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointGcmChannelObservation `json:",inline"`
+	AtProvider                     PinpointGcmChannelObservation `json:"atProvider"`
 }
 
 // A PinpointGcmChannelObservation records the observed state of a PinpointGcmChannel

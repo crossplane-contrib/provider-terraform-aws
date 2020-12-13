@@ -47,30 +47,30 @@ type AmiFromInstanceList struct {
 // A AmiFromInstanceSpec defines the desired state of a AmiFromInstance
 type AmiFromInstanceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AmiFromInstanceParameters `json:",inline"`
+	ForProvider                  AmiFromInstanceParameters `json:"forProvider"`
 }
 
 // A AmiFromInstanceParameters defines the desired state of a AmiFromInstance
 type AmiFromInstanceParameters struct {
 	SnapshotWithoutReboot bool                 `json:"snapshot_without_reboot"`
-	Name                  string               `json:"name"`
-	Description           string               `json:"description"`
-	Id                    string               `json:"id"`
 	Tags                  map[string]string    `json:"tags"`
+	Description           string               `json:"description"`
+	Name                  string               `json:"name"`
 	SourceInstanceId      string               `json:"source_instance_id"`
+	Id                    string               `json:"id"`
 	EbsBlockDevice        EbsBlockDevice       `json:"ebs_block_device"`
 	EphemeralBlockDevice  EphemeralBlockDevice `json:"ephemeral_block_device"`
 	Timeouts              Timeouts             `json:"timeouts"`
 }
 
 type EbsBlockDevice struct {
-	DeviceName          string `json:"device_name"`
-	Encrypted           bool   `json:"encrypted"`
 	Iops                int64  `json:"iops"`
 	SnapshotId          string `json:"snapshot_id"`
 	VolumeSize          int64  `json:"volume_size"`
 	VolumeType          string `json:"volume_type"`
 	DeleteOnTermination bool   `json:"delete_on_termination"`
+	DeviceName          string `json:"device_name"`
+	Encrypted           bool   `json:"encrypted"`
 }
 
 type EphemeralBlockDevice struct {
@@ -79,28 +79,28 @@ type EphemeralBlockDevice struct {
 }
 
 type Timeouts struct {
+	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
-	Create string `json:"create"`
 }
 
 // A AmiFromInstanceStatus defines the observed state of a AmiFromInstance
 type AmiFromInstanceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AmiFromInstanceObservation `json:",inline"`
+	AtProvider                     AmiFromInstanceObservation `json:"atProvider"`
 }
 
 // A AmiFromInstanceObservation records the observed state of a AmiFromInstance
 type AmiFromInstanceObservation struct {
-	Architecture       string `json:"architecture"`
 	EnaSupport         bool   `json:"ena_support"`
-	VirtualizationType string `json:"virtualization_type"`
-	Arn                string `json:"arn"`
-	ImageLocation      string `json:"image_location"`
-	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
 	RamdiskId          string `json:"ramdisk_id"`
 	RootSnapshotId     string `json:"root_snapshot_id"`
-	SriovNetSupport    string `json:"sriov_net_support"`
+	VirtualizationType string `json:"virtualization_type"`
+	ImageLocation      string `json:"image_location"`
 	KernelId           string `json:"kernel_id"`
+	ManageEbsSnapshots bool   `json:"manage_ebs_snapshots"`
+	SriovNetSupport    string `json:"sriov_net_support"`
+	Architecture       string `json:"architecture"`
+	Arn                string `json:"arn"`
 	RootDeviceName     string `json:"root_device_name"`
 }

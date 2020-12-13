@@ -47,27 +47,27 @@ type LambdaPermissionList struct {
 // A LambdaPermissionSpec defines the desired state of a LambdaPermission
 type LambdaPermissionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LambdaPermissionParameters `json:",inline"`
+	ForProvider                  LambdaPermissionParameters `json:"forProvider"`
 }
 
 // A LambdaPermissionParameters defines the desired state of a LambdaPermission
 type LambdaPermissionParameters struct {
-	EventSourceToken  string `json:"event_source_token"`
 	FunctionName      string `json:"function_name"`
-	Id                string `json:"id"`
 	Principal         string `json:"principal"`
+	Qualifier         string `json:"qualifier"`
 	SourceArn         string `json:"source_arn"`
 	Action            string `json:"action"`
-	Qualifier         string `json:"qualifier"`
-	SourceAccount     string `json:"source_account"`
+	EventSourceToken  string `json:"event_source_token"`
 	StatementId       string `json:"statement_id"`
 	StatementIdPrefix string `json:"statement_id_prefix"`
+	Id                string `json:"id"`
+	SourceAccount     string `json:"source_account"`
 }
 
 // A LambdaPermissionStatus defines the observed state of a LambdaPermission
 type LambdaPermissionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LambdaPermissionObservation `json:",inline"`
+	AtProvider                     LambdaPermissionObservation `json:"atProvider"`
 }
 
 // A LambdaPermissionObservation records the observed state of a LambdaPermission

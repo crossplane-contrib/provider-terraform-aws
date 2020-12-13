@@ -47,7 +47,7 @@ type CloudwatchLogStreamList struct {
 // A CloudwatchLogStreamSpec defines the desired state of a CloudwatchLogStream
 type CloudwatchLogStreamSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchLogStreamParameters `json:",inline"`
+	ForProvider                  CloudwatchLogStreamParameters `json:"forProvider"`
 }
 
 // A CloudwatchLogStreamParameters defines the desired state of a CloudwatchLogStream
@@ -60,7 +60,7 @@ type CloudwatchLogStreamParameters struct {
 // A CloudwatchLogStreamStatus defines the observed state of a CloudwatchLogStream
 type CloudwatchLogStreamStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchLogStreamObservation `json:",inline"`
+	AtProvider                     CloudwatchLogStreamObservation `json:"atProvider"`
 }
 
 // A CloudwatchLogStreamObservation records the observed state of a CloudwatchLogStream

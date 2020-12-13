@@ -47,7 +47,7 @@ type DbSecurityGroupList struct {
 // A DbSecurityGroupSpec defines the desired state of a DbSecurityGroup
 type DbSecurityGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbSecurityGroupParameters `json:",inline"`
+	ForProvider                  DbSecurityGroupParameters `json:"forProvider"`
 }
 
 // A DbSecurityGroupParameters defines the desired state of a DbSecurityGroup
@@ -69,7 +69,7 @@ type Ingress struct {
 // A DbSecurityGroupStatus defines the observed state of a DbSecurityGroup
 type DbSecurityGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbSecurityGroupObservation `json:",inline"`
+	AtProvider                     DbSecurityGroupObservation `json:"atProvider"`
 }
 
 // A DbSecurityGroupObservation records the observed state of a DbSecurityGroup

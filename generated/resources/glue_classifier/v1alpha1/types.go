@@ -47,17 +47,26 @@ type GlueClassifierList struct {
 // A GlueClassifierSpec defines the desired state of a GlueClassifier
 type GlueClassifierSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueClassifierParameters `json:",inline"`
+	ForProvider                  GlueClassifierParameters `json:"forProvider"`
 }
 
 // A GlueClassifierParameters defines the desired state of a GlueClassifier
 type GlueClassifierParameters struct {
 	Id             string         `json:"id"`
 	Name           string         `json:"name"`
+	CsvClassifier  CsvClassifier  `json:"csv_classifier"`
 	GrokClassifier GrokClassifier `json:"grok_classifier"`
 	JsonClassifier JsonClassifier `json:"json_classifier"`
 	XmlClassifier  XmlClassifier  `json:"xml_classifier"`
-	CsvClassifier  CsvClassifier  `json:"csv_classifier"`
+}
+
+type CsvClassifier struct {
+	AllowSingleColumn    bool     `json:"allow_single_column"`
+	ContainsHeader       string   `json:"contains_header"`
+	Delimiter            string   `json:"delimiter"`
+	DisableValueTrimming bool     `json:"disable_value_trimming"`
+	Header               []string `json:"header"`
+	QuoteSymbol          string   `json:"quote_symbol"`
 }
 
 type GrokClassifier struct {
@@ -75,19 +84,10 @@ type XmlClassifier struct {
 	RowTag         string `json:"row_tag"`
 }
 
-type CsvClassifier struct {
-	Header               []string `json:"header"`
-	QuoteSymbol          string   `json:"quote_symbol"`
-	AllowSingleColumn    bool     `json:"allow_single_column"`
-	ContainsHeader       string   `json:"contains_header"`
-	Delimiter            string   `json:"delimiter"`
-	DisableValueTrimming bool     `json:"disable_value_trimming"`
-}
-
 // A GlueClassifierStatus defines the observed state of a GlueClassifier
 type GlueClassifierStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueClassifierObservation `json:",inline"`
+	AtProvider                     GlueClassifierObservation `json:"atProvider"`
 }
 
 // A GlueClassifierObservation records the observed state of a GlueClassifier

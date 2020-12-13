@@ -47,7 +47,7 @@ type CloudwatchDashboardList struct {
 // A CloudwatchDashboardSpec defines the desired state of a CloudwatchDashboard
 type CloudwatchDashboardSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchDashboardParameters `json:",inline"`
+	ForProvider                  CloudwatchDashboardParameters `json:"forProvider"`
 }
 
 // A CloudwatchDashboardParameters defines the desired state of a CloudwatchDashboard
@@ -60,7 +60,7 @@ type CloudwatchDashboardParameters struct {
 // A CloudwatchDashboardStatus defines the observed state of a CloudwatchDashboard
 type CloudwatchDashboardStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchDashboardObservation `json:",inline"`
+	AtProvider                     CloudwatchDashboardObservation `json:"atProvider"`
 }
 
 // A CloudwatchDashboardObservation records the observed state of a CloudwatchDashboard

@@ -47,21 +47,21 @@ type AutoscalingAttachmentList struct {
 // A AutoscalingAttachmentSpec defines the desired state of a AutoscalingAttachment
 type AutoscalingAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AutoscalingAttachmentParameters `json:",inline"`
+	ForProvider                  AutoscalingAttachmentParameters `json:"forProvider"`
 }
 
 // A AutoscalingAttachmentParameters defines the desired state of a AutoscalingAttachment
 type AutoscalingAttachmentParameters struct {
-	Elb                  string `json:"elb"`
-	Id                   string `json:"id"`
 	AlbTargetGroupArn    string `json:"alb_target_group_arn"`
 	AutoscalingGroupName string `json:"autoscaling_group_name"`
+	Elb                  string `json:"elb"`
+	Id                   string `json:"id"`
 }
 
 // A AutoscalingAttachmentStatus defines the observed state of a AutoscalingAttachment
 type AutoscalingAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AutoscalingAttachmentObservation `json:",inline"`
+	AtProvider                     AutoscalingAttachmentObservation `json:"atProvider"`
 }
 
 // A AutoscalingAttachmentObservation records the observed state of a AutoscalingAttachment

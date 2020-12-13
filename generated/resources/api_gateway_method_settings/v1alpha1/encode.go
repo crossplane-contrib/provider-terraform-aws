@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -42,6 +43,13 @@ func EncodeApiGatewayMethodSettings(r ApiGatewayMethodSettings) cty.Value {
 	EncodeApiGatewayMethodSettings_StageName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayMethodSettings_Settings(r.Spec.ForProvider.Settings, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -64,38 +72,18 @@ func EncodeApiGatewayMethodSettings_StageName(p ApiGatewayMethodSettingsParamete
 func EncodeApiGatewayMethodSettings_Settings(p Settings, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayMethodSettings_Settings_CachingEnabled(p, ctyVal)
-	EncodeApiGatewayMethodSettings_Settings_DataTraceEnabled(p, ctyVal)
-	EncodeApiGatewayMethodSettings_Settings_MetricsEnabled(p, ctyVal)
-	EncodeApiGatewayMethodSettings_Settings_RequireAuthorizationForCacheControl(p, ctyVal)
-	EncodeApiGatewayMethodSettings_Settings_CacheDataEncrypted(p, ctyVal)
 	EncodeApiGatewayMethodSettings_Settings_CacheTtlInSeconds(p, ctyVal)
 	EncodeApiGatewayMethodSettings_Settings_LoggingLevel(p, ctyVal)
+	EncodeApiGatewayMethodSettings_Settings_MetricsEnabled(p, ctyVal)
+	EncodeApiGatewayMethodSettings_Settings_UnauthorizedCacheControlHeaderStrategy(p, ctyVal)
+	EncodeApiGatewayMethodSettings_Settings_CacheDataEncrypted(p, ctyVal)
+	EncodeApiGatewayMethodSettings_Settings_CachingEnabled(p, ctyVal)
+	EncodeApiGatewayMethodSettings_Settings_DataTraceEnabled(p, ctyVal)
+	EncodeApiGatewayMethodSettings_Settings_RequireAuthorizationForCacheControl(p, ctyVal)
 	EncodeApiGatewayMethodSettings_Settings_ThrottlingBurstLimit(p, ctyVal)
 	EncodeApiGatewayMethodSettings_Settings_ThrottlingRateLimit(p, ctyVal)
-	EncodeApiGatewayMethodSettings_Settings_UnauthorizedCacheControlHeaderStrategy(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["settings"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeApiGatewayMethodSettings_Settings_CachingEnabled(p Settings, vals map[string]cty.Value) {
-	vals["caching_enabled"] = cty.BoolVal(p.CachingEnabled)
-}
-
-func EncodeApiGatewayMethodSettings_Settings_DataTraceEnabled(p Settings, vals map[string]cty.Value) {
-	vals["data_trace_enabled"] = cty.BoolVal(p.DataTraceEnabled)
-}
-
-func EncodeApiGatewayMethodSettings_Settings_MetricsEnabled(p Settings, vals map[string]cty.Value) {
-	vals["metrics_enabled"] = cty.BoolVal(p.MetricsEnabled)
-}
-
-func EncodeApiGatewayMethodSettings_Settings_RequireAuthorizationForCacheControl(p Settings, vals map[string]cty.Value) {
-	vals["require_authorization_for_cache_control"] = cty.BoolVal(p.RequireAuthorizationForCacheControl)
-}
-
-func EncodeApiGatewayMethodSettings_Settings_CacheDataEncrypted(p Settings, vals map[string]cty.Value) {
-	vals["cache_data_encrypted"] = cty.BoolVal(p.CacheDataEncrypted)
 }
 
 func EncodeApiGatewayMethodSettings_Settings_CacheTtlInSeconds(p Settings, vals map[string]cty.Value) {
@@ -106,14 +94,34 @@ func EncodeApiGatewayMethodSettings_Settings_LoggingLevel(p Settings, vals map[s
 	vals["logging_level"] = cty.StringVal(p.LoggingLevel)
 }
 
+func EncodeApiGatewayMethodSettings_Settings_MetricsEnabled(p Settings, vals map[string]cty.Value) {
+	vals["metrics_enabled"] = cty.BoolVal(p.MetricsEnabled)
+}
+
+func EncodeApiGatewayMethodSettings_Settings_UnauthorizedCacheControlHeaderStrategy(p Settings, vals map[string]cty.Value) {
+	vals["unauthorized_cache_control_header_strategy"] = cty.StringVal(p.UnauthorizedCacheControlHeaderStrategy)
+}
+
+func EncodeApiGatewayMethodSettings_Settings_CacheDataEncrypted(p Settings, vals map[string]cty.Value) {
+	vals["cache_data_encrypted"] = cty.BoolVal(p.CacheDataEncrypted)
+}
+
+func EncodeApiGatewayMethodSettings_Settings_CachingEnabled(p Settings, vals map[string]cty.Value) {
+	vals["caching_enabled"] = cty.BoolVal(p.CachingEnabled)
+}
+
+func EncodeApiGatewayMethodSettings_Settings_DataTraceEnabled(p Settings, vals map[string]cty.Value) {
+	vals["data_trace_enabled"] = cty.BoolVal(p.DataTraceEnabled)
+}
+
+func EncodeApiGatewayMethodSettings_Settings_RequireAuthorizationForCacheControl(p Settings, vals map[string]cty.Value) {
+	vals["require_authorization_for_cache_control"] = cty.BoolVal(p.RequireAuthorizationForCacheControl)
+}
+
 func EncodeApiGatewayMethodSettings_Settings_ThrottlingBurstLimit(p Settings, vals map[string]cty.Value) {
 	vals["throttling_burst_limit"] = cty.NumberIntVal(p.ThrottlingBurstLimit)
 }
 
 func EncodeApiGatewayMethodSettings_Settings_ThrottlingRateLimit(p Settings, vals map[string]cty.Value) {
 	vals["throttling_rate_limit"] = cty.NumberIntVal(p.ThrottlingRateLimit)
-}
-
-func EncodeApiGatewayMethodSettings_Settings_UnauthorizedCacheControlHeaderStrategy(p Settings, vals map[string]cty.Value) {
-	vals["unauthorized_cache_control_header_strategy"] = cty.StringVal(p.UnauthorizedCacheControlHeaderStrategy)
 }

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,14 +37,25 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDlmLifecyclePolicy(r DlmLifecyclePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDlmLifecyclePolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_ExecutionRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_State(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDlmLifecyclePolicy_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDlmLifecyclePolicy_PolicyDetails(r.Spec.ForProvider.PolicyDetails, ctyVal)
 	EncodeDlmLifecyclePolicy_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDlmLifecyclePolicy_Description(p DlmLifecyclePolicyParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeDlmLifecyclePolicy_ExecutionRoleArn(p DlmLifecyclePolicyParameters, vals map[string]cty.Value) {
@@ -59,6 +71,10 @@ func EncodeDlmLifecyclePolicy_State(p DlmLifecyclePolicyParameters, vals map[str
 }
 
 func EncodeDlmLifecyclePolicy_Tags(p DlmLifecyclePolicyParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -66,26 +82,14 @@ func EncodeDlmLifecyclePolicy_Tags(p DlmLifecyclePolicyParameters, vals map[stri
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDlmLifecyclePolicy_Description(p DlmLifecyclePolicyParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
 func EncodeDlmLifecyclePolicy_PolicyDetails(p PolicyDetails, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDlmLifecyclePolicy_PolicyDetails_TargetTags(p, ctyVal)
 	EncodeDlmLifecyclePolicy_PolicyDetails_ResourceTypes(p, ctyVal)
+	EncodeDlmLifecyclePolicy_PolicyDetails_TargetTags(p, ctyVal)
 	EncodeDlmLifecyclePolicy_PolicyDetails_Schedule(p.Schedule, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["policy_details"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeDlmLifecyclePolicy_PolicyDetails_TargetTags(p PolicyDetails, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.TargetTags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["target_tags"] = cty.MapVal(mVals)
 }
 
 func EncodeDlmLifecyclePolicy_PolicyDetails_ResourceTypes(p PolicyDetails, vals map[string]cty.Value) {
@@ -94,6 +98,18 @@ func EncodeDlmLifecyclePolicy_PolicyDetails_ResourceTypes(p PolicyDetails, vals 
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["resource_types"] = cty.ListVal(colVals)
+}
+
+func EncodeDlmLifecyclePolicy_PolicyDetails_TargetTags(p PolicyDetails, vals map[string]cty.Value) {
+	if len(p.TargetTags) == 0 {
+		vals["target_tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.TargetTags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["target_tags"] = cty.MapVal(mVals)
 }
 
 func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule(p []Schedule, vals map[string]cty.Value) {
@@ -119,6 +135,10 @@ func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_Name(p Schedule, vals map[s
 }
 
 func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_TagsToAdd(p Schedule, vals map[string]cty.Value) {
+	if len(p.TagsToAdd) == 0 {
+		vals["tags_to_add"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.TagsToAdd {
 		mVals[key] = cty.StringVal(value)
@@ -129,19 +149,11 @@ func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_TagsToAdd(p Schedule, vals 
 func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule(p CreateRule, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Times(p, ctyVal)
 	EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Interval(p, ctyVal)
 	EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_IntervalUnit(p, ctyVal)
+	EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Times(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["create_rule"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Times(p CreateRule, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Times {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["times"] = cty.ListVal(colVals)
 }
 
 func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Interval(p CreateRule, vals map[string]cty.Value) {
@@ -150,6 +162,14 @@ func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Interval(p Creat
 
 func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_IntervalUnit(p CreateRule, vals map[string]cty.Value) {
 	vals["interval_unit"] = cty.StringVal(p.IntervalUnit)
+}
+
+func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_CreateRule_Times(p CreateRule, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Times {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["times"] = cty.ListVal(colVals)
 }
 
 func EncodeDlmLifecyclePolicy_PolicyDetails_Schedule_RetainRule(p RetainRule, vals map[string]cty.Value) {

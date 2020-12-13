@@ -47,7 +47,7 @@ type SnapshotCreateVolumePermissionList struct {
 // A SnapshotCreateVolumePermissionSpec defines the desired state of a SnapshotCreateVolumePermission
 type SnapshotCreateVolumePermissionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SnapshotCreateVolumePermissionParameters `json:",inline"`
+	ForProvider                  SnapshotCreateVolumePermissionParameters `json:"forProvider"`
 }
 
 // A SnapshotCreateVolumePermissionParameters defines the desired state of a SnapshotCreateVolumePermission
@@ -60,7 +60,7 @@ type SnapshotCreateVolumePermissionParameters struct {
 // A SnapshotCreateVolumePermissionStatus defines the observed state of a SnapshotCreateVolumePermission
 type SnapshotCreateVolumePermissionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SnapshotCreateVolumePermissionObservation `json:",inline"`
+	AtProvider                     SnapshotCreateVolumePermissionObservation `json:"atProvider"`
 }
 
 // A SnapshotCreateVolumePermissionObservation records the observed state of a SnapshotCreateVolumePermission

@@ -47,22 +47,22 @@ type QuicksightGroupList struct {
 // A QuicksightGroupSpec defines the desired state of a QuicksightGroup
 type QuicksightGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  QuicksightGroupParameters `json:",inline"`
+	ForProvider                  QuicksightGroupParameters `json:"forProvider"`
 }
 
 // A QuicksightGroupParameters defines the desired state of a QuicksightGroup
 type QuicksightGroupParameters struct {
-	Namespace    string `json:"namespace"`
-	AwsAccountId string `json:"aws_account_id"`
 	Description  string `json:"description"`
 	GroupName    string `json:"group_name"`
 	Id           string `json:"id"`
+	Namespace    string `json:"namespace"`
+	AwsAccountId string `json:"aws_account_id"`
 }
 
 // A QuicksightGroupStatus defines the observed state of a QuicksightGroup
 type QuicksightGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     QuicksightGroupObservation `json:",inline"`
+	AtProvider                     QuicksightGroupObservation `json:"atProvider"`
 }
 
 // A QuicksightGroupObservation records the observed state of a QuicksightGroup

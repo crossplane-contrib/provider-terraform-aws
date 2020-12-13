@@ -47,7 +47,7 @@ type ElasticacheSecurityGroupList struct {
 // A ElasticacheSecurityGroupSpec defines the desired state of a ElasticacheSecurityGroup
 type ElasticacheSecurityGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticacheSecurityGroupParameters `json:",inline"`
+	ForProvider                  ElasticacheSecurityGroupParameters `json:"forProvider"`
 }
 
 // A ElasticacheSecurityGroupParameters defines the desired state of a ElasticacheSecurityGroup
@@ -61,7 +61,7 @@ type ElasticacheSecurityGroupParameters struct {
 // A ElasticacheSecurityGroupStatus defines the observed state of a ElasticacheSecurityGroup
 type ElasticacheSecurityGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticacheSecurityGroupObservation `json:",inline"`
+	AtProvider                     ElasticacheSecurityGroupObservation `json:"atProvider"`
 }
 
 // A ElasticacheSecurityGroupObservation records the observed state of a ElasticacheSecurityGroup

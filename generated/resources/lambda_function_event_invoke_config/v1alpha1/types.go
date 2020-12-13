@@ -47,16 +47,16 @@ type LambdaFunctionEventInvokeConfigList struct {
 // A LambdaFunctionEventInvokeConfigSpec defines the desired state of a LambdaFunctionEventInvokeConfig
 type LambdaFunctionEventInvokeConfigSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LambdaFunctionEventInvokeConfigParameters `json:",inline"`
+	ForProvider                  LambdaFunctionEventInvokeConfigParameters `json:"forProvider"`
 }
 
 // A LambdaFunctionEventInvokeConfigParameters defines the desired state of a LambdaFunctionEventInvokeConfig
 type LambdaFunctionEventInvokeConfigParameters struct {
-	Qualifier                string            `json:"qualifier"`
 	FunctionName             string            `json:"function_name"`
 	Id                       string            `json:"id"`
 	MaximumEventAgeInSeconds int64             `json:"maximum_event_age_in_seconds"`
 	MaximumRetryAttempts     int64             `json:"maximum_retry_attempts"`
+	Qualifier                string            `json:"qualifier"`
 	DestinationConfig        DestinationConfig `json:"destination_config"`
 }
 
@@ -76,7 +76,7 @@ type OnSuccess struct {
 // A LambdaFunctionEventInvokeConfigStatus defines the observed state of a LambdaFunctionEventInvokeConfig
 type LambdaFunctionEventInvokeConfigStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LambdaFunctionEventInvokeConfigObservation `json:",inline"`
+	AtProvider                     LambdaFunctionEventInvokeConfigObservation `json:"atProvider"`
 }
 
 // A LambdaFunctionEventInvokeConfigObservation records the observed state of a LambdaFunctionEventInvokeConfig

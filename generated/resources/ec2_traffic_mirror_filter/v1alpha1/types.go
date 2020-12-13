@@ -47,7 +47,7 @@ type Ec2TrafficMirrorFilterList struct {
 // A Ec2TrafficMirrorFilterSpec defines the desired state of a Ec2TrafficMirrorFilter
 type Ec2TrafficMirrorFilterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TrafficMirrorFilterParameters `json:",inline"`
+	ForProvider                  Ec2TrafficMirrorFilterParameters `json:"forProvider"`
 }
 
 // A Ec2TrafficMirrorFilterParameters defines the desired state of a Ec2TrafficMirrorFilter
@@ -61,7 +61,7 @@ type Ec2TrafficMirrorFilterParameters struct {
 // A Ec2TrafficMirrorFilterStatus defines the observed state of a Ec2TrafficMirrorFilter
 type Ec2TrafficMirrorFilterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TrafficMirrorFilterObservation `json:",inline"`
+	AtProvider                     Ec2TrafficMirrorFilterObservation `json:"atProvider"`
 }
 
 // A Ec2TrafficMirrorFilterObservation records the observed state of a Ec2TrafficMirrorFilter

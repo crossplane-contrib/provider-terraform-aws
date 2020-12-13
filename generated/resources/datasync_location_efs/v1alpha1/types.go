@@ -47,7 +47,7 @@ type DatasyncLocationEfsList struct {
 // A DatasyncLocationEfsSpec defines the desired state of a DatasyncLocationEfs
 type DatasyncLocationEfsSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatasyncLocationEfsParameters `json:",inline"`
+	ForProvider                  DatasyncLocationEfsParameters `json:"forProvider"`
 }
 
 // A DatasyncLocationEfsParameters defines the desired state of a DatasyncLocationEfs
@@ -67,11 +67,11 @@ type Ec2Config struct {
 // A DatasyncLocationEfsStatus defines the observed state of a DatasyncLocationEfs
 type DatasyncLocationEfsStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatasyncLocationEfsObservation `json:",inline"`
+	AtProvider                     DatasyncLocationEfsObservation `json:"atProvider"`
 }
 
 // A DatasyncLocationEfsObservation records the observed state of a DatasyncLocationEfs
 type DatasyncLocationEfsObservation struct {
-	Arn string `json:"arn"`
 	Uri string `json:"uri"`
+	Arn string `json:"arn"`
 }

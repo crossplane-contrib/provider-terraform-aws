@@ -47,7 +47,7 @@ type GlueSecurityConfigurationList struct {
 // A GlueSecurityConfigurationSpec defines the desired state of a GlueSecurityConfiguration
 type GlueSecurityConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueSecurityConfigurationParameters `json:",inline"`
+	ForProvider                  GlueSecurityConfigurationParameters `json:"forProvider"`
 }
 
 // A GlueSecurityConfigurationParameters defines the desired state of a GlueSecurityConfiguration
@@ -58,14 +58,9 @@ type GlueSecurityConfigurationParameters struct {
 }
 
 type EncryptionConfiguration struct {
-	S3Encryption           S3Encryption           `json:"s3_encryption"`
 	CloudwatchEncryption   CloudwatchEncryption   `json:"cloudwatch_encryption"`
 	JobBookmarksEncryption JobBookmarksEncryption `json:"job_bookmarks_encryption"`
-}
-
-type S3Encryption struct {
-	KmsKeyArn        string `json:"kms_key_arn"`
-	S3EncryptionMode string `json:"s3_encryption_mode"`
+	S3Encryption           S3Encryption           `json:"s3_encryption"`
 }
 
 type CloudwatchEncryption struct {
@@ -78,10 +73,15 @@ type JobBookmarksEncryption struct {
 	KmsKeyArn                  string `json:"kms_key_arn"`
 }
 
+type S3Encryption struct {
+	KmsKeyArn        string `json:"kms_key_arn"`
+	S3EncryptionMode string `json:"s3_encryption_mode"`
+}
+
 // A GlueSecurityConfigurationStatus defines the observed state of a GlueSecurityConfiguration
 type GlueSecurityConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueSecurityConfigurationObservation `json:",inline"`
+	AtProvider                     GlueSecurityConfigurationObservation `json:"atProvider"`
 }
 
 // A GlueSecurityConfigurationObservation records the observed state of a GlueSecurityConfiguration

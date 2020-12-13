@@ -47,23 +47,23 @@ type Apigatewayv2ModelList struct {
 // A Apigatewayv2ModelSpec defines the desired state of a Apigatewayv2Model
 type Apigatewayv2ModelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2ModelParameters `json:",inline"`
+	ForProvider                  Apigatewayv2ModelParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2ModelParameters defines the desired state of a Apigatewayv2Model
 type Apigatewayv2ModelParameters struct {
-	Schema      string `json:"schema"`
 	ApiId       string `json:"api_id"`
 	ContentType string `json:"content_type"`
 	Description string `json:"description"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
+	Schema      string `json:"schema"`
 }
 
 // A Apigatewayv2ModelStatus defines the observed state of a Apigatewayv2Model
 type Apigatewayv2ModelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2ModelObservation `json:",inline"`
+	AtProvider                     Apigatewayv2ModelObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2ModelObservation records the observed state of a Apigatewayv2Model

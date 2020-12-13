@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -41,10 +42,17 @@ func EncodeSagemakerModel(r SagemakerModel) cty.Value {
 	EncodeSagemakerModel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerModel_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerModel_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerModel_Container(r.Spec.ForProvider.Container, ctyVal)
 	EncodeSagemakerModel_PrimaryContainer(r.Spec.ForProvider.PrimaryContainer, ctyVal)
 	EncodeSagemakerModel_VpcConfig(r.Spec.ForProvider.VpcConfig, ctyVal)
-	EncodeSagemakerModel_Container(r.Spec.ForProvider.Container, ctyVal)
 	EncodeSagemakerModel_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -65,6 +73,10 @@ func EncodeSagemakerModel_Name(p SagemakerModelParameters, vals map[string]cty.V
 }
 
 func EncodeSagemakerModel_Tags(p SagemakerModelParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -72,19 +84,50 @@ func EncodeSagemakerModel_Tags(p SagemakerModelParameters, vals map[string]cty.V
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeSagemakerModel_Container(p Container, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeSagemakerModel_Container_ContainerHostname(p, ctyVal)
+	EncodeSagemakerModel_Container_Environment(p, ctyVal)
+	EncodeSagemakerModel_Container_Image(p, ctyVal)
+	EncodeSagemakerModel_Container_ModelDataUrl(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["container"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeSagemakerModel_Container_ContainerHostname(p Container, vals map[string]cty.Value) {
+	vals["container_hostname"] = cty.StringVal(p.ContainerHostname)
+}
+
+func EncodeSagemakerModel_Container_Environment(p Container, vals map[string]cty.Value) {
+	if len(p.Environment) == 0 {
+		vals["environment"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Environment {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["environment"] = cty.MapVal(mVals)
+}
+
+func EncodeSagemakerModel_Container_Image(p Container, vals map[string]cty.Value) {
+	vals["image"] = cty.StringVal(p.Image)
+}
+
+func EncodeSagemakerModel_Container_ModelDataUrl(p Container, vals map[string]cty.Value) {
+	vals["model_data_url"] = cty.StringVal(p.ModelDataUrl)
+}
+
 func EncodeSagemakerModel_PrimaryContainer(p PrimaryContainer, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p, ctyVal)
 	EncodeSagemakerModel_PrimaryContainer_ContainerHostname(p, ctyVal)
 	EncodeSagemakerModel_PrimaryContainer_Environment(p, ctyVal)
 	EncodeSagemakerModel_PrimaryContainer_Image(p, ctyVal)
+	EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["primary_container"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p PrimaryContainer, vals map[string]cty.Value) {
-	vals["model_data_url"] = cty.StringVal(p.ModelDataUrl)
 }
 
 func EncodeSagemakerModel_PrimaryContainer_ContainerHostname(p PrimaryContainer, vals map[string]cty.Value) {
@@ -92,6 +135,10 @@ func EncodeSagemakerModel_PrimaryContainer_ContainerHostname(p PrimaryContainer,
 }
 
 func EncodeSagemakerModel_PrimaryContainer_Environment(p PrimaryContainer, vals map[string]cty.Value) {
+	if len(p.Environment) == 0 {
+		vals["environment"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Environment {
 		mVals[key] = cty.StringVal(value)
@@ -101,6 +148,10 @@ func EncodeSagemakerModel_PrimaryContainer_Environment(p PrimaryContainer, vals 
 
 func EncodeSagemakerModel_PrimaryContainer_Image(p PrimaryContainer, vals map[string]cty.Value) {
 	vals["image"] = cty.StringVal(p.Image)
+}
+
+func EncodeSagemakerModel_PrimaryContainer_ModelDataUrl(p PrimaryContainer, vals map[string]cty.Value) {
+	vals["model_data_url"] = cty.StringVal(p.ModelDataUrl)
 }
 
 func EncodeSagemakerModel_VpcConfig(p VpcConfig, vals map[string]cty.Value) {
@@ -126,37 +177,6 @@ func EncodeSagemakerModel_VpcConfig_Subnets(p VpcConfig, vals map[string]cty.Val
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["subnets"] = cty.SetVal(colVals)
-}
-
-func EncodeSagemakerModel_Container(p Container, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeSagemakerModel_Container_ContainerHostname(p, ctyVal)
-	EncodeSagemakerModel_Container_Environment(p, ctyVal)
-	EncodeSagemakerModel_Container_Image(p, ctyVal)
-	EncodeSagemakerModel_Container_ModelDataUrl(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["container"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeSagemakerModel_Container_ContainerHostname(p Container, vals map[string]cty.Value) {
-	vals["container_hostname"] = cty.StringVal(p.ContainerHostname)
-}
-
-func EncodeSagemakerModel_Container_Environment(p Container, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Environment {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["environment"] = cty.MapVal(mVals)
-}
-
-func EncodeSagemakerModel_Container_Image(p Container, vals map[string]cty.Value) {
-	vals["image"] = cty.StringVal(p.Image)
-}
-
-func EncodeSagemakerModel_Container_ModelDataUrl(p Container, vals map[string]cty.Value) {
-	vals["model_data_url"] = cty.StringVal(p.ModelDataUrl)
 }
 
 func EncodeSagemakerModel_Arn(p SagemakerModelObservation, vals map[string]cty.Value) {

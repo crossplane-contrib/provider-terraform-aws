@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,26 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudwatchLogGroup(r CloudwatchLogGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogGroup_RetentionInDays(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogGroup_RetentionInDays(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogGroup_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogGroup_RetentionInDays(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	vals["retention_in_days"] = cty.NumberIntVal(p.RetentionInDays)
-}
-
-func EncodeCloudwatchLogGroup_Tags(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeCloudwatchLogGroup_Id(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
@@ -72,6 +68,22 @@ func EncodeCloudwatchLogGroup_Name(p CloudwatchLogGroupParameters, vals map[stri
 
 func EncodeCloudwatchLogGroup_NamePrefix(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeCloudwatchLogGroup_RetentionInDays(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	vals["retention_in_days"] = cty.NumberIntVal(p.RetentionInDays)
+}
+
+func EncodeCloudwatchLogGroup_Tags(p CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeCloudwatchLogGroup_Arn(p CloudwatchLogGroupObservation, vals map[string]cty.Value) {

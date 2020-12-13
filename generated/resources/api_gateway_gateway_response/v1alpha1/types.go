@@ -47,23 +47,23 @@ type ApiGatewayGatewayResponseList struct {
 // A ApiGatewayGatewayResponseSpec defines the desired state of a ApiGatewayGatewayResponse
 type ApiGatewayGatewayResponseSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayGatewayResponseParameters `json:",inline"`
+	ForProvider                  ApiGatewayGatewayResponseParameters `json:"forProvider"`
 }
 
 // A ApiGatewayGatewayResponseParameters defines the desired state of a ApiGatewayGatewayResponse
 type ApiGatewayGatewayResponseParameters struct {
-	RestApiId          string            `json:"rest_api_id"`
-	StatusCode         string            `json:"status_code"`
 	Id                 string            `json:"id"`
 	ResponseParameters map[string]string `json:"response_parameters"`
 	ResponseTemplates  map[string]string `json:"response_templates"`
 	ResponseType       string            `json:"response_type"`
+	RestApiId          string            `json:"rest_api_id"`
+	StatusCode         string            `json:"status_code"`
 }
 
 // A ApiGatewayGatewayResponseStatus defines the observed state of a ApiGatewayGatewayResponse
 type ApiGatewayGatewayResponseStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayGatewayResponseObservation `json:",inline"`
+	AtProvider                     ApiGatewayGatewayResponseObservation `json:"atProvider"`
 }
 
 // A ApiGatewayGatewayResponseObservation records the observed state of a ApiGatewayGatewayResponse

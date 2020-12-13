@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,17 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSecurityhubMember(r SecurityhubMember) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecurityhubMember_Invite(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Email(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSecurityhubMember_Invite(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_MasterId(r.Status.AtProvider, ctyVal)
 	EncodeSecurityhubMember_MemberStatus(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecurityhubMember_Invite(p SecurityhubMemberParameters, vals map[string]cty.Value) {
-	vals["invite"] = cty.BoolVal(p.Invite)
 }
 
 func EncodeSecurityhubMember_AccountId(p SecurityhubMemberParameters, vals map[string]cty.Value) {
@@ -59,6 +63,10 @@ func EncodeSecurityhubMember_Email(p SecurityhubMemberParameters, vals map[strin
 
 func EncodeSecurityhubMember_Id(p SecurityhubMemberParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSecurityhubMember_Invite(p SecurityhubMemberParameters, vals map[string]cty.Value) {
+	vals["invite"] = cty.BoolVal(p.Invite)
 }
 
 func EncodeSecurityhubMember_MasterId(p SecurityhubMemberObservation, vals map[string]cty.Value) {

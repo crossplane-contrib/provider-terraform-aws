@@ -47,39 +47,28 @@ type EksNodeGroupList struct {
 // A EksNodeGroupSpec defines the desired state of a EksNodeGroup
 type EksNodeGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EksNodeGroupParameters `json:",inline"`
+	ForProvider                  EksNodeGroupParameters `json:"forProvider"`
 }
 
 // A EksNodeGroupParameters defines the desired state of a EksNodeGroup
 type EksNodeGroupParameters struct {
-	AmiType            string            `json:"ami_type"`
 	DiskSize           int64             `json:"disk_size"`
 	ForceUpdateVersion bool              `json:"force_update_version"`
+	NodeRoleArn        string            `json:"node_role_arn"`
+	AmiType            string            `json:"ami_type"`
+	ClusterName        string            `json:"cluster_name"`
 	Labels             map[string]string `json:"labels"`
 	ReleaseVersion     string            `json:"release_version"`
 	Tags               map[string]string `json:"tags"`
-	ClusterName        string            `json:"cluster_name"`
+	Version            string            `json:"version"`
 	Id                 string            `json:"id"`
-	NodeRoleArn        string            `json:"node_role_arn"`
 	InstanceTypes      []string          `json:"instance_types"`
 	NodeGroupName      string            `json:"node_group_name"`
 	SubnetIds          []string          `json:"subnet_ids"`
-	Version            string            `json:"version"`
-	RemoteAccess       RemoteAccess      `json:"remote_access"`
-	ScalingConfig      ScalingConfig     `json:"scaling_config"`
 	Timeouts           Timeouts          `json:"timeouts"`
 	LaunchTemplate     LaunchTemplate    `json:"launch_template"`
-}
-
-type RemoteAccess struct {
-	Ec2SshKey              string   `json:"ec2_ssh_key"`
-	SourceSecurityGroupIds []string `json:"source_security_group_ids"`
-}
-
-type ScalingConfig struct {
-	DesiredSize int64 `json:"desired_size"`
-	MaxSize     int64 `json:"max_size"`
-	MinSize     int64 `json:"min_size"`
+	RemoteAccess       RemoteAccess      `json:"remote_access"`
+	ScalingConfig      ScalingConfig     `json:"scaling_config"`
 }
 
 type Timeouts struct {
@@ -94,17 +83,28 @@ type LaunchTemplate struct {
 	Version string `json:"version"`
 }
 
+type RemoteAccess struct {
+	Ec2SshKey              string   `json:"ec2_ssh_key"`
+	SourceSecurityGroupIds []string `json:"source_security_group_ids"`
+}
+
+type ScalingConfig struct {
+	DesiredSize int64 `json:"desired_size"`
+	MaxSize     int64 `json:"max_size"`
+	MinSize     int64 `json:"min_size"`
+}
+
 // A EksNodeGroupStatus defines the observed state of a EksNodeGroup
 type EksNodeGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EksNodeGroupObservation `json:",inline"`
+	AtProvider                     EksNodeGroupObservation `json:"atProvider"`
 }
 
 // A EksNodeGroupObservation records the observed state of a EksNodeGroup
 type EksNodeGroupObservation struct {
-	Resources []Resources `json:"resources"`
 	Status    string      `json:"status"`
 	Arn       string      `json:"arn"`
+	Resources []Resources `json:"resources"`
 }
 
 type Resources struct {

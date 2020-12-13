@@ -47,18 +47,22 @@ type WafWebAclList struct {
 // A WafWebAclSpec defines the desired state of a WafWebAcl
 type WafWebAclSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafWebAclParameters `json:",inline"`
+	ForProvider                  WafWebAclParameters `json:"forProvider"`
 }
 
 // A WafWebAclParameters defines the desired state of a WafWebAcl
 type WafWebAclParameters struct {
-	MetricName           string               `json:"metric_name"`
 	Name                 string               `json:"name"`
 	Tags                 map[string]string    `json:"tags"`
 	Id                   string               `json:"id"`
+	MetricName           string               `json:"metric_name"`
+	DefaultAction        DefaultAction        `json:"default_action"`
 	LoggingConfiguration LoggingConfiguration `json:"logging_configuration"`
 	Rules                Rules                `json:"rules"`
-	DefaultAction        DefaultAction        `json:"default_action"`
+}
+
+type DefaultAction struct {
+	Type string `json:"type"`
 }
 
 type LoggingConfiguration struct {
@@ -76,9 +80,9 @@ type FieldToMatch struct {
 }
 
 type Rules struct {
-	Priority       int64          `json:"priority"`
 	RuleId         string         `json:"rule_id"`
 	Type           string         `json:"type"`
+	Priority       int64          `json:"priority"`
 	Action         Action         `json:"action"`
 	OverrideAction OverrideAction `json:"override_action"`
 }
@@ -91,14 +95,10 @@ type OverrideAction struct {
 	Type string `json:"type"`
 }
 
-type DefaultAction struct {
-	Type string `json:"type"`
-}
-
 // A WafWebAclStatus defines the observed state of a WafWebAcl
 type WafWebAclStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafWebAclObservation `json:",inline"`
+	AtProvider                     WafWebAclObservation `json:"atProvider"`
 }
 
 // A WafWebAclObservation records the observed state of a WafWebAcl

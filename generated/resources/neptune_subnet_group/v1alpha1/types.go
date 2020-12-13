@@ -47,23 +47,23 @@ type NeptuneSubnetGroupList struct {
 // A NeptuneSubnetGroupSpec defines the desired state of a NeptuneSubnetGroup
 type NeptuneSubnetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NeptuneSubnetGroupParameters `json:",inline"`
+	ForProvider                  NeptuneSubnetGroupParameters `json:"forProvider"`
 }
 
 // A NeptuneSubnetGroupParameters defines the desired state of a NeptuneSubnetGroup
 type NeptuneSubnetGroupParameters struct {
-	Tags        map[string]string `json:"tags"`
-	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	NamePrefix  string            `json:"name_prefix"`
 	SubnetIds   []string          `json:"subnet_ids"`
+	Tags        map[string]string `json:"tags"`
+	Description string            `json:"description"`
 }
 
 // A NeptuneSubnetGroupStatus defines the observed state of a NeptuneSubnetGroup
 type NeptuneSubnetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NeptuneSubnetGroupObservation `json:",inline"`
+	AtProvider                     NeptuneSubnetGroupObservation `json:"atProvider"`
 }
 
 // A NeptuneSubnetGroupObservation records the observed state of a NeptuneSubnetGroup

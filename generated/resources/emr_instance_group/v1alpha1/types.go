@@ -47,20 +47,20 @@ type EmrInstanceGroupList struct {
 // A EmrInstanceGroupSpec defines the desired state of a EmrInstanceGroup
 type EmrInstanceGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EmrInstanceGroupParameters `json:",inline"`
+	ForProvider                  EmrInstanceGroupParameters `json:"forProvider"`
 }
 
 // A EmrInstanceGroupParameters defines the desired state of a EmrInstanceGroup
 type EmrInstanceGroupParameters struct {
-	InstanceType       string    `json:"instance_type"`
-	Name               string    `json:"name"`
-	AutoscalingPolicy  string    `json:"autoscaling_policy"`
-	EbsOptimized       bool      `json:"ebs_optimized"`
-	InstanceCount      int64     `json:"instance_count"`
-	Id                 string    `json:"id"`
-	BidPrice           string    `json:"bid_price"`
 	ClusterId          string    `json:"cluster_id"`
 	ConfigurationsJson string    `json:"configurations_json"`
+	EbsOptimized       bool      `json:"ebs_optimized"`
+	Id                 string    `json:"id"`
+	InstanceCount      int64     `json:"instance_count"`
+	InstanceType       string    `json:"instance_type"`
+	AutoscalingPolicy  string    `json:"autoscaling_policy"`
+	Name               string    `json:"name"`
+	BidPrice           string    `json:"bid_price"`
 	EbsConfig          EbsConfig `json:"ebs_config"`
 }
 
@@ -74,7 +74,7 @@ type EbsConfig struct {
 // A EmrInstanceGroupStatus defines the observed state of a EmrInstanceGroup
 type EmrInstanceGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EmrInstanceGroupObservation `json:",inline"`
+	AtProvider                     EmrInstanceGroupObservation `json:"atProvider"`
 }
 
 // A EmrInstanceGroupObservation records the observed state of a EmrInstanceGroup

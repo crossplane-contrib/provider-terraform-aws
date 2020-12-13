@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=wafv-2-web-acl-association.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

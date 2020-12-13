@@ -47,7 +47,7 @@ type MainRouteTableAssociationList struct {
 // A MainRouteTableAssociationSpec defines the desired state of a MainRouteTableAssociation
 type MainRouteTableAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MainRouteTableAssociationParameters `json:",inline"`
+	ForProvider                  MainRouteTableAssociationParameters `json:"forProvider"`
 }
 
 // A MainRouteTableAssociationParameters defines the desired state of a MainRouteTableAssociation
@@ -60,7 +60,7 @@ type MainRouteTableAssociationParameters struct {
 // A MainRouteTableAssociationStatus defines the observed state of a MainRouteTableAssociation
 type MainRouteTableAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MainRouteTableAssociationObservation `json:",inline"`
+	AtProvider                     MainRouteTableAssociationObservation `json:"atProvider"`
 }
 
 // A MainRouteTableAssociationObservation records the observed state of a MainRouteTableAssociation

@@ -47,14 +47,14 @@ type CodebuildWebhookList struct {
 // A CodebuildWebhookSpec defines the desired state of a CodebuildWebhook
 type CodebuildWebhookSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodebuildWebhookParameters `json:",inline"`
+	ForProvider                  CodebuildWebhookParameters `json:"forProvider"`
 }
 
 // A CodebuildWebhookParameters defines the desired state of a CodebuildWebhook
 type CodebuildWebhookParameters struct {
+	BranchFilter string      `json:"branch_filter"`
 	Id           string      `json:"id"`
 	ProjectName  string      `json:"project_name"`
-	BranchFilter string      `json:"branch_filter"`
 	FilterGroup  FilterGroup `json:"filter_group"`
 }
 
@@ -71,7 +71,7 @@ type Filter struct {
 // A CodebuildWebhookStatus defines the observed state of a CodebuildWebhook
 type CodebuildWebhookStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodebuildWebhookObservation `json:",inline"`
+	AtProvider                     CodebuildWebhookObservation `json:"atProvider"`
 }
 
 // A CodebuildWebhookObservation records the observed state of a CodebuildWebhook

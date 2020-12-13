@@ -47,21 +47,21 @@ type AutoscalingNotificationList struct {
 // A AutoscalingNotificationSpec defines the desired state of a AutoscalingNotification
 type AutoscalingNotificationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AutoscalingNotificationParameters `json:",inline"`
+	ForProvider                  AutoscalingNotificationParameters `json:"forProvider"`
 }
 
 // A AutoscalingNotificationParameters defines the desired state of a AutoscalingNotification
 type AutoscalingNotificationParameters struct {
+	GroupNames    []string `json:"group_names"`
 	Id            string   `json:"id"`
 	Notifications []string `json:"notifications"`
 	TopicArn      string   `json:"topic_arn"`
-	GroupNames    []string `json:"group_names"`
 }
 
 // A AutoscalingNotificationStatus defines the observed state of a AutoscalingNotification
 type AutoscalingNotificationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AutoscalingNotificationObservation `json:",inline"`
+	AtProvider                     AutoscalingNotificationObservation `json:"atProvider"`
 }
 
 // A AutoscalingNotificationObservation records the observed state of a AutoscalingNotification

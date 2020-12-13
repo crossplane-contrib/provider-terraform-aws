@@ -47,7 +47,7 @@ type WafregionalSqlInjectionMatchSetList struct {
 // A WafregionalSqlInjectionMatchSetSpec defines the desired state of a WafregionalSqlInjectionMatchSet
 type WafregionalSqlInjectionMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalSqlInjectionMatchSetParameters `json:",inline"`
+	ForProvider                  WafregionalSqlInjectionMatchSetParameters `json:"forProvider"`
 }
 
 // A WafregionalSqlInjectionMatchSetParameters defines the desired state of a WafregionalSqlInjectionMatchSet
@@ -70,7 +70,7 @@ type FieldToMatch struct {
 // A WafregionalSqlInjectionMatchSetStatus defines the observed state of a WafregionalSqlInjectionMatchSet
 type WafregionalSqlInjectionMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalSqlInjectionMatchSetObservation `json:",inline"`
+	AtProvider                     WafregionalSqlInjectionMatchSetObservation `json:"atProvider"`
 }
 
 // A WafregionalSqlInjectionMatchSetObservation records the observed state of a WafregionalSqlInjectionMatchSet

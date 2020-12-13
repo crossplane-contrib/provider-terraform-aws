@@ -47,15 +47,15 @@ type WafregionalRuleList struct {
 // A WafregionalRuleSpec defines the desired state of a WafregionalRule
 type WafregionalRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalRuleParameters `json:",inline"`
+	ForProvider                  WafregionalRuleParameters `json:"forProvider"`
 }
 
 // A WafregionalRuleParameters defines the desired state of a WafregionalRule
 type WafregionalRuleParameters struct {
+	Id         string            `json:"id"`
 	MetricName string            `json:"metric_name"`
 	Name       string            `json:"name"`
 	Tags       map[string]string `json:"tags"`
-	Id         string            `json:"id"`
 	Predicate  Predicate         `json:"predicate"`
 }
 
@@ -68,7 +68,7 @@ type Predicate struct {
 // A WafregionalRuleStatus defines the observed state of a WafregionalRule
 type WafregionalRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalRuleObservation `json:",inline"`
+	AtProvider                     WafregionalRuleObservation `json:"atProvider"`
 }
 
 // A WafregionalRuleObservation records the observed state of a WafregionalRule

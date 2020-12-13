@@ -47,7 +47,7 @@ type ApiGatewayAccountList struct {
 // A ApiGatewayAccountSpec defines the desired state of a ApiGatewayAccount
 type ApiGatewayAccountSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayAccountParameters `json:",inline"`
+	ForProvider                  ApiGatewayAccountParameters `json:"forProvider"`
 }
 
 // A ApiGatewayAccountParameters defines the desired state of a ApiGatewayAccount
@@ -59,7 +59,7 @@ type ApiGatewayAccountParameters struct {
 // A ApiGatewayAccountStatus defines the observed state of a ApiGatewayAccount
 type ApiGatewayAccountStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayAccountObservation `json:",inline"`
+	AtProvider                     ApiGatewayAccountObservation `json:"atProvider"`
 }
 
 // A ApiGatewayAccountObservation records the observed state of a ApiGatewayAccount

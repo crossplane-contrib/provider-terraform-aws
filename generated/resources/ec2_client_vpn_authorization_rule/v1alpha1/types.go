@@ -47,23 +47,23 @@ type Ec2ClientVpnAuthorizationRuleList struct {
 // A Ec2ClientVpnAuthorizationRuleSpec defines the desired state of a Ec2ClientVpnAuthorizationRule
 type Ec2ClientVpnAuthorizationRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2ClientVpnAuthorizationRuleParameters `json:",inline"`
+	ForProvider                  Ec2ClientVpnAuthorizationRuleParameters `json:"forProvider"`
 }
 
 // A Ec2ClientVpnAuthorizationRuleParameters defines the desired state of a Ec2ClientVpnAuthorizationRule
 type Ec2ClientVpnAuthorizationRuleParameters struct {
-	Id                  string `json:"id"`
-	TargetNetworkCidr   string `json:"target_network_cidr"`
 	AccessGroupId       string `json:"access_group_id"`
 	AuthorizeAllGroups  bool   `json:"authorize_all_groups"`
 	ClientVpnEndpointId string `json:"client_vpn_endpoint_id"`
 	Description         string `json:"description"`
+	Id                  string `json:"id"`
+	TargetNetworkCidr   string `json:"target_network_cidr"`
 }
 
 // A Ec2ClientVpnAuthorizationRuleStatus defines the observed state of a Ec2ClientVpnAuthorizationRule
 type Ec2ClientVpnAuthorizationRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2ClientVpnAuthorizationRuleObservation `json:",inline"`
+	AtProvider                     Ec2ClientVpnAuthorizationRuleObservation `json:"atProvider"`
 }
 
 // A Ec2ClientVpnAuthorizationRuleObservation records the observed state of a Ec2ClientVpnAuthorizationRule

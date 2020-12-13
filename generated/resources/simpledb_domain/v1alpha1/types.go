@@ -47,7 +47,7 @@ type SimpledbDomainList struct {
 // A SimpledbDomainSpec defines the desired state of a SimpledbDomain
 type SimpledbDomainSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SimpledbDomainParameters `json:",inline"`
+	ForProvider                  SimpledbDomainParameters `json:"forProvider"`
 }
 
 // A SimpledbDomainParameters defines the desired state of a SimpledbDomain
@@ -59,7 +59,7 @@ type SimpledbDomainParameters struct {
 // A SimpledbDomainStatus defines the observed state of a SimpledbDomain
 type SimpledbDomainStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SimpledbDomainObservation `json:",inline"`
+	AtProvider                     SimpledbDomainObservation `json:"atProvider"`
 }
 
 // A SimpledbDomainObservation records the observed state of a SimpledbDomain

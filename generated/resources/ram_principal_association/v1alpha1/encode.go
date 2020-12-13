@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRamPrincipalAssociation(r RamPrincipalAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRamPrincipalAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRamPrincipalAssociation_Principal(r.Spec.ForProvider, ctyVal)
 	EncodeRamPrincipalAssociation_ResourceShareArn(r.Spec.ForProvider, ctyVal)
+	EncodeRamPrincipalAssociation_Id(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRamPrincipalAssociation_Id(p RamPrincipalAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRamPrincipalAssociation_Principal(p RamPrincipalAssociationParameters, vals map[string]cty.Value) {
@@ -53,4 +57,8 @@ func EncodeRamPrincipalAssociation_Principal(p RamPrincipalAssociationParameters
 
 func EncodeRamPrincipalAssociation_ResourceShareArn(p RamPrincipalAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_share_arn"] = cty.StringVal(p.ResourceShareArn)
+}
+
+func EncodeRamPrincipalAssociation_Id(p RamPrincipalAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

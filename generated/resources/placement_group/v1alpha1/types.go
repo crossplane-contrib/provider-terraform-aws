@@ -47,21 +47,21 @@ type PlacementGroupList struct {
 // A PlacementGroupSpec defines the desired state of a PlacementGroup
 type PlacementGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PlacementGroupParameters `json:",inline"`
+	ForProvider                  PlacementGroupParameters `json:"forProvider"`
 }
 
 // A PlacementGroupParameters defines the desired state of a PlacementGroup
 type PlacementGroupParameters struct {
-	Id       string            `json:"id"`
-	Name     string            `json:"name"`
 	Strategy string            `json:"strategy"`
 	Tags     map[string]string `json:"tags"`
+	Id       string            `json:"id"`
+	Name     string            `json:"name"`
 }
 
 // A PlacementGroupStatus defines the observed state of a PlacementGroup
 type PlacementGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PlacementGroupObservation `json:",inline"`
+	AtProvider                     PlacementGroupObservation `json:"atProvider"`
 }
 
 // A PlacementGroupObservation records the observed state of a PlacementGroup

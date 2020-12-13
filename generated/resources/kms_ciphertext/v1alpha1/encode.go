@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,31 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeKmsCiphertext(r KmsCiphertext) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeKmsCiphertext_Context(r.Spec.ForProvider, ctyVal)
 	EncodeKmsCiphertext_Id(r.Spec.ForProvider, ctyVal)
 	EncodeKmsCiphertext_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeKmsCiphertext_Plaintext(r.Spec.ForProvider, ctyVal)
-	EncodeKmsCiphertext_Context(r.Spec.ForProvider, ctyVal)
 	EncodeKmsCiphertext_CiphertextBlob(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeKmsCiphertext_Context(p KmsCiphertextParameters, vals map[string]cty.Value) {
+	if len(p.Context) == 0 {
+		vals["context"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Context {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["context"] = cty.MapVal(mVals)
 }
 
 func EncodeKmsCiphertext_Id(p KmsCiphertextParameters, vals map[string]cty.Value) {
@@ -54,14 +74,6 @@ func EncodeKmsCiphertext_KeyId(p KmsCiphertextParameters, vals map[string]cty.Va
 
 func EncodeKmsCiphertext_Plaintext(p KmsCiphertextParameters, vals map[string]cty.Value) {
 	vals["plaintext"] = cty.StringVal(p.Plaintext)
-}
-
-func EncodeKmsCiphertext_Context(p KmsCiphertextParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Context {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["context"] = cty.MapVal(mVals)
 }
 
 func EncodeKmsCiphertext_CiphertextBlob(p KmsCiphertextObservation, vals map[string]cty.Value) {

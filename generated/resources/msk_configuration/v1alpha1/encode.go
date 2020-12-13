@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -41,8 +42,15 @@ func EncodeMskConfiguration(r MskConfiguration) cty.Value {
 	EncodeMskConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_KafkaVersions(r.Spec.ForProvider, ctyVal)
-	EncodeMskConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
 	EncodeMskConfiguration_Arn(r.Status.AtProvider, ctyVal)
+	EncodeMskConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -70,10 +78,10 @@ func EncodeMskConfiguration_KafkaVersions(p MskConfigurationParameters, vals map
 	vals["kafka_versions"] = cty.SetVal(colVals)
 }
 
-func EncodeMskConfiguration_LatestRevision(p MskConfigurationObservation, vals map[string]cty.Value) {
-	vals["latest_revision"] = cty.NumberIntVal(p.LatestRevision)
-}
-
 func EncodeMskConfiguration_Arn(p MskConfigurationObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeMskConfiguration_LatestRevision(p MskConfigurationObservation, vals map[string]cty.Value) {
+	vals["latest_revision"] = cty.NumberIntVal(p.LatestRevision)
 }

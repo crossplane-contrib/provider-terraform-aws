@@ -47,7 +47,7 @@ type EbsEncryptionByDefaultList struct {
 // A EbsEncryptionByDefaultSpec defines the desired state of a EbsEncryptionByDefault
 type EbsEncryptionByDefaultSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EbsEncryptionByDefaultParameters `json:",inline"`
+	ForProvider                  EbsEncryptionByDefaultParameters `json:"forProvider"`
 }
 
 // A EbsEncryptionByDefaultParameters defines the desired state of a EbsEncryptionByDefault
@@ -59,7 +59,7 @@ type EbsEncryptionByDefaultParameters struct {
 // A EbsEncryptionByDefaultStatus defines the observed state of a EbsEncryptionByDefault
 type EbsEncryptionByDefaultStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EbsEncryptionByDefaultObservation `json:",inline"`
+	AtProvider                     EbsEncryptionByDefaultObservation `json:"atProvider"`
 }
 
 // A EbsEncryptionByDefaultObservation records the observed state of a EbsEncryptionByDefault

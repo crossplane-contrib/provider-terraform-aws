@@ -47,25 +47,25 @@ type LicensemanagerLicenseConfigurationList struct {
 // A LicensemanagerLicenseConfigurationSpec defines the desired state of a LicensemanagerLicenseConfiguration
 type LicensemanagerLicenseConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LicensemanagerLicenseConfigurationParameters `json:",inline"`
+	ForProvider                  LicensemanagerLicenseConfigurationParameters `json:"forProvider"`
 }
 
 // A LicensemanagerLicenseConfigurationParameters defines the desired state of a LicensemanagerLicenseConfiguration
 type LicensemanagerLicenseConfigurationParameters struct {
+	LicenseCountingType   string            `json:"license_counting_type"`
+	LicenseRules          []string          `json:"license_rules"`
+	Name                  string            `json:"name"`
 	Tags                  map[string]string `json:"tags"`
 	Description           string            `json:"description"`
 	Id                    string            `json:"id"`
 	LicenseCount          int64             `json:"license_count"`
 	LicenseCountHardLimit bool              `json:"license_count_hard_limit"`
-	LicenseCountingType   string            `json:"license_counting_type"`
-	LicenseRules          []string          `json:"license_rules"`
-	Name                  string            `json:"name"`
 }
 
 // A LicensemanagerLicenseConfigurationStatus defines the observed state of a LicensemanagerLicenseConfiguration
 type LicensemanagerLicenseConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LicensemanagerLicenseConfigurationObservation `json:",inline"`
+	AtProvider                     LicensemanagerLicenseConfigurationObservation `json:"atProvider"`
 }
 
 // A LicensemanagerLicenseConfigurationObservation records the observed state of a LicensemanagerLicenseConfiguration

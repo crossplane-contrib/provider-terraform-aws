@@ -47,7 +47,7 @@ type IamGroupList struct {
 // A IamGroupSpec defines the desired state of a IamGroup
 type IamGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamGroupParameters `json:",inline"`
+	ForProvider                  IamGroupParameters `json:"forProvider"`
 }
 
 // A IamGroupParameters defines the desired state of a IamGroup
@@ -60,7 +60,7 @@ type IamGroupParameters struct {
 // A IamGroupStatus defines the observed state of a IamGroup
 type IamGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamGroupObservation `json:",inline"`
+	AtProvider                     IamGroupObservation `json:"atProvider"`
 }
 
 // A IamGroupObservation records the observed state of a IamGroup

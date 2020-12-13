@@ -47,26 +47,26 @@ type Ec2TransitGatewayVpcAttachmentList struct {
 // A Ec2TransitGatewayVpcAttachmentSpec defines the desired state of a Ec2TransitGatewayVpcAttachment
 type Ec2TransitGatewayVpcAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayVpcAttachmentParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayVpcAttachmentParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayVpcAttachmentParameters defines the desired state of a Ec2TransitGatewayVpcAttachment
 type Ec2TransitGatewayVpcAttachmentParameters struct {
-	TransitGatewayDefaultRouteTableAssociation bool              `json:"transit_gateway_default_route_table_association"`
-	TransitGatewayDefaultRouteTablePropagation bool              `json:"transit_gateway_default_route_table_propagation"`
-	Ipv6Support                                string            `json:"ipv6_support"`
-	Tags                                       map[string]string `json:"tags"`
 	SubnetIds                                  []string          `json:"subnet_ids"`
-	TransitGatewayId                           string            `json:"transit_gateway_id"`
+	Tags                                       map[string]string `json:"tags"`
 	VpcId                                      string            `json:"vpc_id"`
 	DnsSupport                                 string            `json:"dns_support"`
+	Ipv6Support                                string            `json:"ipv6_support"`
+	TransitGatewayDefaultRouteTablePropagation bool              `json:"transit_gateway_default_route_table_propagation"`
+	TransitGatewayId                           string            `json:"transit_gateway_id"`
 	Id                                         string            `json:"id"`
+	TransitGatewayDefaultRouteTableAssociation bool              `json:"transit_gateway_default_route_table_association"`
 }
 
 // A Ec2TransitGatewayVpcAttachmentStatus defines the observed state of a Ec2TransitGatewayVpcAttachment
 type Ec2TransitGatewayVpcAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayVpcAttachmentObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayVpcAttachmentObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayVpcAttachmentObservation records the observed state of a Ec2TransitGatewayVpcAttachment

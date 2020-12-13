@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,40 +37,47 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeMskCluster(r MskCluster) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMskCluster_KafkaVersion(r.Spec.ForProvider, ctyVal)
-	EncodeMskCluster_NumberOfBrokerNodes(r.Spec.ForProvider, ctyVal)
 	EncodeMskCluster_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeMskCluster_ClusterName(r.Spec.ForProvider, ctyVal)
 	EncodeMskCluster_EnhancedMonitoring(r.Spec.ForProvider, ctyVal)
 	EncodeMskCluster_Id(r.Spec.ForProvider, ctyVal)
-	EncodeMskCluster_ClusterName(r.Spec.ForProvider, ctyVal)
-	EncodeMskCluster_ClientAuthentication(r.Spec.ForProvider.ClientAuthentication, ctyVal)
-	EncodeMskCluster_ConfigurationInfo(r.Spec.ForProvider.ConfigurationInfo, ctyVal)
+	EncodeMskCluster_KafkaVersion(r.Spec.ForProvider, ctyVal)
+	EncodeMskCluster_NumberOfBrokerNodes(r.Spec.ForProvider, ctyVal)
 	EncodeMskCluster_EncryptionInfo(r.Spec.ForProvider.EncryptionInfo, ctyVal)
 	EncodeMskCluster_LoggingInfo(r.Spec.ForProvider.LoggingInfo, ctyVal)
 	EncodeMskCluster_OpenMonitoring(r.Spec.ForProvider.OpenMonitoring, ctyVal)
 	EncodeMskCluster_BrokerNodeGroupInfo(r.Spec.ForProvider.BrokerNodeGroupInfo, ctyVal)
-	EncodeMskCluster_ZookeeperConnectString(r.Status.AtProvider, ctyVal)
-	EncodeMskCluster_Arn(r.Status.AtProvider, ctyVal)
-	EncodeMskCluster_CurrentVersion(r.Status.AtProvider, ctyVal)
+	EncodeMskCluster_ClientAuthentication(r.Spec.ForProvider.ClientAuthentication, ctyVal)
+	EncodeMskCluster_ConfigurationInfo(r.Spec.ForProvider.ConfigurationInfo, ctyVal)
 	EncodeMskCluster_BootstrapBrokers(r.Status.AtProvider, ctyVal)
 	EncodeMskCluster_BootstrapBrokersTls(r.Status.AtProvider, ctyVal)
+	EncodeMskCluster_CurrentVersion(r.Status.AtProvider, ctyVal)
+	EncodeMskCluster_ZookeeperConnectString(r.Status.AtProvider, ctyVal)
+	EncodeMskCluster_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMskCluster_KafkaVersion(p MskClusterParameters, vals map[string]cty.Value) {
-	vals["kafka_version"] = cty.StringVal(p.KafkaVersion)
-}
-
-func EncodeMskCluster_NumberOfBrokerNodes(p MskClusterParameters, vals map[string]cty.Value) {
-	vals["number_of_broker_nodes"] = cty.NumberIntVal(p.NumberOfBrokerNodes)
-}
-
 func EncodeMskCluster_Tags(p MskClusterParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeMskCluster_ClusterName(p MskClusterParameters, vals map[string]cty.Value) {
+	vals["cluster_name"] = cty.StringVal(p.ClusterName)
 }
 
 func EncodeMskCluster_EnhancedMonitoring(p MskClusterParameters, vals map[string]cty.Value) {
@@ -80,49 +88,12 @@ func EncodeMskCluster_Id(p MskClusterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeMskCluster_ClusterName(p MskClusterParameters, vals map[string]cty.Value) {
-	vals["cluster_name"] = cty.StringVal(p.ClusterName)
+func EncodeMskCluster_KafkaVersion(p MskClusterParameters, vals map[string]cty.Value) {
+	vals["kafka_version"] = cty.StringVal(p.KafkaVersion)
 }
 
-func EncodeMskCluster_ClientAuthentication(p ClientAuthentication, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeMskCluster_ClientAuthentication_Tls(p.Tls, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["client_authentication"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeMskCluster_ClientAuthentication_Tls(p Tls, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeMskCluster_ClientAuthentication_Tls_CertificateAuthorityArns(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["tls"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeMskCluster_ClientAuthentication_Tls_CertificateAuthorityArns(p Tls, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CertificateAuthorityArns {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["certificate_authority_arns"] = cty.SetVal(colVals)
-}
-
-func EncodeMskCluster_ConfigurationInfo(p ConfigurationInfo, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeMskCluster_ConfigurationInfo_Arn(p, ctyVal)
-	EncodeMskCluster_ConfigurationInfo_Revision(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["configuration_info"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeMskCluster_ConfigurationInfo_Arn(p ConfigurationInfo, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeMskCluster_ConfigurationInfo_Revision(p ConfigurationInfo, vals map[string]cty.Value) {
-	vals["revision"] = cty.NumberIntVal(p.Revision)
+func EncodeMskCluster_NumberOfBrokerNodes(p MskClusterParameters, vals map[string]cty.Value) {
+	vals["number_of_broker_nodes"] = cty.NumberIntVal(p.NumberOfBrokerNodes)
 }
 
 func EncodeMskCluster_EncryptionInfo(p EncryptionInfo, vals map[string]cty.Value) {
@@ -166,33 +137,11 @@ func EncodeMskCluster_LoggingInfo(p LoggingInfo, vals map[string]cty.Value) {
 func EncodeMskCluster_LoggingInfo_BrokerLogs(p BrokerLogs, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeMskCluster_LoggingInfo_BrokerLogs_S3(p.S3, ctyVal)
 	EncodeMskCluster_LoggingInfo_BrokerLogs_CloudwatchLogs(p.CloudwatchLogs, ctyVal)
 	EncodeMskCluster_LoggingInfo_BrokerLogs_Firehose(p.Firehose, ctyVal)
+	EncodeMskCluster_LoggingInfo_BrokerLogs_S3(p.S3, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["broker_logs"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeMskCluster_LoggingInfo_BrokerLogs_S3(p S3, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Bucket(p, ctyVal)
-	EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Enabled(p, ctyVal)
-	EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Prefix(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["s3"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Bucket(p S3, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
-}
-
-func EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Enabled(p S3, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Prefix(p S3, vals map[string]cty.Value) {
-	vals["prefix"] = cty.StringVal(p.Prefix)
 }
 
 func EncodeMskCluster_LoggingInfo_BrokerLogs_CloudwatchLogs(p CloudwatchLogs, vals map[string]cty.Value) {
@@ -227,6 +176,28 @@ func EncodeMskCluster_LoggingInfo_BrokerLogs_Firehose_DeliveryStream(p Firehose,
 
 func EncodeMskCluster_LoggingInfo_BrokerLogs_Firehose_Enabled(p Firehose, vals map[string]cty.Value) {
 	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodeMskCluster_LoggingInfo_BrokerLogs_S3(p S3, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Bucket(p, ctyVal)
+	EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Enabled(p, ctyVal)
+	EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Prefix(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["s3"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Bucket(p S3, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
+}
+
+func EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Enabled(p S3, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodeMskCluster_LoggingInfo_BrokerLogs_S3_Prefix(p S3, vals map[string]cty.Value) {
+	vals["prefix"] = cty.StringVal(p.Prefix)
 }
 
 func EncodeMskCluster_OpenMonitoring(p OpenMonitoring, vals map[string]cty.Value) {
@@ -310,16 +281,45 @@ func EncodeMskCluster_BrokerNodeGroupInfo_SecurityGroups(p BrokerNodeGroupInfo, 
 	vals["security_groups"] = cty.ListVal(colVals)
 }
 
-func EncodeMskCluster_ZookeeperConnectString(p MskClusterObservation, vals map[string]cty.Value) {
-	vals["zookeeper_connect_string"] = cty.StringVal(p.ZookeeperConnectString)
+func EncodeMskCluster_ClientAuthentication(p ClientAuthentication, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeMskCluster_ClientAuthentication_Tls(p.Tls, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["client_authentication"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeMskCluster_Arn(p MskClusterObservation, vals map[string]cty.Value) {
+func EncodeMskCluster_ClientAuthentication_Tls(p Tls, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeMskCluster_ClientAuthentication_Tls_CertificateAuthorityArns(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["tls"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeMskCluster_ClientAuthentication_Tls_CertificateAuthorityArns(p Tls, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.CertificateAuthorityArns {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["certificate_authority_arns"] = cty.SetVal(colVals)
+}
+
+func EncodeMskCluster_ConfigurationInfo(p ConfigurationInfo, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeMskCluster_ConfigurationInfo_Arn(p, ctyVal)
+	EncodeMskCluster_ConfigurationInfo_Revision(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["configuration_info"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeMskCluster_ConfigurationInfo_Arn(p ConfigurationInfo, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeMskCluster_CurrentVersion(p MskClusterObservation, vals map[string]cty.Value) {
-	vals["current_version"] = cty.StringVal(p.CurrentVersion)
+func EncodeMskCluster_ConfigurationInfo_Revision(p ConfigurationInfo, vals map[string]cty.Value) {
+	vals["revision"] = cty.NumberIntVal(p.Revision)
 }
 
 func EncodeMskCluster_BootstrapBrokers(p MskClusterObservation, vals map[string]cty.Value) {
@@ -328,4 +328,16 @@ func EncodeMskCluster_BootstrapBrokers(p MskClusterObservation, vals map[string]
 
 func EncodeMskCluster_BootstrapBrokersTls(p MskClusterObservation, vals map[string]cty.Value) {
 	vals["bootstrap_brokers_tls"] = cty.StringVal(p.BootstrapBrokersTls)
+}
+
+func EncodeMskCluster_CurrentVersion(p MskClusterObservation, vals map[string]cty.Value) {
+	vals["current_version"] = cty.StringVal(p.CurrentVersion)
+}
+
+func EncodeMskCluster_ZookeeperConnectString(p MskClusterObservation, vals map[string]cty.Value) {
+	vals["zookeeper_connect_string"] = cty.StringVal(p.ZookeeperConnectString)
+}
+
+func EncodeMskCluster_Arn(p MskClusterObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

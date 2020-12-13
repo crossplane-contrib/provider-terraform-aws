@@ -47,38 +47,38 @@ type CloudhsmV2ClusterList struct {
 // A CloudhsmV2ClusterSpec defines the desired state of a CloudhsmV2Cluster
 type CloudhsmV2ClusterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudhsmV2ClusterParameters `json:",inline"`
+	ForProvider                  CloudhsmV2ClusterParameters `json:"forProvider"`
 }
 
 // A CloudhsmV2ClusterParameters defines the desired state of a CloudhsmV2Cluster
 type CloudhsmV2ClusterParameters struct {
+	HsmType                string            `json:"hsm_type"`
 	Id                     string            `json:"id"`
 	SourceBackupIdentifier string            `json:"source_backup_identifier"`
 	SubnetIds              []string          `json:"subnet_ids"`
 	Tags                   map[string]string `json:"tags"`
-	HsmType                string            `json:"hsm_type"`
 	Timeouts               Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
 }
 
 // A CloudhsmV2ClusterStatus defines the observed state of a CloudhsmV2Cluster
 type CloudhsmV2ClusterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudhsmV2ClusterObservation `json:",inline"`
+	AtProvider                     CloudhsmV2ClusterObservation `json:"atProvider"`
 }
 
 // A CloudhsmV2ClusterObservation records the observed state of a CloudhsmV2Cluster
 type CloudhsmV2ClusterObservation struct {
+	ClusterCertificates []ClusterCertificates `json:"cluster_certificates"`
 	ClusterId           string                `json:"cluster_id"`
+	ClusterState        string                `json:"cluster_state"`
 	SecurityGroupId     string                `json:"security_group_id"`
 	VpcId               string                `json:"vpc_id"`
-	ClusterCertificates []ClusterCertificates `json:"cluster_certificates"`
-	ClusterState        string                `json:"cluster_state"`
 }
 
 type ClusterCertificates struct {

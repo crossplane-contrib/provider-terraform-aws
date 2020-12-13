@@ -47,18 +47,18 @@ type GlueUserDefinedFunctionList struct {
 // A GlueUserDefinedFunctionSpec defines the desired state of a GlueUserDefinedFunction
 type GlueUserDefinedFunctionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueUserDefinedFunctionParameters `json:",inline"`
+	ForProvider                  GlueUserDefinedFunctionParameters `json:"forProvider"`
 }
 
 // A GlueUserDefinedFunctionParameters defines the desired state of a GlueUserDefinedFunction
 type GlueUserDefinedFunctionParameters struct {
+	Id           string         `json:"id"`
 	OwnerName    string         `json:"owner_name"`
+	CatalogId    string         `json:"catalog_id"`
 	ClassName    string         `json:"class_name"`
 	DatabaseName string         `json:"database_name"`
-	Id           string         `json:"id"`
 	Name         string         `json:"name"`
 	OwnerType    string         `json:"owner_type"`
-	CatalogId    string         `json:"catalog_id"`
 	ResourceUris []ResourceUris `json:"resource_uris"`
 }
 
@@ -70,7 +70,7 @@ type ResourceUris struct {
 // A GlueUserDefinedFunctionStatus defines the observed state of a GlueUserDefinedFunction
 type GlueUserDefinedFunctionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueUserDefinedFunctionObservation `json:",inline"`
+	AtProvider                     GlueUserDefinedFunctionObservation `json:"atProvider"`
 }
 
 // A GlueUserDefinedFunctionObservation records the observed state of a GlueUserDefinedFunction

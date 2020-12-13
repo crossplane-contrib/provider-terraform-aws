@@ -47,21 +47,21 @@ type ApiGatewayResourceList struct {
 // A ApiGatewayResourceSpec defines the desired state of a ApiGatewayResource
 type ApiGatewayResourceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayResourceParameters `json:",inline"`
+	ForProvider                  ApiGatewayResourceParameters `json:"forProvider"`
 }
 
 // A ApiGatewayResourceParameters defines the desired state of a ApiGatewayResource
 type ApiGatewayResourceParameters struct {
+	ParentId  string `json:"parent_id"`
 	PathPart  string `json:"path_part"`
 	RestApiId string `json:"rest_api_id"`
 	Id        string `json:"id"`
-	ParentId  string `json:"parent_id"`
 }
 
 // A ApiGatewayResourceStatus defines the observed state of a ApiGatewayResource
 type ApiGatewayResourceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayResourceObservation `json:",inline"`
+	AtProvider                     ApiGatewayResourceObservation `json:"atProvider"`
 }
 
 // A ApiGatewayResourceObservation records the observed state of a ApiGatewayResource

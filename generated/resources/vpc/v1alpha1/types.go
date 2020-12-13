@@ -47,37 +47,37 @@ type VpcList struct {
 // A VpcSpec defines the desired state of a Vpc
 type VpcSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcParameters `json:",inline"`
+	ForProvider                  VpcParameters `json:"forProvider"`
 }
 
 // A VpcParameters defines the desired state of a Vpc
 type VpcParameters struct {
-	InstanceTenancy              string            `json:"instance_tenancy"`
-	EnableClassiclink            bool              `json:"enable_classiclink"`
-	EnableDnsSupport             bool              `json:"enable_dns_support"`
-	Id                           string            `json:"id"`
 	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
-	EnableClassiclinkDnsSupport  bool              `json:"enable_classiclink_dns_support"`
-	EnableDnsHostnames           bool              `json:"enable_dns_hostnames"`
+	EnableDnsSupport             bool              `json:"enable_dns_support"`
 	Tags                         map[string]string `json:"tags"`
 	CidrBlock                    string            `json:"cidr_block"`
+	EnableClassiclink            bool              `json:"enable_classiclink"`
+	EnableClassiclinkDnsSupport  bool              `json:"enable_classiclink_dns_support"`
+	Id                           string            `json:"id"`
+	EnableDnsHostnames           bool              `json:"enable_dns_hostnames"`
+	InstanceTenancy              string            `json:"instance_tenancy"`
 }
 
 // A VpcStatus defines the observed state of a Vpc
 type VpcStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcObservation `json:",inline"`
+	AtProvider                     VpcObservation `json:"atProvider"`
 }
 
 // A VpcObservation records the observed state of a Vpc
 type VpcObservation struct {
-	DefaultNetworkAclId    string `json:"default_network_acl_id"`
 	DhcpOptionsId          string `json:"dhcp_options_id"`
-	Arn                    string `json:"arn"`
-	DefaultSecurityGroupId string `json:"default_security_group_id"`
 	Ipv6AssociationId      string `json:"ipv6_association_id"`
-	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
 	MainRouteTableId       string `json:"main_route_table_id"`
-	DefaultRouteTableId    string `json:"default_route_table_id"`
 	OwnerId                string `json:"owner_id"`
+	DefaultRouteTableId    string `json:"default_route_table_id"`
+	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
+	Arn                    string `json:"arn"`
+	DefaultNetworkAclId    string `json:"default_network_acl_id"`
+	DefaultSecurityGroupId string `json:"default_security_group_id"`
 }

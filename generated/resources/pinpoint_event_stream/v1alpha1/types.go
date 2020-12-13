@@ -47,7 +47,7 @@ type PinpointEventStreamList struct {
 // A PinpointEventStreamSpec defines the desired state of a PinpointEventStream
 type PinpointEventStreamSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointEventStreamParameters `json:",inline"`
+	ForProvider                  PinpointEventStreamParameters `json:"forProvider"`
 }
 
 // A PinpointEventStreamParameters defines the desired state of a PinpointEventStream
@@ -61,7 +61,7 @@ type PinpointEventStreamParameters struct {
 // A PinpointEventStreamStatus defines the observed state of a PinpointEventStream
 type PinpointEventStreamStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointEventStreamObservation `json:",inline"`
+	AtProvider                     PinpointEventStreamObservation `json:"atProvider"`
 }
 
 // A PinpointEventStreamObservation records the observed state of a PinpointEventStream

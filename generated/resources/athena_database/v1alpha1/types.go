@@ -47,15 +47,15 @@ type AthenaDatabaseList struct {
 // A AthenaDatabaseSpec defines the desired state of a AthenaDatabase
 type AthenaDatabaseSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AthenaDatabaseParameters `json:",inline"`
+	ForProvider                  AthenaDatabaseParameters `json:"forProvider"`
 }
 
 // A AthenaDatabaseParameters defines the desired state of a AthenaDatabase
 type AthenaDatabaseParameters struct {
+	Id                      string                  `json:"id"`
 	Name                    string                  `json:"name"`
 	Bucket                  string                  `json:"bucket"`
 	ForceDestroy            bool                    `json:"force_destroy"`
-	Id                      string                  `json:"id"`
 	EncryptionConfiguration EncryptionConfiguration `json:"encryption_configuration"`
 }
 
@@ -67,7 +67,7 @@ type EncryptionConfiguration struct {
 // A AthenaDatabaseStatus defines the observed state of a AthenaDatabase
 type AthenaDatabaseStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AthenaDatabaseObservation `json:",inline"`
+	AtProvider                     AthenaDatabaseObservation `json:"atProvider"`
 }
 
 // A AthenaDatabaseObservation records the observed state of a AthenaDatabase

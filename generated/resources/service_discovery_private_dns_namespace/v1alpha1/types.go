@@ -47,22 +47,22 @@ type ServiceDiscoveryPrivateDnsNamespaceList struct {
 // A ServiceDiscoveryPrivateDnsNamespaceSpec defines the desired state of a ServiceDiscoveryPrivateDnsNamespace
 type ServiceDiscoveryPrivateDnsNamespaceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ServiceDiscoveryPrivateDnsNamespaceParameters `json:",inline"`
+	ForProvider                  ServiceDiscoveryPrivateDnsNamespaceParameters `json:"forProvider"`
 }
 
 // A ServiceDiscoveryPrivateDnsNamespaceParameters defines the desired state of a ServiceDiscoveryPrivateDnsNamespace
 type ServiceDiscoveryPrivateDnsNamespaceParameters struct {
+	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	Vpc         string            `json:"vpc"`
-	Description string            `json:"description"`
 }
 
 // A ServiceDiscoveryPrivateDnsNamespaceStatus defines the observed state of a ServiceDiscoveryPrivateDnsNamespace
 type ServiceDiscoveryPrivateDnsNamespaceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ServiceDiscoveryPrivateDnsNamespaceObservation `json:",inline"`
+	AtProvider                     ServiceDiscoveryPrivateDnsNamespaceObservation `json:"atProvider"`
 }
 
 // A ServiceDiscoveryPrivateDnsNamespaceObservation records the observed state of a ServiceDiscoveryPrivateDnsNamespace

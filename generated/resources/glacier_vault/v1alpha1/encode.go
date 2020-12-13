@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,14 +37,37 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGlacierVault(r GlacierVault) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlacierVault_AccessPolicy(r.Spec.ForProvider, ctyVal)
-	EncodeGlacierVault_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVault_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVault_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeGlacierVault_AccessPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeGlacierVault_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVault_Notification(r.Spec.ForProvider.Notification, ctyVal)
-	EncodeGlacierVault_Arn(r.Status.AtProvider, ctyVal)
 	EncodeGlacierVault_Location(r.Status.AtProvider, ctyVal)
+	EncodeGlacierVault_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlacierVault_Name(p GlacierVaultParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeGlacierVault_Tags(p GlacierVaultParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeGlacierVault_AccessPolicy(p GlacierVaultParameters, vals map[string]cty.Value) {
@@ -52,18 +76,6 @@ func EncodeGlacierVault_AccessPolicy(p GlacierVaultParameters, vals map[string]c
 
 func EncodeGlacierVault_Id(p GlacierVaultParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGlacierVault_Name(p GlacierVaultParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeGlacierVault_Tags(p GlacierVaultParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeGlacierVault_Notification(p Notification, vals map[string]cty.Value) {
@@ -87,10 +99,10 @@ func EncodeGlacierVault_Notification_SnsTopic(p Notification, vals map[string]ct
 	vals["sns_topic"] = cty.StringVal(p.SnsTopic)
 }
 
-func EncodeGlacierVault_Arn(p GlacierVaultObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeGlacierVault_Location(p GlacierVaultObservation, vals map[string]cty.Value) {
 	vals["location"] = cty.StringVal(p.Location)
+}
+
+func EncodeGlacierVault_Arn(p GlacierVaultObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

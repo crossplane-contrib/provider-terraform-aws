@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=lambda-function-event-invoke-config.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

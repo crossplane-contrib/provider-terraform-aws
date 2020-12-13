@@ -47,45 +47,45 @@ type Ec2ClientVpnEndpointList struct {
 // A Ec2ClientVpnEndpointSpec defines the desired state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2ClientVpnEndpointParameters `json:",inline"`
+	ForProvider                  Ec2ClientVpnEndpointParameters `json:"forProvider"`
 }
 
 // A Ec2ClientVpnEndpointParameters defines the desired state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointParameters struct {
-	Id                    string                  `json:"id"`
-	SplitTunnel           bool                    `json:"split_tunnel"`
-	Tags                  map[string]string       `json:"tags"`
-	TransportProtocol     string                  `json:"transport_protocol"`
 	ClientCidrBlock       string                  `json:"client_cidr_block"`
-	Description           string                  `json:"description"`
+	Id                    string                  `json:"id"`
+	Tags                  map[string]string       `json:"tags"`
 	DnsServers            []string                `json:"dns_servers"`
 	ServerCertificateArn  string                  `json:"server_certificate_arn"`
+	SplitTunnel           bool                    `json:"split_tunnel"`
+	TransportProtocol     string                  `json:"transport_protocol"`
+	Description           string                  `json:"description"`
 	AuthenticationOptions []AuthenticationOptions `json:"authentication_options"`
 	ConnectionLogOptions  ConnectionLogOptions    `json:"connection_log_options"`
 }
 
 type AuthenticationOptions struct {
-	ActiveDirectoryId       string `json:"active_directory_id"`
 	RootCertificateChainArn string `json:"root_certificate_chain_arn"`
 	SamlProviderArn         string `json:"saml_provider_arn"`
 	Type                    string `json:"type"`
+	ActiveDirectoryId       string `json:"active_directory_id"`
 }
 
 type ConnectionLogOptions struct {
-	Enabled             bool   `json:"enabled"`
 	CloudwatchLogGroup  string `json:"cloudwatch_log_group"`
 	CloudwatchLogStream string `json:"cloudwatch_log_stream"`
+	Enabled             bool   `json:"enabled"`
 }
 
 // A Ec2ClientVpnEndpointStatus defines the observed state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2ClientVpnEndpointObservation `json:",inline"`
+	AtProvider                     Ec2ClientVpnEndpointObservation `json:"atProvider"`
 }
 
 // A Ec2ClientVpnEndpointObservation records the observed state of a Ec2ClientVpnEndpoint
 type Ec2ClientVpnEndpointObservation struct {
-	Arn     string `json:"arn"`
 	DnsName string `json:"dns_name"`
 	Status  string `json:"status"`
+	Arn     string `json:"arn"`
 }

@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=ssm-patch-baseline.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

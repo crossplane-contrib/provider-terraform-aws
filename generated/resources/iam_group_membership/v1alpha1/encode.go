@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamGroupMembership(r IamGroupMembership) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamGroupMembership_Group(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Users(r.Spec.ForProvider, ctyVal)
+	EncodeIamGroupMembership_Group(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamGroupMembership_Group(p IamGroupMembershipParameters, vals map[string]cty.Value) {
-	vals["group"] = cty.StringVal(p.Group)
 }
 
 func EncodeIamGroupMembership_Id(p IamGroupMembershipParameters, vals map[string]cty.Value) {
@@ -62,4 +66,8 @@ func EncodeIamGroupMembership_Users(p IamGroupMembershipParameters, vals map[str
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["users"] = cty.SetVal(colVals)
+}
+
+func EncodeIamGroupMembership_Group(p IamGroupMembershipParameters, vals map[string]cty.Value) {
+	vals["group"] = cty.StringVal(p.Group)
 }

@@ -47,7 +47,7 @@ type S3BucketPublicAccessBlockList struct {
 // A S3BucketPublicAccessBlockSpec defines the desired state of a S3BucketPublicAccessBlock
 type S3BucketPublicAccessBlockSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3BucketPublicAccessBlockParameters `json:",inline"`
+	ForProvider                  S3BucketPublicAccessBlockParameters `json:"forProvider"`
 }
 
 // A S3BucketPublicAccessBlockParameters defines the desired state of a S3BucketPublicAccessBlock
@@ -63,7 +63,7 @@ type S3BucketPublicAccessBlockParameters struct {
 // A S3BucketPublicAccessBlockStatus defines the observed state of a S3BucketPublicAccessBlock
 type S3BucketPublicAccessBlockStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3BucketPublicAccessBlockObservation `json:",inline"`
+	AtProvider                     S3BucketPublicAccessBlockObservation `json:"atProvider"`
 }
 
 // A S3BucketPublicAccessBlockObservation records the observed state of a S3BucketPublicAccessBlock

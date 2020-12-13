@@ -47,19 +47,19 @@ type TransferUserList struct {
 // A TransferUserSpec defines the desired state of a TransferUser
 type TransferUserSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  TransferUserParameters `json:",inline"`
+	ForProvider                  TransferUserParameters `json:"forProvider"`
 }
 
 // A TransferUserParameters defines the desired state of a TransferUser
 type TransferUserParameters struct {
-	Role                  string                `json:"role"`
+	ServerId              string                `json:"server_id"`
 	Tags                  map[string]string     `json:"tags"`
-	UserName              string                `json:"user_name"`
-	Policy                string                `json:"policy"`
 	HomeDirectory         string                `json:"home_directory"`
 	HomeDirectoryType     string                `json:"home_directory_type"`
 	Id                    string                `json:"id"`
-	ServerId              string                `json:"server_id"`
+	Policy                string                `json:"policy"`
+	Role                  string                `json:"role"`
+	UserName              string                `json:"user_name"`
 	HomeDirectoryMappings HomeDirectoryMappings `json:"home_directory_mappings"`
 }
 
@@ -71,7 +71,7 @@ type HomeDirectoryMappings struct {
 // A TransferUserStatus defines the observed state of a TransferUser
 type TransferUserStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     TransferUserObservation `json:",inline"`
+	AtProvider                     TransferUserObservation `json:"atProvider"`
 }
 
 // A TransferUserObservation records the observed state of a TransferUser

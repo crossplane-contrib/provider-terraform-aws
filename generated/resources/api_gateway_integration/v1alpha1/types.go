@@ -47,34 +47,34 @@ type ApiGatewayIntegrationList struct {
 // A ApiGatewayIntegrationSpec defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayIntegrationParameters `json:",inline"`
+	ForProvider                  ApiGatewayIntegrationParameters `json:"forProvider"`
 }
 
 // A ApiGatewayIntegrationParameters defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationParameters struct {
-	Uri                   string            `json:"uri"`
-	ConnectionId          string            `json:"connection_id"`
-	IntegrationHttpMethod string            `json:"integration_http_method"`
-	RequestTemplates      map[string]string `json:"request_templates"`
-	Credentials           string            `json:"credentials"`
-	Id                    string            `json:"id"`
 	PassthroughBehavior   string            `json:"passthrough_behavior"`
-	RequestParameters     map[string]string `json:"request_parameters"`
-	ResourceId            string            `json:"resource_id"`
+	Type                  string            `json:"type"`
+	Uri                   string            `json:"uri"`
+	IntegrationHttpMethod string            `json:"integration_http_method"`
+	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
 	CacheNamespace        string            `json:"cache_namespace"`
 	ConnectionType        string            `json:"connection_type"`
 	ContentHandling       string            `json:"content_handling"`
-	RestApiId             string            `json:"rest_api_id"`
-	Type                  string            `json:"type"`
-	CacheKeyParameters    []string          `json:"cache_key_parameters"`
 	HttpMethod            string            `json:"http_method"`
-	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
+	Id                    string            `json:"id"`
+	CacheKeyParameters    []string          `json:"cache_key_parameters"`
+	RequestTemplates      map[string]string `json:"request_templates"`
+	ResourceId            string            `json:"resource_id"`
+	RestApiId             string            `json:"rest_api_id"`
+	ConnectionId          string            `json:"connection_id"`
+	Credentials           string            `json:"credentials"`
+	RequestParameters     map[string]string `json:"request_parameters"`
 }
 
 // A ApiGatewayIntegrationStatus defines the observed state of a ApiGatewayIntegration
 type ApiGatewayIntegrationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayIntegrationObservation `json:",inline"`
+	AtProvider                     ApiGatewayIntegrationObservation `json:"atProvider"`
 }
 
 // A ApiGatewayIntegrationObservation records the observed state of a ApiGatewayIntegration

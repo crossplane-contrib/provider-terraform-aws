@@ -47,22 +47,22 @@ type SesIdentityNotificationTopicList struct {
 // A SesIdentityNotificationTopicSpec defines the desired state of a SesIdentityNotificationTopic
 type SesIdentityNotificationTopicSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesIdentityNotificationTopicParameters `json:",inline"`
+	ForProvider                  SesIdentityNotificationTopicParameters `json:"forProvider"`
 }
 
 // A SesIdentityNotificationTopicParameters defines the desired state of a SesIdentityNotificationTopic
 type SesIdentityNotificationTopicParameters struct {
-	TopicArn               string `json:"topic_arn"`
 	Id                     string `json:"id"`
 	Identity               string `json:"identity"`
 	IncludeOriginalHeaders bool   `json:"include_original_headers"`
 	NotificationType       string `json:"notification_type"`
+	TopicArn               string `json:"topic_arn"`
 }
 
 // A SesIdentityNotificationTopicStatus defines the observed state of a SesIdentityNotificationTopic
 type SesIdentityNotificationTopicStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesIdentityNotificationTopicObservation `json:",inline"`
+	AtProvider                     SesIdentityNotificationTopicObservation `json:"atProvider"`
 }
 
 // A SesIdentityNotificationTopicObservation records the observed state of a SesIdentityNotificationTopic

@@ -47,37 +47,37 @@ type DbEventSubscriptionList struct {
 // A DbEventSubscriptionSpec defines the desired state of a DbEventSubscription
 type DbEventSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbEventSubscriptionParameters `json:",inline"`
+	ForProvider                  DbEventSubscriptionParameters `json:"forProvider"`
 }
 
 // A DbEventSubscriptionParameters defines the desired state of a DbEventSubscription
 type DbEventSubscriptionParameters struct {
+	Enabled         bool              `json:"enabled"`
 	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	NamePrefix      string            `json:"name_prefix"`
 	SnsTopic        string            `json:"sns_topic"`
-	Enabled         bool              `json:"enabled"`
-	EventCategories []string          `json:"event_categories"`
-	Tags            map[string]string `json:"tags"`
 	SourceIds       []string          `json:"source_ids"`
 	SourceType      string            `json:"source_type"`
+	EventCategories []string          `json:"event_categories"`
+	Tags            map[string]string `json:"tags"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DbEventSubscriptionStatus defines the observed state of a DbEventSubscription
 type DbEventSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbEventSubscriptionObservation `json:",inline"`
+	AtProvider                     DbEventSubscriptionObservation `json:"atProvider"`
 }
 
 // A DbEventSubscriptionObservation records the observed state of a DbEventSubscription
 type DbEventSubscriptionObservation struct {
-	CustomerAwsId string `json:"customer_aws_id"`
 	Arn           string `json:"arn"`
+	CustomerAwsId string `json:"customer_aws_id"`
 }

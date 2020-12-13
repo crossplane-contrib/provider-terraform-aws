@@ -47,7 +47,7 @@ type OpsworksUserProfileList struct {
 // A OpsworksUserProfileSpec defines the desired state of a OpsworksUserProfile
 type OpsworksUserProfileSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksUserProfileParameters `json:",inline"`
+	ForProvider                  OpsworksUserProfileParameters `json:"forProvider"`
 }
 
 // A OpsworksUserProfileParameters defines the desired state of a OpsworksUserProfile
@@ -62,7 +62,7 @@ type OpsworksUserProfileParameters struct {
 // A OpsworksUserProfileStatus defines the observed state of a OpsworksUserProfile
 type OpsworksUserProfileStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksUserProfileObservation `json:",inline"`
+	AtProvider                     OpsworksUserProfileObservation `json:"atProvider"`
 }
 
 // A OpsworksUserProfileObservation records the observed state of a OpsworksUserProfile

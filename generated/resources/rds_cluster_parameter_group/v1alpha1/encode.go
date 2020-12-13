@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,22 +37,29 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRdsClusterParameterGroup(r RdsClusterParameterGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRdsClusterParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Family(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterParameterGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterParameterGroup_Parameter(r.Spec.ForProvider.Parameter, ctyVal)
 	EncodeRdsClusterParameterGroup_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRdsClusterParameterGroup_NamePrefix(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
 func EncodeRdsClusterParameterGroup_Tags(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -73,6 +81,10 @@ func EncodeRdsClusterParameterGroup_Id(p RdsClusterParameterGroupParameters, val
 
 func EncodeRdsClusterParameterGroup_Name(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeRdsClusterParameterGroup_NamePrefix(p RdsClusterParameterGroupParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeRdsClusterParameterGroup_Parameter(p Parameter, vals map[string]cty.Value) {

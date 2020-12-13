@@ -47,25 +47,25 @@ type ElasticBeanstalkApplicationVersionList struct {
 // A ElasticBeanstalkApplicationVersionSpec defines the desired state of a ElasticBeanstalkApplicationVersion
 type ElasticBeanstalkApplicationVersionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticBeanstalkApplicationVersionParameters `json:",inline"`
+	ForProvider                  ElasticBeanstalkApplicationVersionParameters `json:"forProvider"`
 }
 
 // A ElasticBeanstalkApplicationVersionParameters defines the desired state of a ElasticBeanstalkApplicationVersion
 type ElasticBeanstalkApplicationVersionParameters struct {
+	Tags        map[string]string `json:"tags"`
 	Bucket      string            `json:"bucket"`
 	Description string            `json:"description"`
-	Name        string            `json:"name"`
 	Key         string            `json:"key"`
-	Tags        map[string]string `json:"tags"`
+	Id          string            `json:"id"`
+	Name        string            `json:"name"`
 	Application string            `json:"application"`
 	ForceDelete bool              `json:"force_delete"`
-	Id          string            `json:"id"`
 }
 
 // A ElasticBeanstalkApplicationVersionStatus defines the observed state of a ElasticBeanstalkApplicationVersion
 type ElasticBeanstalkApplicationVersionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticBeanstalkApplicationVersionObservation `json:",inline"`
+	AtProvider                     ElasticBeanstalkApplicationVersionObservation `json:"atProvider"`
 }
 
 // A ElasticBeanstalkApplicationVersionObservation records the observed state of a ElasticBeanstalkApplicationVersion

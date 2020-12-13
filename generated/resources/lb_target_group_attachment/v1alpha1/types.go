@@ -47,22 +47,22 @@ type LbTargetGroupAttachmentList struct {
 // A LbTargetGroupAttachmentSpec defines the desired state of a LbTargetGroupAttachment
 type LbTargetGroupAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LbTargetGroupAttachmentParameters `json:",inline"`
+	ForProvider                  LbTargetGroupAttachmentParameters `json:"forProvider"`
 }
 
 // A LbTargetGroupAttachmentParameters defines the desired state of a LbTargetGroupAttachment
 type LbTargetGroupAttachmentParameters struct {
+	AvailabilityZone string `json:"availability_zone"`
+	Id               string `json:"id"`
 	Port             int64  `json:"port"`
 	TargetGroupArn   string `json:"target_group_arn"`
 	TargetId         string `json:"target_id"`
-	AvailabilityZone string `json:"availability_zone"`
-	Id               string `json:"id"`
 }
 
 // A LbTargetGroupAttachmentStatus defines the observed state of a LbTargetGroupAttachment
 type LbTargetGroupAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LbTargetGroupAttachmentObservation `json:",inline"`
+	AtProvider                     LbTargetGroupAttachmentObservation `json:"atProvider"`
 }
 
 // A LbTargetGroupAttachmentObservation records the observed state of a LbTargetGroupAttachment

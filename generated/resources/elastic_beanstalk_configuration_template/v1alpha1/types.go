@@ -47,7 +47,7 @@ type ElasticBeanstalkConfigurationTemplateList struct {
 // A ElasticBeanstalkConfigurationTemplateSpec defines the desired state of a ElasticBeanstalkConfigurationTemplate
 type ElasticBeanstalkConfigurationTemplateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticBeanstalkConfigurationTemplateParameters `json:",inline"`
+	ForProvider                  ElasticBeanstalkConfigurationTemplateParameters `json:"forProvider"`
 }
 
 // A ElasticBeanstalkConfigurationTemplateParameters defines the desired state of a ElasticBeanstalkConfigurationTemplate
@@ -62,16 +62,16 @@ type ElasticBeanstalkConfigurationTemplateParameters struct {
 }
 
 type Setting struct {
-	Namespace string `json:"namespace"`
-	Resource  string `json:"resource"`
 	Value     string `json:"value"`
 	Name      string `json:"name"`
+	Namespace string `json:"namespace"`
+	Resource  string `json:"resource"`
 }
 
 // A ElasticBeanstalkConfigurationTemplateStatus defines the observed state of a ElasticBeanstalkConfigurationTemplate
 type ElasticBeanstalkConfigurationTemplateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticBeanstalkConfigurationTemplateObservation `json:",inline"`
+	AtProvider                     ElasticBeanstalkConfigurationTemplateObservation `json:"atProvider"`
 }
 
 // A ElasticBeanstalkConfigurationTemplateObservation records the observed state of a ElasticBeanstalkConfigurationTemplate

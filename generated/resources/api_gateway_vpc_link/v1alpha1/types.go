@@ -47,22 +47,22 @@ type ApiGatewayVpcLinkList struct {
 // A ApiGatewayVpcLinkSpec defines the desired state of a ApiGatewayVpcLink
 type ApiGatewayVpcLinkSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayVpcLinkParameters `json:",inline"`
+	ForProvider                  ApiGatewayVpcLinkParameters `json:"forProvider"`
 }
 
 // A ApiGatewayVpcLinkParameters defines the desired state of a ApiGatewayVpcLink
 type ApiGatewayVpcLinkParameters struct {
+	Description string            `json:"description"`
+	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	TargetArns  []string          `json:"target_arns"`
-	Description string            `json:"description"`
-	Id          string            `json:"id"`
 }
 
 // A ApiGatewayVpcLinkStatus defines the observed state of a ApiGatewayVpcLink
 type ApiGatewayVpcLinkStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayVpcLinkObservation `json:",inline"`
+	AtProvider                     ApiGatewayVpcLinkObservation `json:"atProvider"`
 }
 
 // A ApiGatewayVpcLinkObservation records the observed state of a ApiGatewayVpcLink

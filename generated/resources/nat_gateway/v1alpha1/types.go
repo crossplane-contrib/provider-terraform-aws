@@ -47,21 +47,21 @@ type NatGatewayList struct {
 // A NatGatewaySpec defines the desired state of a NatGateway
 type NatGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NatGatewayParameters `json:",inline"`
+	ForProvider                  NatGatewayParameters `json:"forProvider"`
 }
 
 // A NatGatewayParameters defines the desired state of a NatGateway
 type NatGatewayParameters struct {
-	Tags         map[string]string `json:"tags"`
 	AllocationId string            `json:"allocation_id"`
 	Id           string            `json:"id"`
 	SubnetId     string            `json:"subnet_id"`
+	Tags         map[string]string `json:"tags"`
 }
 
 // A NatGatewayStatus defines the observed state of a NatGateway
 type NatGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NatGatewayObservation `json:",inline"`
+	AtProvider                     NatGatewayObservation `json:"atProvider"`
 }
 
 // A NatGatewayObservation records the observed state of a NatGateway

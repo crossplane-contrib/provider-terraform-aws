@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,24 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamOpenidConnectProvider(r IamOpenidConnectProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
-	EncodeIamOpenidConnectProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_ThumbprintList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Url(r.Spec.ForProvider, ctyVal)
+	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
+	EncodeIamOpenidConnectProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.ClientIdList {
-		colVals = append(colVals, cty.StringVal(value))
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["client_id_list"] = cty.ListVal(colVals)
-}
-
-func EncodeIamOpenidConnectProvider_Id(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeIamOpenidConnectProvider_ThumbprintList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
@@ -66,6 +62,18 @@ func EncodeIamOpenidConnectProvider_ThumbprintList(p IamOpenidConnectProviderPar
 
 func EncodeIamOpenidConnectProvider_Url(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	vals["url"] = cty.StringVal(p.Url)
+}
+
+func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ClientIdList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["client_id_list"] = cty.ListVal(colVals)
+}
+
+func EncodeIamOpenidConnectProvider_Id(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamOpenidConnectProvider_Arn(p IamOpenidConnectProviderObservation, vals map[string]cty.Value) {

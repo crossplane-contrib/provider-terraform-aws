@@ -47,28 +47,28 @@ type EbsVolumeList struct {
 // A EbsVolumeSpec defines the desired state of a EbsVolume
 type EbsVolumeSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EbsVolumeParameters `json:",inline"`
+	ForProvider                  EbsVolumeParameters `json:"forProvider"`
 }
 
 // A EbsVolumeParameters defines the desired state of a EbsVolume
 type EbsVolumeParameters struct {
+	Encrypted          bool              `json:"encrypted"`
 	Iops               int64             `json:"iops"`
+	KmsKeyId           string            `json:"kms_key_id"`
+	Size               int64             `json:"size"`
+	Type               string            `json:"type"`
+	SnapshotId         string            `json:"snapshot_id"`
 	Tags               map[string]string `json:"tags"`
+	AvailabilityZone   string            `json:"availability_zone"`
+	Id                 string            `json:"id"`
 	MultiAttachEnabled bool              `json:"multi_attach_enabled"`
 	OutpostArn         string            `json:"outpost_arn"`
-	Size               int64             `json:"size"`
-	SnapshotId         string            `json:"snapshot_id"`
-	AvailabilityZone   string            `json:"availability_zone"`
-	Encrypted          bool              `json:"encrypted"`
-	Id                 string            `json:"id"`
-	KmsKeyId           string            `json:"kms_key_id"`
-	Type               string            `json:"type"`
 }
 
 // A EbsVolumeStatus defines the observed state of a EbsVolume
 type EbsVolumeStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EbsVolumeObservation `json:",inline"`
+	AtProvider                     EbsVolumeObservation `json:"atProvider"`
 }
 
 // A EbsVolumeObservation records the observed state of a EbsVolume

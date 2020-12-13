@@ -47,29 +47,29 @@ type LightsailKeyPairList struct {
 // A LightsailKeyPairSpec defines the desired state of a LightsailKeyPair
 type LightsailKeyPairSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LightsailKeyPairParameters `json:",inline"`
+	ForProvider                  LightsailKeyPairParameters `json:"forProvider"`
 }
 
 // A LightsailKeyPairParameters defines the desired state of a LightsailKeyPair
 type LightsailKeyPairParameters struct {
 	NamePrefix string `json:"name_prefix"`
-	PgpKey     string `json:"pgp_key"`
+	PublicKey  string `json:"public_key"`
 	Id         string `json:"id"`
 	Name       string `json:"name"`
-	PublicKey  string `json:"public_key"`
+	PgpKey     string `json:"pgp_key"`
 }
 
 // A LightsailKeyPairStatus defines the observed state of a LightsailKeyPair
 type LightsailKeyPairStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LightsailKeyPairObservation `json:",inline"`
+	AtProvider                     LightsailKeyPairObservation `json:"atProvider"`
 }
 
 // A LightsailKeyPairObservation records the observed state of a LightsailKeyPair
 type LightsailKeyPairObservation struct {
-	PrivateKey           string `json:"private_key"`
 	Arn                  string `json:"arn"`
 	EncryptedFingerprint string `json:"encrypted_fingerprint"`
 	EncryptedPrivateKey  string `json:"encrypted_private_key"`
 	Fingerprint          string `json:"fingerprint"`
+	PrivateKey           string `json:"private_key"`
 }

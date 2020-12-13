@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -40,8 +41,15 @@ func EncodeMediaPackageChannel(r MediaPackageChannel) cty.Value {
 	EncodeMediaPackageChannel_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaPackageChannel_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMediaPackageChannel_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMediaPackageChannel_HlsIngest(r.Status.AtProvider.HlsIngest, ctyVal)
+	EncodeMediaPackageChannel_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -58,15 +66,15 @@ func EncodeMediaPackageChannel_Id(p MediaPackageChannelParameters, vals map[stri
 }
 
 func EncodeMediaPackageChannel_Tags(p MediaPackageChannelParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeMediaPackageChannel_Arn(p MediaPackageChannelObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeMediaPackageChannel_HlsIngest(p []HlsIngest, vals map[string]cty.Value) {
@@ -83,16 +91,12 @@ func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints(p []IngestEndpoints, va
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(v, ctyVal)
 		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Url(v, ctyVal)
 		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Username(v, ctyVal)
+		EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["ingest_endpoints"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(p IngestEndpoints, vals map[string]cty.Value) {
-	vals["password"] = cty.StringVal(p.Password)
 }
 
 func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Url(p IngestEndpoints, vals map[string]cty.Value) {
@@ -101,4 +105,12 @@ func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Url(p IngestEndpoints, 
 
 func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Username(p IngestEndpoints, vals map[string]cty.Value) {
 	vals["username"] = cty.StringVal(p.Username)
+}
+
+func EncodeMediaPackageChannel_HlsIngest_IngestEndpoints_Password(p IngestEndpoints, vals map[string]cty.Value) {
+	vals["password"] = cty.StringVal(p.Password)
+}
+
+func EncodeMediaPackageChannel_Arn(p MediaPackageChannelObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

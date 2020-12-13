@@ -47,7 +47,7 @@ type SesActiveReceiptRuleSetList struct {
 // A SesActiveReceiptRuleSetSpec defines the desired state of a SesActiveReceiptRuleSet
 type SesActiveReceiptRuleSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesActiveReceiptRuleSetParameters `json:",inline"`
+	ForProvider                  SesActiveReceiptRuleSetParameters `json:"forProvider"`
 }
 
 // A SesActiveReceiptRuleSetParameters defines the desired state of a SesActiveReceiptRuleSet
@@ -59,7 +59,7 @@ type SesActiveReceiptRuleSetParameters struct {
 // A SesActiveReceiptRuleSetStatus defines the observed state of a SesActiveReceiptRuleSet
 type SesActiveReceiptRuleSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesActiveReceiptRuleSetObservation `json:",inline"`
+	AtProvider                     SesActiveReceiptRuleSetObservation `json:"atProvider"`
 }
 
 // A SesActiveReceiptRuleSetObservation records the observed state of a SesActiveReceiptRuleSet

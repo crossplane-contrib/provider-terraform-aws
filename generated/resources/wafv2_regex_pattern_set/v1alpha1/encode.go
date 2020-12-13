@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,27 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafv2RegexPatternSet(r Wafv2RegexPatternSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafv2RegexPatternSet_Scope(r.Spec.ForProvider, ctyVal)
-	EncodeWafv2RegexPatternSet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Description(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
+	EncodeWafv2RegexPatternSet_Scope(r.Spec.ForProvider, ctyVal)
+	EncodeWafv2RegexPatternSet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_RegularExpression(r.Spec.ForProvider.RegularExpression, ctyVal)
-	EncodeWafv2RegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
 	EncodeWafv2RegexPatternSet_LockToken(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafv2RegexPatternSet_Scope(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["scope"] = cty.StringVal(p.Scope)
-}
-
-func EncodeWafv2RegexPatternSet_Tags(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	EncodeWafv2RegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeWafv2RegexPatternSet_Description(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
@@ -69,6 +65,22 @@ func EncodeWafv2RegexPatternSet_Id(p Wafv2RegexPatternSetParameters, vals map[st
 
 func EncodeWafv2RegexPatternSet_Name(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeWafv2RegexPatternSet_Scope(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+	vals["scope"] = cty.StringVal(p.Scope)
+}
+
+func EncodeWafv2RegexPatternSet_Tags(p Wafv2RegexPatternSetParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeWafv2RegexPatternSet_RegularExpression(p []RegularExpression, vals map[string]cty.Value) {
@@ -85,10 +97,10 @@ func EncodeWafv2RegexPatternSet_RegularExpression_RegexString(p RegularExpressio
 	vals["regex_string"] = cty.StringVal(p.RegexString)
 }
 
-func EncodeWafv2RegexPatternSet_Arn(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeWafv2RegexPatternSet_LockToken(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
 	vals["lock_token"] = cty.StringVal(p.LockToken)
+}
+
+func EncodeWafv2RegexPatternSet_Arn(p Wafv2RegexPatternSetObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

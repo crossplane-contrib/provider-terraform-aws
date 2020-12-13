@@ -47,7 +47,7 @@ type WafregionalXssMatchSetList struct {
 // A WafregionalXssMatchSetSpec defines the desired state of a WafregionalXssMatchSet
 type WafregionalXssMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalXssMatchSetParameters `json:",inline"`
+	ForProvider                  WafregionalXssMatchSetParameters `json:"forProvider"`
 }
 
 // A WafregionalXssMatchSetParameters defines the desired state of a WafregionalXssMatchSet
@@ -70,7 +70,7 @@ type FieldToMatch struct {
 // A WafregionalXssMatchSetStatus defines the observed state of a WafregionalXssMatchSet
 type WafregionalXssMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalXssMatchSetObservation `json:",inline"`
+	AtProvider                     WafregionalXssMatchSetObservation `json:"atProvider"`
 }
 
 // A WafregionalXssMatchSetObservation records the observed state of a WafregionalXssMatchSet

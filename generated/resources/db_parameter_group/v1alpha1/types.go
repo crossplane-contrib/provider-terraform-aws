@@ -47,7 +47,7 @@ type DbParameterGroupList struct {
 // A DbParameterGroupSpec defines the desired state of a DbParameterGroup
 type DbParameterGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbParameterGroupParameters `json:",inline"`
+	ForProvider                  DbParameterGroupParameters `json:"forProvider"`
 }
 
 // A DbParameterGroupParameters defines the desired state of a DbParameterGroup
@@ -70,7 +70,7 @@ type Parameter struct {
 // A DbParameterGroupStatus defines the observed state of a DbParameterGroup
 type DbParameterGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbParameterGroupObservation `json:",inline"`
+	AtProvider                     DbParameterGroupObservation `json:"atProvider"`
 }
 
 // A DbParameterGroupObservation records the observed state of a DbParameterGroup

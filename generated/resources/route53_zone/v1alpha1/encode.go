@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRoute53Zone(r Route53Zone) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53Zone_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_DelegationSetId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53Zone_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53Zone_Vpc(r.Spec.ForProvider.Vpc, ctyVal)
 	EncodeRoute53Zone_NameServers(r.Status.AtProvider, ctyVal)
 	EncodeRoute53Zone_ZoneId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRoute53Zone_Comment(p Route53ZoneParameters, vals map[string]cty.Value) {
+	vals["comment"] = cty.StringVal(p.Comment)
 }
 
 func EncodeRoute53Zone_DelegationSetId(p Route53ZoneParameters, vals map[string]cty.Value) {
@@ -65,15 +77,15 @@ func EncodeRoute53Zone_Name(p Route53ZoneParameters, vals map[string]cty.Value) 
 }
 
 func EncodeRoute53Zone_Tags(p Route53ZoneParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeRoute53Zone_Comment(p Route53ZoneParameters, vals map[string]cty.Value) {
-	vals["comment"] = cty.StringVal(p.Comment)
 }
 
 func EncodeRoute53Zone_Vpc(p Vpc, vals map[string]cty.Value) {

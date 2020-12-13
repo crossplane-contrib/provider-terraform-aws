@@ -47,7 +47,7 @@ type RedshiftSnapshotScheduleAssociationList struct {
 // A RedshiftSnapshotScheduleAssociationSpec defines the desired state of a RedshiftSnapshotScheduleAssociation
 type RedshiftSnapshotScheduleAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RedshiftSnapshotScheduleAssociationParameters `json:",inline"`
+	ForProvider                  RedshiftSnapshotScheduleAssociationParameters `json:"forProvider"`
 }
 
 // A RedshiftSnapshotScheduleAssociationParameters defines the desired state of a RedshiftSnapshotScheduleAssociation
@@ -60,7 +60,7 @@ type RedshiftSnapshotScheduleAssociationParameters struct {
 // A RedshiftSnapshotScheduleAssociationStatus defines the observed state of a RedshiftSnapshotScheduleAssociation
 type RedshiftSnapshotScheduleAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RedshiftSnapshotScheduleAssociationObservation `json:",inline"`
+	AtProvider                     RedshiftSnapshotScheduleAssociationObservation `json:"atProvider"`
 }
 
 // A RedshiftSnapshotScheduleAssociationObservation records the observed state of a RedshiftSnapshotScheduleAssociation

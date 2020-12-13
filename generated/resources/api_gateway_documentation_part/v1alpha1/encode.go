@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayDocumentationPart(r ApiGatewayDocumentationPart) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayDocumentationPart_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDocumentationPart_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDocumentationPart_Properties(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDocumentationPart_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location(r.Spec.ForProvider.Location, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayDocumentationPart_RestApiId(p ApiGatewayDocumentationPartParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayDocumentationPart_Id(p ApiGatewayDocumentationPartParameters, vals map[string]cty.Value) {
@@ -52,24 +64,16 @@ func EncodeApiGatewayDocumentationPart_Properties(p ApiGatewayDocumentationPartP
 	vals["properties"] = cty.StringVal(p.Properties)
 }
 
-func EncodeApiGatewayDocumentationPart_RestApiId(p ApiGatewayDocumentationPartParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
-}
-
 func EncodeApiGatewayDocumentationPart_Location(p Location, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayDocumentationPart_Location_StatusCode(p, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location_Type(p, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location_Method(p, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location_Name(p, ctyVal)
 	EncodeApiGatewayDocumentationPart_Location_Path(p, ctyVal)
+	EncodeApiGatewayDocumentationPart_Location_StatusCode(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["location"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeApiGatewayDocumentationPart_Location_StatusCode(p Location, vals map[string]cty.Value) {
-	vals["status_code"] = cty.StringVal(p.StatusCode)
 }
 
 func EncodeApiGatewayDocumentationPart_Location_Type(p Location, vals map[string]cty.Value) {
@@ -86,4 +90,8 @@ func EncodeApiGatewayDocumentationPart_Location_Name(p Location, vals map[string
 
 func EncodeApiGatewayDocumentationPart_Location_Path(p Location, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
+}
+
+func EncodeApiGatewayDocumentationPart_Location_StatusCode(p Location, vals map[string]cty.Value) {
+	vals["status_code"] = cty.StringVal(p.StatusCode)
 }

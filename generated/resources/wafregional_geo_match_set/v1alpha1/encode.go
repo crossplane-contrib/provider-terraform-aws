@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,19 +37,26 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafregionalGeoMatchSet(r WafregionalGeoMatchSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalGeoMatchSet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWafregionalGeoMatchSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalGeoMatchSet_GeoMatchConstraint(r.Spec.ForProvider.GeoMatchConstraint, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalGeoMatchSet_Name(p WafregionalGeoMatchSetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafregionalGeoMatchSet_Id(p WafregionalGeoMatchSetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWafregionalGeoMatchSet_Name(p WafregionalGeoMatchSetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafregionalGeoMatchSet_GeoMatchConstraint(p GeoMatchConstraint, vals map[string]cty.Value) {

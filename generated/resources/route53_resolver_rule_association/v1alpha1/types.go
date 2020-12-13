@@ -47,15 +47,15 @@ type Route53ResolverRuleAssociationList struct {
 // A Route53ResolverRuleAssociationSpec defines the desired state of a Route53ResolverRuleAssociation
 type Route53ResolverRuleAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53ResolverRuleAssociationParameters `json:",inline"`
+	ForProvider                  Route53ResolverRuleAssociationParameters `json:"forProvider"`
 }
 
 // A Route53ResolverRuleAssociationParameters defines the desired state of a Route53ResolverRuleAssociation
 type Route53ResolverRuleAssociationParameters struct {
-	VpcId          string   `json:"vpc_id"`
 	Id             string   `json:"id"`
 	Name           string   `json:"name"`
 	ResolverRuleId string   `json:"resolver_rule_id"`
+	VpcId          string   `json:"vpc_id"`
 	Timeouts       Timeouts `json:"timeouts"`
 }
 
@@ -67,7 +67,7 @@ type Timeouts struct {
 // A Route53ResolverRuleAssociationStatus defines the observed state of a Route53ResolverRuleAssociation
 type Route53ResolverRuleAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53ResolverRuleAssociationObservation `json:",inline"`
+	AtProvider                     Route53ResolverRuleAssociationObservation `json:"atProvider"`
 }
 
 // A Route53ResolverRuleAssociationObservation records the observed state of a Route53ResolverRuleAssociation

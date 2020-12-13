@@ -47,7 +47,7 @@ type Route53ResolverQueryLogConfigList struct {
 // A Route53ResolverQueryLogConfigSpec defines the desired state of a Route53ResolverQueryLogConfig
 type Route53ResolverQueryLogConfigSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53ResolverQueryLogConfigParameters `json:",inline"`
+	ForProvider                  Route53ResolverQueryLogConfigParameters `json:"forProvider"`
 }
 
 // A Route53ResolverQueryLogConfigParameters defines the desired state of a Route53ResolverQueryLogConfig
@@ -61,12 +61,12 @@ type Route53ResolverQueryLogConfigParameters struct {
 // A Route53ResolverQueryLogConfigStatus defines the observed state of a Route53ResolverQueryLogConfig
 type Route53ResolverQueryLogConfigStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53ResolverQueryLogConfigObservation `json:",inline"`
+	AtProvider                     Route53ResolverQueryLogConfigObservation `json:"atProvider"`
 }
 
 // A Route53ResolverQueryLogConfigObservation records the observed state of a Route53ResolverQueryLogConfig
 type Route53ResolverQueryLogConfigObservation struct {
+	ShareStatus string `json:"share_status"`
 	Arn         string `json:"arn"`
 	OwnerId     string `json:"owner_id"`
-	ShareStatus string `json:"share_status"`
 }

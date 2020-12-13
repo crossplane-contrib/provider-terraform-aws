@@ -47,7 +47,7 @@ type SecurityhubMemberList struct {
 // A SecurityhubMemberSpec defines the desired state of a SecurityhubMember
 type SecurityhubMemberSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecurityhubMemberParameters `json:",inline"`
+	ForProvider                  SecurityhubMemberParameters `json:"forProvider"`
 }
 
 // A SecurityhubMemberParameters defines the desired state of a SecurityhubMember
@@ -61,7 +61,7 @@ type SecurityhubMemberParameters struct {
 // A SecurityhubMemberStatus defines the observed state of a SecurityhubMember
 type SecurityhubMemberStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecurityhubMemberObservation `json:",inline"`
+	AtProvider                     SecurityhubMemberObservation `json:"atProvider"`
 }
 
 // A SecurityhubMemberObservation records the observed state of a SecurityhubMember

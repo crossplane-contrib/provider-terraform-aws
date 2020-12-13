@@ -47,25 +47,25 @@ type Cloud9EnvironmentEc2List struct {
 // A Cloud9EnvironmentEc2Spec defines the desired state of a Cloud9EnvironmentEc2
 type Cloud9EnvironmentEc2Spec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Cloud9EnvironmentEc2Parameters `json:",inline"`
+	ForProvider                  Cloud9EnvironmentEc2Parameters `json:"forProvider"`
 }
 
 // A Cloud9EnvironmentEc2Parameters defines the desired state of a Cloud9EnvironmentEc2
 type Cloud9EnvironmentEc2Parameters struct {
-	Id                       string            `json:"id"`
-	Tags                     map[string]string `json:"tags"`
-	AutomaticStopTimeMinutes int64             `json:"automatic_stop_time_minutes"`
-	Description              string            `json:"description"`
-	InstanceType             string            `json:"instance_type"`
-	Name                     string            `json:"name"`
 	OwnerArn                 string            `json:"owner_arn"`
+	Tags                     map[string]string `json:"tags"`
+	Description              string            `json:"description"`
+	Name                     string            `json:"name"`
 	SubnetId                 string            `json:"subnet_id"`
+	AutomaticStopTimeMinutes int64             `json:"automatic_stop_time_minutes"`
+	Id                       string            `json:"id"`
+	InstanceType             string            `json:"instance_type"`
 }
 
 // A Cloud9EnvironmentEc2Status defines the observed state of a Cloud9EnvironmentEc2
 type Cloud9EnvironmentEc2Status struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Cloud9EnvironmentEc2Observation `json:",inline"`
+	AtProvider                     Cloud9EnvironmentEc2Observation `json:"atProvider"`
 }
 
 // A Cloud9EnvironmentEc2Observation records the observed state of a Cloud9EnvironmentEc2

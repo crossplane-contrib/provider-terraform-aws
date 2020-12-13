@@ -47,21 +47,21 @@ type Ec2LocalGatewayRouteTableVpcAssociationList struct {
 // A Ec2LocalGatewayRouteTableVpcAssociationSpec defines the desired state of a Ec2LocalGatewayRouteTableVpcAssociation
 type Ec2LocalGatewayRouteTableVpcAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2LocalGatewayRouteTableVpcAssociationParameters `json:",inline"`
+	ForProvider                  Ec2LocalGatewayRouteTableVpcAssociationParameters `json:"forProvider"`
 }
 
 // A Ec2LocalGatewayRouteTableVpcAssociationParameters defines the desired state of a Ec2LocalGatewayRouteTableVpcAssociation
 type Ec2LocalGatewayRouteTableVpcAssociationParameters struct {
+	Tags                     map[string]string `json:"tags"`
 	VpcId                    string            `json:"vpc_id"`
 	Id                       string            `json:"id"`
 	LocalGatewayRouteTableId string            `json:"local_gateway_route_table_id"`
-	Tags                     map[string]string `json:"tags"`
 }
 
 // A Ec2LocalGatewayRouteTableVpcAssociationStatus defines the observed state of a Ec2LocalGatewayRouteTableVpcAssociation
 type Ec2LocalGatewayRouteTableVpcAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2LocalGatewayRouteTableVpcAssociationObservation `json:",inline"`
+	AtProvider                     Ec2LocalGatewayRouteTableVpcAssociationObservation `json:"atProvider"`
 }
 
 // A Ec2LocalGatewayRouteTableVpcAssociationObservation records the observed state of a Ec2LocalGatewayRouteTableVpcAssociation

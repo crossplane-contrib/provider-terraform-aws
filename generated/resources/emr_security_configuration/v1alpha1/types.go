@@ -47,21 +47,21 @@ type EmrSecurityConfigurationList struct {
 // A EmrSecurityConfigurationSpec defines the desired state of a EmrSecurityConfiguration
 type EmrSecurityConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EmrSecurityConfigurationParameters `json:",inline"`
+	ForProvider                  EmrSecurityConfigurationParameters `json:"forProvider"`
 }
 
 // A EmrSecurityConfigurationParameters defines the desired state of a EmrSecurityConfiguration
 type EmrSecurityConfigurationParameters struct {
+	NamePrefix    string `json:"name_prefix"`
 	Configuration string `json:"configuration"`
 	Id            string `json:"id"`
 	Name          string `json:"name"`
-	NamePrefix    string `json:"name_prefix"`
 }
 
 // A EmrSecurityConfigurationStatus defines the observed state of a EmrSecurityConfiguration
 type EmrSecurityConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EmrSecurityConfigurationObservation `json:",inline"`
+	AtProvider                     EmrSecurityConfigurationObservation `json:"atProvider"`
 }
 
 // A EmrSecurityConfigurationObservation records the observed state of a EmrSecurityConfiguration

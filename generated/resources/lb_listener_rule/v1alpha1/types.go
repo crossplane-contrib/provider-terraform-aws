@@ -47,52 +47,27 @@ type LbListenerRuleList struct {
 // A LbListenerRuleSpec defines the desired state of a LbListenerRule
 type LbListenerRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LbListenerRuleParameters `json:",inline"`
+	ForProvider                  LbListenerRuleParameters `json:"forProvider"`
 }
 
 // A LbListenerRuleParameters defines the desired state of a LbListenerRule
 type LbListenerRuleParameters struct {
+	Id          string      `json:"id"`
 	ListenerArn string      `json:"listener_arn"`
 	Priority    int64       `json:"priority"`
-	Id          string      `json:"id"`
 	Action      []Action    `json:"action"`
 	Condition   []Condition `json:"condition"`
 }
 
 type Action struct {
+	Type                string              `json:"type"`
 	Order               int64               `json:"order"`
 	TargetGroupArn      string              `json:"target_group_arn"`
-	Type                string              `json:"type"`
-	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
-	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 	FixedResponse       FixedResponse       `json:"fixed_response"`
 	Forward             Forward             `json:"forward"`
 	Redirect            Redirect            `json:"redirect"`
-}
-
-type AuthenticateCognito struct {
-	UserPoolDomain                   string            `json:"user_pool_domain"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int64             `json:"session_timeout"`
-	UserPoolArn                      string            `json:"user_pool_arn"`
-	UserPoolClientId                 string            `json:"user_pool_client_id"`
-}
-
-type AuthenticateOidc struct {
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	ClientId                         string            `json:"client_id"`
-	ClientSecret                     string            `json:"client_secret"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int64             `json:"session_timeout"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	Issuer                           string            `json:"issuer"`
-	Scope                            string            `json:"scope"`
+	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
+	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
 }
 
 type FixedResponse struct {
@@ -125,22 +100,38 @@ type Redirect struct {
 	StatusCode string `json:"status_code"`
 }
 
+type AuthenticateCognito struct {
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	UserPoolArn                      string            `json:"user_pool_arn"`
+	UserPoolClientId                 string            `json:"user_pool_client_id"`
+	UserPoolDomain                   string            `json:"user_pool_domain"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+}
+
+type AuthenticateOidc struct {
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	ClientId                         string            `json:"client_id"`
+	ClientSecret                     string            `json:"client_secret"`
+	Scope                            string            `json:"scope"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
+	Issuer                           string            `json:"issuer"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+}
+
 type Condition struct {
-	HostHeader        HostHeader        `json:"host_header"`
-	HttpHeader        HttpHeader        `json:"http_header"`
 	HttpRequestMethod HttpRequestMethod `json:"http_request_method"`
 	PathPattern       PathPattern       `json:"path_pattern"`
 	QueryString       QueryString       `json:"query_string"`
 	SourceIp          SourceIp          `json:"source_ip"`
-}
-
-type HostHeader struct {
-	Values []string `json:"values"`
-}
-
-type HttpHeader struct {
-	HttpHeaderName string   `json:"http_header_name"`
-	Values         []string `json:"values"`
+	HostHeader        HostHeader        `json:"host_header"`
+	HttpHeader        HttpHeader        `json:"http_header"`
 }
 
 type HttpRequestMethod struct {
@@ -160,10 +151,19 @@ type SourceIp struct {
 	Values []string `json:"values"`
 }
 
+type HostHeader struct {
+	Values []string `json:"values"`
+}
+
+type HttpHeader struct {
+	HttpHeaderName string   `json:"http_header_name"`
+	Values         []string `json:"values"`
+}
+
 // A LbListenerRuleStatus defines the observed state of a LbListenerRule
 type LbListenerRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LbListenerRuleObservation `json:",inline"`
+	AtProvider                     LbListenerRuleObservation `json:"atProvider"`
 }
 
 // A LbListenerRuleObservation records the observed state of a LbListenerRule

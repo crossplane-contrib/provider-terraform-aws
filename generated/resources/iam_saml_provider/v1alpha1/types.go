@@ -47,24 +47,24 @@ type IamSamlProviderList struct {
 // A IamSamlProviderSpec defines the desired state of a IamSamlProvider
 type IamSamlProviderSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamSamlProviderParameters `json:",inline"`
+	ForProvider                  IamSamlProviderParameters `json:"forProvider"`
 }
 
 // A IamSamlProviderParameters defines the desired state of a IamSamlProvider
 type IamSamlProviderParameters struct {
-	Id                   string `json:"id"`
 	Name                 string `json:"name"`
 	SamlMetadataDocument string `json:"saml_metadata_document"`
+	Id                   string `json:"id"`
 }
 
 // A IamSamlProviderStatus defines the observed state of a IamSamlProvider
 type IamSamlProviderStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamSamlProviderObservation `json:",inline"`
+	AtProvider                     IamSamlProviderObservation `json:"atProvider"`
 }
 
 // A IamSamlProviderObservation records the observed state of a IamSamlProvider
 type IamSamlProviderObservation struct {
-	Arn        string `json:"arn"`
 	ValidUntil string `json:"valid_until"`
+	Arn        string `json:"arn"`
 }

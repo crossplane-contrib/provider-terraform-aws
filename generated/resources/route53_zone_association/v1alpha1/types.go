@@ -47,21 +47,21 @@ type Route53ZoneAssociationList struct {
 // A Route53ZoneAssociationSpec defines the desired state of a Route53ZoneAssociation
 type Route53ZoneAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53ZoneAssociationParameters `json:",inline"`
+	ForProvider                  Route53ZoneAssociationParameters `json:"forProvider"`
 }
 
 // A Route53ZoneAssociationParameters defines the desired state of a Route53ZoneAssociation
 type Route53ZoneAssociationParameters struct {
+	Id        string `json:"id"`
 	VpcId     string `json:"vpc_id"`
 	VpcRegion string `json:"vpc_region"`
 	ZoneId    string `json:"zone_id"`
-	Id        string `json:"id"`
 }
 
 // A Route53ZoneAssociationStatus defines the observed state of a Route53ZoneAssociation
 type Route53ZoneAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53ZoneAssociationObservation `json:",inline"`
+	AtProvider                     Route53ZoneAssociationObservation `json:"atProvider"`
 }
 
 // A Route53ZoneAssociationObservation records the observed state of a Route53ZoneAssociation

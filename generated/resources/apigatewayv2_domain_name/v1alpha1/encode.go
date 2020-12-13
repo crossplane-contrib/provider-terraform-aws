@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -43,6 +44,13 @@ func EncodeApigatewayv2DomainName(r Apigatewayv2DomainName) cty.Value {
 	EncodeApigatewayv2DomainName_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeApigatewayv2DomainName_ApiMappingSelectionExpression(r.Status.AtProvider, ctyVal)
 	EncodeApigatewayv2DomainName_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -55,6 +63,10 @@ func EncodeApigatewayv2DomainName_Id(p Apigatewayv2DomainNameParameters, vals ma
 }
 
 func EncodeApigatewayv2DomainName_Tags(p Apigatewayv2DomainNameParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -65,17 +77,13 @@ func EncodeApigatewayv2DomainName_Tags(p Apigatewayv2DomainNameParameters, vals 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration(p DomainNameConfiguration, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_HostedZoneId(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p, ctyVal)
 	EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p, ctyVal)
+	EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["domain_name_configuration"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p DomainNameConfiguration, vals map[string]cty.Value) {
-	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration_EndpointType(p DomainNameConfiguration, vals map[string]cty.Value) {
@@ -92,6 +100,10 @@ func EncodeApigatewayv2DomainName_DomainNameConfiguration_SecurityPolicy(p Domai
 
 func EncodeApigatewayv2DomainName_DomainNameConfiguration_TargetDomainName(p DomainNameConfiguration, vals map[string]cty.Value) {
 	vals["target_domain_name"] = cty.StringVal(p.TargetDomainName)
+}
+
+func EncodeApigatewayv2DomainName_DomainNameConfiguration_CertificateArn(p DomainNameConfiguration, vals map[string]cty.Value) {
+	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeApigatewayv2DomainName_Timeouts(p Timeouts, vals map[string]cty.Value) {

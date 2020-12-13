@@ -47,7 +47,7 @@ type Apigatewayv2DomainNameList struct {
 // A Apigatewayv2DomainNameSpec defines the desired state of a Apigatewayv2DomainName
 type Apigatewayv2DomainNameSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2DomainNameParameters `json:",inline"`
+	ForProvider                  Apigatewayv2DomainNameParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2DomainNameParameters defines the desired state of a Apigatewayv2DomainName
@@ -60,11 +60,11 @@ type Apigatewayv2DomainNameParameters struct {
 }
 
 type DomainNameConfiguration struct {
-	CertificateArn   string `json:"certificate_arn"`
 	EndpointType     string `json:"endpoint_type"`
 	HostedZoneId     string `json:"hosted_zone_id"`
 	SecurityPolicy   string `json:"security_policy"`
 	TargetDomainName string `json:"target_domain_name"`
+	CertificateArn   string `json:"certificate_arn"`
 }
 
 type Timeouts struct {
@@ -74,11 +74,11 @@ type Timeouts struct {
 // A Apigatewayv2DomainNameStatus defines the observed state of a Apigatewayv2DomainName
 type Apigatewayv2DomainNameStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2DomainNameObservation `json:",inline"`
+	AtProvider                     Apigatewayv2DomainNameObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2DomainNameObservation records the observed state of a Apigatewayv2DomainName
 type Apigatewayv2DomainNameObservation struct {
-	Arn                           string `json:"arn"`
 	ApiMappingSelectionExpression string `json:"api_mapping_selection_expression"`
+	Arn                           string `json:"arn"`
 }

@@ -47,7 +47,7 @@ type GameliftBuildList struct {
 // A GameliftBuildSpec defines the desired state of a GameliftBuild
 type GameliftBuildSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GameliftBuildParameters `json:",inline"`
+	ForProvider                  GameliftBuildParameters `json:"forProvider"`
 }
 
 // A GameliftBuildParameters defines the desired state of a GameliftBuild
@@ -69,7 +69,7 @@ type StorageLocation struct {
 // A GameliftBuildStatus defines the observed state of a GameliftBuild
 type GameliftBuildStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GameliftBuildObservation `json:",inline"`
+	AtProvider                     GameliftBuildObservation `json:"atProvider"`
 }
 
 // A GameliftBuildObservation records the observed state of a GameliftBuild

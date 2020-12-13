@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRouteTableAssociation(r RouteTableAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRouteTableAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_GatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_RouteTableId(r.Spec.ForProvider, ctyVal)
+	EncodeRouteTableAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRouteTableAssociation_SubnetId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
 func EncodeRouteTableAssociation_GatewayId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
@@ -58,4 +62,8 @@ func EncodeRouteTableAssociation_Id(p RouteTableAssociationParameters, vals map[
 
 func EncodeRouteTableAssociation_RouteTableId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["route_table_id"] = cty.StringVal(p.RouteTableId)
+}
+
+func EncodeRouteTableAssociation_SubnetId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }

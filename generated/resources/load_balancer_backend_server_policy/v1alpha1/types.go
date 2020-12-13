@@ -47,21 +47,21 @@ type LoadBalancerBackendServerPolicyList struct {
 // A LoadBalancerBackendServerPolicySpec defines the desired state of a LoadBalancerBackendServerPolicy
 type LoadBalancerBackendServerPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LoadBalancerBackendServerPolicyParameters `json:",inline"`
+	ForProvider                  LoadBalancerBackendServerPolicyParameters `json:"forProvider"`
 }
 
 // A LoadBalancerBackendServerPolicyParameters defines the desired state of a LoadBalancerBackendServerPolicy
 type LoadBalancerBackendServerPolicyParameters struct {
+	Id               string   `json:"id"`
 	InstancePort     int64    `json:"instance_port"`
 	LoadBalancerName string   `json:"load_balancer_name"`
 	PolicyNames      []string `json:"policy_names"`
-	Id               string   `json:"id"`
 }
 
 // A LoadBalancerBackendServerPolicyStatus defines the observed state of a LoadBalancerBackendServerPolicy
 type LoadBalancerBackendServerPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LoadBalancerBackendServerPolicyObservation `json:",inline"`
+	AtProvider                     LoadBalancerBackendServerPolicyObservation `json:"atProvider"`
 }
 
 // A LoadBalancerBackendServerPolicyObservation records the observed state of a LoadBalancerBackendServerPolicy

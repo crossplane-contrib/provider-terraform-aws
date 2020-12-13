@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,45 +37,60 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayDomainName(r ApiGatewayDomainName) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayDomainName_CertificateBody(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_SecurityPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_CertificateArn(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_RegionalCertificateArn(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_RegionalCertificateName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_CertificateName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_CertificatePrivateKey(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_DomainName(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_RegionalCertificateArn(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_SecurityPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_CertificateChain(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_CertificateArn(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDomainName_RegionalCertificateName(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_CertificateName(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDomainName_CertificateBody(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDomainName_EndpointConfiguration(r.Spec.ForProvider.EndpointConfiguration, ctyVal)
 	EncodeApiGatewayDomainName_RegionalZoneId(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDomainName_Arn(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayDomainName_RegionalDomainName(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDomainName_CloudfrontDomainName(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDomainName_CloudfrontZoneId(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDomainName_CertificateUploadDate(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayDomainName_RegionalDomainName(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayDomainName_CertificateBody(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
+func EncodeApiGatewayDomainName_CertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
-func EncodeApiGatewayDomainName_SecurityPolicy(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
+func EncodeApiGatewayDomainName_RegionalCertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["regional_certificate_arn"] = cty.StringVal(p.RegionalCertificateArn)
+}
+
+func EncodeApiGatewayDomainName_Id(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApiGatewayDomainName_RegionalCertificateName(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["regional_certificate_name"] = cty.StringVal(p.RegionalCertificateName)
 }
 
 func EncodeApiGatewayDomainName_Tags(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeApiGatewayDomainName_CertificateName(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["certificate_name"] = cty.StringVal(p.CertificateName)
 }
 
 func EncodeApiGatewayDomainName_CertificatePrivateKey(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
@@ -85,24 +101,20 @@ func EncodeApiGatewayDomainName_DomainName(p ApiGatewayDomainNameParameters, val
 	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
-func EncodeApiGatewayDomainName_Id(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayDomainName_RegionalCertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["regional_certificate_arn"] = cty.StringVal(p.RegionalCertificateArn)
+func EncodeApiGatewayDomainName_SecurityPolicy(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["security_policy"] = cty.StringVal(p.SecurityPolicy)
 }
 
 func EncodeApiGatewayDomainName_CertificateChain(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
 	vals["certificate_chain"] = cty.StringVal(p.CertificateChain)
 }
 
-func EncodeApiGatewayDomainName_CertificateArn(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
+func EncodeApiGatewayDomainName_CertificateName(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["certificate_name"] = cty.StringVal(p.CertificateName)
 }
 
-func EncodeApiGatewayDomainName_RegionalCertificateName(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
-	vals["regional_certificate_name"] = cty.StringVal(p.RegionalCertificateName)
+func EncodeApiGatewayDomainName_CertificateBody(p ApiGatewayDomainNameParameters, vals map[string]cty.Value) {
+	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
 }
 
 func EncodeApiGatewayDomainName_EndpointConfiguration(p EndpointConfiguration, vals map[string]cty.Value) {
@@ -129,6 +141,10 @@ func EncodeApiGatewayDomainName_Arn(p ApiGatewayDomainNameObservation, vals map[
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
+func EncodeApiGatewayDomainName_RegionalDomainName(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
+	vals["regional_domain_name"] = cty.StringVal(p.RegionalDomainName)
+}
+
 func EncodeApiGatewayDomainName_CloudfrontDomainName(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
 	vals["cloudfront_domain_name"] = cty.StringVal(p.CloudfrontDomainName)
 }
@@ -139,8 +155,4 @@ func EncodeApiGatewayDomainName_CloudfrontZoneId(p ApiGatewayDomainNameObservati
 
 func EncodeApiGatewayDomainName_CertificateUploadDate(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
 	vals["certificate_upload_date"] = cty.StringVal(p.CertificateUploadDate)
-}
-
-func EncodeApiGatewayDomainName_RegionalDomainName(p ApiGatewayDomainNameObservation, vals map[string]cty.Value) {
-	vals["regional_domain_name"] = cty.StringVal(p.RegionalDomainName)
 }

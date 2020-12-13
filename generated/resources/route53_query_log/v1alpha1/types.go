@@ -47,7 +47,7 @@ type Route53QueryLogList struct {
 // A Route53QueryLogSpec defines the desired state of a Route53QueryLog
 type Route53QueryLogSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53QueryLogParameters `json:",inline"`
+	ForProvider                  Route53QueryLogParameters `json:"forProvider"`
 }
 
 // A Route53QueryLogParameters defines the desired state of a Route53QueryLog
@@ -60,7 +60,7 @@ type Route53QueryLogParameters struct {
 // A Route53QueryLogStatus defines the observed state of a Route53QueryLog
 type Route53QueryLogStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53QueryLogObservation `json:",inline"`
+	AtProvider                     Route53QueryLogObservation `json:"atProvider"`
 }
 
 // A Route53QueryLogObservation records the observed state of a Route53QueryLog

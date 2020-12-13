@@ -47,17 +47,17 @@ type WafRateBasedRuleList struct {
 // A WafRateBasedRuleSpec defines the desired state of a WafRateBasedRule
 type WafRateBasedRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafRateBasedRuleParameters `json:",inline"`
+	ForProvider                  WafRateBasedRuleParameters `json:"forProvider"`
 }
 
 // A WafRateBasedRuleParameters defines the desired state of a WafRateBasedRule
 type WafRateBasedRuleParameters struct {
-	RateKey    string            `json:"rate_key"`
-	RateLimit  int64             `json:"rate_limit"`
-	Tags       map[string]string `json:"tags"`
 	Id         string            `json:"id"`
 	MetricName string            `json:"metric_name"`
 	Name       string            `json:"name"`
+	RateKey    string            `json:"rate_key"`
+	RateLimit  int64             `json:"rate_limit"`
+	Tags       map[string]string `json:"tags"`
 	Predicates Predicates        `json:"predicates"`
 }
 
@@ -70,7 +70,7 @@ type Predicates struct {
 // A WafRateBasedRuleStatus defines the observed state of a WafRateBasedRule
 type WafRateBasedRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafRateBasedRuleObservation `json:",inline"`
+	AtProvider                     WafRateBasedRuleObservation `json:"atProvider"`
 }
 
 // A WafRateBasedRuleObservation records the observed state of a WafRateBasedRule

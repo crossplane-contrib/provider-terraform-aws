@@ -47,28 +47,28 @@ type CodecommitTriggerList struct {
 // A CodecommitTriggerSpec defines the desired state of a CodecommitTrigger
 type CodecommitTriggerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodecommitTriggerParameters `json:",inline"`
+	ForProvider                  CodecommitTriggerParameters `json:"forProvider"`
 }
 
 // A CodecommitTriggerParameters defines the desired state of a CodecommitTrigger
 type CodecommitTriggerParameters struct {
-	Id             string    `json:"id"`
 	RepositoryName string    `json:"repository_name"`
+	Id             string    `json:"id"`
 	Trigger        []Trigger `json:"trigger"`
 }
 
 type Trigger struct {
-	Name           string   `json:"name"`
-	Branches       []string `json:"branches"`
 	CustomData     string   `json:"custom_data"`
 	DestinationArn string   `json:"destination_arn"`
 	Events         []string `json:"events"`
+	Name           string   `json:"name"`
+	Branches       []string `json:"branches"`
 }
 
 // A CodecommitTriggerStatus defines the observed state of a CodecommitTrigger
 type CodecommitTriggerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodecommitTriggerObservation `json:",inline"`
+	AtProvider                     CodecommitTriggerObservation `json:"atProvider"`
 }
 
 // A CodecommitTriggerObservation records the observed state of a CodecommitTrigger

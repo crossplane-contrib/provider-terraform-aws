@@ -47,7 +47,7 @@ type DynamodbTableItemList struct {
 // A DynamodbTableItemSpec defines the desired state of a DynamodbTableItem
 type DynamodbTableItemSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DynamodbTableItemParameters `json:",inline"`
+	ForProvider                  DynamodbTableItemParameters `json:"forProvider"`
 }
 
 // A DynamodbTableItemParameters defines the desired state of a DynamodbTableItem
@@ -62,7 +62,7 @@ type DynamodbTableItemParameters struct {
 // A DynamodbTableItemStatus defines the observed state of a DynamodbTableItem
 type DynamodbTableItemStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DynamodbTableItemObservation `json:",inline"`
+	AtProvider                     DynamodbTableItemObservation `json:"atProvider"`
 }
 
 // A DynamodbTableItemObservation records the observed state of a DynamodbTableItem

@@ -47,16 +47,16 @@ type Route53ResolverEndpointList struct {
 // A Route53ResolverEndpointSpec defines the desired state of a Route53ResolverEndpoint
 type Route53ResolverEndpointSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53ResolverEndpointParameters `json:",inline"`
+	ForProvider                  Route53ResolverEndpointParameters `json:"forProvider"`
 }
 
 // A Route53ResolverEndpointParameters defines the desired state of a Route53ResolverEndpoint
 type Route53ResolverEndpointParameters struct {
-	Tags             map[string]string `json:"tags"`
-	Direction        string            `json:"direction"`
 	Id               string            `json:"id"`
 	Name             string            `json:"name"`
 	SecurityGroupIds []string          `json:"security_group_ids"`
+	Tags             map[string]string `json:"tags"`
+	Direction        string            `json:"direction"`
 	IpAddress        []IpAddress       `json:"ip_address"`
 	Timeouts         Timeouts          `json:"timeouts"`
 }
@@ -76,11 +76,11 @@ type Timeouts struct {
 // A Route53ResolverEndpointStatus defines the observed state of a Route53ResolverEndpoint
 type Route53ResolverEndpointStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53ResolverEndpointObservation `json:",inline"`
+	AtProvider                     Route53ResolverEndpointObservation `json:"atProvider"`
 }
 
 // A Route53ResolverEndpointObservation records the observed state of a Route53ResolverEndpoint
 type Route53ResolverEndpointObservation struct {
-	Arn       string `json:"arn"`
 	HostVpcId string `json:"host_vpc_id"`
+	Arn       string `json:"arn"`
 }

@@ -47,17 +47,17 @@ type CloudformationStackSetInstanceList struct {
 // A CloudformationStackSetInstanceSpec defines the desired state of a CloudformationStackSetInstance
 type CloudformationStackSetInstanceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudformationStackSetInstanceParameters `json:",inline"`
+	ForProvider                  CloudformationStackSetInstanceParameters `json:"forProvider"`
 }
 
 // A CloudformationStackSetInstanceParameters defines the desired state of a CloudformationStackSetInstance
 type CloudformationStackSetInstanceParameters struct {
-	ParameterOverrides map[string]string `json:"parameter_overrides"`
-	Region             string            `json:"region"`
 	RetainStack        bool              `json:"retain_stack"`
 	StackSetName       string            `json:"stack_set_name"`
 	AccountId          string            `json:"account_id"`
 	Id                 string            `json:"id"`
+	ParameterOverrides map[string]string `json:"parameter_overrides"`
+	Region             string            `json:"region"`
 	Timeouts           Timeouts          `json:"timeouts"`
 }
 
@@ -70,7 +70,7 @@ type Timeouts struct {
 // A CloudformationStackSetInstanceStatus defines the observed state of a CloudformationStackSetInstance
 type CloudformationStackSetInstanceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudformationStackSetInstanceObservation `json:",inline"`
+	AtProvider                     CloudformationStackSetInstanceObservation `json:"atProvider"`
 }
 
 // A CloudformationStackSetInstanceObservation records the observed state of a CloudformationStackSetInstance

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -42,6 +43,13 @@ func EncodeGlobalacceleratorListener(r GlobalacceleratorListener) cty.Value {
 	EncodeGlobalacceleratorListener_Protocol(r.Spec.ForProvider, ctyVal)
 	EncodeGlobalacceleratorListener_PortRange(r.Spec.ForProvider.PortRange, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -65,17 +73,17 @@ func EncodeGlobalacceleratorListener_PortRange(p []PortRange, vals map[string]ct
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeGlobalacceleratorListener_PortRange_ToPort(v, ctyVal)
 		EncodeGlobalacceleratorListener_PortRange_FromPort(v, ctyVal)
+		EncodeGlobalacceleratorListener_PortRange_ToPort(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["port_range"] = cty.SetVal(valsForCollection)
 }
 
-func EncodeGlobalacceleratorListener_PortRange_ToPort(p PortRange, vals map[string]cty.Value) {
-	vals["to_port"] = cty.NumberIntVal(p.ToPort)
-}
-
 func EncodeGlobalacceleratorListener_PortRange_FromPort(p PortRange, vals map[string]cty.Value) {
 	vals["from_port"] = cty.NumberIntVal(p.FromPort)
+}
+
+func EncodeGlobalacceleratorListener_PortRange_ToPort(p PortRange, vals map[string]cty.Value) {
+	vals["to_port"] = cty.NumberIntVal(p.ToPort)
 }

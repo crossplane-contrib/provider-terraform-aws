@@ -47,7 +47,7 @@ type DbSubnetGroupList struct {
 // A DbSubnetGroupSpec defines the desired state of a DbSubnetGroup
 type DbSubnetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbSubnetGroupParameters `json:",inline"`
+	ForProvider                  DbSubnetGroupParameters `json:"forProvider"`
 }
 
 // A DbSubnetGroupParameters defines the desired state of a DbSubnetGroup
@@ -63,7 +63,7 @@ type DbSubnetGroupParameters struct {
 // A DbSubnetGroupStatus defines the observed state of a DbSubnetGroup
 type DbSubnetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbSubnetGroupObservation `json:",inline"`
+	AtProvider                     DbSubnetGroupObservation `json:"atProvider"`
 }
 
 // A DbSubnetGroupObservation records the observed state of a DbSubnetGroup

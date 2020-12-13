@@ -47,22 +47,22 @@ type IamUserSshKeyList struct {
 // A IamUserSshKeySpec defines the desired state of a IamUserSshKey
 type IamUserSshKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamUserSshKeyParameters `json:",inline"`
+	ForProvider                  IamUserSshKeyParameters `json:"forProvider"`
 }
 
 // A IamUserSshKeyParameters defines the desired state of a IamUserSshKey
 type IamUserSshKeyParameters struct {
-	PublicKey string `json:"public_key"`
 	Status    string `json:"status"`
 	Username  string `json:"username"`
 	Encoding  string `json:"encoding"`
 	Id        string `json:"id"`
+	PublicKey string `json:"public_key"`
 }
 
 // A IamUserSshKeyStatus defines the observed state of a IamUserSshKey
 type IamUserSshKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamUserSshKeyObservation `json:",inline"`
+	AtProvider                     IamUserSshKeyObservation `json:"atProvider"`
 }
 
 // A IamUserSshKeyObservation records the observed state of a IamUserSshKey

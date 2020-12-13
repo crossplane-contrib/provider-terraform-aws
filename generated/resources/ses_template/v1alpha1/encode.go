@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesTemplate(r SesTemplate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSesTemplate_Html(r.Spec.ForProvider, ctyVal)
 	EncodeSesTemplate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesTemplate_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSesTemplate_Subject(r.Spec.ForProvider, ctyVal)
 	EncodeSesTemplate_Text(r.Spec.ForProvider, ctyVal)
-	EncodeSesTemplate_Html(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSesTemplate_Html(p SesTemplateParameters, vals map[string]cty.Value) {
+	vals["html"] = cty.StringVal(p.Html)
 }
 
 func EncodeSesTemplate_Id(p SesTemplateParameters, vals map[string]cty.Value) {
@@ -59,8 +71,4 @@ func EncodeSesTemplate_Subject(p SesTemplateParameters, vals map[string]cty.Valu
 
 func EncodeSesTemplate_Text(p SesTemplateParameters, vals map[string]cty.Value) {
 	vals["text"] = cty.StringVal(p.Text)
-}
-
-func EncodeSesTemplate_Html(p SesTemplateParameters, vals map[string]cty.Value) {
-	vals["html"] = cty.StringVal(p.Html)
 }

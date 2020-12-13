@@ -47,26 +47,26 @@ type IotThingList struct {
 // A IotThingSpec defines the desired state of a IotThing
 type IotThingSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IotThingParameters `json:",inline"`
+	ForProvider                  IotThingParameters `json:"forProvider"`
 }
 
 // A IotThingParameters defines the desired state of a IotThing
 type IotThingParameters struct {
+	Attributes    map[string]string `json:"attributes"`
 	Id            string            `json:"id"`
 	Name          string            `json:"name"`
 	ThingTypeName string            `json:"thing_type_name"`
-	Attributes    map[string]string `json:"attributes"`
 }
 
 // A IotThingStatus defines the observed state of a IotThing
 type IotThingStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IotThingObservation `json:",inline"`
+	AtProvider                     IotThingObservation `json:"atProvider"`
 }
 
 // A IotThingObservation records the observed state of a IotThing
 type IotThingObservation struct {
+	Arn             string `json:"arn"`
 	DefaultClientId string `json:"default_client_id"`
 	Version         int64  `json:"version"`
-	Arn             string `json:"arn"`
 }

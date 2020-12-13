@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -44,6 +45,13 @@ func EncodeIamInstanceProfile(r IamInstanceProfile) cty.Value {
 	EncodeIamInstanceProfile_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_CreateDate(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 

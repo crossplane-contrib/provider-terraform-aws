@@ -47,23 +47,23 @@ type DocdbSubnetGroupList struct {
 // A DocdbSubnetGroupSpec defines the desired state of a DocdbSubnetGroup
 type DocdbSubnetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DocdbSubnetGroupParameters `json:",inline"`
+	ForProvider                  DocdbSubnetGroupParameters `json:"forProvider"`
 }
 
 // A DocdbSubnetGroupParameters defines the desired state of a DocdbSubnetGroup
 type DocdbSubnetGroupParameters struct {
+	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	NamePrefix  string            `json:"name_prefix"`
 	SubnetIds   []string          `json:"subnet_ids"`
 	Tags        map[string]string `json:"tags"`
-	Description string            `json:"description"`
 }
 
 // A DocdbSubnetGroupStatus defines the observed state of a DocdbSubnetGroup
 type DocdbSubnetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DocdbSubnetGroupObservation `json:",inline"`
+	AtProvider                     DocdbSubnetGroupObservation `json:"atProvider"`
 }
 
 // A DocdbSubnetGroupObservation records the observed state of a DocdbSubnetGroup

@@ -47,22 +47,22 @@ type ApiGatewayRequestValidatorList struct {
 // A ApiGatewayRequestValidatorSpec defines the desired state of a ApiGatewayRequestValidator
 type ApiGatewayRequestValidatorSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayRequestValidatorParameters `json:",inline"`
+	ForProvider                  ApiGatewayRequestValidatorParameters `json:"forProvider"`
 }
 
 // A ApiGatewayRequestValidatorParameters defines the desired state of a ApiGatewayRequestValidator
 type ApiGatewayRequestValidatorParameters struct {
+	Name                      string `json:"name"`
+	RestApiId                 string `json:"rest_api_id"`
 	ValidateRequestBody       bool   `json:"validate_request_body"`
 	ValidateRequestParameters bool   `json:"validate_request_parameters"`
 	Id                        string `json:"id"`
-	Name                      string `json:"name"`
-	RestApiId                 string `json:"rest_api_id"`
 }
 
 // A ApiGatewayRequestValidatorStatus defines the observed state of a ApiGatewayRequestValidator
 type ApiGatewayRequestValidatorStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayRequestValidatorObservation `json:",inline"`
+	AtProvider                     ApiGatewayRequestValidatorObservation `json:"atProvider"`
 }
 
 // A ApiGatewayRequestValidatorObservation records the observed state of a ApiGatewayRequestValidator

@@ -121,20 +121,8 @@ func (in *OpsworksGangliaLayerParameters) DeepCopyInto(out *OpsworksGangliaLayer
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-	if in.CustomConfigureRecipes != nil {
-		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomUndeployRecipes != nil {
-		in, out := &in.CustomUndeployRecipes, &out.CustomUndeployRecipes
+	if in.CustomSecurityGroupIds != nil {
+		in, out := &in.CustomSecurityGroupIds, &out.CustomSecurityGroupIds
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
@@ -148,13 +136,25 @@ func (in *OpsworksGangliaLayerParameters) DeepCopyInto(out *OpsworksGangliaLayer
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.CustomSecurityGroupIds != nil {
-		in, out := &in.CustomSecurityGroupIds, &out.CustomSecurityGroupIds
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+	if in.CustomConfigureRecipes != nil {
+		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.CustomDeployRecipes != nil {
 		in, out := &in.CustomDeployRecipes, &out.CustomDeployRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.CustomUndeployRecipes != nil {
+		in, out := &in.CustomUndeployRecipes, &out.CustomUndeployRecipes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}

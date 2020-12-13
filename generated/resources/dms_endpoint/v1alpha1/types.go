@@ -47,36 +47,31 @@ type DmsEndpointList struct {
 // A DmsEndpointSpec defines the desired state of a DmsEndpoint
 type DmsEndpointSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DmsEndpointParameters `json:",inline"`
+	ForProvider                  DmsEndpointParameters `json:"forProvider"`
 }
 
 // A DmsEndpointParameters defines the desired state of a DmsEndpoint
 type DmsEndpointParameters struct {
-	ExtraConnectionAttributes string                `json:"extra_connection_attributes"`
-	Password                  string                `json:"password"`
-	SslMode                   string                `json:"ssl_mode"`
-	Tags                      map[string]string     `json:"tags"`
 	CertificateArn            string                `json:"certificate_arn"`
+	DatabaseName              string                `json:"database_name"`
+	ExtraConnectionAttributes string                `json:"extra_connection_attributes"`
+	KmsKeyArn                 string                `json:"kms_key_arn"`
+	SslMode                   string                `json:"ssl_mode"`
+	EndpointType              string                `json:"endpoint_type"`
 	EngineName                string                `json:"engine_name"`
 	ServerName                string                `json:"server_name"`
-	ServiceAccessRole         string                `json:"service_access_role"`
-	Id                        string                `json:"id"`
-	KmsKeyArn                 string                `json:"kms_key_arn"`
-	Port                      int64                 `json:"port"`
 	Username                  string                `json:"username"`
-	DatabaseName              string                `json:"database_name"`
 	EndpointId                string                `json:"endpoint_id"`
-	EndpointType              string                `json:"endpoint_type"`
-	KafkaSettings             KafkaSettings         `json:"kafka_settings"`
+	Port                      int64                 `json:"port"`
+	Tags                      map[string]string     `json:"tags"`
+	Id                        string                `json:"id"`
+	Password                  string                `json:"password"`
+	ServiceAccessRole         string                `json:"service_access_role"`
 	KinesisSettings           KinesisSettings       `json:"kinesis_settings"`
 	MongodbSettings           MongodbSettings       `json:"mongodb_settings"`
 	S3Settings                S3Settings            `json:"s3_settings"`
 	ElasticsearchSettings     ElasticsearchSettings `json:"elasticsearch_settings"`
-}
-
-type KafkaSettings struct {
-	Broker string `json:"broker"`
-	Topic  string `json:"topic"`
+	KafkaSettings             KafkaSettings         `json:"kafka_settings"`
 }
 
 type KinesisSettings struct {
@@ -86,35 +81,40 @@ type KinesisSettings struct {
 }
 
 type MongodbSettings struct {
+	AuthSource        string `json:"auth_source"`
 	AuthType          string `json:"auth_type"`
 	DocsToInvestigate string `json:"docs_to_investigate"`
 	ExtractDocId      string `json:"extract_doc_id"`
 	NestingLevel      string `json:"nesting_level"`
 	AuthMechanism     string `json:"auth_mechanism"`
-	AuthSource        string `json:"auth_source"`
 }
 
 type S3Settings struct {
-	BucketFolder            string `json:"bucket_folder"`
-	BucketName              string `json:"bucket_name"`
 	CompressionType         string `json:"compression_type"`
 	CsvDelimiter            string `json:"csv_delimiter"`
 	CsvRowDelimiter         string `json:"csv_row_delimiter"`
 	ExternalTableDefinition string `json:"external_table_definition"`
 	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
+	BucketFolder            string `json:"bucket_folder"`
+	BucketName              string `json:"bucket_name"`
 }
 
 type ElasticsearchSettings struct {
-	FullLoadErrorPercentage int64  `json:"full_load_error_percentage"`
-	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
 	EndpointUri             string `json:"endpoint_uri"`
 	ErrorRetryDuration      int64  `json:"error_retry_duration"`
+	FullLoadErrorPercentage int64  `json:"full_load_error_percentage"`
+	ServiceAccessRoleArn    string `json:"service_access_role_arn"`
+}
+
+type KafkaSettings struct {
+	Broker string `json:"broker"`
+	Topic  string `json:"topic"`
 }
 
 // A DmsEndpointStatus defines the observed state of a DmsEndpoint
 type DmsEndpointStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DmsEndpointObservation `json:",inline"`
+	AtProvider                     DmsEndpointObservation `json:"atProvider"`
 }
 
 // A DmsEndpointObservation records the observed state of a DmsEndpoint

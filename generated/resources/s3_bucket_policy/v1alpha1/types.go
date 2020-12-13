@@ -47,7 +47,7 @@ type S3BucketPolicyList struct {
 // A S3BucketPolicySpec defines the desired state of a S3BucketPolicy
 type S3BucketPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3BucketPolicyParameters `json:",inline"`
+	ForProvider                  S3BucketPolicyParameters `json:"forProvider"`
 }
 
 // A S3BucketPolicyParameters defines the desired state of a S3BucketPolicy
@@ -60,7 +60,7 @@ type S3BucketPolicyParameters struct {
 // A S3BucketPolicyStatus defines the observed state of a S3BucketPolicy
 type S3BucketPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3BucketPolicyObservation `json:",inline"`
+	AtProvider                     S3BucketPolicyObservation `json:"atProvider"`
 }
 
 // A S3BucketPolicyObservation records the observed state of a S3BucketPolicy

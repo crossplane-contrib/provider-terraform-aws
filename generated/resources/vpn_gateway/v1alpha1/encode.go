@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,21 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpnGateway(r VpnGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpnGateway_AmazonSideAsn(r.Spec.ForProvider, ctyVal)
-	EncodeVpnGateway_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGateway_AmazonSideAsn(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGateway_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpnGateway_AmazonSideAsn(p VpnGatewayParameters, vals map[string]cty.Value) {
-	vals["amazon_side_asn"] = cty.StringVal(p.AmazonSideAsn)
-}
-
-func EncodeVpnGateway_AvailabilityZone(p VpnGatewayParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeVpnGateway_Id(p VpnGatewayParameters, vals map[string]cty.Value) {
@@ -58,6 +58,10 @@ func EncodeVpnGateway_Id(p VpnGatewayParameters, vals map[string]cty.Value) {
 }
 
 func EncodeVpnGateway_Tags(p VpnGatewayParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -67,6 +71,14 @@ func EncodeVpnGateway_Tags(p VpnGatewayParameters, vals map[string]cty.Value) {
 
 func EncodeVpnGateway_VpcId(p VpnGatewayParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeVpnGateway_AmazonSideAsn(p VpnGatewayParameters, vals map[string]cty.Value) {
+	vals["amazon_side_asn"] = cty.StringVal(p.AmazonSideAsn)
+}
+
+func EncodeVpnGateway_AvailabilityZone(p VpnGatewayParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeVpnGateway_Arn(p VpnGatewayObservation, vals map[string]cty.Value) {

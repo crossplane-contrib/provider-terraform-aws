@@ -47,7 +47,7 @@ type Ec2AvailabilityZoneGroupList struct {
 // A Ec2AvailabilityZoneGroupSpec defines the desired state of a Ec2AvailabilityZoneGroup
 type Ec2AvailabilityZoneGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2AvailabilityZoneGroupParameters `json:",inline"`
+	ForProvider                  Ec2AvailabilityZoneGroupParameters `json:"forProvider"`
 }
 
 // A Ec2AvailabilityZoneGroupParameters defines the desired state of a Ec2AvailabilityZoneGroup
@@ -60,7 +60,7 @@ type Ec2AvailabilityZoneGroupParameters struct {
 // A Ec2AvailabilityZoneGroupStatus defines the observed state of a Ec2AvailabilityZoneGroup
 type Ec2AvailabilityZoneGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2AvailabilityZoneGroupObservation `json:",inline"`
+	AtProvider                     Ec2AvailabilityZoneGroupObservation `json:"atProvider"`
 }
 
 // A Ec2AvailabilityZoneGroupObservation records the observed state of a Ec2AvailabilityZoneGroup

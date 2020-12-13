@@ -47,20 +47,20 @@ type IotCertificateList struct {
 // A IotCertificateSpec defines the desired state of a IotCertificate
 type IotCertificateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IotCertificateParameters `json:",inline"`
+	ForProvider                  IotCertificateParameters `json:"forProvider"`
 }
 
 // A IotCertificateParameters defines the desired state of a IotCertificate
 type IotCertificateParameters struct {
+	Csr    string `json:"csr"`
 	Id     string `json:"id"`
 	Active bool   `json:"active"`
-	Csr    string `json:"csr"`
 }
 
 // A IotCertificateStatus defines the observed state of a IotCertificate
 type IotCertificateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IotCertificateObservation `json:",inline"`
+	AtProvider                     IotCertificateObservation `json:"atProvider"`
 }
 
 // A IotCertificateObservation records the observed state of a IotCertificate

@@ -47,22 +47,22 @@ type IamUserLoginProfileList struct {
 // A IamUserLoginProfileSpec defines the desired state of a IamUserLoginProfile
 type IamUserLoginProfileSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamUserLoginProfileParameters `json:",inline"`
+	ForProvider                  IamUserLoginProfileParameters `json:"forProvider"`
 }
 
 // A IamUserLoginProfileParameters defines the desired state of a IamUserLoginProfile
 type IamUserLoginProfileParameters struct {
+	Id                    string `json:"id"`
 	PasswordLength        int64  `json:"password_length"`
 	PasswordResetRequired bool   `json:"password_reset_required"`
 	PgpKey                string `json:"pgp_key"`
 	User                  string `json:"user"`
-	Id                    string `json:"id"`
 }
 
 // A IamUserLoginProfileStatus defines the observed state of a IamUserLoginProfile
 type IamUserLoginProfileStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamUserLoginProfileObservation `json:",inline"`
+	AtProvider                     IamUserLoginProfileObservation `json:"atProvider"`
 }
 
 // A IamUserLoginProfileObservation records the observed state of a IamUserLoginProfile

@@ -47,24 +47,24 @@ type ApiGatewayMethodResponseList struct {
 // A ApiGatewayMethodResponseSpec defines the desired state of a ApiGatewayMethodResponse
 type ApiGatewayMethodResponseSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayMethodResponseParameters `json:",inline"`
+	ForProvider                  ApiGatewayMethodResponseParameters `json:"forProvider"`
 }
 
 // A ApiGatewayMethodResponseParameters defines the desired state of a ApiGatewayMethodResponse
 type ApiGatewayMethodResponseParameters struct {
+	RestApiId          string            `json:"rest_api_id"`
+	StatusCode         string            `json:"status_code"`
 	HttpMethod         string            `json:"http_method"`
 	Id                 string            `json:"id"`
 	ResourceId         string            `json:"resource_id"`
 	ResponseModels     map[string]string `json:"response_models"`
 	ResponseParameters map[string]bool   `json:"response_parameters"`
-	RestApiId          string            `json:"rest_api_id"`
-	StatusCode         string            `json:"status_code"`
 }
 
 // A ApiGatewayMethodResponseStatus defines the observed state of a ApiGatewayMethodResponse
 type ApiGatewayMethodResponseStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayMethodResponseObservation `json:",inline"`
+	AtProvider                     ApiGatewayMethodResponseObservation `json:"atProvider"`
 }
 
 // A ApiGatewayMethodResponseObservation records the observed state of a ApiGatewayMethodResponse

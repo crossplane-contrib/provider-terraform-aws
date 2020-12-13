@@ -128,13 +128,8 @@ func (in *OpsworksMysqlLayerParameters) DeepCopyInto(out *OpsworksMysqlLayerPara
 			(*out)[key] = val
 		}
 	}
-	if in.CustomConfigureRecipes != nil {
-		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.CustomShutdownRecipes != nil {
-		in, out := &in.CustomShutdownRecipes, &out.CustomShutdownRecipes
+	if in.CustomSetupRecipes != nil {
+		in, out := &in.CustomSetupRecipes, &out.CustomSetupRecipes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
@@ -148,8 +143,13 @@ func (in *OpsworksMysqlLayerParameters) DeepCopyInto(out *OpsworksMysqlLayerPara
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.CustomSetupRecipes != nil {
-		in, out := &in.CustomSetupRecipes, &out.CustomSetupRecipes
+	if in.CustomConfigureRecipes != nil {
+		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.CustomShutdownRecipes != nil {
+		in, out := &in.CustomShutdownRecipes, &out.CustomShutdownRecipes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}

@@ -47,23 +47,23 @@ type ApiGatewayStageList struct {
 // A ApiGatewayStageSpec defines the desired state of a ApiGatewayStage
 type ApiGatewayStageSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayStageParameters `json:",inline"`
+	ForProvider                  ApiGatewayStageParameters `json:"forProvider"`
 }
 
 // A ApiGatewayStageParameters defines the desired state of a ApiGatewayStage
 type ApiGatewayStageParameters struct {
-	DocumentationVersion string            `json:"documentation_version"`
-	Tags                 map[string]string `json:"tags"`
-	Description          string            `json:"description"`
 	ClientCertificateId  string            `json:"client_certificate_id"`
-	RestApiId            string            `json:"rest_api_id"`
-	StageName            string            `json:"stage_name"`
-	Variables            map[string]string `json:"variables"`
-	DeploymentId         string            `json:"deployment_id"`
-	Id                   string            `json:"id"`
+	Tags                 map[string]string `json:"tags"`
 	CacheClusterEnabled  bool              `json:"cache_cluster_enabled"`
-	XrayTracingEnabled   bool              `json:"xray_tracing_enabled"`
 	CacheClusterSize     string            `json:"cache_cluster_size"`
+	Description          string            `json:"description"`
+	StageName            string            `json:"stage_name"`
+	XrayTracingEnabled   bool              `json:"xray_tracing_enabled"`
+	DeploymentId         string            `json:"deployment_id"`
+	DocumentationVersion string            `json:"documentation_version"`
+	RestApiId            string            `json:"rest_api_id"`
+	Variables            map[string]string `json:"variables"`
+	Id                   string            `json:"id"`
 	AccessLogSettings    AccessLogSettings `json:"access_log_settings"`
 }
 
@@ -75,12 +75,12 @@ type AccessLogSettings struct {
 // A ApiGatewayStageStatus defines the observed state of a ApiGatewayStage
 type ApiGatewayStageStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayStageObservation `json:",inline"`
+	AtProvider                     ApiGatewayStageObservation `json:"atProvider"`
 }
 
 // A ApiGatewayStageObservation records the observed state of a ApiGatewayStage
 type ApiGatewayStageObservation struct {
+	InvokeUrl    string `json:"invoke_url"`
 	Arn          string `json:"arn"`
 	ExecutionArn string `json:"execution_arn"`
-	InvokeUrl    string `json:"invoke_url"`
 }

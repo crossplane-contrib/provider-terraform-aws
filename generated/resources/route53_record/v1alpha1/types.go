@@ -47,19 +47,19 @@ type Route53RecordList struct {
 // A Route53RecordSpec defines the desired state of a Route53Record
 type Route53RecordSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53RecordParameters `json:",inline"`
+	ForProvider                  Route53RecordParameters `json:"forProvider"`
 }
 
 // A Route53RecordParameters defines the desired state of a Route53Record
 type Route53RecordParameters struct {
+	HealthCheckId                 string                   `json:"health_check_id"`
+	MultivalueAnswerRoutingPolicy bool                     `json:"multivalue_answer_routing_policy"`
+	Name                          string                   `json:"name"`
 	Records                       []string                 `json:"records"`
 	Ttl                           int64                    `json:"ttl"`
 	Type                          string                   `json:"type"`
 	ZoneId                        string                   `json:"zone_id"`
-	Name                          string                   `json:"name"`
-	HealthCheckId                 string                   `json:"health_check_id"`
 	Id                            string                   `json:"id"`
-	MultivalueAnswerRoutingPolicy bool                     `json:"multivalue_answer_routing_policy"`
 	SetIdentifier                 string                   `json:"set_identifier"`
 	AllowOverwrite                bool                     `json:"allow_overwrite"`
 	GeolocationRoutingPolicy      GeolocationRoutingPolicy `json:"geolocation_routing_policy"`
@@ -84,9 +84,9 @@ type WeightedRoutingPolicy struct {
 }
 
 type Alias struct {
-	ZoneId               string `json:"zone_id"`
 	EvaluateTargetHealth bool   `json:"evaluate_target_health"`
 	Name                 string `json:"name"`
+	ZoneId               string `json:"zone_id"`
 }
 
 type FailoverRoutingPolicy struct {
@@ -96,7 +96,7 @@ type FailoverRoutingPolicy struct {
 // A Route53RecordStatus defines the observed state of a Route53Record
 type Route53RecordStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53RecordObservation `json:",inline"`
+	AtProvider                     Route53RecordObservation `json:"atProvider"`
 }
 
 // A Route53RecordObservation records the observed state of a Route53Record

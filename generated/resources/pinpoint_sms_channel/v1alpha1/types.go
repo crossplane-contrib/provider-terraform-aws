@@ -47,26 +47,26 @@ type PinpointSmsChannelList struct {
 // A PinpointSmsChannelSpec defines the desired state of a PinpointSmsChannel
 type PinpointSmsChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointSmsChannelParameters `json:",inline"`
+	ForProvider                  PinpointSmsChannelParameters `json:"forProvider"`
 }
 
 // A PinpointSmsChannelParameters defines the desired state of a PinpointSmsChannel
 type PinpointSmsChannelParameters struct {
+	Id            string `json:"id"`
 	SenderId      string `json:"sender_id"`
 	ShortCode     string `json:"short_code"`
 	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
-	Id            string `json:"id"`
 }
 
 // A PinpointSmsChannelStatus defines the observed state of a PinpointSmsChannel
 type PinpointSmsChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointSmsChannelObservation `json:",inline"`
+	AtProvider                     PinpointSmsChannelObservation `json:"atProvider"`
 }
 
 // A PinpointSmsChannelObservation records the observed state of a PinpointSmsChannel
 type PinpointSmsChannelObservation struct {
-	TransactionalMessagesPerSecond int64 `json:"transactional_messages_per_second"`
 	PromotionalMessagesPerSecond   int64 `json:"promotional_messages_per_second"`
+	TransactionalMessagesPerSecond int64 `json:"transactional_messages_per_second"`
 }

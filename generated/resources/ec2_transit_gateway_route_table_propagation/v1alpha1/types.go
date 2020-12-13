@@ -47,24 +47,24 @@ type Ec2TransitGatewayRouteTablePropagationList struct {
 // A Ec2TransitGatewayRouteTablePropagationSpec defines the desired state of a Ec2TransitGatewayRouteTablePropagation
 type Ec2TransitGatewayRouteTablePropagationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayRouteTablePropagationParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayRouteTablePropagationParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayRouteTablePropagationParameters defines the desired state of a Ec2TransitGatewayRouteTablePropagation
 type Ec2TransitGatewayRouteTablePropagationParameters struct {
+	Id                         string `json:"id"`
 	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
 	TransitGatewayRouteTableId string `json:"transit_gateway_route_table_id"`
-	Id                         string `json:"id"`
 }
 
 // A Ec2TransitGatewayRouteTablePropagationStatus defines the observed state of a Ec2TransitGatewayRouteTablePropagation
 type Ec2TransitGatewayRouteTablePropagationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayRouteTablePropagationObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayRouteTablePropagationObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayRouteTablePropagationObservation records the observed state of a Ec2TransitGatewayRouteTablePropagation
 type Ec2TransitGatewayRouteTablePropagationObservation struct {
-	ResourceType string `json:"resource_type"`
 	ResourceId   string `json:"resource_id"`
+	ResourceType string `json:"resource_type"`
 }

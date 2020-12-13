@@ -47,24 +47,24 @@ type GuarddutyIpsetList struct {
 // A GuarddutyIpsetSpec defines the desired state of a GuarddutyIpset
 type GuarddutyIpsetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyIpsetParameters `json:",inline"`
+	ForProvider                  GuarddutyIpsetParameters `json:"forProvider"`
 }
 
 // A GuarddutyIpsetParameters defines the desired state of a GuarddutyIpset
 type GuarddutyIpsetParameters struct {
+	Location   string            `json:"location"`
+	Name       string            `json:"name"`
+	Tags       map[string]string `json:"tags"`
 	Activate   bool              `json:"activate"`
 	DetectorId string            `json:"detector_id"`
 	Format     string            `json:"format"`
 	Id         string            `json:"id"`
-	Location   string            `json:"location"`
-	Name       string            `json:"name"`
-	Tags       map[string]string `json:"tags"`
 }
 
 // A GuarddutyIpsetStatus defines the observed state of a GuarddutyIpset
 type GuarddutyIpsetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyIpsetObservation `json:",inline"`
+	AtProvider                     GuarddutyIpsetObservation `json:"atProvider"`
 }
 
 // A GuarddutyIpsetObservation records the observed state of a GuarddutyIpset

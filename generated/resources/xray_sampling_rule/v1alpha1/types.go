@@ -47,31 +47,31 @@ type XraySamplingRuleList struct {
 // A XraySamplingRuleSpec defines the desired state of a XraySamplingRule
 type XraySamplingRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  XraySamplingRuleParameters `json:",inline"`
+	ForProvider                  XraySamplingRuleParameters `json:"forProvider"`
 }
 
 // A XraySamplingRuleParameters defines the desired state of a XraySamplingRule
 type XraySamplingRuleParameters struct {
-	Version       int64             `json:"version"`
-	FixedRate     int64             `json:"fixed_rate"`
+	ResourceArn   string            `json:"resource_arn"`
+	ServiceName   string            `json:"service_name"`
+	Tags          map[string]string `json:"tags"`
+	UrlPath       string            `json:"url_path"`
 	HttpMethod    string            `json:"http_method"`
 	Priority      int64             `json:"priority"`
-	UrlPath       string            `json:"url_path"`
-	ResourceArn   string            `json:"resource_arn"`
-	RuleName      string            `json:"rule_name"`
-	Tags          map[string]string `json:"tags"`
 	Host          string            `json:"host"`
-	Id            string            `json:"id"`
-	ReservoirSize int64             `json:"reservoir_size"`
-	ServiceName   string            `json:"service_name"`
-	ServiceType   string            `json:"service_type"`
+	RuleName      string            `json:"rule_name"`
 	Attributes    map[string]string `json:"attributes"`
+	FixedRate     int64             `json:"fixed_rate"`
+	ReservoirSize int64             `json:"reservoir_size"`
+	ServiceType   string            `json:"service_type"`
+	Id            string            `json:"id"`
+	Version       int64             `json:"version"`
 }
 
 // A XraySamplingRuleStatus defines the observed state of a XraySamplingRule
 type XraySamplingRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     XraySamplingRuleObservation `json:",inline"`
+	AtProvider                     XraySamplingRuleObservation `json:"atProvider"`
 }
 
 // A XraySamplingRuleObservation records the observed state of a XraySamplingRule

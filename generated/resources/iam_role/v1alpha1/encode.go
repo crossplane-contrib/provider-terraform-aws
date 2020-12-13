@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,48 +37,55 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamRole(r IamRole) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamRole_MaxSessionDuration(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_ForceDetachPolicies(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_AssumeRolePolicy(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_Description(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_MaxSessionDuration(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_Path(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_AssumeRolePolicy(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_Description(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIamRole_CreateDate(r.Status.AtProvider, ctyVal)
 	EncodeIamRole_UniqueId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamRole_MaxSessionDuration(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["max_session_duration"] = cty.NumberIntVal(p.MaxSessionDuration)
-}
-
-func EncodeIamRole_NamePrefix(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeIamRole_PermissionsBoundary(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
-}
-
-func EncodeIamRole_Tags(p IamRoleParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeIamRole_ForceDetachPolicies(p IamRoleParameters, vals map[string]cty.Value) {
 	vals["force_detach_policies"] = cty.BoolVal(p.ForceDetachPolicies)
 }
 
-func EncodeIamRole_Id(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeIamRole_MaxSessionDuration(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["max_session_duration"] = cty.NumberIntVal(p.MaxSessionDuration)
+}
+
+func EncodeIamRole_Name(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeIamRole_Path(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["path"] = cty.StringVal(p.Path)
+}
+
+func EncodeIamRole_Tags(p IamRoleParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeIamRole_AssumeRolePolicy(p IamRoleParameters, vals map[string]cty.Value) {
@@ -88,12 +96,16 @@ func EncodeIamRole_Description(p IamRoleParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeIamRole_Name(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeIamRole_Id(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeIamRole_Path(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["path"] = cty.StringVal(p.Path)
+func EncodeIamRole_NamePrefix(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeIamRole_PermissionsBoundary(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
 }
 
 func EncodeIamRole_Arn(p IamRoleObservation, vals map[string]cty.Value) {

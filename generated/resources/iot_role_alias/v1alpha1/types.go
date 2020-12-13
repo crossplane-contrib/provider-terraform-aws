@@ -47,21 +47,21 @@ type IotRoleAliasList struct {
 // A IotRoleAliasSpec defines the desired state of a IotRoleAlias
 type IotRoleAliasSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IotRoleAliasParameters `json:",inline"`
+	ForProvider                  IotRoleAliasParameters `json:"forProvider"`
 }
 
 // A IotRoleAliasParameters defines the desired state of a IotRoleAlias
 type IotRoleAliasParameters struct {
+	RoleArn            string `json:"role_arn"`
 	Alias              string `json:"alias"`
 	CredentialDuration int64  `json:"credential_duration"`
 	Id                 string `json:"id"`
-	RoleArn            string `json:"role_arn"`
 }
 
 // A IotRoleAliasStatus defines the observed state of a IotRoleAlias
 type IotRoleAliasStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IotRoleAliasObservation `json:",inline"`
+	AtProvider                     IotRoleAliasObservation `json:"atProvider"`
 }
 
 // A IotRoleAliasObservation records the observed state of a IotRoleAlias

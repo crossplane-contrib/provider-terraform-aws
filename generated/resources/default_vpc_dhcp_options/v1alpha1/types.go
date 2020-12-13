@@ -47,28 +47,28 @@ type DefaultVpcDhcpOptionsList struct {
 // A DefaultVpcDhcpOptionsSpec defines the desired state of a DefaultVpcDhcpOptions
 type DefaultVpcDhcpOptionsSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DefaultVpcDhcpOptionsParameters `json:",inline"`
+	ForProvider                  DefaultVpcDhcpOptionsParameters `json:"forProvider"`
 }
 
 // A DefaultVpcDhcpOptionsParameters defines the desired state of a DefaultVpcDhcpOptions
 type DefaultVpcDhcpOptionsParameters struct {
 	Id                 string            `json:"id"`
-	Tags               map[string]string `json:"tags"`
-	NetbiosNodeType    string            `json:"netbios_node_type"`
 	NetbiosNameServers []string          `json:"netbios_name_servers"`
+	NetbiosNodeType    string            `json:"netbios_node_type"`
+	Tags               map[string]string `json:"tags"`
 }
 
 // A DefaultVpcDhcpOptionsStatus defines the observed state of a DefaultVpcDhcpOptions
 type DefaultVpcDhcpOptionsStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DefaultVpcDhcpOptionsObservation `json:",inline"`
+	AtProvider                     DefaultVpcDhcpOptionsObservation `json:"atProvider"`
 }
 
 // A DefaultVpcDhcpOptionsObservation records the observed state of a DefaultVpcDhcpOptions
 type DefaultVpcDhcpOptionsObservation struct {
+	OwnerId           string `json:"owner_id"`
+	Arn               string `json:"arn"`
 	DomainName        string `json:"domain_name"`
 	DomainNameServers string `json:"domain_name_servers"`
 	NtpServers        string `json:"ntp_servers"`
-	OwnerId           string `json:"owner_id"`
-	Arn               string `json:"arn"`
 }

@@ -47,32 +47,32 @@ type DmsEventSubscriptionList struct {
 // A DmsEventSubscriptionSpec defines the desired state of a DmsEventSubscription
 type DmsEventSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DmsEventSubscriptionParameters `json:",inline"`
+	ForProvider                  DmsEventSubscriptionParameters `json:"forProvider"`
 }
 
 // A DmsEventSubscriptionParameters defines the desired state of a DmsEventSubscription
 type DmsEventSubscriptionParameters struct {
-	EventCategories []string          `json:"event_categories"`
+	Enabled         bool              `json:"enabled"`
+	SourceType      string            `json:"source_type"`
 	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	SnsTopicArn     string            `json:"sns_topic_arn"`
 	SourceIds       []string          `json:"source_ids"`
-	SourceType      string            `json:"source_type"`
-	Enabled         bool              `json:"enabled"`
 	Tags            map[string]string `json:"tags"`
+	EventCategories []string          `json:"event_categories"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DmsEventSubscriptionStatus defines the observed state of a DmsEventSubscription
 type DmsEventSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DmsEventSubscriptionObservation `json:",inline"`
+	AtProvider                     DmsEventSubscriptionObservation `json:"atProvider"`
 }
 
 // A DmsEventSubscriptionObservation records the observed state of a DmsEventSubscription

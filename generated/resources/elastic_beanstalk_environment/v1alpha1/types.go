@@ -47,24 +47,24 @@ type ElasticBeanstalkEnvironmentList struct {
 // A ElasticBeanstalkEnvironmentSpec defines the desired state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticBeanstalkEnvironmentParameters `json:",inline"`
+	ForProvider                  ElasticBeanstalkEnvironmentParameters `json:"forProvider"`
 }
 
 // A ElasticBeanstalkEnvironmentParameters defines the desired state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentParameters struct {
+	CnamePrefix         string            `json:"cname_prefix"`
+	PollInterval        string            `json:"poll_interval"`
+	SolutionStackName   string            `json:"solution_stack_name"`
+	Application         string            `json:"application"`
+	Name                string            `json:"name"`
+	PlatformArn         string            `json:"platform_arn"`
+	Tier                string            `json:"tier"`
+	VersionLabel        string            `json:"version_label"`
+	WaitForReadyTimeout string            `json:"wait_for_ready_timeout"`
+	Description         string            `json:"description"`
+	Id                  string            `json:"id"`
 	Tags                map[string]string `json:"tags"`
 	TemplateName        string            `json:"template_name"`
-	VersionLabel        string            `json:"version_label"`
-	PlatformArn         string            `json:"platform_arn"`
-	SolutionStackName   string            `json:"solution_stack_name"`
-	Name                string            `json:"name"`
-	Id                  string            `json:"id"`
-	PollInterval        string            `json:"poll_interval"`
-	WaitForReadyTimeout string            `json:"wait_for_ready_timeout"`
-	Application         string            `json:"application"`
-	CnamePrefix         string            `json:"cname_prefix"`
-	Description         string            `json:"description"`
-	Tier                string            `json:"tier"`
 	Setting             Setting           `json:"setting"`
 }
 
@@ -78,26 +78,26 @@ type Setting struct {
 // A ElasticBeanstalkEnvironmentStatus defines the observed state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticBeanstalkEnvironmentObservation `json:",inline"`
+	AtProvider                     ElasticBeanstalkEnvironmentObservation `json:"atProvider"`
 }
 
 // A ElasticBeanstalkEnvironmentObservation records the observed state of a ElasticBeanstalkEnvironment
 type ElasticBeanstalkEnvironmentObservation struct {
-	Triggers             []string      `json:"triggers"`
-	AutoscalingGroups    []string      `json:"autoscaling_groups"`
-	Queues               []string      `json:"queues"`
-	AllSettings          []AllSettings `json:"all_settings"`
-	Instances            []string      `json:"instances"`
-	LoadBalancers        []string      `json:"load_balancers"`
-	Arn                  string        `json:"arn"`
+	EndpointUrl          string        `json:"endpoint_url"`
 	Cname                string        `json:"cname"`
 	LaunchConfigurations []string      `json:"launch_configurations"`
-	EndpointUrl          string        `json:"endpoint_url"`
+	AutoscalingGroups    []string      `json:"autoscaling_groups"`
+	Queues               []string      `json:"queues"`
+	Arn                  string        `json:"arn"`
+	Instances            []string      `json:"instances"`
+	LoadBalancers        []string      `json:"load_balancers"`
+	Triggers             []string      `json:"triggers"`
+	AllSettings          []AllSettings `json:"all_settings"`
 }
 
 type AllSettings struct {
+	Name      string `json:"name"`
 	Namespace string `json:"namespace"`
 	Resource  string `json:"resource"`
 	Value     string `json:"value"`
-	Name      string `json:"name"`
 }

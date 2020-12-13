@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -43,6 +44,13 @@ func EncodeGlueWorkflow(r GlueWorkflow) cty.Value {
 	EncodeGlueWorkflow_Description(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -55,6 +63,10 @@ func EncodeGlueWorkflow_Name(p GlueWorkflowParameters, vals map[string]cty.Value
 }
 
 func EncodeGlueWorkflow_Tags(p GlueWorkflowParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -63,6 +75,10 @@ func EncodeGlueWorkflow_Tags(p GlueWorkflowParameters, vals map[string]cty.Value
 }
 
 func EncodeGlueWorkflow_DefaultRunProperties(p GlueWorkflowParameters, vals map[string]cty.Value) {
+	if len(p.DefaultRunProperties) == 0 {
+		vals["default_run_properties"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.DefaultRunProperties {
 		mVals[key] = cty.StringVal(value)

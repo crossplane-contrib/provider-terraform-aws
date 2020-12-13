@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -41,8 +42,15 @@ func EncodeCodebuildReportGroup(r CodebuildReportGroup) cty.Value {
 	EncodeCodebuildReportGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildReportGroup_Type(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildReportGroup_ExportConfig(r.Spec.ForProvider.ExportConfig, ctyVal)
-	EncodeCodebuildReportGroup_Created(r.Status.AtProvider, ctyVal)
 	EncodeCodebuildReportGroup_Arn(r.Status.AtProvider, ctyVal)
+	EncodeCodebuildReportGroup_Created(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -55,6 +63,10 @@ func EncodeCodebuildReportGroup_Name(p CodebuildReportGroupParameters, vals map[
 }
 
 func EncodeCodebuildReportGroup_Tags(p CodebuildReportGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -111,10 +123,10 @@ func EncodeCodebuildReportGroup_ExportConfig_S3Destination_Path(p S3Destination,
 	vals["path"] = cty.StringVal(p.Path)
 }
 
-func EncodeCodebuildReportGroup_Created(p CodebuildReportGroupObservation, vals map[string]cty.Value) {
-	vals["created"] = cty.StringVal(p.Created)
-}
-
 func EncodeCodebuildReportGroup_Arn(p CodebuildReportGroupObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeCodebuildReportGroup_Created(p CodebuildReportGroupObservation, vals map[string]cty.Value) {
+	vals["created"] = cty.StringVal(p.Created)
 }

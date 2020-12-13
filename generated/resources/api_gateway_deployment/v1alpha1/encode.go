@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,25 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayDeployment(r ApiGatewayDeployment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayDeployment_Variables(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_StageDescription(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_StageName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Triggers(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDeployment_Variables(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_RestApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_CreatedDate(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayDeployment_StageName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_ExecutionArn(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayDeployment_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDeployment_InvokeUrl(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayDeployment_Variables(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Variables {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["variables"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeApiGatewayDeployment_Description(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
@@ -65,16 +65,28 @@ func EncodeApiGatewayDeployment_StageDescription(p ApiGatewayDeploymentParameter
 	vals["stage_description"] = cty.StringVal(p.StageDescription)
 }
 
-func EncodeApiGatewayDeployment_StageName(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	vals["stage_name"] = cty.StringVal(p.StageName)
-}
-
 func EncodeApiGatewayDeployment_Triggers(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	if len(p.Triggers) == 0 {
+		vals["triggers"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Triggers {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["triggers"] = cty.MapVal(mVals)
+}
+
+func EncodeApiGatewayDeployment_Variables(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	if len(p.Variables) == 0 {
+		vals["variables"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Variables {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["variables"] = cty.MapVal(mVals)
 }
 
 func EncodeApiGatewayDeployment_Id(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
@@ -85,12 +97,16 @@ func EncodeApiGatewayDeployment_RestApiId(p ApiGatewayDeploymentParameters, vals
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
-func EncodeApiGatewayDeployment_CreatedDate(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
-	vals["created_date"] = cty.StringVal(p.CreatedDate)
+func EncodeApiGatewayDeployment_StageName(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	vals["stage_name"] = cty.StringVal(p.StageName)
 }
 
 func EncodeApiGatewayDeployment_ExecutionArn(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
 	vals["execution_arn"] = cty.StringVal(p.ExecutionArn)
+}
+
+func EncodeApiGatewayDeployment_CreatedDate(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
+	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
 func EncodeApiGatewayDeployment_InvokeUrl(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {

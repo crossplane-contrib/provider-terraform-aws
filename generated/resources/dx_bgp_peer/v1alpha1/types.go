@@ -47,35 +47,35 @@ type DxBgpPeerList struct {
 // A DxBgpPeerSpec defines the desired state of a DxBgpPeer
 type DxBgpPeerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxBgpPeerParameters `json:",inline"`
+	ForProvider                  DxBgpPeerParameters `json:"forProvider"`
 }
 
 // A DxBgpPeerParameters defines the desired state of a DxBgpPeer
 type DxBgpPeerParameters struct {
-	AddressFamily      string   `json:"address_family"`
-	AmazonAddress      string   `json:"amazon_address"`
-	BgpAuthKey         string   `json:"bgp_auth_key"`
-	CustomerAddress    string   `json:"customer_address"`
 	VirtualInterfaceId string   `json:"virtual_interface_id"`
 	BgpAsn             int64    `json:"bgp_asn"`
+	CustomerAddress    string   `json:"customer_address"`
+	BgpAuthKey         string   `json:"bgp_auth_key"`
 	Id                 string   `json:"id"`
+	AddressFamily      string   `json:"address_family"`
+	AmazonAddress      string   `json:"amazon_address"`
 	Timeouts           Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A DxBgpPeerStatus defines the observed state of a DxBgpPeer
 type DxBgpPeerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxBgpPeerObservation `json:",inline"`
+	AtProvider                     DxBgpPeerObservation `json:"atProvider"`
 }
 
 // A DxBgpPeerObservation records the observed state of a DxBgpPeer
 type DxBgpPeerObservation struct {
-	AwsDevice string `json:"aws_device"`
 	BgpPeerId string `json:"bgp_peer_id"`
 	BgpStatus string `json:"bgp_status"`
+	AwsDevice string `json:"aws_device"`
 }

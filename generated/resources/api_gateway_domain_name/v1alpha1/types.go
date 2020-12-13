@@ -47,22 +47,22 @@ type ApiGatewayDomainNameList struct {
 // A ApiGatewayDomainNameSpec defines the desired state of a ApiGatewayDomainName
 type ApiGatewayDomainNameSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayDomainNameParameters `json:",inline"`
+	ForProvider                  ApiGatewayDomainNameParameters `json:"forProvider"`
 }
 
 // A ApiGatewayDomainNameParameters defines the desired state of a ApiGatewayDomainName
 type ApiGatewayDomainNameParameters struct {
-	CertificateBody         string                `json:"certificate_body"`
-	CertificateChain        string                `json:"certificate_chain"`
-	CertificatePrivateKey   string                `json:"certificate_private_key"`
-	SecurityPolicy          string                `json:"security_policy"`
-	Tags                    map[string]string     `json:"tags"`
 	CertificateArn          string                `json:"certificate_arn"`
-	DomainName              string                `json:"domain_name"`
-	Id                      string                `json:"id"`
 	RegionalCertificateArn  string                `json:"regional_certificate_arn"`
+	Id                      string                `json:"id"`
 	RegionalCertificateName string                `json:"regional_certificate_name"`
+	Tags                    map[string]string     `json:"tags"`
+	CertificatePrivateKey   string                `json:"certificate_private_key"`
+	DomainName              string                `json:"domain_name"`
+	SecurityPolicy          string                `json:"security_policy"`
+	CertificateChain        string                `json:"certificate_chain"`
 	CertificateName         string                `json:"certificate_name"`
+	CertificateBody         string                `json:"certificate_body"`
 	EndpointConfiguration   EndpointConfiguration `json:"endpoint_configuration"`
 }
 
@@ -73,15 +73,15 @@ type EndpointConfiguration struct {
 // A ApiGatewayDomainNameStatus defines the observed state of a ApiGatewayDomainName
 type ApiGatewayDomainNameStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayDomainNameObservation `json:",inline"`
+	AtProvider                     ApiGatewayDomainNameObservation `json:"atProvider"`
 }
 
 // A ApiGatewayDomainNameObservation records the observed state of a ApiGatewayDomainName
 type ApiGatewayDomainNameObservation struct {
 	RegionalZoneId        string `json:"regional_zone_id"`
-	CertificateUploadDate string `json:"certificate_upload_date"`
-	CloudfrontDomainName  string `json:"cloudfront_domain_name"`
-	RegionalDomainName    string `json:"regional_domain_name"`
 	Arn                   string `json:"arn"`
+	RegionalDomainName    string `json:"regional_domain_name"`
+	CloudfrontDomainName  string `json:"cloudfront_domain_name"`
 	CloudfrontZoneId      string `json:"cloudfront_zone_id"`
+	CertificateUploadDate string `json:"certificate_upload_date"`
 }

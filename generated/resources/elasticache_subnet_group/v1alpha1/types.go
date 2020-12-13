@@ -47,7 +47,7 @@ type ElasticacheSubnetGroupList struct {
 // A ElasticacheSubnetGroupSpec defines the desired state of a ElasticacheSubnetGroup
 type ElasticacheSubnetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ElasticacheSubnetGroupParameters `json:",inline"`
+	ForProvider                  ElasticacheSubnetGroupParameters `json:"forProvider"`
 }
 
 // A ElasticacheSubnetGroupParameters defines the desired state of a ElasticacheSubnetGroup
@@ -61,7 +61,7 @@ type ElasticacheSubnetGroupParameters struct {
 // A ElasticacheSubnetGroupStatus defines the observed state of a ElasticacheSubnetGroup
 type ElasticacheSubnetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ElasticacheSubnetGroupObservation `json:",inline"`
+	AtProvider                     ElasticacheSubnetGroupObservation `json:"atProvider"`
 }
 
 // A ElasticacheSubnetGroupObservation records the observed state of a ElasticacheSubnetGroup

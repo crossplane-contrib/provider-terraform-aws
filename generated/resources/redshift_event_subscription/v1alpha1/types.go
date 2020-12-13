@@ -47,20 +47,20 @@ type RedshiftEventSubscriptionList struct {
 // A RedshiftEventSubscriptionSpec defines the desired state of a RedshiftEventSubscription
 type RedshiftEventSubscriptionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RedshiftEventSubscriptionParameters `json:",inline"`
+	ForProvider                  RedshiftEventSubscriptionParameters `json:"forProvider"`
 }
 
 // A RedshiftEventSubscriptionParameters defines the desired state of a RedshiftEventSubscription
 type RedshiftEventSubscriptionParameters struct {
-	Name            string            `json:"name"`
-	Severity        string            `json:"severity"`
+	SourceIds       []string          `json:"source_ids"`
 	SourceType      string            `json:"source_type"`
 	Enabled         bool              `json:"enabled"`
-	EventCategories []string          `json:"event_categories"`
 	Id              string            `json:"id"`
 	SnsTopicArn     string            `json:"sns_topic_arn"`
-	SourceIds       []string          `json:"source_ids"`
+	Name            string            `json:"name"`
+	Severity        string            `json:"severity"`
 	Tags            map[string]string `json:"tags"`
+	EventCategories []string          `json:"event_categories"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
@@ -73,12 +73,12 @@ type Timeouts struct {
 // A RedshiftEventSubscriptionStatus defines the observed state of a RedshiftEventSubscription
 type RedshiftEventSubscriptionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RedshiftEventSubscriptionObservation `json:",inline"`
+	AtProvider                     RedshiftEventSubscriptionObservation `json:"atProvider"`
 }
 
 // A RedshiftEventSubscriptionObservation records the observed state of a RedshiftEventSubscription
 type RedshiftEventSubscriptionObservation struct {
 	Status        string `json:"status"`
-	CustomerAwsId string `json:"customer_aws_id"`
 	Arn           string `json:"arn"`
+	CustomerAwsId string `json:"customer_aws_id"`
 }

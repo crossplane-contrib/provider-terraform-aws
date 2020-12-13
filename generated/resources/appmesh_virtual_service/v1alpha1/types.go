@@ -47,16 +47,16 @@ type AppmeshVirtualServiceList struct {
 // A AppmeshVirtualServiceSpec defines the desired state of a AppmeshVirtualService
 type AppmeshVirtualServiceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppmeshVirtualServiceParameters `json:",inline"`
+	ForProvider                  AppmeshVirtualServiceParameters `json:"forProvider"`
 }
 
 // A AppmeshVirtualServiceParameters defines the desired state of a AppmeshVirtualService
 type AppmeshVirtualServiceParameters struct {
-	MeshName  string            `json:"mesh_name"`
-	Name      string            `json:"name"`
-	Tags      map[string]string `json:"tags"`
 	Id        string            `json:"id"`
 	MeshOwner string            `json:"mesh_owner"`
+	Tags      map[string]string `json:"tags"`
+	MeshName  string            `json:"mesh_name"`
+	Name      string            `json:"name"`
 	Spec      Spec              `json:"spec"`
 }
 
@@ -80,13 +80,13 @@ type VirtualRouter struct {
 // A AppmeshVirtualServiceStatus defines the observed state of a AppmeshVirtualService
 type AppmeshVirtualServiceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppmeshVirtualServiceObservation `json:",inline"`
+	AtProvider                     AppmeshVirtualServiceObservation `json:"atProvider"`
 }
 
 // A AppmeshVirtualServiceObservation records the observed state of a AppmeshVirtualService
 type AppmeshVirtualServiceObservation struct {
-	Arn             string `json:"arn"`
-	LastUpdatedDate string `json:"last_updated_date"`
 	ResourceOwner   string `json:"resource_owner"`
+	Arn             string `json:"arn"`
 	CreatedDate     string `json:"created_date"`
+	LastUpdatedDate string `json:"last_updated_date"`
 }

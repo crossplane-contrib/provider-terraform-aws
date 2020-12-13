@@ -47,24 +47,24 @@ type CognitoIdentityProviderList struct {
 // A CognitoIdentityProviderSpec defines the desired state of a CognitoIdentityProvider
 type CognitoIdentityProviderSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CognitoIdentityProviderParameters `json:",inline"`
+	ForProvider                  CognitoIdentityProviderParameters `json:"forProvider"`
 }
 
 // A CognitoIdentityProviderParameters defines the desired state of a CognitoIdentityProvider
 type CognitoIdentityProviderParameters struct {
-	ProviderName     string            `json:"provider_name"`
 	ProviderType     string            `json:"provider_type"`
 	UserPoolId       string            `json:"user_pool_id"`
 	AttributeMapping map[string]string `json:"attribute_mapping"`
 	Id               string            `json:"id"`
 	IdpIdentifiers   []string          `json:"idp_identifiers"`
 	ProviderDetails  map[string]string `json:"provider_details"`
+	ProviderName     string            `json:"provider_name"`
 }
 
 // A CognitoIdentityProviderStatus defines the observed state of a CognitoIdentityProvider
 type CognitoIdentityProviderStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CognitoIdentityProviderObservation `json:",inline"`
+	AtProvider                     CognitoIdentityProviderObservation `json:"atProvider"`
 }
 
 // A CognitoIdentityProviderObservation records the observed state of a CognitoIdentityProvider

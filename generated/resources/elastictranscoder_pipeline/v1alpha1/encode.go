@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,31 +37,26 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeElastictranscoderPipeline(r ElastictranscoderPipeline) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeElastictranscoderPipeline_Name(r.Spec.ForProvider, ctyVal)
-	EncodeElastictranscoderPipeline_OutputBucket(r.Spec.ForProvider, ctyVal)
-	EncodeElastictranscoderPipeline_Role(r.Spec.ForProvider, ctyVal)
 	EncodeElastictranscoderPipeline_AwsKmsKeyArn(r.Spec.ForProvider, ctyVal)
 	EncodeElastictranscoderPipeline_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElastictranscoderPipeline_InputBucket(r.Spec.ForProvider, ctyVal)
-	EncodeElastictranscoderPipeline_ContentConfig(r.Spec.ForProvider.ContentConfig, ctyVal)
+	EncodeElastictranscoderPipeline_Name(r.Spec.ForProvider, ctyVal)
+	EncodeElastictranscoderPipeline_OutputBucket(r.Spec.ForProvider, ctyVal)
+	EncodeElastictranscoderPipeline_Role(r.Spec.ForProvider, ctyVal)
 	EncodeElastictranscoderPipeline_ContentConfigPermissions(r.Spec.ForProvider.ContentConfigPermissions, ctyVal)
 	EncodeElastictranscoderPipeline_Notifications(r.Spec.ForProvider.Notifications, ctyVal)
 	EncodeElastictranscoderPipeline_ThumbnailConfig(r.Spec.ForProvider.ThumbnailConfig, ctyVal)
 	EncodeElastictranscoderPipeline_ThumbnailConfigPermissions(r.Spec.ForProvider.ThumbnailConfigPermissions, ctyVal)
+	EncodeElastictranscoderPipeline_ContentConfig(r.Spec.ForProvider.ContentConfig, ctyVal)
 	EncodeElastictranscoderPipeline_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeElastictranscoderPipeline_Name(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeElastictranscoderPipeline_OutputBucket(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
-	vals["output_bucket"] = cty.StringVal(p.OutputBucket)
-}
-
-func EncodeElastictranscoderPipeline_Role(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
-	vals["role"] = cty.StringVal(p.Role)
 }
 
 func EncodeElastictranscoderPipeline_AwsKmsKeyArn(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
@@ -75,21 +71,16 @@ func EncodeElastictranscoderPipeline_InputBucket(p ElastictranscoderPipelinePara
 	vals["input_bucket"] = cty.StringVal(p.InputBucket)
 }
 
-func EncodeElastictranscoderPipeline_ContentConfig(p ContentConfig, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeElastictranscoderPipeline_ContentConfig_Bucket(p, ctyVal)
-	EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["content_config"] = cty.ListVal(valsForCollection)
+func EncodeElastictranscoderPipeline_Name(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeElastictranscoderPipeline_ContentConfig_Bucket(p ContentConfig, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
+func EncodeElastictranscoderPipeline_OutputBucket(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
+	vals["output_bucket"] = cty.StringVal(p.OutputBucket)
 }
 
-func EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p ContentConfig, vals map[string]cty.Value) {
-	vals["storage_class"] = cty.StringVal(p.StorageClass)
+func EncodeElastictranscoderPipeline_Role(p ElastictranscoderPipelineParameters, vals map[string]cty.Value) {
+	vals["role"] = cty.StringVal(p.Role)
 }
 
 func EncodeElastictranscoderPipeline_ContentConfigPermissions(p ContentConfigPermissions, vals map[string]cty.Value) {
@@ -121,16 +112,12 @@ func EncodeElastictranscoderPipeline_ContentConfigPermissions_GranteeType(p Cont
 func EncodeElastictranscoderPipeline_Notifications(p Notifications, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeElastictranscoderPipeline_Notifications_Warning(p, ctyVal)
 	EncodeElastictranscoderPipeline_Notifications_Completed(p, ctyVal)
 	EncodeElastictranscoderPipeline_Notifications_Error(p, ctyVal)
 	EncodeElastictranscoderPipeline_Notifications_Progressing(p, ctyVal)
+	EncodeElastictranscoderPipeline_Notifications_Warning(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["notifications"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeElastictranscoderPipeline_Notifications_Warning(p Notifications, vals map[string]cty.Value) {
-	vals["warning"] = cty.StringVal(p.Warning)
 }
 
 func EncodeElastictranscoderPipeline_Notifications_Completed(p Notifications, vals map[string]cty.Value) {
@@ -143,6 +130,10 @@ func EncodeElastictranscoderPipeline_Notifications_Error(p Notifications, vals m
 
 func EncodeElastictranscoderPipeline_Notifications_Progressing(p Notifications, vals map[string]cty.Value) {
 	vals["progressing"] = cty.StringVal(p.Progressing)
+}
+
+func EncodeElastictranscoderPipeline_Notifications_Warning(p Notifications, vals map[string]cty.Value) {
+	vals["warning"] = cty.StringVal(p.Warning)
 }
 
 func EncodeElastictranscoderPipeline_ThumbnailConfig(p ThumbnailConfig, vals map[string]cty.Value) {
@@ -165,11 +156,19 @@ func EncodeElastictranscoderPipeline_ThumbnailConfig_StorageClass(p ThumbnailCon
 func EncodeElastictranscoderPipeline_ThumbnailConfigPermissions(p ThumbnailConfigPermissions, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_Access(p, ctyVal)
 	EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_Grantee(p, ctyVal)
 	EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_GranteeType(p, ctyVal)
-	EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_Access(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["thumbnail_config_permissions"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_Access(p ThumbnailConfigPermissions, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Access {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["access"] = cty.ListVal(colVals)
 }
 
 func EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_Grantee(p ThumbnailConfigPermissions, vals map[string]cty.Value) {
@@ -180,12 +179,21 @@ func EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_GranteeType(p Th
 	vals["grantee_type"] = cty.StringVal(p.GranteeType)
 }
 
-func EncodeElastictranscoderPipeline_ThumbnailConfigPermissions_Access(p ThumbnailConfigPermissions, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Access {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["access"] = cty.ListVal(colVals)
+func EncodeElastictranscoderPipeline_ContentConfig(p ContentConfig, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeElastictranscoderPipeline_ContentConfig_Bucket(p, ctyVal)
+	EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["content_config"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeElastictranscoderPipeline_ContentConfig_Bucket(p ContentConfig, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
+}
+
+func EncodeElastictranscoderPipeline_ContentConfig_StorageClass(p ContentConfig, vals map[string]cty.Value) {
+	vals["storage_class"] = cty.StringVal(p.StorageClass)
 }
 
 func EncodeElastictranscoderPipeline_Arn(p ElastictranscoderPipelineObservation, vals map[string]cty.Value) {

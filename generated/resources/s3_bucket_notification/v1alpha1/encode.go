@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -42,6 +43,13 @@ func EncodeS3BucketNotification(r S3BucketNotification) cty.Value {
 	EncodeS3BucketNotification_Queue(r.Spec.ForProvider.Queue, ctyVal)
 	EncodeS3BucketNotification_Topic(r.Spec.ForProvider.Topic, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -56,13 +64,21 @@ func EncodeS3BucketNotification_Id(p S3BucketNotificationParameters, vals map[st
 func EncodeS3BucketNotification_LambdaFunction(p LambdaFunction, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeS3BucketNotification_LambdaFunction_Id(p, ctyVal)
+	EncodeS3BucketNotification_LambdaFunction_LambdaFunctionArn(p, ctyVal)
 	EncodeS3BucketNotification_LambdaFunction_Events(p, ctyVal)
 	EncodeS3BucketNotification_LambdaFunction_FilterPrefix(p, ctyVal)
 	EncodeS3BucketNotification_LambdaFunction_FilterSuffix(p, ctyVal)
-	EncodeS3BucketNotification_LambdaFunction_Id(p, ctyVal)
-	EncodeS3BucketNotification_LambdaFunction_LambdaFunctionArn(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["lambda_function"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeS3BucketNotification_LambdaFunction_Id(p LambdaFunction, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeS3BucketNotification_LambdaFunction_LambdaFunctionArn(p LambdaFunction, vals map[string]cty.Value) {
+	vals["lambda_function_arn"] = cty.StringVal(p.LambdaFunctionArn)
 }
 
 func EncodeS3BucketNotification_LambdaFunction_Events(p LambdaFunction, vals map[string]cty.Value) {
@@ -81,36 +97,16 @@ func EncodeS3BucketNotification_LambdaFunction_FilterSuffix(p LambdaFunction, va
 	vals["filter_suffix"] = cty.StringVal(p.FilterSuffix)
 }
 
-func EncodeS3BucketNotification_LambdaFunction_Id(p LambdaFunction, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeS3BucketNotification_LambdaFunction_LambdaFunctionArn(p LambdaFunction, vals map[string]cty.Value) {
-	vals["lambda_function_arn"] = cty.StringVal(p.LambdaFunctionArn)
-}
-
 func EncodeS3BucketNotification_Queue(p Queue, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeS3BucketNotification_Queue_QueueArn(p, ctyVal)
-	EncodeS3BucketNotification_Queue_Events(p, ctyVal)
 	EncodeS3BucketNotification_Queue_FilterPrefix(p, ctyVal)
 	EncodeS3BucketNotification_Queue_FilterSuffix(p, ctyVal)
 	EncodeS3BucketNotification_Queue_Id(p, ctyVal)
+	EncodeS3BucketNotification_Queue_QueueArn(p, ctyVal)
+	EncodeS3BucketNotification_Queue_Events(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["queue"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeS3BucketNotification_Queue_QueueArn(p Queue, vals map[string]cty.Value) {
-	vals["queue_arn"] = cty.StringVal(p.QueueArn)
-}
-
-func EncodeS3BucketNotification_Queue_Events(p Queue, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Events {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["events"] = cty.SetVal(colVals)
 }
 
 func EncodeS3BucketNotification_Queue_FilterPrefix(p Queue, vals map[string]cty.Value) {
@@ -123,6 +119,18 @@ func EncodeS3BucketNotification_Queue_FilterSuffix(p Queue, vals map[string]cty.
 
 func EncodeS3BucketNotification_Queue_Id(p Queue, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeS3BucketNotification_Queue_QueueArn(p Queue, vals map[string]cty.Value) {
+	vals["queue_arn"] = cty.StringVal(p.QueueArn)
+}
+
+func EncodeS3BucketNotification_Queue_Events(p Queue, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Events {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["events"] = cty.SetVal(colVals)
 }
 
 func EncodeS3BucketNotification_Topic(p Topic, vals map[string]cty.Value) {

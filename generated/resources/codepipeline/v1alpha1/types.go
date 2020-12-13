@@ -47,15 +47,15 @@ type CodepipelineList struct {
 // A CodepipelineSpec defines the desired state of a Codepipeline
 type CodepipelineSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodepipelineParameters `json:",inline"`
+	ForProvider                  CodepipelineParameters `json:"forProvider"`
 }
 
 // A CodepipelineParameters defines the desired state of a Codepipeline
 type CodepipelineParameters struct {
+	Id            string            `json:"id"`
 	Name          string            `json:"name"`
 	RoleArn       string            `json:"role_arn"`
 	Tags          map[string]string `json:"tags"`
-	Id            string            `json:"id"`
 	ArtifactStore []ArtifactStore   `json:"artifact_store"`
 	Stage         []Stage           `json:"stage"`
 }
@@ -78,24 +78,24 @@ type Stage struct {
 }
 
 type Action struct {
+	Namespace       string            `json:"namespace"`
+	Owner           string            `json:"owner"`
 	Region          string            `json:"region"`
+	RunOrder        int64             `json:"run_order"`
+	OutputArtifacts []string          `json:"output_artifacts"`
+	Provider        string            `json:"provider"`
 	RoleArn         string            `json:"role_arn"`
 	Version         string            `json:"version"`
 	Category        string            `json:"category"`
+	Configuration   map[string]string `json:"configuration"`
 	InputArtifacts  []string          `json:"input_artifacts"`
 	Name            string            `json:"name"`
-	OutputArtifacts []string          `json:"output_artifacts"`
-	Owner           string            `json:"owner"`
-	Configuration   map[string]string `json:"configuration"`
-	Namespace       string            `json:"namespace"`
-	Provider        string            `json:"provider"`
-	RunOrder        int64             `json:"run_order"`
 }
 
 // A CodepipelineStatus defines the observed state of a Codepipeline
 type CodepipelineStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodepipelineObservation `json:",inline"`
+	AtProvider                     CodepipelineObservation `json:"atProvider"`
 }
 
 // A CodepipelineObservation records the observed state of a Codepipeline

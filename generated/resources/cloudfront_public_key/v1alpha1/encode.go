@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,18 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudfrontPublicKey(r CloudfrontPublicKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudfrontPublicKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_EncodedKey(r.Spec.ForProvider, ctyVal)
-	EncodeCloudfrontPublicKey_Etag(r.Status.AtProvider, ctyVal)
+	EncodeCloudfrontPublicKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_CallerReference(r.Status.AtProvider, ctyVal)
+	EncodeCloudfrontPublicKey_Etag(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudfrontPublicKey_Id(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudfrontPublicKey_Name(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
@@ -66,10 +70,14 @@ func EncodeCloudfrontPublicKey_EncodedKey(p CloudfrontPublicKeyParameters, vals 
 	vals["encoded_key"] = cty.StringVal(p.EncodedKey)
 }
 
-func EncodeCloudfrontPublicKey_Etag(p CloudfrontPublicKeyObservation, vals map[string]cty.Value) {
-	vals["etag"] = cty.StringVal(p.Etag)
+func EncodeCloudfrontPublicKey_Id(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudfrontPublicKey_CallerReference(p CloudfrontPublicKeyObservation, vals map[string]cty.Value) {
 	vals["caller_reference"] = cty.StringVal(p.CallerReference)
+}
+
+func EncodeCloudfrontPublicKey_Etag(p CloudfrontPublicKeyObservation, vals map[string]cty.Value) {
+	vals["etag"] = cty.StringVal(p.Etag)
 }

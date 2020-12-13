@@ -47,20 +47,20 @@ type IotPolicyList struct {
 // A IotPolicySpec defines the desired state of a IotPolicy
 type IotPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IotPolicyParameters `json:",inline"`
+	ForProvider                  IotPolicyParameters `json:"forProvider"`
 }
 
 // A IotPolicyParameters defines the desired state of a IotPolicy
 type IotPolicyParameters struct {
-	Policy string `json:"policy"`
 	Id     string `json:"id"`
 	Name   string `json:"name"`
+	Policy string `json:"policy"`
 }
 
 // A IotPolicyStatus defines the observed state of a IotPolicy
 type IotPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IotPolicyObservation `json:",inline"`
+	AtProvider                     IotPolicyObservation `json:"atProvider"`
 }
 
 // A IotPolicyObservation records the observed state of a IotPolicy

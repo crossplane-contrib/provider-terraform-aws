@@ -47,27 +47,27 @@ type DmsReplicationTaskList struct {
 // A DmsReplicationTaskSpec defines the desired state of a DmsReplicationTask
 type DmsReplicationTaskSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DmsReplicationTaskParameters `json:",inline"`
+	ForProvider                  DmsReplicationTaskParameters `json:"forProvider"`
 }
 
 // A DmsReplicationTaskParameters defines the desired state of a DmsReplicationTask
 type DmsReplicationTaskParameters struct {
-	CdcStartTime            string            `json:"cdc_start_time"`
-	ReplicationInstanceArn  string            `json:"replication_instance_arn"`
+	TableMappings           string            `json:"table_mappings"`
 	Tags                    map[string]string `json:"tags"`
 	TargetEndpointArn       string            `json:"target_endpoint_arn"`
-	Id                      string            `json:"id"`
-	MigrationType           string            `json:"migration_type"`
 	ReplicationTaskId       string            `json:"replication_task_id"`
 	ReplicationTaskSettings string            `json:"replication_task_settings"`
 	SourceEndpointArn       string            `json:"source_endpoint_arn"`
-	TableMappings           string            `json:"table_mappings"`
+	CdcStartTime            string            `json:"cdc_start_time"`
+	Id                      string            `json:"id"`
+	MigrationType           string            `json:"migration_type"`
+	ReplicationInstanceArn  string            `json:"replication_instance_arn"`
 }
 
 // A DmsReplicationTaskStatus defines the observed state of a DmsReplicationTask
 type DmsReplicationTaskStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DmsReplicationTaskObservation `json:",inline"`
+	AtProvider                     DmsReplicationTaskObservation `json:"atProvider"`
 }
 
 // A DmsReplicationTaskObservation records the observed state of a DmsReplicationTask

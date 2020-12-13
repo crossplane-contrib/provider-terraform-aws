@@ -47,23 +47,23 @@ type GlueCatalogDatabaseList struct {
 // A GlueCatalogDatabaseSpec defines the desired state of a GlueCatalogDatabase
 type GlueCatalogDatabaseSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueCatalogDatabaseParameters `json:",inline"`
+	ForProvider                  GlueCatalogDatabaseParameters `json:"forProvider"`
 }
 
 // A GlueCatalogDatabaseParameters defines the desired state of a GlueCatalogDatabase
 type GlueCatalogDatabaseParameters struct {
-	CatalogId   string            `json:"catalog_id"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	LocationUri string            `json:"location_uri"`
 	Name        string            `json:"name"`
 	Parameters  map[string]string `json:"parameters"`
+	CatalogId   string            `json:"catalog_id"`
 }
 
 // A GlueCatalogDatabaseStatus defines the observed state of a GlueCatalogDatabase
 type GlueCatalogDatabaseStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueCatalogDatabaseObservation `json:",inline"`
+	AtProvider                     GlueCatalogDatabaseObservation `json:"atProvider"`
 }
 
 // A GlueCatalogDatabaseObservation records the observed state of a GlueCatalogDatabase

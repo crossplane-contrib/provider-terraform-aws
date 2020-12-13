@@ -47,7 +47,7 @@ type InternetGatewayList struct {
 // A InternetGatewaySpec defines the desired state of a InternetGateway
 type InternetGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  InternetGatewayParameters `json:",inline"`
+	ForProvider                  InternetGatewayParameters `json:"forProvider"`
 }
 
 // A InternetGatewayParameters defines the desired state of a InternetGateway
@@ -60,11 +60,11 @@ type InternetGatewayParameters struct {
 // A InternetGatewayStatus defines the observed state of a InternetGateway
 type InternetGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     InternetGatewayObservation `json:",inline"`
+	AtProvider                     InternetGatewayObservation `json:"atProvider"`
 }
 
 // A InternetGatewayObservation records the observed state of a InternetGateway
 type InternetGatewayObservation struct {
-	Arn     string `json:"arn"`
 	OwnerId string `json:"owner_id"`
+	Arn     string `json:"arn"`
 }

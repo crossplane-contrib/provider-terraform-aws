@@ -47,7 +47,7 @@ type Ec2TransitGatewayRouteTableAssociationList struct {
 // A Ec2TransitGatewayRouteTableAssociationSpec defines the desired state of a Ec2TransitGatewayRouteTableAssociation
 type Ec2TransitGatewayRouteTableAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayRouteTableAssociationParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayRouteTableAssociationParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayRouteTableAssociationParameters defines the desired state of a Ec2TransitGatewayRouteTableAssociation
@@ -60,7 +60,7 @@ type Ec2TransitGatewayRouteTableAssociationParameters struct {
 // A Ec2TransitGatewayRouteTableAssociationStatus defines the observed state of a Ec2TransitGatewayRouteTableAssociation
 type Ec2TransitGatewayRouteTableAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayRouteTableAssociationObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayRouteTableAssociationObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayRouteTableAssociationObservation records the observed state of a Ec2TransitGatewayRouteTableAssociation

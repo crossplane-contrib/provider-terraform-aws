@@ -47,41 +47,41 @@ type CloudwatchMetricAlarmList struct {
 // A CloudwatchMetricAlarmSpec defines the desired state of a CloudwatchMetricAlarm
 type CloudwatchMetricAlarmSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchMetricAlarmParameters `json:",inline"`
+	ForProvider                  CloudwatchMetricAlarmParameters `json:"forProvider"`
 }
 
 // A CloudwatchMetricAlarmParameters defines the desired state of a CloudwatchMetricAlarm
 type CloudwatchMetricAlarmParameters struct {
-	Dimensions                        map[string]string `json:"dimensions"`
-	EvaluationPeriods                 int64             `json:"evaluation_periods"`
-	Namespace                         string            `json:"namespace"`
-	Threshold                         int64             `json:"threshold"`
-	ThresholdMetricId                 string            `json:"threshold_metric_id"`
 	ActionsEnabled                    bool              `json:"actions_enabled"`
-	AlarmName                         string            `json:"alarm_name"`
-	Unit                              string            `json:"unit"`
 	DatapointsToAlarm                 int64             `json:"datapoints_to_alarm"`
-	ExtendedStatistic                 string            `json:"extended_statistic"`
-	MetricName                        string            `json:"metric_name"`
-	InsufficientDataActions           []string          `json:"insufficient_data_actions"`
+	ThresholdMetricId                 string            `json:"threshold_metric_id"`
 	Statistic                         string            `json:"statistic"`
-	Tags                              map[string]string `json:"tags"`
+	Threshold                         int64             `json:"threshold"`
 	AlarmDescription                  string            `json:"alarm_description"`
-	ComparisonOperator                string            `json:"comparison_operator"`
+	Dimensions                        map[string]string `json:"dimensions"`
 	Id                                string            `json:"id"`
-	Period                            int64             `json:"period"`
-	TreatMissingData                  string            `json:"treat_missing_data"`
-	AlarmActions                      []string          `json:"alarm_actions"`
-	EvaluateLowSampleCountPercentiles string            `json:"evaluate_low_sample_count_percentiles"`
 	OkActions                         []string          `json:"ok_actions"`
+	Period                            int64             `json:"period"`
+	Tags                              map[string]string `json:"tags"`
+	Unit                              string            `json:"unit"`
+	AlarmActions                      []string          `json:"alarm_actions"`
+	AlarmName                         string            `json:"alarm_name"`
+	InsufficientDataActions           []string          `json:"insufficient_data_actions"`
+	MetricName                        string            `json:"metric_name"`
+	Namespace                         string            `json:"namespace"`
+	TreatMissingData                  string            `json:"treat_missing_data"`
+	ComparisonOperator                string            `json:"comparison_operator"`
+	EvaluateLowSampleCountPercentiles string            `json:"evaluate_low_sample_count_percentiles"`
+	EvaluationPeriods                 int64             `json:"evaluation_periods"`
+	ExtendedStatistic                 string            `json:"extended_statistic"`
 	MetricQuery                       MetricQuery       `json:"metric_query"`
 }
 
 type MetricQuery struct {
+	ReturnData bool   `json:"return_data"`
 	Expression string `json:"expression"`
 	Id         string `json:"id"`
 	Label      string `json:"label"`
-	ReturnData bool   `json:"return_data"`
 	Metric     Metric `json:"metric"`
 }
 
@@ -97,7 +97,7 @@ type Metric struct {
 // A CloudwatchMetricAlarmStatus defines the observed state of a CloudwatchMetricAlarm
 type CloudwatchMetricAlarmStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchMetricAlarmObservation `json:",inline"`
+	AtProvider                     CloudwatchMetricAlarmObservation `json:"atProvider"`
 }
 
 // A CloudwatchMetricAlarmObservation records the observed state of a CloudwatchMetricAlarm

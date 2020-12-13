@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=ec-2-client-vpn-route.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

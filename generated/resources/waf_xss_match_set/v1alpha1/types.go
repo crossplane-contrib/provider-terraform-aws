@@ -47,13 +47,13 @@ type WafXssMatchSetList struct {
 // A WafXssMatchSetSpec defines the desired state of a WafXssMatchSet
 type WafXssMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafXssMatchSetParameters `json:",inline"`
+	ForProvider                  WafXssMatchSetParameters `json:"forProvider"`
 }
 
 // A WafXssMatchSetParameters defines the desired state of a WafXssMatchSet
 type WafXssMatchSetParameters struct {
-	Id             string         `json:"id"`
 	Name           string         `json:"name"`
+	Id             string         `json:"id"`
 	XssMatchTuples XssMatchTuples `json:"xss_match_tuples"`
 }
 
@@ -70,7 +70,7 @@ type FieldToMatch struct {
 // A WafXssMatchSetStatus defines the observed state of a WafXssMatchSet
 type WafXssMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafXssMatchSetObservation `json:",inline"`
+	AtProvider                     WafXssMatchSetObservation `json:"atProvider"`
 }
 
 // A WafXssMatchSetObservation records the observed state of a WafXssMatchSet

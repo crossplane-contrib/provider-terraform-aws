@@ -47,7 +47,7 @@ type EcrRepositoryPolicyList struct {
 // A EcrRepositoryPolicySpec defines the desired state of a EcrRepositoryPolicy
 type EcrRepositoryPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EcrRepositoryPolicyParameters `json:",inline"`
+	ForProvider                  EcrRepositoryPolicyParameters `json:"forProvider"`
 }
 
 // A EcrRepositoryPolicyParameters defines the desired state of a EcrRepositoryPolicy
@@ -60,7 +60,7 @@ type EcrRepositoryPolicyParameters struct {
 // A EcrRepositoryPolicyStatus defines the observed state of a EcrRepositoryPolicy
 type EcrRepositoryPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EcrRepositoryPolicyObservation `json:",inline"`
+	AtProvider                     EcrRepositoryPolicyObservation `json:"atProvider"`
 }
 
 // A EcrRepositoryPolicyObservation records the observed state of a EcrRepositoryPolicy

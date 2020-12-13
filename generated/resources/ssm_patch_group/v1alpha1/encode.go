@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSsmPatchGroup(r SsmPatchGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSsmPatchGroup_BaselineId(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchGroup_PatchGroup(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchGroup_BaselineId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSsmPatchGroup_BaselineId(p SsmPatchGroupParameters, vals map[string]cty.Value) {
-	vals["baseline_id"] = cty.StringVal(p.BaselineId)
 }
 
 func EncodeSsmPatchGroup_Id(p SsmPatchGroupParameters, vals map[string]cty.Value) {
@@ -53,4 +57,8 @@ func EncodeSsmPatchGroup_Id(p SsmPatchGroupParameters, vals map[string]cty.Value
 
 func EncodeSsmPatchGroup_PatchGroup(p SsmPatchGroupParameters, vals map[string]cty.Value) {
 	vals["patch_group"] = cty.StringVal(p.PatchGroup)
+}
+
+func EncodeSsmPatchGroup_BaselineId(p SsmPatchGroupParameters, vals map[string]cty.Value) {
+	vals["baseline_id"] = cty.StringVal(p.BaselineId)
 }

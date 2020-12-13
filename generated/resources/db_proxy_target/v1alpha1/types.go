@@ -47,30 +47,30 @@ type DbProxyTargetList struct {
 // A DbProxyTargetSpec defines the desired state of a DbProxyTarget
 type DbProxyTargetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbProxyTargetParameters `json:",inline"`
+	ForProvider                  DbProxyTargetParameters `json:"forProvider"`
 }
 
 // A DbProxyTargetParameters defines the desired state of a DbProxyTarget
 type DbProxyTargetParameters struct {
-	DbClusterIdentifier  string `json:"db_cluster_identifier"`
-	DbInstanceIdentifier string `json:"db_instance_identifier"`
 	DbProxyName          string `json:"db_proxy_name"`
 	Id                   string `json:"id"`
 	TargetGroupName      string `json:"target_group_name"`
+	DbClusterIdentifier  string `json:"db_cluster_identifier"`
+	DbInstanceIdentifier string `json:"db_instance_identifier"`
 }
 
 // A DbProxyTargetStatus defines the observed state of a DbProxyTarget
 type DbProxyTargetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbProxyTargetObservation `json:",inline"`
+	AtProvider                     DbProxyTargetObservation `json:"atProvider"`
 }
 
 // A DbProxyTargetObservation records the observed state of a DbProxyTarget
 type DbProxyTargetObservation struct {
+	Type             string `json:"type"`
 	Endpoint         string `json:"endpoint"`
+	TrackedClusterId string `json:"tracked_cluster_id"`
 	Port             int64  `json:"port"`
 	RdsResourceId    string `json:"rds_resource_id"`
-	Type             string `json:"type"`
 	TargetArn        string `json:"target_arn"`
-	TrackedClusterId string `json:"tracked_cluster_id"`
 }

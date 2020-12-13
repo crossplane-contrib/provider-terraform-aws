@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -41,17 +42,28 @@ func EncodeEbsSnapshot(r EbsSnapshot) cty.Value {
 	EncodeEbsSnapshot_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshot_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshot_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeEbsSnapshot_OwnerAlias(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_OwnerId(r.Status.AtProvider, ctyVal)
-	EncodeEbsSnapshot_DataEncryptionKeyId(r.Status.AtProvider, ctyVal)
-	EncodeEbsSnapshot_KmsKeyId(r.Status.AtProvider, ctyVal)
-	EncodeEbsSnapshot_VolumeSize(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_Arn(r.Status.AtProvider, ctyVal)
+	EncodeEbsSnapshot_DataEncryptionKeyId(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_Encrypted(r.Status.AtProvider, ctyVal)
+	EncodeEbsSnapshot_KmsKeyId(r.Status.AtProvider, ctyVal)
+	EncodeEbsSnapshot_OwnerAlias(r.Status.AtProvider, ctyVal)
+	EncodeEbsSnapshot_VolumeSize(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeEbsSnapshot_Tags(p EbsSnapshotParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -73,43 +85,43 @@ func EncodeEbsSnapshot_Id(p EbsSnapshotParameters, vals map[string]cty.Value) {
 
 func EncodeEbsSnapshot_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEbsSnapshot_Timeouts_Delete(p, ctyVal)
 	EncodeEbsSnapshot_Timeouts_Create(p, ctyVal)
+	EncodeEbsSnapshot_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeEbsSnapshot_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeEbsSnapshot_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeEbsSnapshot_OwnerAlias(p EbsSnapshotObservation, vals map[string]cty.Value) {
-	vals["owner_alias"] = cty.StringVal(p.OwnerAlias)
+func EncodeEbsSnapshot_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeEbsSnapshot_OwnerId(p EbsSnapshotObservation, vals map[string]cty.Value) {
 	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }
 
+func EncodeEbsSnapshot_Arn(p EbsSnapshotObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
 func EncodeEbsSnapshot_DataEncryptionKeyId(p EbsSnapshotObservation, vals map[string]cty.Value) {
 	vals["data_encryption_key_id"] = cty.StringVal(p.DataEncryptionKeyId)
+}
+
+func EncodeEbsSnapshot_Encrypted(p EbsSnapshotObservation, vals map[string]cty.Value) {
+	vals["encrypted"] = cty.BoolVal(p.Encrypted)
 }
 
 func EncodeEbsSnapshot_KmsKeyId(p EbsSnapshotObservation, vals map[string]cty.Value) {
 	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
+func EncodeEbsSnapshot_OwnerAlias(p EbsSnapshotObservation, vals map[string]cty.Value) {
+	vals["owner_alias"] = cty.StringVal(p.OwnerAlias)
+}
+
 func EncodeEbsSnapshot_VolumeSize(p EbsSnapshotObservation, vals map[string]cty.Value) {
 	vals["volume_size"] = cty.NumberIntVal(p.VolumeSize)
-}
-
-func EncodeEbsSnapshot_Arn(p EbsSnapshotObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeEbsSnapshot_Encrypted(p EbsSnapshotObservation, vals map[string]cty.Value) {
-	vals["encrypted"] = cty.BoolVal(p.Encrypted)
 }

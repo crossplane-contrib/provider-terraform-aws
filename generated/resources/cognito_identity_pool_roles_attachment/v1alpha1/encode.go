@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -41,6 +42,13 @@ func EncodeCognitoIdentityPoolRolesAttachment(r CognitoIdentityPoolRolesAttachme
 	EncodeCognitoIdentityPoolRolesAttachment_Roles(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityPoolRolesAttachment_RoleMapping(r.Spec.ForProvider.RoleMapping, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -53,6 +61,10 @@ func EncodeCognitoIdentityPoolRolesAttachment_IdentityPoolId(p CognitoIdentityPo
 }
 
 func EncodeCognitoIdentityPoolRolesAttachment_Roles(p CognitoIdentityPoolRolesAttachmentParameters, vals map[string]cty.Value) {
+	if len(p.Roles) == 0 {
+		vals["roles"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Roles {
 		mVals[key] = cty.StringVal(value)
@@ -63,12 +75,16 @@ func EncodeCognitoIdentityPoolRolesAttachment_Roles(p CognitoIdentityPoolRolesAt
 func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping(p RoleMapping, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_Type(p, ctyVal)
 	EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_AmbiguousRoleResolution(p, ctyVal)
 	EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_IdentityProvider(p, ctyVal)
-	EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_Type(p, ctyVal)
 	EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule(p.MappingRule, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["role_mapping"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_Type(p RoleMapping, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_AmbiguousRoleResolution(p RoleMapping, vals map[string]cty.Value) {
@@ -79,25 +95,17 @@ func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_IdentityProvider(p Rol
 	vals["identity_provider"] = cty.StringVal(p.IdentityProvider)
 }
 
-func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_Type(p RoleMapping, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
-}
-
 func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule(p []MappingRule, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
-		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(v, ctyVal)
 		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Claim(v, ctyVal)
 		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_MatchType(v, ctyVal)
 		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_RoleArn(v, ctyVal)
+		EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	vals["mapping_rule"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(p MappingRule, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Claim(p MappingRule, vals map[string]cty.Value) {
@@ -110,4 +118,8 @@ func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_MatchType(
 
 func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_RoleArn(p MappingRule, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeCognitoIdentityPoolRolesAttachment_RoleMapping_MappingRule_Value(p MappingRule, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }

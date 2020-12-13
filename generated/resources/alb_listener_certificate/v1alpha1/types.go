@@ -47,7 +47,7 @@ type AlbListenerCertificateList struct {
 // A AlbListenerCertificateSpec defines the desired state of a AlbListenerCertificate
 type AlbListenerCertificateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AlbListenerCertificateParameters `json:",inline"`
+	ForProvider                  AlbListenerCertificateParameters `json:"forProvider"`
 }
 
 // A AlbListenerCertificateParameters defines the desired state of a AlbListenerCertificate
@@ -60,7 +60,7 @@ type AlbListenerCertificateParameters struct {
 // A AlbListenerCertificateStatus defines the observed state of a AlbListenerCertificate
 type AlbListenerCertificateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AlbListenerCertificateObservation `json:",inline"`
+	AtProvider                     AlbListenerCertificateObservation `json:"atProvider"`
 }
 
 // A AlbListenerCertificateObservation records the observed state of a AlbListenerCertificate

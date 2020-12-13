@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,22 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayClientCertificate(r ApiGatewayClientCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayClientCertificate_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayClientCertificate_PemEncodedCertificate(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayClientCertificate_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_Arn(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_ExpirationDate(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayClientCertificate_Tags(p ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	EncodeApiGatewayClientCertificate_PemEncodedCertificate(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeApiGatewayClientCertificate_Description(p ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
@@ -62,8 +62,16 @@ func EncodeApiGatewayClientCertificate_Id(p ApiGatewayClientCertificateParameter
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeApiGatewayClientCertificate_PemEncodedCertificate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
-	vals["pem_encoded_certificate"] = cty.StringVal(p.PemEncodedCertificate)
+func EncodeApiGatewayClientCertificate_Tags(p ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeApiGatewayClientCertificate_Arn(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
@@ -76,4 +84,8 @@ func EncodeApiGatewayClientCertificate_CreatedDate(p ApiGatewayClientCertificate
 
 func EncodeApiGatewayClientCertificate_ExpirationDate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
 	vals["expiration_date"] = cty.StringVal(p.ExpirationDate)
+}
+
+func EncodeApiGatewayClientCertificate_PemEncodedCertificate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	vals["pem_encoded_certificate"] = cty.StringVal(p.PemEncodedCertificate)
 }

@@ -47,23 +47,23 @@ type DxTransitVirtualInterfaceList struct {
 // A DxTransitVirtualInterfaceSpec defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxTransitVirtualInterfaceParameters `json:",inline"`
+	ForProvider                  DxTransitVirtualInterfaceParameters `json:"forProvider"`
 }
 
 // A DxTransitVirtualInterfaceParameters defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceParameters struct {
-	BgpAsn          int64             `json:"bgp_asn"`
-	ConnectionId    string            `json:"connection_id"`
-	Mtu             int64             `json:"mtu"`
-	AddressFamily   string            `json:"address_family"`
-	BgpAuthKey      string            `json:"bgp_auth_key"`
-	Vlan            int64             `json:"vlan"`
 	CustomerAddress string            `json:"customer_address"`
 	Id              string            `json:"id"`
-	Name            string            `json:"name"`
-	Tags            map[string]string `json:"tags"`
+	Mtu             int64             `json:"mtu"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
+	ConnectionId    string            `json:"connection_id"`
+	AddressFamily   string            `json:"address_family"`
 	AmazonAddress   string            `json:"amazon_address"`
+	BgpAsn          int64             `json:"bgp_asn"`
 	DxGatewayId     string            `json:"dx_gateway_id"`
+	Tags            map[string]string `json:"tags"`
+	Vlan            int64             `json:"vlan"`
+	Name            string            `json:"name"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
@@ -76,13 +76,13 @@ type Timeouts struct {
 // A DxTransitVirtualInterfaceStatus defines the observed state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxTransitVirtualInterfaceObservation `json:",inline"`
+	AtProvider                     DxTransitVirtualInterfaceObservation `json:"atProvider"`
 }
 
 // A DxTransitVirtualInterfaceObservation records the observed state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceObservation struct {
-	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
 	Arn               string `json:"arn"`
 	AwsDevice         string `json:"aws_device"`
+	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 }

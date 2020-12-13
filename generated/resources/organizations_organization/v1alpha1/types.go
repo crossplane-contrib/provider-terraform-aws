@@ -47,40 +47,40 @@ type OrganizationsOrganizationList struct {
 // A OrganizationsOrganizationSpec defines the desired state of a OrganizationsOrganization
 type OrganizationsOrganizationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OrganizationsOrganizationParameters `json:",inline"`
+	ForProvider                  OrganizationsOrganizationParameters `json:"forProvider"`
 }
 
 // A OrganizationsOrganizationParameters defines the desired state of a OrganizationsOrganization
 type OrganizationsOrganizationParameters struct {
-	EnabledPolicyTypes         []string `json:"enabled_policy_types"`
-	Id                         string   `json:"id"`
 	AwsServiceAccessPrincipals []string `json:"aws_service_access_principals"`
+	EnabledPolicyTypes         []string `json:"enabled_policy_types"`
 	FeatureSet                 string   `json:"feature_set"`
+	Id                         string   `json:"id"`
 }
 
 // A OrganizationsOrganizationStatus defines the observed state of a OrganizationsOrganization
 type OrganizationsOrganizationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OrganizationsOrganizationObservation `json:",inline"`
+	AtProvider                     OrganizationsOrganizationObservation `json:"atProvider"`
 }
 
 // A OrganizationsOrganizationObservation records the observed state of a OrganizationsOrganization
 type OrganizationsOrganizationObservation struct {
-	MasterAccountEmail string              `json:"master_account_email"`
+	MasterAccountId    string              `json:"master_account_id"`
 	NonMasterAccounts  []NonMasterAccounts `json:"non_master_accounts"`
 	Arn                string              `json:"arn"`
 	MasterAccountArn   string              `json:"master_account_arn"`
-	MasterAccountId    string              `json:"master_account_id"`
+	MasterAccountEmail string              `json:"master_account_email"`
 	Roots              []Roots             `json:"roots"`
 	Accounts           []Accounts          `json:"accounts"`
 }
 
 type NonMasterAccounts struct {
+	Name   string `json:"name"`
+	Status string `json:"status"`
 	Arn    string `json:"arn"`
 	Email  string `json:"email"`
 	Id     string `json:"id"`
-	Name   string `json:"name"`
-	Status string `json:"status"`
 }
 
 type Roots struct {
@@ -96,9 +96,9 @@ type PolicyTypes struct {
 }
 
 type Accounts struct {
+	Id     string `json:"id"`
 	Name   string `json:"name"`
 	Status string `json:"status"`
 	Arn    string `json:"arn"`
 	Email  string `json:"email"`
-	Id     string `json:"id"`
 }

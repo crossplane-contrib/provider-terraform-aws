@@ -47,7 +47,7 @@ type RedshiftSnapshotCopyGrantList struct {
 // A RedshiftSnapshotCopyGrantSpec defines the desired state of a RedshiftSnapshotCopyGrant
 type RedshiftSnapshotCopyGrantSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RedshiftSnapshotCopyGrantParameters `json:",inline"`
+	ForProvider                  RedshiftSnapshotCopyGrantParameters `json:"forProvider"`
 }
 
 // A RedshiftSnapshotCopyGrantParameters defines the desired state of a RedshiftSnapshotCopyGrant
@@ -61,7 +61,7 @@ type RedshiftSnapshotCopyGrantParameters struct {
 // A RedshiftSnapshotCopyGrantStatus defines the observed state of a RedshiftSnapshotCopyGrant
 type RedshiftSnapshotCopyGrantStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RedshiftSnapshotCopyGrantObservation `json:",inline"`
+	AtProvider                     RedshiftSnapshotCopyGrantObservation `json:"atProvider"`
 }
 
 // A RedshiftSnapshotCopyGrantObservation records the observed state of a RedshiftSnapshotCopyGrant

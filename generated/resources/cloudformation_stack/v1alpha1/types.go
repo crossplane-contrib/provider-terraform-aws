@@ -47,38 +47,38 @@ type CloudformationStackList struct {
 // A CloudformationStackSpec defines the desired state of a CloudformationStack
 type CloudformationStackSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudformationStackParameters `json:",inline"`
+	ForProvider                  CloudformationStackParameters `json:"forProvider"`
 }
 
 // A CloudformationStackParameters defines the desired state of a CloudformationStack
 type CloudformationStackParameters struct {
+	NotificationArns []string          `json:"notification_arns"`
+	PolicyUrl        string            `json:"policy_url"`
 	Capabilities     []string          `json:"capabilities"`
+	OnFailure        string            `json:"on_failure"`
+	TimeoutInMinutes int64             `json:"timeout_in_minutes"`
+	DisableRollback  bool              `json:"disable_rollback"`
+	IamRoleArn       string            `json:"iam_role_arn"`
 	Id               string            `json:"id"`
 	PolicyBody       string            `json:"policy_body"`
-	TemplateBody     string            `json:"template_body"`
-	TimeoutInMinutes int64             `json:"timeout_in_minutes"`
-	IamRoleArn       string            `json:"iam_role_arn"`
-	Name             string            `json:"name"`
-	PolicyUrl        string            `json:"policy_url"`
-	Tags             map[string]string `json:"tags"`
-	DisableRollback  bool              `json:"disable_rollback"`
-	NotificationArns []string          `json:"notification_arns"`
 	TemplateUrl      string            `json:"template_url"`
-	OnFailure        string            `json:"on_failure"`
+	Name             string            `json:"name"`
 	Parameters       map[string]string `json:"parameters"`
+	Tags             map[string]string `json:"tags"`
+	TemplateBody     string            `json:"template_body"`
 	Timeouts         Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A CloudformationStackStatus defines the observed state of a CloudformationStack
 type CloudformationStackStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudformationStackObservation `json:",inline"`
+	AtProvider                     CloudformationStackObservation `json:"atProvider"`
 }
 
 // A CloudformationStackObservation records the observed state of a CloudformationStack

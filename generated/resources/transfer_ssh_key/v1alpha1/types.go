@@ -47,7 +47,7 @@ type TransferSshKeyList struct {
 // A TransferSshKeySpec defines the desired state of a TransferSshKey
 type TransferSshKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  TransferSshKeyParameters `json:",inline"`
+	ForProvider                  TransferSshKeyParameters `json:"forProvider"`
 }
 
 // A TransferSshKeyParameters defines the desired state of a TransferSshKey
@@ -61,7 +61,7 @@ type TransferSshKeyParameters struct {
 // A TransferSshKeyStatus defines the observed state of a TransferSshKey
 type TransferSshKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     TransferSshKeyObservation `json:",inline"`
+	AtProvider                     TransferSshKeyObservation `json:"atProvider"`
 }
 
 // A TransferSshKeyObservation records the observed state of a TransferSshKey

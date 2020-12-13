@@ -47,7 +47,7 @@ type IotThingPrincipalAttachmentList struct {
 // A IotThingPrincipalAttachmentSpec defines the desired state of a IotThingPrincipalAttachment
 type IotThingPrincipalAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IotThingPrincipalAttachmentParameters `json:",inline"`
+	ForProvider                  IotThingPrincipalAttachmentParameters `json:"forProvider"`
 }
 
 // A IotThingPrincipalAttachmentParameters defines the desired state of a IotThingPrincipalAttachment
@@ -60,7 +60,7 @@ type IotThingPrincipalAttachmentParameters struct {
 // A IotThingPrincipalAttachmentStatus defines the observed state of a IotThingPrincipalAttachment
 type IotThingPrincipalAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IotThingPrincipalAttachmentObservation `json:",inline"`
+	AtProvider                     IotThingPrincipalAttachmentObservation `json:"atProvider"`
 }
 
 // A IotThingPrincipalAttachmentObservation records the observed state of a IotThingPrincipalAttachment

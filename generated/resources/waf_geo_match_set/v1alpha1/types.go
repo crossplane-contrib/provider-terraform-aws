@@ -47,7 +47,7 @@ type WafGeoMatchSetList struct {
 // A WafGeoMatchSetSpec defines the desired state of a WafGeoMatchSet
 type WafGeoMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafGeoMatchSetParameters `json:",inline"`
+	ForProvider                  WafGeoMatchSetParameters `json:"forProvider"`
 }
 
 // A WafGeoMatchSetParameters defines the desired state of a WafGeoMatchSet
@@ -65,7 +65,7 @@ type GeoMatchConstraint struct {
 // A WafGeoMatchSetStatus defines the observed state of a WafGeoMatchSet
 type WafGeoMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafGeoMatchSetObservation `json:",inline"`
+	AtProvider                     WafGeoMatchSetObservation `json:"atProvider"`
 }
 
 // A WafGeoMatchSetObservation records the observed state of a WafGeoMatchSet

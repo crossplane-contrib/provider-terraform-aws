@@ -47,7 +47,7 @@ type OrganizationsOrganizationalUnitList struct {
 // A OrganizationsOrganizationalUnitSpec defines the desired state of a OrganizationsOrganizationalUnit
 type OrganizationsOrganizationalUnitSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OrganizationsOrganizationalUnitParameters `json:",inline"`
+	ForProvider                  OrganizationsOrganizationalUnitParameters `json:"forProvider"`
 }
 
 // A OrganizationsOrganizationalUnitParameters defines the desired state of a OrganizationsOrganizationalUnit
@@ -60,7 +60,7 @@ type OrganizationsOrganizationalUnitParameters struct {
 // A OrganizationsOrganizationalUnitStatus defines the observed state of a OrganizationsOrganizationalUnit
 type OrganizationsOrganizationalUnitStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OrganizationsOrganizationalUnitObservation `json:",inline"`
+	AtProvider                     OrganizationsOrganizationalUnitObservation `json:"atProvider"`
 }
 
 // A OrganizationsOrganizationalUnitObservation records the observed state of a OrganizationsOrganizationalUnit
@@ -70,8 +70,8 @@ type OrganizationsOrganizationalUnitObservation struct {
 }
 
 type Accounts struct {
-	Name  string `json:"name"`
-	Arn   string `json:"arn"`
 	Email string `json:"email"`
 	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Arn   string `json:"arn"`
 }

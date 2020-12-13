@@ -47,82 +47,16 @@ type AlbListenerRuleList struct {
 // A AlbListenerRuleSpec defines the desired state of a AlbListenerRule
 type AlbListenerRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AlbListenerRuleParameters `json:",inline"`
+	ForProvider                  AlbListenerRuleParameters `json:"forProvider"`
 }
 
 // A AlbListenerRuleParameters defines the desired state of a AlbListenerRule
 type AlbListenerRuleParameters struct {
+	Id          string      `json:"id"`
 	ListenerArn string      `json:"listener_arn"`
 	Priority    int64       `json:"priority"`
-	Id          string      `json:"id"`
-	Action      []Action    `json:"action"`
 	Condition   []Condition `json:"condition"`
-}
-
-type Action struct {
-	Type                string              `json:"type"`
-	Order               int64               `json:"order"`
-	TargetGroupArn      string              `json:"target_group_arn"`
-	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
-	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
-	FixedResponse       FixedResponse       `json:"fixed_response"`
-	Forward             Forward             `json:"forward"`
-	Redirect            Redirect            `json:"redirect"`
-}
-
-type AuthenticateCognito struct {
-	UserPoolArn                      string            `json:"user_pool_arn"`
-	UserPoolClientId                 string            `json:"user_pool_client_id"`
-	UserPoolDomain                   string            `json:"user_pool_domain"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	Scope                            string            `json:"scope"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int64             `json:"session_timeout"`
-}
-
-type AuthenticateOidc struct {
-	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
-	ClientId                         string            `json:"client_id"`
-	Issuer                           string            `json:"issuer"`
-	Scope                            string            `json:"scope"`
-	TokenEndpoint                    string            `json:"token_endpoint"`
-	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
-	ClientSecret                     string            `json:"client_secret"`
-	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
-	SessionCookieName                string            `json:"session_cookie_name"`
-	SessionTimeout                   int64             `json:"session_timeout"`
-	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
-}
-
-type FixedResponse struct {
-	ContentType string `json:"content_type"`
-	MessageBody string `json:"message_body"`
-	StatusCode  string `json:"status_code"`
-}
-
-type Forward struct {
-	Stickiness  Stickiness    `json:"stickiness"`
-	TargetGroup []TargetGroup `json:"target_group"`
-}
-
-type Stickiness struct {
-	Duration int64 `json:"duration"`
-	Enabled  bool  `json:"enabled"`
-}
-
-type TargetGroup struct {
-	Arn    string `json:"arn"`
-	Weight int64  `json:"weight"`
-}
-
-type Redirect struct {
-	Protocol   string `json:"protocol"`
-	Query      string `json:"query"`
-	StatusCode string `json:"status_code"`
-	Host       string `json:"host"`
-	Path       string `json:"path"`
-	Port       string `json:"port"`
+	Action      []Action    `json:"action"`
 }
 
 type Condition struct {
@@ -139,8 +73,8 @@ type PathPattern struct {
 }
 
 type QueryString struct {
-	Key   string `json:"key"`
 	Value string `json:"value"`
+	Key   string `json:"key"`
 }
 
 type SourceIp struct {
@@ -160,10 +94,76 @@ type HttpRequestMethod struct {
 	Values []string `json:"values"`
 }
 
+type Action struct {
+	Order               int64               `json:"order"`
+	TargetGroupArn      string              `json:"target_group_arn"`
+	Type                string              `json:"type"`
+	AuthenticateCognito AuthenticateCognito `json:"authenticate_cognito"`
+	AuthenticateOidc    AuthenticateOidc    `json:"authenticate_oidc"`
+	FixedResponse       FixedResponse       `json:"fixed_response"`
+	Forward             Forward             `json:"forward"`
+	Redirect            Redirect            `json:"redirect"`
+}
+
+type AuthenticateCognito struct {
+	SessionTimeout                   int64             `json:"session_timeout"`
+	UserPoolArn                      string            `json:"user_pool_arn"`
+	UserPoolClientId                 string            `json:"user_pool_client_id"`
+	UserPoolDomain                   string            `json:"user_pool_domain"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+}
+
+type AuthenticateOidc struct {
+	AuthorizationEndpoint            string            `json:"authorization_endpoint"`
+	ClientId                         string            `json:"client_id"`
+	OnUnauthenticatedRequest         string            `json:"on_unauthenticated_request"`
+	Scope                            string            `json:"scope"`
+	UserInfoEndpoint                 string            `json:"user_info_endpoint"`
+	AuthenticationRequestExtraParams map[string]string `json:"authentication_request_extra_params"`
+	ClientSecret                     string            `json:"client_secret"`
+	Issuer                           string            `json:"issuer"`
+	SessionCookieName                string            `json:"session_cookie_name"`
+	SessionTimeout                   int64             `json:"session_timeout"`
+	TokenEndpoint                    string            `json:"token_endpoint"`
+}
+
+type FixedResponse struct {
+	MessageBody string `json:"message_body"`
+	StatusCode  string `json:"status_code"`
+	ContentType string `json:"content_type"`
+}
+
+type Forward struct {
+	Stickiness  Stickiness    `json:"stickiness"`
+	TargetGroup []TargetGroup `json:"target_group"`
+}
+
+type Stickiness struct {
+	Duration int64 `json:"duration"`
+	Enabled  bool  `json:"enabled"`
+}
+
+type TargetGroup struct {
+	Arn    string `json:"arn"`
+	Weight int64  `json:"weight"`
+}
+
+type Redirect struct {
+	Path       string `json:"path"`
+	Port       string `json:"port"`
+	Protocol   string `json:"protocol"`
+	Query      string `json:"query"`
+	StatusCode string `json:"status_code"`
+	Host       string `json:"host"`
+}
+
 // A AlbListenerRuleStatus defines the observed state of a AlbListenerRule
 type AlbListenerRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AlbListenerRuleObservation `json:",inline"`
+	AtProvider                     AlbListenerRuleObservation `json:"atProvider"`
 }
 
 // A AlbListenerRuleObservation records the observed state of a AlbListenerRule

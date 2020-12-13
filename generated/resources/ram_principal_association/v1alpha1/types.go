@@ -47,20 +47,20 @@ type RamPrincipalAssociationList struct {
 // A RamPrincipalAssociationSpec defines the desired state of a RamPrincipalAssociation
 type RamPrincipalAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RamPrincipalAssociationParameters `json:",inline"`
+	ForProvider                  RamPrincipalAssociationParameters `json:"forProvider"`
 }
 
 // A RamPrincipalAssociationParameters defines the desired state of a RamPrincipalAssociation
 type RamPrincipalAssociationParameters struct {
-	Id               string `json:"id"`
 	Principal        string `json:"principal"`
 	ResourceShareArn string `json:"resource_share_arn"`
+	Id               string `json:"id"`
 }
 
 // A RamPrincipalAssociationStatus defines the observed state of a RamPrincipalAssociation
 type RamPrincipalAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RamPrincipalAssociationObservation `json:",inline"`
+	AtProvider                     RamPrincipalAssociationObservation `json:"atProvider"`
 }
 
 // A RamPrincipalAssociationObservation records the observed state of a RamPrincipalAssociation

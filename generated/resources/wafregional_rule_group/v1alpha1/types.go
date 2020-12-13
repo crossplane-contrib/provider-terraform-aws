@@ -47,15 +47,15 @@ type WafregionalRuleGroupList struct {
 // A WafregionalRuleGroupSpec defines the desired state of a WafregionalRuleGroup
 type WafregionalRuleGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalRuleGroupParameters `json:",inline"`
+	ForProvider                  WafregionalRuleGroupParameters `json:"forProvider"`
 }
 
 // A WafregionalRuleGroupParameters defines the desired state of a WafregionalRuleGroup
 type WafregionalRuleGroupParameters struct {
+	Tags          map[string]string `json:"tags"`
 	Id            string            `json:"id"`
 	MetricName    string            `json:"metric_name"`
 	Name          string            `json:"name"`
-	Tags          map[string]string `json:"tags"`
 	ActivatedRule ActivatedRule     `json:"activated_rule"`
 }
 
@@ -73,7 +73,7 @@ type Action struct {
 // A WafregionalRuleGroupStatus defines the observed state of a WafregionalRuleGroup
 type WafregionalRuleGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalRuleGroupObservation `json:",inline"`
+	AtProvider                     WafregionalRuleGroupObservation `json:"atProvider"`
 }
 
 // A WafregionalRuleGroupObservation records the observed state of a WafregionalRuleGroup

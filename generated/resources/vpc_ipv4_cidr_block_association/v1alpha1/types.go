@@ -47,7 +47,7 @@ type VpcIpv4CidrBlockAssociationList struct {
 // A VpcIpv4CidrBlockAssociationSpec defines the desired state of a VpcIpv4CidrBlockAssociation
 type VpcIpv4CidrBlockAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcIpv4CidrBlockAssociationParameters `json:",inline"`
+	ForProvider                  VpcIpv4CidrBlockAssociationParameters `json:"forProvider"`
 }
 
 // A VpcIpv4CidrBlockAssociationParameters defines the desired state of a VpcIpv4CidrBlockAssociation
@@ -59,14 +59,14 @@ type VpcIpv4CidrBlockAssociationParameters struct {
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A VpcIpv4CidrBlockAssociationStatus defines the observed state of a VpcIpv4CidrBlockAssociation
 type VpcIpv4CidrBlockAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcIpv4CidrBlockAssociationObservation `json:",inline"`
+	AtProvider                     VpcIpv4CidrBlockAssociationObservation `json:"atProvider"`
 }
 
 // A VpcIpv4CidrBlockAssociationObservation records the observed state of a VpcIpv4CidrBlockAssociation

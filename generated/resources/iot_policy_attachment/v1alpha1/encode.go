@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,11 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotPolicyAttachment(r IotPolicyAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIotPolicyAttachment_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicyAttachment_Target(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIotPolicyAttachment_Policy(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIotPolicyAttachment_Policy(p IotPolicyAttachmentParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
 }
 
 func EncodeIotPolicyAttachment_Target(p IotPolicyAttachmentParameters, vals map[string]cty.Value) {
@@ -49,8 +61,4 @@ func EncodeIotPolicyAttachment_Target(p IotPolicyAttachmentParameters, vals map[
 
 func EncodeIotPolicyAttachment_Id(p IotPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIotPolicyAttachment_Policy(p IotPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
 }

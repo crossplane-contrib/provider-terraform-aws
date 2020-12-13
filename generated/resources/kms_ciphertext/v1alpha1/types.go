@@ -47,21 +47,21 @@ type KmsCiphertextList struct {
 // A KmsCiphertextSpec defines the desired state of a KmsCiphertext
 type KmsCiphertextSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  KmsCiphertextParameters `json:",inline"`
+	ForProvider                  KmsCiphertextParameters `json:"forProvider"`
 }
 
 // A KmsCiphertextParameters defines the desired state of a KmsCiphertext
 type KmsCiphertextParameters struct {
-	KeyId     string            `json:"key_id"`
-	Plaintext string            `json:"plaintext"`
 	Context   map[string]string `json:"context"`
 	Id        string            `json:"id"`
+	KeyId     string            `json:"key_id"`
+	Plaintext string            `json:"plaintext"`
 }
 
 // A KmsCiphertextStatus defines the observed state of a KmsCiphertext
 type KmsCiphertextStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     KmsCiphertextObservation `json:",inline"`
+	AtProvider                     KmsCiphertextObservation `json:"atProvider"`
 }
 
 // A KmsCiphertextObservation records the observed state of a KmsCiphertext

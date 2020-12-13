@@ -47,7 +47,7 @@ type StoragegatewayUploadBufferList struct {
 // A StoragegatewayUploadBufferSpec defines the desired state of a StoragegatewayUploadBuffer
 type StoragegatewayUploadBufferSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  StoragegatewayUploadBufferParameters `json:",inline"`
+	ForProvider                  StoragegatewayUploadBufferParameters `json:"forProvider"`
 }
 
 // A StoragegatewayUploadBufferParameters defines the desired state of a StoragegatewayUploadBuffer
@@ -60,7 +60,7 @@ type StoragegatewayUploadBufferParameters struct {
 // A StoragegatewayUploadBufferStatus defines the observed state of a StoragegatewayUploadBuffer
 type StoragegatewayUploadBufferStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     StoragegatewayUploadBufferObservation `json:",inline"`
+	AtProvider                     StoragegatewayUploadBufferObservation `json:"atProvider"`
 }
 
 // A StoragegatewayUploadBufferObservation records the observed state of a StoragegatewayUploadBuffer

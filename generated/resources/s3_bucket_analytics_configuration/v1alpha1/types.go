@@ -47,7 +47,7 @@ type S3BucketAnalyticsConfigurationList struct {
 // A S3BucketAnalyticsConfigurationSpec defines the desired state of a S3BucketAnalyticsConfiguration
 type S3BucketAnalyticsConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3BucketAnalyticsConfigurationParameters `json:",inline"`
+	ForProvider                  S3BucketAnalyticsConfigurationParameters `json:"forProvider"`
 }
 
 // A S3BucketAnalyticsConfigurationParameters defines the desired state of a S3BucketAnalyticsConfiguration
@@ -55,8 +55,13 @@ type S3BucketAnalyticsConfigurationParameters struct {
 	Bucket               string               `json:"bucket"`
 	Id                   string               `json:"id"`
 	Name                 string               `json:"name"`
-	StorageClassAnalysis StorageClassAnalysis `json:"storage_class_analysis"`
 	Filter               Filter               `json:"filter"`
+	StorageClassAnalysis StorageClassAnalysis `json:"storage_class_analysis"`
+}
+
+type Filter struct {
+	Prefix string            `json:"prefix"`
+	Tags   map[string]string `json:"tags"`
 }
 
 type StorageClassAnalysis struct {
@@ -79,15 +84,10 @@ type S3BucketDestination struct {
 	Prefix          string `json:"prefix"`
 }
 
-type Filter struct {
-	Tags   map[string]string `json:"tags"`
-	Prefix string            `json:"prefix"`
-}
-
 // A S3BucketAnalyticsConfigurationStatus defines the observed state of a S3BucketAnalyticsConfiguration
 type S3BucketAnalyticsConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3BucketAnalyticsConfigurationObservation `json:",inline"`
+	AtProvider                     S3BucketAnalyticsConfigurationObservation `json:"atProvider"`
 }
 
 // A S3BucketAnalyticsConfigurationObservation records the observed state of a S3BucketAnalyticsConfiguration

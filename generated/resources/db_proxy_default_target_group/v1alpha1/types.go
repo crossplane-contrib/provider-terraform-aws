@@ -47,7 +47,7 @@ type DbProxyDefaultTargetGroupList struct {
 // A DbProxyDefaultTargetGroupSpec defines the desired state of a DbProxyDefaultTargetGroup
 type DbProxyDefaultTargetGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DbProxyDefaultTargetGroupParameters `json:",inline"`
+	ForProvider                  DbProxyDefaultTargetGroupParameters `json:"forProvider"`
 }
 
 // A DbProxyDefaultTargetGroupParameters defines the desired state of a DbProxyDefaultTargetGroup
@@ -59,11 +59,11 @@ type DbProxyDefaultTargetGroupParameters struct {
 }
 
 type ConnectionPoolConfig struct {
+	ConnectionBorrowTimeout   int64    `json:"connection_borrow_timeout"`
 	InitQuery                 string   `json:"init_query"`
 	MaxConnectionsPercent     int64    `json:"max_connections_percent"`
 	MaxIdleConnectionsPercent int64    `json:"max_idle_connections_percent"`
 	SessionPinningFilters     []string `json:"session_pinning_filters"`
-	ConnectionBorrowTimeout   int64    `json:"connection_borrow_timeout"`
 }
 
 type Timeouts struct {
@@ -74,11 +74,11 @@ type Timeouts struct {
 // A DbProxyDefaultTargetGroupStatus defines the observed state of a DbProxyDefaultTargetGroup
 type DbProxyDefaultTargetGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DbProxyDefaultTargetGroupObservation `json:",inline"`
+	AtProvider                     DbProxyDefaultTargetGroupObservation `json:"atProvider"`
 }
 
 // A DbProxyDefaultTargetGroupObservation records the observed state of a DbProxyDefaultTargetGroup
 type DbProxyDefaultTargetGroupObservation struct {
-	Arn  string `json:"arn"`
 	Name string `json:"name"`
+	Arn  string `json:"arn"`
 }

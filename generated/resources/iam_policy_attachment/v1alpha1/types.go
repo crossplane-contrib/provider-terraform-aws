@@ -47,23 +47,23 @@ type IamPolicyAttachmentList struct {
 // A IamPolicyAttachmentSpec defines the desired state of a IamPolicyAttachment
 type IamPolicyAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamPolicyAttachmentParameters `json:",inline"`
+	ForProvider                  IamPolicyAttachmentParameters `json:"forProvider"`
 }
 
 // A IamPolicyAttachmentParameters defines the desired state of a IamPolicyAttachment
 type IamPolicyAttachmentParameters struct {
-	Roles     []string `json:"roles"`
 	Users     []string `json:"users"`
 	Groups    []string `json:"groups"`
 	Id        string   `json:"id"`
 	Name      string   `json:"name"`
 	PolicyArn string   `json:"policy_arn"`
+	Roles     []string `json:"roles"`
 }
 
 // A IamPolicyAttachmentStatus defines the observed state of a IamPolicyAttachment
 type IamPolicyAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamPolicyAttachmentObservation `json:",inline"`
+	AtProvider                     IamPolicyAttachmentObservation `json:"atProvider"`
 }
 
 // A IamPolicyAttachmentObservation records the observed state of a IamPolicyAttachment

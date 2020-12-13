@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeConfigConfigurationRecorder(r ConfigConfigurationRecorder) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeConfigConfigurationRecorder_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorder_Name(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorder_RoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeConfigConfigurationRecorder_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigConfigurationRecorder_RecordingGroup(r.Spec.ForProvider.RecordingGroup, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeConfigConfigurationRecorder_Id(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigConfigurationRecorder_Name(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
@@ -50,10 +62,6 @@ func EncodeConfigConfigurationRecorder_Name(p ConfigConfigurationRecorderParamet
 
 func EncodeConfigConfigurationRecorder_RoleArn(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
-}
-
-func EncodeConfigConfigurationRecorder_Id(p ConfigConfigurationRecorderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigConfigurationRecorder_RecordingGroup(p RecordingGroup, vals map[string]cty.Value) {

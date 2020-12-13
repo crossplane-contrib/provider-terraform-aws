@@ -47,23 +47,23 @@ type AthenaNamedQueryList struct {
 // A AthenaNamedQuerySpec defines the desired state of a AthenaNamedQuery
 type AthenaNamedQuerySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AthenaNamedQueryParameters `json:",inline"`
+	ForProvider                  AthenaNamedQueryParameters `json:"forProvider"`
 }
 
 // A AthenaNamedQueryParameters defines the desired state of a AthenaNamedQuery
 type AthenaNamedQueryParameters struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
-	Query       string `json:"query"`
 	Workgroup   string `json:"workgroup"`
 	Database    string `json:"database"`
 	Description string `json:"description"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	Query       string `json:"query"`
 }
 
 // A AthenaNamedQueryStatus defines the observed state of a AthenaNamedQuery
 type AthenaNamedQueryStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AthenaNamedQueryObservation `json:",inline"`
+	AtProvider                     AthenaNamedQueryObservation `json:"atProvider"`
 }
 
 // A AthenaNamedQueryObservation records the observed state of a AthenaNamedQuery

@@ -47,26 +47,21 @@ type SsmPatchBaselineList struct {
 // A SsmPatchBaselineSpec defines the desired state of a SsmPatchBaseline
 type SsmPatchBaselineSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmPatchBaselineParameters `json:",inline"`
+	ForProvider                  SsmPatchBaselineParameters `json:"forProvider"`
 }
 
 // A SsmPatchBaselineParameters defines the desired state of a SsmPatchBaseline
 type SsmPatchBaselineParameters struct {
-	RejectedPatches                []string          `json:"rejected_patches"`
-	Tags                           map[string]string `json:"tags"`
 	ApprovedPatches                []string          `json:"approved_patches"`
 	ApprovedPatchesComplianceLevel string            `json:"approved_patches_compliance_level"`
 	Description                    string            `json:"description"`
 	Id                             string            `json:"id"`
 	Name                           string            `json:"name"`
 	OperatingSystem                string            `json:"operating_system"`
-	GlobalFilter                   []GlobalFilter    `json:"global_filter"`
+	RejectedPatches                []string          `json:"rejected_patches"`
+	Tags                           map[string]string `json:"tags"`
 	ApprovalRule                   ApprovalRule      `json:"approval_rule"`
-}
-
-type GlobalFilter struct {
-	Key    string   `json:"key"`
-	Values []string `json:"values"`
+	GlobalFilter                   []GlobalFilter    `json:"global_filter"`
 }
 
 type ApprovalRule struct {
@@ -81,10 +76,15 @@ type PatchFilter struct {
 	Values []string `json:"values"`
 }
 
+type GlobalFilter struct {
+	Key    string   `json:"key"`
+	Values []string `json:"values"`
+}
+
 // A SsmPatchBaselineStatus defines the observed state of a SsmPatchBaseline
 type SsmPatchBaselineStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmPatchBaselineObservation `json:",inline"`
+	AtProvider                     SsmPatchBaselineObservation `json:"atProvider"`
 }
 
 // A SsmPatchBaselineObservation records the observed state of a SsmPatchBaseline

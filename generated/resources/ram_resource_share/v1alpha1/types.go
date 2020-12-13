@@ -47,27 +47,27 @@ type RamResourceShareList struct {
 // A RamResourceShareSpec defines the desired state of a RamResourceShare
 type RamResourceShareSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RamResourceShareParameters `json:",inline"`
+	ForProvider                  RamResourceShareParameters `json:"forProvider"`
 }
 
 // A RamResourceShareParameters defines the desired state of a RamResourceShare
 type RamResourceShareParameters struct {
+	Tags                    map[string]string `json:"tags"`
 	AllowExternalPrincipals bool              `json:"allow_external_principals"`
 	Id                      string            `json:"id"`
 	Name                    string            `json:"name"`
-	Tags                    map[string]string `json:"tags"`
 	Timeouts                Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A RamResourceShareStatus defines the observed state of a RamResourceShare
 type RamResourceShareStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RamResourceShareObservation `json:",inline"`
+	AtProvider                     RamResourceShareObservation `json:"atProvider"`
 }
 
 // A RamResourceShareObservation records the observed state of a RamResourceShare

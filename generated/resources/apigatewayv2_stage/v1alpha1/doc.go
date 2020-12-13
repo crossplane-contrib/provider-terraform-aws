@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=apigatewayv-2-stage.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

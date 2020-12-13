@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,11 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpnConnectionRoute(r VpnConnectionRoute) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVpnConnectionRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeVpnConnectionRoute_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnConnectionRoute_VpnConnectionId(r.Spec.ForProvider, ctyVal)
-	EncodeVpnConnectionRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeVpnConnectionRoute_DestinationCidrBlock(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
+	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
 }
 
 func EncodeVpnConnectionRoute_Id(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
@@ -49,8 +61,4 @@ func EncodeVpnConnectionRoute_Id(p VpnConnectionRouteParameters, vals map[string
 
 func EncodeVpnConnectionRoute_VpnConnectionId(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
 	vals["vpn_connection_id"] = cty.StringVal(p.VpnConnectionId)
-}
-
-func EncodeVpnConnectionRoute_DestinationCidrBlock(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
-	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
 }

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,19 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeKeyPair(r KeyPair) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKeyPair_Id(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_KeyName(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_KeyNamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_PublicKey(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeKeyPair_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKeyPair_KeyPairId(r.Status.AtProvider, ctyVal)
 	EncodeKeyPair_Arn(r.Status.AtProvider, ctyVal)
 	EncodeKeyPair_Fingerprint(r.Status.AtProvider, ctyVal)
-	EncodeKeyPair_KeyPairId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeKeyPair_Id(p KeyPairParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeKeyPair_KeyName(p KeyPairParameters, vals map[string]cty.Value) {
@@ -64,11 +68,23 @@ func EncodeKeyPair_PublicKey(p KeyPairParameters, vals map[string]cty.Value) {
 }
 
 func EncodeKeyPair_Tags(p KeyPairParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeKeyPair_Id(p KeyPairParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeKeyPair_KeyPairId(p KeyPairObservation, vals map[string]cty.Value) {
+	vals["key_pair_id"] = cty.StringVal(p.KeyPairId)
 }
 
 func EncodeKeyPair_Arn(p KeyPairObservation, vals map[string]cty.Value) {
@@ -77,8 +93,4 @@ func EncodeKeyPair_Arn(p KeyPairObservation, vals map[string]cty.Value) {
 
 func EncodeKeyPair_Fingerprint(p KeyPairObservation, vals map[string]cty.Value) {
 	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
-}
-
-func EncodeKeyPair_KeyPairId(p KeyPairObservation, vals map[string]cty.Value) {
-	vals["key_pair_id"] = cty.StringVal(p.KeyPairId)
 }

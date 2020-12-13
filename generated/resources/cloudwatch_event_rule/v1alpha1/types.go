@@ -47,26 +47,26 @@ type CloudwatchEventRuleList struct {
 // A CloudwatchEventRuleSpec defines the desired state of a CloudwatchEventRule
 type CloudwatchEventRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchEventRuleParameters `json:",inline"`
+	ForProvider                  CloudwatchEventRuleParameters `json:"forProvider"`
 }
 
 // A CloudwatchEventRuleParameters defines the desired state of a CloudwatchEventRule
 type CloudwatchEventRuleParameters struct {
-	EventPattern       string            `json:"event_pattern"`
-	Id                 string            `json:"id"`
 	IsEnabled          bool              `json:"is_enabled"`
 	Name               string            `json:"name"`
+	NamePrefix         string            `json:"name_prefix"`
+	EventPattern       string            `json:"event_pattern"`
+	RoleArn            string            `json:"role_arn"`
 	ScheduleExpression string            `json:"schedule_expression"`
 	Tags               map[string]string `json:"tags"`
 	Description        string            `json:"description"`
-	NamePrefix         string            `json:"name_prefix"`
-	RoleArn            string            `json:"role_arn"`
+	Id                 string            `json:"id"`
 }
 
 // A CloudwatchEventRuleStatus defines the observed state of a CloudwatchEventRule
 type CloudwatchEventRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchEventRuleObservation `json:",inline"`
+	AtProvider                     CloudwatchEventRuleObservation `json:"atProvider"`
 }
 
 // A CloudwatchEventRuleObservation records the observed state of a CloudwatchEventRule

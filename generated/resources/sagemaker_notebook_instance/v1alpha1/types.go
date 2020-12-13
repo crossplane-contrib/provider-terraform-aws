@@ -47,28 +47,28 @@ type SagemakerNotebookInstanceList struct {
 // A SagemakerNotebookInstanceSpec defines the desired state of a SagemakerNotebookInstance
 type SagemakerNotebookInstanceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SagemakerNotebookInstanceParameters `json:",inline"`
+	ForProvider                  SagemakerNotebookInstanceParameters `json:"forProvider"`
 }
 
 // A SagemakerNotebookInstanceParameters defines the desired state of a SagemakerNotebookInstance
 type SagemakerNotebookInstanceParameters struct {
-	Tags                 map[string]string `json:"tags"`
-	KmsKeyId             string            `json:"kms_key_id"`
 	RoleArn              string            `json:"role_arn"`
+	InstanceType         string            `json:"instance_type"`
+	LifecycleConfigName  string            `json:"lifecycle_config_name"`
+	Name                 string            `json:"name"`
+	KmsKeyId             string            `json:"kms_key_id"`
 	RootAccess           string            `json:"root_access"`
 	SecurityGroups       []string          `json:"security_groups"`
 	SubnetId             string            `json:"subnet_id"`
-	Name                 string            `json:"name"`
+	Tags                 map[string]string `json:"tags"`
 	DirectInternetAccess string            `json:"direct_internet_access"`
 	Id                   string            `json:"id"`
-	InstanceType         string            `json:"instance_type"`
-	LifecycleConfigName  string            `json:"lifecycle_config_name"`
 }
 
 // A SagemakerNotebookInstanceStatus defines the observed state of a SagemakerNotebookInstance
 type SagemakerNotebookInstanceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SagemakerNotebookInstanceObservation `json:",inline"`
+	AtProvider                     SagemakerNotebookInstanceObservation `json:"atProvider"`
 }
 
 // A SagemakerNotebookInstanceObservation records the observed state of a SagemakerNotebookInstance

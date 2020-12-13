@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,26 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafregionalRateBasedRule(r WafregionalRateBasedRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafregionalRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_MetricName(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_RateKey(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_RateLimit(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeWafregionalRateBasedRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalRateBasedRule_Predicate(r.Spec.ForProvider.Predicate, ctyVal)
 	EncodeWafregionalRateBasedRule_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWafregionalRateBasedRule_Id(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalRateBasedRule_MetricName(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
@@ -64,15 +76,15 @@ func EncodeWafregionalRateBasedRule_RateLimit(p WafregionalRateBasedRuleParamete
 }
 
 func EncodeWafregionalRateBasedRule_Tags(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeWafregionalRateBasedRule_Id(p WafregionalRateBasedRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalRateBasedRule_Predicate(p Predicate, vals map[string]cty.Value) {

@@ -47,7 +47,7 @@ type IamUserPolicyAttachmentList struct {
 // A IamUserPolicyAttachmentSpec defines the desired state of a IamUserPolicyAttachment
 type IamUserPolicyAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamUserPolicyAttachmentParameters `json:",inline"`
+	ForProvider                  IamUserPolicyAttachmentParameters `json:"forProvider"`
 }
 
 // A IamUserPolicyAttachmentParameters defines the desired state of a IamUserPolicyAttachment
@@ -60,7 +60,7 @@ type IamUserPolicyAttachmentParameters struct {
 // A IamUserPolicyAttachmentStatus defines the observed state of a IamUserPolicyAttachment
 type IamUserPolicyAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamUserPolicyAttachmentObservation `json:",inline"`
+	AtProvider                     IamUserPolicyAttachmentObservation `json:"atProvider"`
 }
 
 // A IamUserPolicyAttachmentObservation records the observed state of a IamUserPolicyAttachment

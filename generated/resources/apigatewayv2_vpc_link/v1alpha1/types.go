@@ -47,7 +47,7 @@ type Apigatewayv2VpcLinkList struct {
 // A Apigatewayv2VpcLinkSpec defines the desired state of a Apigatewayv2VpcLink
 type Apigatewayv2VpcLinkSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2VpcLinkParameters `json:",inline"`
+	ForProvider                  Apigatewayv2VpcLinkParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2VpcLinkParameters defines the desired state of a Apigatewayv2VpcLink
@@ -62,7 +62,7 @@ type Apigatewayv2VpcLinkParameters struct {
 // A Apigatewayv2VpcLinkStatus defines the observed state of a Apigatewayv2VpcLink
 type Apigatewayv2VpcLinkStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2VpcLinkObservation `json:",inline"`
+	AtProvider                     Apigatewayv2VpcLinkObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2VpcLinkObservation records the observed state of a Apigatewayv2VpcLink

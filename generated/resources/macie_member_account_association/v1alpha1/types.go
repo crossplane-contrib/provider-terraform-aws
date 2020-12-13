@@ -47,7 +47,7 @@ type MacieMemberAccountAssociationList struct {
 // A MacieMemberAccountAssociationSpec defines the desired state of a MacieMemberAccountAssociation
 type MacieMemberAccountAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  MacieMemberAccountAssociationParameters `json:",inline"`
+	ForProvider                  MacieMemberAccountAssociationParameters `json:"forProvider"`
 }
 
 // A MacieMemberAccountAssociationParameters defines the desired state of a MacieMemberAccountAssociation
@@ -59,7 +59,7 @@ type MacieMemberAccountAssociationParameters struct {
 // A MacieMemberAccountAssociationStatus defines the observed state of a MacieMemberAccountAssociation
 type MacieMemberAccountAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     MacieMemberAccountAssociationObservation `json:",inline"`
+	AtProvider                     MacieMemberAccountAssociationObservation `json:"atProvider"`
 }
 
 // A MacieMemberAccountAssociationObservation records the observed state of a MacieMemberAccountAssociation

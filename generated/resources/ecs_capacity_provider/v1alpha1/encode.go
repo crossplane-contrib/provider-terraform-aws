@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,31 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEcsCapacityProvider(r EcsCapacityProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEcsCapacityProvider_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEcsCapacityProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEcsCapacityProvider_Name(r.Spec.ForProvider, ctyVal)
-	EncodeEcsCapacityProvider_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEcsCapacityProvider_AutoScalingGroupProvider(r.Spec.ForProvider.AutoScalingGroupProvider, ctyVal)
 	EncodeEcsCapacityProvider_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEcsCapacityProvider_Tags(p EcsCapacityProviderParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeEcsCapacityProvider_Id(p EcsCapacityProviderParameters, vals map[string]cty.Value) {
@@ -50,14 +70,6 @@ func EncodeEcsCapacityProvider_Id(p EcsCapacityProviderParameters, vals map[stri
 
 func EncodeEcsCapacityProvider_Name(p EcsCapacityProviderParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeEcsCapacityProvider_Tags(p EcsCapacityProviderParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeEcsCapacityProvider_AutoScalingGroupProvider(p AutoScalingGroupProvider, vals map[string]cty.Value) {
@@ -81,16 +93,12 @@ func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedTerminationProtec
 func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling(p ManagedScaling, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MaximumScalingStepSize(p, ctyVal)
 	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MinimumScalingStepSize(p, ctyVal)
 	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_Status(p, ctyVal)
 	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_TargetCapacity(p, ctyVal)
+	EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MaximumScalingStepSize(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["managed_scaling"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MaximumScalingStepSize(p ManagedScaling, vals map[string]cty.Value) {
-	vals["maximum_scaling_step_size"] = cty.NumberIntVal(p.MaximumScalingStepSize)
 }
 
 func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MinimumScalingStepSize(p ManagedScaling, vals map[string]cty.Value) {
@@ -103,6 +111,10 @@ func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_Status(p 
 
 func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_TargetCapacity(p ManagedScaling, vals map[string]cty.Value) {
 	vals["target_capacity"] = cty.NumberIntVal(p.TargetCapacity)
+}
+
+func EncodeEcsCapacityProvider_AutoScalingGroupProvider_ManagedScaling_MaximumScalingStepSize(p ManagedScaling, vals map[string]cty.Value) {
+	vals["maximum_scaling_step_size"] = cty.NumberIntVal(p.MaximumScalingStepSize)
 }
 
 func EncodeEcsCapacityProvider_Arn(p EcsCapacityProviderObservation, vals map[string]cty.Value) {

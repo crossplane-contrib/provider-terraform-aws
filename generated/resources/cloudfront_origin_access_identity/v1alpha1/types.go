@@ -47,7 +47,7 @@ type CloudfrontOriginAccessIdentityList struct {
 // A CloudfrontOriginAccessIdentitySpec defines the desired state of a CloudfrontOriginAccessIdentity
 type CloudfrontOriginAccessIdentitySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudfrontOriginAccessIdentityParameters `json:",inline"`
+	ForProvider                  CloudfrontOriginAccessIdentityParameters `json:"forProvider"`
 }
 
 // A CloudfrontOriginAccessIdentityParameters defines the desired state of a CloudfrontOriginAccessIdentity
@@ -59,14 +59,14 @@ type CloudfrontOriginAccessIdentityParameters struct {
 // A CloudfrontOriginAccessIdentityStatus defines the observed state of a CloudfrontOriginAccessIdentity
 type CloudfrontOriginAccessIdentityStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudfrontOriginAccessIdentityObservation `json:",inline"`
+	AtProvider                     CloudfrontOriginAccessIdentityObservation `json:"atProvider"`
 }
 
 // A CloudfrontOriginAccessIdentityObservation records the observed state of a CloudfrontOriginAccessIdentity
 type CloudfrontOriginAccessIdentityObservation struct {
-	S3CanonicalUserId            string `json:"s3_canonical_user_id"`
-	CallerReference              string `json:"caller_reference"`
 	CloudfrontAccessIdentityPath string `json:"cloudfront_access_identity_path"`
 	Etag                         string `json:"etag"`
 	IamArn                       string `json:"iam_arn"`
+	S3CanonicalUserId            string `json:"s3_canonical_user_id"`
+	CallerReference              string `json:"caller_reference"`
 }

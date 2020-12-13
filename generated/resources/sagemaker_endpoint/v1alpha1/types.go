@@ -47,21 +47,21 @@ type SagemakerEndpointList struct {
 // A SagemakerEndpointSpec defines the desired state of a SagemakerEndpoint
 type SagemakerEndpointSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SagemakerEndpointParameters `json:",inline"`
+	ForProvider                  SagemakerEndpointParameters `json:"forProvider"`
 }
 
 // A SagemakerEndpointParameters defines the desired state of a SagemakerEndpoint
 type SagemakerEndpointParameters struct {
-	Id                 string            `json:"id"`
 	Name               string            `json:"name"`
 	Tags               map[string]string `json:"tags"`
 	EndpointConfigName string            `json:"endpoint_config_name"`
+	Id                 string            `json:"id"`
 }
 
 // A SagemakerEndpointStatus defines the observed state of a SagemakerEndpoint
 type SagemakerEndpointStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SagemakerEndpointObservation `json:",inline"`
+	AtProvider                     SagemakerEndpointObservation `json:"atProvider"`
 }
 
 // A SagemakerEndpointObservation records the observed state of a SagemakerEndpoint

@@ -47,35 +47,44 @@ type OpsworksApplicationList struct {
 // A OpsworksApplicationSpec defines the desired state of a OpsworksApplication
 type OpsworksApplicationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksApplicationParameters `json:",inline"`
+	ForProvider                  OpsworksApplicationParameters `json:"forProvider"`
 }
 
 // A OpsworksApplicationParameters defines the desired state of a OpsworksApplication
 type OpsworksApplicationParameters struct {
-	StackId                string           `json:"stack_id"`
-	Type                   string           `json:"type"`
-	AwsFlowRubySettings    string           `json:"aws_flow_ruby_settings"`
-	DataSourceDatabaseName string           `json:"data_source_database_name"`
-	ShortName              string           `json:"short_name"`
-	Domains                []string         `json:"domains"`
-	Id                     string           `json:"id"`
-	RailsEnv               string           `json:"rails_env"`
-	DataSourceArn          string           `json:"data_source_arn"`
+	EnableSsl              bool             `json:"enable_ssl"`
 	Description            string           `json:"description"`
 	DocumentRoot           string           `json:"document_root"`
-	EnableSsl              bool             `json:"enable_ssl"`
+	RailsEnv               string           `json:"rails_env"`
+	Domains                []string         `json:"domains"`
+	Id                     string           `json:"id"`
 	Name                   string           `json:"name"`
+	ShortName              string           `json:"short_name"`
 	AutoBundleOnDeploy     string           `json:"auto_bundle_on_deploy"`
+	DataSourceArn          string           `json:"data_source_arn"`
+	DataSourceDatabaseName string           `json:"data_source_database_name"`
 	DataSourceType         string           `json:"data_source_type"`
+	Type                   string           `json:"type"`
+	AwsFlowRubySettings    string           `json:"aws_flow_ruby_settings"`
+	StackId                string           `json:"stack_id"`
+	AppSource              AppSource        `json:"app_source"`
 	Environment            Environment      `json:"environment"`
 	SslConfiguration       SslConfiguration `json:"ssl_configuration"`
-	AppSource              AppSource        `json:"app_source"`
+}
+
+type AppSource struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Revision string `json:"revision"`
+	SshKey   string `json:"ssh_key"`
+	Type     string `json:"type"`
+	Url      string `json:"url"`
 }
 
 type Environment struct {
-	Key    string `json:"key"`
 	Secure bool   `json:"secure"`
 	Value  string `json:"value"`
+	Key    string `json:"key"`
 }
 
 type SslConfiguration struct {
@@ -84,19 +93,10 @@ type SslConfiguration struct {
 	PrivateKey  string `json:"private_key"`
 }
 
-type AppSource struct {
-	Password string `json:"password"`
-	Revision string `json:"revision"`
-	SshKey   string `json:"ssh_key"`
-	Type     string `json:"type"`
-	Url      string `json:"url"`
-	Username string `json:"username"`
-}
-
 // A OpsworksApplicationStatus defines the observed state of a OpsworksApplication
 type OpsworksApplicationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksApplicationObservation `json:",inline"`
+	AtProvider                     OpsworksApplicationObservation `json:"atProvider"`
 }
 
 // A OpsworksApplicationObservation records the observed state of a OpsworksApplication

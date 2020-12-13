@@ -47,14 +47,14 @@ type GuarddutyInviteAccepterList struct {
 // A GuarddutyInviteAccepterSpec defines the desired state of a GuarddutyInviteAccepter
 type GuarddutyInviteAccepterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyInviteAccepterParameters `json:",inline"`
+	ForProvider                  GuarddutyInviteAccepterParameters `json:"forProvider"`
 }
 
 // A GuarddutyInviteAccepterParameters defines the desired state of a GuarddutyInviteAccepter
 type GuarddutyInviteAccepterParameters struct {
-	DetectorId      string   `json:"detector_id"`
 	Id              string   `json:"id"`
 	MasterAccountId string   `json:"master_account_id"`
+	DetectorId      string   `json:"detector_id"`
 	Timeouts        Timeouts `json:"timeouts"`
 }
 
@@ -65,7 +65,7 @@ type Timeouts struct {
 // A GuarddutyInviteAccepterStatus defines the observed state of a GuarddutyInviteAccepter
 type GuarddutyInviteAccepterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyInviteAccepterObservation `json:",inline"`
+	AtProvider                     GuarddutyInviteAccepterObservation `json:"atProvider"`
 }
 
 // A GuarddutyInviteAccepterObservation records the observed state of a GuarddutyInviteAccepter

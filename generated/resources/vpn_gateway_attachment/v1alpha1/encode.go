@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpnGatewayAttachment(r VpnGatewayAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpnGatewayAttachment_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayAttachment_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGatewayAttachment_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpnGatewayAttachment_VpnGatewayId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
-	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }
 
 func EncodeVpnGatewayAttachment_Id(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
@@ -53,4 +57,8 @@ func EncodeVpnGatewayAttachment_Id(p VpnGatewayAttachmentParameters, vals map[st
 
 func EncodeVpnGatewayAttachment_VpcId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeVpnGatewayAttachment_VpnGatewayId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
+	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }

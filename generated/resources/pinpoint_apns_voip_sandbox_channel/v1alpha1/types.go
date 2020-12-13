@@ -47,27 +47,27 @@ type PinpointApnsVoipSandboxChannelList struct {
 // A PinpointApnsVoipSandboxChannelSpec defines the desired state of a PinpointApnsVoipSandboxChannel
 type PinpointApnsVoipSandboxChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointApnsVoipSandboxChannelParameters `json:",inline"`
+	ForProvider                  PinpointApnsVoipSandboxChannelParameters `json:"forProvider"`
 }
 
 // A PinpointApnsVoipSandboxChannelParameters defines the desired state of a PinpointApnsVoipSandboxChannel
 type PinpointApnsVoipSandboxChannelParameters struct {
+	BundleId                    string `json:"bundle_id"`
+	Enabled                     bool   `json:"enabled"`
+	PrivateKey                  string `json:"private_key"`
+	TeamId                      string `json:"team_id"`
 	TokenKey                    string `json:"token_key"`
+	TokenKeyId                  string `json:"token_key_id"`
 	ApplicationId               string `json:"application_id"`
 	Certificate                 string `json:"certificate"`
 	DefaultAuthenticationMethod string `json:"default_authentication_method"`
-	Enabled                     bool   `json:"enabled"`
 	Id                          string `json:"id"`
-	PrivateKey                  string `json:"private_key"`
-	TeamId                      string `json:"team_id"`
-	TokenKeyId                  string `json:"token_key_id"`
-	BundleId                    string `json:"bundle_id"`
 }
 
 // A PinpointApnsVoipSandboxChannelStatus defines the observed state of a PinpointApnsVoipSandboxChannel
 type PinpointApnsVoipSandboxChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointApnsVoipSandboxChannelObservation `json:",inline"`
+	AtProvider                     PinpointApnsVoipSandboxChannelObservation `json:"atProvider"`
 }
 
 // A PinpointApnsVoipSandboxChannelObservation records the observed state of a PinpointApnsVoipSandboxChannel

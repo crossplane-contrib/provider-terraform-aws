@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,28 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGlacierVaultLock(r GlacierVaultLock) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlacierVaultLock_IgnoreDeletionError(r.Spec.ForProvider, ctyVal)
+	EncodeGlacierVaultLock_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_VaultName(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_CompleteLock(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_Id(r.Spec.ForProvider, ctyVal)
-	EncodeGlacierVaultLock_IgnoreDeletionError(r.Spec.ForProvider, ctyVal)
-	EncodeGlacierVaultLock_Policy(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlacierVaultLock_IgnoreDeletionError(p GlacierVaultLockParameters, vals map[string]cty.Value) {
+	vals["ignore_deletion_error"] = cty.BoolVal(p.IgnoreDeletionError)
+}
+
+func EncodeGlacierVaultLock_Policy(p GlacierVaultLockParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
 }
 
 func EncodeGlacierVaultLock_VaultName(p GlacierVaultLockParameters, vals map[string]cty.Value) {
@@ -55,12 +71,4 @@ func EncodeGlacierVaultLock_CompleteLock(p GlacierVaultLockParameters, vals map[
 
 func EncodeGlacierVaultLock_Id(p GlacierVaultLockParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGlacierVaultLock_IgnoreDeletionError(p GlacierVaultLockParameters, vals map[string]cty.Value) {
-	vals["ignore_deletion_error"] = cty.BoolVal(p.IgnoreDeletionError)
-}
-
-func EncodeGlacierVaultLock_Policy(p GlacierVaultLockParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
 }

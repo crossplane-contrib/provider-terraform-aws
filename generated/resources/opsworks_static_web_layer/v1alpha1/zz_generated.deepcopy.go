@@ -121,6 +121,18 @@ func (in *OpsworksStaticWebLayerParameters) DeepCopyInto(out *OpsworksStaticWebL
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.CustomConfigureRecipes != nil {
+		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
 	if in.CustomShutdownRecipes != nil {
 		in, out := &in.CustomShutdownRecipes, &out.CustomShutdownRecipes
 		*out = make([]string, len(*in))
@@ -133,18 +145,6 @@ func (in *OpsworksStaticWebLayerParameters) DeepCopyInto(out *OpsworksStaticWebL
 	}
 	if in.CustomDeployRecipes != nil {
 		in, out := &in.CustomDeployRecipes, &out.CustomDeployRecipes
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-	if in.CustomConfigureRecipes != nil {
-		in, out := &in.CustomConfigureRecipes, &out.CustomConfigureRecipes
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}

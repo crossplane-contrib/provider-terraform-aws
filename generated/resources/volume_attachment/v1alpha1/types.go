@@ -47,23 +47,23 @@ type VolumeAttachmentList struct {
 // A VolumeAttachmentSpec defines the desired state of a VolumeAttachment
 type VolumeAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VolumeAttachmentParameters `json:",inline"`
+	ForProvider                  VolumeAttachmentParameters `json:"forProvider"`
 }
 
 // A VolumeAttachmentParameters defines the desired state of a VolumeAttachment
 type VolumeAttachmentParameters struct {
+	DeviceName  string `json:"device_name"`
 	ForceDetach bool   `json:"force_detach"`
 	Id          string `json:"id"`
 	InstanceId  string `json:"instance_id"`
 	SkipDestroy bool   `json:"skip_destroy"`
 	VolumeId    string `json:"volume_id"`
-	DeviceName  string `json:"device_name"`
 }
 
 // A VolumeAttachmentStatus defines the observed state of a VolumeAttachment
 type VolumeAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VolumeAttachmentObservation `json:",inline"`
+	AtProvider                     VolumeAttachmentObservation `json:"atProvider"`
 }
 
 // A VolumeAttachmentObservation records the observed state of a VolumeAttachment

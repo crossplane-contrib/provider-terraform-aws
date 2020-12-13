@@ -47,20 +47,20 @@ type CloudformationStackSetList struct {
 // A CloudformationStackSetSpec defines the desired state of a CloudformationStackSet
 type CloudformationStackSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudformationStackSetParameters `json:",inline"`
+	ForProvider                  CloudformationStackSetParameters `json:"forProvider"`
 }
 
 // A CloudformationStackSetParameters defines the desired state of a CloudformationStackSet
 type CloudformationStackSetParameters struct {
-	TemplateUrl           string            `json:"template_url"`
-	Parameters            map[string]string `json:"parameters"`
-	Tags                  map[string]string `json:"tags"`
-	AdministrationRoleArn string            `json:"administration_role_arn"`
-	Capabilities          []string          `json:"capabilities"`
 	Description           string            `json:"description"`
 	ExecutionRoleName     string            `json:"execution_role_name"`
 	Id                    string            `json:"id"`
+	Tags                  map[string]string `json:"tags"`
+	AdministrationRoleArn string            `json:"administration_role_arn"`
+	Capabilities          []string          `json:"capabilities"`
+	TemplateUrl           string            `json:"template_url"`
 	Name                  string            `json:"name"`
+	Parameters            map[string]string `json:"parameters"`
 	TemplateBody          string            `json:"template_body"`
 	Timeouts              Timeouts          `json:"timeouts"`
 }
@@ -72,11 +72,11 @@ type Timeouts struct {
 // A CloudformationStackSetStatus defines the observed state of a CloudformationStackSet
 type CloudformationStackSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudformationStackSetObservation `json:",inline"`
+	AtProvider                     CloudformationStackSetObservation `json:"atProvider"`
 }
 
 // A CloudformationStackSetObservation records the observed state of a CloudformationStackSet
 type CloudformationStackSetObservation struct {
-	Arn        string `json:"arn"`
 	StackSetId string `json:"stack_set_id"`
+	Arn        string `json:"arn"`
 }

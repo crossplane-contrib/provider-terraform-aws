@@ -47,28 +47,28 @@ type ApiGatewayApiKeyList struct {
 // A ApiGatewayApiKeySpec defines the desired state of a ApiGatewayApiKey
 type ApiGatewayApiKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayApiKeyParameters `json:",inline"`
+	ForProvider                  ApiGatewayApiKeyParameters `json:"forProvider"`
 }
 
 // A ApiGatewayApiKeyParameters defines the desired state of a ApiGatewayApiKey
 type ApiGatewayApiKeyParameters struct {
+	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	Value       string            `json:"value"`
-	Enabled     bool              `json:"enabled"`
-	Id          string            `json:"id"`
 	Description string            `json:"description"`
+	Enabled     bool              `json:"enabled"`
 }
 
 // A ApiGatewayApiKeyStatus defines the observed state of a ApiGatewayApiKey
 type ApiGatewayApiKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayApiKeyObservation `json:",inline"`
+	AtProvider                     ApiGatewayApiKeyObservation `json:"atProvider"`
 }
 
 // A ApiGatewayApiKeyObservation records the observed state of a ApiGatewayApiKey
 type ApiGatewayApiKeyObservation struct {
-	Arn             string `json:"arn"`
-	LastUpdatedDate string `json:"last_updated_date"`
 	CreatedDate     string `json:"created_date"`
+	LastUpdatedDate string `json:"last_updated_date"`
+	Arn             string `json:"arn"`
 }

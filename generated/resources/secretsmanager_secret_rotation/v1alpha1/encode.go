@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,13 +37,32 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSecretsmanagerSecretRotation(r SecretsmanagerSecretRotation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSecretsmanagerSecretRotation_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretRotation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretRotation_RotationLambdaArn(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretRotation_SecretId(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretRotation_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretRotation_RotationRules(r.Spec.ForProvider.RotationRules, ctyVal)
 	EncodeSecretsmanagerSecretRotation_RotationEnabled(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSecretsmanagerSecretRotation_Tags(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSecretsmanagerSecretRotation_Id(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
@@ -55,14 +75,6 @@ func EncodeSecretsmanagerSecretRotation_RotationLambdaArn(p SecretsmanagerSecret
 
 func EncodeSecretsmanagerSecretRotation_SecretId(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
 	vals["secret_id"] = cty.StringVal(p.SecretId)
-}
-
-func EncodeSecretsmanagerSecretRotation_Tags(p SecretsmanagerSecretRotationParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeSecretsmanagerSecretRotation_RotationRules(p RotationRules, vals map[string]cty.Value) {

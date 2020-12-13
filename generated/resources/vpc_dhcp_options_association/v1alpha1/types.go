@@ -47,20 +47,20 @@ type VpcDhcpOptionsAssociationList struct {
 // A VpcDhcpOptionsAssociationSpec defines the desired state of a VpcDhcpOptionsAssociation
 type VpcDhcpOptionsAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcDhcpOptionsAssociationParameters `json:",inline"`
+	ForProvider                  VpcDhcpOptionsAssociationParameters `json:"forProvider"`
 }
 
 // A VpcDhcpOptionsAssociationParameters defines the desired state of a VpcDhcpOptionsAssociation
 type VpcDhcpOptionsAssociationParameters struct {
+	DhcpOptionsId string `json:"dhcp_options_id"`
 	Id            string `json:"id"`
 	VpcId         string `json:"vpc_id"`
-	DhcpOptionsId string `json:"dhcp_options_id"`
 }
 
 // A VpcDhcpOptionsAssociationStatus defines the observed state of a VpcDhcpOptionsAssociation
 type VpcDhcpOptionsAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcDhcpOptionsAssociationObservation `json:",inline"`
+	AtProvider                     VpcDhcpOptionsAssociationObservation `json:"atProvider"`
 }
 
 // A VpcDhcpOptionsAssociationObservation records the observed state of a VpcDhcpOptionsAssociation

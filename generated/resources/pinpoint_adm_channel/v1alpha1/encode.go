@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,21 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodePinpointAdmChannel(r PinpointAdmChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointAdmChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
-	EncodePinpointAdmChannel_ClientId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointAdmChannel_ClientSecret(r.Spec.ForProvider, ctyVal)
 	EncodePinpointAdmChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointAdmChannel_Id(r.Spec.ForProvider, ctyVal)
+	EncodePinpointAdmChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
+	EncodePinpointAdmChannel_ClientId(r.Spec.ForProvider, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodePinpointAdmChannel_ApplicationId(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
-	vals["application_id"] = cty.StringVal(p.ApplicationId)
-}
-
-func EncodePinpointAdmChannel_ClientId(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
-	vals["client_id"] = cty.StringVal(p.ClientId)
 }
 
 func EncodePinpointAdmChannel_ClientSecret(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
@@ -63,4 +63,12 @@ func EncodePinpointAdmChannel_Enabled(p PinpointAdmChannelParameters, vals map[s
 
 func EncodePinpointAdmChannel_Id(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodePinpointAdmChannel_ApplicationId(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	vals["application_id"] = cty.StringVal(p.ApplicationId)
+}
+
+func EncodePinpointAdmChannel_ClientId(p PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	vals["client_id"] = cty.StringVal(p.ClientId)
 }

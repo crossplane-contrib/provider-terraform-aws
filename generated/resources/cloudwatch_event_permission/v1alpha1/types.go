@@ -47,15 +47,15 @@ type CloudwatchEventPermissionList struct {
 // A CloudwatchEventPermissionSpec defines the desired state of a CloudwatchEventPermission
 type CloudwatchEventPermissionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchEventPermissionParameters `json:",inline"`
+	ForProvider                  CloudwatchEventPermissionParameters `json:"forProvider"`
 }
 
 // A CloudwatchEventPermissionParameters defines the desired state of a CloudwatchEventPermission
 type CloudwatchEventPermissionParameters struct {
-	Action      string    `json:"action"`
 	Id          string    `json:"id"`
 	Principal   string    `json:"principal"`
 	StatementId string    `json:"statement_id"`
+	Action      string    `json:"action"`
 	Condition   Condition `json:"condition"`
 }
 
@@ -68,7 +68,7 @@ type Condition struct {
 // A CloudwatchEventPermissionStatus defines the observed state of a CloudwatchEventPermission
 type CloudwatchEventPermissionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchEventPermissionObservation `json:",inline"`
+	AtProvider                     CloudwatchEventPermissionObservation `json:"atProvider"`
 }
 
 // A CloudwatchEventPermissionObservation records the observed state of a CloudwatchEventPermission

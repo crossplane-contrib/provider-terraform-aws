@@ -47,21 +47,21 @@ type Apigatewayv2AuthorizerList struct {
 // A Apigatewayv2AuthorizerSpec defines the desired state of a Apigatewayv2Authorizer
 type Apigatewayv2AuthorizerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2AuthorizerParameters `json:",inline"`
+	ForProvider                  Apigatewayv2AuthorizerParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2AuthorizerParameters defines the desired state of a Apigatewayv2Authorizer
 type Apigatewayv2AuthorizerParameters struct {
-	AuthorizerPayloadFormatVersion string           `json:"authorizer_payload_format_version"`
+	AuthorizerUri                  string           `json:"authorizer_uri"`
 	IdentitySources                []string         `json:"identity_sources"`
+	Name                           string           `json:"name"`
 	ApiId                          string           `json:"api_id"`
 	AuthorizerCredentialsArn       string           `json:"authorizer_credentials_arn"`
+	AuthorizerPayloadFormatVersion string           `json:"authorizer_payload_format_version"`
 	AuthorizerResultTtlInSeconds   int64            `json:"authorizer_result_ttl_in_seconds"`
 	AuthorizerType                 string           `json:"authorizer_type"`
-	AuthorizerUri                  string           `json:"authorizer_uri"`
 	EnableSimpleResponses          bool             `json:"enable_simple_responses"`
 	Id                             string           `json:"id"`
-	Name                           string           `json:"name"`
 	JwtConfiguration               JwtConfiguration `json:"jwt_configuration"`
 }
 
@@ -73,7 +73,7 @@ type JwtConfiguration struct {
 // A Apigatewayv2AuthorizerStatus defines the observed state of a Apigatewayv2Authorizer
 type Apigatewayv2AuthorizerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2AuthorizerObservation `json:",inline"`
+	AtProvider                     Apigatewayv2AuthorizerObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2AuthorizerObservation records the observed state of a Apigatewayv2Authorizer

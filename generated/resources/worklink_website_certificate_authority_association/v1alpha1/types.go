@@ -47,7 +47,7 @@ type WorklinkWebsiteCertificateAuthorityAssociationList struct {
 // A WorklinkWebsiteCertificateAuthorityAssociationSpec defines the desired state of a WorklinkWebsiteCertificateAuthorityAssociation
 type WorklinkWebsiteCertificateAuthorityAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WorklinkWebsiteCertificateAuthorityAssociationParameters `json:",inline"`
+	ForProvider                  WorklinkWebsiteCertificateAuthorityAssociationParameters `json:"forProvider"`
 }
 
 // A WorklinkWebsiteCertificateAuthorityAssociationParameters defines the desired state of a WorklinkWebsiteCertificateAuthorityAssociation
@@ -61,7 +61,7 @@ type WorklinkWebsiteCertificateAuthorityAssociationParameters struct {
 // A WorklinkWebsiteCertificateAuthorityAssociationStatus defines the observed state of a WorklinkWebsiteCertificateAuthorityAssociation
 type WorklinkWebsiteCertificateAuthorityAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WorklinkWebsiteCertificateAuthorityAssociationObservation `json:",inline"`
+	AtProvider                     WorklinkWebsiteCertificateAuthorityAssociationObservation `json:"atProvider"`
 }
 
 // A WorklinkWebsiteCertificateAuthorityAssociationObservation records the observed state of a WorklinkWebsiteCertificateAuthorityAssociation

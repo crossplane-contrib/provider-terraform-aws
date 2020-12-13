@@ -47,25 +47,25 @@ type SesEventDestinationList struct {
 // A SesEventDestinationSpec defines the desired state of a SesEventDestination
 type SesEventDestinationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesEventDestinationParameters `json:",inline"`
+	ForProvider                  SesEventDestinationParameters `json:"forProvider"`
 }
 
 // A SesEventDestinationParameters defines the desired state of a SesEventDestination
 type SesEventDestinationParameters struct {
+	Name                  string                `json:"name"`
 	ConfigurationSetName  string                `json:"configuration_set_name"`
 	Enabled               bool                  `json:"enabled"`
 	Id                    string                `json:"id"`
 	MatchingTypes         []string              `json:"matching_types"`
-	Name                  string                `json:"name"`
 	CloudwatchDestination CloudwatchDestination `json:"cloudwatch_destination"`
 	KinesisDestination    KinesisDestination    `json:"kinesis_destination"`
 	SnsDestination        SnsDestination        `json:"sns_destination"`
 }
 
 type CloudwatchDestination struct {
-	DefaultValue  string `json:"default_value"`
 	DimensionName string `json:"dimension_name"`
 	ValueSource   string `json:"value_source"`
+	DefaultValue  string `json:"default_value"`
 }
 
 type KinesisDestination struct {
@@ -80,7 +80,7 @@ type SnsDestination struct {
 // A SesEventDestinationStatus defines the observed state of a SesEventDestination
 type SesEventDestinationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesEventDestinationObservation `json:",inline"`
+	AtProvider                     SesEventDestinationObservation `json:"atProvider"`
 }
 
 // A SesEventDestinationObservation records the observed state of a SesEventDestination

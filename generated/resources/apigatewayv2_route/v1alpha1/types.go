@@ -47,29 +47,29 @@ type Apigatewayv2RouteList struct {
 // A Apigatewayv2RouteSpec defines the desired state of a Apigatewayv2Route
 type Apigatewayv2RouteSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2RouteParameters `json:",inline"`
+	ForProvider                  Apigatewayv2RouteParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2RouteParameters defines the desired state of a Apigatewayv2Route
 type Apigatewayv2RouteParameters struct {
-	AuthorizationScopes              []string          `json:"authorization_scopes"`
+	ApiKeyRequired                   bool              `json:"api_key_required"`
 	AuthorizationType                string            `json:"authorization_type"`
-	Id                               string            `json:"id"`
-	OperationName                    string            `json:"operation_name"`
+	ModelSelectionExpression         string            `json:"model_selection_expression"`
+	RouteKey                         string            `json:"route_key"`
 	RouteResponseSelectionExpression string            `json:"route_response_selection_expression"`
 	Target                           string            `json:"target"`
 	ApiId                            string            `json:"api_id"`
-	ApiKeyRequired                   bool              `json:"api_key_required"`
+	AuthorizationScopes              []string          `json:"authorization_scopes"`
 	AuthorizerId                     string            `json:"authorizer_id"`
-	ModelSelectionExpression         string            `json:"model_selection_expression"`
+	Id                               string            `json:"id"`
+	OperationName                    string            `json:"operation_name"`
 	RequestModels                    map[string]string `json:"request_models"`
-	RouteKey                         string            `json:"route_key"`
 }
 
 // A Apigatewayv2RouteStatus defines the observed state of a Apigatewayv2Route
 type Apigatewayv2RouteStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2RouteObservation `json:",inline"`
+	AtProvider                     Apigatewayv2RouteObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2RouteObservation records the observed state of a Apigatewayv2Route

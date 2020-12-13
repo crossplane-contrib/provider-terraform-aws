@@ -47,35 +47,56 @@ type EcsServiceList struct {
 // A EcsServiceSpec defines the desired state of a EcsService
 type EcsServiceSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EcsServiceParameters `json:",inline"`
+	ForProvider                  EcsServiceParameters `json:"forProvider"`
 }
 
 // A EcsServiceParameters defines the desired state of a EcsService
 type EcsServiceParameters struct {
 	DeploymentMaximumPercent        int64                      `json:"deployment_maximum_percent"`
-	HealthCheckGracePeriodSeconds   int64                      `json:"health_check_grace_period_seconds"`
+	DesiredCount                    int64                      `json:"desired_count"`
+	ForceNewDeployment              bool                       `json:"force_new_deployment"`
 	IamRole                         string                     `json:"iam_role"`
-	Tags                            map[string]string          `json:"tags"`
-	TaskDefinition                  string                     `json:"task_definition"`
-	EnableEcsManagedTags            bool                       `json:"enable_ecs_managed_tags"`
+	Name                            string                     `json:"name"`
+	SchedulingStrategy              string                     `json:"scheduling_strategy"`
 	Cluster                         string                     `json:"cluster"`
 	DeploymentMinimumHealthyPercent int64                      `json:"deployment_minimum_healthy_percent"`
-	ForceNewDeployment              bool                       `json:"force_new_deployment"`
+	EnableEcsManagedTags            bool                       `json:"enable_ecs_managed_tags"`
+	LaunchType                      string                     `json:"launch_type"`
+	Tags                            map[string]string          `json:"tags"`
+	TaskDefinition                  string                     `json:"task_definition"`
+	HealthCheckGracePeriodSeconds   int64                      `json:"health_check_grace_period_seconds"`
 	Id                              string                     `json:"id"`
-	Name                            string                     `json:"name"`
 	PlatformVersion                 string                     `json:"platform_version"`
 	PropagateTags                   string                     `json:"propagate_tags"`
-	DesiredCount                    int64                      `json:"desired_count"`
-	LaunchType                      string                     `json:"launch_type"`
-	SchedulingStrategy              string                     `json:"scheduling_strategy"`
-	LoadBalancer                    LoadBalancer               `json:"load_balancer"`
-	NetworkConfiguration            NetworkConfiguration       `json:"network_configuration"`
-	OrderedPlacementStrategy        []OrderedPlacementStrategy `json:"ordered_placement_strategy"`
-	PlacementConstraints            []PlacementConstraints     `json:"placement_constraints"`
 	ServiceRegistries               ServiceRegistries          `json:"service_registries"`
 	Timeouts                        Timeouts                   `json:"timeouts"`
 	CapacityProviderStrategy        CapacityProviderStrategy   `json:"capacity_provider_strategy"`
 	DeploymentController            DeploymentController       `json:"deployment_controller"`
+	LoadBalancer                    LoadBalancer               `json:"load_balancer"`
+	NetworkConfiguration            NetworkConfiguration       `json:"network_configuration"`
+	OrderedPlacementStrategy        []OrderedPlacementStrategy `json:"ordered_placement_strategy"`
+	PlacementConstraints            []PlacementConstraints     `json:"placement_constraints"`
+}
+
+type ServiceRegistries struct {
+	ContainerName string `json:"container_name"`
+	ContainerPort int64  `json:"container_port"`
+	Port          int64  `json:"port"`
+	RegistryArn   string `json:"registry_arn"`
+}
+
+type Timeouts struct {
+	Delete string `json:"delete"`
+}
+
+type CapacityProviderStrategy struct {
+	Base             int64  `json:"base"`
+	CapacityProvider string `json:"capacity_provider"`
+	Weight           int64  `json:"weight"`
+}
+
+type DeploymentController struct {
+	Type string `json:"type"`
 }
 
 type LoadBalancer struct {
@@ -101,31 +122,10 @@ type PlacementConstraints struct {
 	Type       string `json:"type"`
 }
 
-type ServiceRegistries struct {
-	RegistryArn   string `json:"registry_arn"`
-	ContainerName string `json:"container_name"`
-	ContainerPort int64  `json:"container_port"`
-	Port          int64  `json:"port"`
-}
-
-type Timeouts struct {
-	Delete string `json:"delete"`
-}
-
-type CapacityProviderStrategy struct {
-	Base             int64  `json:"base"`
-	CapacityProvider string `json:"capacity_provider"`
-	Weight           int64  `json:"weight"`
-}
-
-type DeploymentController struct {
-	Type string `json:"type"`
-}
-
 // A EcsServiceStatus defines the observed state of a EcsService
 type EcsServiceStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EcsServiceObservation `json:",inline"`
+	AtProvider                     EcsServiceObservation `json:"atProvider"`
 }
 
 // A EcsServiceObservation records the observed state of a EcsService

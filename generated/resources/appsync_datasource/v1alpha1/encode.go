@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,18 +37,33 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAppsyncDatasource(r AppsyncDatasource) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppsyncDatasource_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncDatasource_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_ServiceRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_Type(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_Description(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncDatasource_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncDatasource_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncDatasource_DynamodbConfig(r.Spec.ForProvider.DynamodbConfig, ctyVal)
 	EncodeAppsyncDatasource_ElasticsearchConfig(r.Spec.ForProvider.ElasticsearchConfig, ctyVal)
 	EncodeAppsyncDatasource_HttpConfig(r.Spec.ForProvider.HttpConfig, ctyVal)
 	EncodeAppsyncDatasource_LambdaConfig(r.Spec.ForProvider.LambdaConfig, ctyVal)
 	EncodeAppsyncDatasource_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAppsyncDatasource_Id(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAppsyncDatasource_Name(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAppsyncDatasource_ServiceRoleArn(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
@@ -64,14 +80,6 @@ func EncodeAppsyncDatasource_ApiId(p AppsyncDatasourceParameters, vals map[strin
 
 func EncodeAppsyncDatasource_Description(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeAppsyncDatasource_Id(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAppsyncDatasource_Name(p AppsyncDatasourceParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeAppsyncDatasource_DynamodbConfig(p DynamodbConfig, vals map[string]cty.Value) {

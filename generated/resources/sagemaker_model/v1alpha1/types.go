@@ -47,7 +47,7 @@ type SagemakerModelList struct {
 // A SagemakerModelSpec defines the desired state of a SagemakerModel
 type SagemakerModelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SagemakerModelParameters `json:",inline"`
+	ForProvider                  SagemakerModelParameters `json:"forProvider"`
 }
 
 // A SagemakerModelParameters defines the desired state of a SagemakerModel
@@ -63,17 +63,17 @@ type SagemakerModelParameters struct {
 }
 
 type Container struct {
-	ModelDataUrl      string            `json:"model_data_url"`
 	ContainerHostname string            `json:"container_hostname"`
 	Environment       map[string]string `json:"environment"`
 	Image             string            `json:"image"`
+	ModelDataUrl      string            `json:"model_data_url"`
 }
 
 type PrimaryContainer struct {
-	Image             string            `json:"image"`
-	ModelDataUrl      string            `json:"model_data_url"`
 	ContainerHostname string            `json:"container_hostname"`
 	Environment       map[string]string `json:"environment"`
+	Image             string            `json:"image"`
+	ModelDataUrl      string            `json:"model_data_url"`
 }
 
 type VpcConfig struct {
@@ -84,7 +84,7 @@ type VpcConfig struct {
 // A SagemakerModelStatus defines the observed state of a SagemakerModel
 type SagemakerModelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SagemakerModelObservation `json:",inline"`
+	AtProvider                     SagemakerModelObservation `json:"atProvider"`
 }
 
 // A SagemakerModelObservation records the observed state of a SagemakerModel

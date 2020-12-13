@@ -47,24 +47,24 @@ type SnsSmsPreferencesList struct {
 // A SnsSmsPreferencesSpec defines the desired state of a SnsSmsPreferences
 type SnsSmsPreferencesSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SnsSmsPreferencesParameters `json:",inline"`
+	ForProvider                  SnsSmsPreferencesParameters `json:"forProvider"`
 }
 
 // A SnsSmsPreferencesParameters defines the desired state of a SnsSmsPreferences
 type SnsSmsPreferencesParameters struct {
-	DefaultSenderId                   string `json:"default_sender_id"`
-	DefaultSmsType                    string `json:"default_sms_type"`
-	DeliveryStatusIamRoleArn          string `json:"delivery_status_iam_role_arn"`
 	DeliveryStatusSuccessSamplingRate string `json:"delivery_status_success_sampling_rate"`
 	Id                                string `json:"id"`
 	MonthlySpendLimit                 string `json:"monthly_spend_limit"`
 	UsageReportS3Bucket               string `json:"usage_report_s3_bucket"`
+	DefaultSenderId                   string `json:"default_sender_id"`
+	DefaultSmsType                    string `json:"default_sms_type"`
+	DeliveryStatusIamRoleArn          string `json:"delivery_status_iam_role_arn"`
 }
 
 // A SnsSmsPreferencesStatus defines the observed state of a SnsSmsPreferences
 type SnsSmsPreferencesStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SnsSmsPreferencesObservation `json:",inline"`
+	AtProvider                     SnsSmsPreferencesObservation `json:"atProvider"`
 }
 
 // A SnsSmsPreferencesObservation records the observed state of a SnsSmsPreferences

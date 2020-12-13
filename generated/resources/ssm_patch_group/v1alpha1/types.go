@@ -47,20 +47,20 @@ type SsmPatchGroupList struct {
 // A SsmPatchGroupSpec defines the desired state of a SsmPatchGroup
 type SsmPatchGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmPatchGroupParameters `json:",inline"`
+	ForProvider                  SsmPatchGroupParameters `json:"forProvider"`
 }
 
 // A SsmPatchGroupParameters defines the desired state of a SsmPatchGroup
 type SsmPatchGroupParameters struct {
-	BaselineId string `json:"baseline_id"`
 	Id         string `json:"id"`
 	PatchGroup string `json:"patch_group"`
+	BaselineId string `json:"baseline_id"`
 }
 
 // A SsmPatchGroupStatus defines the observed state of a SsmPatchGroup
 type SsmPatchGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmPatchGroupObservation `json:",inline"`
+	AtProvider                     SsmPatchGroupObservation `json:"atProvider"`
 }
 
 // A SsmPatchGroupObservation records the observed state of a SsmPatchGroup

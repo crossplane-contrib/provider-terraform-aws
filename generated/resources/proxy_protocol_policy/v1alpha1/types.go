@@ -47,20 +47,20 @@ type ProxyProtocolPolicyList struct {
 // A ProxyProtocolPolicySpec defines the desired state of a ProxyProtocolPolicy
 type ProxyProtocolPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ProxyProtocolPolicyParameters `json:",inline"`
+	ForProvider                  ProxyProtocolPolicyParameters `json:"forProvider"`
 }
 
 // A ProxyProtocolPolicyParameters defines the desired state of a ProxyProtocolPolicy
 type ProxyProtocolPolicyParameters struct {
-	Id            string   `json:"id"`
 	InstancePorts []string `json:"instance_ports"`
 	LoadBalancer  string   `json:"load_balancer"`
+	Id            string   `json:"id"`
 }
 
 // A ProxyProtocolPolicyStatus defines the observed state of a ProxyProtocolPolicy
 type ProxyProtocolPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ProxyProtocolPolicyObservation `json:",inline"`
+	AtProvider                     ProxyProtocolPolicyObservation `json:"atProvider"`
 }
 
 // A ProxyProtocolPolicyObservation records the observed state of a ProxyProtocolPolicy

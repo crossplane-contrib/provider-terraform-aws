@@ -47,7 +47,7 @@ type EmrInstanceFleetList struct {
 // A EmrInstanceFleetSpec defines the desired state of a EmrInstanceFleet
 type EmrInstanceFleetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EmrInstanceFleetParameters `json:",inline"`
+	ForProvider                  EmrInstanceFleetParameters `json:"forProvider"`
 }
 
 // A EmrInstanceFleetParameters defines the desired state of a EmrInstanceFleet
@@ -101,7 +101,7 @@ type SpotSpecification struct {
 // A EmrInstanceFleetStatus defines the observed state of a EmrInstanceFleet
 type EmrInstanceFleetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EmrInstanceFleetObservation `json:",inline"`
+	AtProvider                     EmrInstanceFleetObservation `json:"atProvider"`
 }
 
 // A EmrInstanceFleetObservation records the observed state of a EmrInstanceFleet

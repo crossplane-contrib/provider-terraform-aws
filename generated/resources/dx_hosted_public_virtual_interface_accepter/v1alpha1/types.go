@@ -47,7 +47,7 @@ type DxHostedPublicVirtualInterfaceAccepterList struct {
 // A DxHostedPublicVirtualInterfaceAccepterSpec defines the desired state of a DxHostedPublicVirtualInterfaceAccepter
 type DxHostedPublicVirtualInterfaceAccepterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxHostedPublicVirtualInterfaceAccepterParameters `json:",inline"`
+	ForProvider                  DxHostedPublicVirtualInterfaceAccepterParameters `json:"forProvider"`
 }
 
 // A DxHostedPublicVirtualInterfaceAccepterParameters defines the desired state of a DxHostedPublicVirtualInterfaceAccepter
@@ -66,7 +66,7 @@ type Timeouts struct {
 // A DxHostedPublicVirtualInterfaceAccepterStatus defines the observed state of a DxHostedPublicVirtualInterfaceAccepter
 type DxHostedPublicVirtualInterfaceAccepterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxHostedPublicVirtualInterfaceAccepterObservation `json:",inline"`
+	AtProvider                     DxHostedPublicVirtualInterfaceAccepterObservation `json:"atProvider"`
 }
 
 // A DxHostedPublicVirtualInterfaceAccepterObservation records the observed state of a DxHostedPublicVirtualInterfaceAccepter

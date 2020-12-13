@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation(r WorklinkWebsiteCertificateAuthorityAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkWebsiteCertificateAuthorityAssociation_Id(r.Spec.ForProvider, ctyVal)
+	EncodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
-	vals["certificate"] = cty.StringVal(p.Certificate)
 }
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
@@ -58,6 +62,10 @@ func EncodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(p WorklinkWeb
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation_Id(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	vals["certificate"] = cty.StringVal(p.Certificate)
 }
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(p WorklinkWebsiteCertificateAuthorityAssociationObservation, vals map[string]cty.Value) {

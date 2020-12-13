@@ -47,7 +47,7 @@ type SesDomainMailFromList struct {
 // A SesDomainMailFromSpec defines the desired state of a SesDomainMailFrom
 type SesDomainMailFromSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesDomainMailFromParameters `json:",inline"`
+	ForProvider                  SesDomainMailFromParameters `json:"forProvider"`
 }
 
 // A SesDomainMailFromParameters defines the desired state of a SesDomainMailFrom
@@ -61,7 +61,7 @@ type SesDomainMailFromParameters struct {
 // A SesDomainMailFromStatus defines the observed state of a SesDomainMailFrom
 type SesDomainMailFromStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesDomainMailFromObservation `json:",inline"`
+	AtProvider                     SesDomainMailFromObservation `json:"atProvider"`
 }
 
 // A SesDomainMailFromObservation records the observed state of a SesDomainMailFrom

@@ -47,7 +47,7 @@ type RouteTableAssociationList struct {
 // A RouteTableAssociationSpec defines the desired state of a RouteTableAssociation
 type RouteTableAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RouteTableAssociationParameters `json:",inline"`
+	ForProvider                  RouteTableAssociationParameters `json:"forProvider"`
 }
 
 // A RouteTableAssociationParameters defines the desired state of a RouteTableAssociation
@@ -61,7 +61,7 @@ type RouteTableAssociationParameters struct {
 // A RouteTableAssociationStatus defines the observed state of a RouteTableAssociation
 type RouteTableAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RouteTableAssociationObservation `json:",inline"`
+	AtProvider                     RouteTableAssociationObservation `json:"atProvider"`
 }
 
 // A RouteTableAssociationObservation records the observed state of a RouteTableAssociation

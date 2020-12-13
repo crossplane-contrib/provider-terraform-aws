@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,39 +37,66 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeOpsworksMemcachedLayer(r OpsworksMemcachedLayer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksMemcachedLayer_CustomDeployRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_CustomJson(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_CustomSecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_CustomSetupRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_ElasticLoadBalancer(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_CustomUndeployRecipes(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksMemcachedLayer_InstallUpdatesOnBoot(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksMemcachedLayer_InstanceShutdownTimeout(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_StackId(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksMemcachedLayer_SystemPackages(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_UseEbsOptimizedInstances(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_AutoAssignElasticIps(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_DrainElbOnShutdown(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_Id(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_Name(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksMemcachedLayer_AllocatedMemory(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_AutoAssignPublicIps(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_AutoHealing(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_CustomShutdownRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_CustomUndeployRecipes(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksMemcachedLayer_CustomConfigureRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_CustomJson(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_CustomSecurityGroupIds(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_DrainElbOnShutdown(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_StackId(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksMemcachedLayer_CustomInstanceProfileArn(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_CustomSetupRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_CustomShutdownRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_ElasticLoadBalancer(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_AutoAssignElasticIps(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_AutoHealing(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_CustomConfigureRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_Name(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_UseEbsOptimizedInstances(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_AutoAssignPublicIps(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_CustomDeployRecipes(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksMemcachedLayer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksMemcachedLayer_EbsVolume(r.Spec.ForProvider.EbsVolume, ctyVal)
 	EncodeOpsworksMemcachedLayer_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeOpsworksMemcachedLayer_CustomDeployRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+func EncodeOpsworksMemcachedLayer_CustomUndeployRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
-	for _, value := range p.CustomDeployRecipes {
+	for _, value := range p.CustomUndeployRecipes {
 		colVals = append(colVals, cty.StringVal(value))
 	}
-	vals["custom_deploy_recipes"] = cty.ListVal(colVals)
+	vals["custom_undeploy_recipes"] = cty.ListVal(colVals)
+}
+
+func EncodeOpsworksMemcachedLayer_InstallUpdatesOnBoot(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["install_updates_on_boot"] = cty.BoolVal(p.InstallUpdatesOnBoot)
+}
+
+func EncodeOpsworksMemcachedLayer_InstanceShutdownTimeout(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["instance_shutdown_timeout"] = cty.NumberIntVal(p.InstanceShutdownTimeout)
+}
+
+func EncodeOpsworksMemcachedLayer_SystemPackages(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SystemPackages {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["system_packages"] = cty.SetVal(colVals)
+}
+
+func EncodeOpsworksMemcachedLayer_AllocatedMemory(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["allocated_memory"] = cty.NumberIntVal(p.AllocatedMemory)
 }
 
 func EncodeOpsworksMemcachedLayer_CustomJson(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
@@ -83,76 +111,24 @@ func EncodeOpsworksMemcachedLayer_CustomSecurityGroupIds(p OpsworksMemcachedLaye
 	vals["custom_security_group_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeOpsworksMemcachedLayer_CustomSetupRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CustomSetupRecipes {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["custom_setup_recipes"] = cty.ListVal(colVals)
-}
-
-func EncodeOpsworksMemcachedLayer_ElasticLoadBalancer(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["elastic_load_balancer"] = cty.StringVal(p.ElasticLoadBalancer)
-}
-
-func EncodeOpsworksMemcachedLayer_InstallUpdatesOnBoot(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["install_updates_on_boot"] = cty.BoolVal(p.InstallUpdatesOnBoot)
-}
-
-func EncodeOpsworksMemcachedLayer_InstanceShutdownTimeout(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["instance_shutdown_timeout"] = cty.NumberIntVal(p.InstanceShutdownTimeout)
+func EncodeOpsworksMemcachedLayer_DrainElbOnShutdown(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["drain_elb_on_shutdown"] = cty.BoolVal(p.DrainElbOnShutdown)
 }
 
 func EncodeOpsworksMemcachedLayer_StackId(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
 	vals["stack_id"] = cty.StringVal(p.StackId)
 }
 
-func EncodeOpsworksMemcachedLayer_SystemPackages(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+func EncodeOpsworksMemcachedLayer_CustomInstanceProfileArn(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["custom_instance_profile_arn"] = cty.StringVal(p.CustomInstanceProfileArn)
+}
+
+func EncodeOpsworksMemcachedLayer_CustomSetupRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
-	for _, value := range p.SystemPackages {
+	for _, value := range p.CustomSetupRecipes {
 		colVals = append(colVals, cty.StringVal(value))
 	}
-	vals["system_packages"] = cty.SetVal(colVals)
-}
-
-func EncodeOpsworksMemcachedLayer_Tags(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeOpsworksMemcachedLayer_UseEbsOptimizedInstances(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["use_ebs_optimized_instances"] = cty.BoolVal(p.UseEbsOptimizedInstances)
-}
-
-func EncodeOpsworksMemcachedLayer_AutoAssignElasticIps(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["auto_assign_elastic_ips"] = cty.BoolVal(p.AutoAssignElasticIps)
-}
-
-func EncodeOpsworksMemcachedLayer_DrainElbOnShutdown(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["drain_elb_on_shutdown"] = cty.BoolVal(p.DrainElbOnShutdown)
-}
-
-func EncodeOpsworksMemcachedLayer_Id(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeOpsworksMemcachedLayer_Name(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeOpsworksMemcachedLayer_AllocatedMemory(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["allocated_memory"] = cty.NumberIntVal(p.AllocatedMemory)
-}
-
-func EncodeOpsworksMemcachedLayer_AutoAssignPublicIps(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["auto_assign_public_ips"] = cty.BoolVal(p.AutoAssignPublicIps)
-}
-
-func EncodeOpsworksMemcachedLayer_AutoHealing(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["auto_healing"] = cty.BoolVal(p.AutoHealing)
+	vals["custom_setup_recipes"] = cty.ListVal(colVals)
 }
 
 func EncodeOpsworksMemcachedLayer_CustomShutdownRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
@@ -163,12 +139,28 @@ func EncodeOpsworksMemcachedLayer_CustomShutdownRecipes(p OpsworksMemcachedLayer
 	vals["custom_shutdown_recipes"] = cty.ListVal(colVals)
 }
 
-func EncodeOpsworksMemcachedLayer_CustomUndeployRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.CustomUndeployRecipes {
-		colVals = append(colVals, cty.StringVal(value))
+func EncodeOpsworksMemcachedLayer_ElasticLoadBalancer(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["elastic_load_balancer"] = cty.StringVal(p.ElasticLoadBalancer)
+}
+
+func EncodeOpsworksMemcachedLayer_Tags(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
 	}
-	vals["custom_undeploy_recipes"] = cty.ListVal(colVals)
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeOpsworksMemcachedLayer_AutoAssignElasticIps(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["auto_assign_elastic_ips"] = cty.BoolVal(p.AutoAssignElasticIps)
+}
+
+func EncodeOpsworksMemcachedLayer_AutoHealing(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["auto_healing"] = cty.BoolVal(p.AutoHealing)
 }
 
 func EncodeOpsworksMemcachedLayer_CustomConfigureRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
@@ -179,22 +171,50 @@ func EncodeOpsworksMemcachedLayer_CustomConfigureRecipes(p OpsworksMemcachedLaye
 	vals["custom_configure_recipes"] = cty.ListVal(colVals)
 }
 
-func EncodeOpsworksMemcachedLayer_CustomInstanceProfileArn(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
-	vals["custom_instance_profile_arn"] = cty.StringVal(p.CustomInstanceProfileArn)
+func EncodeOpsworksMemcachedLayer_Name(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeOpsworksMemcachedLayer_UseEbsOptimizedInstances(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["use_ebs_optimized_instances"] = cty.BoolVal(p.UseEbsOptimizedInstances)
+}
+
+func EncodeOpsworksMemcachedLayer_AutoAssignPublicIps(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["auto_assign_public_ips"] = cty.BoolVal(p.AutoAssignPublicIps)
+}
+
+func EncodeOpsworksMemcachedLayer_CustomDeployRecipes(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.CustomDeployRecipes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["custom_deploy_recipes"] = cty.ListVal(colVals)
+}
+
+func EncodeOpsworksMemcachedLayer_Id(p OpsworksMemcachedLayerParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeOpsworksMemcachedLayer_EbsVolume(p EbsVolume, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeOpsworksMemcachedLayer_EbsVolume_Iops(p, ctyVal)
+	EncodeOpsworksMemcachedLayer_EbsVolume_MountPoint(p, ctyVal)
 	EncodeOpsworksMemcachedLayer_EbsVolume_NumberOfDisks(p, ctyVal)
 	EncodeOpsworksMemcachedLayer_EbsVolume_RaidLevel(p, ctyVal)
 	EncodeOpsworksMemcachedLayer_EbsVolume_Size(p, ctyVal)
 	EncodeOpsworksMemcachedLayer_EbsVolume_Type(p, ctyVal)
 	EncodeOpsworksMemcachedLayer_EbsVolume_Encrypted(p, ctyVal)
-	EncodeOpsworksMemcachedLayer_EbsVolume_Iops(p, ctyVal)
-	EncodeOpsworksMemcachedLayer_EbsVolume_MountPoint(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["ebs_volume"] = cty.SetVal(valsForCollection)
+}
+
+func EncodeOpsworksMemcachedLayer_EbsVolume_Iops(p EbsVolume, vals map[string]cty.Value) {
+	vals["iops"] = cty.NumberIntVal(p.Iops)
+}
+
+func EncodeOpsworksMemcachedLayer_EbsVolume_MountPoint(p EbsVolume, vals map[string]cty.Value) {
+	vals["mount_point"] = cty.StringVal(p.MountPoint)
 }
 
 func EncodeOpsworksMemcachedLayer_EbsVolume_NumberOfDisks(p EbsVolume, vals map[string]cty.Value) {
@@ -215,14 +235,6 @@ func EncodeOpsworksMemcachedLayer_EbsVolume_Type(p EbsVolume, vals map[string]ct
 
 func EncodeOpsworksMemcachedLayer_EbsVolume_Encrypted(p EbsVolume, vals map[string]cty.Value) {
 	vals["encrypted"] = cty.BoolVal(p.Encrypted)
-}
-
-func EncodeOpsworksMemcachedLayer_EbsVolume_Iops(p EbsVolume, vals map[string]cty.Value) {
-	vals["iops"] = cty.NumberIntVal(p.Iops)
-}
-
-func EncodeOpsworksMemcachedLayer_EbsVolume_MountPoint(p EbsVolume, vals map[string]cty.Value) {
-	vals["mount_point"] = cty.StringVal(p.MountPoint)
 }
 
 func EncodeOpsworksMemcachedLayer_Arn(p OpsworksMemcachedLayerObservation, vals map[string]cty.Value) {

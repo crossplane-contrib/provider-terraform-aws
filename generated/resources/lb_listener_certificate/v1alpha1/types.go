@@ -47,7 +47,7 @@ type LbListenerCertificateList struct {
 // A LbListenerCertificateSpec defines the desired state of a LbListenerCertificate
 type LbListenerCertificateSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LbListenerCertificateParameters `json:",inline"`
+	ForProvider                  LbListenerCertificateParameters `json:"forProvider"`
 }
 
 // A LbListenerCertificateParameters defines the desired state of a LbListenerCertificate
@@ -60,7 +60,7 @@ type LbListenerCertificateParameters struct {
 // A LbListenerCertificateStatus defines the observed state of a LbListenerCertificate
 type LbListenerCertificateStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LbListenerCertificateObservation `json:",inline"`
+	AtProvider                     LbListenerCertificateObservation `json:"atProvider"`
 }
 
 // A LbListenerCertificateObservation records the observed state of a LbListenerCertificate

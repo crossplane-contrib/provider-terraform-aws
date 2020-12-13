@@ -47,7 +47,7 @@ type SecurityhubActionTargetList struct {
 // A SecurityhubActionTargetSpec defines the desired state of a SecurityhubActionTarget
 type SecurityhubActionTargetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecurityhubActionTargetParameters `json:",inline"`
+	ForProvider                  SecurityhubActionTargetParameters `json:"forProvider"`
 }
 
 // A SecurityhubActionTargetParameters defines the desired state of a SecurityhubActionTarget
@@ -61,7 +61,7 @@ type SecurityhubActionTargetParameters struct {
 // A SecurityhubActionTargetStatus defines the observed state of a SecurityhubActionTarget
 type SecurityhubActionTargetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecurityhubActionTargetObservation `json:",inline"`
+	AtProvider                     SecurityhubActionTargetObservation `json:"atProvider"`
 }
 
 // A SecurityhubActionTargetObservation records the observed state of a SecurityhubActionTarget

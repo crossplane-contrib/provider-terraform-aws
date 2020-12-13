@@ -14,16 +14,42 @@
 	limitations under the License.
 */
 
+// hand-written overlay for iam decoding
+
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyDecoder struct{}
 
 func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+	prev, ok := previousManaged.(*IamUser)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	new.Spec.ForProvider.Name = valMap["name"].AsString()
+	new.Spec.ForProvider.Id = valMap["id"].AsString()
+	new.Spec.ForProvider.Path = valMap["path"].AsString()
+	new.Spec.ForProvider.PermissionsBoundary = valMap["permissions_boundary"].AsString()
+	if !valMap["force_destroy"].IsNull() {
+		new.Spec.ForProvider.ForceDestroy = valMap["force_destroy"].True()
+	}
+	new.Status.AtProvider.UniqueId = valMap["unique_id"].AsString()
+	new.Status.AtProvider.Arn = valMap["arn"].AsString()
+	meta.SetExternalName(new, valMap["id"].AsString())
+	tags := make(map[string]string)
+	for k, v := range valMap["tags"].AsValueMap() {
+		tags[k] = v.AsString()
+	}
+	new.Spec.ForProvider.Tags = tags
+	return new, nil
 }

@@ -47,7 +47,7 @@ type Ec2LocalGatewayRouteList struct {
 // A Ec2LocalGatewayRouteSpec defines the desired state of a Ec2LocalGatewayRoute
 type Ec2LocalGatewayRouteSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2LocalGatewayRouteParameters `json:",inline"`
+	ForProvider                  Ec2LocalGatewayRouteParameters `json:"forProvider"`
 }
 
 // A Ec2LocalGatewayRouteParameters defines the desired state of a Ec2LocalGatewayRoute
@@ -61,7 +61,7 @@ type Ec2LocalGatewayRouteParameters struct {
 // A Ec2LocalGatewayRouteStatus defines the observed state of a Ec2LocalGatewayRoute
 type Ec2LocalGatewayRouteStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2LocalGatewayRouteObservation `json:",inline"`
+	AtProvider                     Ec2LocalGatewayRouteObservation `json:"atProvider"`
 }
 
 // A Ec2LocalGatewayRouteObservation records the observed state of a Ec2LocalGatewayRoute

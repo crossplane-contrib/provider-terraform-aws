@@ -47,7 +47,7 @@ type ConfigConfigurationAggregatorList struct {
 // A ConfigConfigurationAggregatorSpec defines the desired state of a ConfigConfigurationAggregator
 type ConfigConfigurationAggregatorSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ConfigConfigurationAggregatorParameters `json:",inline"`
+	ForProvider                  ConfigConfigurationAggregatorParameters `json:"forProvider"`
 }
 
 // A ConfigConfigurationAggregatorParameters defines the desired state of a ConfigConfigurationAggregator
@@ -74,7 +74,7 @@ type OrganizationAggregationSource struct {
 // A ConfigConfigurationAggregatorStatus defines the observed state of a ConfigConfigurationAggregator
 type ConfigConfigurationAggregatorStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ConfigConfigurationAggregatorObservation `json:",inline"`
+	AtProvider                     ConfigConfigurationAggregatorObservation `json:"atProvider"`
 }
 
 // A ConfigConfigurationAggregatorObservation records the observed state of a ConfigConfigurationAggregator

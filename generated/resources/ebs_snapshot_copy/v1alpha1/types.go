@@ -47,32 +47,32 @@ type EbsSnapshotCopyList struct {
 // A EbsSnapshotCopySpec defines the desired state of a EbsSnapshotCopy
 type EbsSnapshotCopySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EbsSnapshotCopyParameters `json:",inline"`
+	ForProvider                  EbsSnapshotCopyParameters `json:"forProvider"`
 }
 
 // A EbsSnapshotCopyParameters defines the desired state of a EbsSnapshotCopy
 type EbsSnapshotCopyParameters struct {
 	Description      string            `json:"description"`
+	SourceSnapshotId string            `json:"source_snapshot_id"`
+	Tags             map[string]string `json:"tags"`
 	Encrypted        bool              `json:"encrypted"`
+	Id               string            `json:"id"`
 	KmsKeyId         string            `json:"kms_key_id"`
 	SourceRegion     string            `json:"source_region"`
-	Tags             map[string]string `json:"tags"`
-	Id               string            `json:"id"`
-	SourceSnapshotId string            `json:"source_snapshot_id"`
 }
 
 // A EbsSnapshotCopyStatus defines the observed state of a EbsSnapshotCopy
 type EbsSnapshotCopyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EbsSnapshotCopyObservation `json:",inline"`
+	AtProvider                     EbsSnapshotCopyObservation `json:"atProvider"`
 }
 
 // A EbsSnapshotCopyObservation records the observed state of a EbsSnapshotCopy
 type EbsSnapshotCopyObservation struct {
-	Arn                 string `json:"arn"`
 	DataEncryptionKeyId string `json:"data_encryption_key_id"`
 	OwnerAlias          string `json:"owner_alias"`
 	OwnerId             string `json:"owner_id"`
 	VolumeId            string `json:"volume_id"`
+	Arn                 string `json:"arn"`
 	VolumeSize          int64  `json:"volume_size"`
 }

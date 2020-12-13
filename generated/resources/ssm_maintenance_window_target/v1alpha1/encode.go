@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,27 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSsmMaintenanceWindowTarget(r SsmMaintenanceWindowTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSsmMaintenanceWindowTarget_WindowId(r.Spec.ForProvider, ctyVal)
-	EncodeSsmMaintenanceWindowTarget_Description(r.Spec.ForProvider, ctyVal)
-	EncodeSsmMaintenanceWindowTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_OwnerInformation(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_ResourceType(r.Spec.ForProvider, ctyVal)
+	EncodeSsmMaintenanceWindowTarget_WindowId(r.Spec.ForProvider, ctyVal)
+	EncodeSsmMaintenanceWindowTarget_Description(r.Spec.ForProvider, ctyVal)
+	EncodeSsmMaintenanceWindowTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSsmMaintenanceWindowTarget_Targets(r.Spec.ForProvider.Targets, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSsmMaintenanceWindowTarget_WindowId(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
-	vals["window_id"] = cty.StringVal(p.WindowId)
-}
-
-func EncodeSsmMaintenanceWindowTarget_Description(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSsmMaintenanceWindowTarget_Id(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSsmMaintenanceWindowTarget_Name(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
@@ -69,6 +65,18 @@ func EncodeSsmMaintenanceWindowTarget_OwnerInformation(p SsmMaintenanceWindowTar
 
 func EncodeSsmMaintenanceWindowTarget_ResourceType(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
 	vals["resource_type"] = cty.StringVal(p.ResourceType)
+}
+
+func EncodeSsmMaintenanceWindowTarget_WindowId(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
+	vals["window_id"] = cty.StringVal(p.WindowId)
+}
+
+func EncodeSsmMaintenanceWindowTarget_Description(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmMaintenanceWindowTarget_Id(p SsmMaintenanceWindowTargetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSsmMaintenanceWindowTarget_Targets(p []Targets, vals map[string]cty.Value) {

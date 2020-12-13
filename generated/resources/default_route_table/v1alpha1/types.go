@@ -47,38 +47,38 @@ type DefaultRouteTableList struct {
 // A DefaultRouteTableSpec defines the desired state of a DefaultRouteTable
 type DefaultRouteTableSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DefaultRouteTableParameters `json:",inline"`
+	ForProvider                  DefaultRouteTableParameters `json:"forProvider"`
 }
 
 // A DefaultRouteTableParameters defines the desired state of a DefaultRouteTable
 type DefaultRouteTableParameters struct {
-	DefaultRouteTableId string            `json:"default_route_table_id"`
-	Id                  string            `json:"id"`
 	PropagatingVgws     []string          `json:"propagating_vgws"`
 	Route               []Route           `json:"route"`
 	Tags                map[string]string `json:"tags"`
+	DefaultRouteTableId string            `json:"default_route_table_id"`
+	Id                  string            `json:"id"`
 }
 
 type Route struct {
-	InstanceId             string `json:"instance_id"`
+	GatewayId              string `json:"gateway_id"`
 	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
-	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
+	TransitGatewayId       string `json:"transit_gateway_id"`
 	NatGatewayId           string `json:"nat_gateway_id"`
 	NetworkInterfaceId     string `json:"network_interface_id"`
-	GatewayId              string `json:"gateway_id"`
+	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
 	CidrBlock              string `json:"cidr_block"`
 	EgressOnlyGatewayId    string `json:"egress_only_gateway_id"`
-	TransitGatewayId       string `json:"transit_gateway_id"`
+	InstanceId             string `json:"instance_id"`
 }
 
 // A DefaultRouteTableStatus defines the observed state of a DefaultRouteTable
 type DefaultRouteTableStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DefaultRouteTableObservation `json:",inline"`
+	AtProvider                     DefaultRouteTableObservation `json:"atProvider"`
 }
 
 // A DefaultRouteTableObservation records the observed state of a DefaultRouteTable
 type DefaultRouteTableObservation struct {
-	VpcId   string `json:"vpc_id"`
 	OwnerId string `json:"owner_id"`
+	VpcId   string `json:"vpc_id"`
 }

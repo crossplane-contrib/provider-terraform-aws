@@ -47,50 +47,50 @@ type OpsworksNodejsAppLayerList struct {
 // A OpsworksNodejsAppLayerSpec defines the desired state of a OpsworksNodejsAppLayer
 type OpsworksNodejsAppLayerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksNodejsAppLayerParameters `json:",inline"`
+	ForProvider                  OpsworksNodejsAppLayerParameters `json:"forProvider"`
 }
 
 // A OpsworksNodejsAppLayerParameters defines the desired state of a OpsworksNodejsAppLayer
 type OpsworksNodejsAppLayerParameters struct {
-	SystemPackages           []string          `json:"system_packages"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
-	AutoHealing              bool              `json:"auto_healing"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
-	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	Id                       string            `json:"id"`
-	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
-	CustomJson               string            `json:"custom_json"`
 	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
 	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	StackId                  string            `json:"stack_id"`
-	NodejsVersion            string            `json:"nodejs_version"`
+	CustomJson               string            `json:"custom_json"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	AutoHealing              bool              `json:"auto_healing"`
 	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
 	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	Id                       string            `json:"id"`
+	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
+	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	NodejsVersion            string            `json:"nodejs_version"`
+	SystemPackages           []string          `json:"system_packages"`
+	Tags                     map[string]string `json:"tags"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
 	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
 	Name                     string            `json:"name"`
-	Tags                     map[string]string `json:"tags"`
+	StackId                  string            `json:"stack_id"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
 type EbsVolume struct {
-	Encrypted     bool   `json:"encrypted"`
-	Iops          int64  `json:"iops"`
 	MountPoint    string `json:"mount_point"`
 	NumberOfDisks int64  `json:"number_of_disks"`
 	RaidLevel     string `json:"raid_level"`
 	Size          int64  `json:"size"`
 	Type          string `json:"type"`
+	Encrypted     bool   `json:"encrypted"`
+	Iops          int64  `json:"iops"`
 }
 
 // A OpsworksNodejsAppLayerStatus defines the observed state of a OpsworksNodejsAppLayer
 type OpsworksNodejsAppLayerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksNodejsAppLayerObservation `json:",inline"`
+	AtProvider                     OpsworksNodejsAppLayerObservation `json:"atProvider"`
 }
 
 // A OpsworksNodejsAppLayerObservation records the observed state of a OpsworksNodejsAppLayer

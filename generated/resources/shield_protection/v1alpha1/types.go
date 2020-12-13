@@ -47,20 +47,20 @@ type ShieldProtectionList struct {
 // A ShieldProtectionSpec defines the desired state of a ShieldProtection
 type ShieldProtectionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ShieldProtectionParameters `json:",inline"`
+	ForProvider                  ShieldProtectionParameters `json:"forProvider"`
 }
 
 // A ShieldProtectionParameters defines the desired state of a ShieldProtection
 type ShieldProtectionParameters struct {
-	ResourceArn string `json:"resource_arn"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
+	ResourceArn string `json:"resource_arn"`
 }
 
 // A ShieldProtectionStatus defines the observed state of a ShieldProtection
 type ShieldProtectionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ShieldProtectionObservation `json:",inline"`
+	AtProvider                     ShieldProtectionObservation `json:"atProvider"`
 }
 
 // A ShieldProtectionObservation records the observed state of a ShieldProtection

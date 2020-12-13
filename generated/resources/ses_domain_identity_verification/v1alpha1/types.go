@@ -47,7 +47,7 @@ type SesDomainIdentityVerificationList struct {
 // A SesDomainIdentityVerificationSpec defines the desired state of a SesDomainIdentityVerification
 type SesDomainIdentityVerificationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesDomainIdentityVerificationParameters `json:",inline"`
+	ForProvider                  SesDomainIdentityVerificationParameters `json:"forProvider"`
 }
 
 // A SesDomainIdentityVerificationParameters defines the desired state of a SesDomainIdentityVerification
@@ -64,7 +64,7 @@ type Timeouts struct {
 // A SesDomainIdentityVerificationStatus defines the observed state of a SesDomainIdentityVerification
 type SesDomainIdentityVerificationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesDomainIdentityVerificationObservation `json:",inline"`
+	AtProvider                     SesDomainIdentityVerificationObservation `json:"atProvider"`
 }
 
 // A SesDomainIdentityVerificationObservation records the observed state of a SesDomainIdentityVerification

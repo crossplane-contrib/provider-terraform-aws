@@ -47,7 +47,7 @@ type SesConfigurationSetList struct {
 // A SesConfigurationSetSpec defines the desired state of a SesConfigurationSet
 type SesConfigurationSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesConfigurationSetParameters `json:",inline"`
+	ForProvider                  SesConfigurationSetParameters `json:"forProvider"`
 }
 
 // A SesConfigurationSetParameters defines the desired state of a SesConfigurationSet
@@ -59,7 +59,7 @@ type SesConfigurationSetParameters struct {
 // A SesConfigurationSetStatus defines the observed state of a SesConfigurationSet
 type SesConfigurationSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesConfigurationSetObservation `json:",inline"`
+	AtProvider                     SesConfigurationSetObservation `json:"atProvider"`
 }
 
 // A SesConfigurationSetObservation records the observed state of a SesConfigurationSet

@@ -47,14 +47,14 @@ type RedshiftSecurityGroupList struct {
 // A RedshiftSecurityGroupSpec defines the desired state of a RedshiftSecurityGroup
 type RedshiftSecurityGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RedshiftSecurityGroupParameters `json:",inline"`
+	ForProvider                  RedshiftSecurityGroupParameters `json:"forProvider"`
 }
 
 // A RedshiftSecurityGroupParameters defines the desired state of a RedshiftSecurityGroup
 type RedshiftSecurityGroupParameters struct {
+	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Id          string    `json:"id"`
-	Name        string    `json:"name"`
 	Ingress     []Ingress `json:"ingress"`
 }
 
@@ -67,7 +67,7 @@ type Ingress struct {
 // A RedshiftSecurityGroupStatus defines the observed state of a RedshiftSecurityGroup
 type RedshiftSecurityGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RedshiftSecurityGroupObservation `json:",inline"`
+	AtProvider                     RedshiftSecurityGroupObservation `json:"atProvider"`
 }
 
 // A RedshiftSecurityGroupObservation records the observed state of a RedshiftSecurityGroup

@@ -47,31 +47,31 @@ type KmsExternalKeyList struct {
 // A KmsExternalKeySpec defines the desired state of a KmsExternalKey
 type KmsExternalKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  KmsExternalKeyParameters `json:",inline"`
+	ForProvider                  KmsExternalKeyParameters `json:"forProvider"`
 }
 
 // A KmsExternalKeyParameters defines the desired state of a KmsExternalKey
 type KmsExternalKeyParameters struct {
-	Policy               string            `json:"policy"`
-	DeletionWindowInDays int64             `json:"deletion_window_in_days"`
-	KeyMaterialBase64    string            `json:"key_material_base64"`
-	Id                   string            `json:"id"`
-	Tags                 map[string]string `json:"tags"`
 	ValidTo              string            `json:"valid_to"`
 	Description          string            `json:"description"`
 	Enabled              bool              `json:"enabled"`
+	KeyMaterialBase64    string            `json:"key_material_base64"`
+	Policy               string            `json:"policy"`
+	DeletionWindowInDays int64             `json:"deletion_window_in_days"`
+	Id                   string            `json:"id"`
+	Tags                 map[string]string `json:"tags"`
 }
 
 // A KmsExternalKeyStatus defines the observed state of a KmsExternalKey
 type KmsExternalKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     KmsExternalKeyObservation `json:",inline"`
+	AtProvider                     KmsExternalKeyObservation `json:"atProvider"`
 }
 
 // A KmsExternalKeyObservation records the observed state of a KmsExternalKey
 type KmsExternalKeyObservation struct {
-	KeyState        string `json:"key_state"`
-	KeyUsage        string `json:"key_usage"`
 	Arn             string `json:"arn"`
 	ExpirationModel string `json:"expiration_model"`
+	KeyState        string `json:"key_state"`
+	KeyUsage        string `json:"key_usage"`
 }

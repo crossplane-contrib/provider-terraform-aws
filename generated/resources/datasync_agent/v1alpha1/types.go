@@ -47,7 +47,7 @@ type DatasyncAgentList struct {
 // A DatasyncAgentSpec defines the desired state of a DatasyncAgent
 type DatasyncAgentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatasyncAgentParameters `json:",inline"`
+	ForProvider                  DatasyncAgentParameters `json:"forProvider"`
 }
 
 // A DatasyncAgentParameters defines the desired state of a DatasyncAgent
@@ -67,7 +67,7 @@ type Timeouts struct {
 // A DatasyncAgentStatus defines the observed state of a DatasyncAgent
 type DatasyncAgentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatasyncAgentObservation `json:",inline"`
+	AtProvider                     DatasyncAgentObservation `json:"atProvider"`
 }
 
 // A DatasyncAgentObservation records the observed state of a DatasyncAgent

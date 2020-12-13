@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,18 +37,33 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafWebAcl(r WafWebAcl) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWafWebAcl_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafWebAcl_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeWafWebAcl_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafWebAcl_MetricName(r.Spec.ForProvider, ctyVal)
-	EncodeWafWebAcl_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafWebAcl_DefaultAction(r.Spec.ForProvider.DefaultAction, ctyVal)
 	EncodeWafWebAcl_LoggingConfiguration(r.Spec.ForProvider.LoggingConfiguration, ctyVal)
 	EncodeWafWebAcl_Rules(r.Spec.ForProvider.Rules, ctyVal)
 	EncodeWafWebAcl_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeWafWebAcl_Name(p WafWebAclParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
 func EncodeWafWebAcl_Tags(p WafWebAclParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -61,10 +77,6 @@ func EncodeWafWebAcl_Id(p WafWebAclParameters, vals map[string]cty.Value) {
 
 func EncodeWafWebAcl_MetricName(p WafWebAclParameters, vals map[string]cty.Value) {
 	vals["metric_name"] = cty.StringVal(p.MetricName)
-}
-
-func EncodeWafWebAcl_Name(p WafWebAclParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeWafWebAcl_DefaultAction(p DefaultAction, vals map[string]cty.Value) {
@@ -122,17 +134,13 @@ func EncodeWafWebAcl_LoggingConfiguration_RedactedFields_FieldToMatch_Type(p Fie
 func EncodeWafWebAcl_Rules(p Rules, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafWebAcl_Rules_Priority(p, ctyVal)
 	EncodeWafWebAcl_Rules_RuleId(p, ctyVal)
 	EncodeWafWebAcl_Rules_Type(p, ctyVal)
+	EncodeWafWebAcl_Rules_Priority(p, ctyVal)
 	EncodeWafWebAcl_Rules_Action(p.Action, ctyVal)
 	EncodeWafWebAcl_Rules_OverrideAction(p.OverrideAction, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["rules"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeWafWebAcl_Rules_Priority(p Rules, vals map[string]cty.Value) {
-	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafWebAcl_Rules_RuleId(p Rules, vals map[string]cty.Value) {
@@ -141,6 +149,10 @@ func EncodeWafWebAcl_Rules_RuleId(p Rules, vals map[string]cty.Value) {
 
 func EncodeWafWebAcl_Rules_Type(p Rules, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeWafWebAcl_Rules_Priority(p Rules, vals map[string]cty.Value) {
+	vals["priority"] = cty.NumberIntVal(p.Priority)
 }
 
 func EncodeWafWebAcl_Rules_Action(p Action, vals map[string]cty.Value) {

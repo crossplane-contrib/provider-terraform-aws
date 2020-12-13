@@ -47,21 +47,21 @@ type CloudwatchLogDestinationList struct {
 // A CloudwatchLogDestinationSpec defines the desired state of a CloudwatchLogDestination
 type CloudwatchLogDestinationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchLogDestinationParameters `json:",inline"`
+	ForProvider                  CloudwatchLogDestinationParameters `json:"forProvider"`
 }
 
 // A CloudwatchLogDestinationParameters defines the desired state of a CloudwatchLogDestination
 type CloudwatchLogDestinationParameters struct {
-	TargetArn string `json:"target_arn"`
 	Id        string `json:"id"`
 	Name      string `json:"name"`
 	RoleArn   string `json:"role_arn"`
+	TargetArn string `json:"target_arn"`
 }
 
 // A CloudwatchLogDestinationStatus defines the observed state of a CloudwatchLogDestination
 type CloudwatchLogDestinationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchLogDestinationObservation `json:",inline"`
+	AtProvider                     CloudwatchLogDestinationObservation `json:"atProvider"`
 }
 
 // A CloudwatchLogDestinationObservation records the observed state of a CloudwatchLogDestination

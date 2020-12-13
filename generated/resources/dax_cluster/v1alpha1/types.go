@@ -47,24 +47,24 @@ type DaxClusterList struct {
 // A DaxClusterSpec defines the desired state of a DaxCluster
 type DaxClusterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DaxClusterParameters `json:",inline"`
+	ForProvider                  DaxClusterParameters `json:"forProvider"`
 }
 
 // A DaxClusterParameters defines the desired state of a DaxCluster
 type DaxClusterParameters struct {
-	Id                   string               `json:"id"`
-	NotificationTopicArn string               `json:"notification_topic_arn"`
+	MaintenanceWindow    string               `json:"maintenance_window"`
+	NodeType             string               `json:"node_type"`
 	SubnetGroupName      string               `json:"subnet_group_name"`
+	AvailabilityZones    []string             `json:"availability_zones"`
+	IamRoleArn           string               `json:"iam_role_arn"`
+	Id                   string               `json:"id"`
+	ParameterGroupName   string               `json:"parameter_group_name"`
+	SecurityGroupIds     []string             `json:"security_group_ids"`
 	ClusterName          string               `json:"cluster_name"`
 	Description          string               `json:"description"`
 	ReplicationFactor    int64                `json:"replication_factor"`
-	IamRoleArn           string               `json:"iam_role_arn"`
-	NodeType             string               `json:"node_type"`
 	Tags                 map[string]string    `json:"tags"`
-	AvailabilityZones    []string             `json:"availability_zones"`
-	MaintenanceWindow    string               `json:"maintenance_window"`
-	ParameterGroupName   string               `json:"parameter_group_name"`
-	SecurityGroupIds     []string             `json:"security_group_ids"`
+	NotificationTopicArn string               `json:"notification_topic_arn"`
 	ServerSideEncryption ServerSideEncryption `json:"server_side_encryption"`
 	Timeouts             Timeouts             `json:"timeouts"`
 }
@@ -74,29 +74,29 @@ type ServerSideEncryption struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DaxClusterStatus defines the observed state of a DaxCluster
 type DaxClusterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DaxClusterObservation `json:",inline"`
+	AtProvider                     DaxClusterObservation `json:"atProvider"`
 }
 
 // A DaxClusterObservation records the observed state of a DaxCluster
 type DaxClusterObservation struct {
-	ConfigurationEndpoint string  `json:"configuration_endpoint"`
-	Port                  int64   `json:"port"`
-	Arn                   string  `json:"arn"`
 	Nodes                 []Nodes `json:"nodes"`
+	Port                  int64   `json:"port"`
 	ClusterAddress        string  `json:"cluster_address"`
+	Arn                   string  `json:"arn"`
+	ConfigurationEndpoint string  `json:"configuration_endpoint"`
 }
 
 type Nodes struct {
-	AvailabilityZone string `json:"availability_zone"`
 	Id               string `json:"id"`
 	Port             int64  `json:"port"`
 	Address          string `json:"address"`
+	AvailabilityZone string `json:"availability_zone"`
 }

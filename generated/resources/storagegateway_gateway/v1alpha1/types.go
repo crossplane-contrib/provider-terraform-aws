@@ -47,34 +47,34 @@ type StoragegatewayGatewayList struct {
 // A StoragegatewayGatewaySpec defines the desired state of a StoragegatewayGateway
 type StoragegatewayGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  StoragegatewayGatewayParameters `json:",inline"`
+	ForProvider                  StoragegatewayGatewayParameters `json:"forProvider"`
 }
 
 // A StoragegatewayGatewayParameters defines the desired state of a StoragegatewayGateway
 type StoragegatewayGatewayParameters struct {
-	Id                                   string                     `json:"id"`
 	SmbGuestPassword                     string                     `json:"smb_guest_password"`
-	GatewayTimezone                      string                     `json:"gateway_timezone"`
-	SmbSecurityStrategy                  string                     `json:"smb_security_strategy"`
-	Tags                                 map[string]string          `json:"tags"`
-	MediumChangerType                    string                     `json:"medium_changer_type"`
 	TapeDriveType                        string                     `json:"tape_drive_type"`
-	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
-	GatewayName                          string                     `json:"gateway_name"`
-	GatewayType                          string                     `json:"gateway_type"`
-	GatewayVpcEndpoint                   string                     `json:"gateway_vpc_endpoint"`
-	GatewayIpAddress                     string                     `json:"gateway_ip_address"`
-	ActivationKey                        string                     `json:"activation_key"`
-	AverageDownloadRateLimitInBitsPerSec int64                      `json:"average_download_rate_limit_in_bits_per_sec"`
 	AverageUploadRateLimitInBitsPerSec   int64                      `json:"average_upload_rate_limit_in_bits_per_sec"`
+	GatewayIpAddress                     string                     `json:"gateway_ip_address"`
+	GatewayName                          string                     `json:"gateway_name"`
+	GatewayVpcEndpoint                   string                     `json:"gateway_vpc_endpoint"`
+	MediumChangerType                    string                     `json:"medium_changer_type"`
+	AverageDownloadRateLimitInBitsPerSec int64                      `json:"average_download_rate_limit_in_bits_per_sec"`
+	GatewayType                          string                     `json:"gateway_type"`
+	ActivationKey                        string                     `json:"activation_key"`
+	CloudwatchLogGroupArn                string                     `json:"cloudwatch_log_group_arn"`
+	Id                                   string                     `json:"id"`
+	SmbSecurityStrategy                  string                     `json:"smb_security_strategy"`
+	GatewayTimezone                      string                     `json:"gateway_timezone"`
+	Tags                                 map[string]string          `json:"tags"`
 	SmbActiveDirectorySettings           SmbActiveDirectorySettings `json:"smb_active_directory_settings"`
 	Timeouts                             Timeouts                   `json:"timeouts"`
 }
 
 type SmbActiveDirectorySettings struct {
+	Password   string `json:"password"`
 	Username   string `json:"username"`
 	DomainName string `json:"domain_name"`
-	Password   string `json:"password"`
 }
 
 type Timeouts struct {
@@ -84,11 +84,11 @@ type Timeouts struct {
 // A StoragegatewayGatewayStatus defines the observed state of a StoragegatewayGateway
 type StoragegatewayGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     StoragegatewayGatewayObservation `json:",inline"`
+	AtProvider                     StoragegatewayGatewayObservation `json:"atProvider"`
 }
 
 // A StoragegatewayGatewayObservation records the observed state of a StoragegatewayGateway
 type StoragegatewayGatewayObservation struct {
-	GatewayId string `json:"gateway_id"`
 	Arn       string `json:"arn"`
+	GatewayId string `json:"gateway_id"`
 }

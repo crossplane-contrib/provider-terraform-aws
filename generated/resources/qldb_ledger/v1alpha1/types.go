@@ -47,21 +47,21 @@ type QldbLedgerList struct {
 // A QldbLedgerSpec defines the desired state of a QldbLedger
 type QldbLedgerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  QldbLedgerParameters `json:",inline"`
+	ForProvider                  QldbLedgerParameters `json:"forProvider"`
 }
 
 // A QldbLedgerParameters defines the desired state of a QldbLedger
 type QldbLedgerParameters struct {
+	DeletionProtection bool              `json:"deletion_protection"`
 	Id                 string            `json:"id"`
 	Name               string            `json:"name"`
 	Tags               map[string]string `json:"tags"`
-	DeletionProtection bool              `json:"deletion_protection"`
 }
 
 // A QldbLedgerStatus defines the observed state of a QldbLedger
 type QldbLedgerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     QldbLedgerObservation `json:",inline"`
+	AtProvider                     QldbLedgerObservation `json:"atProvider"`
 }
 
 // A QldbLedgerObservation records the observed state of a QldbLedger

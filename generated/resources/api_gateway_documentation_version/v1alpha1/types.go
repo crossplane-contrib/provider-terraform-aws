@@ -47,21 +47,21 @@ type ApiGatewayDocumentationVersionList struct {
 // A ApiGatewayDocumentationVersionSpec defines the desired state of a ApiGatewayDocumentationVersion
 type ApiGatewayDocumentationVersionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayDocumentationVersionParameters `json:",inline"`
+	ForProvider                  ApiGatewayDocumentationVersionParameters `json:"forProvider"`
 }
 
 // A ApiGatewayDocumentationVersionParameters defines the desired state of a ApiGatewayDocumentationVersion
 type ApiGatewayDocumentationVersionParameters struct {
-	Version     string `json:"version"`
 	Description string `json:"description"`
 	Id          string `json:"id"`
 	RestApiId   string `json:"rest_api_id"`
+	Version     string `json:"version"`
 }
 
 // A ApiGatewayDocumentationVersionStatus defines the observed state of a ApiGatewayDocumentationVersion
 type ApiGatewayDocumentationVersionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayDocumentationVersionObservation `json:",inline"`
+	AtProvider                     ApiGatewayDocumentationVersionObservation `json:"atProvider"`
 }
 
 // A ApiGatewayDocumentationVersionObservation records the observed state of a ApiGatewayDocumentationVersion

@@ -47,27 +47,27 @@ type IamRoleList struct {
 // A IamRoleSpec defines the desired state of a IamRole
 type IamRoleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamRoleParameters `json:",inline"`
+	ForProvider                  IamRoleParameters `json:"forProvider"`
 }
 
 // A IamRoleParameters defines the desired state of a IamRole
 type IamRoleParameters struct {
-	NamePrefix          string            `json:"name_prefix"`
-	PermissionsBoundary string            `json:"permissions_boundary"`
-	AssumeRolePolicy    string            `json:"assume_role_policy"`
-	Description         string            `json:"description"`
+	ForceDetachPolicies bool              `json:"force_detach_policies"`
 	MaxSessionDuration  int64             `json:"max_session_duration"`
 	Name                string            `json:"name"`
-	ForceDetachPolicies bool              `json:"force_detach_policies"`
-	Id                  string            `json:"id"`
 	Path                string            `json:"path"`
 	Tags                map[string]string `json:"tags"`
+	AssumeRolePolicy    string            `json:"assume_role_policy"`
+	Description         string            `json:"description"`
+	Id                  string            `json:"id"`
+	NamePrefix          string            `json:"name_prefix"`
+	PermissionsBoundary string            `json:"permissions_boundary"`
 }
 
 // A IamRoleStatus defines the observed state of a IamRole
 type IamRoleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamRoleObservation `json:",inline"`
+	AtProvider                     IamRoleObservation `json:"atProvider"`
 }
 
 // A IamRoleObservation records the observed state of a IamRole

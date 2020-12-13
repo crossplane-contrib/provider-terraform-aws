@@ -47,7 +47,7 @@ type WafSizeConstraintSetList struct {
 // A WafSizeConstraintSetSpec defines the desired state of a WafSizeConstraintSet
 type WafSizeConstraintSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafSizeConstraintSetParameters `json:",inline"`
+	ForProvider                  WafSizeConstraintSetParameters `json:"forProvider"`
 }
 
 // A WafSizeConstraintSetParameters defines the desired state of a WafSizeConstraintSet
@@ -72,7 +72,7 @@ type FieldToMatch struct {
 // A WafSizeConstraintSetStatus defines the observed state of a WafSizeConstraintSet
 type WafSizeConstraintSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafSizeConstraintSetObservation `json:",inline"`
+	AtProvider                     WafSizeConstraintSetObservation `json:"atProvider"`
 }
 
 // A WafSizeConstraintSetObservation records the observed state of a WafSizeConstraintSet

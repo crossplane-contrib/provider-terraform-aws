@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -42,6 +43,13 @@ func EncodeElasticBeanstalkApplication(r ElasticBeanstalkApplication) cty.Value 
 	EncodeElasticBeanstalkApplication_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkApplication_AppversionLifecycle(r.Spec.ForProvider.AppversionLifecycle, ctyVal)
 	EncodeElasticBeanstalkApplication_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -58,6 +66,10 @@ func EncodeElasticBeanstalkApplication_Name(p ElasticBeanstalkApplicationParamet
 }
 
 func EncodeElasticBeanstalkApplication_Tags(p ElasticBeanstalkApplicationParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -68,20 +80,12 @@ func EncodeElasticBeanstalkApplication_Tags(p ElasticBeanstalkApplicationParamet
 func EncodeElasticBeanstalkApplication_AppversionLifecycle(p AppversionLifecycle, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(p, ctyVal)
-	EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(p, ctyVal)
 	EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxAgeInDays(p, ctyVal)
 	EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxCount(p, ctyVal)
+	EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(p, ctyVal)
+	EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["appversion_lifecycle"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(p AppversionLifecycle, vals map[string]cty.Value) {
-	vals["service_role"] = cty.StringVal(p.ServiceRole)
-}
-
-func EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(p AppversionLifecycle, vals map[string]cty.Value) {
-	vals["delete_source_from_s3"] = cty.BoolVal(p.DeleteSourceFromS3)
 }
 
 func EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxAgeInDays(p AppversionLifecycle, vals map[string]cty.Value) {
@@ -90,6 +94,14 @@ func EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxAgeInDays(p Appver
 
 func EncodeElasticBeanstalkApplication_AppversionLifecycle_MaxCount(p AppversionLifecycle, vals map[string]cty.Value) {
 	vals["max_count"] = cty.NumberIntVal(p.MaxCount)
+}
+
+func EncodeElasticBeanstalkApplication_AppversionLifecycle_ServiceRole(p AppversionLifecycle, vals map[string]cty.Value) {
+	vals["service_role"] = cty.StringVal(p.ServiceRole)
+}
+
+func EncodeElasticBeanstalkApplication_AppversionLifecycle_DeleteSourceFromS3(p AppversionLifecycle, vals map[string]cty.Value) {
+	vals["delete_source_from_s3"] = cty.BoolVal(p.DeleteSourceFromS3)
 }
 
 func EncodeElasticBeanstalkApplication_Arn(p ElasticBeanstalkApplicationObservation, vals map[string]cty.Value) {

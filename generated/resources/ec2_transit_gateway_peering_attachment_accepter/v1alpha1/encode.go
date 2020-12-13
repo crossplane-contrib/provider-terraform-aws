@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,21 +37,28 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayPeeringAttachmentAccepter(r Ec2TransitGatewayPeeringAttachmentAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayPeeringAttachmentAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayPeeringAttachmentAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_PeerAccountId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_PeerRegion(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_PeerTransitGatewayId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayPeeringAttachmentAccepter_Id(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -60,6 +68,10 @@ func EncodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(p Ec2TransitGatewayPe
 
 func EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_attachment_id"] = cty.StringVal(p.TransitGatewayAttachmentId)
+}
+
+func EncodeEc2TransitGatewayPeeringAttachmentAccepter_Id(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2TransitGatewayPeeringAttachmentAccepter_PeerAccountId(p Ec2TransitGatewayPeeringAttachmentAccepterObservation, vals map[string]cty.Value) {

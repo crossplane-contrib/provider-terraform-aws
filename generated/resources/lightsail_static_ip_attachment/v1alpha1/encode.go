@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLightsailStaticIpAttachment(r LightsailStaticIpAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLightsailStaticIpAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_InstanceName(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_StaticIpName(r.Spec.ForProvider, ctyVal)
+	EncodeLightsailStaticIpAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_IpAddress(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLightsailStaticIpAttachment_Id(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLightsailStaticIpAttachment_InstanceName(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
@@ -53,6 +57,10 @@ func EncodeLightsailStaticIpAttachment_InstanceName(p LightsailStaticIpAttachmen
 
 func EncodeLightsailStaticIpAttachment_StaticIpName(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
 	vals["static_ip_name"] = cty.StringVal(p.StaticIpName)
+}
+
+func EncodeLightsailStaticIpAttachment_Id(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLightsailStaticIpAttachment_IpAddress(p LightsailStaticIpAttachmentObservation, vals map[string]cty.Value) {

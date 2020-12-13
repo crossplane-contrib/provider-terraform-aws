@@ -47,7 +47,7 @@ type IamUserGroupMembershipList struct {
 // A IamUserGroupMembershipSpec defines the desired state of a IamUserGroupMembership
 type IamUserGroupMembershipSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamUserGroupMembershipParameters `json:",inline"`
+	ForProvider                  IamUserGroupMembershipParameters `json:"forProvider"`
 }
 
 // A IamUserGroupMembershipParameters defines the desired state of a IamUserGroupMembership
@@ -60,7 +60,7 @@ type IamUserGroupMembershipParameters struct {
 // A IamUserGroupMembershipStatus defines the observed state of a IamUserGroupMembership
 type IamUserGroupMembershipStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamUserGroupMembershipObservation `json:",inline"`
+	AtProvider                     IamUserGroupMembershipObservation `json:"atProvider"`
 }
 
 // A IamUserGroupMembershipObservation records the observed state of a IamUserGroupMembership

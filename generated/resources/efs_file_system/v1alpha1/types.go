@@ -47,19 +47,19 @@ type EfsFileSystemList struct {
 // A EfsFileSystemSpec defines the desired state of a EfsFileSystem
 type EfsFileSystemSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EfsFileSystemParameters `json:",inline"`
+	ForProvider                  EfsFileSystemParameters `json:"forProvider"`
 }
 
 // A EfsFileSystemParameters defines the desired state of a EfsFileSystem
 type EfsFileSystemParameters struct {
-	CreationToken                string            `json:"creation_token"`
 	Encrypted                    bool              `json:"encrypted"`
-	PerformanceMode              string            `json:"performance_mode"`
+	Id                           string            `json:"id"`
+	KmsKeyId                     string            `json:"kms_key_id"`
 	ProvisionedThroughputInMibps int64             `json:"provisioned_throughput_in_mibps"`
 	Tags                         map[string]string `json:"tags"`
-	KmsKeyId                     string            `json:"kms_key_id"`
+	CreationToken                string            `json:"creation_token"`
+	PerformanceMode              string            `json:"performance_mode"`
 	ThroughputMode               string            `json:"throughput_mode"`
-	Id                           string            `json:"id"`
 	LifecyclePolicy              LifecyclePolicy   `json:"lifecycle_policy"`
 }
 
@@ -70,11 +70,11 @@ type LifecyclePolicy struct {
 // A EfsFileSystemStatus defines the observed state of a EfsFileSystem
 type EfsFileSystemStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EfsFileSystemObservation `json:",inline"`
+	AtProvider                     EfsFileSystemObservation `json:"atProvider"`
 }
 
 // A EfsFileSystemObservation records the observed state of a EfsFileSystem
 type EfsFileSystemObservation struct {
-	DnsName string `json:"dns_name"`
 	Arn     string `json:"arn"`
+	DnsName string `json:"dns_name"`
 }

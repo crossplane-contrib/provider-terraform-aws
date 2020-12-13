@@ -47,29 +47,29 @@ type SsmActivationList struct {
 // A SsmActivationSpec defines the desired state of a SsmActivation
 type SsmActivationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmActivationParameters `json:",inline"`
+	ForProvider                  SsmActivationParameters `json:"forProvider"`
 }
 
 // A SsmActivationParameters defines the desired state of a SsmActivation
 type SsmActivationParameters struct {
-	ExpirationDate    string            `json:"expiration_date"`
+	Name              string            `json:"name"`
 	IamRole           string            `json:"iam_role"`
 	Id                string            `json:"id"`
-	Description       string            `json:"description"`
-	Name              string            `json:"name"`
 	RegistrationLimit int64             `json:"registration_limit"`
 	Tags              map[string]string `json:"tags"`
+	Description       string            `json:"description"`
+	ExpirationDate    string            `json:"expiration_date"`
 }
 
 // A SsmActivationStatus defines the observed state of a SsmActivation
 type SsmActivationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmActivationObservation `json:",inline"`
+	AtProvider                     SsmActivationObservation `json:"atProvider"`
 }
 
 // A SsmActivationObservation records the observed state of a SsmActivation
 type SsmActivationObservation struct {
-	ActivationCode    string `json:"activation_code"`
 	Expired           bool   `json:"expired"`
 	RegistrationCount int64  `json:"registration_count"`
+	ActivationCode    string `json:"activation_code"`
 }

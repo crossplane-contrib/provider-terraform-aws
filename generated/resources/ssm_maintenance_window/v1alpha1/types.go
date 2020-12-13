@@ -47,29 +47,29 @@ type SsmMaintenanceWindowList struct {
 // A SsmMaintenanceWindowSpec defines the desired state of a SsmMaintenanceWindow
 type SsmMaintenanceWindowSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmMaintenanceWindowParameters `json:",inline"`
+	ForProvider                  SsmMaintenanceWindowParameters `json:"forProvider"`
 }
 
 // A SsmMaintenanceWindowParameters defines the desired state of a SsmMaintenanceWindow
 type SsmMaintenanceWindowParameters struct {
-	AllowUnassociatedTargets bool              `json:"allow_unassociated_targets"`
 	Cutoff                   int64             `json:"cutoff"`
 	Duration                 int64             `json:"duration"`
-	EndDate                  string            `json:"end_date"`
-	Id                       string            `json:"id"`
 	Name                     string            `json:"name"`
-	ScheduleTimezone         string            `json:"schedule_timezone"`
 	StartDate                string            `json:"start_date"`
+	ScheduleTimezone         string            `json:"schedule_timezone"`
 	Tags                     map[string]string `json:"tags"`
+	AllowUnassociatedTargets bool              `json:"allow_unassociated_targets"`
 	Description              string            `json:"description"`
 	Enabled                  bool              `json:"enabled"`
+	EndDate                  string            `json:"end_date"`
+	Id                       string            `json:"id"`
 	Schedule                 string            `json:"schedule"`
 }
 
 // A SsmMaintenanceWindowStatus defines the observed state of a SsmMaintenanceWindow
 type SsmMaintenanceWindowStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmMaintenanceWindowObservation `json:",inline"`
+	AtProvider                     SsmMaintenanceWindowObservation `json:"atProvider"`
 }
 
 // A SsmMaintenanceWindowObservation records the observed state of a SsmMaintenanceWindow

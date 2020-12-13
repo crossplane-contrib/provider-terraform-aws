@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,22 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretBinary(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecretsmanagerSecretVersion_VersionStages(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.VersionStages {
-		colVals = append(colVals, cty.StringVal(value))
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["version_stages"] = cty.SetVal(colVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeSecretsmanagerSecretVersion_Id(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
@@ -68,6 +68,14 @@ func EncodeSecretsmanagerSecretVersion_SecretId(p SecretsmanagerSecretVersionPar
 
 func EncodeSecretsmanagerSecretVersion_SecretString(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	vals["secret_string"] = cty.StringVal(p.SecretString)
+}
+
+func EncodeSecretsmanagerSecretVersion_VersionStages(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.VersionStages {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["version_stages"] = cty.SetVal(colVals)
 }
 
 func EncodeSecretsmanagerSecretVersion_Arn(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {

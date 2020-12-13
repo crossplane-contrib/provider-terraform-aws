@@ -47,7 +47,7 @@ type SsmMaintenanceWindowTargetList struct {
 // A SsmMaintenanceWindowTargetSpec defines the desired state of a SsmMaintenanceWindowTarget
 type SsmMaintenanceWindowTargetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SsmMaintenanceWindowTargetParameters `json:",inline"`
+	ForProvider                  SsmMaintenanceWindowTargetParameters `json:"forProvider"`
 }
 
 // A SsmMaintenanceWindowTargetParameters defines the desired state of a SsmMaintenanceWindowTarget
@@ -69,7 +69,7 @@ type Targets struct {
 // A SsmMaintenanceWindowTargetStatus defines the observed state of a SsmMaintenanceWindowTarget
 type SsmMaintenanceWindowTargetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SsmMaintenanceWindowTargetObservation `json:",inline"`
+	AtProvider                     SsmMaintenanceWindowTargetObservation `json:"atProvider"`
 }
 
 // A SsmMaintenanceWindowTargetObservation records the observed state of a SsmMaintenanceWindowTarget

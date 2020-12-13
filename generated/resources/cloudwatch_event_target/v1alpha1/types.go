@@ -47,7 +47,7 @@ type CloudwatchEventTargetList struct {
 // A CloudwatchEventTargetSpec defines the desired state of a CloudwatchEventTarget
 type CloudwatchEventTargetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CloudwatchEventTargetParameters `json:",inline"`
+	ForProvider                  CloudwatchEventTargetParameters `json:"forProvider"`
 }
 
 // A CloudwatchEventTargetParameters defines the desired state of a CloudwatchEventTarget
@@ -84,11 +84,11 @@ type BatchTarget struct {
 }
 
 type EcsTarget struct {
-	TaskDefinitionArn    string               `json:"task_definition_arn"`
 	Group                string               `json:"group"`
 	LaunchType           string               `json:"launch_type"`
 	PlatformVersion      string               `json:"platform_version"`
 	TaskCount            int64                `json:"task_count"`
+	TaskDefinitionArn    string               `json:"task_definition_arn"`
 	NetworkConfiguration NetworkConfiguration `json:"network_configuration"`
 }
 
@@ -110,7 +110,7 @@ type KinesisTarget struct {
 // A CloudwatchEventTargetStatus defines the observed state of a CloudwatchEventTarget
 type CloudwatchEventTargetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CloudwatchEventTargetObservation `json:",inline"`
+	AtProvider                     CloudwatchEventTargetObservation `json:"atProvider"`
 }
 
 // A CloudwatchEventTargetObservation records the observed state of a CloudwatchEventTarget

@@ -47,7 +47,7 @@ type WafregionalByteMatchSetList struct {
 // A WafregionalByteMatchSetSpec defines the desired state of a WafregionalByteMatchSet
 type WafregionalByteMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalByteMatchSetParameters `json:",inline"`
+	ForProvider                  WafregionalByteMatchSetParameters `json:"forProvider"`
 }
 
 // A WafregionalByteMatchSetParameters defines the desired state of a WafregionalByteMatchSet
@@ -72,7 +72,7 @@ type FieldToMatch struct {
 // A WafregionalByteMatchSetStatus defines the observed state of a WafregionalByteMatchSet
 type WafregionalByteMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalByteMatchSetObservation `json:",inline"`
+	AtProvider                     WafregionalByteMatchSetObservation `json:"atProvider"`
 }
 
 // A WafregionalByteMatchSetObservation records the observed state of a WafregionalByteMatchSet

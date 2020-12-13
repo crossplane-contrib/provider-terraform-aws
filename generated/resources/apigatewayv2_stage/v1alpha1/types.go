@@ -47,40 +47,23 @@ type Apigatewayv2StageList struct {
 // A Apigatewayv2StageSpec defines the desired state of a Apigatewayv2Stage
 type Apigatewayv2StageSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2StageParameters `json:",inline"`
+	ForProvider                  Apigatewayv2StageParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2StageParameters defines the desired state of a Apigatewayv2Stage
 type Apigatewayv2StageParameters struct {
-	ClientCertificateId  string               `json:"client_certificate_id"`
-	Name                 string               `json:"name"`
+	StageVariables       map[string]string    `json:"stage_variables"`
 	Tags                 map[string]string    `json:"tags"`
-	AutoDeploy           bool                 `json:"auto_deploy"`
+	DeploymentId         string               `json:"deployment_id"`
 	Description          string               `json:"description"`
 	Id                   string               `json:"id"`
-	StageVariables       map[string]string    `json:"stage_variables"`
 	ApiId                string               `json:"api_id"`
-	DeploymentId         string               `json:"deployment_id"`
+	AutoDeploy           bool                 `json:"auto_deploy"`
+	ClientCertificateId  string               `json:"client_certificate_id"`
+	Name                 string               `json:"name"`
+	AccessLogSettings    AccessLogSettings    `json:"access_log_settings"`
 	DefaultRouteSettings DefaultRouteSettings `json:"default_route_settings"`
 	RouteSettings        RouteSettings        `json:"route_settings"`
-	AccessLogSettings    AccessLogSettings    `json:"access_log_settings"`
-}
-
-type DefaultRouteSettings struct {
-	LoggingLevel           string `json:"logging_level"`
-	ThrottlingBurstLimit   int64  `json:"throttling_burst_limit"`
-	ThrottlingRateLimit    int64  `json:"throttling_rate_limit"`
-	DataTraceEnabled       bool   `json:"data_trace_enabled"`
-	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
-}
-
-type RouteSettings struct {
-	DataTraceEnabled       bool   `json:"data_trace_enabled"`
-	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
-	LoggingLevel           string `json:"logging_level"`
-	RouteKey               string `json:"route_key"`
-	ThrottlingBurstLimit   int64  `json:"throttling_burst_limit"`
-	ThrottlingRateLimit    int64  `json:"throttling_rate_limit"`
 }
 
 type AccessLogSettings struct {
@@ -88,15 +71,32 @@ type AccessLogSettings struct {
 	Format         string `json:"format"`
 }
 
+type DefaultRouteSettings struct {
+	ThrottlingBurstLimit   int64  `json:"throttling_burst_limit"`
+	ThrottlingRateLimit    int64  `json:"throttling_rate_limit"`
+	DataTraceEnabled       bool   `json:"data_trace_enabled"`
+	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
+	LoggingLevel           string `json:"logging_level"`
+}
+
+type RouteSettings struct {
+	LoggingLevel           string `json:"logging_level"`
+	RouteKey               string `json:"route_key"`
+	ThrottlingBurstLimit   int64  `json:"throttling_burst_limit"`
+	ThrottlingRateLimit    int64  `json:"throttling_rate_limit"`
+	DataTraceEnabled       bool   `json:"data_trace_enabled"`
+	DetailedMetricsEnabled bool   `json:"detailed_metrics_enabled"`
+}
+
 // A Apigatewayv2StageStatus defines the observed state of a Apigatewayv2Stage
 type Apigatewayv2StageStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2StageObservation `json:",inline"`
+	AtProvider                     Apigatewayv2StageObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2StageObservation records the observed state of a Apigatewayv2Stage
 type Apigatewayv2StageObservation struct {
-	ExecutionArn string `json:"execution_arn"`
 	Arn          string `json:"arn"`
+	ExecutionArn string `json:"execution_arn"`
 	InvokeUrl    string `json:"invoke_url"`
 }

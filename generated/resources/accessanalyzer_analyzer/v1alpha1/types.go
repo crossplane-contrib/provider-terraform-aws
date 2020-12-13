@@ -47,7 +47,7 @@ type AccessanalyzerAnalyzerList struct {
 // A AccessanalyzerAnalyzerSpec defines the desired state of a AccessanalyzerAnalyzer
 type AccessanalyzerAnalyzerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AccessanalyzerAnalyzerParameters `json:",inline"`
+	ForProvider                  AccessanalyzerAnalyzerParameters `json:"forProvider"`
 }
 
 // A AccessanalyzerAnalyzerParameters defines the desired state of a AccessanalyzerAnalyzer
@@ -61,7 +61,7 @@ type AccessanalyzerAnalyzerParameters struct {
 // A AccessanalyzerAnalyzerStatus defines the observed state of a AccessanalyzerAnalyzer
 type AccessanalyzerAnalyzerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AccessanalyzerAnalyzerObservation `json:",inline"`
+	AtProvider                     AccessanalyzerAnalyzerObservation `json:"atProvider"`
 }
 
 // A AccessanalyzerAnalyzerObservation records the observed state of a AccessanalyzerAnalyzer

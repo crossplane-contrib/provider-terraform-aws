@@ -47,30 +47,30 @@ type ConfigRemediationConfigurationList struct {
 // A ConfigRemediationConfigurationSpec defines the desired state of a ConfigRemediationConfiguration
 type ConfigRemediationConfigurationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ConfigRemediationConfigurationParameters `json:",inline"`
+	ForProvider                  ConfigRemediationConfigurationParameters `json:"forProvider"`
 }
 
 // A ConfigRemediationConfigurationParameters defines the desired state of a ConfigRemediationConfiguration
 type ConfigRemediationConfigurationParameters struct {
-	ConfigRuleName string      `json:"config_rule_name"`
 	Id             string      `json:"id"`
 	ResourceType   string      `json:"resource_type"`
 	TargetId       string      `json:"target_id"`
 	TargetType     string      `json:"target_type"`
 	TargetVersion  string      `json:"target_version"`
+	ConfigRuleName string      `json:"config_rule_name"`
 	Parameter      []Parameter `json:"parameter"`
 }
 
 type Parameter struct {
+	StaticValue   string `json:"static_value"`
 	Name          string `json:"name"`
 	ResourceValue string `json:"resource_value"`
-	StaticValue   string `json:"static_value"`
 }
 
 // A ConfigRemediationConfigurationStatus defines the observed state of a ConfigRemediationConfiguration
 type ConfigRemediationConfigurationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ConfigRemediationConfigurationObservation `json:",inline"`
+	AtProvider                     ConfigRemediationConfigurationObservation `json:"atProvider"`
 }
 
 // A ConfigRemediationConfigurationObservation records the observed state of a ConfigRemediationConfiguration

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,15 +37,26 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeElasticBeanstalkConfigurationTemplate(r ElasticBeanstalkConfigurationTemplate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeElasticBeanstalkConfigurationTemplate_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Application(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_EnvironmentId(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Id(r.Spec.ForProvider, ctyVal)
-	EncodeElasticBeanstalkConfigurationTemplate_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Setting(r.Spec.ForProvider.Setting, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeElasticBeanstalkConfigurationTemplate_Name(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeElasticBeanstalkConfigurationTemplate_SolutionStackName(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
@@ -67,23 +79,15 @@ func EncodeElasticBeanstalkConfigurationTemplate_Id(p ElasticBeanstalkConfigurat
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeElasticBeanstalkConfigurationTemplate_Name(p ElasticBeanstalkConfigurationTemplateParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeElasticBeanstalkConfigurationTemplate_Setting(p Setting, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(p, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Setting_Value(p, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Setting_Name(p, ctyVal)
 	EncodeElasticBeanstalkConfigurationTemplate_Setting_Namespace(p, ctyVal)
+	EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["setting"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(p Setting, vals map[string]cty.Value) {
-	vals["resource"] = cty.StringVal(p.Resource)
 }
 
 func EncodeElasticBeanstalkConfigurationTemplate_Setting_Value(p Setting, vals map[string]cty.Value) {
@@ -96,4 +100,8 @@ func EncodeElasticBeanstalkConfigurationTemplate_Setting_Name(p Setting, vals ma
 
 func EncodeElasticBeanstalkConfigurationTemplate_Setting_Namespace(p Setting, vals map[string]cty.Value) {
 	vals["namespace"] = cty.StringVal(p.Namespace)
+}
+
+func EncodeElasticBeanstalkConfigurationTemplate_Setting_Resource(p Setting, vals map[string]cty.Value) {
+	vals["resource"] = cty.StringVal(p.Resource)
 }

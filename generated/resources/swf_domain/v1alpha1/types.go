@@ -47,23 +47,23 @@ type SwfDomainList struct {
 // A SwfDomainSpec defines the desired state of a SwfDomain
 type SwfDomainSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SwfDomainParameters `json:",inline"`
+	ForProvider                  SwfDomainParameters `json:"forProvider"`
 }
 
 // A SwfDomainParameters defines the desired state of a SwfDomain
 type SwfDomainParameters struct {
-	WorkflowExecutionRetentionPeriodInDays string            `json:"workflow_execution_retention_period_in_days"`
 	Description                            string            `json:"description"`
 	Id                                     string            `json:"id"`
 	Name                                   string            `json:"name"`
 	NamePrefix                             string            `json:"name_prefix"`
 	Tags                                   map[string]string `json:"tags"`
+	WorkflowExecutionRetentionPeriodInDays string            `json:"workflow_execution_retention_period_in_days"`
 }
 
 // A SwfDomainStatus defines the observed state of a SwfDomain
 type SwfDomainStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SwfDomainObservation `json:",inline"`
+	AtProvider                     SwfDomainObservation `json:"atProvider"`
 }
 
 // A SwfDomainObservation records the observed state of a SwfDomain

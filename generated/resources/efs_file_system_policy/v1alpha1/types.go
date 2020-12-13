@@ -47,20 +47,20 @@ type EfsFileSystemPolicyList struct {
 // A EfsFileSystemPolicySpec defines the desired state of a EfsFileSystemPolicy
 type EfsFileSystemPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EfsFileSystemPolicyParameters `json:",inline"`
+	ForProvider                  EfsFileSystemPolicyParameters `json:"forProvider"`
 }
 
 // A EfsFileSystemPolicyParameters defines the desired state of a EfsFileSystemPolicy
 type EfsFileSystemPolicyParameters struct {
+	Id           string `json:"id"`
 	Policy       string `json:"policy"`
 	FileSystemId string `json:"file_system_id"`
-	Id           string `json:"id"`
 }
 
 // A EfsFileSystemPolicyStatus defines the observed state of a EfsFileSystemPolicy
 type EfsFileSystemPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EfsFileSystemPolicyObservation `json:",inline"`
+	AtProvider                     EfsFileSystemPolicyObservation `json:"atProvider"`
 }
 
 // A EfsFileSystemPolicyObservation records the observed state of a EfsFileSystemPolicy

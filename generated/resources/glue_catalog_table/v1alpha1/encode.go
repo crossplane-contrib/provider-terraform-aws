@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,45 +37,32 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGlueCatalogTable(r GlueCatalogTable) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueCatalogTable_CatalogId(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogTable_Description(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogTable_Id(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogTable_Owner(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogTable_TableType(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogTable_DatabaseName(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogTable_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogTable_Parameters(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogTable_Retention(r.Spec.ForProvider, ctyVal)
-	EncodeGlueCatalogTable_ViewExpandedText(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogTable_TableType(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogTable_ViewOriginalText(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogTable_CatalogId(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogTable_DatabaseName(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogTable_Description(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogTable_Owner(r.Spec.ForProvider, ctyVal)
+	EncodeGlueCatalogTable_ViewExpandedText(r.Spec.ForProvider, ctyVal)
 	EncodeGlueCatalogTable_PartitionKeys(r.Spec.ForProvider.PartitionKeys, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor(r.Spec.ForProvider.StorageDescriptor, ctyVal)
 	EncodeGlueCatalogTable_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGlueCatalogTable_CatalogId(p GlueCatalogTableParameters, vals map[string]cty.Value) {
-	vals["catalog_id"] = cty.StringVal(p.CatalogId)
-}
-
-func EncodeGlueCatalogTable_Description(p GlueCatalogTableParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeGlueCatalogTable_Id(p GlueCatalogTableParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGlueCatalogTable_Owner(p GlueCatalogTableParameters, vals map[string]cty.Value) {
-	vals["owner"] = cty.StringVal(p.Owner)
-}
-
-func EncodeGlueCatalogTable_TableType(p GlueCatalogTableParameters, vals map[string]cty.Value) {
-	vals["table_type"] = cty.StringVal(p.TableType)
-}
-
-func EncodeGlueCatalogTable_DatabaseName(p GlueCatalogTableParameters, vals map[string]cty.Value) {
-	vals["database_name"] = cty.StringVal(p.DatabaseName)
 }
 
 func EncodeGlueCatalogTable_Name(p GlueCatalogTableParameters, vals map[string]cty.Value) {
@@ -82,6 +70,10 @@ func EncodeGlueCatalogTable_Name(p GlueCatalogTableParameters, vals map[string]c
 }
 
 func EncodeGlueCatalogTable_Parameters(p GlueCatalogTableParameters, vals map[string]cty.Value) {
+	if len(p.Parameters) == 0 {
+		vals["parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Parameters {
 		mVals[key] = cty.StringVal(value)
@@ -93,26 +85,42 @@ func EncodeGlueCatalogTable_Retention(p GlueCatalogTableParameters, vals map[str
 	vals["retention"] = cty.NumberIntVal(p.Retention)
 }
 
-func EncodeGlueCatalogTable_ViewExpandedText(p GlueCatalogTableParameters, vals map[string]cty.Value) {
-	vals["view_expanded_text"] = cty.StringVal(p.ViewExpandedText)
+func EncodeGlueCatalogTable_TableType(p GlueCatalogTableParameters, vals map[string]cty.Value) {
+	vals["table_type"] = cty.StringVal(p.TableType)
 }
 
 func EncodeGlueCatalogTable_ViewOriginalText(p GlueCatalogTableParameters, vals map[string]cty.Value) {
 	vals["view_original_text"] = cty.StringVal(p.ViewOriginalText)
 }
 
+func EncodeGlueCatalogTable_CatalogId(p GlueCatalogTableParameters, vals map[string]cty.Value) {
+	vals["catalog_id"] = cty.StringVal(p.CatalogId)
+}
+
+func EncodeGlueCatalogTable_DatabaseName(p GlueCatalogTableParameters, vals map[string]cty.Value) {
+	vals["database_name"] = cty.StringVal(p.DatabaseName)
+}
+
+func EncodeGlueCatalogTable_Description(p GlueCatalogTableParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeGlueCatalogTable_Owner(p GlueCatalogTableParameters, vals map[string]cty.Value) {
+	vals["owner"] = cty.StringVal(p.Owner)
+}
+
+func EncodeGlueCatalogTable_ViewExpandedText(p GlueCatalogTableParameters, vals map[string]cty.Value) {
+	vals["view_expanded_text"] = cty.StringVal(p.ViewExpandedText)
+}
+
 func EncodeGlueCatalogTable_PartitionKeys(p PartitionKeys, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueCatalogTable_PartitionKeys_Type(p, ctyVal)
 	EncodeGlueCatalogTable_PartitionKeys_Comment(p, ctyVal)
 	EncodeGlueCatalogTable_PartitionKeys_Name(p, ctyVal)
+	EncodeGlueCatalogTable_PartitionKeys_Type(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["partition_keys"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlueCatalogTable_PartitionKeys_Type(p PartitionKeys, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeGlueCatalogTable_PartitionKeys_Comment(p PartitionKeys, vals map[string]cty.Value) {
@@ -123,26 +131,46 @@ func EncodeGlueCatalogTable_PartitionKeys_Name(p PartitionKeys, vals map[string]
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeGlueCatalogTable_PartitionKeys_Type(p PartitionKeys, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
+}
+
 func EncodeGlueCatalogTable_StorageDescriptor(p StorageDescriptor, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueCatalogTable_StorageDescriptor_Location(p, ctyVal)
+	EncodeGlueCatalogTable_StorageDescriptor_NumberOfBuckets(p, ctyVal)
+	EncodeGlueCatalogTable_StorageDescriptor_OutputFormat(p, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_Parameters(p, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_StoredAsSubDirectories(p, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_BucketColumns(p, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_Compressed(p, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_InputFormat(p, ctyVal)
-	EncodeGlueCatalogTable_StorageDescriptor_Location(p, ctyVal)
-	EncodeGlueCatalogTable_StorageDescriptor_NumberOfBuckets(p, ctyVal)
-	EncodeGlueCatalogTable_StorageDescriptor_OutputFormat(p, ctyVal)
+	EncodeGlueCatalogTable_StorageDescriptor_SortColumns(p.SortColumns, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_Columns(p.Columns, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_SerDeInfo(p.SerDeInfo, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_SkewedInfo(p.SkewedInfo, ctyVal)
-	EncodeGlueCatalogTable_StorageDescriptor_SortColumns(p.SortColumns, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["storage_descriptor"] = cty.ListVal(valsForCollection)
 }
 
+func EncodeGlueCatalogTable_StorageDescriptor_Location(p StorageDescriptor, vals map[string]cty.Value) {
+	vals["location"] = cty.StringVal(p.Location)
+}
+
+func EncodeGlueCatalogTable_StorageDescriptor_NumberOfBuckets(p StorageDescriptor, vals map[string]cty.Value) {
+	vals["number_of_buckets"] = cty.NumberIntVal(p.NumberOfBuckets)
+}
+
+func EncodeGlueCatalogTable_StorageDescriptor_OutputFormat(p StorageDescriptor, vals map[string]cty.Value) {
+	vals["output_format"] = cty.StringVal(p.OutputFormat)
+}
+
 func EncodeGlueCatalogTable_StorageDescriptor_Parameters(p StorageDescriptor, vals map[string]cty.Value) {
+	if len(p.Parameters) == 0 {
+		vals["parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Parameters {
 		mVals[key] = cty.StringVal(value)
@@ -170,30 +198,31 @@ func EncodeGlueCatalogTable_StorageDescriptor_InputFormat(p StorageDescriptor, v
 	vals["input_format"] = cty.StringVal(p.InputFormat)
 }
 
-func EncodeGlueCatalogTable_StorageDescriptor_Location(p StorageDescriptor, vals map[string]cty.Value) {
-	vals["location"] = cty.StringVal(p.Location)
+func EncodeGlueCatalogTable_StorageDescriptor_SortColumns(p SortColumns, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeGlueCatalogTable_StorageDescriptor_SortColumns_Column(p, ctyVal)
+	EncodeGlueCatalogTable_StorageDescriptor_SortColumns_SortOrder(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	vals["sort_columns"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeGlueCatalogTable_StorageDescriptor_NumberOfBuckets(p StorageDescriptor, vals map[string]cty.Value) {
-	vals["number_of_buckets"] = cty.NumberIntVal(p.NumberOfBuckets)
+func EncodeGlueCatalogTable_StorageDescriptor_SortColumns_Column(p SortColumns, vals map[string]cty.Value) {
+	vals["column"] = cty.StringVal(p.Column)
 }
 
-func EncodeGlueCatalogTable_StorageDescriptor_OutputFormat(p StorageDescriptor, vals map[string]cty.Value) {
-	vals["output_format"] = cty.StringVal(p.OutputFormat)
+func EncodeGlueCatalogTable_StorageDescriptor_SortColumns_SortOrder(p SortColumns, vals map[string]cty.Value) {
+	vals["sort_order"] = cty.NumberIntVal(p.SortOrder)
 }
 
 func EncodeGlueCatalogTable_StorageDescriptor_Columns(p Columns, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeGlueCatalogTable_StorageDescriptor_Columns_Comment(p, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_Columns_Name(p, ctyVal)
 	EncodeGlueCatalogTable_StorageDescriptor_Columns_Type(p, ctyVal)
+	EncodeGlueCatalogTable_StorageDescriptor_Columns_Comment(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["columns"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlueCatalogTable_StorageDescriptor_Columns_Comment(p Columns, vals map[string]cty.Value) {
-	vals["comment"] = cty.StringVal(p.Comment)
 }
 
 func EncodeGlueCatalogTable_StorageDescriptor_Columns_Name(p Columns, vals map[string]cty.Value) {
@@ -202,6 +231,10 @@ func EncodeGlueCatalogTable_StorageDescriptor_Columns_Name(p Columns, vals map[s
 
 func EncodeGlueCatalogTable_StorageDescriptor_Columns_Type(p Columns, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeGlueCatalogTable_StorageDescriptor_Columns_Comment(p Columns, vals map[string]cty.Value) {
+	vals["comment"] = cty.StringVal(p.Comment)
 }
 
 func EncodeGlueCatalogTable_StorageDescriptor_SerDeInfo(p SerDeInfo, vals map[string]cty.Value) {
@@ -219,6 +252,10 @@ func EncodeGlueCatalogTable_StorageDescriptor_SerDeInfo_Name(p SerDeInfo, vals m
 }
 
 func EncodeGlueCatalogTable_StorageDescriptor_SerDeInfo_Parameters(p SerDeInfo, vals map[string]cty.Value) {
+	if len(p.Parameters) == 0 {
+		vals["parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Parameters {
 		mVals[key] = cty.StringVal(value)
@@ -249,6 +286,10 @@ func EncodeGlueCatalogTable_StorageDescriptor_SkewedInfo_SkewedColumnNames(p Ske
 }
 
 func EncodeGlueCatalogTable_StorageDescriptor_SkewedInfo_SkewedColumnValueLocationMaps(p SkewedInfo, vals map[string]cty.Value) {
+	if len(p.SkewedColumnValueLocationMaps) == 0 {
+		vals["skewed_column_value_location_maps"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.SkewedColumnValueLocationMaps {
 		mVals[key] = cty.StringVal(value)
@@ -262,23 +303,6 @@ func EncodeGlueCatalogTable_StorageDescriptor_SkewedInfo_SkewedColumnValues(p Sk
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["skewed_column_values"] = cty.ListVal(colVals)
-}
-
-func EncodeGlueCatalogTable_StorageDescriptor_SortColumns(p SortColumns, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeGlueCatalogTable_StorageDescriptor_SortColumns_SortOrder(p, ctyVal)
-	EncodeGlueCatalogTable_StorageDescriptor_SortColumns_Column(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	vals["sort_columns"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeGlueCatalogTable_StorageDescriptor_SortColumns_SortOrder(p SortColumns, vals map[string]cty.Value) {
-	vals["sort_order"] = cty.NumberIntVal(p.SortOrder)
-}
-
-func EncodeGlueCatalogTable_StorageDescriptor_SortColumns_Column(p SortColumns, vals map[string]cty.Value) {
-	vals["column"] = cty.StringVal(p.Column)
 }
 
 func EncodeGlueCatalogTable_Arn(p GlueCatalogTableObservation, vals map[string]cty.Value) {

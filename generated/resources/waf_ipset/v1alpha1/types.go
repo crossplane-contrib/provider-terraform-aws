@@ -47,7 +47,7 @@ type WafIpsetList struct {
 // A WafIpsetSpec defines the desired state of a WafIpset
 type WafIpsetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafIpsetParameters `json:",inline"`
+	ForProvider                  WafIpsetParameters `json:"forProvider"`
 }
 
 // A WafIpsetParameters defines the desired state of a WafIpset
@@ -65,7 +65,7 @@ type IpSetDescriptors struct {
 // A WafIpsetStatus defines the observed state of a WafIpset
 type WafIpsetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafIpsetObservation `json:",inline"`
+	AtProvider                     WafIpsetObservation `json:"atProvider"`
 }
 
 // A WafIpsetObservation records the observed state of a WafIpset

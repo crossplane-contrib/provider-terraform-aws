@@ -47,31 +47,31 @@ type GlueMlTransformList struct {
 // A GlueMlTransformSpec defines the desired state of a GlueMlTransform
 type GlueMlTransformSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlueMlTransformParameters `json:",inline"`
+	ForProvider                  GlueMlTransformParameters `json:"forProvider"`
 }
 
 // A GlueMlTransformParameters defines the desired state of a GlueMlTransform
 type GlueMlTransformParameters struct {
-	NumberOfWorkers   int64               `json:"number_of_workers"`
 	WorkerType        string              `json:"worker_type"`
-	GlueVersion       string              `json:"glue_version"`
-	MaxRetries        int64               `json:"max_retries"`
-	Name              string              `json:"name"`
-	Timeout           int64               `json:"timeout"`
-	RoleArn           string              `json:"role_arn"`
-	Tags              map[string]string   `json:"tags"`
-	Id                string              `json:"id"`
-	MaxCapacity       int64               `json:"max_capacity"`
 	Description       string              `json:"description"`
+	MaxCapacity       int64               `json:"max_capacity"`
+	RoleArn           string              `json:"role_arn"`
+	Timeout           int64               `json:"timeout"`
+	Name              string              `json:"name"`
+	Tags              map[string]string   `json:"tags"`
+	GlueVersion       string              `json:"glue_version"`
+	Id                string              `json:"id"`
+	MaxRetries        int64               `json:"max_retries"`
+	NumberOfWorkers   int64               `json:"number_of_workers"`
 	InputRecordTables []InputRecordTables `json:"input_record_tables"`
 	Parameters        Parameters          `json:"parameters"`
 }
 
 type InputRecordTables struct {
+	TableName      string `json:"table_name"`
 	CatalogId      string `json:"catalog_id"`
 	ConnectionName string `json:"connection_name"`
 	DatabaseName   string `json:"database_name"`
-	TableName      string `json:"table_name"`
 }
 
 type Parameters struct {
@@ -80,22 +80,22 @@ type Parameters struct {
 }
 
 type FindMatchesParameters struct {
+	PrimaryKeyColumnName    string `json:"primary_key_column_name"`
 	AccuracyCostTradeOff    int64  `json:"accuracy_cost_trade_off"`
 	EnforceProvidedLabels   bool   `json:"enforce_provided_labels"`
 	PrecisionRecallTradeOff int64  `json:"precision_recall_trade_off"`
-	PrimaryKeyColumnName    string `json:"primary_key_column_name"`
 }
 
 // A GlueMlTransformStatus defines the observed state of a GlueMlTransform
 type GlueMlTransformStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlueMlTransformObservation `json:",inline"`
+	AtProvider                     GlueMlTransformObservation `json:"atProvider"`
 }
 
 // A GlueMlTransformObservation records the observed state of a GlueMlTransform
 type GlueMlTransformObservation struct {
-	Schema     []Schema `json:"schema"`
 	LabelCount int64    `json:"label_count"`
+	Schema     []Schema `json:"schema"`
 	Arn        string   `json:"arn"`
 }
 

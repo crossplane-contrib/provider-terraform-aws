@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,26 +37,29 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeKmsKey(r KmsKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKmsKey_Id(r.Spec.ForProvider, ctyVal)
-	EncodeKmsKey_IsEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeKmsKey_DeletionWindowInDays(r.Spec.ForProvider, ctyVal)
 	EncodeKmsKey_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeKmsKey_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeKmsKey_CustomerMasterKeySpec(r.Spec.ForProvider, ctyVal)
-	EncodeKmsKey_DeletionWindowInDays(r.Spec.ForProvider, ctyVal)
 	EncodeKmsKey_Description(r.Spec.ForProvider, ctyVal)
 	EncodeKmsKey_EnableKeyRotation(r.Spec.ForProvider, ctyVal)
+	EncodeKmsKey_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKmsKey_IsEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeKmsKey_KeyUsage(r.Spec.ForProvider, ctyVal)
 	EncodeKmsKey_KeyId(r.Status.AtProvider, ctyVal)
 	EncodeKmsKey_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeKmsKey_Id(p KmsKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeKmsKey_IsEnabled(p KmsKeyParameters, vals map[string]cty.Value) {
-	vals["is_enabled"] = cty.BoolVal(p.IsEnabled)
+func EncodeKmsKey_DeletionWindowInDays(p KmsKeyParameters, vals map[string]cty.Value) {
+	vals["deletion_window_in_days"] = cty.NumberIntVal(p.DeletionWindowInDays)
 }
 
 func EncodeKmsKey_Policy(p KmsKeyParameters, vals map[string]cty.Value) {
@@ -63,6 +67,10 @@ func EncodeKmsKey_Policy(p KmsKeyParameters, vals map[string]cty.Value) {
 }
 
 func EncodeKmsKey_Tags(p KmsKeyParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -74,16 +82,20 @@ func EncodeKmsKey_CustomerMasterKeySpec(p KmsKeyParameters, vals map[string]cty.
 	vals["customer_master_key_spec"] = cty.StringVal(p.CustomerMasterKeySpec)
 }
 
-func EncodeKmsKey_DeletionWindowInDays(p KmsKeyParameters, vals map[string]cty.Value) {
-	vals["deletion_window_in_days"] = cty.NumberIntVal(p.DeletionWindowInDays)
-}
-
 func EncodeKmsKey_Description(p KmsKeyParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeKmsKey_EnableKeyRotation(p KmsKeyParameters, vals map[string]cty.Value) {
 	vals["enable_key_rotation"] = cty.BoolVal(p.EnableKeyRotation)
+}
+
+func EncodeKmsKey_Id(p KmsKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeKmsKey_IsEnabled(p KmsKeyParameters, vals map[string]cty.Value) {
+	vals["is_enabled"] = cty.BoolVal(p.IsEnabled)
 }
 
 func EncodeKmsKey_KeyUsage(p KmsKeyParameters, vals map[string]cty.Value) {

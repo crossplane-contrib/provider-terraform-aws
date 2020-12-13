@@ -47,18 +47,18 @@ type Ec2TransitGatewayList struct {
 // A Ec2TransitGatewaySpec defines the desired state of a Ec2TransitGateway
 type Ec2TransitGatewaySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayParameters defines the desired state of a Ec2TransitGateway
 type Ec2TransitGatewayParameters struct {
-	AmazonSideAsn                int64             `json:"amazon_side_asn"`
 	AutoAcceptSharedAttachments  string            `json:"auto_accept_shared_attachments"`
-	DefaultRouteTableAssociation string            `json:"default_route_table_association"`
 	DefaultRouteTablePropagation string            `json:"default_route_table_propagation"`
-	Description                  string            `json:"description"`
 	DnsSupport                   string            `json:"dns_support"`
 	Id                           string            `json:"id"`
+	AmazonSideAsn                int64             `json:"amazon_side_asn"`
+	DefaultRouteTableAssociation string            `json:"default_route_table_association"`
+	Description                  string            `json:"description"`
 	Tags                         map[string]string `json:"tags"`
 	VpnEcmpSupport               string            `json:"vpn_ecmp_support"`
 }
@@ -66,13 +66,13 @@ type Ec2TransitGatewayParameters struct {
 // A Ec2TransitGatewayStatus defines the observed state of a Ec2TransitGateway
 type Ec2TransitGatewayStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayObservation records the observed state of a Ec2TransitGateway
 type Ec2TransitGatewayObservation struct {
 	AssociationDefaultRouteTableId string `json:"association_default_route_table_id"`
 	OwnerId                        string `json:"owner_id"`
-	Arn                            string `json:"arn"`
 	PropagationDefaultRouteTableId string `json:"propagation_default_route_table_id"`
+	Arn                            string `json:"arn"`
 }

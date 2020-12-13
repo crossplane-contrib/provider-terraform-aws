@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,27 +37,30 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRdsClusterEndpoint(r RdsClusterEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRdsClusterEndpoint_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_CustomEndpointType(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_ExcludedMembers(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_StaticMembers(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Endpoint(r.Status.AtProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRdsClusterEndpoint_ClusterIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
-}
-
-func EncodeRdsClusterEndpoint_Id(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeRdsClusterEndpoint_Tags(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -66,6 +70,10 @@ func EncodeRdsClusterEndpoint_Tags(p RdsClusterEndpointParameters, vals map[stri
 
 func EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
 	vals["cluster_endpoint_identifier"] = cty.StringVal(p.ClusterEndpointIdentifier)
+}
+
+func EncodeRdsClusterEndpoint_ClusterIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
 }
 
 func EncodeRdsClusterEndpoint_CustomEndpointType(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
@@ -78,6 +86,10 @@ func EncodeRdsClusterEndpoint_ExcludedMembers(p RdsClusterEndpointParameters, va
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["excluded_members"] = cty.SetVal(colVals)
+}
+
+func EncodeRdsClusterEndpoint_Id(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRdsClusterEndpoint_StaticMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {

@@ -47,15 +47,15 @@ type SecretsmanagerSecretRotationList struct {
 // A SecretsmanagerSecretRotationSpec defines the desired state of a SecretsmanagerSecretRotation
 type SecretsmanagerSecretRotationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SecretsmanagerSecretRotationParameters `json:",inline"`
+	ForProvider                  SecretsmanagerSecretRotationParameters `json:"forProvider"`
 }
 
 // A SecretsmanagerSecretRotationParameters defines the desired state of a SecretsmanagerSecretRotation
 type SecretsmanagerSecretRotationParameters struct {
+	Tags              map[string]string `json:"tags"`
 	Id                string            `json:"id"`
 	RotationLambdaArn string            `json:"rotation_lambda_arn"`
 	SecretId          string            `json:"secret_id"`
-	Tags              map[string]string `json:"tags"`
 	RotationRules     RotationRules     `json:"rotation_rules"`
 }
 
@@ -66,7 +66,7 @@ type RotationRules struct {
 // A SecretsmanagerSecretRotationStatus defines the observed state of a SecretsmanagerSecretRotation
 type SecretsmanagerSecretRotationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SecretsmanagerSecretRotationObservation `json:",inline"`
+	AtProvider                     SecretsmanagerSecretRotationObservation `json:"atProvider"`
 }
 
 // A SecretsmanagerSecretRotationObservation records the observed state of a SecretsmanagerSecretRotation

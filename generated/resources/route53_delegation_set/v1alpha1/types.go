@@ -47,7 +47,7 @@ type Route53DelegationSetList struct {
 // A Route53DelegationSetSpec defines the desired state of a Route53DelegationSet
 type Route53DelegationSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Route53DelegationSetParameters `json:",inline"`
+	ForProvider                  Route53DelegationSetParameters `json:"forProvider"`
 }
 
 // A Route53DelegationSetParameters defines the desired state of a Route53DelegationSet
@@ -59,7 +59,7 @@ type Route53DelegationSetParameters struct {
 // A Route53DelegationSetStatus defines the observed state of a Route53DelegationSet
 type Route53DelegationSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Route53DelegationSetObservation `json:",inline"`
+	AtProvider                     Route53DelegationSetObservation `json:"atProvider"`
 }
 
 // A Route53DelegationSetObservation records the observed state of a Route53DelegationSet

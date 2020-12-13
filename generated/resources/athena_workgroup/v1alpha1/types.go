@@ -47,24 +47,24 @@ type AthenaWorkgroupList struct {
 // A AthenaWorkgroupSpec defines the desired state of a AthenaWorkgroup
 type AthenaWorkgroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AthenaWorkgroupParameters `json:",inline"`
+	ForProvider                  AthenaWorkgroupParameters `json:"forProvider"`
 }
 
 // A AthenaWorkgroupParameters defines the desired state of a AthenaWorkgroup
 type AthenaWorkgroupParameters struct {
-	Tags          map[string]string `json:"tags"`
 	Description   string            `json:"description"`
 	ForceDestroy  bool              `json:"force_destroy"`
 	Id            string            `json:"id"`
 	Name          string            `json:"name"`
 	State         string            `json:"state"`
+	Tags          map[string]string `json:"tags"`
 	Configuration Configuration     `json:"configuration"`
 }
 
 type Configuration struct {
+	PublishCloudwatchMetricsEnabled bool                `json:"publish_cloudwatch_metrics_enabled"`
 	BytesScannedCutoffPerQuery      int64               `json:"bytes_scanned_cutoff_per_query"`
 	EnforceWorkgroupConfiguration   bool                `json:"enforce_workgroup_configuration"`
-	PublishCloudwatchMetricsEnabled bool                `json:"publish_cloudwatch_metrics_enabled"`
 	ResultConfiguration             ResultConfiguration `json:"result_configuration"`
 }
 
@@ -81,7 +81,7 @@ type EncryptionConfiguration struct {
 // A AthenaWorkgroupStatus defines the observed state of a AthenaWorkgroup
 type AthenaWorkgroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AthenaWorkgroupObservation `json:",inline"`
+	AtProvider                     AthenaWorkgroupObservation `json:"atProvider"`
 }
 
 // A AthenaWorkgroupObservation records the observed state of a AthenaWorkgroup

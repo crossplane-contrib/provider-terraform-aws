@@ -47,23 +47,23 @@ type ConfigOrganizationCustomRuleList struct {
 // A ConfigOrganizationCustomRuleSpec defines the desired state of a ConfigOrganizationCustomRule
 type ConfigOrganizationCustomRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ConfigOrganizationCustomRuleParameters `json:",inline"`
+	ForProvider                  ConfigOrganizationCustomRuleParameters `json:"forProvider"`
 }
 
 // A ConfigOrganizationCustomRuleParameters defines the desired state of a ConfigOrganizationCustomRule
 type ConfigOrganizationCustomRuleParameters struct {
-	ExcludedAccounts          []string `json:"excluded_accounts"`
-	InputParameters           string   `json:"input_parameters"`
-	TagValueScope             string   `json:"tag_value_scope"`
-	TriggerTypes              []string `json:"trigger_types"`
-	ResourceTypesScope        []string `json:"resource_types_scope"`
-	Description               string   `json:"description"`
 	Id                        string   `json:"id"`
 	LambdaFunctionArn         string   `json:"lambda_function_arn"`
 	MaximumExecutionFrequency string   `json:"maximum_execution_frequency"`
-	Name                      string   `json:"name"`
 	ResourceIdScope           string   `json:"resource_id_scope"`
+	Description               string   `json:"description"`
+	ExcludedAccounts          []string `json:"excluded_accounts"`
+	InputParameters           string   `json:"input_parameters"`
+	Name                      string   `json:"name"`
+	ResourceTypesScope        []string `json:"resource_types_scope"`
 	TagKeyScope               string   `json:"tag_key_scope"`
+	TagValueScope             string   `json:"tag_value_scope"`
+	TriggerTypes              []string `json:"trigger_types"`
 	Timeouts                  Timeouts `json:"timeouts"`
 }
 
@@ -76,7 +76,7 @@ type Timeouts struct {
 // A ConfigOrganizationCustomRuleStatus defines the observed state of a ConfigOrganizationCustomRule
 type ConfigOrganizationCustomRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ConfigOrganizationCustomRuleObservation `json:",inline"`
+	AtProvider                     ConfigOrganizationCustomRuleObservation `json:"atProvider"`
 }
 
 // A ConfigOrganizationCustomRuleObservation records the observed state of a ConfigOrganizationCustomRule

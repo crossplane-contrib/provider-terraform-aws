@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,23 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamUser(r IamUser) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamUser_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
-	EncodeIamUser_UniqueId(r.Status.AtProvider, ctyVal)
+	EncodeIamUser_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Arn(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamUser_Tags(p IamUserParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	EncodeIamUser_UniqueId(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeIamUser_ForceDestroy(p IamUserParameters, vals map[string]cty.Value) {
@@ -75,10 +75,22 @@ func EncodeIamUser_PermissionsBoundary(p IamUserParameters, vals map[string]cty.
 	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
 }
 
-func EncodeIamUser_UniqueId(p IamUserObservation, vals map[string]cty.Value) {
-	vals["unique_id"] = cty.StringVal(p.UniqueId)
+func EncodeIamUser_Tags(p IamUserParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeIamUser_Arn(p IamUserObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeIamUser_UniqueId(p IamUserObservation, vals map[string]cty.Value) {
+	vals["unique_id"] = cty.StringVal(p.UniqueId)
 }

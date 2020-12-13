@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,23 +37,46 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2Fleet(r Ec2Fleet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEc2Fleet_ExcessCapacityTerminationPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeEc2Fleet_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEc2Fleet_ReplaceUnhealthyInstances(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Fleet_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Fleet_TerminateInstances(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Fleet_TerminateInstancesWithExpiration(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Fleet_Type(r.Spec.ForProvider, ctyVal)
-	EncodeEc2Fleet_ExcessCapacityTerminationPolicy(r.Spec.ForProvider, ctyVal)
-	EncodeEc2Fleet_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2Fleet_ReplaceUnhealthyInstances(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Fleet_LaunchTemplateConfig(r.Spec.ForProvider.LaunchTemplateConfig, ctyVal)
 	EncodeEc2Fleet_OnDemandOptions(r.Spec.ForProvider.OnDemandOptions, ctyVal)
 	EncodeEc2Fleet_SpotOptions(r.Spec.ForProvider.SpotOptions, ctyVal)
 	EncodeEc2Fleet_TargetCapacitySpecification(r.Spec.ForProvider.TargetCapacitySpecification, ctyVal)
 	EncodeEc2Fleet_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeEc2Fleet_ExcessCapacityTerminationPolicy(p Ec2FleetParameters, vals map[string]cty.Value) {
+	vals["excess_capacity_termination_policy"] = cty.StringVal(p.ExcessCapacityTerminationPolicy)
+}
+
+func EncodeEc2Fleet_Id(p Ec2FleetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2Fleet_ReplaceUnhealthyInstances(p Ec2FleetParameters, vals map[string]cty.Value) {
+	vals["replace_unhealthy_instances"] = cty.BoolVal(p.ReplaceUnhealthyInstances)
+}
+
 func EncodeEc2Fleet_Tags(p Ec2FleetParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
@@ -72,64 +96,13 @@ func EncodeEc2Fleet_Type(p Ec2FleetParameters, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
 }
 
-func EncodeEc2Fleet_ExcessCapacityTerminationPolicy(p Ec2FleetParameters, vals map[string]cty.Value) {
-	vals["excess_capacity_termination_policy"] = cty.StringVal(p.ExcessCapacityTerminationPolicy)
-}
-
-func EncodeEc2Fleet_Id(p Ec2FleetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEc2Fleet_ReplaceUnhealthyInstances(p Ec2FleetParameters, vals map[string]cty.Value) {
-	vals["replace_unhealthy_instances"] = cty.BoolVal(p.ReplaceUnhealthyInstances)
-}
-
 func EncodeEc2Fleet_LaunchTemplateConfig(p LaunchTemplateConfig, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2Fleet_LaunchTemplateConfig_Override(p.Override, ctyVal)
 	EncodeEc2Fleet_LaunchTemplateConfig_LaunchTemplateSpecification(p.LaunchTemplateSpecification, ctyVal)
+	EncodeEc2Fleet_LaunchTemplateConfig_Override(p.Override, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["launch_template_config"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEc2Fleet_LaunchTemplateConfig_Override(p []Override, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeEc2Fleet_LaunchTemplateConfig_Override_Priority(v, ctyVal)
-		EncodeEc2Fleet_LaunchTemplateConfig_Override_SubnetId(v, ctyVal)
-		EncodeEc2Fleet_LaunchTemplateConfig_Override_WeightedCapacity(v, ctyVal)
-		EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(v, ctyVal)
-		EncodeEc2Fleet_LaunchTemplateConfig_Override_InstanceType(v, ctyVal)
-		EncodeEc2Fleet_LaunchTemplateConfig_Override_MaxPrice(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	vals["override"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeEc2Fleet_LaunchTemplateConfig_Override_Priority(p Override, vals map[string]cty.Value) {
-	vals["priority"] = cty.NumberIntVal(p.Priority)
-}
-
-func EncodeEc2Fleet_LaunchTemplateConfig_Override_SubnetId(p Override, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
-}
-
-func EncodeEc2Fleet_LaunchTemplateConfig_Override_WeightedCapacity(p Override, vals map[string]cty.Value) {
-	vals["weighted_capacity"] = cty.NumberIntVal(p.WeightedCapacity)
-}
-
-func EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(p Override, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
-}
-
-func EncodeEc2Fleet_LaunchTemplateConfig_Override_InstanceType(p Override, vals map[string]cty.Value) {
-	vals["instance_type"] = cty.StringVal(p.InstanceType)
-}
-
-func EncodeEc2Fleet_LaunchTemplateConfig_Override_MaxPrice(p Override, vals map[string]cty.Value) {
-	vals["max_price"] = cty.StringVal(p.MaxPrice)
 }
 
 func EncodeEc2Fleet_LaunchTemplateConfig_LaunchTemplateSpecification(p LaunchTemplateSpecification, vals map[string]cty.Value) {
@@ -152,6 +125,45 @@ func EncodeEc2Fleet_LaunchTemplateConfig_LaunchTemplateSpecification_LaunchTempl
 
 func EncodeEc2Fleet_LaunchTemplateConfig_LaunchTemplateSpecification_Version(p LaunchTemplateSpecification, vals map[string]cty.Value) {
 	vals["version"] = cty.StringVal(p.Version)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override(p []Override, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(v, ctyVal)
+		EncodeEc2Fleet_LaunchTemplateConfig_Override_InstanceType(v, ctyVal)
+		EncodeEc2Fleet_LaunchTemplateConfig_Override_MaxPrice(v, ctyVal)
+		EncodeEc2Fleet_LaunchTemplateConfig_Override_Priority(v, ctyVal)
+		EncodeEc2Fleet_LaunchTemplateConfig_Override_SubnetId(v, ctyVal)
+		EncodeEc2Fleet_LaunchTemplateConfig_Override_WeightedCapacity(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	vals["override"] = cty.ListVal(valsForCollection)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override_AvailabilityZone(p Override, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override_InstanceType(p Override, vals map[string]cty.Value) {
+	vals["instance_type"] = cty.StringVal(p.InstanceType)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override_MaxPrice(p Override, vals map[string]cty.Value) {
+	vals["max_price"] = cty.StringVal(p.MaxPrice)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override_Priority(p Override, vals map[string]cty.Value) {
+	vals["priority"] = cty.NumberIntVal(p.Priority)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override_SubnetId(p Override, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+}
+
+func EncodeEc2Fleet_LaunchTemplateConfig_Override_WeightedCapacity(p Override, vals map[string]cty.Value) {
+	vals["weighted_capacity"] = cty.NumberIntVal(p.WeightedCapacity)
 }
 
 func EncodeEc2Fleet_OnDemandOptions(p OnDemandOptions, vals map[string]cty.Value) {

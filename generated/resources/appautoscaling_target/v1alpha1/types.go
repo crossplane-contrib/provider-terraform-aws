@@ -47,24 +47,24 @@ type AppautoscalingTargetList struct {
 // A AppautoscalingTargetSpec defines the desired state of a AppautoscalingTarget
 type AppautoscalingTargetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppautoscalingTargetParameters `json:",inline"`
+	ForProvider                  AppautoscalingTargetParameters `json:"forProvider"`
 }
 
 // A AppautoscalingTargetParameters defines the desired state of a AppautoscalingTarget
 type AppautoscalingTargetParameters struct {
+	Id                string `json:"id"`
 	MaxCapacity       int64  `json:"max_capacity"`
 	MinCapacity       int64  `json:"min_capacity"`
 	ResourceId        string `json:"resource_id"`
 	RoleArn           string `json:"role_arn"`
 	ScalableDimension string `json:"scalable_dimension"`
 	ServiceNamespace  string `json:"service_namespace"`
-	Id                string `json:"id"`
 }
 
 // A AppautoscalingTargetStatus defines the observed state of a AppautoscalingTarget
 type AppautoscalingTargetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppautoscalingTargetObservation `json:",inline"`
+	AtProvider                     AppautoscalingTargetObservation `json:"atProvider"`
 }
 
 // A AppautoscalingTargetObservation records the observed state of a AppautoscalingTarget

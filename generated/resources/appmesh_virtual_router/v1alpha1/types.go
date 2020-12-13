@@ -47,16 +47,16 @@ type AppmeshVirtualRouterList struct {
 // A AppmeshVirtualRouterSpec defines the desired state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppmeshVirtualRouterParameters `json:",inline"`
+	ForProvider                  AppmeshVirtualRouterParameters `json:"forProvider"`
 }
 
 // A AppmeshVirtualRouterParameters defines the desired state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterParameters struct {
-	Id        string            `json:"id"`
 	MeshName  string            `json:"mesh_name"`
+	MeshOwner string            `json:"mesh_owner"`
 	Name      string            `json:"name"`
 	Tags      map[string]string `json:"tags"`
-	MeshOwner string            `json:"mesh_owner"`
+	Id        string            `json:"id"`
 	Spec      Spec              `json:"spec"`
 }
 
@@ -76,13 +76,13 @@ type PortMapping struct {
 // A AppmeshVirtualRouterStatus defines the observed state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppmeshVirtualRouterObservation `json:",inline"`
+	AtProvider                     AppmeshVirtualRouterObservation `json:"atProvider"`
 }
 
 // A AppmeshVirtualRouterObservation records the observed state of a AppmeshVirtualRouter
 type AppmeshVirtualRouterObservation struct {
 	CreatedDate     string `json:"created_date"`
+	Arn             string `json:"arn"`
 	LastUpdatedDate string `json:"last_updated_date"`
 	ResourceOwner   string `json:"resource_owner"`
-	Arn             string `json:"arn"`
 }

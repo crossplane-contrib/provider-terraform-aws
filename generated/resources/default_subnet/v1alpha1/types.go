@@ -47,16 +47,16 @@ type DefaultSubnetList struct {
 // A DefaultSubnetSpec defines the desired state of a DefaultSubnet
 type DefaultSubnetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DefaultSubnetParameters `json:",inline"`
+	ForProvider                  DefaultSubnetParameters `json:"forProvider"`
 }
 
 // A DefaultSubnetParameters defines the desired state of a DefaultSubnet
 type DefaultSubnetParameters struct {
-	OutpostArn          string            `json:"outpost_arn"`
 	Tags                map[string]string `json:"tags"`
-	AvailabilityZone    string            `json:"availability_zone"`
 	Id                  string            `json:"id"`
 	MapPublicIpOnLaunch bool              `json:"map_public_ip_on_launch"`
+	AvailabilityZone    string            `json:"availability_zone"`
+	OutpostArn          string            `json:"outpost_arn"`
 	Timeouts            Timeouts          `json:"timeouts"`
 }
 
@@ -68,17 +68,17 @@ type Timeouts struct {
 // A DefaultSubnetStatus defines the observed state of a DefaultSubnet
 type DefaultSubnetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DefaultSubnetObservation `json:",inline"`
+	AtProvider                     DefaultSubnetObservation `json:"atProvider"`
 }
 
 // A DefaultSubnetObservation records the observed state of a DefaultSubnet
 type DefaultSubnetObservation struct {
-	OwnerId                     string `json:"owner_id"`
-	AssignIpv6AddressOnCreation bool   `json:"assign_ipv6_address_on_creation"`
 	AvailabilityZoneId          string `json:"availability_zone_id"`
-	CidrBlock                   string `json:"cidr_block"`
-	VpcId                       string `json:"vpc_id"`
-	Arn                         string `json:"arn"`
 	Ipv6CidrBlock               string `json:"ipv6_cidr_block"`
 	Ipv6CidrBlockAssociationId  string `json:"ipv6_cidr_block_association_id"`
+	OwnerId                     string `json:"owner_id"`
+	Arn                         string `json:"arn"`
+	AssignIpv6AddressOnCreation bool   `json:"assign_ipv6_address_on_creation"`
+	CidrBlock                   string `json:"cidr_block"`
+	VpcId                       string `json:"vpc_id"`
 }

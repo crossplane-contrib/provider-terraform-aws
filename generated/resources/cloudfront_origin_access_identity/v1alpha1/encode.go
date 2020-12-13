@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -38,11 +39,18 @@ func EncodeCloudfrontOriginAccessIdentity(r CloudfrontOriginAccessIdentity) cty.
 	ctyVal := make(map[string]cty.Value)
 	EncodeCloudfrontOriginAccessIdentity_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudfrontOriginAccessIdentity_CallerReference(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_Etag(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_IamArn(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(r.Status.AtProvider, ctyVal)
+	EncodeCloudfrontOriginAccessIdentity_CallerReference(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -52,10 +60,6 @@ func EncodeCloudfrontOriginAccessIdentity_Comment(p CloudfrontOriginAccessIdenti
 
 func EncodeCloudfrontOriginAccessIdentity_Id(p CloudfrontOriginAccessIdentityParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudfrontOriginAccessIdentity_CallerReference(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
-	vals["caller_reference"] = cty.StringVal(p.CallerReference)
 }
 
 func EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
@@ -72,4 +76,8 @@ func EncodeCloudfrontOriginAccessIdentity_IamArn(p CloudfrontOriginAccessIdentit
 
 func EncodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	vals["s3_canonical_user_id"] = cty.StringVal(p.S3CanonicalUserId)
+}
+
+func EncodeCloudfrontOriginAccessIdentity_CallerReference(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
+	vals["caller_reference"] = cty.StringVal(p.CallerReference)
 }

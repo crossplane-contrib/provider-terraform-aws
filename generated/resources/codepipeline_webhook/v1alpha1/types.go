@@ -47,7 +47,7 @@ type CodepipelineWebhookList struct {
 // A CodepipelineWebhookSpec defines the desired state of a CodepipelineWebhook
 type CodepipelineWebhookSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodepipelineWebhookParameters `json:",inline"`
+	ForProvider                  CodepipelineWebhookParameters `json:"forProvider"`
 }
 
 // A CodepipelineWebhookParameters defines the desired state of a CodepipelineWebhook
@@ -58,13 +58,8 @@ type CodepipelineWebhookParameters struct {
 	Name                        string                      `json:"name"`
 	Tags                        map[string]string           `json:"tags"`
 	TargetAction                string                      `json:"target_action"`
-	Filter                      []Filter                    `json:"filter"`
 	AuthenticationConfiguration AuthenticationConfiguration `json:"authentication_configuration"`
-}
-
-type Filter struct {
-	JsonPath    string `json:"json_path"`
-	MatchEquals string `json:"match_equals"`
+	Filter                      []Filter                    `json:"filter"`
 }
 
 type AuthenticationConfiguration struct {
@@ -72,10 +67,15 @@ type AuthenticationConfiguration struct {
 	SecretToken    string `json:"secret_token"`
 }
 
+type Filter struct {
+	JsonPath    string `json:"json_path"`
+	MatchEquals string `json:"match_equals"`
+}
+
 // A CodepipelineWebhookStatus defines the observed state of a CodepipelineWebhook
 type CodepipelineWebhookStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodepipelineWebhookObservation `json:",inline"`
+	AtProvider                     CodepipelineWebhookObservation `json:"atProvider"`
 }
 
 // A CodepipelineWebhookObservation records the observed state of a CodepipelineWebhook

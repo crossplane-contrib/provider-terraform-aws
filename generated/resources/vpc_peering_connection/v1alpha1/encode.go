@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,30 +37,25 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpcPeeringConnection(r VpcPeeringConnection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcPeeringConnection_PeerVpcId(r.Spec.ForProvider, ctyVal)
-	EncodeVpcPeeringConnection_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnection_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnection_AutoAccept(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnection_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnection_PeerOwnerId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcPeeringConnection_PeerRegion(r.Spec.ForProvider, ctyVal)
+	EncodeVpcPeeringConnection_PeerVpcId(r.Spec.ForProvider, ctyVal)
+	EncodeVpcPeeringConnection_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeVpcPeeringConnection_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeVpcPeeringConnection_Accepter(r.Spec.ForProvider.Accepter, ctyVal)
 	EncodeVpcPeeringConnection_Requester(r.Spec.ForProvider.Requester, ctyVal)
-	EncodeVpcPeeringConnection_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeVpcPeeringConnection_AcceptStatus(r.Status.AtProvider, ctyVal)
-	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcPeeringConnection_PeerVpcId(p VpcPeeringConnectionParameters, vals map[string]cty.Value) {
-	vals["peer_vpc_id"] = cty.StringVal(p.PeerVpcId)
-}
-
-func EncodeVpcPeeringConnection_Tags(p VpcPeeringConnectionParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
 	}
-	vals["tags"] = cty.MapVal(mVals)
+	return cty.ObjectVal(ctyVal)
 }
 
 func EncodeVpcPeeringConnection_VpcId(p VpcPeeringConnectionParameters, vals map[string]cty.Value) {
@@ -80,6 +76,42 @@ func EncodeVpcPeeringConnection_PeerOwnerId(p VpcPeeringConnectionParameters, va
 
 func EncodeVpcPeeringConnection_PeerRegion(p VpcPeeringConnectionParameters, vals map[string]cty.Value) {
 	vals["peer_region"] = cty.StringVal(p.PeerRegion)
+}
+
+func EncodeVpcPeeringConnection_PeerVpcId(p VpcPeeringConnectionParameters, vals map[string]cty.Value) {
+	vals["peer_vpc_id"] = cty.StringVal(p.PeerVpcId)
+}
+
+func EncodeVpcPeeringConnection_Tags(p VpcPeeringConnectionParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeVpcPeeringConnection_Timeouts(p Timeouts, vals map[string]cty.Value) {
+	ctyVal := make(map[string]cty.Value)
+	EncodeVpcPeeringConnection_Timeouts_Delete(p, ctyVal)
+	EncodeVpcPeeringConnection_Timeouts_Update(p, ctyVal)
+	EncodeVpcPeeringConnection_Timeouts_Create(p, ctyVal)
+	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeVpcPeeringConnection_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
+}
+
+func EncodeVpcPeeringConnection_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
+	vals["update"] = cty.StringVal(p.Update)
+}
+
+func EncodeVpcPeeringConnection_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeVpcPeeringConnection_Accepter(p Accepter, vals map[string]cty.Value) {
@@ -107,15 +139,11 @@ func EncodeVpcPeeringConnection_Accepter_AllowVpcToRemoteClassicLink(p Accepter,
 func EncodeVpcPeeringConnection_Requester(p Requester, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcPeeringConnection_Requester_AllowClassicLinkToRemoteVpc(p, ctyVal)
 	EncodeVpcPeeringConnection_Requester_AllowRemoteVpcDnsResolution(p, ctyVal)
 	EncodeVpcPeeringConnection_Requester_AllowVpcToRemoteClassicLink(p, ctyVal)
+	EncodeVpcPeeringConnection_Requester_AllowClassicLinkToRemoteVpc(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["requester"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeVpcPeeringConnection_Requester_AllowClassicLinkToRemoteVpc(p Requester, vals map[string]cty.Value) {
-	vals["allow_classic_link_to_remote_vpc"] = cty.BoolVal(p.AllowClassicLinkToRemoteVpc)
 }
 
 func EncodeVpcPeeringConnection_Requester_AllowRemoteVpcDnsResolution(p Requester, vals map[string]cty.Value) {
@@ -126,24 +154,8 @@ func EncodeVpcPeeringConnection_Requester_AllowVpcToRemoteClassicLink(p Requeste
 	vals["allow_vpc_to_remote_classic_link"] = cty.BoolVal(p.AllowVpcToRemoteClassicLink)
 }
 
-func EncodeVpcPeeringConnection_Timeouts(p Timeouts, vals map[string]cty.Value) {
-	ctyVal := make(map[string]cty.Value)
-	EncodeVpcPeeringConnection_Timeouts_Create(p, ctyVal)
-	EncodeVpcPeeringConnection_Timeouts_Delete(p, ctyVal)
-	EncodeVpcPeeringConnection_Timeouts_Update(p, ctyVal)
-	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcPeeringConnection_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
-}
-
-func EncodeVpcPeeringConnection_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
-}
-
-func EncodeVpcPeeringConnection_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
-	vals["update"] = cty.StringVal(p.Update)
+func EncodeVpcPeeringConnection_Requester_AllowClassicLinkToRemoteVpc(p Requester, vals map[string]cty.Value) {
+	vals["allow_classic_link_to_remote_vpc"] = cty.BoolVal(p.AllowClassicLinkToRemoteVpc)
 }
 
 func EncodeVpcPeeringConnection_AcceptStatus(p VpcPeeringConnectionObservation, vals map[string]cty.Value) {

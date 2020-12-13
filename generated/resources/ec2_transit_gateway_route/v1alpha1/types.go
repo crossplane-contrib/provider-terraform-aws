@@ -47,22 +47,22 @@ type Ec2TransitGatewayRouteList struct {
 // A Ec2TransitGatewayRouteSpec defines the desired state of a Ec2TransitGatewayRoute
 type Ec2TransitGatewayRouteSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Ec2TransitGatewayRouteParameters `json:",inline"`
+	ForProvider                  Ec2TransitGatewayRouteParameters `json:"forProvider"`
 }
 
 // A Ec2TransitGatewayRouteParameters defines the desired state of a Ec2TransitGatewayRoute
 type Ec2TransitGatewayRouteParameters struct {
+	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
 	TransitGatewayRouteTableId string `json:"transit_gateway_route_table_id"`
 	Blackhole                  bool   `json:"blackhole"`
 	DestinationCidrBlock       string `json:"destination_cidr_block"`
 	Id                         string `json:"id"`
-	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
 }
 
 // A Ec2TransitGatewayRouteStatus defines the observed state of a Ec2TransitGatewayRoute
 type Ec2TransitGatewayRouteStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Ec2TransitGatewayRouteObservation `json:",inline"`
+	AtProvider                     Ec2TransitGatewayRouteObservation `json:"atProvider"`
 }
 
 // A Ec2TransitGatewayRouteObservation records the observed state of a Ec2TransitGatewayRoute

@@ -47,20 +47,20 @@ type WafregionalWebAclAssociationList struct {
 // A WafregionalWebAclAssociationSpec defines the desired state of a WafregionalWebAclAssociation
 type WafregionalWebAclAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalWebAclAssociationParameters `json:",inline"`
+	ForProvider                  WafregionalWebAclAssociationParameters `json:"forProvider"`
 }
 
 // A WafregionalWebAclAssociationParameters defines the desired state of a WafregionalWebAclAssociation
 type WafregionalWebAclAssociationParameters struct {
+	Id          string `json:"id"`
 	ResourceArn string `json:"resource_arn"`
 	WebAclId    string `json:"web_acl_id"`
-	Id          string `json:"id"`
 }
 
 // A WafregionalWebAclAssociationStatus defines the observed state of a WafregionalWebAclAssociation
 type WafregionalWebAclAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalWebAclAssociationObservation `json:",inline"`
+	AtProvider                     WafregionalWebAclAssociationObservation `json:"atProvider"`
 }
 
 // A WafregionalWebAclAssociationObservation records the observed state of a WafregionalWebAclAssociation

@@ -47,19 +47,19 @@ type DatasyncLocationSmbList struct {
 // A DatasyncLocationSmbSpec defines the desired state of a DatasyncLocationSmb
 type DatasyncLocationSmbSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatasyncLocationSmbParameters `json:",inline"`
+	ForProvider                  DatasyncLocationSmbParameters `json:"forProvider"`
 }
 
 // A DatasyncLocationSmbParameters defines the desired state of a DatasyncLocationSmb
 type DatasyncLocationSmbParameters struct {
-	AgentArns      []string          `json:"agent_arns"`
-	Id             string            `json:"id"`
 	User           string            `json:"user"`
-	Tags           map[string]string `json:"tags"`
+	AgentArns      []string          `json:"agent_arns"`
 	Domain         string            `json:"domain"`
+	Id             string            `json:"id"`
+	Subdirectory   string            `json:"subdirectory"`
+	Tags           map[string]string `json:"tags"`
 	Password       string            `json:"password"`
 	ServerHostname string            `json:"server_hostname"`
-	Subdirectory   string            `json:"subdirectory"`
 	MountOptions   MountOptions      `json:"mount_options"`
 }
 
@@ -70,7 +70,7 @@ type MountOptions struct {
 // A DatasyncLocationSmbStatus defines the observed state of a DatasyncLocationSmb
 type DatasyncLocationSmbStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatasyncLocationSmbObservation `json:",inline"`
+	AtProvider                     DatasyncLocationSmbObservation `json:"atProvider"`
 }
 
 // A DatasyncLocationSmbObservation records the observed state of a DatasyncLocationSmb

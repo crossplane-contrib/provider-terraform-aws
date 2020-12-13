@@ -17,5 +17,6 @@
 package v1alpha1
 
 // +kubebuilder:object:generate=true
+// +kubebuilder:validation:Optional
 // +groupName=ebs-encryption-by-default.terraform-provider-aws.crossplane.io
 // +versionName=v1alpha1

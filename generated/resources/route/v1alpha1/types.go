@@ -47,23 +47,23 @@ type RouteList struct {
 // A RouteSpec defines the desired state of a Route
 type RouteSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RouteParameters `json:",inline"`
+	ForProvider                  RouteParameters `json:"forProvider"`
 }
 
 // A RouteParameters defines the desired state of a Route
 type RouteParameters struct {
-	DestinationCidrBlock     string   `json:"destination_cidr_block"`
+	LocalGatewayId           string   `json:"local_gateway_id"`
+	GatewayId                string   `json:"gateway_id"`
 	InstanceId               string   `json:"instance_id"`
 	NatGatewayId             string   `json:"nat_gateway_id"`
-	NetworkInterfaceId       string   `json:"network_interface_id"`
 	RouteTableId             string   `json:"route_table_id"`
 	TransitGatewayId         string   `json:"transit_gateway_id"`
-	DestinationIpv6CidrBlock string   `json:"destination_ipv6_cidr_block"`
-	EgressOnlyGatewayId      string   `json:"egress_only_gateway_id"`
-	GatewayId                string   `json:"gateway_id"`
 	VpcPeeringConnectionId   string   `json:"vpc_peering_connection_id"`
+	DestinationIpv6CidrBlock string   `json:"destination_ipv6_cidr_block"`
+	DestinationCidrBlock     string   `json:"destination_cidr_block"`
+	EgressOnlyGatewayId      string   `json:"egress_only_gateway_id"`
 	Id                       string   `json:"id"`
-	LocalGatewayId           string   `json:"local_gateway_id"`
+	NetworkInterfaceId       string   `json:"network_interface_id"`
 	Timeouts                 Timeouts `json:"timeouts"`
 }
 
@@ -75,13 +75,13 @@ type Timeouts struct {
 // A RouteStatus defines the observed state of a Route
 type RouteStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RouteObservation `json:",inline"`
+	AtProvider                     RouteObservation `json:"atProvider"`
 }
 
 // A RouteObservation records the observed state of a Route
 type RouteObservation struct {
-	Origin                  string `json:"origin"`
-	InstanceOwnerId         string `json:"instance_owner_id"`
 	DestinationPrefixListId string `json:"destination_prefix_list_id"`
+	Origin                  string `json:"origin"`
 	State                   string `json:"state"`
+	InstanceOwnerId         string `json:"instance_owner_id"`
 }

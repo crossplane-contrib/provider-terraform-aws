@@ -47,15 +47,15 @@ type DatasyncLocationNfsList struct {
 // A DatasyncLocationNfsSpec defines the desired state of a DatasyncLocationNfs
 type DatasyncLocationNfsSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatasyncLocationNfsParameters `json:",inline"`
+	ForProvider                  DatasyncLocationNfsParameters `json:"forProvider"`
 }
 
 // A DatasyncLocationNfsParameters defines the desired state of a DatasyncLocationNfs
 type DatasyncLocationNfsParameters struct {
-	Id             string            `json:"id"`
-	ServerHostname string            `json:"server_hostname"`
 	Subdirectory   string            `json:"subdirectory"`
 	Tags           map[string]string `json:"tags"`
+	Id             string            `json:"id"`
+	ServerHostname string            `json:"server_hostname"`
 	OnPremConfig   OnPremConfig      `json:"on_prem_config"`
 }
 
@@ -66,11 +66,11 @@ type OnPremConfig struct {
 // A DatasyncLocationNfsStatus defines the observed state of a DatasyncLocationNfs
 type DatasyncLocationNfsStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatasyncLocationNfsObservation `json:",inline"`
+	AtProvider                     DatasyncLocationNfsObservation `json:"atProvider"`
 }
 
 // A DatasyncLocationNfsObservation records the observed state of a DatasyncLocationNfs
 type DatasyncLocationNfsObservation struct {
-	Arn string `json:"arn"`
 	Uri string `json:"uri"`
+	Arn string `json:"arn"`
 }

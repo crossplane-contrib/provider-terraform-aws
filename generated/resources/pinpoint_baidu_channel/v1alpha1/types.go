@@ -47,22 +47,22 @@ type PinpointBaiduChannelList struct {
 // A PinpointBaiduChannelSpec defines the desired state of a PinpointBaiduChannel
 type PinpointBaiduChannelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  PinpointBaiduChannelParameters `json:",inline"`
+	ForProvider                  PinpointBaiduChannelParameters `json:"forProvider"`
 }
 
 // A PinpointBaiduChannelParameters defines the desired state of a PinpointBaiduChannel
 type PinpointBaiduChannelParameters struct {
-	SecretKey     string `json:"secret_key"`
 	ApiKey        string `json:"api_key"`
 	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
 	Id            string `json:"id"`
+	SecretKey     string `json:"secret_key"`
 }
 
 // A PinpointBaiduChannelStatus defines the observed state of a PinpointBaiduChannel
 type PinpointBaiduChannelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     PinpointBaiduChannelObservation `json:",inline"`
+	AtProvider                     PinpointBaiduChannelObservation `json:"atProvider"`
 }
 
 // A PinpointBaiduChannelObservation records the observed state of a PinpointBaiduChannel

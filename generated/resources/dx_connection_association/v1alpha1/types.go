@@ -47,7 +47,7 @@ type DxConnectionAssociationList struct {
 // A DxConnectionAssociationSpec defines the desired state of a DxConnectionAssociation
 type DxConnectionAssociationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxConnectionAssociationParameters `json:",inline"`
+	ForProvider                  DxConnectionAssociationParameters `json:"forProvider"`
 }
 
 // A DxConnectionAssociationParameters defines the desired state of a DxConnectionAssociation
@@ -60,7 +60,7 @@ type DxConnectionAssociationParameters struct {
 // A DxConnectionAssociationStatus defines the observed state of a DxConnectionAssociation
 type DxConnectionAssociationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxConnectionAssociationObservation `json:",inline"`
+	AtProvider                     DxConnectionAssociationObservation `json:"atProvider"`
 }
 
 // A DxConnectionAssociationObservation records the observed state of a DxConnectionAssociation

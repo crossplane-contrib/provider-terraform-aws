@@ -47,32 +47,32 @@ type S3BucketNotificationList struct {
 // A S3BucketNotificationSpec defines the desired state of a S3BucketNotification
 type S3BucketNotificationSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  S3BucketNotificationParameters `json:",inline"`
+	ForProvider                  S3BucketNotificationParameters `json:"forProvider"`
 }
 
 // A S3BucketNotificationParameters defines the desired state of a S3BucketNotification
 type S3BucketNotificationParameters struct {
-	Id             string         `json:"id"`
 	Bucket         string         `json:"bucket"`
+	Id             string         `json:"id"`
 	LambdaFunction LambdaFunction `json:"lambda_function"`
 	Queue          Queue          `json:"queue"`
 	Topic          Topic          `json:"topic"`
 }
 
 type LambdaFunction struct {
+	Id                string   `json:"id"`
+	LambdaFunctionArn string   `json:"lambda_function_arn"`
 	Events            []string `json:"events"`
 	FilterPrefix      string   `json:"filter_prefix"`
 	FilterSuffix      string   `json:"filter_suffix"`
-	Id                string   `json:"id"`
-	LambdaFunctionArn string   `json:"lambda_function_arn"`
 }
 
 type Queue struct {
-	Events       []string `json:"events"`
 	FilterPrefix string   `json:"filter_prefix"`
 	FilterSuffix string   `json:"filter_suffix"`
 	Id           string   `json:"id"`
 	QueueArn     string   `json:"queue_arn"`
+	Events       []string `json:"events"`
 }
 
 type Topic struct {
@@ -86,7 +86,7 @@ type Topic struct {
 // A S3BucketNotificationStatus defines the observed state of a S3BucketNotification
 type S3BucketNotificationStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     S3BucketNotificationObservation `json:",inline"`
+	AtProvider                     S3BucketNotificationObservation `json:"atProvider"`
 }
 
 // A S3BucketNotificationObservation records the observed state of a S3BucketNotification

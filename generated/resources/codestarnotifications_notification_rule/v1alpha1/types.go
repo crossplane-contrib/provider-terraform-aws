@@ -47,18 +47,18 @@ type CodestarnotificationsNotificationRuleList struct {
 // A CodestarnotificationsNotificationRuleSpec defines the desired state of a CodestarnotificationsNotificationRule
 type CodestarnotificationsNotificationRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodestarnotificationsNotificationRuleParameters `json:",inline"`
+	ForProvider                  CodestarnotificationsNotificationRuleParameters `json:"forProvider"`
 }
 
 // A CodestarnotificationsNotificationRuleParameters defines the desired state of a CodestarnotificationsNotificationRule
 type CodestarnotificationsNotificationRuleParameters struct {
-	Resource     string            `json:"resource"`
 	Status       string            `json:"status"`
 	Tags         map[string]string `json:"tags"`
 	DetailType   string            `json:"detail_type"`
 	EventTypeIds []string          `json:"event_type_ids"`
 	Id           string            `json:"id"`
 	Name         string            `json:"name"`
+	Resource     string            `json:"resource"`
 	Target       []Target          `json:"target"`
 }
 
@@ -71,7 +71,7 @@ type Target struct {
 // A CodestarnotificationsNotificationRuleStatus defines the observed state of a CodestarnotificationsNotificationRule
 type CodestarnotificationsNotificationRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodestarnotificationsNotificationRuleObservation `json:",inline"`
+	AtProvider                     CodestarnotificationsNotificationRuleObservation `json:"atProvider"`
 }
 
 // A CodestarnotificationsNotificationRuleObservation records the observed state of a CodestarnotificationsNotificationRule

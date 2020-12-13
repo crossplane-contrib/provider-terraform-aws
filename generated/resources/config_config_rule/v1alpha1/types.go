@@ -47,31 +47,31 @@ type ConfigConfigRuleList struct {
 // A ConfigConfigRuleSpec defines the desired state of a ConfigConfigRule
 type ConfigConfigRuleSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ConfigConfigRuleParameters `json:",inline"`
+	ForProvider                  ConfigConfigRuleParameters `json:"forProvider"`
 }
 
 // A ConfigConfigRuleParameters defines the desired state of a ConfigConfigRule
 type ConfigConfigRuleParameters struct {
-	Tags                      map[string]string `json:"tags"`
 	Description               string            `json:"description"`
 	Id                        string            `json:"id"`
 	InputParameters           string            `json:"input_parameters"`
 	MaximumExecutionFrequency string            `json:"maximum_execution_frequency"`
 	Name                      string            `json:"name"`
+	Tags                      map[string]string `json:"tags"`
 	Scope                     Scope             `json:"scope"`
 	Source                    Source            `json:"source"`
 }
 
 type Scope struct {
-	ComplianceResourceId    string   `json:"compliance_resource_id"`
 	ComplianceResourceTypes []string `json:"compliance_resource_types"`
 	TagKey                  string   `json:"tag_key"`
 	TagValue                string   `json:"tag_value"`
+	ComplianceResourceId    string   `json:"compliance_resource_id"`
 }
 
 type Source struct {
-	Owner            string         `json:"owner"`
 	SourceIdentifier string         `json:"source_identifier"`
+	Owner            string         `json:"owner"`
 	SourceDetail     []SourceDetail `json:"source_detail"`
 }
 
@@ -84,11 +84,11 @@ type SourceDetail struct {
 // A ConfigConfigRuleStatus defines the observed state of a ConfigConfigRule
 type ConfigConfigRuleStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ConfigConfigRuleObservation `json:",inline"`
+	AtProvider                     ConfigConfigRuleObservation `json:"atProvider"`
 }
 
 // A ConfigConfigRuleObservation records the observed state of a ConfigConfigRule
 type ConfigConfigRuleObservation struct {
-	RuleId string `json:"rule_id"`
 	Arn    string `json:"arn"`
+	RuleId string `json:"rule_id"`
 }

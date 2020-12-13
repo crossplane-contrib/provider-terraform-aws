@@ -47,22 +47,22 @@ type LbCookieStickinessPolicyList struct {
 // A LbCookieStickinessPolicySpec defines the desired state of a LbCookieStickinessPolicy
 type LbCookieStickinessPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LbCookieStickinessPolicyParameters `json:",inline"`
+	ForProvider                  LbCookieStickinessPolicyParameters `json:"forProvider"`
 }
 
 // A LbCookieStickinessPolicyParameters defines the desired state of a LbCookieStickinessPolicy
 type LbCookieStickinessPolicyParameters struct {
-	LoadBalancer           string `json:"load_balancer"`
-	Name                   string `json:"name"`
 	CookieExpirationPeriod int64  `json:"cookie_expiration_period"`
 	Id                     string `json:"id"`
 	LbPort                 int64  `json:"lb_port"`
+	LoadBalancer           string `json:"load_balancer"`
+	Name                   string `json:"name"`
 }
 
 // A LbCookieStickinessPolicyStatus defines the observed state of a LbCookieStickinessPolicy
 type LbCookieStickinessPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LbCookieStickinessPolicyObservation `json:",inline"`
+	AtProvider                     LbCookieStickinessPolicyObservation `json:"atProvider"`
 }
 
 // A LbCookieStickinessPolicyObservation records the observed state of a LbCookieStickinessPolicy

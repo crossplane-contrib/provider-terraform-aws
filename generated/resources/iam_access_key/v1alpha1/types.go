@@ -47,27 +47,27 @@ type IamAccessKeyList struct {
 // A IamAccessKeySpec defines the desired state of a IamAccessKey
 type IamAccessKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  IamAccessKeyParameters `json:",inline"`
+	ForProvider                  IamAccessKeyParameters `json:"forProvider"`
 }
 
 // A IamAccessKeyParameters defines the desired state of a IamAccessKey
 type IamAccessKeyParameters struct {
-	Status string `json:"status"`
-	User   string `json:"user"`
 	Id     string `json:"id"`
 	PgpKey string `json:"pgp_key"`
+	Status string `json:"status"`
+	User   string `json:"user"`
 }
 
 // A IamAccessKeyStatus defines the observed state of a IamAccessKey
 type IamAccessKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     IamAccessKeyObservation `json:",inline"`
+	AtProvider                     IamAccessKeyObservation `json:"atProvider"`
 }
 
 // A IamAccessKeyObservation records the observed state of a IamAccessKey
 type IamAccessKeyObservation struct {
-	SesSmtpPasswordV4 string `json:"ses_smtp_password_v4"`
-	EncryptedSecret   string `json:"encrypted_secret"`
 	KeyFingerprint    string `json:"key_fingerprint"`
 	Secret            string `json:"secret"`
+	SesSmtpPasswordV4 string `json:"ses_smtp_password_v4"`
+	EncryptedSecret   string `json:"encrypted_secret"`
 }

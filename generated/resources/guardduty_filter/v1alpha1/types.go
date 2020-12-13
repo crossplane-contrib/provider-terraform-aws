@@ -47,18 +47,18 @@ type GuarddutyFilterList struct {
 // A GuarddutyFilterSpec defines the desired state of a GuarddutyFilter
 type GuarddutyFilterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GuarddutyFilterParameters `json:",inline"`
+	ForProvider                  GuarddutyFilterParameters `json:"forProvider"`
 }
 
 // A GuarddutyFilterParameters defines the desired state of a GuarddutyFilter
 type GuarddutyFilterParameters struct {
+	Description     string            `json:"description"`
+	DetectorId      string            `json:"detector_id"`
+	Id              string            `json:"id"`
 	Name            string            `json:"name"`
 	Rank            int64             `json:"rank"`
 	Tags            map[string]string `json:"tags"`
 	Action          string            `json:"action"`
-	Description     string            `json:"description"`
-	DetectorId      string            `json:"detector_id"`
-	Id              string            `json:"id"`
 	FindingCriteria FindingCriteria   `json:"finding_criteria"`
 }
 
@@ -67,19 +67,19 @@ type FindingCriteria struct {
 }
 
 type Criterion struct {
-	GreaterThanOrEqual string   `json:"greater_than_or_equal"`
-	LessThan           string   `json:"less_than"`
-	LessThanOrEqual    string   `json:"less_than_or_equal"`
 	NotEquals          []string `json:"not_equals"`
 	Equals             []string `json:"equals"`
 	Field              string   `json:"field"`
 	GreaterThan        string   `json:"greater_than"`
+	GreaterThanOrEqual string   `json:"greater_than_or_equal"`
+	LessThan           string   `json:"less_than"`
+	LessThanOrEqual    string   `json:"less_than_or_equal"`
 }
 
 // A GuarddutyFilterStatus defines the observed state of a GuarddutyFilter
 type GuarddutyFilterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GuarddutyFilterObservation `json:",inline"`
+	AtProvider                     GuarddutyFilterObservation `json:"atProvider"`
 }
 
 // A GuarddutyFilterObservation records the observed state of a GuarddutyFilter

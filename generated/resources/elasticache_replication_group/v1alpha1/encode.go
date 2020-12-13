@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,55 +37,118 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeElasticacheReplicationGroup(r ElasticacheReplicationGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeElasticacheReplicationGroup_AtRestEncryptionEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_MaintenanceWindow(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_SnapshotRetentionLimit(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_TransitEncryptionEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_SecurityGroupNames(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheReplicationGroup_SubnetGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_Engine(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_Port(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_ParameterGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_ApplyImmediately(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_AvailabilityZones(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_ReplicationGroupId(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_NumberCacheClusters(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_SnapshotWindow(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_AutomaticFailoverEnabled(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_EngineVersion(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_ReplicationGroupDescription(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_SnapshotArns(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_SnapshotName(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheReplicationGroup_AuthToken(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_NodeType(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_MaintenanceWindow(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheReplicationGroup_NotificationTopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_SnapshotWindow(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_ParameterGroupName(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_ReplicationGroupId(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_Engine(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_Port(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_ApplyImmediately(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_AutomaticFailoverEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_EngineVersion(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_SnapshotRetentionLimit(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_AutoMinorVersionUpgrade(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_KmsKeyId(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_NumberCacheClusters(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_ReplicationGroupDescription(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_SnapshotName(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_TransitEncryptionEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_AvailabilityZones(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_NodeType(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_AtRestEncryptionEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_SecurityGroupNames(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_SnapshotArns(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheReplicationGroup_ClusterMode(r.Spec.ForProvider.ClusterMode, ctyVal)
 	EncodeElasticacheReplicationGroup_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeElasticacheReplicationGroup_MemberClusters(r.Status.AtProvider, ctyVal)
-	EncodeElasticacheReplicationGroup_PrimaryEndpointAddress(r.Status.AtProvider, ctyVal)
 	EncodeElasticacheReplicationGroup_ConfigurationEndpointAddress(r.Status.AtProvider, ctyVal)
+	EncodeElasticacheReplicationGroup_PrimaryEndpointAddress(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeElasticacheReplicationGroup_AtRestEncryptionEnabled(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["at_rest_encryption_enabled"] = cty.BoolVal(p.AtRestEncryptionEnabled)
+func EncodeElasticacheReplicationGroup_SubnetGroupName(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["subnet_group_name"] = cty.StringVal(p.SubnetGroupName)
+}
+
+func EncodeElasticacheReplicationGroup_AuthToken(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["auth_token"] = cty.StringVal(p.AuthToken)
 }
 
 func EncodeElasticacheReplicationGroup_MaintenanceWindow(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
 	vals["maintenance_window"] = cty.StringVal(p.MaintenanceWindow)
 }
 
+func EncodeElasticacheReplicationGroup_NotificationTopicArn(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["notification_topic_arn"] = cty.StringVal(p.NotificationTopicArn)
+}
+
+func EncodeElasticacheReplicationGroup_SnapshotWindow(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["snapshot_window"] = cty.StringVal(p.SnapshotWindow)
+}
+
+func EncodeElasticacheReplicationGroup_ParameterGroupName(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["parameter_group_name"] = cty.StringVal(p.ParameterGroupName)
+}
+
+func EncodeElasticacheReplicationGroup_ReplicationGroupId(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["replication_group_id"] = cty.StringVal(p.ReplicationGroupId)
+}
+
+func EncodeElasticacheReplicationGroup_Engine(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["engine"] = cty.StringVal(p.Engine)
+}
+
+func EncodeElasticacheReplicationGroup_Id(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeElasticacheReplicationGroup_Port(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["port"] = cty.NumberIntVal(p.Port)
+}
+
+func EncodeElasticacheReplicationGroup_ApplyImmediately(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["apply_immediately"] = cty.BoolVal(p.ApplyImmediately)
+}
+
+func EncodeElasticacheReplicationGroup_AutomaticFailoverEnabled(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["automatic_failover_enabled"] = cty.BoolVal(p.AutomaticFailoverEnabled)
+}
+
+func EncodeElasticacheReplicationGroup_EngineVersion(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
+}
+
 func EncodeElasticacheReplicationGroup_SnapshotRetentionLimit(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
 	vals["snapshot_retention_limit"] = cty.NumberIntVal(p.SnapshotRetentionLimit)
 }
 
-func EncodeElasticacheReplicationGroup_TransitEncryptionEnabled(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["transit_encryption_enabled"] = cty.BoolVal(p.TransitEncryptionEnabled)
+func EncodeElasticacheReplicationGroup_AutoMinorVersionUpgrade(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
+}
+
+func EncodeElasticacheReplicationGroup_KmsKeyId(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+}
+
+func EncodeElasticacheReplicationGroup_NumberCacheClusters(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["number_cache_clusters"] = cty.NumberIntVal(p.NumberCacheClusters)
+}
+
+func EncodeElasticacheReplicationGroup_ReplicationGroupDescription(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["replication_group_description"] = cty.StringVal(p.ReplicationGroupDescription)
 }
 
 func EncodeElasticacheReplicationGroup_SecurityGroupIds(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
@@ -95,36 +159,12 @@ func EncodeElasticacheReplicationGroup_SecurityGroupIds(p ElasticacheReplication
 	vals["security_group_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeElasticacheReplicationGroup_SecurityGroupNames(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SecurityGroupNames {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["security_group_names"] = cty.SetVal(colVals)
+func EncodeElasticacheReplicationGroup_SnapshotName(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["snapshot_name"] = cty.StringVal(p.SnapshotName)
 }
 
-func EncodeElasticacheReplicationGroup_SubnetGroupName(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["subnet_group_name"] = cty.StringVal(p.SubnetGroupName)
-}
-
-func EncodeElasticacheReplicationGroup_AutoMinorVersionUpgrade(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["auto_minor_version_upgrade"] = cty.BoolVal(p.AutoMinorVersionUpgrade)
-}
-
-func EncodeElasticacheReplicationGroup_Engine(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["engine"] = cty.StringVal(p.Engine)
-}
-
-func EncodeElasticacheReplicationGroup_Port(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["port"] = cty.NumberIntVal(p.Port)
-}
-
-func EncodeElasticacheReplicationGroup_ParameterGroupName(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["parameter_group_name"] = cty.StringVal(p.ParameterGroupName)
-}
-
-func EncodeElasticacheReplicationGroup_ApplyImmediately(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["apply_immediately"] = cty.BoolVal(p.ApplyImmediately)
+func EncodeElasticacheReplicationGroup_TransitEncryptionEnabled(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["transit_encryption_enabled"] = cty.BoolVal(p.TransitEncryptionEnabled)
 }
 
 func EncodeElasticacheReplicationGroup_AvailabilityZones(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
@@ -135,44 +175,20 @@ func EncodeElasticacheReplicationGroup_AvailabilityZones(p ElasticacheReplicatio
 	vals["availability_zones"] = cty.SetVal(colVals)
 }
 
-func EncodeElasticacheReplicationGroup_KmsKeyId(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+func EncodeElasticacheReplicationGroup_NodeType(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["node_type"] = cty.StringVal(p.NodeType)
 }
 
-func EncodeElasticacheReplicationGroup_ReplicationGroupId(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["replication_group_id"] = cty.StringVal(p.ReplicationGroupId)
+func EncodeElasticacheReplicationGroup_AtRestEncryptionEnabled(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	vals["at_rest_encryption_enabled"] = cty.BoolVal(p.AtRestEncryptionEnabled)
 }
 
-func EncodeElasticacheReplicationGroup_Tags(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
+func EncodeElasticacheReplicationGroup_SecurityGroupNames(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SecurityGroupNames {
+		colVals = append(colVals, cty.StringVal(value))
 	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeElasticacheReplicationGroup_NumberCacheClusters(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["number_cache_clusters"] = cty.NumberIntVal(p.NumberCacheClusters)
-}
-
-func EncodeElasticacheReplicationGroup_SnapshotWindow(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["snapshot_window"] = cty.StringVal(p.SnapshotWindow)
-}
-
-func EncodeElasticacheReplicationGroup_AutomaticFailoverEnabled(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["automatic_failover_enabled"] = cty.BoolVal(p.AutomaticFailoverEnabled)
-}
-
-func EncodeElasticacheReplicationGroup_Id(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeElasticacheReplicationGroup_EngineVersion(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
-}
-
-func EncodeElasticacheReplicationGroup_ReplicationGroupDescription(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["replication_group_description"] = cty.StringVal(p.ReplicationGroupDescription)
+	vals["security_group_names"] = cty.SetVal(colVals)
 }
 
 func EncodeElasticacheReplicationGroup_SnapshotArns(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
@@ -183,37 +199,33 @@ func EncodeElasticacheReplicationGroup_SnapshotArns(p ElasticacheReplicationGrou
 	vals["snapshot_arns"] = cty.SetVal(colVals)
 }
 
-func EncodeElasticacheReplicationGroup_SnapshotName(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["snapshot_name"] = cty.StringVal(p.SnapshotName)
-}
-
-func EncodeElasticacheReplicationGroup_AuthToken(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["auth_token"] = cty.StringVal(p.AuthToken)
-}
-
-func EncodeElasticacheReplicationGroup_NodeType(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["node_type"] = cty.StringVal(p.NodeType)
-}
-
-func EncodeElasticacheReplicationGroup_NotificationTopicArn(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
-	vals["notification_topic_arn"] = cty.StringVal(p.NotificationTopicArn)
+func EncodeElasticacheReplicationGroup_Tags(p ElasticacheReplicationGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeElasticacheReplicationGroup_ClusterMode(p ClusterMode, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeElasticacheReplicationGroup_ClusterMode_ReplicasPerNodeGroup(p, ctyVal)
 	EncodeElasticacheReplicationGroup_ClusterMode_NumNodeGroups(p, ctyVal)
+	EncodeElasticacheReplicationGroup_ClusterMode_ReplicasPerNodeGroup(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["cluster_mode"] = cty.ListVal(valsForCollection)
 }
 
-func EncodeElasticacheReplicationGroup_ClusterMode_ReplicasPerNodeGroup(p ClusterMode, vals map[string]cty.Value) {
-	vals["replicas_per_node_group"] = cty.NumberIntVal(p.ReplicasPerNodeGroup)
-}
-
 func EncodeElasticacheReplicationGroup_ClusterMode_NumNodeGroups(p ClusterMode, vals map[string]cty.Value) {
 	vals["num_node_groups"] = cty.NumberIntVal(p.NumNodeGroups)
+}
+
+func EncodeElasticacheReplicationGroup_ClusterMode_ReplicasPerNodeGroup(p ClusterMode, vals map[string]cty.Value) {
+	vals["replicas_per_node_group"] = cty.NumberIntVal(p.ReplicasPerNodeGroup)
 }
 
 func EncodeElasticacheReplicationGroup_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -244,10 +256,10 @@ func EncodeElasticacheReplicationGroup_MemberClusters(p ElasticacheReplicationGr
 	vals["member_clusters"] = cty.SetVal(colVals)
 }
 
-func EncodeElasticacheReplicationGroup_PrimaryEndpointAddress(p ElasticacheReplicationGroupObservation, vals map[string]cty.Value) {
-	vals["primary_endpoint_address"] = cty.StringVal(p.PrimaryEndpointAddress)
-}
-
 func EncodeElasticacheReplicationGroup_ConfigurationEndpointAddress(p ElasticacheReplicationGroupObservation, vals map[string]cty.Value) {
 	vals["configuration_endpoint_address"] = cty.StringVal(p.ConfigurationEndpointAddress)
+}
+
+func EncodeElasticacheReplicationGroup_PrimaryEndpointAddress(p ElasticacheReplicationGroupObservation, vals map[string]cty.Value) {
+	vals["primary_endpoint_address"] = cty.StringVal(p.PrimaryEndpointAddress)
 }

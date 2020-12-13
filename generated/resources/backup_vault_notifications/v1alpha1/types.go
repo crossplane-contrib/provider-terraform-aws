@@ -47,21 +47,21 @@ type BackupVaultNotificationsList struct {
 // A BackupVaultNotificationsSpec defines the desired state of a BackupVaultNotifications
 type BackupVaultNotificationsSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  BackupVaultNotificationsParameters `json:",inline"`
+	ForProvider                  BackupVaultNotificationsParameters `json:"forProvider"`
 }
 
 // A BackupVaultNotificationsParameters defines the desired state of a BackupVaultNotifications
 type BackupVaultNotificationsParameters struct {
+	Id                string   `json:"id"`
 	SnsTopicArn       string   `json:"sns_topic_arn"`
 	BackupVaultEvents []string `json:"backup_vault_events"`
 	BackupVaultName   string   `json:"backup_vault_name"`
-	Id                string   `json:"id"`
 }
 
 // A BackupVaultNotificationsStatus defines the observed state of a BackupVaultNotifications
 type BackupVaultNotificationsStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     BackupVaultNotificationsObservation `json:",inline"`
+	AtProvider                     BackupVaultNotificationsObservation `json:"atProvider"`
 }
 
 // A BackupVaultNotificationsObservation records the observed state of a BackupVaultNotifications

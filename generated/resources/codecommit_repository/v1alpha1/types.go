@@ -47,28 +47,28 @@ type CodecommitRepositoryList struct {
 // A CodecommitRepositorySpec defines the desired state of a CodecommitRepository
 type CodecommitRepositorySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CodecommitRepositoryParameters `json:",inline"`
+	ForProvider                  CodecommitRepositoryParameters `json:"forProvider"`
 }
 
 // A CodecommitRepositoryParameters defines the desired state of a CodecommitRepository
 type CodecommitRepositoryParameters struct {
-	Description    string            `json:"description"`
 	RepositoryName string            `json:"repository_name"`
-	DefaultBranch  string            `json:"default_branch"`
-	Id             string            `json:"id"`
 	Tags           map[string]string `json:"tags"`
+	Id             string            `json:"id"`
+	DefaultBranch  string            `json:"default_branch"`
+	Description    string            `json:"description"`
 }
 
 // A CodecommitRepositoryStatus defines the observed state of a CodecommitRepository
 type CodecommitRepositoryStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CodecommitRepositoryObservation `json:",inline"`
+	AtProvider                     CodecommitRepositoryObservation `json:"atProvider"`
 }
 
 // A CodecommitRepositoryObservation records the observed state of a CodecommitRepository
 type CodecommitRepositoryObservation struct {
-	Arn          string `json:"arn"`
+	RepositoryId string `json:"repository_id"`
 	CloneUrlHttp string `json:"clone_url_http"`
 	CloneUrlSsh  string `json:"clone_url_ssh"`
-	RepositoryId string `json:"repository_id"`
+	Arn          string `json:"arn"`
 }

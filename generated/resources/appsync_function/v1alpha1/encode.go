@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,17 +37,44 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAppsyncFunction(r AppsyncFunction) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAppsyncFunction_Description(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncFunction_ApiId(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncFunction_DataSource(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncFunction_FunctionVersion(r.Spec.ForProvider, ctyVal)
+	EncodeAppsyncFunction_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncFunction_Name(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncFunction_RequestMappingTemplate(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncFunction_ResponseMappingTemplate(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncFunction_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncFunction_DataSource(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncFunction_Description(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncFunction_FunctionVersion(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncFunction_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncFunction_FunctionId(r.Status.AtProvider, ctyVal)
 	EncodeAppsyncFunction_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAppsyncFunction_Description(p AppsyncFunctionParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeAppsyncFunction_ApiId(p AppsyncFunctionParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
+}
+
+func EncodeAppsyncFunction_DataSource(p AppsyncFunctionParameters, vals map[string]cty.Value) {
+	vals["data_source"] = cty.StringVal(p.DataSource)
+}
+
+func EncodeAppsyncFunction_FunctionVersion(p AppsyncFunctionParameters, vals map[string]cty.Value) {
+	vals["function_version"] = cty.StringVal(p.FunctionVersion)
+}
+
+func EncodeAppsyncFunction_Id(p AppsyncFunctionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppsyncFunction_Name(p AppsyncFunctionParameters, vals map[string]cty.Value) {
@@ -59,26 +87,6 @@ func EncodeAppsyncFunction_RequestMappingTemplate(p AppsyncFunctionParameters, v
 
 func EncodeAppsyncFunction_ResponseMappingTemplate(p AppsyncFunctionParameters, vals map[string]cty.Value) {
 	vals["response_mapping_template"] = cty.StringVal(p.ResponseMappingTemplate)
-}
-
-func EncodeAppsyncFunction_Id(p AppsyncFunctionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeAppsyncFunction_DataSource(p AppsyncFunctionParameters, vals map[string]cty.Value) {
-	vals["data_source"] = cty.StringVal(p.DataSource)
-}
-
-func EncodeAppsyncFunction_Description(p AppsyncFunctionParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeAppsyncFunction_FunctionVersion(p AppsyncFunctionParameters, vals map[string]cty.Value) {
-	vals["function_version"] = cty.StringVal(p.FunctionVersion)
-}
-
-func EncodeAppsyncFunction_ApiId(p AppsyncFunctionParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeAppsyncFunction_FunctionId(p AppsyncFunctionObservation, vals map[string]cty.Value) {

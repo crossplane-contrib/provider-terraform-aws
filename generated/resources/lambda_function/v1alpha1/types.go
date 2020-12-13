@@ -47,35 +47,48 @@ type LambdaFunctionList struct {
 // A LambdaFunctionSpec defines the desired state of a LambdaFunction
 type LambdaFunctionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LambdaFunctionParameters `json:",inline"`
+	ForProvider                  LambdaFunctionParameters `json:"forProvider"`
 }
 
 // A LambdaFunctionParameters defines the desired state of a LambdaFunction
 type LambdaFunctionParameters struct {
-	S3Key                        string            `json:"s3_key"`
-	S3ObjectVersion              string            `json:"s3_object_version"`
-	Description                  string            `json:"description"`
-	Layers                       []string          `json:"layers"`
-	Publish                      bool              `json:"publish"`
-	Role                         string            `json:"role"`
+	FunctionName                 string            `json:"function_name"`
 	SourceCodeHash               string            `json:"source_code_hash"`
 	Filename                     string            `json:"filename"`
-	FunctionName                 string            `json:"function_name"`
-	Handler                      string            `json:"handler"`
-	Id                           string            `json:"id"`
-	KmsKeyArn                    string            `json:"kms_key_arn"`
+	S3Bucket                     string            `json:"s3_bucket"`
 	Timeout                      int64             `json:"timeout"`
+	Handler                      string            `json:"handler"`
+	Publish                      bool              `json:"publish"`
+	Role                         string            `json:"role"`
 	Tags                         map[string]string `json:"tags"`
+	Id                           string            `json:"id"`
+	Layers                       []string          `json:"layers"`
+	KmsKeyArn                    string            `json:"kms_key_arn"`
+	MemorySize                   int64             `json:"memory_size"`
 	ReservedConcurrentExecutions int64             `json:"reserved_concurrent_executions"`
 	Runtime                      string            `json:"runtime"`
-	S3Bucket                     string            `json:"s3_bucket"`
-	MemorySize                   int64             `json:"memory_size"`
-	Timeouts                     Timeouts          `json:"timeouts"`
-	TracingConfig                TracingConfig     `json:"tracing_config"`
-	VpcConfig                    VpcConfig         `json:"vpc_config"`
+	S3Key                        string            `json:"s3_key"`
+	Description                  string            `json:"description"`
+	S3ObjectVersion              string            `json:"s3_object_version"`
 	DeadLetterConfig             DeadLetterConfig  `json:"dead_letter_config"`
 	Environment                  Environment       `json:"environment"`
 	FileSystemConfig             FileSystemConfig  `json:"file_system_config"`
+	Timeouts                     Timeouts          `json:"timeouts"`
+	TracingConfig                TracingConfig     `json:"tracing_config"`
+	VpcConfig                    VpcConfig         `json:"vpc_config"`
+}
+
+type DeadLetterConfig struct {
+	TargetArn string `json:"target_arn"`
+}
+
+type Environment struct {
+	Variables map[string]string `json:"variables"`
+}
+
+type FileSystemConfig struct {
+	LocalMountPath string `json:"local_mount_path"`
+	Arn            string `json:"arn"`
 }
 
 type Timeouts struct {
@@ -92,31 +105,18 @@ type VpcConfig struct {
 	VpcId            string   `json:"vpc_id"`
 }
 
-type DeadLetterConfig struct {
-	TargetArn string `json:"target_arn"`
-}
-
-type Environment struct {
-	Variables map[string]string `json:"variables"`
-}
-
-type FileSystemConfig struct {
-	Arn            string `json:"arn"`
-	LocalMountPath string `json:"local_mount_path"`
-}
-
 // A LambdaFunctionStatus defines the observed state of a LambdaFunction
 type LambdaFunctionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LambdaFunctionObservation `json:",inline"`
+	AtProvider                     LambdaFunctionObservation `json:"atProvider"`
 }
 
 // A LambdaFunctionObservation records the observed state of a LambdaFunction
 type LambdaFunctionObservation struct {
-	Version        string `json:"version"`
 	LastModified   string `json:"last_modified"`
-	InvokeArn      string `json:"invoke_arn"`
-	QualifiedArn   string `json:"qualified_arn"`
-	SourceCodeSize int64  `json:"source_code_size"`
 	Arn            string `json:"arn"`
+	SourceCodeSize int64  `json:"source_code_size"`
+	Version        string `json:"version"`
+	QualifiedArn   string `json:"qualified_arn"`
+	InvokeArn      string `json:"invoke_arn"`
 }

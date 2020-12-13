@@ -47,16 +47,16 @@ type BackupSelectionList struct {
 // A BackupSelectionSpec defines the desired state of a BackupSelection
 type BackupSelectionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  BackupSelectionParameters `json:",inline"`
+	ForProvider                  BackupSelectionParameters `json:"forProvider"`
 }
 
 // A BackupSelectionParameters defines the desired state of a BackupSelection
 type BackupSelectionParameters struct {
+	IamRoleArn   string       `json:"iam_role_arn"`
+	Id           string       `json:"id"`
 	Name         string       `json:"name"`
 	PlanId       string       `json:"plan_id"`
 	Resources    []string     `json:"resources"`
-	IamRoleArn   string       `json:"iam_role_arn"`
-	Id           string       `json:"id"`
 	SelectionTag SelectionTag `json:"selection_tag"`
 }
 
@@ -69,7 +69,7 @@ type SelectionTag struct {
 // A BackupSelectionStatus defines the observed state of a BackupSelection
 type BackupSelectionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     BackupSelectionObservation `json:",inline"`
+	AtProvider                     BackupSelectionObservation `json:"atProvider"`
 }
 
 // A BackupSelectionObservation records the observed state of a BackupSelection

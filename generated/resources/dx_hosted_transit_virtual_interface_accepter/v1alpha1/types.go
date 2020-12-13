@@ -47,7 +47,7 @@ type DxHostedTransitVirtualInterfaceAccepterList struct {
 // A DxHostedTransitVirtualInterfaceAccepterSpec defines the desired state of a DxHostedTransitVirtualInterfaceAccepter
 type DxHostedTransitVirtualInterfaceAccepterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DxHostedTransitVirtualInterfaceAccepterParameters `json:",inline"`
+	ForProvider                  DxHostedTransitVirtualInterfaceAccepterParameters `json:"forProvider"`
 }
 
 // A DxHostedTransitVirtualInterfaceAccepterParameters defines the desired state of a DxHostedTransitVirtualInterfaceAccepter
@@ -60,14 +60,14 @@ type DxHostedTransitVirtualInterfaceAccepterParameters struct {
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A DxHostedTransitVirtualInterfaceAccepterStatus defines the observed state of a DxHostedTransitVirtualInterfaceAccepter
 type DxHostedTransitVirtualInterfaceAccepterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DxHostedTransitVirtualInterfaceAccepterObservation `json:",inline"`
+	AtProvider                     DxHostedTransitVirtualInterfaceAccepterObservation `json:"atProvider"`
 }
 
 // A DxHostedTransitVirtualInterfaceAccepterObservation records the observed state of a DxHostedTransitVirtualInterfaceAccepter

@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -43,6 +44,13 @@ func EncodeGameliftBuild(r GameliftBuild) cty.Value {
 	EncodeGameliftBuild_Version(r.Spec.ForProvider, ctyVal)
 	EncodeGameliftBuild_StorageLocation(r.Spec.ForProvider.StorageLocation, ctyVal)
 	EncodeGameliftBuild_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -59,6 +67,10 @@ func EncodeGameliftBuild_OperatingSystem(p GameliftBuildParameters, vals map[str
 }
 
 func EncodeGameliftBuild_Tags(p GameliftBuildParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)

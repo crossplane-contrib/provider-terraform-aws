@@ -47,26 +47,26 @@ type AutoscalingLifecycleHookList struct {
 // A AutoscalingLifecycleHookSpec defines the desired state of a AutoscalingLifecycleHook
 type AutoscalingLifecycleHookSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AutoscalingLifecycleHookParameters `json:",inline"`
+	ForProvider                  AutoscalingLifecycleHookParameters `json:"forProvider"`
 }
 
 // A AutoscalingLifecycleHookParameters defines the desired state of a AutoscalingLifecycleHook
 type AutoscalingLifecycleHookParameters struct {
 	DefaultResult         string `json:"default_result"`
-	NotificationMetadata  string `json:"notification_metadata"`
+	HeartbeatTimeout      int64  `json:"heartbeat_timeout"`
 	Id                    string `json:"id"`
 	LifecycleTransition   string `json:"lifecycle_transition"`
 	Name                  string `json:"name"`
 	NotificationTargetArn string `json:"notification_target_arn"`
 	RoleArn               string `json:"role_arn"`
 	AutoscalingGroupName  string `json:"autoscaling_group_name"`
-	HeartbeatTimeout      int64  `json:"heartbeat_timeout"`
+	NotificationMetadata  string `json:"notification_metadata"`
 }
 
 // A AutoscalingLifecycleHookStatus defines the observed state of a AutoscalingLifecycleHook
 type AutoscalingLifecycleHookStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AutoscalingLifecycleHookObservation `json:",inline"`
+	AtProvider                     AutoscalingLifecycleHookObservation `json:"atProvider"`
 }
 
 // A AutoscalingLifecycleHookObservation records the observed state of a AutoscalingLifecycleHook

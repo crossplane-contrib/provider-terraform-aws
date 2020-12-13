@@ -47,23 +47,23 @@ type ApiGatewayModelList struct {
 // A ApiGatewayModelSpec defines the desired state of a ApiGatewayModel
 type ApiGatewayModelSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayModelParameters `json:",inline"`
+	ForProvider                  ApiGatewayModelParameters `json:"forProvider"`
 }
 
 // A ApiGatewayModelParameters defines the desired state of a ApiGatewayModel
 type ApiGatewayModelParameters struct {
+	Schema      string `json:"schema"`
 	ContentType string `json:"content_type"`
 	Description string `json:"description"`
 	Id          string `json:"id"`
 	Name        string `json:"name"`
 	RestApiId   string `json:"rest_api_id"`
-	Schema      string `json:"schema"`
 }
 
 // A ApiGatewayModelStatus defines the observed state of a ApiGatewayModel
 type ApiGatewayModelStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayModelObservation `json:",inline"`
+	AtProvider                     ApiGatewayModelObservation `json:"atProvider"`
 }
 
 // A ApiGatewayModelObservation records the observed state of a ApiGatewayModel

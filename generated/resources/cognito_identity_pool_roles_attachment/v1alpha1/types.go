@@ -47,7 +47,7 @@ type CognitoIdentityPoolRolesAttachmentList struct {
 // A CognitoIdentityPoolRolesAttachmentSpec defines the desired state of a CognitoIdentityPoolRolesAttachment
 type CognitoIdentityPoolRolesAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CognitoIdentityPoolRolesAttachmentParameters `json:",inline"`
+	ForProvider                  CognitoIdentityPoolRolesAttachmentParameters `json:"forProvider"`
 }
 
 // A CognitoIdentityPoolRolesAttachmentParameters defines the desired state of a CognitoIdentityPoolRolesAttachment
@@ -59,9 +59,9 @@ type CognitoIdentityPoolRolesAttachmentParameters struct {
 }
 
 type RoleMapping struct {
-	IdentityProvider        string        `json:"identity_provider"`
 	Type                    string        `json:"type"`
 	AmbiguousRoleResolution string        `json:"ambiguous_role_resolution"`
+	IdentityProvider        string        `json:"identity_provider"`
 	MappingRule             []MappingRule `json:"mapping_rule"`
 }
 
@@ -75,7 +75,7 @@ type MappingRule struct {
 // A CognitoIdentityPoolRolesAttachmentStatus defines the observed state of a CognitoIdentityPoolRolesAttachment
 type CognitoIdentityPoolRolesAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CognitoIdentityPoolRolesAttachmentObservation `json:",inline"`
+	AtProvider                     CognitoIdentityPoolRolesAttachmentObservation `json:"atProvider"`
 }
 
 // A CognitoIdentityPoolRolesAttachmentObservation records the observed state of a CognitoIdentityPoolRolesAttachment

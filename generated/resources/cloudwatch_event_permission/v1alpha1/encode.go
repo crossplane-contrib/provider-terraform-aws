@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,17 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudwatchEventPermission(r CloudwatchEventPermission) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchEventPermission_Action(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_Principal(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_StatementId(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventPermission_Action(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventPermission_Condition(r.Spec.ForProvider.Condition, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchEventPermission_Action(p CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
-	vals["action"] = cty.StringVal(p.Action)
 }
 
 func EncodeCloudwatchEventPermission_Id(p CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
@@ -61,18 +65,18 @@ func EncodeCloudwatchEventPermission_StatementId(p CloudwatchEventPermissionPara
 	vals["statement_id"] = cty.StringVal(p.StatementId)
 }
 
+func EncodeCloudwatchEventPermission_Action(p CloudwatchEventPermissionParameters, vals map[string]cty.Value) {
+	vals["action"] = cty.StringVal(p.Action)
+}
+
 func EncodeCloudwatchEventPermission_Condition(p Condition, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchEventPermission_Condition_Value(p, ctyVal)
 	EncodeCloudwatchEventPermission_Condition_Key(p, ctyVal)
 	EncodeCloudwatchEventPermission_Condition_Type(p, ctyVal)
+	EncodeCloudwatchEventPermission_Condition_Value(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["condition"] = cty.ListVal(valsForCollection)
-}
-
-func EncodeCloudwatchEventPermission_Condition_Value(p Condition, vals map[string]cty.Value) {
-	vals["value"] = cty.StringVal(p.Value)
 }
 
 func EncodeCloudwatchEventPermission_Condition_Key(p Condition, vals map[string]cty.Value) {
@@ -81,4 +85,8 @@ func EncodeCloudwatchEventPermission_Condition_Key(p Condition, vals map[string]
 
 func EncodeCloudwatchEventPermission_Condition_Type(p Condition, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
+}
+
+func EncodeCloudwatchEventPermission_Condition_Value(p Condition, vals map[string]cty.Value) {
+	vals["value"] = cty.StringVal(p.Value)
 }

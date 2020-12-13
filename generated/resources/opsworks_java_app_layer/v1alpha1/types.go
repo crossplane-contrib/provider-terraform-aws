@@ -47,37 +47,37 @@ type OpsworksJavaAppLayerList struct {
 // A OpsworksJavaAppLayerSpec defines the desired state of a OpsworksJavaAppLayer
 type OpsworksJavaAppLayerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  OpsworksJavaAppLayerParameters `json:",inline"`
+	ForProvider                  OpsworksJavaAppLayerParameters `json:"forProvider"`
 }
 
 // A OpsworksJavaAppLayerParameters defines the desired state of a OpsworksJavaAppLayer
 type OpsworksJavaAppLayerParameters struct {
-	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
-	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
-	JvmType                  string            `json:"jvm_type"`
-	Tags                     map[string]string `json:"tags"`
-	AppServerVersion         string            `json:"app_server_version"`
-	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
-	Name                     string            `json:"name"`
-	SystemPackages           []string          `json:"system_packages"`
-	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
 	CustomShutdownRecipes    []string          `json:"custom_shutdown_recipes"`
-	Id                       string            `json:"id"`
-	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
-	JvmVersion               string            `json:"jvm_version"`
-	JvmOptions               string            `json:"jvm_options"`
-	AppServer                string            `json:"app_server"`
-	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
-	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
 	ElasticLoadBalancer      string            `json:"elastic_load_balancer"`
 	InstallUpdatesOnBoot     bool              `json:"install_updates_on_boot"`
-	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
-	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	JvmType                  string            `json:"jvm_type"`
+	UseEbsOptimizedInstances bool              `json:"use_ebs_optimized_instances"`
+	AppServer                string            `json:"app_server"`
 	AutoHealing              bool              `json:"auto_healing"`
-	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
 	CustomJson               string            `json:"custom_json"`
-	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	Id                       string            `json:"id"`
+	SystemPackages           []string          `json:"system_packages"`
+	AutoAssignElasticIps     bool              `json:"auto_assign_elastic_ips"`
+	CustomDeployRecipes      []string          `json:"custom_deploy_recipes"`
+	DrainElbOnShutdown       bool              `json:"drain_elb_on_shutdown"`
+	JvmOptions               string            `json:"jvm_options"`
+	Name                     string            `json:"name"`
 	StackId                  string            `json:"stack_id"`
+	AutoAssignPublicIps      bool              `json:"auto_assign_public_ips"`
+	CustomConfigureRecipes   []string          `json:"custom_configure_recipes"`
+	CustomInstanceProfileArn string            `json:"custom_instance_profile_arn"`
+	CustomSetupRecipes       []string          `json:"custom_setup_recipes"`
+	CustomUndeployRecipes    []string          `json:"custom_undeploy_recipes"`
+	AppServerVersion         string            `json:"app_server_version"`
+	CustomSecurityGroupIds   []string          `json:"custom_security_group_ids"`
+	JvmVersion               string            `json:"jvm_version"`
+	InstanceShutdownTimeout  int64             `json:"instance_shutdown_timeout"`
+	Tags                     map[string]string `json:"tags"`
 	EbsVolume                EbsVolume         `json:"ebs_volume"`
 }
 
@@ -94,7 +94,7 @@ type EbsVolume struct {
 // A OpsworksJavaAppLayerStatus defines the observed state of a OpsworksJavaAppLayer
 type OpsworksJavaAppLayerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     OpsworksJavaAppLayerObservation `json:",inline"`
+	AtProvider                     OpsworksJavaAppLayerObservation `json:"atProvider"`
 }
 
 // A OpsworksJavaAppLayerObservation records the observed state of a OpsworksJavaAppLayer

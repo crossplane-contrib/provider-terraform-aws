@@ -47,15 +47,15 @@ type GlobalacceleratorListenerList struct {
 // A GlobalacceleratorListenerSpec defines the desired state of a GlobalacceleratorListener
 type GlobalacceleratorListenerSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  GlobalacceleratorListenerParameters `json:",inline"`
+	ForProvider                  GlobalacceleratorListenerParameters `json:"forProvider"`
 }
 
 // A GlobalacceleratorListenerParameters defines the desired state of a GlobalacceleratorListener
 type GlobalacceleratorListenerParameters struct {
-	Protocol       string      `json:"protocol"`
 	AcceleratorArn string      `json:"accelerator_arn"`
 	ClientAffinity string      `json:"client_affinity"`
 	Id             string      `json:"id"`
+	Protocol       string      `json:"protocol"`
 	PortRange      []PortRange `json:"port_range"`
 }
 
@@ -67,7 +67,7 @@ type PortRange struct {
 // A GlobalacceleratorListenerStatus defines the observed state of a GlobalacceleratorListener
 type GlobalacceleratorListenerStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     GlobalacceleratorListenerObservation `json:",inline"`
+	AtProvider                     GlobalacceleratorListenerObservation `json:"atProvider"`
 }
 
 // A GlobalacceleratorListenerObservation records the observed state of a GlobalacceleratorListener

@@ -47,7 +47,7 @@ type SqsQueuePolicyList struct {
 // A SqsQueuePolicySpec defines the desired state of a SqsQueuePolicy
 type SqsQueuePolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SqsQueuePolicyParameters `json:",inline"`
+	ForProvider                  SqsQueuePolicyParameters `json:"forProvider"`
 }
 
 // A SqsQueuePolicyParameters defines the desired state of a SqsQueuePolicy
@@ -60,7 +60,7 @@ type SqsQueuePolicyParameters struct {
 // A SqsQueuePolicyStatus defines the observed state of a SqsQueuePolicy
 type SqsQueuePolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SqsQueuePolicyObservation `json:",inline"`
+	AtProvider                     SqsQueuePolicyObservation `json:"atProvider"`
 }
 
 // A SqsQueuePolicyObservation records the observed state of a SqsQueuePolicy

@@ -47,22 +47,22 @@ type BatchJobQueueList struct {
 // A BatchJobQueueSpec defines the desired state of a BatchJobQueue
 type BatchJobQueueSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  BatchJobQueueParameters `json:",inline"`
+	ForProvider                  BatchJobQueueParameters `json:"forProvider"`
 }
 
 // A BatchJobQueueParameters defines the desired state of a BatchJobQueue
 type BatchJobQueueParameters struct {
-	ComputeEnvironments []string `json:"compute_environments"`
-	Id                  string   `json:"id"`
 	Name                string   `json:"name"`
 	Priority            int64    `json:"priority"`
 	State               string   `json:"state"`
+	ComputeEnvironments []string `json:"compute_environments"`
+	Id                  string   `json:"id"`
 }
 
 // A BatchJobQueueStatus defines the observed state of a BatchJobQueue
 type BatchJobQueueStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     BatchJobQueueObservation `json:",inline"`
+	AtProvider                     BatchJobQueueObservation `json:"atProvider"`
 }
 
 // A BatchJobQueueObservation records the observed state of a BatchJobQueue

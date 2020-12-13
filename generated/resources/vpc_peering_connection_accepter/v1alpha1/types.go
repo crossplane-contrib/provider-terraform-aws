@@ -47,7 +47,7 @@ type VpcPeeringConnectionAccepterList struct {
 // A VpcPeeringConnectionAccepterSpec defines the desired state of a VpcPeeringConnectionAccepter
 type VpcPeeringConnectionAccepterSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VpcPeeringConnectionAccepterParameters `json:",inline"`
+	ForProvider                  VpcPeeringConnectionAccepterParameters `json:"forProvider"`
 }
 
 // A VpcPeeringConnectionAccepterParameters defines the desired state of a VpcPeeringConnectionAccepter
@@ -75,7 +75,7 @@ type Requester struct {
 // A VpcPeeringConnectionAccepterStatus defines the observed state of a VpcPeeringConnectionAccepter
 type VpcPeeringConnectionAccepterStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VpcPeeringConnectionAccepterObservation `json:",inline"`
+	AtProvider                     VpcPeeringConnectionAccepterObservation `json:"atProvider"`
 }
 
 // A VpcPeeringConnectionAccepterObservation records the observed state of a VpcPeeringConnectionAccepter
@@ -83,6 +83,6 @@ type VpcPeeringConnectionAccepterObservation struct {
 	AcceptStatus string `json:"accept_status"`
 	PeerOwnerId  string `json:"peer_owner_id"`
 	PeerRegion   string `json:"peer_region"`
-	VpcId        string `json:"vpc_id"`
 	PeerVpcId    string `json:"peer_vpc_id"`
+	VpcId        string `json:"vpc_id"`
 }

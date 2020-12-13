@@ -47,7 +47,7 @@ type WafregionalGeoMatchSetList struct {
 // A WafregionalGeoMatchSetSpec defines the desired state of a WafregionalGeoMatchSet
 type WafregionalGeoMatchSetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WafregionalGeoMatchSetParameters `json:",inline"`
+	ForProvider                  WafregionalGeoMatchSetParameters `json:"forProvider"`
 }
 
 // A WafregionalGeoMatchSetParameters defines the desired state of a WafregionalGeoMatchSet
@@ -58,14 +58,14 @@ type WafregionalGeoMatchSetParameters struct {
 }
 
 type GeoMatchConstraint struct {
-	Value string `json:"value"`
 	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
 // A WafregionalGeoMatchSetStatus defines the observed state of a WafregionalGeoMatchSet
 type WafregionalGeoMatchSetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WafregionalGeoMatchSetObservation `json:",inline"`
+	AtProvider                     WafregionalGeoMatchSetObservation `json:"atProvider"`
 }
 
 // A WafregionalGeoMatchSetObservation records the observed state of a WafregionalGeoMatchSet

@@ -47,19 +47,19 @@ type DevicefarmProjectList struct {
 // A DevicefarmProjectSpec defines the desired state of a DevicefarmProject
 type DevicefarmProjectSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DevicefarmProjectParameters `json:",inline"`
+	ForProvider                  DevicefarmProjectParameters `json:"forProvider"`
 }
 
 // A DevicefarmProjectParameters defines the desired state of a DevicefarmProject
 type DevicefarmProjectParameters struct {
-	Name string `json:"name"`
 	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // A DevicefarmProjectStatus defines the observed state of a DevicefarmProject
 type DevicefarmProjectStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DevicefarmProjectObservation `json:",inline"`
+	AtProvider                     DevicefarmProjectObservation `json:"atProvider"`
 }
 
 // A DevicefarmProjectObservation records the observed state of a DevicefarmProject

@@ -47,42 +47,42 @@ type WorklinkFleetList struct {
 // A WorklinkFleetSpec defines the desired state of a WorklinkFleet
 type WorklinkFleetSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  WorklinkFleetParameters `json:",inline"`
+	ForProvider                  WorklinkFleetParameters `json:"forProvider"`
 }
 
 // A WorklinkFleetParameters defines the desired state of a WorklinkFleet
 type WorklinkFleetParameters struct {
+	Name                       string           `json:"name"`
+	AuditStreamArn             string           `json:"audit_stream_arn"`
+	DeviceCaCertificate        string           `json:"device_ca_certificate"`
 	DisplayName                string           `json:"display_name"`
 	Id                         string           `json:"id"`
 	OptimizeForEndUserLocation bool             `json:"optimize_for_end_user_location"`
-	AuditStreamArn             string           `json:"audit_stream_arn"`
-	DeviceCaCertificate        string           `json:"device_ca_certificate"`
-	Name                       string           `json:"name"`
 	IdentityProvider           IdentityProvider `json:"identity_provider"`
 	Network                    Network          `json:"network"`
 }
 
 type IdentityProvider struct {
-	Type         string `json:"type"`
 	SamlMetadata string `json:"saml_metadata"`
+	Type         string `json:"type"`
 }
 
 type Network struct {
+	VpcId            string   `json:"vpc_id"`
 	SecurityGroupIds []string `json:"security_group_ids"`
 	SubnetIds        []string `json:"subnet_ids"`
-	VpcId            string   `json:"vpc_id"`
 }
 
 // A WorklinkFleetStatus defines the observed state of a WorklinkFleet
 type WorklinkFleetStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     WorklinkFleetObservation `json:",inline"`
+	AtProvider                     WorklinkFleetObservation `json:"atProvider"`
 }
 
 // A WorklinkFleetObservation records the observed state of a WorklinkFleet
 type WorklinkFleetObservation struct {
+	CreatedTime     string `json:"created_time"`
 	LastUpdatedTime string `json:"last_updated_time"`
 	Arn             string `json:"arn"`
 	CompanyCode     string `json:"company_code"`
-	CreatedTime     string `json:"created_time"`
 }

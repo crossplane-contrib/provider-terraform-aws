@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,12 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRoute53ZoneAssociation(r Route53ZoneAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53ZoneAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_VpcRegion(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_ZoneId(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ZoneAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_OwningAccount(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRoute53ZoneAssociation_Id(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRoute53ZoneAssociation_VpcId(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
@@ -54,10 +66,6 @@ func EncodeRoute53ZoneAssociation_VpcRegion(p Route53ZoneAssociationParameters, 
 
 func EncodeRoute53ZoneAssociation_ZoneId(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
 	vals["zone_id"] = cty.StringVal(p.ZoneId)
-}
-
-func EncodeRoute53ZoneAssociation_Id(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRoute53ZoneAssociation_OwningAccount(p Route53ZoneAssociationObservation, vals map[string]cty.Value) {

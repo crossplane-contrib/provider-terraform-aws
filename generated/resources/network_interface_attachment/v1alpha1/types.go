@@ -47,21 +47,21 @@ type NetworkInterfaceAttachmentList struct {
 // A NetworkInterfaceAttachmentSpec defines the desired state of a NetworkInterfaceAttachment
 type NetworkInterfaceAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NetworkInterfaceAttachmentParameters `json:",inline"`
+	ForProvider                  NetworkInterfaceAttachmentParameters `json:"forProvider"`
 }
 
 // A NetworkInterfaceAttachmentParameters defines the desired state of a NetworkInterfaceAttachment
 type NetworkInterfaceAttachmentParameters struct {
-	DeviceIndex        int64  `json:"device_index"`
-	Id                 string `json:"id"`
 	InstanceId         string `json:"instance_id"`
 	NetworkInterfaceId string `json:"network_interface_id"`
+	DeviceIndex        int64  `json:"device_index"`
+	Id                 string `json:"id"`
 }
 
 // A NetworkInterfaceAttachmentStatus defines the observed state of a NetworkInterfaceAttachment
 type NetworkInterfaceAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NetworkInterfaceAttachmentObservation `json:",inline"`
+	AtProvider                     NetworkInterfaceAttachmentObservation `json:"atProvider"`
 }
 
 // A NetworkInterfaceAttachmentObservation records the observed state of a NetworkInterfaceAttachment

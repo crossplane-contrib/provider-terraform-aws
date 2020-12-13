@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,29 +37,40 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAcmCertificate(r AcmCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAcmCertificate_DomainName(r.Spec.ForProvider, ctyVal)
-	EncodeAcmCertificate_Id(r.Spec.ForProvider, ctyVal)
-	EncodeAcmCertificate_SubjectAlternativeNames(r.Spec.ForProvider, ctyVal)
-	EncodeAcmCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
-	EncodeAcmCertificate_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificate_ValidationMethod(r.Spec.ForProvider, ctyVal)
+	EncodeAcmCertificate_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAcmCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
+	EncodeAcmCertificate_SubjectAlternativeNames(r.Spec.ForProvider, ctyVal)
+	EncodeAcmCertificate_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificate_CertificateAuthorityArn(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificate_CertificateBody(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificate_CertificateChain(r.Spec.ForProvider, ctyVal)
+	EncodeAcmCertificate_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificate_Options(r.Spec.ForProvider.Options, ctyVal)
 	EncodeAcmCertificate_Status(r.Status.AtProvider, ctyVal)
 	EncodeAcmCertificate_ValidationEmails(r.Status.AtProvider, ctyVal)
-	EncodeAcmCertificate_Arn(r.Status.AtProvider, ctyVal)
 	EncodeAcmCertificate_DomainValidationOptions(r.Status.AtProvider.DomainValidationOptions, ctyVal)
+	EncodeAcmCertificate_Arn(r.Status.AtProvider, ctyVal)
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAcmCertificate_DomainName(p AcmCertificateParameters, vals map[string]cty.Value) {
-	vals["domain_name"] = cty.StringVal(p.DomainName)
+func EncodeAcmCertificate_ValidationMethod(p AcmCertificateParameters, vals map[string]cty.Value) {
+	vals["validation_method"] = cty.StringVal(p.ValidationMethod)
 }
 
 func EncodeAcmCertificate_Id(p AcmCertificateParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeAcmCertificate_PrivateKey(p AcmCertificateParameters, vals map[string]cty.Value) {
+	vals["private_key"] = cty.StringVal(p.PrivateKey)
 }
 
 func EncodeAcmCertificate_SubjectAlternativeNames(p AcmCertificateParameters, vals map[string]cty.Value) {
@@ -69,20 +81,16 @@ func EncodeAcmCertificate_SubjectAlternativeNames(p AcmCertificateParameters, va
 	vals["subject_alternative_names"] = cty.SetVal(colVals)
 }
 
-func EncodeAcmCertificate_PrivateKey(p AcmCertificateParameters, vals map[string]cty.Value) {
-	vals["private_key"] = cty.StringVal(p.PrivateKey)
-}
-
 func EncodeAcmCertificate_Tags(p AcmCertificateParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
 	mVals := make(map[string]cty.Value)
 	for key, value := range p.Tags {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeAcmCertificate_ValidationMethod(p AcmCertificateParameters, vals map[string]cty.Value) {
-	vals["validation_method"] = cty.StringVal(p.ValidationMethod)
 }
 
 func EncodeAcmCertificate_CertificateAuthorityArn(p AcmCertificateParameters, vals map[string]cty.Value) {
@@ -95,6 +103,10 @@ func EncodeAcmCertificate_CertificateBody(p AcmCertificateParameters, vals map[s
 
 func EncodeAcmCertificate_CertificateChain(p AcmCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_chain"] = cty.StringVal(p.CertificateChain)
+}
+
+func EncodeAcmCertificate_DomainName(p AcmCertificateParameters, vals map[string]cty.Value) {
+	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
 
 func EncodeAcmCertificate_Options(p Options, vals map[string]cty.Value) {
@@ -119,10 +131,6 @@ func EncodeAcmCertificate_ValidationEmails(p AcmCertificateObservation, vals map
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["validation_emails"] = cty.ListVal(colVals)
-}
-
-func EncodeAcmCertificate_Arn(p AcmCertificateObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeAcmCertificate_DomainValidationOptions(p []DomainValidationOptions, vals map[string]cty.Value) {
@@ -152,4 +160,8 @@ func EncodeAcmCertificate_DomainValidationOptions_ResourceRecordType(p DomainVal
 
 func EncodeAcmCertificate_DomainValidationOptions_ResourceRecordValue(p DomainValidationOptions, vals map[string]cty.Value) {
 	vals["resource_record_value"] = cty.StringVal(p.ResourceRecordValue)
+}
+
+func EncodeAcmCertificate_Arn(p AcmCertificateObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

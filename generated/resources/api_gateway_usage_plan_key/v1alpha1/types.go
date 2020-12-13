@@ -47,21 +47,21 @@ type ApiGatewayUsagePlanKeyList struct {
 // A ApiGatewayUsagePlanKeySpec defines the desired state of a ApiGatewayUsagePlanKey
 type ApiGatewayUsagePlanKeySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ApiGatewayUsagePlanKeyParameters `json:",inline"`
+	ForProvider                  ApiGatewayUsagePlanKeyParameters `json:"forProvider"`
 }
 
 // A ApiGatewayUsagePlanKeyParameters defines the desired state of a ApiGatewayUsagePlanKey
 type ApiGatewayUsagePlanKeyParameters struct {
-	UsagePlanId string `json:"usage_plan_id"`
 	Id          string `json:"id"`
 	KeyId       string `json:"key_id"`
 	KeyType     string `json:"key_type"`
+	UsagePlanId string `json:"usage_plan_id"`
 }
 
 // A ApiGatewayUsagePlanKeyStatus defines the observed state of a ApiGatewayUsagePlanKey
 type ApiGatewayUsagePlanKeyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ApiGatewayUsagePlanKeyObservation `json:",inline"`
+	AtProvider                     ApiGatewayUsagePlanKeyObservation `json:"atProvider"`
 }
 
 // A ApiGatewayUsagePlanKeyObservation records the observed state of a ApiGatewayUsagePlanKey

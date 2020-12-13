@@ -47,7 +47,7 @@ type EmrManagedScalingPolicyList struct {
 // A EmrManagedScalingPolicySpec defines the desired state of a EmrManagedScalingPolicy
 type EmrManagedScalingPolicySpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  EmrManagedScalingPolicyParameters `json:",inline"`
+	ForProvider                  EmrManagedScalingPolicyParameters `json:"forProvider"`
 }
 
 // A EmrManagedScalingPolicyParameters defines the desired state of a EmrManagedScalingPolicy
@@ -58,17 +58,17 @@ type EmrManagedScalingPolicyParameters struct {
 }
 
 type ComputeLimits struct {
+	UnitType                     string `json:"unit_type"`
+	MaximumCapacityUnits         int64  `json:"maximum_capacity_units"`
 	MaximumCoreCapacityUnits     int64  `json:"maximum_core_capacity_units"`
 	MaximumOndemandCapacityUnits int64  `json:"maximum_ondemand_capacity_units"`
 	MinimumCapacityUnits         int64  `json:"minimum_capacity_units"`
-	UnitType                     string `json:"unit_type"`
-	MaximumCapacityUnits         int64  `json:"maximum_capacity_units"`
 }
 
 // A EmrManagedScalingPolicyStatus defines the observed state of a EmrManagedScalingPolicy
 type EmrManagedScalingPolicyStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     EmrManagedScalingPolicyObservation `json:",inline"`
+	AtProvider                     EmrManagedScalingPolicyObservation `json:"atProvider"`
 }
 
 // A EmrManagedScalingPolicyObservation records the observed state of a EmrManagedScalingPolicy

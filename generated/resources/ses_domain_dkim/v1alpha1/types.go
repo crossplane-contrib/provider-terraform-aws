@@ -47,7 +47,7 @@ type SesDomainDkimList struct {
 // A SesDomainDkimSpec defines the desired state of a SesDomainDkim
 type SesDomainDkimSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  SesDomainDkimParameters `json:",inline"`
+	ForProvider                  SesDomainDkimParameters `json:"forProvider"`
 }
 
 // A SesDomainDkimParameters defines the desired state of a SesDomainDkim
@@ -59,7 +59,7 @@ type SesDomainDkimParameters struct {
 // A SesDomainDkimStatus defines the observed state of a SesDomainDkim
 type SesDomainDkimStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     SesDomainDkimObservation `json:",inline"`
+	AtProvider                     SesDomainDkimObservation `json:"atProvider"`
 }
 
 // A SesDomainDkimObservation records the observed state of a SesDomainDkim

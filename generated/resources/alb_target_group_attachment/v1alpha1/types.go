@@ -47,7 +47,7 @@ type AlbTargetGroupAttachmentList struct {
 // A AlbTargetGroupAttachmentSpec defines the desired state of a AlbTargetGroupAttachment
 type AlbTargetGroupAttachmentSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AlbTargetGroupAttachmentParameters `json:",inline"`
+	ForProvider                  AlbTargetGroupAttachmentParameters `json:"forProvider"`
 }
 
 // A AlbTargetGroupAttachmentParameters defines the desired state of a AlbTargetGroupAttachment
@@ -62,7 +62,7 @@ type AlbTargetGroupAttachmentParameters struct {
 // A AlbTargetGroupAttachmentStatus defines the observed state of a AlbTargetGroupAttachment
 type AlbTargetGroupAttachmentStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AlbTargetGroupAttachmentObservation `json:",inline"`
+	AtProvider                     AlbTargetGroupAttachmentObservation `json:"atProvider"`
 }
 
 // A AlbTargetGroupAttachmentObservation records the observed state of a AlbTargetGroupAttachment

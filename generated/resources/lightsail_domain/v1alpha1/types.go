@@ -47,7 +47,7 @@ type LightsailDomainList struct {
 // A LightsailDomainSpec defines the desired state of a LightsailDomain
 type LightsailDomainSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LightsailDomainParameters `json:",inline"`
+	ForProvider                  LightsailDomainParameters `json:"forProvider"`
 }
 
 // A LightsailDomainParameters defines the desired state of a LightsailDomain
@@ -59,7 +59,7 @@ type LightsailDomainParameters struct {
 // A LightsailDomainStatus defines the observed state of a LightsailDomain
 type LightsailDomainStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LightsailDomainObservation `json:",inline"`
+	AtProvider                     LightsailDomainObservation `json:"atProvider"`
 }
 
 // A LightsailDomainObservation records the observed state of a LightsailDomain

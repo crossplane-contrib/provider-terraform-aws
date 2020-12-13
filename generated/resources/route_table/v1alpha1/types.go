@@ -47,35 +47,35 @@ type RouteTableList struct {
 // A RouteTableSpec defines the desired state of a RouteTable
 type RouteTableSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RouteTableParameters `json:",inline"`
+	ForProvider                  RouteTableParameters `json:"forProvider"`
 }
 
 // A RouteTableParameters defines the desired state of a RouteTable
 type RouteTableParameters struct {
+	Route           []Route           `json:"route"`
+	Tags            map[string]string `json:"tags"`
 	VpcId           string            `json:"vpc_id"`
 	Id              string            `json:"id"`
 	PropagatingVgws []string          `json:"propagating_vgws"`
-	Route           []Route           `json:"route"`
-	Tags            map[string]string `json:"tags"`
 }
 
 type Route struct {
-	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
-	GatewayId              string `json:"gateway_id"`
-	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
-	NatGatewayId           string `json:"nat_gateway_id"`
-	InstanceId             string `json:"instance_id"`
-	LocalGatewayId         string `json:"local_gateway_id"`
-	NetworkInterfaceId     string `json:"network_interface_id"`
-	EgressOnlyGatewayId    string `json:"egress_only_gateway_id"`
 	CidrBlock              string `json:"cidr_block"`
+	InstanceId             string `json:"instance_id"`
+	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
+	NetworkInterfaceId     string `json:"network_interface_id"`
+	VpcPeeringConnectionId string `json:"vpc_peering_connection_id"`
 	TransitGatewayId       string `json:"transit_gateway_id"`
+	EgressOnlyGatewayId    string `json:"egress_only_gateway_id"`
+	GatewayId              string `json:"gateway_id"`
+	LocalGatewayId         string `json:"local_gateway_id"`
+	NatGatewayId           string `json:"nat_gateway_id"`
 }
 
 // A RouteTableStatus defines the observed state of a RouteTable
 type RouteTableStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RouteTableObservation `json:",inline"`
+	AtProvider                     RouteTableObservation `json:"atProvider"`
 }
 
 // A RouteTableObservation records the observed state of a RouteTable

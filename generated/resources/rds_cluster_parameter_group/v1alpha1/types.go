@@ -47,17 +47,17 @@ type RdsClusterParameterGroupList struct {
 // A RdsClusterParameterGroupSpec defines the desired state of a RdsClusterParameterGroup
 type RdsClusterParameterGroupSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  RdsClusterParameterGroupParameters `json:",inline"`
+	ForProvider                  RdsClusterParameterGroupParameters `json:"forProvider"`
 }
 
 // A RdsClusterParameterGroupParameters defines the desired state of a RdsClusterParameterGroup
 type RdsClusterParameterGroupParameters struct {
-	Name        string            `json:"name"`
-	NamePrefix  string            `json:"name_prefix"`
 	Tags        map[string]string `json:"tags"`
 	Description string            `json:"description"`
 	Family      string            `json:"family"`
 	Id          string            `json:"id"`
+	Name        string            `json:"name"`
+	NamePrefix  string            `json:"name_prefix"`
 	Parameter   Parameter         `json:"parameter"`
 }
 
@@ -70,7 +70,7 @@ type Parameter struct {
 // A RdsClusterParameterGroupStatus defines the observed state of a RdsClusterParameterGroup
 type RdsClusterParameterGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     RdsClusterParameterGroupObservation `json:",inline"`
+	AtProvider                     RdsClusterParameterGroupObservation `json:"atProvider"`
 }
 
 // A RdsClusterParameterGroupObservation records the observed state of a RdsClusterParameterGroup

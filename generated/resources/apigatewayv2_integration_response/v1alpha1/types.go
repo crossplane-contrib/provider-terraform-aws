@@ -47,24 +47,24 @@ type Apigatewayv2IntegrationResponseList struct {
 // A Apigatewayv2IntegrationResponseSpec defines the desired state of a Apigatewayv2IntegrationResponse
 type Apigatewayv2IntegrationResponseSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  Apigatewayv2IntegrationResponseParameters `json:",inline"`
+	ForProvider                  Apigatewayv2IntegrationResponseParameters `json:"forProvider"`
 }
 
 // A Apigatewayv2IntegrationResponseParameters defines the desired state of a Apigatewayv2IntegrationResponse
 type Apigatewayv2IntegrationResponseParameters struct {
+	IntegrationId               string            `json:"integration_id"`
+	IntegrationResponseKey      string            `json:"integration_response_key"`
+	ResponseTemplates           map[string]string `json:"response_templates"`
 	TemplateSelectionExpression string            `json:"template_selection_expression"`
 	ApiId                       string            `json:"api_id"`
 	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
 	Id                          string            `json:"id"`
-	IntegrationId               string            `json:"integration_id"`
-	IntegrationResponseKey      string            `json:"integration_response_key"`
-	ResponseTemplates           map[string]string `json:"response_templates"`
 }
 
 // A Apigatewayv2IntegrationResponseStatus defines the observed state of a Apigatewayv2IntegrationResponse
 type Apigatewayv2IntegrationResponseStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     Apigatewayv2IntegrationResponseObservation `json:",inline"`
+	AtProvider                     Apigatewayv2IntegrationResponseObservation `json:"atProvider"`
 }
 
 // A Apigatewayv2IntegrationResponseObservation records the observed state of a Apigatewayv2IntegrationResponse

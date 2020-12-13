@@ -47,21 +47,21 @@ type DirectoryServiceConditionalForwarderList struct {
 // A DirectoryServiceConditionalForwarderSpec defines the desired state of a DirectoryServiceConditionalForwarder
 type DirectoryServiceConditionalForwarderSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DirectoryServiceConditionalForwarderParameters `json:",inline"`
+	ForProvider                  DirectoryServiceConditionalForwarderParameters `json:"forProvider"`
 }
 
 // A DirectoryServiceConditionalForwarderParameters defines the desired state of a DirectoryServiceConditionalForwarder
 type DirectoryServiceConditionalForwarderParameters struct {
-	Id               string   `json:"id"`
-	RemoteDomainName string   `json:"remote_domain_name"`
 	DirectoryId      string   `json:"directory_id"`
 	DnsIps           []string `json:"dns_ips"`
+	Id               string   `json:"id"`
+	RemoteDomainName string   `json:"remote_domain_name"`
 }
 
 // A DirectoryServiceConditionalForwarderStatus defines the observed state of a DirectoryServiceConditionalForwarder
 type DirectoryServiceConditionalForwarderStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DirectoryServiceConditionalForwarderObservation `json:",inline"`
+	AtProvider                     DirectoryServiceConditionalForwarderObservation `json:"atProvider"`
 }
 
 // A DirectoryServiceConditionalForwarderObservation records the observed state of a DirectoryServiceConditionalForwarder

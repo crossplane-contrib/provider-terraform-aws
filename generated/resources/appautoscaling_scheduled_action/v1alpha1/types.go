@@ -47,31 +47,31 @@ type AppautoscalingScheduledActionList struct {
 // A AppautoscalingScheduledActionSpec defines the desired state of a AppautoscalingScheduledAction
 type AppautoscalingScheduledActionSpec struct {
 	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  AppautoscalingScheduledActionParameters `json:",inline"`
+	ForProvider                  AppautoscalingScheduledActionParameters `json:"forProvider"`
 }
 
 // A AppautoscalingScheduledActionParameters defines the desired state of a AppautoscalingScheduledAction
 type AppautoscalingScheduledActionParameters struct {
-	ScalableDimension    string               `json:"scalable_dimension"`
-	Schedule             string               `json:"schedule"`
-	StartTime            string               `json:"start_time"`
 	Id                   string               `json:"id"`
+	Name                 string               `json:"name"`
 	ResourceId           string               `json:"resource_id"`
 	ServiceNamespace     string               `json:"service_namespace"`
 	EndTime              string               `json:"end_time"`
-	Name                 string               `json:"name"`
+	ScalableDimension    string               `json:"scalable_dimension"`
+	Schedule             string               `json:"schedule"`
+	StartTime            string               `json:"start_time"`
 	ScalableTargetAction ScalableTargetAction `json:"scalable_target_action"`
 }
 
 type ScalableTargetAction struct {
-	MinCapacity int64 `json:"min_capacity"`
 	MaxCapacity int64 `json:"max_capacity"`
+	MinCapacity int64 `json:"min_capacity"`
 }
 
 // A AppautoscalingScheduledActionStatus defines the observed state of a AppautoscalingScheduledAction
 type AppautoscalingScheduledActionStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     AppautoscalingScheduledActionObservation `json:",inline"`
+	AtProvider                     AppautoscalingScheduledActionObservation `json:"atProvider"`
 }
 
 // A AppautoscalingScheduledActionObservation records the observed state of a AppautoscalingScheduledAction

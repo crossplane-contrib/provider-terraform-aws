@@ -18,8 +18,9 @@ package v1alpha1
 
 import (
 	"fmt"
-	
+
 	"github.com/zclconf/go-cty/cty"
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 )
@@ -36,16 +37,31 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesEventDestination(r SesEventDestination) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSesEventDestination_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSesEventDestination_ConfigurationSetName(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_MatchingTypes(r.Spec.ForProvider, ctyVal)
-	EncodeSesEventDestination_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSesEventDestination_ConfigurationSetName(r.Spec.ForProvider, ctyVal)
 	EncodeSesEventDestination_CloudwatchDestination(r.Spec.ForProvider.CloudwatchDestination, ctyVal)
 	EncodeSesEventDestination_KinesisDestination(r.Spec.ForProvider.KinesisDestination, ctyVal)
 	EncodeSesEventDestination_SnsDestination(r.Spec.ForProvider.SnsDestination, ctyVal)
 
+	// always set id = external-name if it exists
+	// TODO: we should trim Id off schemas in an "optimize" pass
+	// before code generation
+	en := meta.GetExternalName(&r)
+	if len(en) > 0 {
+		ctyVal["id"] = cty.StringVal(en)
+	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSesEventDestination_Name(p SesEventDestinationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSesEventDestination_ConfigurationSetName(p SesEventDestinationParameters, vals map[string]cty.Value) {
+	vals["configuration_set_name"] = cty.StringVal(p.ConfigurationSetName)
 }
 
 func EncodeSesEventDestination_Enabled(p SesEventDestinationParameters, vals map[string]cty.Value) {
@@ -64,26 +80,14 @@ func EncodeSesEventDestination_MatchingTypes(p SesEventDestinationParameters, va
 	vals["matching_types"] = cty.SetVal(colVals)
 }
 
-func EncodeSesEventDestination_Name(p SesEventDestinationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSesEventDestination_ConfigurationSetName(p SesEventDestinationParameters, vals map[string]cty.Value) {
-	vals["configuration_set_name"] = cty.StringVal(p.ConfigurationSetName)
-}
-
 func EncodeSesEventDestination_CloudwatchDestination(p CloudwatchDestination, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesEventDestination_CloudwatchDestination_DefaultValue(p, ctyVal)
 	EncodeSesEventDestination_CloudwatchDestination_DimensionName(p, ctyVal)
 	EncodeSesEventDestination_CloudwatchDestination_ValueSource(p, ctyVal)
+	EncodeSesEventDestination_CloudwatchDestination_DefaultValue(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	vals["cloudwatch_destination"] = cty.SetVal(valsForCollection)
-}
-
-func EncodeSesEventDestination_CloudwatchDestination_DefaultValue(p CloudwatchDestination, vals map[string]cty.Value) {
-	vals["default_value"] = cty.StringVal(p.DefaultValue)
 }
 
 func EncodeSesEventDestination_CloudwatchDestination_DimensionName(p CloudwatchDestination, vals map[string]cty.Value) {
@@ -92,6 +96,10 @@ func EncodeSesEventDestination_CloudwatchDestination_DimensionName(p CloudwatchD
 
 func EncodeSesEventDestination_CloudwatchDestination_ValueSource(p CloudwatchDestination, vals map[string]cty.Value) {
 	vals["value_source"] = cty.StringVal(p.ValueSource)
+}
+
+func EncodeSesEventDestination_CloudwatchDestination_DefaultValue(p CloudwatchDestination, vals map[string]cty.Value) {
+	vals["default_value"] = cty.StringVal(p.DefaultValue)
 }
 
 func EncodeSesEventDestination_KinesisDestination(p KinesisDestination, vals map[string]cty.Value) {
