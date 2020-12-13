@@ -21,7 +21,6 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 	"github.com/zclconf/go-cty/cty"
@@ -29,27 +28,61 @@ import (
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	prev, ok := previousManaged.(*IamUser)
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamUser)
 	if !ok {
 		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
 	}
+	return DecodeIamUser(r, ctyValue)
+}
+
+func DecodeIamUser(prev *IamUser, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	new.Spec.ForProvider.Name = valMap["name"].AsString()
-	new.Spec.ForProvider.Id = valMap["id"].AsString()
-	new.Spec.ForProvider.Path = valMap["path"].AsString()
-	new.Spec.ForProvider.PermissionsBoundary = valMap["permissions_boundary"].AsString()
-	if !valMap["force_destroy"].IsNull() {
-		new.Spec.ForProvider.ForceDestroy = valMap["force_destroy"].True()
-	}
-	new.Status.AtProvider.UniqueId = valMap["unique_id"].AsString()
-	new.Status.AtProvider.Arn = valMap["arn"].AsString()
-	meta.SetExternalName(new, valMap["id"].AsString())
-	tags := make(map[string]string)
-	for k, v := range valMap["tags"].AsValueMap() {
-		tags[k] = v.AsString()
-	}
-	new.Spec.ForProvider.Tags = tags
+	DecodeIamUser_ForceDestroy(&new.Spec.ForProvider, valMap)
+	DecodeIamUser_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamUser_Name(&new.Spec.ForProvider, valMap)
+	DecodeIamUser_Path(&new.Spec.ForProvider, valMap)
+	DecodeIamUser_PermissionsBoundary(&new.Spec.ForProvider, valMap)
+	DecodeIamUser_Tags(&new.Spec.ForProvider, valMap)
+	DecodeIamUser_Arn(&new.Status.AtProvider, valMap)
+	DecodeIamUser_UniqueId(&new.Status.AtProvider, valMap)
 	return new, nil
+}
+
+func DecodeIamUser_ForceDestroy(p *IamUserParameters, vals map[string]cty.Value) {
+	p.ForceDestroy = vals["force_destroy"].True()
+}
+
+func DecodeIamUser_Id(p *IamUserParameters, vals map[string]cty.Value) {
+	p.Id = vals["id"].AsString()
+}
+
+func DecodeIamUser_Name(p *IamUserParameters, vals map[string]cty.Value) {
+	p.Name = vals["name"].AsString()
+}
+
+func DecodeIamUser_Path(p *IamUserParameters, vals map[string]cty.Value) {
+	p.Path = vals["path"].AsString()
+}
+
+func DecodeIamUser_PermissionsBoundary(p *IamUserParameters, vals map[string]cty.Value) {
+	p.PermissionsBoundary = vals["permissions_boundary"].AsString()
+}
+
+func DecodeIamUser_Tags(p *IamUserParameters, vals map[string]cty.Value) {
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = value.AsString()
+	}
+	p.Tags = vMap
+}
+
+func DecodeIamUser_Arn(p *IamUserObservation, vals map[string]cty.Value) {
+	p.Arn = vals["arn"].AsString()
+}
+
+func DecodeIamUser_UniqueId(p *IamUserObservation, vals map[string]cty.Value) {
+	p.UniqueId = vals["unique_id"].AsString()
 }
