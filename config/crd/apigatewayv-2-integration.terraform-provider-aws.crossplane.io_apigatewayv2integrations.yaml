@@ -1,0 +1,169 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: apigatewayv2integrations.apigatewayv-2-integration.terraform-provider-aws.crossplane.io
+spec:
+  group: apigatewayv-2-integration.terraform-provider-aws.crossplane.io
+  names:
+    kind: Apigatewayv2Integration
+    listKind: Apigatewayv2IntegrationList
+    plural: apigatewayv2integrations
+    singular: apigatewayv2integration
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Apigatewayv2Integration is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A Apigatewayv2IntegrationSpec defines the desired state of a Apigatewayv2Integration
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A Apigatewayv2IntegrationParameters defines the desired state of a Apigatewayv2Integration
+                properties:
+                  api_id:
+                    type: string
+                  connection_id:
+                    type: string
+                  connection_type:
+                    type: string
+                  content_handling_strategy:
+                    type: string
+                  credentials_arn:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: string
+                  integration_method:
+                    type: string
+                  integration_subtype:
+                    type: string
+                  integration_type:
+                    type: string
+                  integration_uri:
+                    type: string
+                  passthrough_behavior:
+                    type: string
+                  payload_format_version:
+                    type: string
+                  request_parameters:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  request_templates:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  template_selection_expression:
+                    type: string
+                  timeout_milliseconds:
+                    format: int64
+                    type: integer
+                  tls_config:
+                    properties:
+                      server_name_to_verify:
+                        type: string
+                    type: object
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A Apigatewayv2IntegrationStatus defines the observed state of a Apigatewayv2Integration
+            properties:
+              atProvider:
+                description: A Apigatewayv2IntegrationObservation records the observed state of a Apigatewayv2Integration
+                properties:
+                  integration_response_selection_expression:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

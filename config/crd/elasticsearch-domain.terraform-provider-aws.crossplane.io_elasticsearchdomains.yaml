@@ -1,0 +1,273 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: elasticsearchdomains.elasticsearch-domain.terraform-provider-aws.crossplane.io
+spec:
+  group: elasticsearch-domain.terraform-provider-aws.crossplane.io
+  names:
+    kind: ElasticsearchDomain
+    listKind: ElasticsearchDomainList
+    plural: elasticsearchdomains
+    singular: elasticsearchdomain
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ElasticsearchDomain is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A ElasticsearchDomainSpec defines the desired state of a ElasticsearchDomain
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A ElasticsearchDomainParameters defines the desired state of a ElasticsearchDomain
+                properties:
+                  access_policies:
+                    type: string
+                  advanced_options:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  advanced_security_options:
+                    properties:
+                      enabled:
+                        type: boolean
+                      internal_user_database_enabled:
+                        type: boolean
+                      master_user_options:
+                        properties:
+                          master_user_arn:
+                            type: string
+                          master_user_name:
+                            type: string
+                          master_user_password:
+                            type: string
+                        type: object
+                    type: object
+                  cluster_config:
+                    properties:
+                      dedicated_master_count:
+                        format: int64
+                        type: integer
+                      dedicated_master_enabled:
+                        type: boolean
+                      dedicated_master_type:
+                        type: string
+                      instance_count:
+                        format: int64
+                        type: integer
+                      instance_type:
+                        type: string
+                      warm_count:
+                        format: int64
+                        type: integer
+                      warm_enabled:
+                        type: boolean
+                      warm_type:
+                        type: string
+                      zone_awareness_config:
+                        properties:
+                          availability_zone_count:
+                            format: int64
+                            type: integer
+                        type: object
+                      zone_awareness_enabled:
+                        type: boolean
+                    type: object
+                  cognito_options:
+                    properties:
+                      enabled:
+                        type: boolean
+                      identity_pool_id:
+                        type: string
+                      role_arn:
+                        type: string
+                      user_pool_id:
+                        type: string
+                    type: object
+                  domain_endpoint_options:
+                    properties:
+                      enforce_https:
+                        type: boolean
+                      tls_security_policy:
+                        type: string
+                    type: object
+                  domain_name:
+                    type: string
+                  ebs_options:
+                    properties:
+                      ebs_enabled:
+                        type: boolean
+                      iops:
+                        format: int64
+                        type: integer
+                      volume_size:
+                        format: int64
+                        type: integer
+                      volume_type:
+                        type: string
+                    type: object
+                  elasticsearch_version:
+                    type: string
+                  encrypt_at_rest:
+                    properties:
+                      enabled:
+                        type: boolean
+                      kms_key_id:
+                        type: string
+                    type: object
+                  id:
+                    type: string
+                  log_publishing_options:
+                    properties:
+                      cloudwatch_log_group_arn:
+                        type: string
+                      enabled:
+                        type: boolean
+                      log_type:
+                        type: string
+                    type: object
+                  node_to_node_encryption:
+                    properties:
+                      enabled:
+                        type: boolean
+                    type: object
+                  snapshot_options:
+                    properties:
+                      automated_snapshot_start_hour:
+                        format: int64
+                        type: integer
+                    type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  timeouts:
+                    properties:
+                      update:
+                        type: string
+                    type: object
+                  vpc_options:
+                    properties:
+                      availability_zones:
+                        items:
+                          type: string
+                        type: array
+                      security_group_ids:
+                        items:
+                          type: string
+                        type: array
+                      subnet_ids:
+                        items:
+                          type: string
+                        type: array
+                      vpc_id:
+                        type: string
+                    type: object
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A ElasticsearchDomainStatus defines the observed state of a ElasticsearchDomain
+            properties:
+              atProvider:
+                description: A ElasticsearchDomainObservation records the observed state of a ElasticsearchDomain
+                properties:
+                  arn:
+                    type: string
+                  domain_id:
+                    type: string
+                  endpoint:
+                    type: string
+                  kibana_endpoint:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

@@ -1,0 +1,299 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: cognitouserpools.cognito-user-pool.terraform-provider-aws.crossplane.io
+spec:
+  group: cognito-user-pool.terraform-provider-aws.crossplane.io
+  names:
+    kind: CognitoUserPool
+    listKind: CognitoUserPoolList
+    plural: cognitouserpools
+    singular: cognitouserpool
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: CognitoUserPool is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A CognitoUserPoolSpec defines the desired state of a CognitoUserPool
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A CognitoUserPoolParameters defines the desired state of a CognitoUserPool
+                properties:
+                  admin_create_user_config:
+                    properties:
+                      allow_admin_create_user_only:
+                        type: boolean
+                      invite_message_template:
+                        properties:
+                          email_message:
+                            type: string
+                          email_subject:
+                            type: string
+                          sms_message:
+                            type: string
+                        type: object
+                    type: object
+                  alias_attributes:
+                    items:
+                      type: string
+                    type: array
+                  auto_verified_attributes:
+                    items:
+                      type: string
+                    type: array
+                  device_configuration:
+                    properties:
+                      challenge_required_on_new_device:
+                        type: boolean
+                      device_only_remembered_on_user_prompt:
+                        type: boolean
+                    type: object
+                  email_configuration:
+                    properties:
+                      email_sending_account:
+                        type: string
+                      from_email_address:
+                        type: string
+                      reply_to_email_address:
+                        type: string
+                      source_arn:
+                        type: string
+                    type: object
+                  email_verification_message:
+                    type: string
+                  email_verification_subject:
+                    type: string
+                  id:
+                    type: string
+                  lambda_config:
+                    properties:
+                      create_auth_challenge:
+                        type: string
+                      custom_message:
+                        type: string
+                      define_auth_challenge:
+                        type: string
+                      post_authentication:
+                        type: string
+                      post_confirmation:
+                        type: string
+                      pre_authentication:
+                        type: string
+                      pre_sign_up:
+                        type: string
+                      pre_token_generation:
+                        type: string
+                      user_migration:
+                        type: string
+                      verify_auth_challenge_response:
+                        type: string
+                    type: object
+                  mfa_configuration:
+                    type: string
+                  name:
+                    type: string
+                  password_policy:
+                    properties:
+                      minimum_length:
+                        format: int64
+                        type: integer
+                      require_lowercase:
+                        type: boolean
+                      require_numbers:
+                        type: boolean
+                      require_symbols:
+                        type: boolean
+                      require_uppercase:
+                        type: boolean
+                      temporary_password_validity_days:
+                        format: int64
+                        type: integer
+                    type: object
+                  schema:
+                    items:
+                      properties:
+                        attribute_data_type:
+                          type: string
+                        developer_only_attribute:
+                          type: boolean
+                        mutable:
+                          type: boolean
+                        name:
+                          type: string
+                        number_attribute_constraints:
+                          properties:
+                            max_value:
+                              type: string
+                            min_value:
+                              type: string
+                          type: object
+                        required:
+                          type: boolean
+                        string_attribute_constraints:
+                          properties:
+                            max_length:
+                              type: string
+                            min_length:
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  sms_authentication_message:
+                    type: string
+                  sms_configuration:
+                    properties:
+                      external_id:
+                        type: string
+                      sns_caller_arn:
+                        type: string
+                    type: object
+                  sms_verification_message:
+                    type: string
+                  software_token_mfa_configuration:
+                    properties:
+                      enabled:
+                        type: boolean
+                    type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  user_pool_add_ons:
+                    properties:
+                      advanced_security_mode:
+                        type: string
+                    type: object
+                  username_attributes:
+                    items:
+                      type: string
+                    type: array
+                  username_configuration:
+                    properties:
+                      case_sensitive:
+                        type: boolean
+                    type: object
+                  verification_message_template:
+                    properties:
+                      default_email_option:
+                        type: string
+                      email_message:
+                        type: string
+                      email_message_by_link:
+                        type: string
+                      email_subject:
+                        type: string
+                      email_subject_by_link:
+                        type: string
+                      sms_message:
+                        type: string
+                    type: object
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A CognitoUserPoolStatus defines the observed state of a CognitoUserPool
+            properties:
+              atProvider:
+                description: A CognitoUserPoolObservation records the observed state of a CognitoUserPool
+                properties:
+                  arn:
+                    type: string
+                  creation_date:
+                    type: string
+                  endpoint:
+                    type: string
+                  last_modified_date:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

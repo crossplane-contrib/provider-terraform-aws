@@ -1,0 +1,207 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: ec2fleet.ec-2-fleet.terraform-provider-aws.crossplane.io
+spec:
+  group: ec-2-fleet.terraform-provider-aws.crossplane.io
+  names:
+    kind: Ec2Fleet
+    listKind: Ec2FleetList
+    plural: ec2fleet
+    singular: ec2fleet
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Ec2Fleet is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A Ec2FleetSpec defines the desired state of a Ec2Fleet
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A Ec2FleetParameters defines the desired state of a Ec2Fleet
+                properties:
+                  excess_capacity_termination_policy:
+                    type: string
+                  id:
+                    type: string
+                  launch_template_config:
+                    properties:
+                      launch_template_specification:
+                        properties:
+                          launch_template_id:
+                            type: string
+                          launch_template_name:
+                            type: string
+                          version:
+                            type: string
+                        type: object
+                      override:
+                        items:
+                          properties:
+                            availability_zone:
+                              type: string
+                            instance_type:
+                              type: string
+                            max_price:
+                              type: string
+                            priority:
+                              format: int64
+                              type: integer
+                            subnet_id:
+                              type: string
+                            weighted_capacity:
+                              format: int64
+                              type: integer
+                          type: object
+                        type: array
+                    type: object
+                  on_demand_options:
+                    properties:
+                      allocation_strategy:
+                        type: string
+                    type: object
+                  replace_unhealthy_instances:
+                    type: boolean
+                  spot_options:
+                    properties:
+                      allocation_strategy:
+                        type: string
+                      instance_interruption_behavior:
+                        type: string
+                      instance_pools_to_use_count:
+                        format: int64
+                        type: integer
+                    type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  target_capacity_specification:
+                    properties:
+                      default_target_capacity_type:
+                        type: string
+                      on_demand_target_capacity:
+                        format: int64
+                        type: integer
+                      spot_target_capacity:
+                        format: int64
+                        type: integer
+                      total_target_capacity:
+                        format: int64
+                        type: integer
+                    type: object
+                  terminate_instances:
+                    type: boolean
+                  terminate_instances_with_expiration:
+                    type: boolean
+                  timeouts:
+                    properties:
+                      create:
+                        type: string
+                      delete:
+                        type: string
+                      update:
+                        type: string
+                    type: object
+                  type:
+                    type: string
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A Ec2FleetStatus defines the observed state of a Ec2Fleet
+            properties:
+              atProvider:
+                description: A Ec2FleetObservation records the observed state of a Ec2Fleet
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

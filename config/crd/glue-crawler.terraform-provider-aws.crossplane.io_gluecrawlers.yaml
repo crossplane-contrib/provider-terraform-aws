@@ -1,0 +1,199 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: gluecrawlers.glue-crawler.terraform-provider-aws.crossplane.io
+spec:
+  group: glue-crawler.terraform-provider-aws.crossplane.io
+  names:
+    kind: GlueCrawler
+    listKind: GlueCrawlerList
+    plural: gluecrawlers
+    singular: gluecrawler
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: GlueCrawler is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A GlueCrawlerSpec defines the desired state of a GlueCrawler
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A GlueCrawlerParameters defines the desired state of a GlueCrawler
+                properties:
+                  catalog_target:
+                    properties:
+                      database_name:
+                        type: string
+                      tables:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  classifiers:
+                    items:
+                      type: string
+                    type: array
+                  configuration:
+                    type: string
+                  database_name:
+                    type: string
+                  description:
+                    type: string
+                  dynamodb_target:
+                    properties:
+                      path:
+                        type: string
+                      scan_all:
+                        type: boolean
+                      scan_rate:
+                        format: int64
+                        type: integer
+                    type: object
+                  id:
+                    type: string
+                  jdbc_target:
+                    properties:
+                      connection_name:
+                        type: string
+                      exclusions:
+                        items:
+                          type: string
+                        type: array
+                      path:
+                        type: string
+                    type: object
+                  name:
+                    type: string
+                  role:
+                    type: string
+                  s3_target:
+                    properties:
+                      connection_name:
+                        type: string
+                      exclusions:
+                        items:
+                          type: string
+                        type: array
+                      path:
+                        type: string
+                    type: object
+                  schedule:
+                    type: string
+                  schema_change_policy:
+                    properties:
+                      delete_behavior:
+                        type: string
+                      update_behavior:
+                        type: string
+                    type: object
+                  security_configuration:
+                    type: string
+                  table_prefix:
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A GlueCrawlerStatus defines the observed state of a GlueCrawler
+            properties:
+              atProvider:
+                description: A GlueCrawlerObservation records the observed state of a GlueCrawler
+                properties:
+                  arn:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
