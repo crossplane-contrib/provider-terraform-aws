@@ -24,10 +24,10 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/crossplane/crossplane-runtime/pkg/logging"
-	"github.com/crossplane/provider-terraform-gcp/generated"
+	"github.com/crossplane-contrib/provider-terraform-aws/generated"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/client"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
+	"github.com/crossplane/crossplane-runtime/pkg/logging"
 
 	"github.com/crossplane-contrib/terraform-runtime/pkg/controller"
 )

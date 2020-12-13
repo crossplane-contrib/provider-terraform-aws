@@ -1,7 +1,7 @@
 package generated
 
 import (
-	"github.com/crossplane/provider-terraform-gcp/generated/provider/v1alpha1"
+	"github.com/crossplane-contrib/provider-terraform-aws/generated/provider/v1alpha1"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 

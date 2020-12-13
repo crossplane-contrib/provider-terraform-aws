@@ -1,4 +1,4 @@
-module github.com/crossplane/provider-terraform-gcp
+module github.com/crossplane-contrib/provider-terraform-aws
 
 go 1.14
 
