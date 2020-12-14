@@ -17,13 +17,63 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamUserSshKey)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamUserSshKey(r, ctyValue)
+}
+
+func DecodeIamUserSshKey(prev *IamUserSshKey, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamUserSshKey_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamUserSshKey_PublicKey(&new.Spec.ForProvider, valMap)
+	DecodeIamUserSshKey_Status(&new.Spec.ForProvider, valMap)
+	DecodeIamUserSshKey_Username(&new.Spec.ForProvider, valMap)
+	DecodeIamUserSshKey_Encoding(&new.Spec.ForProvider, valMap)
+	DecodeIamUserSshKey_Fingerprint(&new.Status.AtProvider, valMap)
+	DecodeIamUserSshKey_SshPublicKeyId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamUserSshKey_Id(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamUserSshKey_PublicKey(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
+}
+
+func DecodeIamUserSshKey_Status(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+	p.Status = ctwhy.ValueAsString(vals["status"])
+}
+
+func DecodeIamUserSshKey_Username(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+	p.Username = ctwhy.ValueAsString(vals["username"])
+}
+
+func DecodeIamUserSshKey_Encoding(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+	p.Encoding = ctwhy.ValueAsString(vals["encoding"])
+}
+
+func DecodeIamUserSshKey_Fingerprint(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
+	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
+}
+
+func DecodeIamUserSshKey_SshPublicKeyId(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
+	p.SshPublicKeyId = ctwhy.ValueAsString(vals["ssh_public_key_id"])
 }

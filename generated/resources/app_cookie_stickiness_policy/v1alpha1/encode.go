@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAppCookieStickinessPolicy(r AppCookieStickinessPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppCookieStickinessPolicy_CookieName(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 	EncodeAppCookieStickinessPolicy_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAppCookieStickinessPolicy_CookieName(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeAppCookieStickinessPolicy(r AppCookieStickinessPolicy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAppCookieStickinessPolicy_CookieName(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["cookie_name"] = cty.StringVal(p.CookieName)
 }
 
 func EncodeAppCookieStickinessPolicy_Id(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
@@ -71,4 +67,8 @@ func EncodeAppCookieStickinessPolicy_LoadBalancer(p AppCookieStickinessPolicyPar
 
 func EncodeAppCookieStickinessPolicy_Name(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeAppCookieStickinessPolicy_CookieName(p AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["cookie_name"] = cty.StringVal(p.CookieName)
 }

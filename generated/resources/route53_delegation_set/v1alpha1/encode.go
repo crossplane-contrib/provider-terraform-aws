@@ -37,8 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRoute53DelegationSet(r Route53DelegationSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53DelegationSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53DelegationSet_ReferenceName(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53DelegationSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53DelegationSet_NameServers(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,12 +50,12 @@ func EncodeRoute53DelegationSet(r Route53DelegationSet) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRoute53DelegationSet_Id(p Route53DelegationSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeRoute53DelegationSet_ReferenceName(p Route53DelegationSetParameters, vals map[string]cty.Value) {
 	vals["reference_name"] = cty.StringVal(p.ReferenceName)
+}
+
+func EncodeRoute53DelegationSet_Id(p Route53DelegationSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRoute53DelegationSet_NameServers(p Route53DelegationSetObservation, vals map[string]cty.Value) {

@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayApiKey(r ApiGatewayApiKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayApiKey_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayApiKey_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Value(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayApiKey_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayApiKey_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Description(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayApiKey_Arn(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayApiKey_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayApiKey_LastUpdatedDate(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayApiKey_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -54,14 +54,6 @@ func EncodeApiGatewayApiKey(r ApiGatewayApiKey) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayApiKey_Id(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayApiKey_Name(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeApiGatewayApiKey_Tags(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
@@ -80,12 +72,24 @@ func EncodeApiGatewayApiKey_Value(p ApiGatewayApiKeyParameters, vals map[string]
 	vals["value"] = cty.StringVal(p.Value)
 }
 
+func EncodeApiGatewayApiKey_Enabled(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
 func EncodeApiGatewayApiKey_Description(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApiGatewayApiKey_Enabled(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
+func EncodeApiGatewayApiKey_Id(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApiGatewayApiKey_Name(p ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeApiGatewayApiKey_Arn(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeApiGatewayApiKey_CreatedDate(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
@@ -94,8 +98,4 @@ func EncodeApiGatewayApiKey_CreatedDate(p ApiGatewayApiKeyObservation, vals map[
 
 func EncodeApiGatewayApiKey_LastUpdatedDate(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
 	vals["last_updated_date"] = cty.StringVal(p.LastUpdatedDate)
-}
-
-func EncodeApiGatewayApiKey_Arn(p ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

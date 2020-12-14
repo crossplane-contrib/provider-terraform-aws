@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotCertificate(r IotCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIotCertificate_Active(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Csr(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIotCertificate_Active(r.Spec.ForProvider, ctyVal)
 	EncodeIotCertificate_PrivateKey(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_PublicKey(r.Status.AtProvider, ctyVal)
 	EncodeIotCertificate_Arn(r.Status.AtProvider, ctyVal)
@@ -54,16 +54,16 @@ func EncodeIotCertificate(r IotCertificate) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeIotCertificate_Active(p IotCertificateParameters, vals map[string]cty.Value) {
+	vals["active"] = cty.BoolVal(p.Active)
+}
+
 func EncodeIotCertificate_Csr(p IotCertificateParameters, vals map[string]cty.Value) {
 	vals["csr"] = cty.StringVal(p.Csr)
 }
 
 func EncodeIotCertificate_Id(p IotCertificateParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIotCertificate_Active(p IotCertificateParameters, vals map[string]cty.Value) {
-	vals["active"] = cty.BoolVal(p.Active)
 }
 
 func EncodeIotCertificate_PrivateKey(p IotCertificateObservation, vals map[string]cty.Value) {

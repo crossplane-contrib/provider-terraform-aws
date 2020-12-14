@@ -52,9 +52,9 @@ type Ec2TransitGatewayPeeringAttachmentAccepterSpec struct {
 
 // A Ec2TransitGatewayPeeringAttachmentAccepterParameters defines the desired state of a Ec2TransitGatewayPeeringAttachmentAccepter
 type Ec2TransitGatewayPeeringAttachmentAccepterParameters struct {
-	Tags                       map[string]string `json:"tags"`
 	TransitGatewayAttachmentId string            `json:"transit_gateway_attachment_id"`
 	Id                         string            `json:"id"`
+	Tags                       map[string]string `json:"tags"`
 }
 
 // A Ec2TransitGatewayPeeringAttachmentAccepterStatus defines the observed state of a Ec2TransitGatewayPeeringAttachmentAccepter
@@ -65,8 +65,8 @@ type Ec2TransitGatewayPeeringAttachmentAccepterStatus struct {
 
 // A Ec2TransitGatewayPeeringAttachmentAccepterObservation records the observed state of a Ec2TransitGatewayPeeringAttachmentAccepter
 type Ec2TransitGatewayPeeringAttachmentAccepterObservation struct {
+	TransitGatewayId     string `json:"transit_gateway_id"`
 	PeerAccountId        string `json:"peer_account_id"`
 	PeerRegion           string `json:"peer_region"`
 	PeerTransitGatewayId string `json:"peer_transit_gateway_id"`
-	TransitGatewayId     string `json:"transit_gateway_id"`
 }

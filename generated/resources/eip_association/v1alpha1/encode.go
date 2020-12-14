@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEipAssociation(r EipAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEipAssociation_AllowReassociation(r.Spec.ForProvider, ctyVal)
+	EncodeEipAssociation_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEipAssociation_InstanceId(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_PrivateIpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_PublicIp(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_AllocationId(r.Spec.ForProvider, ctyVal)
-	EncodeEipAssociation_AllowReassociation(r.Spec.ForProvider, ctyVal)
-	EncodeEipAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEipAssociation_InstanceId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,6 +53,18 @@ func EncodeEipAssociation(r EipAssociation) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEipAssociation_AllowReassociation(p EipAssociationParameters, vals map[string]cty.Value) {
+	vals["allow_reassociation"] = cty.BoolVal(p.AllowReassociation)
+}
+
+func EncodeEipAssociation_Id(p EipAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEipAssociation_InstanceId(p EipAssociationParameters, vals map[string]cty.Value) {
+	vals["instance_id"] = cty.StringVal(p.InstanceId)
 }
 
 func EncodeEipAssociation_NetworkInterfaceId(p EipAssociationParameters, vals map[string]cty.Value) {
@@ -69,16 +81,4 @@ func EncodeEipAssociation_PublicIp(p EipAssociationParameters, vals map[string]c
 
 func EncodeEipAssociation_AllocationId(p EipAssociationParameters, vals map[string]cty.Value) {
 	vals["allocation_id"] = cty.StringVal(p.AllocationId)
-}
-
-func EncodeEipAssociation_AllowReassociation(p EipAssociationParameters, vals map[string]cty.Value) {
-	vals["allow_reassociation"] = cty.BoolVal(p.AllowReassociation)
-}
-
-func EncodeEipAssociation_Id(p EipAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEipAssociation_InstanceId(p EipAssociationParameters, vals map[string]cty.Value) {
-	vals["instance_id"] = cty.StringVal(p.InstanceId)
 }

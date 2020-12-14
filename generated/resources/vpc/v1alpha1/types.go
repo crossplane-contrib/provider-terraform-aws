@@ -52,15 +52,15 @@ type VpcSpec struct {
 
 // A VpcParameters defines the desired state of a Vpc
 type VpcParameters struct {
-	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
-	EnableDnsSupport             bool              `json:"enable_dns_support"`
-	Tags                         map[string]string `json:"tags"`
-	CidrBlock                    string            `json:"cidr_block"`
-	EnableClassiclink            bool              `json:"enable_classiclink"`
 	EnableClassiclinkDnsSupport  bool              `json:"enable_classiclink_dns_support"`
-	Id                           string            `json:"id"`
+	EnableDnsSupport             bool              `json:"enable_dns_support"`
+	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
+	EnableClassiclink            bool              `json:"enable_classiclink"`
 	EnableDnsHostnames           bool              `json:"enable_dns_hostnames"`
 	InstanceTenancy              string            `json:"instance_tenancy"`
+	Tags                         map[string]string `json:"tags"`
+	CidrBlock                    string            `json:"cidr_block"`
+	Id                           string            `json:"id"`
 }
 
 // A VpcStatus defines the observed state of a Vpc
@@ -71,13 +71,13 @@ type VpcStatus struct {
 
 // A VpcObservation records the observed state of a Vpc
 type VpcObservation struct {
-	DhcpOptionsId          string `json:"dhcp_options_id"`
+	DefaultRouteTableId    string `json:"default_route_table_id"`
 	Ipv6AssociationId      string `json:"ipv6_association_id"`
 	MainRouteTableId       string `json:"main_route_table_id"`
-	OwnerId                string `json:"owner_id"`
-	DefaultRouteTableId    string `json:"default_route_table_id"`
 	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
+	OwnerId                string `json:"owner_id"`
 	Arn                    string `json:"arn"`
 	DefaultNetworkAclId    string `json:"default_network_acl_id"`
 	DefaultSecurityGroupId string `json:"default_security_group_id"`
+	DhcpOptionsId          string `json:"dhcp_options_id"`
 }

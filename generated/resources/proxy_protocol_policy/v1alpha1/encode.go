@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeProxyProtocolPolicy(r ProxyProtocolPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeProxyProtocolPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_InstancePorts(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
-	EncodeProxyProtocolPolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -49,6 +49,10 @@ func EncodeProxyProtocolPolicy(r ProxyProtocolPolicy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeProxyProtocolPolicy_Id(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeProxyProtocolPolicy_InstancePorts(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
@@ -61,8 +65,4 @@ func EncodeProxyProtocolPolicy_InstancePorts(p ProxyProtocolPolicyParameters, va
 
 func EncodeProxyProtocolPolicy_LoadBalancer(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
 	vals["load_balancer"] = cty.StringVal(p.LoadBalancer)
-}
-
-func EncodeProxyProtocolPolicy_Id(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

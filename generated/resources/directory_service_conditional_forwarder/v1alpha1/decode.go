@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DirectoryServiceConditionalForwarder)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDirectoryServiceConditionalForwarder(r, ctyValue)
+}
+
+func DecodeDirectoryServiceConditionalForwarder(prev *DirectoryServiceConditionalForwarder, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(&new.Spec.ForProvider, valMap)
+	DecodeDirectoryServiceConditionalForwarder_DirectoryId(&new.Spec.ForProvider, valMap)
+	DecodeDirectoryServiceConditionalForwarder_DnsIps(&new.Spec.ForProvider, valMap)
+	DecodeDirectoryServiceConditionalForwarder_Id(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	p.RemoteDomainName = ctwhy.ValueAsString(vals["remote_domain_name"])
+}
+
+func DecodeDirectoryServiceConditionalForwarder_DirectoryId(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	p.DirectoryId = ctwhy.ValueAsString(vals["directory_id"])
+}
+
+func DecodeDirectoryServiceConditionalForwarder_DnsIps(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["dns_ips"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.DnsIps = goVals
+}
+
+func DecodeDirectoryServiceConditionalForwarder_Id(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

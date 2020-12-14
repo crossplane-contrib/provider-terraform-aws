@@ -17,13 +17,49 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SesIdentityPolicy)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSesIdentityPolicy(r, ctyValue)
+}
+
+func DecodeSesIdentityPolicy(prev *SesIdentityPolicy, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSesIdentityPolicy_Policy(&new.Spec.ForProvider, valMap)
+	DecodeSesIdentityPolicy_Id(&new.Spec.ForProvider, valMap)
+	DecodeSesIdentityPolicy_Identity(&new.Spec.ForProvider, valMap)
+	DecodeSesIdentityPolicy_Name(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSesIdentityPolicy_Policy(p *SesIdentityPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+func DecodeSesIdentityPolicy_Id(p *SesIdentityPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSesIdentityPolicy_Identity(p *SesIdentityPolicyParameters, vals map[string]cty.Value) {
+	p.Identity = ctwhy.ValueAsString(vals["identity"])
+}
+
+func DecodeSesIdentityPolicy_Name(p *SesIdentityPolicyParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }

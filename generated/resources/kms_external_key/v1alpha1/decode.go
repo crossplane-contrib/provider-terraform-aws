@@ -17,13 +17,94 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*KmsExternalKey)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeKmsExternalKey(r, ctyValue)
+}
+
+func DecodeKmsExternalKey(prev *KmsExternalKey, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeKmsExternalKey_Policy(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_Tags(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_DeletionWindowInDays(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_Id(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_KeyMaterialBase64(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_ValidTo(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_Description(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_Enabled(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_KeyState(&new.Status.AtProvider, valMap)
+	DecodeKmsExternalKey_Arn(&new.Status.AtProvider, valMap)
+	DecodeKmsExternalKey_ExpirationModel(&new.Status.AtProvider, valMap)
+	DecodeKmsExternalKey_KeyUsage(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeKmsExternalKey_Policy(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+func DecodeKmsExternalKey_Tags(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeKmsExternalKey_DeletionWindowInDays(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.DeletionWindowInDays = ctwhy.ValueAsInt64(vals["deletion_window_in_days"])
+}
+
+func DecodeKmsExternalKey_Id(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeKmsExternalKey_KeyMaterialBase64(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.KeyMaterialBase64 = ctwhy.ValueAsString(vals["key_material_base64"])
+}
+
+func DecodeKmsExternalKey_ValidTo(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.ValidTo = ctwhy.ValueAsString(vals["valid_to"])
+}
+
+func DecodeKmsExternalKey_Description(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeKmsExternalKey_Enabled(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+func DecodeKmsExternalKey_KeyState(p *KmsExternalKeyObservation, vals map[string]cty.Value) {
+	p.KeyState = ctwhy.ValueAsString(vals["key_state"])
+}
+
+func DecodeKmsExternalKey_Arn(p *KmsExternalKeyObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeKmsExternalKey_ExpirationModel(p *KmsExternalKeyObservation, vals map[string]cty.Value) {
+	p.ExpirationModel = ctwhy.ValueAsString(vals["expiration_model"])
+}
+
+func DecodeKmsExternalKey_KeyUsage(p *KmsExternalKeyObservation, vals map[string]cty.Value) {
+	p.KeyUsage = ctwhy.ValueAsString(vals["key_usage"])
 }

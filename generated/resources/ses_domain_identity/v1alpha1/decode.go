@@ -17,13 +17,48 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SesDomainIdentity)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSesDomainIdentity(r, ctyValue)
+}
+
+func DecodeSesDomainIdentity(prev *SesDomainIdentity, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSesDomainIdentity_Id(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainIdentity_Domain(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainIdentity_VerificationToken(&new.Status.AtProvider, valMap)
+	DecodeSesDomainIdentity_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSesDomainIdentity_Id(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSesDomainIdentity_Domain(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
+	p.Domain = ctwhy.ValueAsString(vals["domain"])
+}
+
+func DecodeSesDomainIdentity_VerificationToken(p *SesDomainIdentityObservation, vals map[string]cty.Value) {
+	p.VerificationToken = ctwhy.ValueAsString(vals["verification_token"])
+}
+
+func DecodeSesDomainIdentity_Arn(p *SesDomainIdentityObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

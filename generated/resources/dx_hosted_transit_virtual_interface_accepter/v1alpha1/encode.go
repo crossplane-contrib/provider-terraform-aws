@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxHostedTransitVirtualInterfaceAccepter(r DxHostedTransitVirtualInterfaceAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -51,6 +51,10 @@ func EncodeDxHostedTransitVirtualInterfaceAccepter(r DxHostedTransitVirtualInter
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(p DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
 }
 
 func EncodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(p DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
@@ -71,10 +75,6 @@ func EncodeDxHostedTransitVirtualInterfaceAccepter_Tags(p DxHostedTransitVirtual
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(p DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
 }
 
 func EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {

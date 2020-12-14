@@ -52,16 +52,16 @@ type IamAccountPasswordPolicySpec struct {
 
 // A IamAccountPasswordPolicyParameters defines the desired state of a IamAccountPasswordPolicy
 type IamAccountPasswordPolicyParameters struct {
+	RequireSymbols             bool   `json:"require_symbols"`
+	AllowUsersToChangePassword bool   `json:"allow_users_to_change_password"`
 	HardExpiry                 bool   `json:"hard_expiry"`
 	Id                         string `json:"id"`
-	MaxPasswordAge             int64  `json:"max_password_age"`
-	PasswordReusePrevention    int64  `json:"password_reuse_prevention"`
-	RequireSymbols             bool   `json:"require_symbols"`
-	RequireUppercaseCharacters bool   `json:"require_uppercase_characters"`
-	AllowUsersToChangePassword bool   `json:"allow_users_to_change_password"`
 	MinimumPasswordLength      int64  `json:"minimum_password_length"`
 	RequireLowercaseCharacters bool   `json:"require_lowercase_characters"`
+	MaxPasswordAge             int64  `json:"max_password_age"`
+	PasswordReusePrevention    int64  `json:"password_reuse_prevention"`
 	RequireNumbers             bool   `json:"require_numbers"`
+	RequireUppercaseCharacters bool   `json:"require_uppercase_characters"`
 }
 
 // A IamAccountPasswordPolicyStatus defines the observed state of a IamAccountPasswordPolicy

@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SesDomainIdentityVerification)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSesDomainIdentityVerification(r, ctyValue)
+}
+
+func DecodeSesDomainIdentityVerification(prev *SesDomainIdentityVerification, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSesDomainIdentityVerification_Id(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainIdentityVerification_Domain(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainIdentityVerification_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeSesDomainIdentityVerification_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSesDomainIdentityVerification_Id(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSesDomainIdentityVerification_Domain(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
+	p.Domain = ctwhy.ValueAsString(vals["domain"])
+}
+
+func DecodeSesDomainIdentityVerification_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeSesDomainIdentityVerification_Timeouts_Create(p, valMap)
+}
+
+func DecodeSesDomainIdentityVerification_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeSesDomainIdentityVerification_Arn(p *SesDomainIdentityVerificationObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

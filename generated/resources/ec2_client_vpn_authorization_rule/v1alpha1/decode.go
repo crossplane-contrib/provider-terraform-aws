@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2ClientVpnAuthorizationRule)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2ClientVpnAuthorizationRule(r, ctyValue)
+}
+
+func DecodeEc2ClientVpnAuthorizationRule(prev *Ec2ClientVpnAuthorizationRule, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2ClientVpnAuthorizationRule_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnAuthorizationRule_AccessGroupId(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnAuthorizationRule_AuthorizeAllGroups(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnAuthorizationRule_Description(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2ClientVpnAuthorizationRule_Id(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	p.TargetNetworkCidr = ctwhy.ValueAsString(vals["target_network_cidr"])
+}
+
+func DecodeEc2ClientVpnAuthorizationRule_AccessGroupId(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	p.AccessGroupId = ctwhy.ValueAsString(vals["access_group_id"])
+}
+
+func DecodeEc2ClientVpnAuthorizationRule_AuthorizeAllGroups(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	p.AuthorizeAllGroups = ctwhy.ValueAsBool(vals["authorize_all_groups"])
+}
+
+func DecodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	p.ClientVpnEndpointId = ctwhy.ValueAsString(vals["client_vpn_endpoint_id"])
+}
+
+func DecodeEc2ClientVpnAuthorizationRule_Description(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }

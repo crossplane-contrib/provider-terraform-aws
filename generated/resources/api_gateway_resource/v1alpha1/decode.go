@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ApiGatewayResource)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeApiGatewayResource(r, ctyValue)
+}
+
+func DecodeApiGatewayResource(prev *ApiGatewayResource, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeApiGatewayResource_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayResource_ParentId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayResource_PathPart(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayResource_RestApiId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayResource_Path(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeApiGatewayResource_Id(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeApiGatewayResource_ParentId(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	p.ParentId = ctwhy.ValueAsString(vals["parent_id"])
+}
+
+func DecodeApiGatewayResource_PathPart(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	p.PathPart = ctwhy.ValueAsString(vals["path_part"])
+}
+
+func DecodeApiGatewayResource_RestApiId(p *ApiGatewayResourceParameters, vals map[string]cty.Value) {
+	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
+}
+
+func DecodeApiGatewayResource_Path(p *ApiGatewayResourceObservation, vals map[string]cty.Value) {
+	p.Path = ctwhy.ValueAsString(vals["path"])
 }

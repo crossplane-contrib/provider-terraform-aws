@@ -17,13 +17,67 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*MskConfiguration)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeMskConfiguration(r, ctyValue)
+}
+
+func DecodeMskConfiguration(prev *MskConfiguration, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeMskConfiguration_Id(&new.Spec.ForProvider, valMap)
+	DecodeMskConfiguration_KafkaVersions(&new.Spec.ForProvider, valMap)
+	DecodeMskConfiguration_Name(&new.Spec.ForProvider, valMap)
+	DecodeMskConfiguration_ServerProperties(&new.Spec.ForProvider, valMap)
+	DecodeMskConfiguration_Description(&new.Spec.ForProvider, valMap)
+	DecodeMskConfiguration_LatestRevision(&new.Status.AtProvider, valMap)
+	DecodeMskConfiguration_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeMskConfiguration_Id(p *MskConfigurationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeMskConfiguration_KafkaVersions(p *MskConfigurationParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["kafka_versions"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.KafkaVersions = goVals
+}
+
+func DecodeMskConfiguration_Name(p *MskConfigurationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeMskConfiguration_ServerProperties(p *MskConfigurationParameters, vals map[string]cty.Value) {
+	p.ServerProperties = ctwhy.ValueAsString(vals["server_properties"])
+}
+
+func DecodeMskConfiguration_Description(p *MskConfigurationParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeMskConfiguration_LatestRevision(p *MskConfigurationObservation, vals map[string]cty.Value) {
+	p.LatestRevision = ctwhy.ValueAsInt64(vals["latest_revision"])
+}
+
+func DecodeMskConfiguration_Arn(p *MskConfigurationObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

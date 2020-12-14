@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*WafregionalWebAclAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeWafregionalWebAclAssociation(r, ctyValue)
+}
+
+func DecodeWafregionalWebAclAssociation(prev *WafregionalWebAclAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeWafregionalWebAclAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeWafregionalWebAclAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
+	DecodeWafregionalWebAclAssociation_WebAclId(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeWafregionalWebAclAssociation_Id(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeWafregionalWebAclAssociation_ResourceArn(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
+}
+
+func DecodeWafregionalWebAclAssociation_WebAclId(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+	p.WebAclId = ctwhy.ValueAsString(vals["web_acl_id"])
 }

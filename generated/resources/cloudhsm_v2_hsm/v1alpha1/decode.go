@@ -17,13 +17,88 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*CloudhsmV2Hsm)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeCloudhsmV2Hsm(r, ctyValue)
+}
+
+func DecodeCloudhsmV2Hsm(prev *CloudhsmV2Hsm, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeCloudhsmV2Hsm_ClusterId(&new.Spec.ForProvider, valMap)
+	DecodeCloudhsmV2Hsm_Id(&new.Spec.ForProvider, valMap)
+	DecodeCloudhsmV2Hsm_IpAddress(&new.Spec.ForProvider, valMap)
+	DecodeCloudhsmV2Hsm_SubnetId(&new.Spec.ForProvider, valMap)
+	DecodeCloudhsmV2Hsm_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeCloudhsmV2Hsm_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeCloudhsmV2Hsm_HsmEniId(&new.Status.AtProvider, valMap)
+	DecodeCloudhsmV2Hsm_HsmId(&new.Status.AtProvider, valMap)
+	DecodeCloudhsmV2Hsm_HsmState(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeCloudhsmV2Hsm_ClusterId(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	p.ClusterId = ctwhy.ValueAsString(vals["cluster_id"])
+}
+
+func DecodeCloudhsmV2Hsm_Id(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeCloudhsmV2Hsm_IpAddress(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
+}
+
+func DecodeCloudhsmV2Hsm_SubnetId(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
+}
+
+func DecodeCloudhsmV2Hsm_AvailabilityZone(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+func DecodeCloudhsmV2Hsm_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeCloudhsmV2Hsm_Timeouts_Create(p, valMap)
+	DecodeCloudhsmV2Hsm_Timeouts_Delete(p, valMap)
+	DecodeCloudhsmV2Hsm_Timeouts_Update(p, valMap)
+}
+
+func DecodeCloudhsmV2Hsm_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeCloudhsmV2Hsm_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+func DecodeCloudhsmV2Hsm_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeCloudhsmV2Hsm_HsmEniId(p *CloudhsmV2HsmObservation, vals map[string]cty.Value) {
+	p.HsmEniId = ctwhy.ValueAsString(vals["hsm_eni_id"])
+}
+
+func DecodeCloudhsmV2Hsm_HsmId(p *CloudhsmV2HsmObservation, vals map[string]cty.Value) {
+	p.HsmId = ctwhy.ValueAsString(vals["hsm_id"])
+}
+
+func DecodeCloudhsmV2Hsm_HsmState(p *CloudhsmV2HsmObservation, vals map[string]cty.Value) {
+	p.HsmState = ctwhy.ValueAsString(vals["hsm_state"])
 }

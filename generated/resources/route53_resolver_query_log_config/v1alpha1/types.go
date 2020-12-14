@@ -66,7 +66,7 @@ type Route53ResolverQueryLogConfigStatus struct {
 
 // A Route53ResolverQueryLogConfigObservation records the observed state of a Route53ResolverQueryLogConfig
 type Route53ResolverQueryLogConfigObservation struct {
+	OwnerId     string `json:"owner_id"`
 	ShareStatus string `json:"share_status"`
 	Arn         string `json:"arn"`
-	OwnerId     string `json:"owner_id"`
 }

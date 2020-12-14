@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyInviteAccepter(r GuarddutyInviteAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyInviteAccepter_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_MasterAccountId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyInviteAccepter_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	// always set id = external-name if it exists
@@ -52,16 +52,16 @@ func EncodeGuarddutyInviteAccepter(r GuarddutyInviteAccepter) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeGuarddutyInviteAccepter_DetectorId(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
+	vals["detector_id"] = cty.StringVal(p.DetectorId)
+}
+
 func EncodeGuarddutyInviteAccepter_Id(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGuarddutyInviteAccepter_MasterAccountId(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	vals["master_account_id"] = cty.StringVal(p.MasterAccountId)
-}
-
-func EncodeGuarddutyInviteAccepter_DetectorId(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
-	vals["detector_id"] = cty.StringVal(p.DetectorId)
 }
 
 func EncodeGuarddutyInviteAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {

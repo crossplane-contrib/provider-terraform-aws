@@ -17,13 +17,47 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SesDomainDkim)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSesDomainDkim(r, ctyValue)
+}
+
+func DecodeSesDomainDkim(prev *SesDomainDkim, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSesDomainDkim_Domain(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainDkim_Id(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainDkim_DkimTokens(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSesDomainDkim_Domain(p *SesDomainDkimParameters, vals map[string]cty.Value) {
+	p.Domain = ctwhy.ValueAsString(vals["domain"])
+}
+
+func DecodeSesDomainDkim_Id(p *SesDomainDkimParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSesDomainDkim_DkimTokens(p *SesDomainDkimObservation, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["dkim_tokens"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.DkimTokens = goVals
 }

@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAccessanalyzerAnalyzer(r AccessanalyzerAnalyzer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeAccessanalyzerAnalyzer_Type(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_AnalyzerName(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeAccessanalyzerAnalyzer_Type(r.Spec.ForProvider, ctyVal)
 	EncodeAccessanalyzerAnalyzer_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,6 +50,10 @@ func EncodeAccessanalyzerAnalyzer(r AccessanalyzerAnalyzer) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeAccessanalyzerAnalyzer_Type(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeAccessanalyzerAnalyzer_AnalyzerName(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
@@ -70,10 +74,6 @@ func EncodeAccessanalyzerAnalyzer_Tags(p AccessanalyzerAnalyzerParameters, vals 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeAccessanalyzerAnalyzer_Type(p AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeAccessanalyzerAnalyzer_Arn(p AccessanalyzerAnalyzerObservation, vals map[string]cty.Value) {

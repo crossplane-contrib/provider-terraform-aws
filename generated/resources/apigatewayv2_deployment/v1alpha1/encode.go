@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApigatewayv2Deployment(r Apigatewayv2Deployment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApigatewayv2Deployment_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_Triggers(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Deployment_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Deployment_AutoDeployed(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,6 +50,10 @@ func EncodeApigatewayv2Deployment(r Apigatewayv2Deployment) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApigatewayv2Deployment_ApiId(p Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApigatewayv2Deployment_Description(p Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
@@ -70,10 +74,6 @@ func EncodeApigatewayv2Deployment_Triggers(p Apigatewayv2DeploymentParameters, v
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["triggers"] = cty.MapVal(mVals)
-}
-
-func EncodeApigatewayv2Deployment_ApiId(p Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApigatewayv2Deployment_AutoDeployed(p Apigatewayv2DeploymentObservation, vals map[string]cty.Value) {

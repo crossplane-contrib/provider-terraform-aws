@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SnsSmsPreferences)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSnsSmsPreferences(r, ctyValue)
+}
+
+func DecodeSnsSmsPreferences(prev *SnsSmsPreferences, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSnsSmsPreferences_DefaultSenderId(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_DefaultSmsType(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_Id(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_MonthlySpendLimit(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_UsageReportS3Bucket(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSnsSmsPreferences_DefaultSenderId(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.DefaultSenderId = ctwhy.ValueAsString(vals["default_sender_id"])
+}
+
+func DecodeSnsSmsPreferences_DefaultSmsType(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.DefaultSmsType = ctwhy.ValueAsString(vals["default_sms_type"])
+}
+
+func DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.DeliveryStatusIamRoleArn = ctwhy.ValueAsString(vals["delivery_status_iam_role_arn"])
+}
+
+func DecodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.DeliveryStatusSuccessSamplingRate = ctwhy.ValueAsString(vals["delivery_status_success_sampling_rate"])
+}
+
+func DecodeSnsSmsPreferences_Id(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSnsSmsPreferences_MonthlySpendLimit(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.MonthlySpendLimit = ctwhy.ValueAsString(vals["monthly_spend_limit"])
+}
+
+func DecodeSnsSmsPreferences_UsageReportS3Bucket(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.UsageReportS3Bucket = ctwhy.ValueAsString(vals["usage_report_s3_bucket"])
 }

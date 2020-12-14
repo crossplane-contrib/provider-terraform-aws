@@ -17,13 +17,84 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SsmActivation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSsmActivation(r, ctyValue)
+}
+
+func DecodeSsmActivation(prev *SsmActivation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSsmActivation_Name(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_RegistrationLimit(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_Tags(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_Description(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_IamRole(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_Id(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_ExpirationDate(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_ActivationCode(&new.Status.AtProvider, valMap)
+	DecodeSsmActivation_Expired(&new.Status.AtProvider, valMap)
+	DecodeSsmActivation_RegistrationCount(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSsmActivation_Name(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeSsmActivation_RegistrationLimit(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.RegistrationLimit = ctwhy.ValueAsInt64(vals["registration_limit"])
+}
+
+func DecodeSsmActivation_Tags(p *SsmActivationParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeSsmActivation_Description(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeSsmActivation_IamRole(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.IamRole = ctwhy.ValueAsString(vals["iam_role"])
+}
+
+func DecodeSsmActivation_Id(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSsmActivation_ExpirationDate(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.ExpirationDate = ctwhy.ValueAsString(vals["expiration_date"])
+}
+
+func DecodeSsmActivation_ActivationCode(p *SsmActivationObservation, vals map[string]cty.Value) {
+	p.ActivationCode = ctwhy.ValueAsString(vals["activation_code"])
+}
+
+func DecodeSsmActivation_Expired(p *SsmActivationObservation, vals map[string]cty.Value) {
+	p.Expired = ctwhy.ValueAsBool(vals["expired"])
+}
+
+func DecodeSsmActivation_RegistrationCount(p *SsmActivationObservation, vals map[string]cty.Value) {
+	p.RegistrationCount = ctwhy.ValueAsInt64(vals["registration_count"])
 }

@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*VpcEndpointRouteTableAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeVpcEndpointRouteTableAssociation(r, ctyValue)
+}
+
+func DecodeVpcEndpointRouteTableAssociation(prev *VpcEndpointRouteTableAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeVpcEndpointRouteTableAssociation_VpcEndpointId(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeVpcEndpointRouteTableAssociation_VpcEndpointId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
+}
+
+func DecodeVpcEndpointRouteTableAssociation_Id(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeVpcEndpointRouteTableAssociation_RouteTableId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
 }

@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*QldbLedger)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeQldbLedger(r, ctyValue)
+}
+
+func DecodeQldbLedger(prev *QldbLedger, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeQldbLedger_DeletionProtection(&new.Spec.ForProvider, valMap)
+	DecodeQldbLedger_Id(&new.Spec.ForProvider, valMap)
+	DecodeQldbLedger_Name(&new.Spec.ForProvider, valMap)
+	DecodeQldbLedger_Tags(&new.Spec.ForProvider, valMap)
+	DecodeQldbLedger_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeQldbLedger_DeletionProtection(p *QldbLedgerParameters, vals map[string]cty.Value) {
+	p.DeletionProtection = ctwhy.ValueAsBool(vals["deletion_protection"])
+}
+
+func DecodeQldbLedger_Id(p *QldbLedgerParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeQldbLedger_Name(p *QldbLedgerParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeQldbLedger_Tags(p *QldbLedgerParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeQldbLedger_Arn(p *QldbLedgerObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

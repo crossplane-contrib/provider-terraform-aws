@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*OpsworksPermission)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeOpsworksPermission(r, ctyValue)
+}
+
+func DecodeOpsworksPermission(prev *OpsworksPermission, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeOpsworksPermission_AllowSsh(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksPermission_AllowSudo(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksPermission_Id(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksPermission_Level(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksPermission_StackId(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksPermission_UserArn(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeOpsworksPermission_AllowSsh(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
+	p.AllowSsh = ctwhy.ValueAsBool(vals["allow_ssh"])
+}
+
+func DecodeOpsworksPermission_AllowSudo(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
+	p.AllowSudo = ctwhy.ValueAsBool(vals["allow_sudo"])
+}
+
+func DecodeOpsworksPermission_Id(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeOpsworksPermission_Level(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
+	p.Level = ctwhy.ValueAsString(vals["level"])
+}
+
+func DecodeOpsworksPermission_StackId(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
+	p.StackId = ctwhy.ValueAsString(vals["stack_id"])
+}
+
+func DecodeOpsworksPermission_UserArn(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
+	p.UserArn = ctwhy.ValueAsString(vals["user_arn"])
 }

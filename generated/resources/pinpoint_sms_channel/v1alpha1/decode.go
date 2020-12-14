@@ -17,13 +17,63 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*PinpointSmsChannel)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodePinpointSmsChannel(r, ctyValue)
+}
+
+func DecodePinpointSmsChannel(prev *PinpointSmsChannel, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodePinpointSmsChannel_SenderId(&new.Spec.ForProvider, valMap)
+	DecodePinpointSmsChannel_ShortCode(&new.Spec.ForProvider, valMap)
+	DecodePinpointSmsChannel_ApplicationId(&new.Spec.ForProvider, valMap)
+	DecodePinpointSmsChannel_Enabled(&new.Spec.ForProvider, valMap)
+	DecodePinpointSmsChannel_Id(&new.Spec.ForProvider, valMap)
+	DecodePinpointSmsChannel_PromotionalMessagesPerSecond(&new.Status.AtProvider, valMap)
+	DecodePinpointSmsChannel_TransactionalMessagesPerSecond(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodePinpointSmsChannel_SenderId(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	p.SenderId = ctwhy.ValueAsString(vals["sender_id"])
+}
+
+func DecodePinpointSmsChannel_ShortCode(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	p.ShortCode = ctwhy.ValueAsString(vals["short_code"])
+}
+
+func DecodePinpointSmsChannel_ApplicationId(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
+}
+
+func DecodePinpointSmsChannel_Enabled(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+func DecodePinpointSmsChannel_Id(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodePinpointSmsChannel_PromotionalMessagesPerSecond(p *PinpointSmsChannelObservation, vals map[string]cty.Value) {
+	p.PromotionalMessagesPerSecond = ctwhy.ValueAsInt64(vals["promotional_messages_per_second"])
+}
+
+func DecodePinpointSmsChannel_TransactionalMessagesPerSecond(p *PinpointSmsChannelObservation, vals map[string]cty.Value) {
+	p.TransactionalMessagesPerSecond = ctwhy.ValueAsInt64(vals["transactional_messages_per_second"])
 }

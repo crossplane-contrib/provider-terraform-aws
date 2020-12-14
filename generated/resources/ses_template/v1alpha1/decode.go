@@ -17,13 +17,54 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SesTemplate)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSesTemplate(r, ctyValue)
+}
+
+func DecodeSesTemplate(prev *SesTemplate, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSesTemplate_Html(&new.Spec.ForProvider, valMap)
+	DecodeSesTemplate_Id(&new.Spec.ForProvider, valMap)
+	DecodeSesTemplate_Name(&new.Spec.ForProvider, valMap)
+	DecodeSesTemplate_Subject(&new.Spec.ForProvider, valMap)
+	DecodeSesTemplate_Text(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSesTemplate_Html(p *SesTemplateParameters, vals map[string]cty.Value) {
+	p.Html = ctwhy.ValueAsString(vals["html"])
+}
+
+func DecodeSesTemplate_Id(p *SesTemplateParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSesTemplate_Name(p *SesTemplateParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeSesTemplate_Subject(p *SesTemplateParameters, vals map[string]cty.Value) {
+	p.Subject = ctwhy.ValueAsString(vals["subject"])
+}
+
+func DecodeSesTemplate_Text(p *SesTemplateParameters, vals map[string]cty.Value) {
+	p.Text = ctwhy.ValueAsString(vals["text"])
 }

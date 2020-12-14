@@ -41,9 +41,9 @@ func EncodeIotThing(r IotThing) cty.Value {
 	EncodeIotThing_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_ThingTypeName(r.Spec.ForProvider, ctyVal)
+	EncodeIotThing_Version(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_DefaultClientId(r.Status.AtProvider, ctyVal)
-	EncodeIotThing_Version(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -78,14 +78,14 @@ func EncodeIotThing_ThingTypeName(p IotThingParameters, vals map[string]cty.Valu
 	vals["thing_type_name"] = cty.StringVal(p.ThingTypeName)
 }
 
+func EncodeIotThing_Version(p IotThingObservation, vals map[string]cty.Value) {
+	vals["version"] = cty.NumberIntVal(p.Version)
+}
+
 func EncodeIotThing_Arn(p IotThingObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeIotThing_DefaultClientId(p IotThingObservation, vals map[string]cty.Value) {
 	vals["default_client_id"] = cty.StringVal(p.DefaultClientId)
-}
-
-func EncodeIotThing_Version(p IotThingObservation, vals map[string]cty.Value) {
-	vals["version"] = cty.NumberIntVal(p.Version)
 }

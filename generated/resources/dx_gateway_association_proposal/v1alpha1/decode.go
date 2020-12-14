@@ -17,13 +17,67 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DxGatewayAssociationProposal)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDxGatewayAssociationProposal(r, ctyValue)
+}
+
+func DecodeDxGatewayAssociationProposal(prev *DxGatewayAssociationProposal, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDxGatewayAssociationProposal_AllowedPrefixes(&new.Spec.ForProvider, valMap)
+	DecodeDxGatewayAssociationProposal_AssociatedGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeDxGatewayAssociationProposal_DxGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(&new.Spec.ForProvider, valMap)
+	DecodeDxGatewayAssociationProposal_Id(&new.Spec.ForProvider, valMap)
+	DecodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(&new.Status.AtProvider, valMap)
+	DecodeDxGatewayAssociationProposal_AssociatedGatewayType(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDxGatewayAssociationProposal_AllowedPrefixes(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["allowed_prefixes"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AllowedPrefixes = goVals
+}
+
+func DecodeDxGatewayAssociationProposal_AssociatedGatewayId(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	p.AssociatedGatewayId = ctwhy.ValueAsString(vals["associated_gateway_id"])
+}
+
+func DecodeDxGatewayAssociationProposal_DxGatewayId(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	p.DxGatewayId = ctwhy.ValueAsString(vals["dx_gateway_id"])
+}
+
+func DecodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	p.DxGatewayOwnerAccountId = ctwhy.ValueAsString(vals["dx_gateway_owner_account_id"])
+}
+
+func DecodeDxGatewayAssociationProposal_Id(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(p *DxGatewayAssociationProposalObservation, vals map[string]cty.Value) {
+	p.AssociatedGatewayOwnerAccountId = ctwhy.ValueAsString(vals["associated_gateway_owner_account_id"])
+}
+
+func DecodeDxGatewayAssociationProposal_AssociatedGatewayType(p *DxGatewayAssociationProposalObservation, vals map[string]cty.Value) {
+	p.AssociatedGatewayType = ctwhy.ValueAsString(vals["associated_gateway_type"])
 }

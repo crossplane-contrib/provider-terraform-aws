@@ -17,13 +17,73 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DocdbSubnetGroup)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDocdbSubnetGroup(r, ctyValue)
+}
+
+func DecodeDocdbSubnetGroup(prev *DocdbSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDocdbSubnetGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodeDocdbSubnetGroup_Name(&new.Spec.ForProvider, valMap)
+	DecodeDocdbSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeDocdbSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
+	DecodeDocdbSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDocdbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
+	DecodeDocdbSubnetGroup_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDocdbSubnetGroup_Id(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDocdbSubnetGroup_Name(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeDocdbSubnetGroup_NamePrefix(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+func DecodeDocdbSubnetGroup_SubnetIds(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SubnetIds = goVals
+}
+
+func DecodeDocdbSubnetGroup_Tags(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeDocdbSubnetGroup_Description(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeDocdbSubnetGroup_Arn(p *DocdbSubnetGroupObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

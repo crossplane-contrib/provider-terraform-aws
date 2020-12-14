@@ -52,10 +52,10 @@ type NetworkInterfaceAttachmentSpec struct {
 
 // A NetworkInterfaceAttachmentParameters defines the desired state of a NetworkInterfaceAttachment
 type NetworkInterfaceAttachmentParameters struct {
+	Id                 string `json:"id"`
 	InstanceId         string `json:"instance_id"`
 	NetworkInterfaceId string `json:"network_interface_id"`
 	DeviceIndex        int64  `json:"device_index"`
-	Id                 string `json:"id"`
 }
 
 // A NetworkInterfaceAttachmentStatus defines the observed state of a NetworkInterfaceAttachment

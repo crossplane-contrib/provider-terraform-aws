@@ -17,13 +17,107 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DmsEventSubscription)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDmsEventSubscription(r, ctyValue)
+}
+
+func DecodeDmsEventSubscription(prev *DmsEventSubscription, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDmsEventSubscription_EventCategories(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_Name(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_Enabled(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_Id(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_SnsTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_SourceIds(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeDmsEventSubscription_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDmsEventSubscription_EventCategories(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["event_categories"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.EventCategories = goVals
+}
+
+func DecodeDmsEventSubscription_Name(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeDmsEventSubscription_Tags(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeDmsEventSubscription_Enabled(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+func DecodeDmsEventSubscription_Id(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDmsEventSubscription_SnsTopicArn(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
+}
+
+func DecodeDmsEventSubscription_SourceIds(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["source_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SourceIds = goVals
+}
+
+func DecodeDmsEventSubscription_SourceType(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
+}
+
+func DecodeDmsEventSubscription_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeDmsEventSubscription_Timeouts_Delete(p, valMap)
+	DecodeDmsEventSubscription_Timeouts_Update(p, valMap)
+	DecodeDmsEventSubscription_Timeouts_Create(p, valMap)
+}
+
+func DecodeDmsEventSubscription_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+func DecodeDmsEventSubscription_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeDmsEventSubscription_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeDmsEventSubscription_Arn(p *DmsEventSubscriptionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*KmsCiphertext)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeKmsCiphertext(r, ctyValue)
+}
+
+func DecodeKmsCiphertext(prev *KmsCiphertext, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeKmsCiphertext_Context(&new.Spec.ForProvider, valMap)
+	DecodeKmsCiphertext_Id(&new.Spec.ForProvider, valMap)
+	DecodeKmsCiphertext_KeyId(&new.Spec.ForProvider, valMap)
+	DecodeKmsCiphertext_Plaintext(&new.Spec.ForProvider, valMap)
+	DecodeKmsCiphertext_CiphertextBlob(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeKmsCiphertext_Context(p *KmsCiphertextParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["context"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Context = vMap
+}
+
+func DecodeKmsCiphertext_Id(p *KmsCiphertextParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeKmsCiphertext_KeyId(p *KmsCiphertextParameters, vals map[string]cty.Value) {
+	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
+}
+
+func DecodeKmsCiphertext_Plaintext(p *KmsCiphertextParameters, vals map[string]cty.Value) {
+	p.Plaintext = ctwhy.ValueAsString(vals["plaintext"])
+}
+
+func DecodeKmsCiphertext_CiphertextBlob(p *KmsCiphertextObservation, vals map[string]cty.Value) {
+	p.CiphertextBlob = ctwhy.ValueAsString(vals["ciphertext_blob"])
 }

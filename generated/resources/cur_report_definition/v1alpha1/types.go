@@ -52,18 +52,18 @@ type CurReportDefinitionSpec struct {
 
 // A CurReportDefinitionParameters defines the desired state of a CurReportDefinition
 type CurReportDefinitionParameters struct {
-	AdditionalSchemaElements []string `json:"additional_schema_elements"`
 	Id                       string   `json:"id"`
-	RefreshClosedReports     bool     `json:"refresh_closed_reports"`
-	ReportName               string   `json:"report_name"`
-	S3Region                 string   `json:"s3_region"`
-	TimeUnit                 string   `json:"time_unit"`
-	AdditionalArtifacts      []string `json:"additional_artifacts"`
-	Compression              string   `json:"compression"`
-	Format                   string   `json:"format"`
 	ReportVersioning         string   `json:"report_versioning"`
 	S3Bucket                 string   `json:"s3_bucket"`
 	S3Prefix                 string   `json:"s3_prefix"`
+	TimeUnit                 string   `json:"time_unit"`
+	AdditionalSchemaElements []string `json:"additional_schema_elements"`
+	Compression              string   `json:"compression"`
+	RefreshClosedReports     bool     `json:"refresh_closed_reports"`
+	ReportName               string   `json:"report_name"`
+	S3Region                 string   `json:"s3_region"`
+	AdditionalArtifacts      []string `json:"additional_artifacts"`
+	Format                   string   `json:"format"`
 }
 
 // A CurReportDefinitionStatus defines the observed state of a CurReportDefinition

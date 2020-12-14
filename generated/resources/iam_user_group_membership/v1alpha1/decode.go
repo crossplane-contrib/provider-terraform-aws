@@ -17,13 +17,48 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamUserGroupMembership)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamUserGroupMembership(r, ctyValue)
+}
+
+func DecodeIamUserGroupMembership(prev *IamUserGroupMembership, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamUserGroupMembership_Groups(&new.Spec.ForProvider, valMap)
+	DecodeIamUserGroupMembership_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamUserGroupMembership_User(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamUserGroupMembership_Groups(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["groups"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Groups = goVals
+}
+
+func DecodeIamUserGroupMembership_Id(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamUserGroupMembership_User(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
+	p.User = ctwhy.ValueAsString(vals["user"])
 }

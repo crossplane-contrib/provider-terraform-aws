@@ -17,13 +17,58 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*KmsAlias)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeKmsAlias(r, ctyValue)
+}
+
+func DecodeKmsAlias(prev *KmsAlias, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeKmsAlias_Id(&new.Spec.ForProvider, valMap)
+	DecodeKmsAlias_Name(&new.Spec.ForProvider, valMap)
+	DecodeKmsAlias_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeKmsAlias_TargetKeyId(&new.Spec.ForProvider, valMap)
+	DecodeKmsAlias_Arn(&new.Status.AtProvider, valMap)
+	DecodeKmsAlias_TargetKeyArn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeKmsAlias_Id(p *KmsAliasParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeKmsAlias_Name(p *KmsAliasParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeKmsAlias_NamePrefix(p *KmsAliasParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+func DecodeKmsAlias_TargetKeyId(p *KmsAliasParameters, vals map[string]cty.Value) {
+	p.TargetKeyId = ctwhy.ValueAsString(vals["target_key_id"])
+}
+
+func DecodeKmsAlias_Arn(p *KmsAliasObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeKmsAlias_TargetKeyArn(p *KmsAliasObservation, vals map[string]cty.Value) {
+	p.TargetKeyArn = ctwhy.ValueAsString(vals["target_key_arn"])
 }

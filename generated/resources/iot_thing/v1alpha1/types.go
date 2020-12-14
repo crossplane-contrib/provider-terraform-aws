@@ -66,7 +66,7 @@ type IotThingStatus struct {
 
 // A IotThingObservation records the observed state of a IotThing
 type IotThingObservation struct {
+	Version         int64  `json:"version"`
 	Arn             string `json:"arn"`
 	DefaultClientId string `json:"default_client_id"`
-	Version         int64  `json:"version"`
 }

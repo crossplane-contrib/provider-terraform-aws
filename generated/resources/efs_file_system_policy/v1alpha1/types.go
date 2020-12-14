@@ -52,9 +52,9 @@ type EfsFileSystemPolicySpec struct {
 
 // A EfsFileSystemPolicyParameters defines the desired state of a EfsFileSystemPolicy
 type EfsFileSystemPolicyParameters struct {
+	FileSystemId string `json:"file_system_id"`
 	Id           string `json:"id"`
 	Policy       string `json:"policy"`
-	FileSystemId string `json:"file_system_id"`
 }
 
 // A EfsFileSystemPolicyStatus defines the observed state of a EfsFileSystemPolicy

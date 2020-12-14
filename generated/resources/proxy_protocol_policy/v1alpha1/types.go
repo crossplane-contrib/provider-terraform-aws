@@ -52,9 +52,9 @@ type ProxyProtocolPolicySpec struct {
 
 // A ProxyProtocolPolicyParameters defines the desired state of a ProxyProtocolPolicy
 type ProxyProtocolPolicyParameters struct {
+	Id            string   `json:"id"`
 	InstancePorts []string `json:"instance_ports"`
 	LoadBalancer  string   `json:"load_balancer"`
-	Id            string   `json:"id"`
 }
 
 // A ProxyProtocolPolicyStatus defines the observed state of a ProxyProtocolPolicy

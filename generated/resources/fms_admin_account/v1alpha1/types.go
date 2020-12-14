@@ -52,8 +52,8 @@ type FmsAdminAccountSpec struct {
 
 // A FmsAdminAccountParameters defines the desired state of a FmsAdminAccount
 type FmsAdminAccountParameters struct {
-	Id        string `json:"id"`
 	AccountId string `json:"account_id"`
+	Id        string `json:"id"`
 }
 
 // A FmsAdminAccountStatus defines the observed state of a FmsAdminAccount

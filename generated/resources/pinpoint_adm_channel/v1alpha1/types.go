@@ -52,11 +52,11 @@ type PinpointAdmChannelSpec struct {
 
 // A PinpointAdmChannelParameters defines the desired state of a PinpointAdmChannel
 type PinpointAdmChannelParameters struct {
+	ApplicationId string `json:"application_id"`
+	ClientId      string `json:"client_id"`
 	ClientSecret  string `json:"client_secret"`
 	Enabled       bool   `json:"enabled"`
 	Id            string `json:"id"`
-	ApplicationId string `json:"application_id"`
-	ClientId      string `json:"client_id"`
 }
 
 // A PinpointAdmChannelStatus defines the observed state of a PinpointAdmChannel

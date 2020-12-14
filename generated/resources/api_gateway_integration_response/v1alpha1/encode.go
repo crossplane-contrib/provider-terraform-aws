@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayIntegrationResponse(r ApiGatewayIntegrationResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayIntegrationResponse_SelectionPattern(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayIntegrationResponse_ContentHandling(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayIntegrationResponse_HttpMethod(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayIntegrationResponse_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayIntegrationResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayIntegrationResponse_RestApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayIntegrationResponse_ContentHandling(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayIntegrationResponse_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayIntegrationResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayIntegrationResponse_StatusCode(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayIntegrationResponse_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayIntegrationResponse_ResourceId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayIntegrationResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayIntegrationResponse_SelectionPattern(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,16 +57,12 @@ func EncodeApiGatewayIntegrationResponse(r ApiGatewayIntegrationResponse) cty.Va
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayIntegrationResponse_SelectionPattern(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
-	vals["selection_pattern"] = cty.StringVal(p.SelectionPattern)
+func EncodeApiGatewayIntegrationResponse_ContentHandling(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	vals["content_handling"] = cty.StringVal(p.ContentHandling)
 }
 
 func EncodeApiGatewayIntegrationResponse_HttpMethod(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
 	vals["http_method"] = cty.StringVal(p.HttpMethod)
-}
-
-func EncodeApiGatewayIntegrationResponse_ResourceId(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
-	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }
 
 func EncodeApiGatewayIntegrationResponse_ResponseParameters(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
@@ -85,12 +81,16 @@ func EncodeApiGatewayIntegrationResponse_RestApiId(p ApiGatewayIntegrationRespon
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
-func EncodeApiGatewayIntegrationResponse_ContentHandling(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
-	vals["content_handling"] = cty.StringVal(p.ContentHandling)
+func EncodeApiGatewayIntegrationResponse_StatusCode(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	vals["status_code"] = cty.StringVal(p.StatusCode)
 }
 
 func EncodeApiGatewayIntegrationResponse_Id(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeApiGatewayIntegrationResponse_ResourceId(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	vals["resource_id"] = cty.StringVal(p.ResourceId)
 }
 
 func EncodeApiGatewayIntegrationResponse_ResponseTemplates(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
@@ -105,6 +105,6 @@ func EncodeApiGatewayIntegrationResponse_ResponseTemplates(p ApiGatewayIntegrati
 	vals["response_templates"] = cty.MapVal(mVals)
 }
 
-func EncodeApiGatewayIntegrationResponse_StatusCode(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
-	vals["status_code"] = cty.StringVal(p.StatusCode)
+func EncodeApiGatewayIntegrationResponse_SelectionPattern(p ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	vals["selection_pattern"] = cty.StringVal(p.SelectionPattern)
 }

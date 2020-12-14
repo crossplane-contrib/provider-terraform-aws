@@ -17,13 +17,86 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ApiGatewayIntegrationResponse)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeApiGatewayIntegrationResponse(r, ctyValue)
+}
+
+func DecodeApiGatewayIntegrationResponse(prev *ApiGatewayIntegrationResponse, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeApiGatewayIntegrationResponse_ContentHandling(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_HttpMethod(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_ResponseParameters(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_RestApiId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_StatusCode(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_ResourceId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_ResponseTemplates(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegrationResponse_SelectionPattern(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeApiGatewayIntegrationResponse_ContentHandling(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	p.ContentHandling = ctwhy.ValueAsString(vals["content_handling"])
+}
+
+func DecodeApiGatewayIntegrationResponse_HttpMethod(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	p.HttpMethod = ctwhy.ValueAsString(vals["http_method"])
+}
+
+func DecodeApiGatewayIntegrationResponse_ResponseParameters(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["response_parameters"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ResponseParameters = vMap
+}
+
+func DecodeApiGatewayIntegrationResponse_RestApiId(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
+}
+
+func DecodeApiGatewayIntegrationResponse_StatusCode(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	p.StatusCode = ctwhy.ValueAsString(vals["status_code"])
+}
+
+func DecodeApiGatewayIntegrationResponse_Id(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeApiGatewayIntegrationResponse_ResourceId(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
+}
+
+func DecodeApiGatewayIntegrationResponse_ResponseTemplates(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["response_templates"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ResponseTemplates = vMap
+}
+
+func DecodeApiGatewayIntegrationResponse_SelectionPattern(p *ApiGatewayIntegrationResponseParameters, vals map[string]cty.Value) {
+	p.SelectionPattern = ctwhy.ValueAsString(vals["selection_pattern"])
 }

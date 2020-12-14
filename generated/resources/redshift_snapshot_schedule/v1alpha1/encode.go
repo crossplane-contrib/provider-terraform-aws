@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_IdentifierPrefix(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,18 +53,6 @@ func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotSchedule_Tags(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRedshiftSnapshotSchedule_Definitions(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
@@ -93,6 +81,18 @@ func EncodeRedshiftSnapshotSchedule_Identifier(p RedshiftSnapshotScheduleParamet
 
 func EncodeRedshiftSnapshotSchedule_IdentifierPrefix(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	vals["identifier_prefix"] = cty.StringVal(p.IdentifierPrefix)
+}
+
+func EncodeRedshiftSnapshotSchedule_Tags(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRedshiftSnapshotSchedule_Arn(p RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {

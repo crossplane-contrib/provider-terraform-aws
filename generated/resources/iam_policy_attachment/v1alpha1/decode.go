@@ -17,13 +17,71 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamPolicyAttachment)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamPolicyAttachment(r, ctyValue)
+}
+
+func DecodeIamPolicyAttachment(prev *IamPolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamPolicyAttachment_Users(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicyAttachment_Groups(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicyAttachment_Name(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicyAttachment_Roles(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamPolicyAttachment_Users(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["users"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Users = goVals
+}
+
+func DecodeIamPolicyAttachment_Groups(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["groups"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Groups = goVals
+}
+
+func DecodeIamPolicyAttachment_Id(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamPolicyAttachment_Name(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeIamPolicyAttachment_PolicyArn(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.PolicyArn = ctwhy.ValueAsString(vals["policy_arn"])
+}
+
+func DecodeIamPolicyAttachment_Roles(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["roles"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Roles = goVals
 }

@@ -17,13 +17,115 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*VpcEndpointService)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeVpcEndpointService(r, ctyValue)
+}
+
+func DecodeVpcEndpointService(prev *VpcEndpointService, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeVpcEndpointService_AcceptanceRequired(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointService_AllowedPrincipals(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointService_Id(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointService_Tags(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointService_NetworkLoadBalancerArns(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointService_ServiceName(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointService_ServiceType(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointService_AvailabilityZones(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointService_ManagesVpcEndpoints(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointService_PrivateDnsName(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointService_Arn(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointService_BaseEndpointDnsNames(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointService_State(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeVpcEndpointService_AcceptanceRequired(p *VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	p.AcceptanceRequired = ctwhy.ValueAsBool(vals["acceptance_required"])
+}
+
+func DecodeVpcEndpointService_AllowedPrincipals(p *VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["allowed_principals"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AllowedPrincipals = goVals
+}
+
+func DecodeVpcEndpointService_Id(p *VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeVpcEndpointService_Tags(p *VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeVpcEndpointService_NetworkLoadBalancerArns(p *VpcEndpointServiceParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["network_load_balancer_arns"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.NetworkLoadBalancerArns = goVals
+}
+
+func DecodeVpcEndpointService_ServiceName(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	p.ServiceName = ctwhy.ValueAsString(vals["service_name"])
+}
+
+func DecodeVpcEndpointService_ServiceType(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	p.ServiceType = ctwhy.ValueAsString(vals["service_type"])
+}
+
+func DecodeVpcEndpointService_AvailabilityZones(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["availability_zones"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AvailabilityZones = goVals
+}
+
+func DecodeVpcEndpointService_ManagesVpcEndpoints(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	p.ManagesVpcEndpoints = ctwhy.ValueAsBool(vals["manages_vpc_endpoints"])
+}
+
+func DecodeVpcEndpointService_PrivateDnsName(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	p.PrivateDnsName = ctwhy.ValueAsString(vals["private_dns_name"])
+}
+
+func DecodeVpcEndpointService_Arn(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeVpcEndpointService_BaseEndpointDnsNames(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["base_endpoint_dns_names"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.BaseEndpointDnsNames = goVals
+}
+
+func DecodeVpcEndpointService_State(p *VpcEndpointServiceObservation, vals map[string]cty.Value) {
+	p.State = ctwhy.ValueAsString(vals["state"])
 }

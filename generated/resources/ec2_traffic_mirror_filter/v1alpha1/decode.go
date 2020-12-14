@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2TrafficMirrorFilter)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2TrafficMirrorFilter(r, ctyValue)
+}
+
+func DecodeEc2TrafficMirrorFilter(prev *Ec2TrafficMirrorFilter, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2TrafficMirrorFilter_Description(&new.Spec.ForProvider, valMap)
+	DecodeEc2TrafficMirrorFilter_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2TrafficMirrorFilter_NetworkServices(&new.Spec.ForProvider, valMap)
+	DecodeEc2TrafficMirrorFilter_Tags(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2TrafficMirrorFilter_Description(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeEc2TrafficMirrorFilter_Id(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2TrafficMirrorFilter_NetworkServices(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["network_services"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.NetworkServices = goVals
+}
+
+func DecodeEc2TrafficMirrorFilter_Tags(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }

@@ -65,6 +65,6 @@ type IotPolicyStatus struct {
 
 // A IotPolicyObservation records the observed state of a IotPolicy
 type IotPolicyObservation struct {
-	Arn              string `json:"arn"`
 	DefaultVersionId string `json:"default_version_id"`
+	Arn              string `json:"arn"`
 }

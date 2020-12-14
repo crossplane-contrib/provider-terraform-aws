@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftEventSubscription(r RedshiftEventSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftEventSubscription_SourceIds(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftEventSubscription_SourceType(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftEventSubscription_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftEventSubscription_SnsTopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftEventSubscription_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftEventSubscription_Severity(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftEventSubscription_SourceType(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftEventSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftEventSubscription_EventCategories(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftEventSubscription_SnsTopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftEventSubscription_SourceIds(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftEventSubscription_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeRedshiftEventSubscription_Status(r.Status.AtProvider, ctyVal)
 	EncodeRedshiftEventSubscription_Arn(r.Status.AtProvider, ctyVal)
@@ -60,36 +60,16 @@ func EncodeRedshiftEventSubscription(r RedshiftEventSubscription) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRedshiftEventSubscription_SourceIds(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SourceIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["source_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeRedshiftEventSubscription_SourceType(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["source_type"] = cty.StringVal(p.SourceType)
-}
-
-func EncodeRedshiftEventSubscription_Enabled(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodeRedshiftEventSubscription_Id(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRedshiftEventSubscription_SnsTopicArn(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
-}
-
 func EncodeRedshiftEventSubscription_Name(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeRedshiftEventSubscription_Severity(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
 	vals["severity"] = cty.StringVal(p.Severity)
+}
+
+func EncodeRedshiftEventSubscription_SourceType(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["source_type"] = cty.StringVal(p.SourceType)
 }
 
 func EncodeRedshiftEventSubscription_Tags(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
@@ -104,6 +84,14 @@ func EncodeRedshiftEventSubscription_Tags(p RedshiftEventSubscriptionParameters,
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeRedshiftEventSubscription_Enabled(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodeRedshiftEventSubscription_Id(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeRedshiftEventSubscription_EventCategories(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.EventCategories {
@@ -112,12 +100,28 @@ func EncodeRedshiftEventSubscription_EventCategories(p RedshiftEventSubscription
 	vals["event_categories"] = cty.SetVal(colVals)
 }
 
+func EncodeRedshiftEventSubscription_SnsTopicArn(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
+}
+
+func EncodeRedshiftEventSubscription_SourceIds(p RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SourceIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["source_ids"] = cty.SetVal(colVals)
+}
+
 func EncodeRedshiftEventSubscription_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRedshiftEventSubscription_Timeouts_Update(p, ctyVal)
 	EncodeRedshiftEventSubscription_Timeouts_Create(p, ctyVal)
 	EncodeRedshiftEventSubscription_Timeouts_Delete(p, ctyVal)
-	EncodeRedshiftEventSubscription_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeRedshiftEventSubscription_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
+	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeRedshiftEventSubscription_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
@@ -126,10 +130,6 @@ func EncodeRedshiftEventSubscription_Timeouts_Create(p Timeouts, vals map[string
 
 func EncodeRedshiftEventSubscription_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
-}
-
-func EncodeRedshiftEventSubscription_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
-	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeRedshiftEventSubscription_Status(p RedshiftEventSubscriptionObservation, vals map[string]cty.Value) {

@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*CustomerGateway)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeCustomerGateway(r, ctyValue)
+}
+
+func DecodeCustomerGateway(prev *CustomerGateway, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeCustomerGateway_Type(&new.Spec.ForProvider, valMap)
+	DecodeCustomerGateway_BgpAsn(&new.Spec.ForProvider, valMap)
+	DecodeCustomerGateway_Id(&new.Spec.ForProvider, valMap)
+	DecodeCustomerGateway_IpAddress(&new.Spec.ForProvider, valMap)
+	DecodeCustomerGateway_Tags(&new.Spec.ForProvider, valMap)
+	DecodeCustomerGateway_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeCustomerGateway_Type(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
+}
+
+func DecodeCustomerGateway_BgpAsn(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+	p.BgpAsn = ctwhy.ValueAsString(vals["bgp_asn"])
+}
+
+func DecodeCustomerGateway_Id(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeCustomerGateway_IpAddress(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
+}
+
+func DecodeCustomerGateway_Tags(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeCustomerGateway_Arn(p *CustomerGatewayObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

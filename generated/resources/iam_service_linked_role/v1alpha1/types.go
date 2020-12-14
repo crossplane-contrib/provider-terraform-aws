@@ -52,9 +52,9 @@ type IamServiceLinkedRoleSpec struct {
 
 // A IamServiceLinkedRoleParameters defines the desired state of a IamServiceLinkedRole
 type IamServiceLinkedRoleParameters struct {
-	Description    string `json:"description"`
 	AwsServiceName string `json:"aws_service_name"`
 	CustomSuffix   string `json:"custom_suffix"`
+	Description    string `json:"description"`
 	Id             string `json:"id"`
 }
 

@@ -17,13 +17,99 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2CapacityReservation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2CapacityReservation(r, ctyValue)
+}
+
+func DecodeEc2CapacityReservation(prev *Ec2CapacityReservation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2CapacityReservation_InstanceMatchCriteria(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_InstanceType(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_Tenancy(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_EbsOptimized(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_EphemeralStorage(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_InstanceCount(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_InstancePlatform(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_EndDate(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_EndDateType(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2CapacityReservation_InstanceMatchCriteria(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.InstanceMatchCriteria = ctwhy.ValueAsString(vals["instance_match_criteria"])
+}
+
+func DecodeEc2CapacityReservation_InstanceType(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.InstanceType = ctwhy.ValueAsString(vals["instance_type"])
+}
+
+func DecodeEc2CapacityReservation_Tenancy(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.Tenancy = ctwhy.ValueAsString(vals["tenancy"])
+}
+
+func DecodeEc2CapacityReservation_EbsOptimized(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.EbsOptimized = ctwhy.ValueAsBool(vals["ebs_optimized"])
+}
+
+func DecodeEc2CapacityReservation_Id(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2CapacityReservation_EphemeralStorage(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.EphemeralStorage = ctwhy.ValueAsBool(vals["ephemeral_storage"])
+}
+
+func DecodeEc2CapacityReservation_InstanceCount(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.InstanceCount = ctwhy.ValueAsInt64(vals["instance_count"])
+}
+
+func DecodeEc2CapacityReservation_InstancePlatform(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.InstancePlatform = ctwhy.ValueAsString(vals["instance_platform"])
+}
+
+func DecodeEc2CapacityReservation_Tags(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeEc2CapacityReservation_AvailabilityZone(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+func DecodeEc2CapacityReservation_EndDate(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.EndDate = ctwhy.ValueAsString(vals["end_date"])
+}
+
+func DecodeEc2CapacityReservation_EndDateType(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.EndDateType = ctwhy.ValueAsString(vals["end_date_type"])
+}
+
+func DecodeEc2CapacityReservation_Arn(p *Ec2CapacityReservationObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

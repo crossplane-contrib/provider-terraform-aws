@@ -37,8 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesDomainIdentityVerification(r SesDomainIdentityVerification) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesDomainIdentityVerification_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentityVerification_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSesDomainIdentityVerification_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentityVerification_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeSesDomainIdentityVerification_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -51,12 +51,12 @@ func EncodeSesDomainIdentityVerification(r SesDomainIdentityVerification) cty.Va
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesDomainIdentityVerification_Domain(p SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
-}
-
 func EncodeSesDomainIdentityVerification_Id(p SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSesDomainIdentityVerification_Domain(p SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
 }
 
 func EncodeSesDomainIdentityVerification_Timeouts(p Timeouts, vals map[string]cty.Value) {

@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*VpnGateway)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeVpnGateway(r, ctyValue)
+}
+
+func DecodeVpnGateway(prev *VpnGateway, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeVpnGateway_AmazonSideAsn(&new.Spec.ForProvider, valMap)
+	DecodeVpnGateway_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeVpnGateway_Id(&new.Spec.ForProvider, valMap)
+	DecodeVpnGateway_Tags(&new.Spec.ForProvider, valMap)
+	DecodeVpnGateway_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeVpnGateway_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeVpnGateway_AmazonSideAsn(p *VpnGatewayParameters, vals map[string]cty.Value) {
+	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
+}
+
+func DecodeVpnGateway_AvailabilityZone(p *VpnGatewayParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+func DecodeVpnGateway_Id(p *VpnGatewayParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeVpnGateway_Tags(p *VpnGatewayParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeVpnGateway_VpcId(p *VpnGatewayParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+func DecodeVpnGateway_Arn(p *VpnGatewayObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

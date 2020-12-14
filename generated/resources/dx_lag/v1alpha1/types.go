@@ -52,9 +52,9 @@ type DxLagSpec struct {
 
 // A DxLagParameters defines the desired state of a DxLag
 type DxLagParameters struct {
-	Location             string            `json:"location"`
 	Id                   string            `json:"id"`
 	Name                 string            `json:"name"`
+	Location             string            `json:"location"`
 	Tags                 map[string]string `json:"tags"`
 	ConnectionsBandwidth string            `json:"connections_bandwidth"`
 	ForceDestroy         bool              `json:"force_destroy"`

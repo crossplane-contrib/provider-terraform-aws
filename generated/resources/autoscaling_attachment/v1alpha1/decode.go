@@ -17,13 +17,49 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*AutoscalingAttachment)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeAutoscalingAttachment(r, ctyValue)
+}
+
+func DecodeAutoscalingAttachment(prev *AutoscalingAttachment, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeAutoscalingAttachment_AlbTargetGroupArn(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingAttachment_AutoscalingGroupName(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingAttachment_Elb(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingAttachment_Id(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeAutoscalingAttachment_AlbTargetGroupArn(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+	p.AlbTargetGroupArn = ctwhy.ValueAsString(vals["alb_target_group_arn"])
+}
+
+func DecodeAutoscalingAttachment_AutoscalingGroupName(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+	p.AutoscalingGroupName = ctwhy.ValueAsString(vals["autoscaling_group_name"])
+}
+
+func DecodeAutoscalingAttachment_Elb(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+	p.Elb = ctwhy.ValueAsString(vals["elb"])
+}
+
+func DecodeAutoscalingAttachment_Id(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

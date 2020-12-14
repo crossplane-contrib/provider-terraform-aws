@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyPublishingDestination(r GuarddutyPublishingDestination) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGuarddutyPublishingDestination_Id(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyPublishingDestination_KmsKeyArn(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_DestinationArn(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_DestinationType(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_DetectorId(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyPublishingDestination_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyPublishingDestination_KmsKeyArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +51,6 @@ func EncodeGuarddutyPublishingDestination(r GuarddutyPublishingDestination) cty.
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGuarddutyPublishingDestination_Id(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeGuarddutyPublishingDestination_KmsKeyArn(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
-	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
 func EncodeGuarddutyPublishingDestination_DestinationArn(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
@@ -71,4 +63,12 @@ func EncodeGuarddutyPublishingDestination_DestinationType(p GuarddutyPublishingD
 
 func EncodeGuarddutyPublishingDestination_DetectorId(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
+}
+
+func EncodeGuarddutyPublishingDestination_Id(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGuarddutyPublishingDestination_KmsKeyArn(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }

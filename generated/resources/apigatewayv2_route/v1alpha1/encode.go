@@ -37,18 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApigatewayv2Route(r Apigatewayv2Route) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Route_ApiKeyRequired(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_AuthorizationType(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_AuthorizerId(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_ModelSelectionExpression(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_RouteKey(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_OperationName(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_RouteResponseSelectionExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_Target(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_AuthorizationScopes(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_AuthorizerId(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Route_OperationName(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Route_RequestModels(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_RouteKey(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_ApiKeyRequired(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Route_AuthorizationType(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -60,20 +60,20 @@ func EncodeApigatewayv2Route(r Apigatewayv2Route) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApigatewayv2Route_ApiKeyRequired(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["api_key_required"] = cty.BoolVal(p.ApiKeyRequired)
+func EncodeApigatewayv2Route_AuthorizerId(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["authorizer_id"] = cty.StringVal(p.AuthorizerId)
 }
 
-func EncodeApigatewayv2Route_AuthorizationType(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["authorization_type"] = cty.StringVal(p.AuthorizationType)
+func EncodeApigatewayv2Route_Id(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApigatewayv2Route_ModelSelectionExpression(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	vals["model_selection_expression"] = cty.StringVal(p.ModelSelectionExpression)
 }
 
-func EncodeApigatewayv2Route_RouteKey(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["route_key"] = cty.StringVal(p.RouteKey)
+func EncodeApigatewayv2Route_OperationName(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["operation_name"] = cty.StringVal(p.OperationName)
 }
 
 func EncodeApigatewayv2Route_RouteResponseSelectionExpression(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
@@ -96,18 +96,6 @@ func EncodeApigatewayv2Route_AuthorizationScopes(p Apigatewayv2RouteParameters, 
 	vals["authorization_scopes"] = cty.SetVal(colVals)
 }
 
-func EncodeApigatewayv2Route_AuthorizerId(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["authorizer_id"] = cty.StringVal(p.AuthorizerId)
-}
-
-func EncodeApigatewayv2Route_Id(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApigatewayv2Route_OperationName(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	vals["operation_name"] = cty.StringVal(p.OperationName)
-}
-
 func EncodeApigatewayv2Route_RequestModels(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	if len(p.RequestModels) == 0 {
 		vals["request_models"] = cty.NullVal(cty.Map(cty.String))
@@ -118,4 +106,16 @@ func EncodeApigatewayv2Route_RequestModels(p Apigatewayv2RouteParameters, vals m
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["request_models"] = cty.MapVal(mVals)
+}
+
+func EncodeApigatewayv2Route_RouteKey(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["route_key"] = cty.StringVal(p.RouteKey)
+}
+
+func EncodeApigatewayv2Route_ApiKeyRequired(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["api_key_required"] = cty.BoolVal(p.ApiKeyRequired)
+}
+
+func EncodeApigatewayv2Route_AuthorizationType(p Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	vals["authorization_type"] = cty.StringVal(p.AuthorizationType)
 }

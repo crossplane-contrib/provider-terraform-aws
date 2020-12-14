@@ -17,13 +17,89 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*CloudformationStackSetInstance)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeCloudformationStackSetInstance(r, ctyValue)
+}
+
+func DecodeCloudformationStackSetInstance(prev *CloudformationStackSetInstance, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeCloudformationStackSetInstance_AccountId(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSetInstance_Id(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSetInstance_ParameterOverrides(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSetInstance_Region(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSetInstance_RetainStack(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSetInstance_StackSetName(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSetInstance_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeCloudformationStackSetInstance_StackId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeCloudformationStackSetInstance_AccountId(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
+}
+
+func DecodeCloudformationStackSetInstance_Id(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeCloudformationStackSetInstance_ParameterOverrides(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["parameter_overrides"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ParameterOverrides = vMap
+}
+
+func DecodeCloudformationStackSetInstance_Region(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	p.Region = ctwhy.ValueAsString(vals["region"])
+}
+
+func DecodeCloudformationStackSetInstance_RetainStack(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	p.RetainStack = ctwhy.ValueAsBool(vals["retain_stack"])
+}
+
+func DecodeCloudformationStackSetInstance_StackSetName(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	p.StackSetName = ctwhy.ValueAsString(vals["stack_set_name"])
+}
+
+func DecodeCloudformationStackSetInstance_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeCloudformationStackSetInstance_Timeouts_Create(p, valMap)
+	DecodeCloudformationStackSetInstance_Timeouts_Delete(p, valMap)
+	DecodeCloudformationStackSetInstance_Timeouts_Update(p, valMap)
+}
+
+func DecodeCloudformationStackSetInstance_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeCloudformationStackSetInstance_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+func DecodeCloudformationStackSetInstance_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeCloudformationStackSetInstance_StackId(p *CloudformationStackSetInstanceObservation, vals map[string]cty.Value) {
+	p.StackId = ctwhy.ValueAsString(vals["stack_id"])
 }

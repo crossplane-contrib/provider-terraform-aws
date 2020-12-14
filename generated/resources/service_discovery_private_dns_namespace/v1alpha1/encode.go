@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeServiceDiscoveryPrivateDnsNamespace(r ServiceDiscoveryPrivateDnsNamespace) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeServiceDiscoveryPrivateDnsNamespace_Vpc(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryPrivateDnsNamespace_Vpc(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_Arn(r.Status.AtProvider, ctyVal)
 	EncodeServiceDiscoveryPrivateDnsNamespace_HostedZone(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -52,6 +52,10 @@ func EncodeServiceDiscoveryPrivateDnsNamespace(r ServiceDiscoveryPrivateDnsNames
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeServiceDiscoveryPrivateDnsNamespace_Vpc(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
+	vals["vpc"] = cty.StringVal(p.Vpc)
 }
 
 func EncodeServiceDiscoveryPrivateDnsNamespace_Description(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
@@ -76,10 +80,6 @@ func EncodeServiceDiscoveryPrivateDnsNamespace_Tags(p ServiceDiscoveryPrivateDns
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeServiceDiscoveryPrivateDnsNamespace_Vpc(p ServiceDiscoveryPrivateDnsNamespaceParameters, vals map[string]cty.Value) {
-	vals["vpc"] = cty.StringVal(p.Vpc)
 }
 
 func EncodeServiceDiscoveryPrivateDnsNamespace_Arn(p ServiceDiscoveryPrivateDnsNamespaceObservation, vals map[string]cty.Value) {

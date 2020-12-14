@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeOpsworksRdsDbInstance(r OpsworksRdsDbInstance) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksRdsDbInstance_DbUser(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksRdsDbInstance_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksRdsDbInstance_RdsDbInstanceArn(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksRdsDbInstance_StackId(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksRdsDbInstance_DbPassword(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksRdsDbInstance_DbUser(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeOpsworksRdsDbInstance(r OpsworksRdsDbInstance) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOpsworksRdsDbInstance_DbUser(p OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
-	vals["db_user"] = cty.StringVal(p.DbUser)
 }
 
 func EncodeOpsworksRdsDbInstance_Id(p OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
@@ -71,4 +67,8 @@ func EncodeOpsworksRdsDbInstance_StackId(p OpsworksRdsDbInstanceParameters, vals
 
 func EncodeOpsworksRdsDbInstance_DbPassword(p OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
 	vals["db_password"] = cty.StringVal(p.DbPassword)
+}
+
+func EncodeOpsworksRdsDbInstance_DbUser(p OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
+	vals["db_user"] = cty.StringVal(p.DbUser)
 }

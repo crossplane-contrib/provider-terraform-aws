@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamUserSshKey(r IamUserSshKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamUserSshKey_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamUserSshKey_PublicKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Status(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Username(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserSshKey_Encoding(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserSshKey_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserSshKey_PublicKey(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserSshKey_SshPublicKeyId(r.Status.AtProvider, ctyVal)
 	EncodeIamUserSshKey_Fingerprint(r.Status.AtProvider, ctyVal)
+	EncodeIamUserSshKey_SshPublicKeyId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -52,6 +52,14 @@ func EncodeIamUserSshKey(r IamUserSshKey) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamUserSshKey_Id(p IamUserSshKeyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeIamUserSshKey_PublicKey(p IamUserSshKeyParameters, vals map[string]cty.Value) {
+	vals["public_key"] = cty.StringVal(p.PublicKey)
 }
 
 func EncodeIamUserSshKey_Status(p IamUserSshKeyParameters, vals map[string]cty.Value) {
@@ -66,18 +74,10 @@ func EncodeIamUserSshKey_Encoding(p IamUserSshKeyParameters, vals map[string]cty
 	vals["encoding"] = cty.StringVal(p.Encoding)
 }
 
-func EncodeIamUserSshKey_Id(p IamUserSshKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamUserSshKey_PublicKey(p IamUserSshKeyParameters, vals map[string]cty.Value) {
-	vals["public_key"] = cty.StringVal(p.PublicKey)
+func EncodeIamUserSshKey_Fingerprint(p IamUserSshKeyObservation, vals map[string]cty.Value) {
+	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
 }
 
 func EncodeIamUserSshKey_SshPublicKeyId(p IamUserSshKeyObservation, vals map[string]cty.Value) {
 	vals["ssh_public_key_id"] = cty.StringVal(p.SshPublicKeyId)
-}
-
-func EncodeIamUserSshKey_Fingerprint(p IamUserSshKeyObservation, vals map[string]cty.Value) {
-	vals["fingerprint"] = cty.StringVal(p.Fingerprint)
 }

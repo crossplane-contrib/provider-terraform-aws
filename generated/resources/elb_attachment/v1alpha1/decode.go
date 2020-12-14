@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ElbAttachment)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeElbAttachment(r, ctyValue)
+}
+
+func DecodeElbAttachment(prev *ElbAttachment, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeElbAttachment_Elb(&new.Spec.ForProvider, valMap)
+	DecodeElbAttachment_Id(&new.Spec.ForProvider, valMap)
+	DecodeElbAttachment_Instance(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeElbAttachment_Elb(p *ElbAttachmentParameters, vals map[string]cty.Value) {
+	p.Elb = ctwhy.ValueAsString(vals["elb"])
+}
+
+func DecodeElbAttachment_Id(p *ElbAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeElbAttachment_Instance(p *ElbAttachmentParameters, vals map[string]cty.Value) {
+	p.Instance = ctwhy.ValueAsString(vals["instance"])
 }

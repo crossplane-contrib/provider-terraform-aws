@@ -17,13 +17,123 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DxHostedTransitVirtualInterface)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDxHostedTransitVirtualInterface(r, ctyValue)
+}
+
+func DecodeDxHostedTransitVirtualInterface(prev *DxHostedTransitVirtualInterface, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDxHostedTransitVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_OwnerAccountId(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_AddressFamily(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_BgpAuthKey(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_Id(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_Mtu(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_Name(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeDxHostedTransitVirtualInterface_AmazonSideAsn(&new.Status.AtProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_Arn(&new.Status.AtProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_AwsDevice(&new.Status.AtProvider, valMap)
+	DecodeDxHostedTransitVirtualInterface_JumboFrameCapable(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDxHostedTransitVirtualInterface_ConnectionId(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_OwnerAccountId(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.OwnerAccountId = ctwhy.ValueAsString(vals["owner_account_id"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_AmazonAddress(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_AddressFamily(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AddressFamily = ctwhy.ValueAsString(vals["address_family"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_BgpAsn(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_BgpAuthKey(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAuthKey = ctwhy.ValueAsString(vals["bgp_auth_key"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_CustomerAddress(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Id(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Mtu(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Name(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Vlan(p *DxHostedTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeDxHostedTransitVirtualInterface_Timeouts_Create(p, valMap)
+	DecodeDxHostedTransitVirtualInterface_Timeouts_Delete(p, valMap)
+	DecodeDxHostedTransitVirtualInterface_Timeouts_Update(p, valMap)
+}
+
+func DecodeDxHostedTransitVirtualInterface_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_AmazonSideAsn(p *DxHostedTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_Arn(p *DxHostedTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_AwsDevice(p *DxHostedTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.AwsDevice = ctwhy.ValueAsString(vals["aws_device"])
+}
+
+func DecodeDxHostedTransitVirtualInterface_JumboFrameCapable(p *DxHostedTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
 }

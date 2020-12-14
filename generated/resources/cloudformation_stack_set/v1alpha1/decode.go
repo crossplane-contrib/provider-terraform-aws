@@ -17,13 +17,114 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*CloudformationStackSet)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeCloudformationStackSet(r, ctyValue)
+}
+
+func DecodeCloudformationStackSet(prev *CloudformationStackSet, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeCloudformationStackSet_TemplateUrl(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Capabilities(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Description(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_TemplateBody(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Name(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Parameters(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Tags(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_AdministrationRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_ExecutionRoleName(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Id(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeCloudformationStackSet_StackSetId(&new.Status.AtProvider, valMap)
+	DecodeCloudformationStackSet_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeCloudformationStackSet_TemplateUrl(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.TemplateUrl = ctwhy.ValueAsString(vals["template_url"])
+}
+
+func DecodeCloudformationStackSet_Capabilities(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["capabilities"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Capabilities = goVals
+}
+
+func DecodeCloudformationStackSet_Description(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeCloudformationStackSet_TemplateBody(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.TemplateBody = ctwhy.ValueAsString(vals["template_body"])
+}
+
+func DecodeCloudformationStackSet_Name(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeCloudformationStackSet_Parameters(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["parameters"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Parameters = vMap
+}
+
+func DecodeCloudformationStackSet_Tags(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeCloudformationStackSet_AdministrationRoleArn(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.AdministrationRoleArn = ctwhy.ValueAsString(vals["administration_role_arn"])
+}
+
+func DecodeCloudformationStackSet_ExecutionRoleName(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.ExecutionRoleName = ctwhy.ValueAsString(vals["execution_role_name"])
+}
+
+func DecodeCloudformationStackSet_Id(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeCloudformationStackSet_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeCloudformationStackSet_Timeouts_Update(p, valMap)
+}
+
+func DecodeCloudformationStackSet_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeCloudformationStackSet_StackSetId(p *CloudformationStackSetObservation, vals map[string]cty.Value) {
+	p.StackSetId = ctwhy.ValueAsString(vals["stack_set_id"])
+}
+
+func DecodeCloudformationStackSet_Arn(p *CloudformationStackSetObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

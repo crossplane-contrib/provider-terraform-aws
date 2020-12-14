@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*EmrSecurityConfiguration)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEmrSecurityConfiguration(r, ctyValue)
+}
+
+func DecodeEmrSecurityConfiguration(prev *EmrSecurityConfiguration, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEmrSecurityConfiguration_Configuration(&new.Spec.ForProvider, valMap)
+	DecodeEmrSecurityConfiguration_Id(&new.Spec.ForProvider, valMap)
+	DecodeEmrSecurityConfiguration_Name(&new.Spec.ForProvider, valMap)
+	DecodeEmrSecurityConfiguration_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeEmrSecurityConfiguration_CreationDate(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEmrSecurityConfiguration_Configuration(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+	p.Configuration = ctwhy.ValueAsString(vals["configuration"])
+}
+
+func DecodeEmrSecurityConfiguration_Id(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEmrSecurityConfiguration_Name(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeEmrSecurityConfiguration_NamePrefix(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+func DecodeEmrSecurityConfiguration_CreationDate(p *EmrSecurityConfigurationObservation, vals map[string]cty.Value) {
+	p.CreationDate = ctwhy.ValueAsString(vals["creation_date"])
 }

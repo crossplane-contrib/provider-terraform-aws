@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*BackupVault)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeBackupVault(r, ctyValue)
+}
+
+func DecodeBackupVault(prev *BackupVault, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeBackupVault_Name(&new.Spec.ForProvider, valMap)
+	DecodeBackupVault_Tags(&new.Spec.ForProvider, valMap)
+	DecodeBackupVault_Id(&new.Spec.ForProvider, valMap)
+	DecodeBackupVault_KmsKeyArn(&new.Spec.ForProvider, valMap)
+	DecodeBackupVault_RecoveryPoints(&new.Status.AtProvider, valMap)
+	DecodeBackupVault_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeBackupVault_Name(p *BackupVaultParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeBackupVault_Tags(p *BackupVaultParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeBackupVault_Id(p *BackupVaultParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeBackupVault_KmsKeyArn(p *BackupVaultParameters, vals map[string]cty.Value) {
+	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
+}
+
+func DecodeBackupVault_RecoveryPoints(p *BackupVaultObservation, vals map[string]cty.Value) {
+	p.RecoveryPoints = ctwhy.ValueAsInt64(vals["recovery_points"])
+}
+
+func DecodeBackupVault_Arn(p *BackupVaultObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodePinpointGcmChannel(r PinpointGcmChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodePinpointGcmChannel_ApiKey(r.Spec.ForProvider, ctyVal)
 	EncodePinpointGcmChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointGcmChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointGcmChannel_Id(r.Spec.ForProvider, ctyVal)
-	EncodePinpointGcmChannel_ApiKey(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,6 +50,10 @@ func EncodePinpointGcmChannel(r PinpointGcmChannel) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodePinpointGcmChannel_ApiKey(p PinpointGcmChannelParameters, vals map[string]cty.Value) {
+	vals["api_key"] = cty.StringVal(p.ApiKey)
 }
 
 func EncodePinpointGcmChannel_ApplicationId(p PinpointGcmChannelParameters, vals map[string]cty.Value) {
@@ -62,8 +66,4 @@ func EncodePinpointGcmChannel_Enabled(p PinpointGcmChannelParameters, vals map[s
 
 func EncodePinpointGcmChannel_Id(p PinpointGcmChannelParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodePinpointGcmChannel_ApiKey(p PinpointGcmChannelParameters, vals map[string]cty.Value) {
-	vals["api_key"] = cty.StringVal(p.ApiKey)
 }

@@ -37,14 +37,14 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodeartifactDomain(r CodeartifactDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodeartifactDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_EncryptionKey(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCodeartifactDomain_Domain(r.Spec.ForProvider, ctyVal)
+	EncodeCodeartifactDomain_Owner(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_RepositoryCount(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_Arn(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_AssetSizeBytes(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_CreatedTime(r.Status.AtProvider, ctyVal)
-	EncodeCodeartifactDomain_Owner(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -55,16 +55,20 @@ func EncodeCodeartifactDomain(r CodeartifactDomain) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCodeartifactDomain_Domain(p CodeartifactDomainParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
-}
-
 func EncodeCodeartifactDomain_EncryptionKey(p CodeartifactDomainParameters, vals map[string]cty.Value) {
 	vals["encryption_key"] = cty.StringVal(p.EncryptionKey)
 }
 
 func EncodeCodeartifactDomain_Id(p CodeartifactDomainParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCodeartifactDomain_Domain(p CodeartifactDomainParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
+}
+
+func EncodeCodeartifactDomain_Owner(p CodeartifactDomainObservation, vals map[string]cty.Value) {
+	vals["owner"] = cty.StringVal(p.Owner)
 }
 
 func EncodeCodeartifactDomain_RepositoryCount(p CodeartifactDomainObservation, vals map[string]cty.Value) {
@@ -81,8 +85,4 @@ func EncodeCodeartifactDomain_AssetSizeBytes(p CodeartifactDomainObservation, va
 
 func EncodeCodeartifactDomain_CreatedTime(p CodeartifactDomainObservation, vals map[string]cty.Value) {
 	vals["created_time"] = cty.StringVal(p.CreatedTime)
-}
-
-func EncodeCodeartifactDomain_Owner(p CodeartifactDomainObservation, vals map[string]cty.Value) {
-	vals["owner"] = cty.StringVal(p.Owner)
 }

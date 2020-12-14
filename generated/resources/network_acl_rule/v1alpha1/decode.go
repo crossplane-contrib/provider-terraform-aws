@@ -17,13 +17,89 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*NetworkAclRule)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeNetworkAclRule(r, ctyValue)
+}
+
+func DecodeNetworkAclRule(prev *NetworkAclRule, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeNetworkAclRule_IcmpType(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_Ipv6CidrBlock(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_NetworkAclId(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_ToPort(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_FromPort(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_Egress(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_IcmpCode(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_Id(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_Protocol(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_RuleAction(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_RuleNumber(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_CidrBlock(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeNetworkAclRule_IcmpType(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.IcmpType = ctwhy.ValueAsString(vals["icmp_type"])
+}
+
+func DecodeNetworkAclRule_Ipv6CidrBlock(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.Ipv6CidrBlock = ctwhy.ValueAsString(vals["ipv6_cidr_block"])
+}
+
+func DecodeNetworkAclRule_NetworkAclId(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.NetworkAclId = ctwhy.ValueAsString(vals["network_acl_id"])
+}
+
+func DecodeNetworkAclRule_ToPort(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.ToPort = ctwhy.ValueAsInt64(vals["to_port"])
+}
+
+func DecodeNetworkAclRule_FromPort(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.FromPort = ctwhy.ValueAsInt64(vals["from_port"])
+}
+
+func DecodeNetworkAclRule_Egress(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.Egress = ctwhy.ValueAsBool(vals["egress"])
+}
+
+func DecodeNetworkAclRule_IcmpCode(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.IcmpCode = ctwhy.ValueAsString(vals["icmp_code"])
+}
+
+func DecodeNetworkAclRule_Id(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeNetworkAclRule_Protocol(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.Protocol = ctwhy.ValueAsString(vals["protocol"])
+}
+
+func DecodeNetworkAclRule_RuleAction(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.RuleAction = ctwhy.ValueAsString(vals["rule_action"])
+}
+
+func DecodeNetworkAclRule_RuleNumber(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.RuleNumber = ctwhy.ValueAsInt64(vals["rule_number"])
+}
+
+func DecodeNetworkAclRule_CidrBlock(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.CidrBlock = ctwhy.ValueAsString(vals["cidr_block"])
 }

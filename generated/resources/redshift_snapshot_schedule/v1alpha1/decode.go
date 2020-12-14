@@ -17,13 +17,78 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*RedshiftSnapshotSchedule)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeRedshiftSnapshotSchedule(r, ctyValue)
+}
+
+func DecodeRedshiftSnapshotSchedule(prev *RedshiftSnapshotSchedule, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeRedshiftSnapshotSchedule_Definitions(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_Description(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_ForceDestroy(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_Id(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_Identifier(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_IdentifierPrefix(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeRedshiftSnapshotSchedule_Definitions(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["definitions"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Definitions = goVals
+}
+
+func DecodeRedshiftSnapshotSchedule_Description(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeRedshiftSnapshotSchedule_ForceDestroy(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
+}
+
+func DecodeRedshiftSnapshotSchedule_Id(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeRedshiftSnapshotSchedule_Identifier(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.Identifier = ctwhy.ValueAsString(vals["identifier"])
+}
+
+func DecodeRedshiftSnapshotSchedule_IdentifierPrefix(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.IdentifierPrefix = ctwhy.ValueAsString(vals["identifier_prefix"])
+}
+
+func DecodeRedshiftSnapshotSchedule_Tags(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeRedshiftSnapshotSchedule_Arn(p *RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

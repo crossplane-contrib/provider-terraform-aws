@@ -38,25 +38,25 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeSnsTopic(r SnsTopic) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSnsTopic_ApplicationFailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_DeliveryPolicy(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_SqsFailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_SqsSuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopic_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_SqsSuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_ApplicationSuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopic_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_LambdaSuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_ApplicationSuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_DisplayName(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_HttpFailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopic_HttpSuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_HttpSuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopic_KmsMasterKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeSnsTopic_LambdaFailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_LambdaSuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopic_LambdaSuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_SqsSuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_SqsFailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_ApplicationSuccessFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_HttpFailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_LambdaFailureFeedbackRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopic_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_ApplicationSuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_DeliveryPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_DisplayName(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_HttpSuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopic_SqsSuccessFeedbackSampleRate(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopic_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -72,36 +72,8 @@ func EncodeSnsTopic_ApplicationFailureFeedbackRoleArn(p SnsTopicParameters, vals
 	vals["application_failure_feedback_role_arn"] = cty.StringVal(p.ApplicationFailureFeedbackRoleArn)
 }
 
-func EncodeSnsTopic_DeliveryPolicy(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["delivery_policy"] = cty.StringVal(p.DeliveryPolicy)
-}
-
-func EncodeSnsTopic_Id(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSnsTopic_SqsFailureFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["sqs_failure_feedback_role_arn"] = cty.StringVal(p.SqsFailureFeedbackRoleArn)
-}
-
-func EncodeSnsTopic_SqsSuccessFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["sqs_success_feedback_role_arn"] = cty.StringVal(p.SqsSuccessFeedbackRoleArn)
-}
-
 func EncodeSnsTopic_Name(p SnsTopicParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSnsTopic_NamePrefix(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeSnsTopic_SqsSuccessFeedbackSampleRate(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["sqs_success_feedback_sample_rate"] = cty.NumberIntVal(p.SqsSuccessFeedbackSampleRate)
-}
-
-func EncodeSnsTopic_ApplicationSuccessFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["application_success_feedback_role_arn"] = cty.StringVal(p.ApplicationSuccessFeedbackRoleArn)
 }
 
 func EncodeSnsTopic_Tags(p SnsTopicParameters, vals map[string]cty.Value) {
@@ -116,44 +88,72 @@ func EncodeSnsTopic_Tags(p SnsTopicParameters, vals map[string]cty.Value) {
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSnsTopic_LambdaSuccessFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["lambda_success_feedback_role_arn"] = cty.StringVal(p.LambdaSuccessFeedbackRoleArn)
-}
-
-func EncodeSnsTopic_ApplicationSuccessFeedbackSampleRate(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["application_success_feedback_sample_rate"] = cty.NumberIntVal(p.ApplicationSuccessFeedbackSampleRate)
-}
-
-func EncodeSnsTopic_DisplayName(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["display_name"] = cty.StringVal(p.DisplayName)
-}
-
-func EncodeSnsTopic_HttpFailureFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["http_failure_feedback_role_arn"] = cty.StringVal(p.HttpFailureFeedbackRoleArn)
-}
-
 func EncodeSnsTopic_HttpSuccessFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
 	vals["http_success_feedback_role_arn"] = cty.StringVal(p.HttpSuccessFeedbackRoleArn)
-}
-
-func EncodeSnsTopic_HttpSuccessFeedbackSampleRate(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["http_success_feedback_sample_rate"] = cty.NumberIntVal(p.HttpSuccessFeedbackSampleRate)
 }
 
 func EncodeSnsTopic_KmsMasterKeyId(p SnsTopicParameters, vals map[string]cty.Value) {
 	vals["kms_master_key_id"] = cty.StringVal(p.KmsMasterKeyId)
 }
 
-func EncodeSnsTopic_LambdaFailureFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
-	vals["lambda_failure_feedback_role_arn"] = cty.StringVal(p.LambdaFailureFeedbackRoleArn)
+func EncodeSnsTopic_LambdaSuccessFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["lambda_success_feedback_role_arn"] = cty.StringVal(p.LambdaSuccessFeedbackRoleArn)
 }
 
 func EncodeSnsTopic_LambdaSuccessFeedbackSampleRate(p SnsTopicParameters, vals map[string]cty.Value) {
 	vals["lambda_success_feedback_sample_rate"] = cty.NumberIntVal(p.LambdaSuccessFeedbackSampleRate)
 }
 
+func EncodeSnsTopic_SqsSuccessFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["sqs_success_feedback_role_arn"] = cty.StringVal(p.SqsSuccessFeedbackRoleArn)
+}
+
+func EncodeSnsTopic_SqsFailureFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["sqs_failure_feedback_role_arn"] = cty.StringVal(p.SqsFailureFeedbackRoleArn)
+}
+
+func EncodeSnsTopic_ApplicationSuccessFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["application_success_feedback_role_arn"] = cty.StringVal(p.ApplicationSuccessFeedbackRoleArn)
+}
+
+func EncodeSnsTopic_HttpFailureFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["http_failure_feedback_role_arn"] = cty.StringVal(p.HttpFailureFeedbackRoleArn)
+}
+
+func EncodeSnsTopic_Id(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSnsTopic_LambdaFailureFeedbackRoleArn(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["lambda_failure_feedback_role_arn"] = cty.StringVal(p.LambdaFailureFeedbackRoleArn)
+}
+
+func EncodeSnsTopic_NamePrefix(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
 func EncodeSnsTopic_Policy(p SnsTopicParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeSnsTopic_ApplicationSuccessFeedbackSampleRate(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["application_success_feedback_sample_rate"] = cty.NumberIntVal(p.ApplicationSuccessFeedbackSampleRate)
+}
+
+func EncodeSnsTopic_DeliveryPolicy(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["delivery_policy"] = cty.StringVal(p.DeliveryPolicy)
+}
+
+func EncodeSnsTopic_DisplayName(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["display_name"] = cty.StringVal(p.DisplayName)
+}
+
+func EncodeSnsTopic_HttpSuccessFeedbackSampleRate(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["http_success_feedback_sample_rate"] = cty.NumberIntVal(p.HttpSuccessFeedbackSampleRate)
+}
+
+func EncodeSnsTopic_SqsSuccessFeedbackSampleRate(p SnsTopicParameters, vals map[string]cty.Value) {
+	vals["sqs_success_feedback_sample_rate"] = cty.NumberIntVal(p.SqsSuccessFeedbackSampleRate)
 }
 
 func EncodeSnsTopic_Arn(p SnsTopicObservation, vals map[string]cty.Value) {

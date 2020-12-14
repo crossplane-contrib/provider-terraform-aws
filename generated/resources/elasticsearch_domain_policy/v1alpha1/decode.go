@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ElasticsearchDomainPolicy)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeElasticsearchDomainPolicy(r, ctyValue)
+}
+
+func DecodeElasticsearchDomainPolicy(prev *ElasticsearchDomainPolicy, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeElasticsearchDomainPolicy_AccessPolicies(&new.Spec.ForProvider, valMap)
+	DecodeElasticsearchDomainPolicy_DomainName(&new.Spec.ForProvider, valMap)
+	DecodeElasticsearchDomainPolicy_Id(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeElasticsearchDomainPolicy_AccessPolicies(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
+	p.AccessPolicies = ctwhy.ValueAsString(vals["access_policies"])
+}
+
+func DecodeElasticsearchDomainPolicy_DomainName(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
+	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
+}
+
+func DecodeElasticsearchDomainPolicy_Id(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

@@ -17,13 +17,79 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*LicensemanagerLicenseConfiguration)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeLicensemanagerLicenseConfiguration(r, ctyValue)
+}
+
+func DecodeLicensemanagerLicenseConfiguration(prev *LicensemanagerLicenseConfiguration, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeLicensemanagerLicenseConfiguration_Id(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_LicenseCount(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_LicenseCountingType(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_LicenseRules(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_Name(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_Tags(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_Description(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeLicensemanagerLicenseConfiguration_Id(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeLicensemanagerLicenseConfiguration_LicenseCount(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.LicenseCount = ctwhy.ValueAsInt64(vals["license_count"])
+}
+
+func DecodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.LicenseCountHardLimit = ctwhy.ValueAsBool(vals["license_count_hard_limit"])
+}
+
+func DecodeLicensemanagerLicenseConfiguration_LicenseCountingType(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.LicenseCountingType = ctwhy.ValueAsString(vals["license_counting_type"])
+}
+
+func DecodeLicensemanagerLicenseConfiguration_LicenseRules(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["license_rules"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.LicenseRules = goVals
+}
+
+func DecodeLicensemanagerLicenseConfiguration_Name(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeLicensemanagerLicenseConfiguration_Tags(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeLicensemanagerLicenseConfiguration_Description(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }

@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLoadBalancerBackendServerPolicy(r LoadBalancerBackendServerPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLoadBalancerBackendServerPolicy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeLoadBalancerBackendServerPolicy_InstancePort(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_LoadBalancerName(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_PolicyNames(r.Spec.ForProvider, ctyVal)
+	EncodeLoadBalancerBackendServerPolicy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLoadBalancerBackendServerPolicy_InstancePort(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,14 +50,6 @@ func EncodeLoadBalancerBackendServerPolicy(r LoadBalancerBackendServerPolicy) ct
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLoadBalancerBackendServerPolicy_Id(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeLoadBalancerBackendServerPolicy_InstancePort(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
-	vals["instance_port"] = cty.NumberIntVal(p.InstancePort)
 }
 
 func EncodeLoadBalancerBackendServerPolicy_LoadBalancerName(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
@@ -70,4 +62,12 @@ func EncodeLoadBalancerBackendServerPolicy_PolicyNames(p LoadBalancerBackendServ
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["policy_names"] = cty.SetVal(colVals)
+}
+
+func EncodeLoadBalancerBackendServerPolicy_Id(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLoadBalancerBackendServerPolicy_InstancePort(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
+	vals["instance_port"] = cty.NumberIntVal(p.InstancePort)
 }

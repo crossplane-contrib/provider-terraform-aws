@@ -17,13 +17,83 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DefaultVpcDhcpOptions)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDefaultVpcDhcpOptions(r, ctyValue)
+}
+
+func DecodeDefaultVpcDhcpOptions(prev *DefaultVpcDhcpOptions, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDefaultVpcDhcpOptions_Id(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_NetbiosNameServers(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_NetbiosNodeType(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_DomainName(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_DomainNameServers(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_NtpServers(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_Arn(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_OwnerId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDefaultVpcDhcpOptions_Id(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDefaultVpcDhcpOptions_NetbiosNameServers(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["netbios_name_servers"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.NetbiosNameServers = goVals
+}
+
+func DecodeDefaultVpcDhcpOptions_NetbiosNodeType(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	p.NetbiosNodeType = ctwhy.ValueAsString(vals["netbios_node_type"])
+}
+
+func DecodeDefaultVpcDhcpOptions_Tags(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeDefaultVpcDhcpOptions_DomainName(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
+}
+
+func DecodeDefaultVpcDhcpOptions_DomainNameServers(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	p.DomainNameServers = ctwhy.ValueAsString(vals["domain_name_servers"])
+}
+
+func DecodeDefaultVpcDhcpOptions_NtpServers(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	p.NtpServers = ctwhy.ValueAsString(vals["ntp_servers"])
+}
+
+func DecodeDefaultVpcDhcpOptions_Arn(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeDefaultVpcDhcpOptions_OwnerId(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }

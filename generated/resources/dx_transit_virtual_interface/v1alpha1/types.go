@@ -52,25 +52,25 @@ type DxTransitVirtualInterfaceSpec struct {
 
 // A DxTransitVirtualInterfaceParameters defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceParameters struct {
-	CustomerAddress string            `json:"customer_address"`
-	Id              string            `json:"id"`
-	Mtu             int64             `json:"mtu"`
-	BgpAuthKey      string            `json:"bgp_auth_key"`
-	ConnectionId    string            `json:"connection_id"`
 	AddressFamily   string            `json:"address_family"`
-	AmazonAddress   string            `json:"amazon_address"`
 	BgpAsn          int64             `json:"bgp_asn"`
-	DxGatewayId     string            `json:"dx_gateway_id"`
+	CustomerAddress string            `json:"customer_address"`
+	Mtu             int64             `json:"mtu"`
+	Id              string            `json:"id"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
+	Name            string            `json:"name"`
 	Tags            map[string]string `json:"tags"`
 	Vlan            int64             `json:"vlan"`
-	Name            string            `json:"name"`
+	AmazonAddress   string            `json:"amazon_address"`
+	ConnectionId    string            `json:"connection_id"`
+	DxGatewayId     string            `json:"dx_gateway_id"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
 }
 
 // A DxTransitVirtualInterfaceStatus defines the observed state of a DxTransitVirtualInterface
@@ -81,8 +81,8 @@ type DxTransitVirtualInterfaceStatus struct {
 
 // A DxTransitVirtualInterfaceObservation records the observed state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceObservation struct {
-	AmazonSideAsn     string `json:"amazon_side_asn"`
 	Arn               string `json:"arn"`
-	AwsDevice         string `json:"aws_device"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
+	AmazonSideAsn     string `json:"amazon_side_asn"`
+	AwsDevice         string `json:"aws_device"`
 }

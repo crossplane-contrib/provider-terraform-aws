@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAcmCertificateValidation(r AcmCertificateValidation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAcmCertificateValidation_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_ValidationRecordFqdns(r.Spec.ForProvider, ctyVal)
+	EncodeAcmCertificateValidation_CertificateArn(r.Spec.ForProvider, ctyVal)
 	EncodeAcmCertificateValidation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	// always set id = external-name if it exists
@@ -52,10 +52,6 @@ func EncodeAcmCertificateValidation(r AcmCertificateValidation) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAcmCertificateValidation_CertificateArn(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
-	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
-}
-
 func EncodeAcmCertificateValidation_Id(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
@@ -66,6 +62,10 @@ func EncodeAcmCertificateValidation_ValidationRecordFqdns(p AcmCertificateValida
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["validation_record_fqdns"] = cty.SetVal(colVals)
+}
+
+func EncodeAcmCertificateValidation_CertificateArn(p AcmCertificateValidationParameters, vals map[string]cty.Value) {
+	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
 func EncodeAcmCertificateValidation_Timeouts(p Timeouts, vals map[string]cty.Value) {

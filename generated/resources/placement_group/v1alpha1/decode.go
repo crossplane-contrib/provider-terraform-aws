@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*PlacementGroup)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodePlacementGroup(r, ctyValue)
+}
+
+func DecodePlacementGroup(prev *PlacementGroup, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodePlacementGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodePlacementGroup_Name(&new.Spec.ForProvider, valMap)
+	DecodePlacementGroup_Strategy(&new.Spec.ForProvider, valMap)
+	DecodePlacementGroup_Tags(&new.Spec.ForProvider, valMap)
+	DecodePlacementGroup_Arn(&new.Status.AtProvider, valMap)
+	DecodePlacementGroup_PlacementGroupId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodePlacementGroup_Id(p *PlacementGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodePlacementGroup_Name(p *PlacementGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodePlacementGroup_Strategy(p *PlacementGroupParameters, vals map[string]cty.Value) {
+	p.Strategy = ctwhy.ValueAsString(vals["strategy"])
+}
+
+func DecodePlacementGroup_Tags(p *PlacementGroupParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodePlacementGroup_Arn(p *PlacementGroupObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodePlacementGroup_PlacementGroupId(p *PlacementGroupObservation, vals map[string]cty.Value) {
+	p.PlacementGroupId = ctwhy.ValueAsString(vals["placement_group_id"])
 }

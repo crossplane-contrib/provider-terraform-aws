@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ElasticacheSubnetGroup)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeElasticacheSubnetGroup(r, ctyValue)
+}
+
+func DecodeElasticacheSubnetGroup(prev *ElasticacheSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeElasticacheSubnetGroup_Description(&new.Spec.ForProvider, valMap)
+	DecodeElasticacheSubnetGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodeElasticacheSubnetGroup_Name(&new.Spec.ForProvider, valMap)
+	DecodeElasticacheSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeElasticacheSubnetGroup_Description(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeElasticacheSubnetGroup_Id(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeElasticacheSubnetGroup_Name(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeElasticacheSubnetGroup_SubnetIds(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SubnetIds = goVals
 }

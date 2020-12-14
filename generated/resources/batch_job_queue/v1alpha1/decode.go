@@ -17,13 +17,62 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*BatchJobQueue)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeBatchJobQueue(r, ctyValue)
+}
+
+func DecodeBatchJobQueue(prev *BatchJobQueue, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeBatchJobQueue_Name(&new.Spec.ForProvider, valMap)
+	DecodeBatchJobQueue_Priority(&new.Spec.ForProvider, valMap)
+	DecodeBatchJobQueue_State(&new.Spec.ForProvider, valMap)
+	DecodeBatchJobQueue_ComputeEnvironments(&new.Spec.ForProvider, valMap)
+	DecodeBatchJobQueue_Id(&new.Spec.ForProvider, valMap)
+	DecodeBatchJobQueue_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeBatchJobQueue_Name(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeBatchJobQueue_Priority(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+	p.Priority = ctwhy.ValueAsInt64(vals["priority"])
+}
+
+func DecodeBatchJobQueue_State(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+	p.State = ctwhy.ValueAsString(vals["state"])
+}
+
+func DecodeBatchJobQueue_ComputeEnvironments(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["compute_environments"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ComputeEnvironments = goVals
+}
+
+func DecodeBatchJobQueue_Id(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeBatchJobQueue_Arn(p *BatchJobQueueObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

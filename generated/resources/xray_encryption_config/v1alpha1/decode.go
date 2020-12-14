@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*XrayEncryptionConfig)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeXrayEncryptionConfig(r, ctyValue)
+}
+
+func DecodeXrayEncryptionConfig(prev *XrayEncryptionConfig, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeXrayEncryptionConfig_Id(&new.Spec.ForProvider, valMap)
+	DecodeXrayEncryptionConfig_KeyId(&new.Spec.ForProvider, valMap)
+	DecodeXrayEncryptionConfig_Type(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeXrayEncryptionConfig_Id(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeXrayEncryptionConfig_KeyId(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
+	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
+}
+
+func DecodeXrayEncryptionConfig_Type(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }

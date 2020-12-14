@@ -17,13 +17,63 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamUserLoginProfile)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamUserLoginProfile(r, ctyValue)
+}
+
+func DecodeIamUserLoginProfile(prev *IamUserLoginProfile, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamUserLoginProfile_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamUserLoginProfile_PasswordLength(&new.Spec.ForProvider, valMap)
+	DecodeIamUserLoginProfile_PasswordResetRequired(&new.Spec.ForProvider, valMap)
+	DecodeIamUserLoginProfile_PgpKey(&new.Spec.ForProvider, valMap)
+	DecodeIamUserLoginProfile_User(&new.Spec.ForProvider, valMap)
+	DecodeIamUserLoginProfile_EncryptedPassword(&new.Status.AtProvider, valMap)
+	DecodeIamUserLoginProfile_KeyFingerprint(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamUserLoginProfile_Id(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamUserLoginProfile_PasswordLength(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+	p.PasswordLength = ctwhy.ValueAsInt64(vals["password_length"])
+}
+
+func DecodeIamUserLoginProfile_PasswordResetRequired(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+	p.PasswordResetRequired = ctwhy.ValueAsBool(vals["password_reset_required"])
+}
+
+func DecodeIamUserLoginProfile_PgpKey(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+	p.PgpKey = ctwhy.ValueAsString(vals["pgp_key"])
+}
+
+func DecodeIamUserLoginProfile_User(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
+	p.User = ctwhy.ValueAsString(vals["user"])
+}
+
+func DecodeIamUserLoginProfile_EncryptedPassword(p *IamUserLoginProfileObservation, vals map[string]cty.Value) {
+	p.EncryptedPassword = ctwhy.ValueAsString(vals["encrypted_password"])
+}
+
+func DecodeIamUserLoginProfile_KeyFingerprint(p *IamUserLoginProfileObservation, vals map[string]cty.Value) {
+	p.KeyFingerprint = ctwhy.ValueAsString(vals["key_fingerprint"])
 }

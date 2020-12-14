@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*VolumeAttachment)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeVolumeAttachment(r, ctyValue)
+}
+
+func DecodeVolumeAttachment(prev *VolumeAttachment, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeVolumeAttachment_DeviceName(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_ForceDetach(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_Id(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_InstanceId(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_SkipDestroy(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_VolumeId(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeVolumeAttachment_DeviceName(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.DeviceName = ctwhy.ValueAsString(vals["device_name"])
+}
+
+func DecodeVolumeAttachment_ForceDetach(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.ForceDetach = ctwhy.ValueAsBool(vals["force_detach"])
+}
+
+func DecodeVolumeAttachment_Id(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeVolumeAttachment_InstanceId(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.InstanceId = ctwhy.ValueAsString(vals["instance_id"])
+}
+
+func DecodeVolumeAttachment_SkipDestroy(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.SkipDestroy = ctwhy.ValueAsBool(vals["skip_destroy"])
+}
+
+func DecodeVolumeAttachment_VolumeId(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.VolumeId = ctwhy.ValueAsString(vals["volume_id"])
 }

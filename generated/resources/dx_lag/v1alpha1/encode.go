@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxLag(r DxLag) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxLag_Location(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDxLag_Location(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_ConnectionsBandwidth(r.Spec.ForProvider, ctyVal)
 	EncodeDxLag_ForceDestroy(r.Spec.ForProvider, ctyVal)
@@ -56,16 +56,16 @@ func EncodeDxLag(r DxLag) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDxLag_Location(p DxLagParameters, vals map[string]cty.Value) {
-	vals["location"] = cty.StringVal(p.Location)
-}
-
 func EncodeDxLag_Id(p DxLagParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDxLag_Name(p DxLagParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDxLag_Location(p DxLagParameters, vals map[string]cty.Value) {
+	vals["location"] = cty.StringVal(p.Location)
 }
 
 func EncodeDxLag_Tags(p DxLagParameters, vals map[string]cty.Value) {

@@ -37,12 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDocdbSubnetGroup(r DocdbSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDocdbSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDocdbSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,10 +52,6 @@ func EncodeDocdbSubnetGroup(r DocdbSubnetGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDocdbSubnetGroup_Description(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeDocdbSubnetGroup_Id(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
@@ -88,6 +84,10 @@ func EncodeDocdbSubnetGroup_Tags(p DocdbSubnetGroupParameters, vals map[string]c
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDocdbSubnetGroup_Description(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeDocdbSubnetGroup_Arn(p DocdbSubnetGroupObservation, vals map[string]cty.Value) {

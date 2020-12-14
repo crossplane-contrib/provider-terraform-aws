@@ -17,13 +17,63 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2ClientVpnRoute)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2ClientVpnRoute(r, ctyValue)
+}
+
+func DecodeEc2ClientVpnRoute(prev *Ec2ClientVpnRoute, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2ClientVpnRoute_TargetVpcSubnetId(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnRoute_ClientVpnEndpointId(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnRoute_Description(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnRoute_DestinationCidrBlock(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnRoute_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnRoute_Origin(&new.Status.AtProvider, valMap)
+	DecodeEc2ClientVpnRoute_Type(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2ClientVpnRoute_TargetVpcSubnetId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+	p.TargetVpcSubnetId = ctwhy.ValueAsString(vals["target_vpc_subnet_id"])
+}
+
+func DecodeEc2ClientVpnRoute_ClientVpnEndpointId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+	p.ClientVpnEndpointId = ctwhy.ValueAsString(vals["client_vpn_endpoint_id"])
+}
+
+func DecodeEc2ClientVpnRoute_Description(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeEc2ClientVpnRoute_DestinationCidrBlock(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+	p.DestinationCidrBlock = ctwhy.ValueAsString(vals["destination_cidr_block"])
+}
+
+func DecodeEc2ClientVpnRoute_Id(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2ClientVpnRoute_Origin(p *Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
+	p.Origin = ctwhy.ValueAsString(vals["origin"])
+}
+
+func DecodeEc2ClientVpnRoute_Type(p *Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }

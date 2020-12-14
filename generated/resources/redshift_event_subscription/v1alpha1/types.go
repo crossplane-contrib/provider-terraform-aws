@@ -52,22 +52,22 @@ type RedshiftEventSubscriptionSpec struct {
 
 // A RedshiftEventSubscriptionParameters defines the desired state of a RedshiftEventSubscription
 type RedshiftEventSubscriptionParameters struct {
-	SourceIds       []string          `json:"source_ids"`
-	SourceType      string            `json:"source_type"`
-	Enabled         bool              `json:"enabled"`
-	Id              string            `json:"id"`
-	SnsTopicArn     string            `json:"sns_topic_arn"`
 	Name            string            `json:"name"`
 	Severity        string            `json:"severity"`
+	SourceType      string            `json:"source_type"`
 	Tags            map[string]string `json:"tags"`
+	Enabled         bool              `json:"enabled"`
+	Id              string            `json:"id"`
 	EventCategories []string          `json:"event_categories"`
+	SnsTopicArn     string            `json:"sns_topic_arn"`
+	SourceIds       []string          `json:"source_ids"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
 }
 
 // A RedshiftEventSubscriptionStatus defines the observed state of a RedshiftEventSubscription

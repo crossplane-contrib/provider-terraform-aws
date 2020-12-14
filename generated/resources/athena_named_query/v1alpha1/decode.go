@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*AthenaNamedQuery)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeAthenaNamedQuery(r, ctyValue)
+}
+
+func DecodeAthenaNamedQuery(prev *AthenaNamedQuery, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeAthenaNamedQuery_Database(&new.Spec.ForProvider, valMap)
+	DecodeAthenaNamedQuery_Description(&new.Spec.ForProvider, valMap)
+	DecodeAthenaNamedQuery_Id(&new.Spec.ForProvider, valMap)
+	DecodeAthenaNamedQuery_Name(&new.Spec.ForProvider, valMap)
+	DecodeAthenaNamedQuery_Query(&new.Spec.ForProvider, valMap)
+	DecodeAthenaNamedQuery_Workgroup(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeAthenaNamedQuery_Database(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Database = ctwhy.ValueAsString(vals["database"])
+}
+
+func DecodeAthenaNamedQuery_Description(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeAthenaNamedQuery_Id(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeAthenaNamedQuery_Name(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeAthenaNamedQuery_Query(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Query = ctwhy.ValueAsString(vals["query"])
+}
+
+func DecodeAthenaNamedQuery_Workgroup(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Workgroup = ctwhy.ValueAsString(vals["workgroup"])
 }

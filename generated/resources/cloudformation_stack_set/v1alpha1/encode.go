@@ -37,16 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudformationStackSet(r CloudformationStackSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudformationStackSet_Description(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_ExecutionRoleName(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_AdministrationRoleArn(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_Capabilities(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_TemplateUrl(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_Capabilities(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_Description(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_TemplateBody(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Parameters(r.Spec.ForProvider, ctyVal)
-	EncodeCloudformationStackSet_TemplateBody(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_AdministrationRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_ExecutionRoleName(r.Spec.ForProvider, ctyVal)
+	EncodeCloudformationStackSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudformationStackSet_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeCloudformationStackSet_StackSetId(r.Status.AtProvider, ctyVal)
 	EncodeCloudformationStackSet_Arn(r.Status.AtProvider, ctyVal)
@@ -60,32 +60,8 @@ func EncodeCloudformationStackSet(r CloudformationStackSet) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeCloudformationStackSet_Description(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeCloudformationStackSet_ExecutionRoleName(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["execution_role_name"] = cty.StringVal(p.ExecutionRoleName)
-}
-
-func EncodeCloudformationStackSet_Id(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudformationStackSet_Tags(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeCloudformationStackSet_AdministrationRoleArn(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["administration_role_arn"] = cty.StringVal(p.AdministrationRoleArn)
+func EncodeCloudformationStackSet_TemplateUrl(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["template_url"] = cty.StringVal(p.TemplateUrl)
 }
 
 func EncodeCloudformationStackSet_Capabilities(p CloudformationStackSetParameters, vals map[string]cty.Value) {
@@ -96,8 +72,12 @@ func EncodeCloudformationStackSet_Capabilities(p CloudformationStackSetParameter
 	vals["capabilities"] = cty.SetVal(colVals)
 }
 
-func EncodeCloudformationStackSet_TemplateUrl(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["template_url"] = cty.StringVal(p.TemplateUrl)
+func EncodeCloudformationStackSet_Description(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeCloudformationStackSet_TemplateBody(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["template_body"] = cty.StringVal(p.TemplateBody)
 }
 
 func EncodeCloudformationStackSet_Name(p CloudformationStackSetParameters, vals map[string]cty.Value) {
@@ -116,8 +96,28 @@ func EncodeCloudformationStackSet_Parameters(p CloudformationStackSetParameters,
 	vals["parameters"] = cty.MapVal(mVals)
 }
 
-func EncodeCloudformationStackSet_TemplateBody(p CloudformationStackSetParameters, vals map[string]cty.Value) {
-	vals["template_body"] = cty.StringVal(p.TemplateBody)
+func EncodeCloudformationStackSet_Tags(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeCloudformationStackSet_AdministrationRoleArn(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["administration_role_arn"] = cty.StringVal(p.AdministrationRoleArn)
+}
+
+func EncodeCloudformationStackSet_ExecutionRoleName(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["execution_role_name"] = cty.StringVal(p.ExecutionRoleName)
+}
+
+func EncodeCloudformationStackSet_Id(p CloudformationStackSetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudformationStackSet_Timeouts(p Timeouts, vals map[string]cty.Value) {

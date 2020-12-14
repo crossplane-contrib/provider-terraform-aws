@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamGroup)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamGroup(r, ctyValue)
+}
+
+func DecodeIamGroup(prev *IamGroup, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamGroup_Name(&new.Spec.ForProvider, valMap)
+	DecodeIamGroup_Path(&new.Spec.ForProvider, valMap)
+	DecodeIamGroup_Arn(&new.Status.AtProvider, valMap)
+	DecodeIamGroup_UniqueId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamGroup_Id(p *IamGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamGroup_Name(p *IamGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeIamGroup_Path(p *IamGroupParameters, vals map[string]cty.Value) {
+	p.Path = ctwhy.ValueAsString(vals["path"])
+}
+
+func DecodeIamGroup_Arn(p *IamGroupObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeIamGroup_UniqueId(p *IamGroupObservation, vals map[string]cty.Value) {
+	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
 }

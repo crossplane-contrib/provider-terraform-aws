@@ -67,7 +67,7 @@ type IamInstanceProfileStatus struct {
 
 // A IamInstanceProfileObservation records the observed state of a IamInstanceProfile
 type IamInstanceProfileObservation struct {
+	CreateDate string `json:"create_date"`
 	UniqueId   string `json:"unique_id"`
 	Arn        string `json:"arn"`
-	CreateDate string `json:"create_date"`
 }

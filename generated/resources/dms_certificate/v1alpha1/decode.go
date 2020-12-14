@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DmsCertificate)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDmsCertificate(r, ctyValue)
+}
+
+func DecodeDmsCertificate(prev *DmsCertificate, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDmsCertificate_CertificateId(&new.Spec.ForProvider, valMap)
+	DecodeDmsCertificate_CertificatePem(&new.Spec.ForProvider, valMap)
+	DecodeDmsCertificate_CertificateWallet(&new.Spec.ForProvider, valMap)
+	DecodeDmsCertificate_Id(&new.Spec.ForProvider, valMap)
+	DecodeDmsCertificate_CertificateArn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDmsCertificate_CertificateId(p *DmsCertificateParameters, vals map[string]cty.Value) {
+	p.CertificateId = ctwhy.ValueAsString(vals["certificate_id"])
+}
+
+func DecodeDmsCertificate_CertificatePem(p *DmsCertificateParameters, vals map[string]cty.Value) {
+	p.CertificatePem = ctwhy.ValueAsString(vals["certificate_pem"])
+}
+
+func DecodeDmsCertificate_CertificateWallet(p *DmsCertificateParameters, vals map[string]cty.Value) {
+	p.CertificateWallet = ctwhy.ValueAsString(vals["certificate_wallet"])
+}
+
+func DecodeDmsCertificate_Id(p *DmsCertificateParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDmsCertificate_CertificateArn(p *DmsCertificateObservation, vals map[string]cty.Value) {
+	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
 }

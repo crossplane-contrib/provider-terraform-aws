@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*CloudwatchLogDestinationPolicy)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeCloudwatchLogDestinationPolicy(r, ctyValue)
+}
+
+func DecodeCloudwatchLogDestinationPolicy(prev *CloudwatchLogDestinationPolicy, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeCloudwatchLogDestinationPolicy_AccessPolicy(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogDestinationPolicy_DestinationName(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogDestinationPolicy_Id(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeCloudwatchLogDestinationPolicy_AccessPolicy(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
+	p.AccessPolicy = ctwhy.ValueAsString(vals["access_policy"])
+}
+
+func DecodeCloudwatchLogDestinationPolicy_DestinationName(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
+	p.DestinationName = ctwhy.ValueAsString(vals["destination_name"])
+}
+
+func DecodeCloudwatchLogDestinationPolicy_Id(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

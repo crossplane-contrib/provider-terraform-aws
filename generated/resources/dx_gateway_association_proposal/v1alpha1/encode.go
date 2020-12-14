@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxGatewayAssociationProposal(r DxGatewayAssociationProposal) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxGatewayAssociationProposal_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AllowedPrefixes(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AssociatedGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(r.Spec.ForProvider, ctyVal)
+	EncodeDxGatewayAssociationProposal_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(r.Status.AtProvider, ctyVal)
 	EncodeDxGatewayAssociationProposal_AssociatedGatewayType(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -52,10 +52,6 @@ func EncodeDxGatewayAssociationProposal(r DxGatewayAssociationProposal) cty.Valu
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxGatewayAssociationProposal_Id(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDxGatewayAssociationProposal_AllowedPrefixes(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
@@ -76,6 +72,10 @@ func EncodeDxGatewayAssociationProposal_DxGatewayId(p DxGatewayAssociationPropos
 
 func EncodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
 	vals["dx_gateway_owner_account_id"] = cty.StringVal(p.DxGatewayOwnerAccountId)
+}
+
+func EncodeDxGatewayAssociationProposal_Id(p DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(p DxGatewayAssociationProposalObservation, vals map[string]cty.Value) {

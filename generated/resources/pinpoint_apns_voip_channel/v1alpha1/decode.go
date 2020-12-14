@@ -17,13 +17,79 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*PinpointApnsVoipChannel)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodePinpointApnsVoipChannel(r, ctyValue)
+}
+
+func DecodePinpointApnsVoipChannel(prev *PinpointApnsVoipChannel, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodePinpointApnsVoipChannel_Id(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_TokenKey(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_TokenKeyId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_BundleId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_Certificate(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_DefaultAuthenticationMethod(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_Enabled(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_PrivateKey(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_TeamId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_ApplicationId(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodePinpointApnsVoipChannel_Id(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodePinpointApnsVoipChannel_TokenKey(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.TokenKey = ctwhy.ValueAsString(vals["token_key"])
+}
+
+func DecodePinpointApnsVoipChannel_TokenKeyId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.TokenKeyId = ctwhy.ValueAsString(vals["token_key_id"])
+}
+
+func DecodePinpointApnsVoipChannel_BundleId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
+}
+
+func DecodePinpointApnsVoipChannel_Certificate(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
+}
+
+func DecodePinpointApnsVoipChannel_DefaultAuthenticationMethod(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.DefaultAuthenticationMethod = ctwhy.ValueAsString(vals["default_authentication_method"])
+}
+
+func DecodePinpointApnsVoipChannel_Enabled(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+func DecodePinpointApnsVoipChannel_PrivateKey(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
+}
+
+func DecodePinpointApnsVoipChannel_TeamId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.TeamId = ctwhy.ValueAsString(vals["team_id"])
+}
+
+func DecodePinpointApnsVoipChannel_ApplicationId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
 }

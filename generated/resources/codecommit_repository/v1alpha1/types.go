@@ -52,11 +52,11 @@ type CodecommitRepositorySpec struct {
 
 // A CodecommitRepositoryParameters defines the desired state of a CodecommitRepository
 type CodecommitRepositoryParameters struct {
+	Description    string            `json:"description"`
+	DefaultBranch  string            `json:"default_branch"`
+	Id             string            `json:"id"`
 	RepositoryName string            `json:"repository_name"`
 	Tags           map[string]string `json:"tags"`
-	Id             string            `json:"id"`
-	DefaultBranch  string            `json:"default_branch"`
-	Description    string            `json:"description"`
 }
 
 // A CodecommitRepositoryStatus defines the observed state of a CodecommitRepository
@@ -67,8 +67,8 @@ type CodecommitRepositoryStatus struct {
 
 // A CodecommitRepositoryObservation records the observed state of a CodecommitRepository
 type CodecommitRepositoryObservation struct {
-	RepositoryId string `json:"repository_id"`
 	CloneUrlHttp string `json:"clone_url_http"`
 	CloneUrlSsh  string `json:"clone_url_ssh"`
 	Arn          string `json:"arn"`
+	RepositoryId string `json:"repository_id"`
 }

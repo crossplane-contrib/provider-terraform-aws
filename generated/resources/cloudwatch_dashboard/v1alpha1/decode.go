@@ -17,13 +17,48 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*CloudwatchDashboard)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeCloudwatchDashboard(r, ctyValue)
+}
+
+func DecodeCloudwatchDashboard(prev *CloudwatchDashboard, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeCloudwatchDashboard_DashboardName(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchDashboard_Id(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchDashboard_DashboardBody(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchDashboard_DashboardArn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeCloudwatchDashboard_DashboardName(p *CloudwatchDashboardParameters, vals map[string]cty.Value) {
+	p.DashboardName = ctwhy.ValueAsString(vals["dashboard_name"])
+}
+
+func DecodeCloudwatchDashboard_Id(p *CloudwatchDashboardParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeCloudwatchDashboard_DashboardBody(p *CloudwatchDashboardParameters, vals map[string]cty.Value) {
+	p.DashboardBody = ctwhy.ValueAsString(vals["dashboard_body"])
+}
+
+func DecodeCloudwatchDashboard_DashboardArn(p *CloudwatchDashboardObservation, vals map[string]cty.Value) {
+	p.DashboardArn = ctwhy.ValueAsString(vals["dashboard_arn"])
 }

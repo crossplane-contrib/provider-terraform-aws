@@ -17,13 +17,71 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ApiGatewayGatewayResponse)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeApiGatewayGatewayResponse(r, ctyValue)
+}
+
+func DecodeApiGatewayGatewayResponse(prev *ApiGatewayGatewayResponse, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeApiGatewayGatewayResponse_ResponseTemplates(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayGatewayResponse_ResponseType(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayGatewayResponse_RestApiId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayGatewayResponse_StatusCode(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayGatewayResponse_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayGatewayResponse_ResponseParameters(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeApiGatewayGatewayResponse_ResponseTemplates(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["response_templates"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ResponseTemplates = vMap
+}
+
+func DecodeApiGatewayGatewayResponse_ResponseType(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	p.ResponseType = ctwhy.ValueAsString(vals["response_type"])
+}
+
+func DecodeApiGatewayGatewayResponse_RestApiId(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
+}
+
+func DecodeApiGatewayGatewayResponse_StatusCode(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	p.StatusCode = ctwhy.ValueAsString(vals["status_code"])
+}
+
+func DecodeApiGatewayGatewayResponse_Id(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeApiGatewayGatewayResponse_ResponseParameters(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["response_parameters"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ResponseParameters = vMap
 }

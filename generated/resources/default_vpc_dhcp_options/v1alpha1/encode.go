@@ -41,11 +41,11 @@ func EncodeDefaultVpcDhcpOptions(r DefaultVpcDhcpOptions) cty.Value {
 	EncodeDefaultVpcDhcpOptions_NetbiosNameServers(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_NetbiosNodeType(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDefaultVpcDhcpOptions_OwnerId(r.Status.AtProvider, ctyVal)
-	EncodeDefaultVpcDhcpOptions_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_DomainName(r.Status.AtProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_DomainNameServers(r.Status.AtProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_NtpServers(r.Status.AtProvider, ctyVal)
+	EncodeDefaultVpcDhcpOptions_Arn(r.Status.AtProvider, ctyVal)
+	EncodeDefaultVpcDhcpOptions_OwnerId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -84,14 +84,6 @@ func EncodeDefaultVpcDhcpOptions_Tags(p DefaultVpcDhcpOptionsParameters, vals ma
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDefaultVpcDhcpOptions_OwnerId(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
-	vals["owner_id"] = cty.StringVal(p.OwnerId)
-}
-
-func EncodeDefaultVpcDhcpOptions_Arn(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeDefaultVpcDhcpOptions_DomainName(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
 }
@@ -102,4 +94,12 @@ func EncodeDefaultVpcDhcpOptions_DomainNameServers(p DefaultVpcDhcpOptionsObserv
 
 func EncodeDefaultVpcDhcpOptions_NtpServers(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
 	vals["ntp_servers"] = cty.StringVal(p.NtpServers)
+}
+
+func EncodeDefaultVpcDhcpOptions_Arn(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeDefaultVpcDhcpOptions_OwnerId(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }

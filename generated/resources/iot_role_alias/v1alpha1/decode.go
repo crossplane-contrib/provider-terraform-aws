@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IotRoleAlias)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIotRoleAlias(r, ctyValue)
+}
+
+func DecodeIotRoleAlias(prev *IotRoleAlias, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIotRoleAlias_Alias(&new.Spec.ForProvider, valMap)
+	DecodeIotRoleAlias_CredentialDuration(&new.Spec.ForProvider, valMap)
+	DecodeIotRoleAlias_Id(&new.Spec.ForProvider, valMap)
+	DecodeIotRoleAlias_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeIotRoleAlias_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIotRoleAlias_Alias(p *IotRoleAliasParameters, vals map[string]cty.Value) {
+	p.Alias = ctwhy.ValueAsString(vals["alias"])
+}
+
+func DecodeIotRoleAlias_CredentialDuration(p *IotRoleAliasParameters, vals map[string]cty.Value) {
+	p.CredentialDuration = ctwhy.ValueAsInt64(vals["credential_duration"])
+}
+
+func DecodeIotRoleAlias_Id(p *IotRoleAliasParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIotRoleAlias_RoleArn(p *IotRoleAliasParameters, vals map[string]cty.Value) {
+	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
+}
+
+func DecodeIotRoleAlias_Arn(p *IotRoleAliasObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDmsReplicationSubnetGroup(r DmsReplicationSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDmsReplicationSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationSubnetGroup_VpcId(r.Status.AtProvider, ctyVal)
 	EncodeDmsReplicationSubnetGroup_ReplicationSubnetGroupArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -52,14 +52,6 @@ func EncodeDmsReplicationSubnetGroup(r DmsReplicationSubnetGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDmsReplicationSubnetGroup_Id(p DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(p DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["replication_subnet_group_description"] = cty.StringVal(p.ReplicationSubnetGroupDescription)
 }
 
 func EncodeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(p DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
@@ -84,6 +76,14 @@ func EncodeDmsReplicationSubnetGroup_Tags(p DmsReplicationSubnetGroupParameters,
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDmsReplicationSubnetGroup_Id(p DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(p DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["replication_subnet_group_description"] = cty.StringVal(p.ReplicationSubnetGroupDescription)
 }
 
 func EncodeDmsReplicationSubnetGroup_VpcId(p DmsReplicationSubnetGroupObservation, vals map[string]cty.Value) {

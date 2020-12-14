@@ -17,13 +17,69 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Route53ResolverQueryLogConfig)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeRoute53ResolverQueryLogConfig(r, ctyValue)
+}
+
+func DecodeRoute53ResolverQueryLogConfig(prev *Route53ResolverQueryLogConfig, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeRoute53ResolverQueryLogConfig_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverQueryLogConfig_DestinationArn(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverQueryLogConfig_Id(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverQueryLogConfig_Name(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverQueryLogConfig_OwnerId(&new.Status.AtProvider, valMap)
+	DecodeRoute53ResolverQueryLogConfig_ShareStatus(&new.Status.AtProvider, valMap)
+	DecodeRoute53ResolverQueryLogConfig_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeRoute53ResolverQueryLogConfig_Tags(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeRoute53ResolverQueryLogConfig_DestinationArn(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
+}
+
+func DecodeRoute53ResolverQueryLogConfig_Id(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeRoute53ResolverQueryLogConfig_Name(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeRoute53ResolverQueryLogConfig_OwnerId(p *Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
+}
+
+func DecodeRoute53ResolverQueryLogConfig_ShareStatus(p *Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
+	p.ShareStatus = ctwhy.ValueAsString(vals["share_status"])
+}
+
+func DecodeRoute53ResolverQueryLogConfig_Arn(p *Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

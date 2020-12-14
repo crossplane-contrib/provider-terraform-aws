@@ -37,16 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayDeployment(r ApiGatewayDeployment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayDeployment_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_StageDescription(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDeployment_StageName(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDeployment_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Triggers(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Variables(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayDeployment_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayDeployment_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_RestApiId(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_StageName(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayDeployment_ExecutionArn(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDeployment_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayDeployment_InvokeUrl(r.Status.AtProvider, ctyVal)
+	EncodeApiGatewayDeployment_ExecutionArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -57,12 +57,16 @@ func EncodeApiGatewayDeployment(r ApiGatewayDeployment) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayDeployment_Description(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
 func EncodeApiGatewayDeployment_StageDescription(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
 	vals["stage_description"] = cty.StringVal(p.StageDescription)
+}
+
+func EncodeApiGatewayDeployment_StageName(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	vals["stage_name"] = cty.StringVal(p.StageName)
+}
+
+func EncodeApiGatewayDeployment_RestApiId(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
 }
 
 func EncodeApiGatewayDeployment_Triggers(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
@@ -89,20 +93,12 @@ func EncodeApiGatewayDeployment_Variables(p ApiGatewayDeploymentParameters, vals
 	vals["variables"] = cty.MapVal(mVals)
 }
 
+func EncodeApiGatewayDeployment_Description(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
 func EncodeApiGatewayDeployment_Id(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayDeployment_RestApiId(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
-}
-
-func EncodeApiGatewayDeployment_StageName(p ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	vals["stage_name"] = cty.StringVal(p.StageName)
-}
-
-func EncodeApiGatewayDeployment_ExecutionArn(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
-	vals["execution_arn"] = cty.StringVal(p.ExecutionArn)
 }
 
 func EncodeApiGatewayDeployment_CreatedDate(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
@@ -111,4 +107,8 @@ func EncodeApiGatewayDeployment_CreatedDate(p ApiGatewayDeploymentObservation, v
 
 func EncodeApiGatewayDeployment_InvokeUrl(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
 	vals["invoke_url"] = cty.StringVal(p.InvokeUrl)
+}
+
+func EncodeApiGatewayDeployment_ExecutionArn(p ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
+	vals["execution_arn"] = cty.StringVal(p.ExecutionArn)
 }

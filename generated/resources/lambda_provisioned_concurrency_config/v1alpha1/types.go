@@ -60,8 +60,8 @@ type LambdaProvisionedConcurrencyConfigParameters struct {
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
+	Update string `json:"update"`
 }
 
 // A LambdaProvisionedConcurrencyConfigStatus defines the observed state of a LambdaProvisionedConcurrencyConfig

@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamGroupMembership)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamGroupMembership(r, ctyValue)
+}
+
+func DecodeIamGroupMembership(prev *IamGroupMembership, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamGroupMembership_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamGroupMembership_Name(&new.Spec.ForProvider, valMap)
+	DecodeIamGroupMembership_Users(&new.Spec.ForProvider, valMap)
+	DecodeIamGroupMembership_Group(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamGroupMembership_Id(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamGroupMembership_Name(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeIamGroupMembership_Users(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["users"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Users = goVals
+}
+
+func DecodeIamGroupMembership_Group(p *IamGroupMembershipParameters, vals map[string]cty.Value) {
+	p.Group = ctwhy.ValueAsString(vals["group"])
 }

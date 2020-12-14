@@ -17,13 +17,57 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*BackupVaultNotifications)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeBackupVaultNotifications(r, ctyValue)
+}
+
+func DecodeBackupVaultNotifications(prev *BackupVaultNotifications, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeBackupVaultNotifications_Id(&new.Spec.ForProvider, valMap)
+	DecodeBackupVaultNotifications_SnsTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeBackupVaultNotifications_BackupVaultEvents(&new.Spec.ForProvider, valMap)
+	DecodeBackupVaultNotifications_BackupVaultName(&new.Spec.ForProvider, valMap)
+	DecodeBackupVaultNotifications_BackupVaultArn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeBackupVaultNotifications_Id(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeBackupVaultNotifications_SnsTopicArn(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
+}
+
+func DecodeBackupVaultNotifications_BackupVaultEvents(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["backup_vault_events"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.BackupVaultEvents = goVals
+}
+
+func DecodeBackupVaultNotifications_BackupVaultName(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	p.BackupVaultName = ctwhy.ValueAsString(vals["backup_vault_name"])
+}
+
+func DecodeBackupVaultNotifications_BackupVaultArn(p *BackupVaultNotificationsObservation, vals map[string]cty.Value) {
+	p.BackupVaultArn = ctwhy.ValueAsString(vals["backup_vault_arn"])
 }

@@ -17,13 +17,130 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ApiGatewayIntegration)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeApiGatewayIntegration(r, ctyValue)
+}
+
+func DecodeApiGatewayIntegration(prev *ApiGatewayIntegration, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeApiGatewayIntegration_PassthroughBehavior(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_RequestParameters(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_RequestTemplates(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_CacheKeyParameters(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_ConnectionId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_RestApiId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_Type(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_TimeoutMilliseconds(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_Uri(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_CacheNamespace(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_Credentials(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_HttpMethod(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_IntegrationHttpMethod(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_ResourceId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_ConnectionType(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_ContentHandling(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeApiGatewayIntegration_PassthroughBehavior(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.PassthroughBehavior = ctwhy.ValueAsString(vals["passthrough_behavior"])
+}
+
+func DecodeApiGatewayIntegration_RequestParameters(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["request_parameters"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.RequestParameters = vMap
+}
+
+func DecodeApiGatewayIntegration_RequestTemplates(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["request_templates"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.RequestTemplates = vMap
+}
+
+func DecodeApiGatewayIntegration_CacheKeyParameters(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["cache_key_parameters"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.CacheKeyParameters = goVals
+}
+
+func DecodeApiGatewayIntegration_ConnectionId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
+}
+
+func DecodeApiGatewayIntegration_RestApiId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
+}
+
+func DecodeApiGatewayIntegration_Type(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
+}
+
+func DecodeApiGatewayIntegration_TimeoutMilliseconds(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.TimeoutMilliseconds = ctwhy.ValueAsInt64(vals["timeout_milliseconds"])
+}
+
+func DecodeApiGatewayIntegration_Uri(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.Uri = ctwhy.ValueAsString(vals["uri"])
+}
+
+func DecodeApiGatewayIntegration_CacheNamespace(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.CacheNamespace = ctwhy.ValueAsString(vals["cache_namespace"])
+}
+
+func DecodeApiGatewayIntegration_Credentials(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.Credentials = ctwhy.ValueAsString(vals["credentials"])
+}
+
+func DecodeApiGatewayIntegration_HttpMethod(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.HttpMethod = ctwhy.ValueAsString(vals["http_method"])
+}
+
+func DecodeApiGatewayIntegration_Id(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeApiGatewayIntegration_IntegrationHttpMethod(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.IntegrationHttpMethod = ctwhy.ValueAsString(vals["integration_http_method"])
+}
+
+func DecodeApiGatewayIntegration_ResourceId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
+}
+
+func DecodeApiGatewayIntegration_ConnectionType(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.ConnectionType = ctwhy.ValueAsString(vals["connection_type"])
+}
+
+func DecodeApiGatewayIntegration_ContentHandling(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.ContentHandling = ctwhy.ValueAsString(vals["content_handling"])
 }

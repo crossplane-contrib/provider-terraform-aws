@@ -17,13 +17,63 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IotCertificate)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIotCertificate(r, ctyValue)
+}
+
+func DecodeIotCertificate(prev *IotCertificate, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIotCertificate_Active(&new.Spec.ForProvider, valMap)
+	DecodeIotCertificate_Csr(&new.Spec.ForProvider, valMap)
+	DecodeIotCertificate_Id(&new.Spec.ForProvider, valMap)
+	DecodeIotCertificate_PrivateKey(&new.Status.AtProvider, valMap)
+	DecodeIotCertificate_PublicKey(&new.Status.AtProvider, valMap)
+	DecodeIotCertificate_Arn(&new.Status.AtProvider, valMap)
+	DecodeIotCertificate_CertificatePem(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIotCertificate_Active(p *IotCertificateParameters, vals map[string]cty.Value) {
+	p.Active = ctwhy.ValueAsBool(vals["active"])
+}
+
+func DecodeIotCertificate_Csr(p *IotCertificateParameters, vals map[string]cty.Value) {
+	p.Csr = ctwhy.ValueAsString(vals["csr"])
+}
+
+func DecodeIotCertificate_Id(p *IotCertificateParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIotCertificate_PrivateKey(p *IotCertificateObservation, vals map[string]cty.Value) {
+	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
+}
+
+func DecodeIotCertificate_PublicKey(p *IotCertificateObservation, vals map[string]cty.Value) {
+	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
+}
+
+func DecodeIotCertificate_Arn(p *IotCertificateObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeIotCertificate_CertificatePem(p *IotCertificateObservation, vals map[string]cty.Value) {
+	p.CertificatePem = ctwhy.ValueAsString(vals["certificate_pem"])
 }

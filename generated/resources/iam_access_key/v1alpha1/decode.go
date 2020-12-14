@@ -17,13 +17,68 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamAccessKey)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamAccessKey(r, ctyValue)
+}
+
+func DecodeIamAccessKey(prev *IamAccessKey, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamAccessKey_PgpKey(&new.Spec.ForProvider, valMap)
+	DecodeIamAccessKey_Status(&new.Spec.ForProvider, valMap)
+	DecodeIamAccessKey_User(&new.Spec.ForProvider, valMap)
+	DecodeIamAccessKey_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamAccessKey_KeyFingerprint(&new.Status.AtProvider, valMap)
+	DecodeIamAccessKey_Secret(&new.Status.AtProvider, valMap)
+	DecodeIamAccessKey_SesSmtpPasswordV4(&new.Status.AtProvider, valMap)
+	DecodeIamAccessKey_EncryptedSecret(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamAccessKey_PgpKey(p *IamAccessKeyParameters, vals map[string]cty.Value) {
+	p.PgpKey = ctwhy.ValueAsString(vals["pgp_key"])
+}
+
+func DecodeIamAccessKey_Status(p *IamAccessKeyParameters, vals map[string]cty.Value) {
+	p.Status = ctwhy.ValueAsString(vals["status"])
+}
+
+func DecodeIamAccessKey_User(p *IamAccessKeyParameters, vals map[string]cty.Value) {
+	p.User = ctwhy.ValueAsString(vals["user"])
+}
+
+func DecodeIamAccessKey_Id(p *IamAccessKeyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamAccessKey_KeyFingerprint(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+	p.KeyFingerprint = ctwhy.ValueAsString(vals["key_fingerprint"])
+}
+
+func DecodeIamAccessKey_Secret(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+	p.Secret = ctwhy.ValueAsString(vals["secret"])
+}
+
+func DecodeIamAccessKey_SesSmtpPasswordV4(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+	p.SesSmtpPasswordV4 = ctwhy.ValueAsString(vals["ses_smtp_password_v4"])
+}
+
+func DecodeIamAccessKey_EncryptedSecret(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+	p.EncryptedSecret = ctwhy.ValueAsString(vals["encrypted_secret"])
 }

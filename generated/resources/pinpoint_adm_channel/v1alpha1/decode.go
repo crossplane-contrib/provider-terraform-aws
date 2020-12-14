@@ -17,13 +17,54 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*PinpointAdmChannel)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodePinpointAdmChannel(r, ctyValue)
+}
+
+func DecodePinpointAdmChannel(prev *PinpointAdmChannel, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodePinpointAdmChannel_ApplicationId(&new.Spec.ForProvider, valMap)
+	DecodePinpointAdmChannel_ClientId(&new.Spec.ForProvider, valMap)
+	DecodePinpointAdmChannel_ClientSecret(&new.Spec.ForProvider, valMap)
+	DecodePinpointAdmChannel_Enabled(&new.Spec.ForProvider, valMap)
+	DecodePinpointAdmChannel_Id(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodePinpointAdmChannel_ApplicationId(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
+}
+
+func DecodePinpointAdmChannel_ClientId(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	p.ClientId = ctwhy.ValueAsString(vals["client_id"])
+}
+
+func DecodePinpointAdmChannel_ClientSecret(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	p.ClientSecret = ctwhy.ValueAsString(vals["client_secret"])
+}
+
+func DecodePinpointAdmChannel_Enabled(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+func DecodePinpointAdmChannel_Id(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

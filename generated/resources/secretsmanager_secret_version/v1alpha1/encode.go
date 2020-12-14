@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecretsmanagerSecretVersion_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretBinary(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -52,10 +52,6 @@ func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value 
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecretsmanagerSecretVersion_Id(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSecretsmanagerSecretVersion_SecretBinary(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
@@ -78,10 +74,14 @@ func EncodeSecretsmanagerSecretVersion_VersionStages(p SecretsmanagerSecretVersi
 	vals["version_stages"] = cty.SetVal(colVals)
 }
 
-func EncodeSecretsmanagerSecretVersion_Arn(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeSecretsmanagerSecretVersion_Id(p SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSecretsmanagerSecretVersion_VersionId(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
 	vals["version_id"] = cty.StringVal(p.VersionId)
+}
+
+func EncodeSecretsmanagerSecretVersion_Arn(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

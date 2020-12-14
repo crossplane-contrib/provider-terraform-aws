@@ -17,13 +17,115 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*XraySamplingRule)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeXraySamplingRule(r, ctyValue)
+}
+
+func DecodeXraySamplingRule(prev *XraySamplingRule, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeXraySamplingRule_FixedRate(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_RuleName(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_ServiceType(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_Attributes(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_Priority(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_UrlPath(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_Id(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_ResourceArn(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_Version(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_Host(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_HttpMethod(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_ReservoirSize(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_ServiceName(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_Tags(&new.Spec.ForProvider, valMap)
+	DecodeXraySamplingRule_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeXraySamplingRule_FixedRate(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.FixedRate = ctwhy.ValueAsInt64(vals["fixed_rate"])
+}
+
+func DecodeXraySamplingRule_RuleName(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.RuleName = ctwhy.ValueAsString(vals["rule_name"])
+}
+
+func DecodeXraySamplingRule_ServiceType(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.ServiceType = ctwhy.ValueAsString(vals["service_type"])
+}
+
+func DecodeXraySamplingRule_Attributes(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["attributes"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Attributes = vMap
+}
+
+func DecodeXraySamplingRule_Priority(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.Priority = ctwhy.ValueAsInt64(vals["priority"])
+}
+
+func DecodeXraySamplingRule_UrlPath(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.UrlPath = ctwhy.ValueAsString(vals["url_path"])
+}
+
+func DecodeXraySamplingRule_Id(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeXraySamplingRule_ResourceArn(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
+}
+
+func DecodeXraySamplingRule_Version(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.Version = ctwhy.ValueAsInt64(vals["version"])
+}
+
+func DecodeXraySamplingRule_Host(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.Host = ctwhy.ValueAsString(vals["host"])
+}
+
+func DecodeXraySamplingRule_HttpMethod(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.HttpMethod = ctwhy.ValueAsString(vals["http_method"])
+}
+
+func DecodeXraySamplingRule_ReservoirSize(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.ReservoirSize = ctwhy.ValueAsInt64(vals["reservoir_size"])
+}
+
+func DecodeXraySamplingRule_ServiceName(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	p.ServiceName = ctwhy.ValueAsString(vals["service_name"])
+}
+
+func DecodeXraySamplingRule_Tags(p *XraySamplingRuleParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeXraySamplingRule_Arn(p *XraySamplingRuleObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

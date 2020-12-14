@@ -17,13 +17,69 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*NatGateway)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeNatGateway(r, ctyValue)
+}
+
+func DecodeNatGateway(prev *NatGateway, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeNatGateway_Tags(&new.Spec.ForProvider, valMap)
+	DecodeNatGateway_AllocationId(&new.Spec.ForProvider, valMap)
+	DecodeNatGateway_Id(&new.Spec.ForProvider, valMap)
+	DecodeNatGateway_SubnetId(&new.Spec.ForProvider, valMap)
+	DecodeNatGateway_NetworkInterfaceId(&new.Status.AtProvider, valMap)
+	DecodeNatGateway_PrivateIp(&new.Status.AtProvider, valMap)
+	DecodeNatGateway_PublicIp(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeNatGateway_Tags(p *NatGatewayParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeNatGateway_AllocationId(p *NatGatewayParameters, vals map[string]cty.Value) {
+	p.AllocationId = ctwhy.ValueAsString(vals["allocation_id"])
+}
+
+func DecodeNatGateway_Id(p *NatGatewayParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeNatGateway_SubnetId(p *NatGatewayParameters, vals map[string]cty.Value) {
+	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
+}
+
+func DecodeNatGateway_NetworkInterfaceId(p *NatGatewayObservation, vals map[string]cty.Value) {
+	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
+}
+
+func DecodeNatGateway_PrivateIp(p *NatGatewayObservation, vals map[string]cty.Value) {
+	p.PrivateIp = ctwhy.ValueAsString(vals["private_ip"])
+}
+
+func DecodeNatGateway_PublicIp(p *NatGatewayObservation, vals map[string]cty.Value) {
+	p.PublicIp = ctwhy.ValueAsString(vals["public_ip"])
 }

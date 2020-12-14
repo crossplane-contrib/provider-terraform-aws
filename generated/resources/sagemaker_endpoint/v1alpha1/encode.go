@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSagemakerEndpoint(r SagemakerEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSagemakerEndpoint_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerEndpoint_EndpointConfigName(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerEndpoint_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerEndpoint_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,6 +50,14 @@ func EncodeSagemakerEndpoint(r SagemakerEndpoint) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSagemakerEndpoint_EndpointConfigName(p SagemakerEndpointParameters, vals map[string]cty.Value) {
+	vals["endpoint_config_name"] = cty.StringVal(p.EndpointConfigName)
+}
+
+func EncodeSagemakerEndpoint_Id(p SagemakerEndpointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSagemakerEndpoint_Name(p SagemakerEndpointParameters, vals map[string]cty.Value) {
@@ -66,14 +74,6 @@ func EncodeSagemakerEndpoint_Tags(p SagemakerEndpointParameters, vals map[string
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeSagemakerEndpoint_EndpointConfigName(p SagemakerEndpointParameters, vals map[string]cty.Value) {
-	vals["endpoint_config_name"] = cty.StringVal(p.EndpointConfigName)
-}
-
-func EncodeSagemakerEndpoint_Id(p SagemakerEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSagemakerEndpoint_Arn(p SagemakerEndpointObservation, vals map[string]cty.Value) {

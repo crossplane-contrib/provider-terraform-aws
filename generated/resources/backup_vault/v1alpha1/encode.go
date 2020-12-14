@@ -37,12 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeBackupVault(r BackupVault) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeBackupVault_Id(r.Spec.ForProvider, ctyVal)
-	EncodeBackupVault_KmsKeyArn(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVault_Name(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVault_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeBackupVault_Arn(r.Status.AtProvider, ctyVal)
+	EncodeBackupVault_Id(r.Spec.ForProvider, ctyVal)
+	EncodeBackupVault_KmsKeyArn(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVault_RecoveryPoints(r.Status.AtProvider, ctyVal)
+	EncodeBackupVault_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -51,14 +51,6 @@ func EncodeBackupVault(r BackupVault) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeBackupVault_Id(p BackupVaultParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeBackupVault_KmsKeyArn(p BackupVaultParameters, vals map[string]cty.Value) {
-	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
 func EncodeBackupVault_Name(p BackupVaultParameters, vals map[string]cty.Value) {
@@ -77,10 +69,18 @@ func EncodeBackupVault_Tags(p BackupVaultParameters, vals map[string]cty.Value) 
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeBackupVault_Arn(p BackupVaultObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeBackupVault_Id(p BackupVaultParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeBackupVault_KmsKeyArn(p BackupVaultParameters, vals map[string]cty.Value) {
+	vals["kms_key_arn"] = cty.StringVal(p.KmsKeyArn)
 }
 
 func EncodeBackupVault_RecoveryPoints(p BackupVaultObservation, vals map[string]cty.Value) {
 	vals["recovery_points"] = cty.NumberIntVal(p.RecoveryPoints)
+}
+
+func EncodeBackupVault_Arn(p BackupVaultObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

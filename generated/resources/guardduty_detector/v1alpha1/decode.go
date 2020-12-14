@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*GuarddutyDetector)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeGuarddutyDetector(r, ctyValue)
+}
+
+func DecodeGuarddutyDetector(prev *GuarddutyDetector, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeGuarddutyDetector_Enable(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyDetector_FindingPublishingFrequency(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyDetector_Id(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyDetector_Tags(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyDetector_AccountId(&new.Status.AtProvider, valMap)
+	DecodeGuarddutyDetector_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeGuarddutyDetector_Enable(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	p.Enable = ctwhy.ValueAsBool(vals["enable"])
+}
+
+func DecodeGuarddutyDetector_FindingPublishingFrequency(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	p.FindingPublishingFrequency = ctwhy.ValueAsString(vals["finding_publishing_frequency"])
+}
+
+func DecodeGuarddutyDetector_Id(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeGuarddutyDetector_Tags(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeGuarddutyDetector_AccountId(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
+}
+
+func DecodeGuarddutyDetector_Arn(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

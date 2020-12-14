@@ -17,13 +17,69 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ApiGatewayClientCertificate)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeApiGatewayClientCertificate(r, ctyValue)
+}
+
+func DecodeApiGatewayClientCertificate(prev *ApiGatewayClientCertificate, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeApiGatewayClientCertificate_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayClientCertificate_Tags(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayClientCertificate_Description(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayClientCertificate_PemEncodedCertificate(&new.Status.AtProvider, valMap)
+	DecodeApiGatewayClientCertificate_Arn(&new.Status.AtProvider, valMap)
+	DecodeApiGatewayClientCertificate_CreatedDate(&new.Status.AtProvider, valMap)
+	DecodeApiGatewayClientCertificate_ExpirationDate(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeApiGatewayClientCertificate_Id(p *ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeApiGatewayClientCertificate_Tags(p *ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeApiGatewayClientCertificate_Description(p *ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeApiGatewayClientCertificate_PemEncodedCertificate(p *ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	p.PemEncodedCertificate = ctwhy.ValueAsString(vals["pem_encoded_certificate"])
+}
+
+func DecodeApiGatewayClientCertificate_Arn(p *ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeApiGatewayClientCertificate_CreatedDate(p *ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	p.CreatedDate = ctwhy.ValueAsString(vals["created_date"])
+}
+
+func DecodeApiGatewayClientCertificate_ExpirationDate(p *ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	p.ExpirationDate = ctwhy.ValueAsString(vals["expiration_date"])
 }

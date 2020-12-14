@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Route53ResolverRuleAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeRoute53ResolverRuleAssociation(r, ctyValue)
+}
+
+func DecodeRoute53ResolverRuleAssociation(prev *Route53ResolverRuleAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeRoute53ResolverRuleAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverRuleAssociation_Name(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverRuleAssociation_ResolverRuleId(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverRuleAssociation_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ResolverRuleAssociation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeRoute53ResolverRuleAssociation_Id(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeRoute53ResolverRuleAssociation_Name(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeRoute53ResolverRuleAssociation_ResolverRuleId(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	p.ResolverRuleId = ctwhy.ValueAsString(vals["resolver_rule_id"])
+}
+
+func DecodeRoute53ResolverRuleAssociation_VpcId(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+func DecodeRoute53ResolverRuleAssociation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeRoute53ResolverRuleAssociation_Timeouts_Create(p, valMap)
+	DecodeRoute53ResolverRuleAssociation_Timeouts_Delete(p, valMap)
+}
+
+func DecodeRoute53ResolverRuleAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeRoute53ResolverRuleAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }

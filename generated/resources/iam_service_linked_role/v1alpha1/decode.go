@@ -17,13 +17,73 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamServiceLinkedRole)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamServiceLinkedRole(r, ctyValue)
+}
+
+func DecodeIamServiceLinkedRole(prev *IamServiceLinkedRole, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamServiceLinkedRole_AwsServiceName(&new.Spec.ForProvider, valMap)
+	DecodeIamServiceLinkedRole_CustomSuffix(&new.Spec.ForProvider, valMap)
+	DecodeIamServiceLinkedRole_Description(&new.Spec.ForProvider, valMap)
+	DecodeIamServiceLinkedRole_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamServiceLinkedRole_CreateDate(&new.Status.AtProvider, valMap)
+	DecodeIamServiceLinkedRole_Name(&new.Status.AtProvider, valMap)
+	DecodeIamServiceLinkedRole_Path(&new.Status.AtProvider, valMap)
+	DecodeIamServiceLinkedRole_UniqueId(&new.Status.AtProvider, valMap)
+	DecodeIamServiceLinkedRole_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamServiceLinkedRole_AwsServiceName(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	p.AwsServiceName = ctwhy.ValueAsString(vals["aws_service_name"])
+}
+
+func DecodeIamServiceLinkedRole_CustomSuffix(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	p.CustomSuffix = ctwhy.ValueAsString(vals["custom_suffix"])
+}
+
+func DecodeIamServiceLinkedRole_Description(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeIamServiceLinkedRole_Id(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamServiceLinkedRole_CreateDate(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.CreateDate = ctwhy.ValueAsString(vals["create_date"])
+}
+
+func DecodeIamServiceLinkedRole_Name(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeIamServiceLinkedRole_Path(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.Path = ctwhy.ValueAsString(vals["path"])
+}
+
+func DecodeIamServiceLinkedRole_UniqueId(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
+}
+
+func DecodeIamServiceLinkedRole_Arn(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

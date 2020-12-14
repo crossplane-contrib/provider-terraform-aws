@@ -17,13 +17,83 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamAccountPasswordPolicy)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamAccountPasswordPolicy(r, ctyValue)
+}
+
+func DecodeIamAccountPasswordPolicy(prev *IamAccountPasswordPolicy, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamAccountPasswordPolicy_RequireSymbols(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_AllowUsersToChangePassword(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_HardExpiry(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_MinimumPasswordLength(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_RequireLowercaseCharacters(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_MaxPasswordAge(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_PasswordReusePrevention(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_RequireNumbers(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_RequireUppercaseCharacters(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_ExpirePasswords(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamAccountPasswordPolicy_RequireSymbols(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.RequireSymbols = ctwhy.ValueAsBool(vals["require_symbols"])
+}
+
+func DecodeIamAccountPasswordPolicy_AllowUsersToChangePassword(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.AllowUsersToChangePassword = ctwhy.ValueAsBool(vals["allow_users_to_change_password"])
+}
+
+func DecodeIamAccountPasswordPolicy_HardExpiry(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.HardExpiry = ctwhy.ValueAsBool(vals["hard_expiry"])
+}
+
+func DecodeIamAccountPasswordPolicy_Id(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamAccountPasswordPolicy_MinimumPasswordLength(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.MinimumPasswordLength = ctwhy.ValueAsInt64(vals["minimum_password_length"])
+}
+
+func DecodeIamAccountPasswordPolicy_RequireLowercaseCharacters(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.RequireLowercaseCharacters = ctwhy.ValueAsBool(vals["require_lowercase_characters"])
+}
+
+func DecodeIamAccountPasswordPolicy_MaxPasswordAge(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.MaxPasswordAge = ctwhy.ValueAsInt64(vals["max_password_age"])
+}
+
+func DecodeIamAccountPasswordPolicy_PasswordReusePrevention(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.PasswordReusePrevention = ctwhy.ValueAsInt64(vals["password_reuse_prevention"])
+}
+
+func DecodeIamAccountPasswordPolicy_RequireNumbers(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.RequireNumbers = ctwhy.ValueAsBool(vals["require_numbers"])
+}
+
+func DecodeIamAccountPasswordPolicy_RequireUppercaseCharacters(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.RequireUppercaseCharacters = ctwhy.ValueAsBool(vals["require_uppercase_characters"])
+}
+
+func DecodeIamAccountPasswordPolicy_ExpirePasswords(p *IamAccountPasswordPolicyObservation, vals map[string]cty.Value) {
+	p.ExpirePasswords = ctwhy.ValueAsBool(vals["expire_passwords"])
 }

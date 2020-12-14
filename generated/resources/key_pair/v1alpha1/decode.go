@@ -17,13 +17,74 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*KeyPair)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeKeyPair(r, ctyValue)
+}
+
+func DecodeKeyPair(prev *KeyPair, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeKeyPair_PublicKey(&new.Spec.ForProvider, valMap)
+	DecodeKeyPair_Tags(&new.Spec.ForProvider, valMap)
+	DecodeKeyPair_Id(&new.Spec.ForProvider, valMap)
+	DecodeKeyPair_KeyName(&new.Spec.ForProvider, valMap)
+	DecodeKeyPair_KeyNamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeKeyPair_KeyPairId(&new.Status.AtProvider, valMap)
+	DecodeKeyPair_Arn(&new.Status.AtProvider, valMap)
+	DecodeKeyPair_Fingerprint(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeKeyPair_PublicKey(p *KeyPairParameters, vals map[string]cty.Value) {
+	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
+}
+
+func DecodeKeyPair_Tags(p *KeyPairParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeKeyPair_Id(p *KeyPairParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeKeyPair_KeyName(p *KeyPairParameters, vals map[string]cty.Value) {
+	p.KeyName = ctwhy.ValueAsString(vals["key_name"])
+}
+
+func DecodeKeyPair_KeyNamePrefix(p *KeyPairParameters, vals map[string]cty.Value) {
+	p.KeyNamePrefix = ctwhy.ValueAsString(vals["key_name_prefix"])
+}
+
+func DecodeKeyPair_KeyPairId(p *KeyPairObservation, vals map[string]cty.Value) {
+	p.KeyPairId = ctwhy.ValueAsString(vals["key_pair_id"])
+}
+
+func DecodeKeyPair_Arn(p *KeyPairObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeKeyPair_Fingerprint(p *KeyPairObservation, vals map[string]cty.Value) {
+	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
 }

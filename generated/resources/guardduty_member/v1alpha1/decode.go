@@ -17,13 +17,83 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*GuarddutyMember)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeGuarddutyMember(r, ctyValue)
+}
+
+func DecodeGuarddutyMember(prev *GuarddutyMember, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeGuarddutyMember_Invite(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_AccountId(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_DetectorId(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_DisableEmailNotification(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_Email(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_Id(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_InvitationMessage(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeGuarddutyMember_RelationshipStatus(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeGuarddutyMember_Invite(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.Invite = ctwhy.ValueAsBool(vals["invite"])
+}
+
+func DecodeGuarddutyMember_AccountId(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
+}
+
+func DecodeGuarddutyMember_DetectorId(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
+}
+
+func DecodeGuarddutyMember_DisableEmailNotification(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.DisableEmailNotification = ctwhy.ValueAsBool(vals["disable_email_notification"])
+}
+
+func DecodeGuarddutyMember_Email(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.Email = ctwhy.ValueAsString(vals["email"])
+}
+
+func DecodeGuarddutyMember_Id(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeGuarddutyMember_InvitationMessage(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.InvitationMessage = ctwhy.ValueAsString(vals["invitation_message"])
+}
+
+func DecodeGuarddutyMember_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeGuarddutyMember_Timeouts_Update(p, valMap)
+	DecodeGuarddutyMember_Timeouts_Create(p, valMap)
+}
+
+func DecodeGuarddutyMember_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeGuarddutyMember_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeGuarddutyMember_RelationshipStatus(p *GuarddutyMemberObservation, vals map[string]cty.Value) {
+	p.RelationshipStatus = ctwhy.ValueAsString(vals["relationship_status"])
 }

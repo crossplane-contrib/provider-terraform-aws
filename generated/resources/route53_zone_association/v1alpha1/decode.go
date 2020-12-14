@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Route53ZoneAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeRoute53ZoneAssociation(r, ctyValue)
+}
+
+func DecodeRoute53ZoneAssociation(prev *Route53ZoneAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeRoute53ZoneAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ZoneAssociation_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ZoneAssociation_VpcRegion(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ZoneAssociation_ZoneId(&new.Spec.ForProvider, valMap)
+	DecodeRoute53ZoneAssociation_OwningAccount(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeRoute53ZoneAssociation_Id(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeRoute53ZoneAssociation_VpcId(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+func DecodeRoute53ZoneAssociation_VpcRegion(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
+	p.VpcRegion = ctwhy.ValueAsString(vals["vpc_region"])
+}
+
+func DecodeRoute53ZoneAssociation_ZoneId(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
+	p.ZoneId = ctwhy.ValueAsString(vals["zone_id"])
+}
+
+func DecodeRoute53ZoneAssociation_OwningAccount(p *Route53ZoneAssociationObservation, vals map[string]cty.Value) {
+	p.OwningAccount = ctwhy.ValueAsString(vals["owning_account"])
 }

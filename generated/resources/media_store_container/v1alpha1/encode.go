@@ -40,8 +40,8 @@ func EncodeMediaStoreContainer(r MediaStoreContainer) cty.Value {
 	EncodeMediaStoreContainer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainer_Name(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainer_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeMediaStoreContainer_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMediaStoreContainer_Endpoint(r.Status.AtProvider, ctyVal)
+	EncodeMediaStoreContainer_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -72,10 +72,10 @@ func EncodeMediaStoreContainer_Tags(p MediaStoreContainerParameters, vals map[st
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeMediaStoreContainer_Arn(p MediaStoreContainerObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeMediaStoreContainer_Endpoint(p MediaStoreContainerObservation, vals map[string]cty.Value) {
 	vals["endpoint"] = cty.StringVal(p.Endpoint)
+}
+
+func EncodeMediaStoreContainer_Arn(p MediaStoreContainerObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

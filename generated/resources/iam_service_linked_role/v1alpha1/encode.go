@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamServiceLinkedRole(r IamServiceLinkedRole) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamServiceLinkedRole_Description(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_AwsServiceName(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_CustomSuffix(r.Spec.ForProvider, ctyVal)
+	EncodeIamServiceLinkedRole_Description(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamServiceLinkedRole_CreateDate(r.Status.AtProvider, ctyVal)
 	EncodeIamServiceLinkedRole_Name(r.Status.AtProvider, ctyVal)
@@ -56,16 +56,16 @@ func EncodeIamServiceLinkedRole(r IamServiceLinkedRole) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeIamServiceLinkedRole_Description(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
 func EncodeIamServiceLinkedRole_AwsServiceName(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
 	vals["aws_service_name"] = cty.StringVal(p.AwsServiceName)
 }
 
 func EncodeIamServiceLinkedRole_CustomSuffix(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
 	vals["custom_suffix"] = cty.StringVal(p.CustomSuffix)
+}
+
+func EncodeIamServiceLinkedRole_Description(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeIamServiceLinkedRole_Id(p IamServiceLinkedRoleParameters, vals map[string]cty.Value) {

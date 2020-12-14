@@ -53,22 +53,22 @@ type ApiGatewayIntegrationSpec struct {
 // A ApiGatewayIntegrationParameters defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationParameters struct {
 	PassthroughBehavior   string            `json:"passthrough_behavior"`
+	RequestParameters     map[string]string `json:"request_parameters"`
+	RequestTemplates      map[string]string `json:"request_templates"`
+	CacheKeyParameters    []string          `json:"cache_key_parameters"`
+	ConnectionId          string            `json:"connection_id"`
+	RestApiId             string            `json:"rest_api_id"`
 	Type                  string            `json:"type"`
-	Uri                   string            `json:"uri"`
-	IntegrationHttpMethod string            `json:"integration_http_method"`
 	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
+	Uri                   string            `json:"uri"`
 	CacheNamespace        string            `json:"cache_namespace"`
-	ConnectionType        string            `json:"connection_type"`
-	ContentHandling       string            `json:"content_handling"`
+	Credentials           string            `json:"credentials"`
 	HttpMethod            string            `json:"http_method"`
 	Id                    string            `json:"id"`
-	CacheKeyParameters    []string          `json:"cache_key_parameters"`
-	RequestTemplates      map[string]string `json:"request_templates"`
+	IntegrationHttpMethod string            `json:"integration_http_method"`
 	ResourceId            string            `json:"resource_id"`
-	RestApiId             string            `json:"rest_api_id"`
-	ConnectionId          string            `json:"connection_id"`
-	Credentials           string            `json:"credentials"`
-	RequestParameters     map[string]string `json:"request_parameters"`
+	ConnectionType        string            `json:"connection_type"`
+	ContentHandling       string            `json:"content_handling"`
 }
 
 // A ApiGatewayIntegrationStatus defines the observed state of a ApiGatewayIntegration

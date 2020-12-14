@@ -17,13 +17,67 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SecretsmanagerSecretVersion)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSecretsmanagerSecretVersion(r, ctyValue)
+}
+
+func DecodeSecretsmanagerSecretVersion(prev *SecretsmanagerSecretVersion, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSecretsmanagerSecretVersion_SecretBinary(&new.Spec.ForProvider, valMap)
+	DecodeSecretsmanagerSecretVersion_SecretId(&new.Spec.ForProvider, valMap)
+	DecodeSecretsmanagerSecretVersion_SecretString(&new.Spec.ForProvider, valMap)
+	DecodeSecretsmanagerSecretVersion_VersionStages(&new.Spec.ForProvider, valMap)
+	DecodeSecretsmanagerSecretVersion_Id(&new.Spec.ForProvider, valMap)
+	DecodeSecretsmanagerSecretVersion_VersionId(&new.Status.AtProvider, valMap)
+	DecodeSecretsmanagerSecretVersion_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSecretsmanagerSecretVersion_SecretBinary(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	p.SecretBinary = ctwhy.ValueAsString(vals["secret_binary"])
+}
+
+func DecodeSecretsmanagerSecretVersion_SecretId(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	p.SecretId = ctwhy.ValueAsString(vals["secret_id"])
+}
+
+func DecodeSecretsmanagerSecretVersion_SecretString(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	p.SecretString = ctwhy.ValueAsString(vals["secret_string"])
+}
+
+func DecodeSecretsmanagerSecretVersion_VersionStages(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["version_stages"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.VersionStages = goVals
+}
+
+func DecodeSecretsmanagerSecretVersion_Id(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSecretsmanagerSecretVersion_VersionId(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	p.VersionId = ctwhy.ValueAsString(vals["version_id"])
+}
+
+func DecodeSecretsmanagerSecretVersion_Arn(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

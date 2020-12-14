@@ -17,13 +17,75 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*GlueWorkflow)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeGlueWorkflow(r, ctyValue)
+}
+
+func DecodeGlueWorkflow(prev *GlueWorkflow, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeGlueWorkflow_Id(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_MaxConcurrentRuns(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_Name(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_Tags(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_DefaultRunProperties(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_Description(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeGlueWorkflow_Id(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeGlueWorkflow_MaxConcurrentRuns(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	p.MaxConcurrentRuns = ctwhy.ValueAsInt64(vals["max_concurrent_runs"])
+}
+
+func DecodeGlueWorkflow_Name(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeGlueWorkflow_Tags(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeGlueWorkflow_DefaultRunProperties(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["default_run_properties"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.DefaultRunProperties = vMap
+}
+
+func DecodeGlueWorkflow_Description(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeGlueWorkflow_Arn(p *GlueWorkflowObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodePlacementGroup(r PlacementGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePlacementGroup_Strategy(r.Spec.ForProvider, ctyVal)
-	EncodePlacementGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Name(r.Spec.ForProvider, ctyVal)
+	EncodePlacementGroup_Strategy(r.Spec.ForProvider, ctyVal)
+	EncodePlacementGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodePlacementGroup_Arn(r.Status.AtProvider, ctyVal)
 	EncodePlacementGroup_PlacementGroupId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -51,6 +51,14 @@ func EncodePlacementGroup(r PlacementGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodePlacementGroup_Id(p PlacementGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodePlacementGroup_Name(p PlacementGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodePlacementGroup_Strategy(p PlacementGroupParameters, vals map[string]cty.Value) {
@@ -67,14 +75,6 @@ func EncodePlacementGroup_Tags(p PlacementGroupParameters, vals map[string]cty.V
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodePlacementGroup_Id(p PlacementGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodePlacementGroup_Name(p PlacementGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodePlacementGroup_Arn(p PlacementGroupObservation, vals map[string]cty.Value) {

@@ -17,13 +17,69 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*SwfDomain)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeSwfDomain(r, ctyValue)
+}
+
+func DecodeSwfDomain(prev *SwfDomain, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeSwfDomain_Id(&new.Spec.ForProvider, valMap)
+	DecodeSwfDomain_Name(&new.Spec.ForProvider, valMap)
+	DecodeSwfDomain_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeSwfDomain_Tags(&new.Spec.ForProvider, valMap)
+	DecodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(&new.Spec.ForProvider, valMap)
+	DecodeSwfDomain_Description(&new.Spec.ForProvider, valMap)
+	DecodeSwfDomain_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeSwfDomain_Id(p *SwfDomainParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeSwfDomain_Name(p *SwfDomainParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeSwfDomain_NamePrefix(p *SwfDomainParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+func DecodeSwfDomain_Tags(p *SwfDomainParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p *SwfDomainParameters, vals map[string]cty.Value) {
+	p.WorkflowExecutionRetentionPeriodInDays = ctwhy.ValueAsString(vals["workflow_execution_retention_period_in_days"])
+}
+
+func DecodeSwfDomain_Description(p *SwfDomainParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeSwfDomain_Arn(p *SwfDomainObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

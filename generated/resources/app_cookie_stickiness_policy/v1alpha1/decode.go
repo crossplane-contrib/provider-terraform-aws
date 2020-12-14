@@ -17,13 +17,54 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*AppCookieStickinessPolicy)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeAppCookieStickinessPolicy(r, ctyValue)
+}
+
+func DecodeAppCookieStickinessPolicy(prev *AppCookieStickinessPolicy, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeAppCookieStickinessPolicy_Id(&new.Spec.ForProvider, valMap)
+	DecodeAppCookieStickinessPolicy_LbPort(&new.Spec.ForProvider, valMap)
+	DecodeAppCookieStickinessPolicy_LoadBalancer(&new.Spec.ForProvider, valMap)
+	DecodeAppCookieStickinessPolicy_Name(&new.Spec.ForProvider, valMap)
+	DecodeAppCookieStickinessPolicy_CookieName(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeAppCookieStickinessPolicy_Id(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeAppCookieStickinessPolicy_LbPort(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.LbPort = ctwhy.ValueAsInt64(vals["lb_port"])
+}
+
+func DecodeAppCookieStickinessPolicy_LoadBalancer(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.LoadBalancer = ctwhy.ValueAsString(vals["load_balancer"])
+}
+
+func DecodeAppCookieStickinessPolicy_Name(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeAppCookieStickinessPolicy_CookieName(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.CookieName = ctwhy.ValueAsString(vals["cookie_name"])
 }

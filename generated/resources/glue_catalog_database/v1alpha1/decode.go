@@ -17,13 +17,69 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*GlueCatalogDatabase)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeGlueCatalogDatabase(r, ctyValue)
+}
+
+func DecodeGlueCatalogDatabase(prev *GlueCatalogDatabase, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeGlueCatalogDatabase_CatalogId(&new.Spec.ForProvider, valMap)
+	DecodeGlueCatalogDatabase_Description(&new.Spec.ForProvider, valMap)
+	DecodeGlueCatalogDatabase_Id(&new.Spec.ForProvider, valMap)
+	DecodeGlueCatalogDatabase_LocationUri(&new.Spec.ForProvider, valMap)
+	DecodeGlueCatalogDatabase_Name(&new.Spec.ForProvider, valMap)
+	DecodeGlueCatalogDatabase_Parameters(&new.Spec.ForProvider, valMap)
+	DecodeGlueCatalogDatabase_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeGlueCatalogDatabase_CatalogId(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	p.CatalogId = ctwhy.ValueAsString(vals["catalog_id"])
+}
+
+func DecodeGlueCatalogDatabase_Description(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeGlueCatalogDatabase_Id(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeGlueCatalogDatabase_LocationUri(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	p.LocationUri = ctwhy.ValueAsString(vals["location_uri"])
+}
+
+func DecodeGlueCatalogDatabase_Name(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeGlueCatalogDatabase_Parameters(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["parameters"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Parameters = vMap
+}
+
+func DecodeGlueCatalogDatabase_Arn(p *GlueCatalogDatabaseObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

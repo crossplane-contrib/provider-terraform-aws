@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*WorklinkWebsiteCertificateAuthorityAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeWorklinkWebsiteCertificateAuthorityAssociation(r, ctyValue)
+}
+
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation(prev *WorklinkWebsiteCertificateAuthorityAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(&new.Spec.ForProvider, valMap)
+	DecodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(&new.Spec.ForProvider, valMap)
+	DecodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(&new.Spec.ForProvider, valMap)
+	DecodeWorklinkWebsiteCertificateAuthorityAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
+}
+
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	p.DisplayName = ctwhy.ValueAsString(vals["display_name"])
+}
+
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	p.FleetArn = ctwhy.ValueAsString(vals["fleet_arn"])
+}
+
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation_Id(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(p *WorklinkWebsiteCertificateAuthorityAssociationObservation, vals map[string]cty.Value) {
+	p.WebsiteCaId = ctwhy.ValueAsString(vals["website_ca_id"])
 }

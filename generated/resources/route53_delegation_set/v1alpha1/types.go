@@ -52,8 +52,8 @@ type Route53DelegationSetSpec struct {
 
 // A Route53DelegationSetParameters defines the desired state of a Route53DelegationSet
 type Route53DelegationSetParameters struct {
-	Id            string `json:"id"`
 	ReferenceName string `json:"reference_name"`
+	Id            string `json:"id"`
 }
 
 // A Route53DelegationSetStatus defines the observed state of a Route53DelegationSet

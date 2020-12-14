@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamSamlProvider(r IamSamlProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamSamlProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_SamlMetadataDocument(r.Spec.ForProvider, ctyVal)
-	EncodeIamSamlProvider_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamSamlProvider_ValidUntil(r.Status.AtProvider, ctyVal)
 	EncodeIamSamlProvider_Arn(r.Status.AtProvider, ctyVal)
+	EncodeIamSamlProvider_ValidUntil(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -52,6 +52,10 @@ func EncodeIamSamlProvider(r IamSamlProvider) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeIamSamlProvider_Id(p IamSamlProviderParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeIamSamlProvider_Name(p IamSamlProviderParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
 }
@@ -60,14 +64,10 @@ func EncodeIamSamlProvider_SamlMetadataDocument(p IamSamlProviderParameters, val
 	vals["saml_metadata_document"] = cty.StringVal(p.SamlMetadataDocument)
 }
 
-func EncodeIamSamlProvider_Id(p IamSamlProviderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeIamSamlProvider_Arn(p IamSamlProviderObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeIamSamlProvider_ValidUntil(p IamSamlProviderObservation, vals map[string]cty.Value) {
 	vals["valid_until"] = cty.StringVal(p.ValidUntil)
-}
-
-func EncodeIamSamlProvider_Arn(p IamSamlProviderObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

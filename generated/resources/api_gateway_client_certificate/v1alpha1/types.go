@@ -52,9 +52,9 @@ type ApiGatewayClientCertificateSpec struct {
 
 // A ApiGatewayClientCertificateParameters defines the desired state of a ApiGatewayClientCertificate
 type ApiGatewayClientCertificateParameters struct {
-	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Tags        map[string]string `json:"tags"`
+	Description string            `json:"description"`
 }
 
 // A ApiGatewayClientCertificateStatus defines the observed state of a ApiGatewayClientCertificate
@@ -65,8 +65,8 @@ type ApiGatewayClientCertificateStatus struct {
 
 // A ApiGatewayClientCertificateObservation records the observed state of a ApiGatewayClientCertificate
 type ApiGatewayClientCertificateObservation struct {
+	PemEncodedCertificate string `json:"pem_encoded_certificate"`
 	Arn                   string `json:"arn"`
 	CreatedDate           string `json:"created_date"`
 	ExpirationDate        string `json:"expiration_date"`
-	PemEncodedCertificate string `json:"pem_encoded_certificate"`
 }

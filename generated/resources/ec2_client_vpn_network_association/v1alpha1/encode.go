@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2ClientVpnNetworkAssociation(r Ec2ClientVpnNetworkAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEc2ClientVpnNetworkAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnNetworkAssociation_ClientVpnEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnNetworkAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnNetworkAssociation_SecurityGroups(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnNetworkAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnNetworkAssociation_VpcId(r.Status.AtProvider, ctyVal)
 	EncodeEc2ClientVpnNetworkAssociation_AssociationId(r.Status.AtProvider, ctyVal)
 	EncodeEc2ClientVpnNetworkAssociation_Status(r.Status.AtProvider, ctyVal)
-	EncodeEc2ClientVpnNetworkAssociation_VpcId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -52,6 +52,10 @@ func EncodeEc2ClientVpnNetworkAssociation(r Ec2ClientVpnNetworkAssociation) cty.
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEc2ClientVpnNetworkAssociation_SubnetId(p Ec2ClientVpnNetworkAssociationParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
 func EncodeEc2ClientVpnNetworkAssociation_ClientVpnEndpointId(p Ec2ClientVpnNetworkAssociationParameters, vals map[string]cty.Value) {
@@ -70,8 +74,8 @@ func EncodeEc2ClientVpnNetworkAssociation_SecurityGroups(p Ec2ClientVpnNetworkAs
 	vals["security_groups"] = cty.SetVal(colVals)
 }
 
-func EncodeEc2ClientVpnNetworkAssociation_SubnetId(p Ec2ClientVpnNetworkAssociationParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+func EncodeEc2ClientVpnNetworkAssociation_VpcId(p Ec2ClientVpnNetworkAssociationObservation, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeEc2ClientVpnNetworkAssociation_AssociationId(p Ec2ClientVpnNetworkAssociationObservation, vals map[string]cty.Value) {
@@ -80,8 +84,4 @@ func EncodeEc2ClientVpnNetworkAssociation_AssociationId(p Ec2ClientVpnNetworkAss
 
 func EncodeEc2ClientVpnNetworkAssociation_Status(p Ec2ClientVpnNetworkAssociationObservation, vals map[string]cty.Value) {
 	vals["status"] = cty.StringVal(p.Status)
-}
-
-func EncodeEc2ClientVpnNetworkAssociation_VpcId(p Ec2ClientVpnNetworkAssociationObservation, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }

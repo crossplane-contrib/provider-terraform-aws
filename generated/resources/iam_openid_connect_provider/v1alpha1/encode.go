@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamOpenidConnectProvider(r IamOpenidConnectProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamOpenidConnectProvider_ThumbprintList(r.Spec.ForProvider, ctyVal)
-	EncodeIamOpenidConnectProvider_Url(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamOpenidConnectProvider_ThumbprintList(r.Spec.ForProvider, ctyVal)
+	EncodeIamOpenidConnectProvider_Url(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,18 +50,6 @@ func EncodeIamOpenidConnectProvider(r IamOpenidConnectProvider) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamOpenidConnectProvider_ThumbprintList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.ThumbprintList {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["thumbprint_list"] = cty.ListVal(colVals)
-}
-
-func EncodeIamOpenidConnectProvider_Url(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	vals["url"] = cty.StringVal(p.Url)
 }
 
 func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
@@ -74,6 +62,18 @@ func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParam
 
 func EncodeIamOpenidConnectProvider_Id(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeIamOpenidConnectProvider_ThumbprintList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.ThumbprintList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["thumbprint_list"] = cty.ListVal(colVals)
+}
+
+func EncodeIamOpenidConnectProvider_Url(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
+	vals["url"] = cty.StringVal(p.Url)
 }
 
 func EncodeIamOpenidConnectProvider_Arn(p IamOpenidConnectProviderObservation, vals map[string]cty.Value) {

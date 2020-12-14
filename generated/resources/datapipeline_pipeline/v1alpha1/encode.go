@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDatapipelinePipeline(r DatapipelinePipeline) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatapipelinePipeline_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDatapipelinePipeline_Tags(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,18 +50,6 @@ func EncodeDatapipelinePipeline(r DatapipelinePipeline) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatapipelinePipeline_Tags(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeDatapipelinePipeline_Description(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
@@ -74,4 +62,16 @@ func EncodeDatapipelinePipeline_Id(p DatapipelinePipelineParameters, vals map[st
 
 func EncodeDatapipelinePipeline_Name(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDatapipelinePipeline_Tags(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }

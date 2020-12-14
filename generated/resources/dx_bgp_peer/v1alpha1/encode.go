@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxBgpPeer(r DxBgpPeer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxBgpPeer_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
+	EncodeDxBgpPeer_AmazonAddress(r.Spec.ForProvider, ctyVal)
 	EncodeDxBgpPeer_BgpAsn(r.Spec.ForProvider, ctyVal)
-	EncodeDxBgpPeer_CustomerAddress(r.Spec.ForProvider, ctyVal)
 	EncodeDxBgpPeer_BgpAuthKey(r.Spec.ForProvider, ctyVal)
 	EncodeDxBgpPeer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxBgpPeer_AddressFamily(r.Spec.ForProvider, ctyVal)
-	EncodeDxBgpPeer_AmazonAddress(r.Spec.ForProvider, ctyVal)
+	EncodeDxBgpPeer_CustomerAddress(r.Spec.ForProvider, ctyVal)
+	EncodeDxBgpPeer_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeDxBgpPeer_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDxBgpPeer_BgpPeerId(r.Status.AtProvider, ctyVal)
 	EncodeDxBgpPeer_BgpStatus(r.Status.AtProvider, ctyVal)
@@ -58,16 +58,12 @@ func EncodeDxBgpPeer(r DxBgpPeer) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDxBgpPeer_VirtualInterfaceId(p DxBgpPeerParameters, vals map[string]cty.Value) {
-	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
+func EncodeDxBgpPeer_AmazonAddress(p DxBgpPeerParameters, vals map[string]cty.Value) {
+	vals["amazon_address"] = cty.StringVal(p.AmazonAddress)
 }
 
 func EncodeDxBgpPeer_BgpAsn(p DxBgpPeerParameters, vals map[string]cty.Value) {
 	vals["bgp_asn"] = cty.NumberIntVal(p.BgpAsn)
-}
-
-func EncodeDxBgpPeer_CustomerAddress(p DxBgpPeerParameters, vals map[string]cty.Value) {
-	vals["customer_address"] = cty.StringVal(p.CustomerAddress)
 }
 
 func EncodeDxBgpPeer_BgpAuthKey(p DxBgpPeerParameters, vals map[string]cty.Value) {
@@ -82,23 +78,27 @@ func EncodeDxBgpPeer_AddressFamily(p DxBgpPeerParameters, vals map[string]cty.Va
 	vals["address_family"] = cty.StringVal(p.AddressFamily)
 }
 
-func EncodeDxBgpPeer_AmazonAddress(p DxBgpPeerParameters, vals map[string]cty.Value) {
-	vals["amazon_address"] = cty.StringVal(p.AmazonAddress)
+func EncodeDxBgpPeer_CustomerAddress(p DxBgpPeerParameters, vals map[string]cty.Value) {
+	vals["customer_address"] = cty.StringVal(p.CustomerAddress)
+}
+
+func EncodeDxBgpPeer_VirtualInterfaceId(p DxBgpPeerParameters, vals map[string]cty.Value) {
+	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
 }
 
 func EncodeDxBgpPeer_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxBgpPeer_Timeouts_Delete(p, ctyVal)
 	EncodeDxBgpPeer_Timeouts_Create(p, ctyVal)
+	EncodeDxBgpPeer_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxBgpPeer_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeDxBgpPeer_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
+}
+
+func EncodeDxBgpPeer_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeDxBgpPeer_BgpPeerId(p DxBgpPeerObservation, vals map[string]cty.Value) {

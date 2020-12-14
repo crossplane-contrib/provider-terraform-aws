@@ -17,13 +17,63 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*IamPolicy)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeIamPolicy(r, ctyValue)
+}
+
+func DecodeIamPolicy(prev *IamPolicy, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeIamPolicy_Description(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicy_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicy_Name(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicy_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicy_Path(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicy_Policy(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicy_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeIamPolicy_Description(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeIamPolicy_Id(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeIamPolicy_Name(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeIamPolicy_NamePrefix(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+func DecodeIamPolicy_Path(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.Path = ctwhy.ValueAsString(vals["path"])
+}
+
+func DecodeIamPolicy_Policy(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+func DecodeIamPolicy_Arn(p *IamPolicyObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

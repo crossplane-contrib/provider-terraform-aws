@@ -17,13 +17,54 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ApiGatewayBasePathMapping)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeApiGatewayBasePathMapping(r, ctyValue)
+}
+
+func DecodeApiGatewayBasePathMapping(prev *ApiGatewayBasePathMapping, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeApiGatewayBasePathMapping_ApiId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayBasePathMapping_BasePath(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayBasePathMapping_DomainName(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayBasePathMapping_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayBasePathMapping_StageName(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeApiGatewayBasePathMapping_ApiId(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
+}
+
+func DecodeApiGatewayBasePathMapping_BasePath(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	p.BasePath = ctwhy.ValueAsString(vals["base_path"])
+}
+
+func DecodeApiGatewayBasePathMapping_DomainName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
+}
+
+func DecodeApiGatewayBasePathMapping_Id(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeApiGatewayBasePathMapping_StageName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	p.StageName = ctwhy.ValueAsString(vals["stage_name"])
 }

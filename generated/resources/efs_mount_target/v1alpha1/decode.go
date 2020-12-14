@@ -17,13 +17,92 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*EfsMountTarget)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEfsMountTarget(r, ctyValue)
+}
+
+func DecodeEfsMountTarget(prev *EfsMountTarget, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEfsMountTarget_IpAddress(&new.Spec.ForProvider, valMap)
+	DecodeEfsMountTarget_SecurityGroups(&new.Spec.ForProvider, valMap)
+	DecodeEfsMountTarget_FileSystemId(&new.Spec.ForProvider, valMap)
+	DecodeEfsMountTarget_Id(&new.Spec.ForProvider, valMap)
+	DecodeEfsMountTarget_SubnetId(&new.Spec.ForProvider, valMap)
+	DecodeEfsMountTarget_DnsName(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_MountTargetDnsName(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_NetworkInterfaceId(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_AvailabilityZoneId(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_AvailabilityZoneName(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_FileSystemArn(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_OwnerId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEfsMountTarget_IpAddress(p *EfsMountTargetParameters, vals map[string]cty.Value) {
+	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
+}
+
+func DecodeEfsMountTarget_SecurityGroups(p *EfsMountTargetParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["security_groups"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SecurityGroups = goVals
+}
+
+func DecodeEfsMountTarget_FileSystemId(p *EfsMountTargetParameters, vals map[string]cty.Value) {
+	p.FileSystemId = ctwhy.ValueAsString(vals["file_system_id"])
+}
+
+func DecodeEfsMountTarget_Id(p *EfsMountTargetParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEfsMountTarget_SubnetId(p *EfsMountTargetParameters, vals map[string]cty.Value) {
+	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
+}
+
+func DecodeEfsMountTarget_DnsName(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.DnsName = ctwhy.ValueAsString(vals["dns_name"])
+}
+
+func DecodeEfsMountTarget_MountTargetDnsName(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.MountTargetDnsName = ctwhy.ValueAsString(vals["mount_target_dns_name"])
+}
+
+func DecodeEfsMountTarget_NetworkInterfaceId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
+}
+
+func DecodeEfsMountTarget_AvailabilityZoneId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.AvailabilityZoneId = ctwhy.ValueAsString(vals["availability_zone_id"])
+}
+
+func DecodeEfsMountTarget_AvailabilityZoneName(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.AvailabilityZoneName = ctwhy.ValueAsString(vals["availability_zone_name"])
+}
+
+func DecodeEfsMountTarget_FileSystemArn(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.FileSystemArn = ctwhy.ValueAsString(vals["file_system_arn"])
+}
+
+func DecodeEfsMountTarget_OwnerId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }

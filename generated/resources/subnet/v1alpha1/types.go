@@ -52,16 +52,16 @@ type SubnetSpec struct {
 
 // A SubnetParameters defines the desired state of a Subnet
 type SubnetParameters struct {
-	Tags                        map[string]string `json:"tags"`
 	VpcId                       string            `json:"vpc_id"`
 	AssignIpv6AddressOnCreation bool              `json:"assign_ipv6_address_on_creation"`
-	AvailabilityZone            string            `json:"availability_zone"`
-	Id                          string            `json:"id"`
-	Ipv6CidrBlock               string            `json:"ipv6_cidr_block"`
 	AvailabilityZoneId          string            `json:"availability_zone_id"`
-	CidrBlock                   string            `json:"cidr_block"`
 	MapPublicIpOnLaunch         bool              `json:"map_public_ip_on_launch"`
 	OutpostArn                  string            `json:"outpost_arn"`
+	Tags                        map[string]string `json:"tags"`
+	AvailabilityZone            string            `json:"availability_zone"`
+	CidrBlock                   string            `json:"cidr_block"`
+	Id                          string            `json:"id"`
+	Ipv6CidrBlock               string            `json:"ipv6_cidr_block"`
 	Timeouts                    Timeouts          `json:"timeouts"`
 }
 
@@ -78,7 +78,7 @@ type SubnetStatus struct {
 
 // A SubnetObservation records the observed state of a Subnet
 type SubnetObservation struct {
-	Arn                        string `json:"arn"`
-	OwnerId                    string `json:"owner_id"`
 	Ipv6CidrBlockAssociationId string `json:"ipv6_cidr_block_association_id"`
+	OwnerId                    string `json:"owner_id"`
+	Arn                        string `json:"arn"`
 }

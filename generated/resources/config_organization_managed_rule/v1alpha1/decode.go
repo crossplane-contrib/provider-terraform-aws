@@ -17,13 +17,116 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ConfigOrganizationManagedRule)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeConfigOrganizationManagedRule(r, ctyValue)
+}
+
+func DecodeConfigOrganizationManagedRule(prev *ConfigOrganizationManagedRule, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeConfigOrganizationManagedRule_Name(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_ResourceIdScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_MaximumExecutionFrequency(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_Description(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_ExcludedAccounts(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_Id(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_InputParameters(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_ResourceTypesScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_RuleIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_TagKeyScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_TagValueScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeConfigOrganizationManagedRule_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeConfigOrganizationManagedRule_Name(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeConfigOrganizationManagedRule_ResourceIdScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.ResourceIdScope = ctwhy.ValueAsString(vals["resource_id_scope"])
+}
+
+func DecodeConfigOrganizationManagedRule_MaximumExecutionFrequency(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.MaximumExecutionFrequency = ctwhy.ValueAsString(vals["maximum_execution_frequency"])
+}
+
+func DecodeConfigOrganizationManagedRule_Description(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeConfigOrganizationManagedRule_ExcludedAccounts(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["excluded_accounts"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ExcludedAccounts = goVals
+}
+
+func DecodeConfigOrganizationManagedRule_Id(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeConfigOrganizationManagedRule_InputParameters(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.InputParameters = ctwhy.ValueAsString(vals["input_parameters"])
+}
+
+func DecodeConfigOrganizationManagedRule_ResourceTypesScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["resource_types_scope"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ResourceTypesScope = goVals
+}
+
+func DecodeConfigOrganizationManagedRule_RuleIdentifier(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.RuleIdentifier = ctwhy.ValueAsString(vals["rule_identifier"])
+}
+
+func DecodeConfigOrganizationManagedRule_TagKeyScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.TagKeyScope = ctwhy.ValueAsString(vals["tag_key_scope"])
+}
+
+func DecodeConfigOrganizationManagedRule_TagValueScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.TagValueScope = ctwhy.ValueAsString(vals["tag_value_scope"])
+}
+
+func DecodeConfigOrganizationManagedRule_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeConfigOrganizationManagedRule_Timeouts_Create(p, valMap)
+	DecodeConfigOrganizationManagedRule_Timeouts_Delete(p, valMap)
+	DecodeConfigOrganizationManagedRule_Timeouts_Update(p, valMap)
+}
+
+func DecodeConfigOrganizationManagedRule_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeConfigOrganizationManagedRule_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+func DecodeConfigOrganizationManagedRule_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeConfigOrganizationManagedRule_Arn(p *ConfigOrganizationManagedRuleObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

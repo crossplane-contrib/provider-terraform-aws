@@ -37,16 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamRole(r IamRole) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamRole_ForceDetachPolicies(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_MaxSessionDuration(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_Name(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_Path(r.Spec.ForProvider, ctyVal)
-	EncodeIamRole_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_AssumeRolePolicy(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_Description(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_ForceDetachPolicies(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_MaxSessionDuration(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
+	EncodeIamRole_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeIamRole_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIamRole_CreateDate(r.Status.AtProvider, ctyVal)
 	EncodeIamRole_UniqueId(r.Status.AtProvider, ctyVal)
@@ -60,20 +60,40 @@ func EncodeIamRole(r IamRole) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeIamRole_Name(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeIamRole_AssumeRolePolicy(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["assume_role_policy"] = cty.StringVal(p.AssumeRolePolicy)
+}
+
+func EncodeIamRole_Description(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
 func EncodeIamRole_ForceDetachPolicies(p IamRoleParameters, vals map[string]cty.Value) {
 	vals["force_detach_policies"] = cty.BoolVal(p.ForceDetachPolicies)
+}
+
+func EncodeIamRole_Id(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamRole_MaxSessionDuration(p IamRoleParameters, vals map[string]cty.Value) {
 	vals["max_session_duration"] = cty.NumberIntVal(p.MaxSessionDuration)
 }
 
-func EncodeIamRole_Name(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeIamRole_NamePrefix(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeIamRole_Path(p IamRoleParameters, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
+}
+
+func EncodeIamRole_PermissionsBoundary(p IamRoleParameters, vals map[string]cty.Value) {
+	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
 }
 
 func EncodeIamRole_Tags(p IamRoleParameters, vals map[string]cty.Value) {
@@ -86,26 +106,6 @@ func EncodeIamRole_Tags(p IamRoleParameters, vals map[string]cty.Value) {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeIamRole_AssumeRolePolicy(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["assume_role_policy"] = cty.StringVal(p.AssumeRolePolicy)
-}
-
-func EncodeIamRole_Description(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeIamRole_Id(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamRole_NamePrefix(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeIamRole_PermissionsBoundary(p IamRoleParameters, vals map[string]cty.Value) {
-	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
 }
 
 func EncodeIamRole_Arn(p IamRoleObservation, vals map[string]cty.Value) {

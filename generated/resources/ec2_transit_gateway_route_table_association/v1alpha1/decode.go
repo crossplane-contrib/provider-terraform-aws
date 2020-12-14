@@ -17,13 +17,53 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2TransitGatewayRouteTableAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2TransitGatewayRouteTableAssociation(r, ctyValue)
+}
+
+func DecodeEc2TransitGatewayRouteTableAssociation(prev *Ec2TransitGatewayRouteTableAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2TransitGatewayRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayRouteTableAssociation_ResourceId(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGatewayRouteTableAssociation_ResourceType(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2TransitGatewayRouteTableAssociation_Id(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
+}
+
+func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.TransitGatewayRouteTableId = ctwhy.ValueAsString(vals["transit_gateway_route_table_id"])
+}
+
+func DecodeEc2TransitGatewayRouteTableAssociation_ResourceId(p *Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
+	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
+}
+
+func DecodeEc2TransitGatewayRouteTableAssociation_ResourceType(p *Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
+	p.ResourceType = ctwhy.ValueAsString(vals["resource_type"])
 }

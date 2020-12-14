@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*S3AccountPublicAccessBlock)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeS3AccountPublicAccessBlock(r, ctyValue)
+}
+
+func DecodeS3AccountPublicAccessBlock(prev *S3AccountPublicAccessBlock, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeS3AccountPublicAccessBlock_Id(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_IgnorePublicAcls(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_RestrictPublicBuckets(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_AccountId(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_BlockPublicAcls(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_BlockPublicPolicy(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeS3AccountPublicAccessBlock_Id(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeS3AccountPublicAccessBlock_IgnorePublicAcls(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.IgnorePublicAcls = ctwhy.ValueAsBool(vals["ignore_public_acls"])
+}
+
+func DecodeS3AccountPublicAccessBlock_RestrictPublicBuckets(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.RestrictPublicBuckets = ctwhy.ValueAsBool(vals["restrict_public_buckets"])
+}
+
+func DecodeS3AccountPublicAccessBlock_AccountId(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
+}
+
+func DecodeS3AccountPublicAccessBlock_BlockPublicAcls(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.BlockPublicAcls = ctwhy.ValueAsBool(vals["block_public_acls"])
+}
+
+func DecodeS3AccountPublicAccessBlock_BlockPublicPolicy(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.BlockPublicPolicy = ctwhy.ValueAsBool(vals["block_public_policy"])
 }

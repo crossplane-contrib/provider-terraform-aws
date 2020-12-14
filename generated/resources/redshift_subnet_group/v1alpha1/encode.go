@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSubnetGroup(r RedshiftSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeRedshiftSubnetGroup(r RedshiftSubnetGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSubnetGroup_Description(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeRedshiftSubnetGroup_Id(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
@@ -83,6 +79,10 @@ func EncodeRedshiftSubnetGroup_Tags(p RedshiftSubnetGroupParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeRedshiftSubnetGroup_Description(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeRedshiftSubnetGroup_Arn(p RedshiftSubnetGroupObservation, vals map[string]cty.Value) {

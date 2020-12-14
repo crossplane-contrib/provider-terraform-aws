@@ -42,9 +42,9 @@ func EncodeIamInstanceProfile(r IamInstanceProfile) cty.Value {
 	EncodeIamInstanceProfile_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamInstanceProfile_Role(r.Spec.ForProvider, ctyVal)
+	EncodeIamInstanceProfile_CreateDate(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamInstanceProfile_Arn(r.Status.AtProvider, ctyVal)
-	EncodeIamInstanceProfile_CreateDate(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -75,14 +75,14 @@ func EncodeIamInstanceProfile_Role(p IamInstanceProfileParameters, vals map[stri
 	vals["role"] = cty.StringVal(p.Role)
 }
 
+func EncodeIamInstanceProfile_CreateDate(p IamInstanceProfileObservation, vals map[string]cty.Value) {
+	vals["create_date"] = cty.StringVal(p.CreateDate)
+}
+
 func EncodeIamInstanceProfile_UniqueId(p IamInstanceProfileObservation, vals map[string]cty.Value) {
 	vals["unique_id"] = cty.StringVal(p.UniqueId)
 }
 
 func EncodeIamInstanceProfile_Arn(p IamInstanceProfileObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeIamInstanceProfile_CreateDate(p IamInstanceProfileObservation, vals map[string]cty.Value) {
-	vals["create_date"] = cty.StringVal(p.CreateDate)
 }

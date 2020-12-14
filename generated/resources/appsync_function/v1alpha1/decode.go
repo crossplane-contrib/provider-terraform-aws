@@ -17,13 +17,78 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*AppsyncFunction)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeAppsyncFunction(r, ctyValue)
+}
+
+func DecodeAppsyncFunction(prev *AppsyncFunction, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeAppsyncFunction_RequestMappingTemplate(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_DataSource(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_FunctionVersion(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_Id(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_ResponseMappingTemplate(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_ApiId(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_Description(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_Name(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_Arn(&new.Status.AtProvider, valMap)
+	DecodeAppsyncFunction_FunctionId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeAppsyncFunction_RequestMappingTemplate(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.RequestMappingTemplate = ctwhy.ValueAsString(vals["request_mapping_template"])
+}
+
+func DecodeAppsyncFunction_DataSource(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.DataSource = ctwhy.ValueAsString(vals["data_source"])
+}
+
+func DecodeAppsyncFunction_FunctionVersion(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.FunctionVersion = ctwhy.ValueAsString(vals["function_version"])
+}
+
+func DecodeAppsyncFunction_Id(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeAppsyncFunction_ResponseMappingTemplate(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.ResponseMappingTemplate = ctwhy.ValueAsString(vals["response_mapping_template"])
+}
+
+func DecodeAppsyncFunction_ApiId(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
+}
+
+func DecodeAppsyncFunction_Description(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+func DecodeAppsyncFunction_Name(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeAppsyncFunction_Arn(p *AppsyncFunctionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeAppsyncFunction_FunctionId(p *AppsyncFunctionObservation, vals map[string]cty.Value) {
+	p.FunctionId = ctwhy.ValueAsString(vals["function_id"])
 }

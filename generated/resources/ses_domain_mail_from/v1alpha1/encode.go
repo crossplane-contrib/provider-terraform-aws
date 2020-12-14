@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesDomainMailFrom(r SesDomainMailFrom) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesDomainMailFrom_BehaviorOnMxFailure(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainMailFrom_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainMailFrom_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainMailFrom_MailFromDomain(r.Spec.ForProvider, ctyVal)
+	EncodeSesDomainMailFrom_BehaviorOnMxFailure(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,10 +50,6 @@ func EncodeSesDomainMailFrom(r SesDomainMailFrom) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSesDomainMailFrom_BehaviorOnMxFailure(p SesDomainMailFromParameters, vals map[string]cty.Value) {
-	vals["behavior_on_mx_failure"] = cty.StringVal(p.BehaviorOnMxFailure)
 }
 
 func EncodeSesDomainMailFrom_Domain(p SesDomainMailFromParameters, vals map[string]cty.Value) {
@@ -66,4 +62,8 @@ func EncodeSesDomainMailFrom_Id(p SesDomainMailFromParameters, vals map[string]c
 
 func EncodeSesDomainMailFrom_MailFromDomain(p SesDomainMailFromParameters, vals map[string]cty.Value) {
 	vals["mail_from_domain"] = cty.StringVal(p.MailFromDomain)
+}
+
+func EncodeSesDomainMailFrom_BehaviorOnMxFailure(p SesDomainMailFromParameters, vals map[string]cty.Value) {
+	vals["behavior_on_mx_failure"] = cty.StringVal(p.BehaviorOnMxFailure)
 }

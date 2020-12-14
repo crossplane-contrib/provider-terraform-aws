@@ -17,13 +17,48 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*InspectorAssessmentTarget)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeInspectorAssessmentTarget(r, ctyValue)
+}
+
+func DecodeInspectorAssessmentTarget(prev *InspectorAssessmentTarget, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeInspectorAssessmentTarget_Id(&new.Spec.ForProvider, valMap)
+	DecodeInspectorAssessmentTarget_Name(&new.Spec.ForProvider, valMap)
+	DecodeInspectorAssessmentTarget_ResourceGroupArn(&new.Spec.ForProvider, valMap)
+	DecodeInspectorAssessmentTarget_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeInspectorAssessmentTarget_Id(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeInspectorAssessmentTarget_Name(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeInspectorAssessmentTarget_ResourceGroupArn(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
+	p.ResourceGroupArn = ctwhy.ValueAsString(vals["resource_group_arn"])
+}
+
+func DecodeInspectorAssessmentTarget_Arn(p *InspectorAssessmentTargetObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

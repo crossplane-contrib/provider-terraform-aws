@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDbEventSubscription(r DbEventSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDbEventSubscription_EventCategories(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_SnsTopic(r.Spec.ForProvider, ctyVal)
+	EncodeDbEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDbEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodeDbEventSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_SourceIds(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_SourceType(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_EventCategories(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDbEventSubscription_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDbEventSubscription_CustomerAwsId(r.Status.AtProvider, ctyVal)
@@ -59,12 +59,12 @@ func EncodeDbEventSubscription(r DbEventSubscription) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDbEventSubscription_Enabled(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodeDbEventSubscription_Id(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeDbEventSubscription_EventCategories(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.EventCategories {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["event_categories"] = cty.SetVal(colVals)
 }
 
 func EncodeDbEventSubscription_Name(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
@@ -79,26 +79,6 @@ func EncodeDbEventSubscription_SnsTopic(p DbEventSubscriptionParameters, vals ma
 	vals["sns_topic"] = cty.StringVal(p.SnsTopic)
 }
 
-func EncodeDbEventSubscription_SourceIds(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SourceIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["source_ids"] = cty.SetVal(colVals)
-}
-
-func EncodeDbEventSubscription_SourceType(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["source_type"] = cty.StringVal(p.SourceType)
-}
-
-func EncodeDbEventSubscription_EventCategories(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.EventCategories {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["event_categories"] = cty.SetVal(colVals)
-}
-
 func EncodeDbEventSubscription_Tags(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
 	if len(p.Tags) == 0 {
 		vals["tags"] = cty.NullVal(cty.Map(cty.String))
@@ -109,6 +89,26 @@ func EncodeDbEventSubscription_Tags(p DbEventSubscriptionParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDbEventSubscription_Enabled(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
+}
+
+func EncodeDbEventSubscription_Id(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeDbEventSubscription_SourceIds(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SourceIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["source_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeDbEventSubscription_SourceType(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["source_type"] = cty.StringVal(p.SourceType)
 }
 
 func EncodeDbEventSubscription_Timeouts(p Timeouts, vals map[string]cty.Value) {

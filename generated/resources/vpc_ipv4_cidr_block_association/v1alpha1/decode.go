@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*VpcIpv4CidrBlockAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeVpcIpv4CidrBlockAssociation(r, ctyValue)
+}
+
+func DecodeVpcIpv4CidrBlockAssociation(prev *VpcIpv4CidrBlockAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeVpcIpv4CidrBlockAssociation_CidrBlock(&new.Spec.ForProvider, valMap)
+	DecodeVpcIpv4CidrBlockAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeVpcIpv4CidrBlockAssociation_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeVpcIpv4CidrBlockAssociation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeVpcIpv4CidrBlockAssociation_CidrBlock(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
+	p.CidrBlock = ctwhy.ValueAsString(vals["cidr_block"])
+}
+
+func DecodeVpcIpv4CidrBlockAssociation_Id(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeVpcIpv4CidrBlockAssociation_VpcId(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+func DecodeVpcIpv4CidrBlockAssociation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p, valMap)
+	DecodeVpcIpv4CidrBlockAssociation_Timeouts_Delete(p, valMap)
+}
+
+func DecodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeVpcIpv4CidrBlockAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }

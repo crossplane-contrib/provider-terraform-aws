@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodecommitRepository(r CodecommitRepository) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodecommitRepository_Description(r.Spec.ForProvider, ctyVal)
+	EncodeCodecommitRepository_DefaultBranch(r.Spec.ForProvider, ctyVal)
+	EncodeCodecommitRepository_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodecommitRepository_RepositoryName(r.Spec.ForProvider, ctyVal)
 	EncodeCodecommitRepository_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeCodecommitRepository_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCodecommitRepository_DefaultBranch(r.Spec.ForProvider, ctyVal)
-	EncodeCodecommitRepository_Description(r.Spec.ForProvider, ctyVal)
-	EncodeCodecommitRepository_RepositoryId(r.Status.AtProvider, ctyVal)
 	EncodeCodecommitRepository_CloneUrlHttp(r.Status.AtProvider, ctyVal)
 	EncodeCodecommitRepository_CloneUrlSsh(r.Status.AtProvider, ctyVal)
 	EncodeCodecommitRepository_Arn(r.Status.AtProvider, ctyVal)
+	EncodeCodecommitRepository_RepositoryId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -54,6 +54,18 @@ func EncodeCodecommitRepository(r CodecommitRepository) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCodecommitRepository_Description(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeCodecommitRepository_DefaultBranch(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	vals["default_branch"] = cty.StringVal(p.DefaultBranch)
+}
+
+func EncodeCodecommitRepository_Id(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCodecommitRepository_RepositoryName(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
@@ -72,22 +84,6 @@ func EncodeCodecommitRepository_Tags(p CodecommitRepositoryParameters, vals map[
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeCodecommitRepository_Id(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCodecommitRepository_DefaultBranch(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	vals["default_branch"] = cty.StringVal(p.DefaultBranch)
-}
-
-func EncodeCodecommitRepository_Description(p CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeCodecommitRepository_RepositoryId(p CodecommitRepositoryObservation, vals map[string]cty.Value) {
-	vals["repository_id"] = cty.StringVal(p.RepositoryId)
-}
-
 func EncodeCodecommitRepository_CloneUrlHttp(p CodecommitRepositoryObservation, vals map[string]cty.Value) {
 	vals["clone_url_http"] = cty.StringVal(p.CloneUrlHttp)
 }
@@ -98,4 +94,8 @@ func EncodeCodecommitRepository_CloneUrlSsh(p CodecommitRepositoryObservation, v
 
 func EncodeCodecommitRepository_Arn(p CodecommitRepositoryObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeCodecommitRepository_RepositoryId(p CodecommitRepositoryObservation, vals map[string]cty.Value) {
+	vals["repository_id"] = cty.StringVal(p.RepositoryId)
 }

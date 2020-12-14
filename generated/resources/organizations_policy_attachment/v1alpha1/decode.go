@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*OrganizationsPolicyAttachment)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeOrganizationsPolicyAttachment(r, ctyValue)
+}
+
+func DecodeOrganizationsPolicyAttachment(prev *OrganizationsPolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeOrganizationsPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
+	DecodeOrganizationsPolicyAttachment_PolicyId(&new.Spec.ForProvider, valMap)
+	DecodeOrganizationsPolicyAttachment_TargetId(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeOrganizationsPolicyAttachment_Id(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeOrganizationsPolicyAttachment_PolicyId(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.PolicyId = ctwhy.ValueAsString(vals["policy_id"])
+}
+
+func DecodeOrganizationsPolicyAttachment_TargetId(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
 }

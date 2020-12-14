@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeKinesisVideoStream(r KinesisVideoStream) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKinesisVideoStream_DataRetentionInHours(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisVideoStream_Id(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisVideoStream_Name(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisVideoStream_DeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeKinesisVideoStream_MediaType(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisVideoStream_DataRetentionInHours(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisVideoStream_Name(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisVideoStream_DeviceName(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisVideoStream_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKinesisVideoStream_MediaType(r.Spec.ForProvider, ctyVal)
 	EncodeKinesisVideoStream_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeKinesisVideoStream_Version(r.Status.AtProvider, ctyVal)
 	EncodeKinesisVideoStream_Arn(r.Status.AtProvider, ctyVal)
@@ -58,28 +58,16 @@ func EncodeKinesisVideoStream(r KinesisVideoStream) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeKinesisVideoStream_DataRetentionInHours(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["data_retention_in_hours"] = cty.NumberIntVal(p.DataRetentionInHours)
-}
-
-func EncodeKinesisVideoStream_Id(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeKinesisVideoStream_Name(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeKinesisVideoStream_DeviceName(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["device_name"] = cty.StringVal(p.DeviceName)
-}
-
 func EncodeKinesisVideoStream_KmsKeyId(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
 	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
-func EncodeKinesisVideoStream_MediaType(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	vals["media_type"] = cty.StringVal(p.MediaType)
+func EncodeKinesisVideoStream_DataRetentionInHours(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["data_retention_in_hours"] = cty.NumberIntVal(p.DataRetentionInHours)
+}
+
+func EncodeKinesisVideoStream_Name(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeKinesisVideoStream_Tags(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
@@ -92,6 +80,18 @@ func EncodeKinesisVideoStream_Tags(p KinesisVideoStreamParameters, vals map[stri
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeKinesisVideoStream_DeviceName(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["device_name"] = cty.StringVal(p.DeviceName)
+}
+
+func EncodeKinesisVideoStream_Id(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeKinesisVideoStream_MediaType(p KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	vals["media_type"] = cty.StringVal(p.MediaType)
 }
 
 func EncodeKinesisVideoStream_Timeouts(p Timeouts, vals map[string]cty.Value) {

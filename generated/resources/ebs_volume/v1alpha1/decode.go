@@ -17,13 +17,94 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*EbsVolume)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEbsVolume(r, ctyValue)
+}
+
+func DecodeEbsVolume(prev *EbsVolume, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEbsVolume_Id(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_Iops(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_KmsKeyId(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_MultiAttachEnabled(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_OutpostArn(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_Encrypted(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_SnapshotId(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_Type(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_Size(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEbsVolume_Id(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEbsVolume_Iops(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.Iops = ctwhy.ValueAsInt64(vals["iops"])
+}
+
+func DecodeEbsVolume_KmsKeyId(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+}
+
+func DecodeEbsVolume_MultiAttachEnabled(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.MultiAttachEnabled = ctwhy.ValueAsBool(vals["multi_attach_enabled"])
+}
+
+func DecodeEbsVolume_OutpostArn(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.OutpostArn = ctwhy.ValueAsString(vals["outpost_arn"])
+}
+
+func DecodeEbsVolume_Encrypted(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.Encrypted = ctwhy.ValueAsBool(vals["encrypted"])
+}
+
+func DecodeEbsVolume_SnapshotId(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.SnapshotId = ctwhy.ValueAsString(vals["snapshot_id"])
+}
+
+func DecodeEbsVolume_Tags(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeEbsVolume_Type(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
+}
+
+func DecodeEbsVolume_AvailabilityZone(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+func DecodeEbsVolume_Size(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.Size = ctwhy.ValueAsInt64(vals["size"])
+}
+
+func DecodeEbsVolume_Arn(p *EbsVolumeObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

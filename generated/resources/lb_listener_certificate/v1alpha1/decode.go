@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*LbListenerCertificate)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeLbListenerCertificate(r, ctyValue)
+}
+
+func DecodeLbListenerCertificate(prev *LbListenerCertificate, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeLbListenerCertificate_Id(&new.Spec.ForProvider, valMap)
+	DecodeLbListenerCertificate_ListenerArn(&new.Spec.ForProvider, valMap)
+	DecodeLbListenerCertificate_CertificateArn(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeLbListenerCertificate_Id(p *LbListenerCertificateParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeLbListenerCertificate_ListenerArn(p *LbListenerCertificateParameters, vals map[string]cty.Value) {
+	p.ListenerArn = ctwhy.ValueAsString(vals["listener_arn"])
+}
+
+func DecodeLbListenerCertificate_CertificateArn(p *LbListenerCertificateParameters, vals map[string]cty.Value) {
+	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
 }

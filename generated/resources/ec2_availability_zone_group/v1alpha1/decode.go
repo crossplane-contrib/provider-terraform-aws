@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2AvailabilityZoneGroup)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2AvailabilityZoneGroup(r, ctyValue)
+}
+
+func DecodeEc2AvailabilityZoneGroup(prev *Ec2AvailabilityZoneGroup, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2AvailabilityZoneGroup_GroupName(&new.Spec.ForProvider, valMap)
+	DecodeEc2AvailabilityZoneGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2AvailabilityZoneGroup_OptInStatus(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2AvailabilityZoneGroup_GroupName(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
+	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
+}
+
+func DecodeEc2AvailabilityZoneGroup_Id(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2AvailabilityZoneGroup_OptInStatus(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
+	p.OptInStatus = ctwhy.ValueAsString(vals["opt_in_status"])
 }

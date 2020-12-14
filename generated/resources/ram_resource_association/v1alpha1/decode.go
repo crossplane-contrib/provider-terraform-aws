@@ -17,13 +17,44 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*RamResourceAssociation)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeRamResourceAssociation(r, ctyValue)
+}
+
+func DecodeRamResourceAssociation(prev *RamResourceAssociation, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeRamResourceAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeRamResourceAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
+	DecodeRamResourceAssociation_ResourceShareArn(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeRamResourceAssociation_Id(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeRamResourceAssociation_ResourceArn(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
+	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
+}
+
+func DecodeRamResourceAssociation_ResourceShareArn(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
+	p.ResourceShareArn = ctwhy.ValueAsString(vals["resource_share_arn"])
 }

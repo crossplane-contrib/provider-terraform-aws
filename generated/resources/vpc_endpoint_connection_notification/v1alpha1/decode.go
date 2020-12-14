@@ -17,13 +17,67 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*VpcEndpointConnectionNotification)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeVpcEndpointConnectionNotification(r, ctyValue)
+}
+
+func DecodeVpcEndpointConnectionNotification(prev *VpcEndpointConnectionNotification, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeVpcEndpointConnectionNotification_Id(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointConnectionNotification_VpcEndpointId(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointConnectionNotification_VpcEndpointServiceId(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointConnectionNotification_ConnectionEvents(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointConnectionNotification_ConnectionNotificationArn(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointConnectionNotification_NotificationType(&new.Status.AtProvider, valMap)
+	DecodeVpcEndpointConnectionNotification_State(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeVpcEndpointConnectionNotification_Id(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeVpcEndpointConnectionNotification_VpcEndpointId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
+}
+
+func DecodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	p.VpcEndpointServiceId = ctwhy.ValueAsString(vals["vpc_endpoint_service_id"])
+}
+
+func DecodeVpcEndpointConnectionNotification_ConnectionEvents(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["connection_events"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ConnectionEvents = goVals
+}
+
+func DecodeVpcEndpointConnectionNotification_ConnectionNotificationArn(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	p.ConnectionNotificationArn = ctwhy.ValueAsString(vals["connection_notification_arn"])
+}
+
+func DecodeVpcEndpointConnectionNotification_NotificationType(p *VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {
+	p.NotificationType = ctwhy.ValueAsString(vals["notification_type"])
+}
+
+func DecodeVpcEndpointConnectionNotification_State(p *VpcEndpointConnectionNotificationObservation, vals map[string]cty.Value) {
+	p.State = ctwhy.ValueAsString(vals["state"])
 }

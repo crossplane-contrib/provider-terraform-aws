@@ -17,13 +17,54 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*ApiGatewayRequestValidator)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeApiGatewayRequestValidator(r, ctyValue)
+}
+
+func DecodeApiGatewayRequestValidator(prev *ApiGatewayRequestValidator, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeApiGatewayRequestValidator_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayRequestValidator_Name(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayRequestValidator_RestApiId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayRequestValidator_ValidateRequestBody(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayRequestValidator_ValidateRequestParameters(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeApiGatewayRequestValidator_Id(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeApiGatewayRequestValidator_Name(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeApiGatewayRequestValidator_RestApiId(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
+	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
+}
+
+func DecodeApiGatewayRequestValidator_ValidateRequestBody(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
+	p.ValidateRequestBody = ctwhy.ValueAsBool(vals["validate_request_body"])
+}
+
+func DecodeApiGatewayRequestValidator_ValidateRequestParameters(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
+	p.ValidateRequestParameters = ctwhy.ValueAsBool(vals["validate_request_parameters"])
 }

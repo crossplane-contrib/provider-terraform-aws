@@ -17,13 +17,54 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*AlbTargetGroupAttachment)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeAlbTargetGroupAttachment(r, ctyValue)
+}
+
+func DecodeAlbTargetGroupAttachment(prev *AlbTargetGroupAttachment, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeAlbTargetGroupAttachment_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeAlbTargetGroupAttachment_Id(&new.Spec.ForProvider, valMap)
+	DecodeAlbTargetGroupAttachment_Port(&new.Spec.ForProvider, valMap)
+	DecodeAlbTargetGroupAttachment_TargetGroupArn(&new.Spec.ForProvider, valMap)
+	DecodeAlbTargetGroupAttachment_TargetId(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeAlbTargetGroupAttachment_AvailabilityZone(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+func DecodeAlbTargetGroupAttachment_Id(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeAlbTargetGroupAttachment_Port(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	p.Port = ctwhy.ValueAsInt64(vals["port"])
+}
+
+func DecodeAlbTargetGroupAttachment_TargetGroupArn(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	p.TargetGroupArn = ctwhy.ValueAsString(vals["target_group_arn"])
+}
+
+func DecodeAlbTargetGroupAttachment_TargetId(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
 }

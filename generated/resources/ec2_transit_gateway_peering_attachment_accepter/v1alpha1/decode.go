@@ -17,13 +17,69 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2TransitGatewayPeeringAttachmentAccepter)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2TransitGatewayPeeringAttachmentAccepter(r, ctyValue)
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter(prev *Ec2TransitGatewayPeeringAttachmentAccepter, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayPeeringAttachmentAccepter_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayId(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGatewayPeeringAttachmentAccepter_PeerAccountId(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGatewayPeeringAttachmentAccepter_PeerRegion(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGatewayPeeringAttachmentAccepter_PeerTransitGatewayId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
+	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter_Id(p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayId(p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, vals map[string]cty.Value) {
+	p.TransitGatewayId = ctwhy.ValueAsString(vals["transit_gateway_id"])
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter_PeerAccountId(p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, vals map[string]cty.Value) {
+	p.PeerAccountId = ctwhy.ValueAsString(vals["peer_account_id"])
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter_PeerRegion(p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, vals map[string]cty.Value) {
+	p.PeerRegion = ctwhy.ValueAsString(vals["peer_region"])
+}
+
+func DecodeEc2TransitGatewayPeeringAttachmentAccepter_PeerTransitGatewayId(p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, vals map[string]cty.Value) {
+	p.PeerTransitGatewayId = ctwhy.ValueAsString(vals["peer_transit_gateway_id"])
 }

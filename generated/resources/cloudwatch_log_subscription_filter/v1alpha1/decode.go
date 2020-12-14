@@ -17,13 +17,64 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*CloudwatchLogSubscriptionFilter)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeCloudwatchLogSubscriptionFilter(r, ctyValue)
+}
+
+func DecodeCloudwatchLogSubscriptionFilter(prev *CloudwatchLogSubscriptionFilter, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeCloudwatchLogSubscriptionFilter_FilterPattern(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_Id(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_LogGroupName(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_Name(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_DestinationArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_Distribution(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeCloudwatchLogSubscriptionFilter_FilterPattern(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.FilterPattern = ctwhy.ValueAsString(vals["filter_pattern"])
+}
+
+func DecodeCloudwatchLogSubscriptionFilter_Id(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeCloudwatchLogSubscriptionFilter_LogGroupName(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
+}
+
+func DecodeCloudwatchLogSubscriptionFilter_Name(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeCloudwatchLogSubscriptionFilter_RoleArn(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
+}
+
+func DecodeCloudwatchLogSubscriptionFilter_DestinationArn(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
+}
+
+func DecodeCloudwatchLogSubscriptionFilter_Distribution(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.Distribution = ctwhy.ValueAsString(vals["distribution"])
 }

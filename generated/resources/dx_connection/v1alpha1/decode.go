@@ -17,13 +17,79 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DxConnection)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDxConnection(r, ctyValue)
+}
+
+func DecodeDxConnection(prev *DxConnection, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDxConnection_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDxConnection_Bandwidth(&new.Spec.ForProvider, valMap)
+	DecodeDxConnection_Id(&new.Spec.ForProvider, valMap)
+	DecodeDxConnection_Location(&new.Spec.ForProvider, valMap)
+	DecodeDxConnection_Name(&new.Spec.ForProvider, valMap)
+	DecodeDxConnection_AwsDevice(&new.Status.AtProvider, valMap)
+	DecodeDxConnection_Arn(&new.Status.AtProvider, valMap)
+	DecodeDxConnection_HasLogicalRedundancy(&new.Status.AtProvider, valMap)
+	DecodeDxConnection_JumboFrameCapable(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDxConnection_Tags(p *DxConnectionParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeDxConnection_Bandwidth(p *DxConnectionParameters, vals map[string]cty.Value) {
+	p.Bandwidth = ctwhy.ValueAsString(vals["bandwidth"])
+}
+
+func DecodeDxConnection_Id(p *DxConnectionParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDxConnection_Location(p *DxConnectionParameters, vals map[string]cty.Value) {
+	p.Location = ctwhy.ValueAsString(vals["location"])
+}
+
+func DecodeDxConnection_Name(p *DxConnectionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeDxConnection_AwsDevice(p *DxConnectionObservation, vals map[string]cty.Value) {
+	p.AwsDevice = ctwhy.ValueAsString(vals["aws_device"])
+}
+
+func DecodeDxConnection_Arn(p *DxConnectionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeDxConnection_HasLogicalRedundancy(p *DxConnectionObservation, vals map[string]cty.Value) {
+	p.HasLogicalRedundancy = ctwhy.ValueAsString(vals["has_logical_redundancy"])
+}
+
+func DecodeDxConnection_JumboFrameCapable(p *DxConnectionObservation, vals map[string]cty.Value) {
+	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
 }

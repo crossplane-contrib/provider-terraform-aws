@@ -17,13 +17,139 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*DxPrivateVirtualInterface)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeDxPrivateVirtualInterface(r, ctyValue)
+}
+
+func DecodeDxPrivateVirtualInterface(prev *DxPrivateVirtualInterface, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeDxPrivateVirtualInterface_VpnGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_AddressFamily(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_BgpAuthKey(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Id(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_DxGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Mtu(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Name(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
+	DecodeDxPrivateVirtualInterface_Arn(&new.Status.AtProvider, valMap)
+	DecodeDxPrivateVirtualInterface_AmazonSideAsn(&new.Status.AtProvider, valMap)
+	DecodeDxPrivateVirtualInterface_AwsDevice(&new.Status.AtProvider, valMap)
+	DecodeDxPrivateVirtualInterface_JumboFrameCapable(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeDxPrivateVirtualInterface_VpnGatewayId(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
+}
+
+func DecodeDxPrivateVirtualInterface_AddressFamily(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AddressFamily = ctwhy.ValueAsString(vals["address_family"])
+}
+
+func DecodeDxPrivateVirtualInterface_BgpAuthKey(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAuthKey = ctwhy.ValueAsString(vals["bgp_auth_key"])
+}
+
+func DecodeDxPrivateVirtualInterface_ConnectionId(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
+}
+
+func DecodeDxPrivateVirtualInterface_CustomerAddress(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
+}
+
+func DecodeDxPrivateVirtualInterface_Id(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeDxPrivateVirtualInterface_DxGatewayId(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.DxGatewayId = ctwhy.ValueAsString(vals["dx_gateway_id"])
+}
+
+func DecodeDxPrivateVirtualInterface_Mtu(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
+}
+
+func DecodeDxPrivateVirtualInterface_Vlan(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
+}
+
+func DecodeDxPrivateVirtualInterface_AmazonAddress(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
+}
+
+func DecodeDxPrivateVirtualInterface_BgpAsn(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
+}
+
+func DecodeDxPrivateVirtualInterface_Name(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeDxPrivateVirtualInterface_Tags(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeDxPrivateVirtualInterface_Timeouts(p *Timeouts, vals map[string]cty.Value) {
+	valMap := vals["timeouts"].AsValueMap()
+	DecodeDxPrivateVirtualInterface_Timeouts_Delete(p, valMap)
+	DecodeDxPrivateVirtualInterface_Timeouts_Update(p, valMap)
+	DecodeDxPrivateVirtualInterface_Timeouts_Create(p, valMap)
+}
+
+func DecodeDxPrivateVirtualInterface_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+func DecodeDxPrivateVirtualInterface_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+func DecodeDxPrivateVirtualInterface_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+func DecodeDxPrivateVirtualInterface_Arn(p *DxPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+func DecodeDxPrivateVirtualInterface_AmazonSideAsn(p *DxPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
+}
+
+func DecodeDxPrivateVirtualInterface_AwsDevice(p *DxPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.AwsDevice = ctwhy.ValueAsString(vals["aws_device"])
+}
+
+func DecodeDxPrivateVirtualInterface_JumboFrameCapable(p *DxPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
 }

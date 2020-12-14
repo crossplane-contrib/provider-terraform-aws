@@ -17,13 +17,54 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*GuarddutyPublishingDestination)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeGuarddutyPublishingDestination(r, ctyValue)
+}
+
+func DecodeGuarddutyPublishingDestination(prev *GuarddutyPublishingDestination, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeGuarddutyPublishingDestination_DestinationArn(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyPublishingDestination_DestinationType(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyPublishingDestination_DetectorId(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyPublishingDestination_Id(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyPublishingDestination_KmsKeyArn(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeGuarddutyPublishingDestination_DestinationArn(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
+}
+
+func DecodeGuarddutyPublishingDestination_DestinationType(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	p.DestinationType = ctwhy.ValueAsString(vals["destination_type"])
+}
+
+func DecodeGuarddutyPublishingDestination_DetectorId(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
+}
+
+func DecodeGuarddutyPublishingDestination_Id(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeGuarddutyPublishingDestination_KmsKeyArn(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
+	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
 }

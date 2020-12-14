@@ -52,10 +52,10 @@ type CognitoUserPoolDomainSpec struct {
 
 // A CognitoUserPoolDomainParameters defines the desired state of a CognitoUserPoolDomain
 type CognitoUserPoolDomainParameters struct {
-	UserPoolId     string `json:"user_pool_id"`
 	CertificateArn string `json:"certificate_arn"`
 	Domain         string `json:"domain"`
 	Id             string `json:"id"`
+	UserPoolId     string `json:"user_pool_id"`
 }
 
 // A CognitoUserPoolDomainStatus defines the observed state of a CognitoUserPoolDomain
@@ -66,8 +66,8 @@ type CognitoUserPoolDomainStatus struct {
 
 // A CognitoUserPoolDomainObservation records the observed state of a CognitoUserPoolDomain
 type CognitoUserPoolDomainObservation struct {
+	CloudfrontDistributionArn string `json:"cloudfront_distribution_arn"`
 	S3Bucket                  string `json:"s3_bucket"`
 	Version                   string `json:"version"`
 	AwsAccountId              string `json:"aws_account_id"`
-	CloudfrontDistributionArn string `json:"cloudfront_distribution_arn"`
 }

@@ -52,10 +52,10 @@ type DbClusterSnapshotSpec struct {
 
 // A DbClusterSnapshotParameters defines the desired state of a DbClusterSnapshot
 type DbClusterSnapshotParameters struct {
-	Tags                        map[string]string `json:"tags"`
 	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
-	Id                          string            `json:"id"`
+	Tags                        map[string]string `json:"tags"`
 	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
+	Id                          string            `json:"id"`
 	Timeouts                    Timeouts          `json:"timeouts"`
 }
 
@@ -71,17 +71,17 @@ type DbClusterSnapshotStatus struct {
 
 // A DbClusterSnapshotObservation records the observed state of a DbClusterSnapshot
 type DbClusterSnapshotObservation struct {
-	LicenseModel               string   `json:"license_model"`
-	AvailabilityZones          []string `json:"availability_zones"`
-	KmsKeyId                   string   `json:"kms_key_id"`
-	Port                       int64    `json:"port"`
 	EngineVersion              string   `json:"engine_version"`
-	SnapshotType               string   `json:"snapshot_type"`
+	LicenseModel               string   `json:"license_model"`
 	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
-	VpcId                      string   `json:"vpc_id"`
-	AllocatedStorage           int64    `json:"allocated_storage"`
 	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	AvailabilityZones          []string `json:"availability_zones"`
 	Engine                     string   `json:"engine"`
+	KmsKeyId                   string   `json:"kms_key_id"`
 	Status                     string   `json:"status"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
+	AllocatedStorage           int64    `json:"allocated_storage"`
+	Port                       int64    `json:"port"`
+	SnapshotType               string   `json:"snapshot_type"`
+	VpcId                      string   `json:"vpc_id"`
 }

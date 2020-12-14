@@ -17,13 +17,49 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2LocalGatewayRoute)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2LocalGatewayRoute(r, ctyValue)
+}
+
+func DecodeEc2LocalGatewayRoute(prev *Ec2LocalGatewayRoute, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(&new.Spec.ForProvider, valMap)
+	DecodeEc2LocalGatewayRoute_DestinationCidrBlock(&new.Spec.ForProvider, valMap)
+	DecodeEc2LocalGatewayRoute_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(&new.Spec.ForProvider, valMap)
+
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	p.LocalGatewayVirtualInterfaceGroupId = ctwhy.ValueAsString(vals["local_gateway_virtual_interface_group_id"])
+}
+
+func DecodeEc2LocalGatewayRoute_DestinationCidrBlock(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	p.DestinationCidrBlock = ctwhy.ValueAsString(vals["destination_cidr_block"])
+}
+
+func DecodeEc2LocalGatewayRoute_Id(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	p.LocalGatewayRouteTableId = ctwhy.ValueAsString(vals["local_gateway_route_table_id"])
 }

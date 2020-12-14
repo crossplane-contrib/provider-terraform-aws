@@ -52,11 +52,11 @@ type DynamodbTableItemSpec struct {
 
 // A DynamodbTableItemParameters defines the desired state of a DynamodbTableItem
 type DynamodbTableItemParameters struct {
+	RangeKey  string `json:"range_key"`
+	TableName string `json:"table_name"`
 	HashKey   string `json:"hash_key"`
 	Id        string `json:"id"`
 	Item      string `json:"item"`
-	RangeKey  string `json:"range_key"`
-	TableName string `json:"table_name"`
 }
 
 // A DynamodbTableItemStatus defines the observed state of a DynamodbTableItem

@@ -40,8 +40,8 @@ func EncodeIotPolicy(r IotPolicy) cty.Value {
 	EncodeIotPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicy_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeIotPolicy_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotPolicy_DefaultVersionId(r.Status.AtProvider, ctyVal)
+	EncodeIotPolicy_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -64,10 +64,10 @@ func EncodeIotPolicy_Policy(p IotPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
 }
 
-func EncodeIotPolicy_Arn(p IotPolicyObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeIotPolicy_DefaultVersionId(p IotPolicyObservation, vals map[string]cty.Value) {
 	vals["default_version_id"] = cty.StringVal(p.DefaultVersionId)
+}
+
+func EncodeIotPolicy_Arn(p IotPolicyObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

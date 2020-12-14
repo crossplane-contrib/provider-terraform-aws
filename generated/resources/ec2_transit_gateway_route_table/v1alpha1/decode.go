@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*Ec2TransitGatewayRouteTable)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeEc2TransitGatewayRouteTable(r, ctyValue)
+}
+
+func DecodeEc2TransitGatewayRouteTable(prev *Ec2TransitGatewayRouteTable, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeEc2TransitGatewayRouteTable_TransitGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayRouteTable_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayRouteTable_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeEc2TransitGatewayRouteTable_TransitGatewayId(p *Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
+	p.TransitGatewayId = ctwhy.ValueAsString(vals["transit_gateway_id"])
+}
+
+func DecodeEc2TransitGatewayRouteTable_Id(p *Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeEc2TransitGatewayRouteTable_Tags(p *Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
+	p.DefaultAssociationRouteTable = ctwhy.ValueAsBool(vals["default_association_route_table"])
+}
+
+func DecodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
+	p.DefaultPropagationRouteTable = ctwhy.ValueAsBool(vals["default_propagation_route_table"])
 }

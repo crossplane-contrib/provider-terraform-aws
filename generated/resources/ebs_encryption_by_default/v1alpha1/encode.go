@@ -37,8 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEbsEncryptionByDefault(r EbsEncryptionByDefault) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEbsEncryptionByDefault_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeEbsEncryptionByDefault_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEbsEncryptionByDefault_Enabled(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,10 +50,10 @@ func EncodeEbsEncryptionByDefault(r EbsEncryptionByDefault) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEbsEncryptionByDefault_Enabled(p EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
 func EncodeEbsEncryptionByDefault_Id(p EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEbsEncryptionByDefault_Enabled(p EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }

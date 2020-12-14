@@ -17,13 +17,59 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*RedshiftSnapshotCopyGrant)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeRedshiftSnapshotCopyGrant(r, ctyValue)
+}
+
+func DecodeRedshiftSnapshotCopyGrant(prev *RedshiftSnapshotCopyGrant, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeRedshiftSnapshotCopyGrant_KmsKeyId(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotCopyGrant_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotCopyGrant_Id(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotCopyGrant_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeRedshiftSnapshotCopyGrant_KmsKeyId(p *RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+}
+
+func DecodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(p *RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	p.SnapshotCopyGrantName = ctwhy.ValueAsString(vals["snapshot_copy_grant_name"])
+}
+
+func DecodeRedshiftSnapshotCopyGrant_Tags(p *RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeRedshiftSnapshotCopyGrant_Id(p *RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeRedshiftSnapshotCopyGrant_Arn(p *RedshiftSnapshotCopyGrantObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

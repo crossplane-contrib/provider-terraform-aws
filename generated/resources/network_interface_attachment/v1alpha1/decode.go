@@ -17,13 +17,58 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*NetworkInterfaceAttachment)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeNetworkInterfaceAttachment(r, ctyValue)
+}
+
+func DecodeNetworkInterfaceAttachment(prev *NetworkInterfaceAttachment, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeNetworkInterfaceAttachment_Id(&new.Spec.ForProvider, valMap)
+	DecodeNetworkInterfaceAttachment_InstanceId(&new.Spec.ForProvider, valMap)
+	DecodeNetworkInterfaceAttachment_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
+	DecodeNetworkInterfaceAttachment_DeviceIndex(&new.Spec.ForProvider, valMap)
+	DecodeNetworkInterfaceAttachment_Status(&new.Status.AtProvider, valMap)
+	DecodeNetworkInterfaceAttachment_AttachmentId(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeNetworkInterfaceAttachment_Id(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeNetworkInterfaceAttachment_InstanceId(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	p.InstanceId = ctwhy.ValueAsString(vals["instance_id"])
+}
+
+func DecodeNetworkInterfaceAttachment_NetworkInterfaceId(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
+}
+
+func DecodeNetworkInterfaceAttachment_DeviceIndex(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	p.DeviceIndex = ctwhy.ValueAsInt64(vals["device_index"])
+}
+
+func DecodeNetworkInterfaceAttachment_Status(p *NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
+	p.Status = ctwhy.ValueAsString(vals["status"])
+}
+
+func DecodeNetworkInterfaceAttachment_AttachmentId(p *NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
+	p.AttachmentId = ctwhy.ValueAsString(vals["attachment_id"])
 }

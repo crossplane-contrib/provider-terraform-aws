@@ -17,13 +17,99 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*FlowLog)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeFlowLog(r, ctyValue)
+}
+
+func DecodeFlowLog(prev *FlowLog, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeFlowLog_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_IamRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_Id(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogFormat(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogGroupName(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_MaxAggregationInterval(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_SubnetId(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_TrafficType(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_EniId(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogDestination(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogDestinationType(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_Tags(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeFlowLog_VpcId(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+func DecodeFlowLog_IamRoleArn(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.IamRoleArn = ctwhy.ValueAsString(vals["iam_role_arn"])
+}
+
+func DecodeFlowLog_Id(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeFlowLog_LogFormat(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.LogFormat = ctwhy.ValueAsString(vals["log_format"])
+}
+
+func DecodeFlowLog_LogGroupName(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
+}
+
+func DecodeFlowLog_MaxAggregationInterval(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.MaxAggregationInterval = ctwhy.ValueAsInt64(vals["max_aggregation_interval"])
+}
+
+func DecodeFlowLog_SubnetId(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
+}
+
+func DecodeFlowLog_TrafficType(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.TrafficType = ctwhy.ValueAsString(vals["traffic_type"])
+}
+
+func DecodeFlowLog_EniId(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.EniId = ctwhy.ValueAsString(vals["eni_id"])
+}
+
+func DecodeFlowLog_LogDestination(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.LogDestination = ctwhy.ValueAsString(vals["log_destination"])
+}
+
+func DecodeFlowLog_LogDestinationType(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.LogDestinationType = ctwhy.ValueAsString(vals["log_destination_type"])
+}
+
+func DecodeFlowLog_Tags(p *FlowLogParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeFlowLog_Arn(p *FlowLogObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

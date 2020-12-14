@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyIpset(r GuarddutyIpset) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGuarddutyIpset_Location(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Activate(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Format(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Id(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyIpset_Location(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,10 +53,6 @@ func EncodeGuarddutyIpset(r GuarddutyIpset) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGuarddutyIpset_Location(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
-	vals["location"] = cty.StringVal(p.Location)
 }
 
 func EncodeGuarddutyIpset_Name(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
@@ -89,6 +85,10 @@ func EncodeGuarddutyIpset_Format(p GuarddutyIpsetParameters, vals map[string]cty
 
 func EncodeGuarddutyIpset_Id(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeGuarddutyIpset_Location(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	vals["location"] = cty.StringVal(p.Location)
 }
 
 func EncodeGuarddutyIpset_Arn(p GuarddutyIpsetObservation, vals map[string]cty.Value) {

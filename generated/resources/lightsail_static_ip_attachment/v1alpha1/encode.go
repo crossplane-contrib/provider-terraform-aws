@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLightsailStaticIpAttachment(r LightsailStaticIpAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLightsailStaticIpAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_InstanceName(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_StaticIpName(r.Spec.ForProvider, ctyVal)
-	EncodeLightsailStaticIpAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_IpAddress(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,16 +51,16 @@ func EncodeLightsailStaticIpAttachment(r LightsailStaticIpAttachment) cty.Value 
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeLightsailStaticIpAttachment_Id(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
 func EncodeLightsailStaticIpAttachment_InstanceName(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
 	vals["instance_name"] = cty.StringVal(p.InstanceName)
 }
 
 func EncodeLightsailStaticIpAttachment_StaticIpName(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
 	vals["static_ip_name"] = cty.StringVal(p.StaticIpName)
-}
-
-func EncodeLightsailStaticIpAttachment_Id(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLightsailStaticIpAttachment_IpAddress(p LightsailStaticIpAttachmentObservation, vals map[string]cty.Value) {

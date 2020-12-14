@@ -17,13 +17,74 @@
 package v1alpha1
 
 import (
-	"github.com/zclconf/go-cty/cty"
+	"fmt"
+
+	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
 
-func (d *ctyDecoder) DecodeCty(previousManaged resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
-	return previousManaged, nil
+func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *providers.Schema) (resource.Managed, error) {
+	r, ok := mr.(*GuarddutyIpset)
+	if !ok {
+		return nil, fmt.Errorf("DecodeCty received a resource.Managed value that does not assert to the expected type")
+	}
+	return DecodeGuarddutyIpset(r, ctyValue)
+}
+
+func DecodeGuarddutyIpset(prev *GuarddutyIpset, ctyValue cty.Value) (resource.Managed, error) {
+	valMap := ctyValue.AsValueMap()
+	new := prev.DeepCopy()
+	DecodeGuarddutyIpset_Name(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Tags(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Activate(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_DetectorId(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Format(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Id(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Location(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Arn(&new.Status.AtProvider, valMap)
+	meta.SetExternalName(new, valMap["id"].AsString())
+	return new, nil
+}
+
+func DecodeGuarddutyIpset_Name(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+func DecodeGuarddutyIpset_Tags(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+func DecodeGuarddutyIpset_Activate(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Activate = ctwhy.ValueAsBool(vals["activate"])
+}
+
+func DecodeGuarddutyIpset_DetectorId(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
+}
+
+func DecodeGuarddutyIpset_Format(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Format = ctwhy.ValueAsString(vals["format"])
+}
+
+func DecodeGuarddutyIpset_Id(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+func DecodeGuarddutyIpset_Location(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Location = ctwhy.ValueAsString(vals["location"])
+}
+
+func DecodeGuarddutyIpset_Arn(p *GuarddutyIpsetObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
