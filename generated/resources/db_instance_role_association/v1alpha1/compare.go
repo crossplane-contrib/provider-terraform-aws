@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDbInstanceRoleAssociation_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDbInstanceRoleAssociation_DbInstanceIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDbInstanceRoleAssociation_FeatureName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbInstanceRoleAssociation_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDbInstanceRoleAssociation_RoleArn(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.RoleArn != p.RoleArn {
-		p.RoleArn = k.RoleArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDbInstanceRoleAssociation_DbInstanceIdentifier(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.DbInstanceIdentifier != p.DbInstanceIdentifier {
 		p.DbInstanceIdentifier = k.DbInstanceIdentifier
@@ -81,6 +71,16 @@ func MergeDbInstanceRoleAssociation_DbInstanceIdentifier(k *DbInstanceRoleAssoci
 func MergeDbInstanceRoleAssociation_FeatureName(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.FeatureName != p.FeatureName {
 		p.FeatureName = k.FeatureName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbInstanceRoleAssociation_RoleArn(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.RoleArn != p.RoleArn {
+		p.RoleArn = k.RoleArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

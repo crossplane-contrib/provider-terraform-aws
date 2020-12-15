@@ -63,18 +63,18 @@ func DecodeDxGateway_Name(p *DxGatewayParameters, vals map[string]cty.Value) {
 //containerTypeDecodeTemplate
 func DecodeDxGateway_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
-	DecodeDxGateway_Timeouts_Delete(p, valMap)
 	DecodeDxGateway_Timeouts_Create(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxGateway_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
-	p.Delete = ctwhy.ValueAsString(vals["delete"])
+	DecodeDxGateway_Timeouts_Delete(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDxGateway_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxGateway_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
 //primitiveTypeDecodeTemplate

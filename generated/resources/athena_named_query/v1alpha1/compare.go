@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAthenaNamedQuery_Workgroup(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeAthenaNamedQuery_Database(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAthenaNamedQuery_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,6 +46,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeAthenaNamedQuery_Workgroup(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAthenaNamedQuery_Database(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,26 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAthenaNamedQuery_Workgroup(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
-	if k.Workgroup != p.Workgroup {
-		p.Workgroup = k.Workgroup
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAthenaNamedQuery_Database(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
-	if k.Database != p.Database {
-		p.Database = k.Database
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -111,6 +91,26 @@ func MergeAthenaNamedQuery_Name(k *AthenaNamedQueryParameters, p *AthenaNamedQue
 func MergeAthenaNamedQuery_Query(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
 	if k.Query != p.Query {
 		p.Query = k.Query
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAthenaNamedQuery_Workgroup(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
+	if k.Workgroup != p.Workgroup {
+		p.Workgroup = k.Workgroup
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAthenaNamedQuery_Database(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
+	if k.Database != p.Database {
+		p.Database = k.Database
 		md.NeedsProviderUpdate = true
 		return true
 	}

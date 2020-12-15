@@ -37,24 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayPeeringAttachment(r Ec2TransitGatewayPeeringAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_PeerAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_PeerRegion(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_PeerTransitGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachment_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
-	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }
 
 func EncodeEc2TransitGatewayPeeringAttachment_PeerAccountId(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
@@ -79,4 +73,8 @@ func EncodeEc2TransitGatewayPeeringAttachment_Tags(p Ec2TransitGatewayPeeringAtt
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(p Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
+	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }

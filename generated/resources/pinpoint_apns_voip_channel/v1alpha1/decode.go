@@ -39,15 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodePinpointApnsVoipChannel(prev *PinpointApnsVoipChannel, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodePinpointApnsVoipChannel_PrivateKey(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_TeamId(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipChannel_TokenKey(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsVoipChannel_BundleId(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsVoipChannel_Certificate(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsVoipChannel_Enabled(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipChannel_TokenKeyId(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipChannel_ApplicationId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_PrivateKey(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipChannel_DefaultAuthenticationMethod(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsVoipChannel_TeamId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_Enabled(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_BundleId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipChannel_Certificate(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -57,28 +57,13 @@ func DecodePinpointApnsVoipChannel(prev *PinpointApnsVoipChannel, ctyValue cty.V
 }
 
 //primitiveTypeDecodeTemplate
-func DecodePinpointApnsVoipChannel_PrivateKey(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
-	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
+func DecodePinpointApnsVoipChannel_TeamId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.TeamId = ctwhy.ValueAsString(vals["team_id"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipChannel_TokenKey(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
 	p.TokenKey = ctwhy.ValueAsString(vals["token_key"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsVoipChannel_BundleId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
-	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsVoipChannel_Certificate(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
-	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsVoipChannel_Enabled(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
-	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -92,11 +77,26 @@ func DecodePinpointApnsVoipChannel_ApplicationId(p *PinpointApnsVoipChannelParam
 }
 
 //primitiveTypeDecodeTemplate
+func DecodePinpointApnsVoipChannel_PrivateKey(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipChannel_DefaultAuthenticationMethod(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
 	p.DefaultAuthenticationMethod = ctwhy.ValueAsString(vals["default_authentication_method"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodePinpointApnsVoipChannel_TeamId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
-	p.TeamId = ctwhy.ValueAsString(vals["team_id"])
+func DecodePinpointApnsVoipChannel_Enabled(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsVoipChannel_BundleId(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsVoipChannel_Certificate(p *PinpointApnsVoipChannelParameters, vals map[string]cty.Value) {
+	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
 }

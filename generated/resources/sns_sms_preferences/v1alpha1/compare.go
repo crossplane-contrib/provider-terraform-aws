@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSnsSmsPreferences_MonthlySpendLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSnsSmsPreferences_UsageReportS3Bucket(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSnsSmsPreferences_DefaultSenderId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,6 +51,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeSnsSmsPreferences_MonthlySpendLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSnsSmsPreferences_UsageReportS3Bucket(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,26 +70,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsSmsPreferences_MonthlySpendLimit(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
-	if k.MonthlySpendLimit != p.MonthlySpendLimit {
-		p.MonthlySpendLimit = k.MonthlySpendLimit
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsSmsPreferences_UsageReportS3Bucket(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
-	if k.UsageReportS3Bucket != p.UsageReportS3Bucket {
-		p.UsageReportS3Bucket = k.UsageReportS3Bucket
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -126,6 +106,26 @@ func MergeSnsSmsPreferences_DeliveryStatusIamRoleArn(k *SnsSmsPreferencesParamet
 func MergeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
 	if k.DeliveryStatusSuccessSamplingRate != p.DeliveryStatusSuccessSamplingRate {
 		p.DeliveryStatusSuccessSamplingRate = k.DeliveryStatusSuccessSamplingRate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSnsSmsPreferences_MonthlySpendLimit(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
+	if k.MonthlySpendLimit != p.MonthlySpendLimit {
+		p.MonthlySpendLimit = k.MonthlySpendLimit
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSnsSmsPreferences_UsageReportS3Bucket(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
+	if k.UsageReportS3Bucket != p.UsageReportS3Bucket {
+		p.UsageReportS3Bucket = k.UsageReportS3Bucket
 		md.NeedsProviderUpdate = true
 		return true
 	}

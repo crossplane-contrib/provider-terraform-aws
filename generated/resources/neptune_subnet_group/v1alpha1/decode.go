@@ -39,27 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeNeptuneSubnetGroup(prev *NeptuneSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeNeptuneSubnetGroup_Description(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneSubnetGroup_Description(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneSubnetGroup_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneSubnetGroup_Description(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneSubnetGroup_Name(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -85,6 +75,16 @@ func DecodeNeptuneSubnetGroup_Tags(p *NeptuneSubnetGroupParameters, vals map[str
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneSubnetGroup_Description(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneSubnetGroup_Name(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate

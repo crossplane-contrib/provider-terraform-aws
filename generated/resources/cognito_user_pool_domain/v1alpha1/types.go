@@ -52,9 +52,9 @@ type CognitoUserPoolDomainSpec struct {
 
 // A CognitoUserPoolDomainParameters defines the desired state of a CognitoUserPoolDomain
 type CognitoUserPoolDomainParameters struct {
-	Domain         string `json:"domain"`
 	UserPoolId     string `json:"user_pool_id"`
 	CertificateArn string `json:"certificate_arn"`
+	Domain         string `json:"domain"`
 }
 
 // A CognitoUserPoolDomainStatus defines the observed state of a CognitoUserPoolDomain

@@ -39,28 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayGatewayResponse(prev *ApiGatewayGatewayResponse, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApiGatewayGatewayResponse_ResponseParameters(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_ResponseTemplates(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_ResponseType(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_RestApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_StatusCode(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayGatewayResponse_ResponseParameters(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeApiGatewayGatewayResponse_ResponseParameters(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["response_parameters"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.ResponseParameters = vMap
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -87,4 +76,15 @@ func DecodeApiGatewayGatewayResponse_RestApiId(p *ApiGatewayGatewayResponseParam
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayGatewayResponse_StatusCode(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	p.StatusCode = ctwhy.ValueAsString(vals["status_code"])
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeApiGatewayGatewayResponse_ResponseParameters(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["response_parameters"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ResponseParameters = vMap
 }

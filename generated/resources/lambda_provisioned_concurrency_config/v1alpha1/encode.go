@@ -37,23 +37,17 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLambdaProvisionedConcurrencyConfig(r LambdaProvisionedConcurrencyConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLambdaProvisionedConcurrencyConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Qualifier(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaProvisionedConcurrencyConfig_FunctionName(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaProvisionedConcurrencyConfig_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLambdaProvisionedConcurrencyConfig_FunctionName(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
-	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
@@ -62,6 +56,10 @@ func EncodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(p 
 
 func EncodeLambdaProvisionedConcurrencyConfig_Qualifier(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	vals["qualifier"] = cty.StringVal(p.Qualifier)
+}
+
+func EncodeLambdaProvisionedConcurrencyConfig_FunctionName(p LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
+	vals["function_name"] = cty.StringVal(p.FunctionName)
 }
 
 func EncodeLambdaProvisionedConcurrencyConfig_Timeouts(p Timeouts, vals map[string]cty.Value) {

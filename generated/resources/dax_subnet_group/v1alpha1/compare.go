@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDaxSubnetGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDaxSubnetGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDaxSubnetGroup_SubnetIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDaxSubnetGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,6 +62,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeDaxSubnetGroup_Description(k *DaxSubnetGroupParameters, p *DaxSubnetGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeDaxSubnetGroup_Name(k *DaxSubnetGroupParameters, p *DaxSubnetGroupParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -75,16 +85,6 @@ func MergeDaxSubnetGroup_Name(k *DaxSubnetGroupParameters, p *DaxSubnetGroupPara
 func MergeDaxSubnetGroup_SubnetIds(k *DaxSubnetGroupParameters, p *DaxSubnetGroupParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
 		p.SubnetIds = k.SubnetIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDaxSubnetGroup_Description(k *DaxSubnetGroupParameters, p *DaxSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -52,11 +52,11 @@ type S3AccountPublicAccessBlockSpec struct {
 
 // A S3AccountPublicAccessBlockParameters defines the desired state of a S3AccountPublicAccessBlock
 type S3AccountPublicAccessBlockParameters struct {
+	IgnorePublicAcls      bool   `json:"ignore_public_acls"`
+	RestrictPublicBuckets bool   `json:"restrict_public_buckets"`
 	AccountId             string `json:"account_id"`
 	BlockPublicAcls       bool   `json:"block_public_acls"`
 	BlockPublicPolicy     bool   `json:"block_public_policy"`
-	IgnorePublicAcls      bool   `json:"ignore_public_acls"`
-	RestrictPublicBuckets bool   `json:"restrict_public_buckets"`
 }
 
 // A S3AccountPublicAccessBlockStatus defines the observed state of a S3AccountPublicAccessBlock

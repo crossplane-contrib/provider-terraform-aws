@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeVolumeAttachment_DeviceName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVolumeAttachment_ForceDetach(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVolumeAttachment_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,16 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVolumeAttachment_DeviceName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVolumeAttachment_ForceDetach(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,6 +65,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVolumeAttachment_DeviceName(k *VolumeAttachmentParameters, p *VolumeAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.DeviceName != p.DeviceName {
+		p.DeviceName = k.DeviceName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVolumeAttachment_ForceDetach(k *VolumeAttachmentParameters, p *VolumeAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.ForceDetach != p.ForceDetach {
+		p.ForceDetach = k.ForceDetach
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -91,26 +111,6 @@ func MergeVolumeAttachment_SkipDestroy(k *VolumeAttachmentParameters, p *VolumeA
 func MergeVolumeAttachment_VolumeId(k *VolumeAttachmentParameters, p *VolumeAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.VolumeId != p.VolumeId {
 		p.VolumeId = k.VolumeId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVolumeAttachment_DeviceName(k *VolumeAttachmentParameters, p *VolumeAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.DeviceName != p.DeviceName {
-		p.DeviceName = k.DeviceName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVolumeAttachment_ForceDetach(k *VolumeAttachmentParameters, p *VolumeAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.ForceDetach != p.ForceDetach {
-		p.ForceDetach = k.ForceDetach
 		md.NeedsProviderUpdate = true
 		return true
 	}

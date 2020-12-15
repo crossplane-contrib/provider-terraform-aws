@@ -52,14 +52,14 @@ type VpcSpec struct {
 
 // A VpcParameters defines the desired state of a Vpc
 type VpcParameters struct {
-	CidrBlock                    string            `json:"cidr_block"`
+	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
+	EnableClassiclinkDnsSupport  bool              `json:"enable_classiclink_dns_support"`
+	EnableDnsHostnames           bool              `json:"enable_dns_hostnames"`
+	EnableClassiclink            bool              `json:"enable_classiclink"`
+	EnableDnsSupport             bool              `json:"enable_dns_support"`
 	InstanceTenancy              string            `json:"instance_tenancy"`
 	Tags                         map[string]string `json:"tags"`
-	AssignGeneratedIpv6CidrBlock bool              `json:"assign_generated_ipv6_cidr_block"`
-	EnableClassiclink            bool              `json:"enable_classiclink"`
-	EnableDnsHostnames           bool              `json:"enable_dns_hostnames"`
-	EnableDnsSupport             bool              `json:"enable_dns_support"`
-	EnableClassiclinkDnsSupport  bool              `json:"enable_classiclink_dns_support"`
+	CidrBlock                    string            `json:"cidr_block"`
 }
 
 // A VpcStatus defines the observed state of a Vpc
@@ -70,13 +70,13 @@ type VpcStatus struct {
 
 // A VpcObservation records the observed state of a Vpc
 type VpcObservation struct {
+	DefaultNetworkAclId    string `json:"default_network_acl_id"`
 	Arn                    string `json:"arn"`
 	DhcpOptionsId          string `json:"dhcp_options_id"`
-	OwnerId                string `json:"owner_id"`
-	DefaultNetworkAclId    string `json:"default_network_acl_id"`
-	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
-	DefaultRouteTableId    string `json:"default_route_table_id"`
 	Ipv6AssociationId      string `json:"ipv6_association_id"`
+	Ipv6CidrBlock          string `json:"ipv6_cidr_block"`
 	MainRouteTableId       string `json:"main_route_table_id"`
+	OwnerId                string `json:"owner_id"`
+	DefaultRouteTableId    string `json:"default_route_table_id"`
 	DefaultSecurityGroupId string `json:"default_security_group_id"`
 }

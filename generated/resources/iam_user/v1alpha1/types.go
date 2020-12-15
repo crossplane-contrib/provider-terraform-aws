@@ -52,11 +52,11 @@ type IamUserSpec struct {
 
 // A IamUserParameters defines the desired state of a IamUser
 type IamUserParameters struct {
+	Tags                map[string]string `json:"tags"`
 	ForceDestroy        bool              `json:"force_destroy"`
 	Name                string            `json:"name"`
 	Path                string            `json:"path"`
 	PermissionsBoundary string            `json:"permissions_boundary"`
-	Tags                map[string]string `json:"tags"`
 }
 
 // A IamUserStatus defines the observed state of a IamUser
@@ -67,6 +67,6 @@ type IamUserStatus struct {
 
 // A IamUserObservation records the observed state of a IamUser
 type IamUserObservation struct {
-	Arn      string `json:"arn"`
 	UniqueId string `json:"unique_id"`
+	Arn      string `json:"arn"`
 }

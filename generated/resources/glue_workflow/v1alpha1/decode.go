@@ -39,17 +39,22 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeGlueWorkflow(prev *GlueWorkflow, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeGlueWorkflow_MaxConcurrentRuns(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_Name(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_Tags(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_DefaultRunProperties(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_Description(&new.Spec.ForProvider, valMap)
-	DecodeGlueWorkflow_MaxConcurrentRuns(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeGlueWorkflow_MaxConcurrentRuns(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	p.MaxConcurrentRuns = ctwhy.ValueAsInt64(vals["max_concurrent_runs"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -82,11 +87,6 @@ func DecodeGlueWorkflow_DefaultRunProperties(p *GlueWorkflowParameters, vals map
 //primitiveTypeDecodeTemplate
 func DecodeGlueWorkflow_Description(p *GlueWorkflowParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGlueWorkflow_MaxConcurrentRuns(p *GlueWorkflowParameters, vals map[string]cty.Value) {
-	p.MaxConcurrentRuns = ctwhy.ValueAsInt64(vals["max_concurrent_runs"])
 }
 
 //primitiveTypeDecodeTemplate

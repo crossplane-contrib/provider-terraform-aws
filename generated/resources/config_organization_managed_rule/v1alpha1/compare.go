@@ -31,32 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeConfigOrganizationManagedRule_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeConfigOrganizationManagedRule_ResourceIdScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationManagedRule_TagKeyScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationManagedRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationManagedRule_ExcludedAccounts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationManagedRule_MaximumExecutionFrequency(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,12 +46,37 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeConfigOrganizationManagedRule_TagValueScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeConfigOrganizationManagedRule_ExcludedAccounts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeConfigOrganizationManagedRule_InputParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationManagedRule_MaximumExecutionFrequency(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationManagedRule_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationManagedRule_TagKeyScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationManagedRule_TagValueScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationManagedRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,59 +102,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeConfigOrganizationManagedRule_Name(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeConfigOrganizationManagedRule_ResourceIdScope(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
 	if k.ResourceIdScope != p.ResourceIdScope {
 		p.ResourceIdScope = k.ResourceIdScope
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationManagedRule_TagKeyScope(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
-	if k.TagKeyScope != p.TagKeyScope {
-		p.TagKeyScope = k.TagKeyScope
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationManagedRule_Description(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeConfigOrganizationManagedRule_ExcludedAccounts(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.ExcludedAccounts, p.ExcludedAccounts) {
-		p.ExcludedAccounts = k.ExcludedAccounts
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationManagedRule_MaximumExecutionFrequency(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
-	if k.MaximumExecutionFrequency != p.MaximumExecutionFrequency {
-		p.MaximumExecutionFrequency = k.MaximumExecutionFrequency
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -181,10 +131,10 @@ func MergeConfigOrganizationManagedRule_RuleIdentifier(k *ConfigOrganizationMana
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationManagedRule_TagValueScope(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
-	if k.TagValueScope != p.TagValueScope {
-		p.TagValueScope = k.TagValueScope
+//mergePrimitiveContainerTemplateSpec
+func MergeConfigOrganizationManagedRule_ExcludedAccounts(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ExcludedAccounts, p.ExcludedAccounts) {
+		p.ExcludedAccounts = k.ExcludedAccounts
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -201,15 +151,60 @@ func MergeConfigOrganizationManagedRule_InputParameters(k *ConfigOrganizationMan
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationManagedRule_MaximumExecutionFrequency(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
+	if k.MaximumExecutionFrequency != p.MaximumExecutionFrequency {
+		p.MaximumExecutionFrequency = k.MaximumExecutionFrequency
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationManagedRule_Name(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationManagedRule_TagKeyScope(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
+	if k.TagKeyScope != p.TagKeyScope {
+		p.TagKeyScope = k.TagKeyScope
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationManagedRule_TagValueScope(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
+	if k.TagValueScope != p.TagValueScope {
+		p.TagValueScope = k.TagValueScope
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationManagedRule_Description(k *ConfigOrganizationManagedRuleParameters, p *ConfigOrganizationManagedRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergeStructTemplateSpec
 func MergeConfigOrganizationManagedRule_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeConfigOrganizationManagedRule_Timeouts_Update(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeConfigOrganizationManagedRule_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -220,20 +215,15 @@ func MergeConfigOrganizationManagedRule_Timeouts(k *Timeouts, p *Timeouts, md *p
 		anyChildUpdated = true
 	}
 
+	updated = MergeConfigOrganizationManagedRule_Timeouts_Update(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationManagedRule_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Update != p.Update {
-		p.Update = k.Update
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -250,6 +240,16 @@ func MergeConfigOrganizationManagedRule_Timeouts_Create(k *Timeouts, p *Timeouts
 func MergeConfigOrganizationManagedRule_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	if k.Delete != p.Delete {
 		p.Delete = k.Delete
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationManagedRule_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Update != p.Update {
+		p.Update = k.Update
 		md.NeedsProviderUpdate = true
 		return true
 	}

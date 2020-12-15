@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSqsQueuePolicy(prev *SqsQueuePolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSqsQueuePolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueuePolicy_QueueUrl(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueuePolicy_Policy(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeSqsQueuePolicy(prev *SqsQueuePolicy, ctyValue cty.Value) (resource.Ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSqsQueuePolicy_Policy(p *SqsQueuePolicyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
+func DecodeSqsQueuePolicy_QueueUrl(p *SqsQueuePolicyParameters, vals map[string]cty.Value) {
+	p.QueueUrl = ctwhy.ValueAsString(vals["queue_url"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSqsQueuePolicy_QueueUrl(p *SqsQueuePolicyParameters, vals map[string]cty.Value) {
-	p.QueueUrl = ctwhy.ValueAsString(vals["queue_url"])
+func DecodeSqsQueuePolicy_Policy(p *SqsQueuePolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }

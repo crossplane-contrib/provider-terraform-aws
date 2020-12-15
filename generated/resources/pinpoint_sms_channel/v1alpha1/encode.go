@@ -37,20 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodePinpointSmsChannel(r PinpointSmsChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodePinpointSmsChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_SenderId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_ShortCode(r.Spec.ForProvider, ctyVal)
-	EncodePinpointSmsChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointSmsChannel_PromotionalMessagesPerSecond(r.Status.AtProvider, ctyVal)
 	EncodePinpointSmsChannel_TransactionalMessagesPerSecond(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodePinpointSmsChannel_ApplicationId(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }
 
 func EncodePinpointSmsChannel_Enabled(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
@@ -63,10 +65,6 @@ func EncodePinpointSmsChannel_SenderId(p PinpointSmsChannelParameters, vals map[
 
 func EncodePinpointSmsChannel_ShortCode(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
 	vals["short_code"] = cty.StringVal(p.ShortCode)
-}
-
-func EncodePinpointSmsChannel_ApplicationId(p PinpointSmsChannelParameters, vals map[string]cty.Value) {
-	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }
 
 func EncodePinpointSmsChannel_PromotionalMessagesPerSecond(p PinpointSmsChannelObservation, vals map[string]cty.Value) {

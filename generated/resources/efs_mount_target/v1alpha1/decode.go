@@ -39,17 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEfsMountTarget(prev *EfsMountTarget, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEfsMountTarget_FileSystemId(&new.Spec.ForProvider, valMap)
+	DecodeEfsMountTarget_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeEfsMountTarget_IpAddress(&new.Spec.ForProvider, valMap)
 	DecodeEfsMountTarget_SecurityGroups(&new.Spec.ForProvider, valMap)
-	DecodeEfsMountTarget_SubnetId(&new.Spec.ForProvider, valMap)
-	DecodeEfsMountTarget_MountTargetDnsName(&new.Status.AtProvider, valMap)
-	DecodeEfsMountTarget_OwnerId(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_FileSystemId(&new.Spec.ForProvider, valMap)
 	DecodeEfsMountTarget_FileSystemArn(&new.Status.AtProvider, valMap)
-	DecodeEfsMountTarget_AvailabilityZoneName(&new.Status.AtProvider, valMap)
-	DecodeEfsMountTarget_DnsName(&new.Status.AtProvider, valMap)
-	DecodeEfsMountTarget_NetworkInterfaceId(&new.Status.AtProvider, valMap)
 	DecodeEfsMountTarget_AvailabilityZoneId(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_DnsName(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_MountTargetDnsName(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_NetworkInterfaceId(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_OwnerId(&new.Status.AtProvider, valMap)
+	DecodeEfsMountTarget_AvailabilityZoneName(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -58,8 +58,8 @@ func DecodeEfsMountTarget(prev *EfsMountTarget, ctyValue cty.Value) (resource.Ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEfsMountTarget_FileSystemId(p *EfsMountTargetParameters, vals map[string]cty.Value) {
-	p.FileSystemId = ctwhy.ValueAsString(vals["file_system_id"])
+func DecodeEfsMountTarget_SubnetId(p *EfsMountTargetParameters, vals map[string]cty.Value) {
+	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -77,18 +77,8 @@ func DecodeEfsMountTarget_SecurityGroups(p *EfsMountTargetParameters, vals map[s
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEfsMountTarget_SubnetId(p *EfsMountTargetParameters, vals map[string]cty.Value) {
-	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEfsMountTarget_MountTargetDnsName(p *EfsMountTargetObservation, vals map[string]cty.Value) {
-	p.MountTargetDnsName = ctwhy.ValueAsString(vals["mount_target_dns_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEfsMountTarget_OwnerId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
-	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
+func DecodeEfsMountTarget_FileSystemId(p *EfsMountTargetParameters, vals map[string]cty.Value) {
+	p.FileSystemId = ctwhy.ValueAsString(vals["file_system_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -97,8 +87,8 @@ func DecodeEfsMountTarget_FileSystemArn(p *EfsMountTargetObservation, vals map[s
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEfsMountTarget_AvailabilityZoneName(p *EfsMountTargetObservation, vals map[string]cty.Value) {
-	p.AvailabilityZoneName = ctwhy.ValueAsString(vals["availability_zone_name"])
+func DecodeEfsMountTarget_AvailabilityZoneId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.AvailabilityZoneId = ctwhy.ValueAsString(vals["availability_zone_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -107,11 +97,21 @@ func DecodeEfsMountTarget_DnsName(p *EfsMountTargetObservation, vals map[string]
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeEfsMountTarget_MountTargetDnsName(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.MountTargetDnsName = ctwhy.ValueAsString(vals["mount_target_dns_name"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEfsMountTarget_NetworkInterfaceId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
 	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEfsMountTarget_AvailabilityZoneId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
-	p.AvailabilityZoneId = ctwhy.ValueAsString(vals["availability_zone_id"])
+func DecodeEfsMountTarget_OwnerId(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEfsMountTarget_AvailabilityZoneName(p *EfsMountTargetObservation, vals map[string]cty.Value) {
+	p.AvailabilityZoneName = ctwhy.ValueAsString(vals["availability_zone_name"])
 }

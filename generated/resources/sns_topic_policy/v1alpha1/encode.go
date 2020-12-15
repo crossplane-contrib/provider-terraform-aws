@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSnsTopicPolicy(r SnsTopicPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSnsTopicPolicy_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsTopicPolicy_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeSnsTopicPolicy_Arn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSnsTopicPolicy_Arn(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeSnsTopicPolicy_Policy(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeSnsTopicPolicy_Arn(p SnsTopicPolicyParameters, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

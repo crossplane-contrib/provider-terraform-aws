@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeIamPolicyAttachment_Roles(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamPolicyAttachment_Users(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeIamPolicyAttachment_Groups(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,16 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamPolicyAttachment_Roles(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamPolicyAttachment_Users(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,6 +65,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeIamPolicyAttachment_Roles(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Roles, p.Roles) {
+		p.Roles = k.Roles
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeIamPolicyAttachment_Users(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Users, p.Users) {
+		p.Users = k.Users
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -91,26 +111,6 @@ func MergeIamPolicyAttachment_Name(k *IamPolicyAttachmentParameters, p *IamPolic
 func MergeIamPolicyAttachment_PolicyArn(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.PolicyArn != p.PolicyArn {
 		p.PolicyArn = k.PolicyArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeIamPolicyAttachment_Roles(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Roles, p.Roles) {
-		p.Roles = k.Roles
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeIamPolicyAttachment_Users(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Users, p.Users) {
-		p.Users = k.Users
 		md.NeedsProviderUpdate = true
 		return true
 	}

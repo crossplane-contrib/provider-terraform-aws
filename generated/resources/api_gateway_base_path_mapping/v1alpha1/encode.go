@@ -37,23 +37,17 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayBasePathMapping(r ApiGatewayBasePathMapping) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayBasePathMapping_StageName(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_BasePath(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayBasePathMapping_DomainName(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayBasePathMapping_StageName(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayBasePathMapping_StageName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
-	vals["stage_name"] = cty.StringVal(p.StageName)
 }
 
 func EncodeApiGatewayBasePathMapping_ApiId(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
@@ -66,4 +60,8 @@ func EncodeApiGatewayBasePathMapping_BasePath(p ApiGatewayBasePathMappingParamet
 
 func EncodeApiGatewayBasePathMapping_DomainName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
+}
+
+func EncodeApiGatewayBasePathMapping_StageName(p ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	vals["stage_name"] = cty.StringVal(p.StageName)
 }

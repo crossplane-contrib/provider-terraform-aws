@@ -52,8 +52,8 @@ type Route53QueryLogSpec struct {
 
 // A Route53QueryLogParameters defines the desired state of a Route53QueryLog
 type Route53QueryLogParameters struct {
-	ZoneId                string `json:"zone_id"`
 	CloudwatchLogGroupArn string `json:"cloudwatch_log_group_arn"`
+	ZoneId                string `json:"zone_id"`
 }
 
 // A Route53QueryLogStatus defines the observed state of a Route53QueryLog

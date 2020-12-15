@@ -52,11 +52,11 @@ type DbSubnetGroupSpec struct {
 
 // A DbSubnetGroupParameters defines the desired state of a DbSubnetGroup
 type DbSubnetGroupParameters struct {
-	Description string            `json:"description"`
-	Name        string            `json:"name"`
 	NamePrefix  string            `json:"name_prefix"`
 	SubnetIds   []string          `json:"subnet_ids"`
 	Tags        map[string]string `json:"tags"`
+	Description string            `json:"description"`
+	Name        string            `json:"name"`
 }
 
 // A DbSubnetGroupStatus defines the observed state of a DbSubnetGroup

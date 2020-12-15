@@ -52,9 +52,9 @@ type IamAccessKeySpec struct {
 
 // A IamAccessKeyParameters defines the desired state of a IamAccessKey
 type IamAccessKeyParameters struct {
-	PgpKey string `json:"pgp_key"`
 	Status string `json:"status"`
 	User   string `json:"user"`
+	PgpKey string `json:"pgp_key"`
 }
 
 // A IamAccessKeyStatus defines the observed state of a IamAccessKey
@@ -65,8 +65,8 @@ type IamAccessKeyStatus struct {
 
 // A IamAccessKeyObservation records the observed state of a IamAccessKey
 type IamAccessKeyObservation struct {
-	KeyFingerprint    string `json:"key_fingerprint"`
 	Secret            string `json:"secret"`
 	SesSmtpPasswordV4 string `json:"ses_smtp_password_v4"`
 	EncryptedSecret   string `json:"encrypted_secret"`
+	KeyFingerprint    string `json:"key_fingerprint"`
 }

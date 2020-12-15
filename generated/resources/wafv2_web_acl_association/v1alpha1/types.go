@@ -52,8 +52,8 @@ type Wafv2WebAclAssociationSpec struct {
 
 // A Wafv2WebAclAssociationParameters defines the desired state of a Wafv2WebAclAssociation
 type Wafv2WebAclAssociationParameters struct {
-	ResourceArn string `json:"resource_arn"`
 	WebAclArn   string `json:"web_acl_arn"`
+	ResourceArn string `json:"resource_arn"`
 }
 
 // A Wafv2WebAclAssociationStatus defines the observed state of a Wafv2WebAclAssociation

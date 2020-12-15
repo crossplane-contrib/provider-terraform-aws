@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeGlacierVaultLock_CompleteLock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGlacierVaultLock_IgnoreDeletionError(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,6 +46,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeGlacierVaultLock_CompleteLock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -60,16 +60,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGlacierVaultLock_CompleteLock(k *GlacierVaultLockParameters, p *GlacierVaultLockParameters, md *plugin.MergeDescription) bool {
-	if k.CompleteLock != p.CompleteLock {
-		p.CompleteLock = k.CompleteLock
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -96,6 +86,16 @@ func MergeGlacierVaultLock_Policy(k *GlacierVaultLockParameters, p *GlacierVault
 func MergeGlacierVaultLock_VaultName(k *GlacierVaultLockParameters, p *GlacierVaultLockParameters, md *plugin.MergeDescription) bool {
 	if k.VaultName != p.VaultName {
 		p.VaultName = k.VaultName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeGlacierVaultLock_CompleteLock(k *GlacierVaultLockParameters, p *GlacierVaultLockParameters, md *plugin.MergeDescription) bool {
+	if k.CompleteLock != p.CompleteLock {
+		p.CompleteLock = k.CompleteLock
 		md.NeedsProviderUpdate = true
 		return true
 	}

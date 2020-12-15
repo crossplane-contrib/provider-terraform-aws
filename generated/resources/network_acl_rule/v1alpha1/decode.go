@@ -39,17 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeNetworkAclRule(prev *NetworkAclRule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeNetworkAclRule_Protocol(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_FromPort(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_IcmpType(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_Ipv6CidrBlock(&new.Spec.ForProvider, valMap)
 	DecodeNetworkAclRule_RuleNumber(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_ToPort(&new.Spec.ForProvider, valMap)
 	DecodeNetworkAclRule_CidrBlock(&new.Spec.ForProvider, valMap)
 	DecodeNetworkAclRule_IcmpCode(&new.Spec.ForProvider, valMap)
 	DecodeNetworkAclRule_NetworkAclId(&new.Spec.ForProvider, valMap)
-	DecodeNetworkAclRule_Ipv6CidrBlock(&new.Spec.ForProvider, valMap)
+	DecodeNetworkAclRule_Protocol(&new.Spec.ForProvider, valMap)
 	DecodeNetworkAclRule_RuleAction(&new.Spec.ForProvider, valMap)
-	DecodeNetworkAclRule_ToPort(&new.Spec.ForProvider, valMap)
 	DecodeNetworkAclRule_Egress(&new.Spec.ForProvider, valMap)
-	DecodeNetworkAclRule_FromPort(&new.Spec.ForProvider, valMap)
-	DecodeNetworkAclRule_IcmpType(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -59,13 +59,28 @@ func DecodeNetworkAclRule(prev *NetworkAclRule, ctyValue cty.Value) (resource.Ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNetworkAclRule_Protocol(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
-	p.Protocol = ctwhy.ValueAsString(vals["protocol"])
+func DecodeNetworkAclRule_FromPort(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.FromPort = ctwhy.ValueAsInt64(vals["from_port"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNetworkAclRule_IcmpType(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.IcmpType = ctwhy.ValueAsString(vals["icmp_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNetworkAclRule_Ipv6CidrBlock(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.Ipv6CidrBlock = ctwhy.ValueAsString(vals["ipv6_cidr_block"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeNetworkAclRule_RuleNumber(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
 	p.RuleNumber = ctwhy.ValueAsInt64(vals["rule_number"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNetworkAclRule_ToPort(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.ToPort = ctwhy.ValueAsInt64(vals["to_port"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -84,8 +99,8 @@ func DecodeNetworkAclRule_NetworkAclId(p *NetworkAclRuleParameters, vals map[str
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNetworkAclRule_Ipv6CidrBlock(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
-	p.Ipv6CidrBlock = ctwhy.ValueAsString(vals["ipv6_cidr_block"])
+func DecodeNetworkAclRule_Protocol(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
+	p.Protocol = ctwhy.ValueAsString(vals["protocol"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -94,21 +109,6 @@ func DecodeNetworkAclRule_RuleAction(p *NetworkAclRuleParameters, vals map[strin
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNetworkAclRule_ToPort(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
-	p.ToPort = ctwhy.ValueAsInt64(vals["to_port"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeNetworkAclRule_Egress(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
 	p.Egress = ctwhy.ValueAsBool(vals["egress"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNetworkAclRule_FromPort(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
-	p.FromPort = ctwhy.ValueAsInt64(vals["from_port"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNetworkAclRule_IcmpType(p *NetworkAclRuleParameters, vals map[string]cty.Value) {
-	p.IcmpType = ctwhy.ValueAsString(vals["icmp_type"])
 }

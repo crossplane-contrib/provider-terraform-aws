@@ -39,10 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudfrontPublicKey(prev *CloudfrontPublicKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloudfrontPublicKey_Comment(&new.Spec.ForProvider, valMap)
-	DecodeCloudfrontPublicKey_EncodedKey(&new.Spec.ForProvider, valMap)
 	DecodeCloudfrontPublicKey_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudfrontPublicKey_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeCloudfrontPublicKey_Comment(&new.Spec.ForProvider, valMap)
+	DecodeCloudfrontPublicKey_EncodedKey(&new.Spec.ForProvider, valMap)
 	DecodeCloudfrontPublicKey_CallerReference(&new.Status.AtProvider, valMap)
 	DecodeCloudfrontPublicKey_Etag(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -53,16 +53,6 @@ func DecodeCloudfrontPublicKey(prev *CloudfrontPublicKey, ctyValue cty.Value) (r
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudfrontPublicKey_Comment(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
-	p.Comment = ctwhy.ValueAsString(vals["comment"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudfrontPublicKey_EncodedKey(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
-	p.EncodedKey = ctwhy.ValueAsString(vals["encoded_key"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_Name(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
@@ -70,6 +60,16 @@ func DecodeCloudfrontPublicKey_Name(p *CloudfrontPublicKeyParameters, vals map[s
 //primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_NamePrefix(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudfrontPublicKey_Comment(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
+	p.Comment = ctwhy.ValueAsString(vals["comment"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudfrontPublicKey_EncodedKey(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
+	p.EncodedKey = ctwhy.ValueAsString(vals["encoded_key"])
 }
 
 //primitiveTypeDecodeTemplate

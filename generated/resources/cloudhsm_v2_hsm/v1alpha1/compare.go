@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCloudhsmV2Hsm_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCloudhsmV2Hsm_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,17 +51,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudhsmV2Hsm_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudhsmV2Hsm_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudhsmV2Hsm_HsmEniId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,6 +66,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeCloudhsmV2Hsm_HsmEniId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -79,6 +79,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudhsmV2Hsm_IpAddress(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
+	if k.IpAddress != p.IpAddress {
+		p.IpAddress = k.IpAddress
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -105,16 +115,6 @@ func MergeCloudhsmV2Hsm_AvailabilityZone(k *CloudhsmV2HsmParameters, p *Cloudhsm
 func MergeCloudhsmV2Hsm_ClusterId(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
 	if k.ClusterId != p.ClusterId {
 		p.ClusterId = k.ClusterId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudhsmV2Hsm_IpAddress(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
-	if k.IpAddress != p.IpAddress {
-		p.IpAddress = k.IpAddress
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -177,16 +177,6 @@ func MergeCloudhsmV2Hsm_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.Mer
 }
 
 //mergePrimitiveTemplateStatus
-func MergeCloudhsmV2Hsm_HsmEniId(k *CloudhsmV2HsmObservation, p *CloudhsmV2HsmObservation, md *plugin.MergeDescription) bool {
-	if k.HsmEniId != p.HsmEniId {
-		k.HsmEniId = p.HsmEniId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeCloudhsmV2Hsm_HsmId(k *CloudhsmV2HsmObservation, p *CloudhsmV2HsmObservation, md *plugin.MergeDescription) bool {
 	if k.HsmId != p.HsmId {
 		k.HsmId = p.HsmId
@@ -200,6 +190,16 @@ func MergeCloudhsmV2Hsm_HsmId(k *CloudhsmV2HsmObservation, p *CloudhsmV2HsmObser
 func MergeCloudhsmV2Hsm_HsmState(k *CloudhsmV2HsmObservation, p *CloudhsmV2HsmObservation, md *plugin.MergeDescription) bool {
 	if k.HsmState != p.HsmState {
 		k.HsmState = p.HsmState
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeCloudhsmV2Hsm_HsmEniId(k *CloudhsmV2HsmObservation, p *CloudhsmV2HsmObservation, md *plugin.MergeDescription) bool {
+	if k.HsmEniId != p.HsmEniId {
+		k.HsmEniId = p.HsmEniId
 		md.StatusUpdated = true
 		return true
 	}

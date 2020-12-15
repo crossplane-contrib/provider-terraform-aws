@@ -52,9 +52,9 @@ type IotThingSpec struct {
 
 // A IotThingParameters defines the desired state of a IotThing
 type IotThingParameters struct {
-	ThingTypeName string            `json:"thing_type_name"`
 	Attributes    map[string]string `json:"attributes"`
 	Name          string            `json:"name"`
+	ThingTypeName string            `json:"thing_type_name"`
 }
 
 // A IotThingStatus defines the observed state of a IotThing
@@ -65,7 +65,7 @@ type IotThingStatus struct {
 
 // A IotThingObservation records the observed state of a IotThing
 type IotThingObservation struct {
-	Version         int64  `json:"version"`
 	Arn             string `json:"arn"`
 	DefaultClientId string `json:"default_client_id"`
+	Version         int64  `json:"version"`
 }

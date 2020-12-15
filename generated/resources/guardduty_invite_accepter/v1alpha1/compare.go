@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeGuarddutyInviteAccepter_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeGuarddutyInviteAccepter_MasterAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyInviteAccepter_MasterAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeGuarddutyInviteAccepter_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,9 +58,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeGuarddutyInviteAccepter_DetectorId(k *GuarddutyInviteAccepterParameters, p *GuarddutyInviteAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.DetectorId != p.DetectorId {
-		p.DetectorId = k.DetectorId
+func MergeGuarddutyInviteAccepter_MasterAccountId(k *GuarddutyInviteAccepterParameters, p *GuarddutyInviteAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.MasterAccountId != p.MasterAccountId {
+		p.MasterAccountId = k.MasterAccountId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -68,9 +68,9 @@ func MergeGuarddutyInviteAccepter_DetectorId(k *GuarddutyInviteAccepterParameter
 }
 
 //mergePrimitiveTemplateSpec
-func MergeGuarddutyInviteAccepter_MasterAccountId(k *GuarddutyInviteAccepterParameters, p *GuarddutyInviteAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.MasterAccountId != p.MasterAccountId {
-		p.MasterAccountId = k.MasterAccountId
+func MergeGuarddutyInviteAccepter_DetectorId(k *GuarddutyInviteAccepterParameters, p *GuarddutyInviteAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.DetectorId != p.DetectorId {
+		p.DetectorId = k.DetectorId
 		md.NeedsProviderUpdate = true
 		return true
 	}

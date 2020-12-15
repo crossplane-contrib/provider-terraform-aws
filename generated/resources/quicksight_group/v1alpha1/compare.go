@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeQuicksightGroup_Namespace(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeQuicksightGroup_AwsAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,11 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeQuicksightGroup_GroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeQuicksightGroup_Namespace(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -64,6 +64,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeQuicksightGroup_Namespace(k *QuicksightGroupParameters, p *QuicksightGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Namespace != p.Namespace {
+		p.Namespace = k.Namespace
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -90,16 +100,6 @@ func MergeQuicksightGroup_Description(k *QuicksightGroupParameters, p *Quicksigh
 func MergeQuicksightGroup_GroupName(k *QuicksightGroupParameters, p *QuicksightGroupParameters, md *plugin.MergeDescription) bool {
 	if k.GroupName != p.GroupName {
 		p.GroupName = k.GroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeQuicksightGroup_Namespace(k *QuicksightGroupParameters, p *QuicksightGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Namespace != p.Namespace {
-		p.Namespace = k.Namespace
 		md.NeedsProviderUpdate = true
 		return true
 	}

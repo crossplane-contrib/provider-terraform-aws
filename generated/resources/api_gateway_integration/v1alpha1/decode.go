@@ -39,22 +39,22 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayIntegration(prev *ApiGatewayIntegration, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApiGatewayIntegration_IntegrationHttpMethod(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_PassthroughBehavior(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_Credentials(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayIntegration_RequestParameters(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_RestApiId(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_Type(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_Uri(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_ResourceId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayIntegration_CacheNamespace(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_ConnectionType(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayIntegration_ContentHandling(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_TimeoutMilliseconds(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_Type(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_CacheKeyParameters(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_IntegrationHttpMethod(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_RestApiId(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_PassthroughBehavior(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_RequestTemplates(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayIntegration_Uri(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayIntegration_ConnectionId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayIntegration_HttpMethod(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_CacheKeyParameters(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_ConnectionType(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_Credentials(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_RequestTemplates(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_ResourceId(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayIntegration_TimeoutMilliseconds(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -64,13 +64,8 @@ func DecodeApiGatewayIntegration(prev *ApiGatewayIntegration, ctyValue cty.Value
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_IntegrationHttpMethod(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.IntegrationHttpMethod = ctwhy.ValueAsString(vals["integration_http_method"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_PassthroughBehavior(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.PassthroughBehavior = ctwhy.ValueAsString(vals["passthrough_behavior"])
+func DecodeApiGatewayIntegration_Credentials(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.Credentials = ctwhy.ValueAsString(vals["credentials"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -85,18 +80,8 @@ func DecodeApiGatewayIntegration_RequestParameters(p *ApiGatewayIntegrationParam
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_RestApiId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_Type(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_Uri(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.Uri = ctwhy.ValueAsString(vals["uri"])
+func DecodeApiGatewayIntegration_ResourceId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -105,18 +90,23 @@ func DecodeApiGatewayIntegration_CacheNamespace(p *ApiGatewayIntegrationParamete
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeApiGatewayIntegration_ConnectionType(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.ConnectionType = ctwhy.ValueAsString(vals["connection_type"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayIntegration_ContentHandling(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
 	p.ContentHandling = ctwhy.ValueAsString(vals["content_handling"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_ConnectionId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
+func DecodeApiGatewayIntegration_TimeoutMilliseconds(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.TimeoutMilliseconds = ctwhy.ValueAsInt64(vals["timeout_milliseconds"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_HttpMethod(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.HttpMethod = ctwhy.ValueAsString(vals["http_method"])
+func DecodeApiGatewayIntegration_Type(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -129,13 +119,18 @@ func DecodeApiGatewayIntegration_CacheKeyParameters(p *ApiGatewayIntegrationPara
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_ConnectionType(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.ConnectionType = ctwhy.ValueAsString(vals["connection_type"])
+func DecodeApiGatewayIntegration_IntegrationHttpMethod(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.IntegrationHttpMethod = ctwhy.ValueAsString(vals["integration_http_method"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_Credentials(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.Credentials = ctwhy.ValueAsString(vals["credentials"])
+func DecodeApiGatewayIntegration_RestApiId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayIntegration_PassthroughBehavior(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.PassthroughBehavior = ctwhy.ValueAsString(vals["passthrough_behavior"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -150,11 +145,16 @@ func DecodeApiGatewayIntegration_RequestTemplates(p *ApiGatewayIntegrationParame
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_ResourceId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
+func DecodeApiGatewayIntegration_Uri(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.Uri = ctwhy.ValueAsString(vals["uri"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayIntegration_TimeoutMilliseconds(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
-	p.TimeoutMilliseconds = ctwhy.ValueAsInt64(vals["timeout_milliseconds"])
+func DecodeApiGatewayIntegration_ConnectionId(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayIntegration_HttpMethod(p *ApiGatewayIntegrationParameters, vals map[string]cty.Value) {
+	p.HttpMethod = ctwhy.ValueAsString(vals["http_method"])
 }

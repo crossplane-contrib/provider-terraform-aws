@@ -37,24 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCognitoUserGroup(r CognitoUserGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_Precedence(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserGroup_UserPoolId(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserGroup_Description(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoUserGroup_Description(p CognitoUserGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeCognitoUserGroup_Name(p CognitoUserGroupParameters, vals map[string]cty.Value) {
@@ -71,4 +65,8 @@ func EncodeCognitoUserGroup_RoleArn(p CognitoUserGroupParameters, vals map[strin
 
 func EncodeCognitoUserGroup_UserPoolId(p CognitoUserGroupParameters, vals map[string]cty.Value) {
 	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
+}
+
+func EncodeCognitoUserGroup_Description(p CognitoUserGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }

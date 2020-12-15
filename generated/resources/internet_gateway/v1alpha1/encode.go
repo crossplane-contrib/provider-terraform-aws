@@ -39,15 +39,13 @@ func EncodeInternetGateway(r InternetGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
-	EncodeInternetGateway_Arn(r.Status.AtProvider, ctyVal)
 	EncodeInternetGateway_OwnerId(r.Status.AtProvider, ctyVal)
+	EncodeInternetGateway_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -67,10 +65,10 @@ func EncodeInternetGateway_VpcId(p InternetGatewayParameters, vals map[string]ct
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
-func EncodeInternetGateway_Arn(p InternetGatewayObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeInternetGateway_OwnerId(p InternetGatewayObservation, vals map[string]cty.Value) {
 	vals["owner_id"] = cty.StringVal(p.OwnerId)
+}
+
+func EncodeInternetGateway_Arn(p InternetGatewayObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

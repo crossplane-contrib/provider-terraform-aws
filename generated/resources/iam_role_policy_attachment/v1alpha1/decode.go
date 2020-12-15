@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamRolePolicyAttachment(prev *IamRolePolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamRolePolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 	DecodeIamRolePolicyAttachment_Role(&new.Spec.ForProvider, valMap)
+	DecodeIamRolePolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeIamRolePolicyAttachment(prev *IamRolePolicyAttachment, ctyValue cty.V
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamRolePolicyAttachment_PolicyArn(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.PolicyArn = ctwhy.ValueAsString(vals["policy_arn"])
+func DecodeIamRolePolicyAttachment_Role(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Role = ctwhy.ValueAsString(vals["role"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamRolePolicyAttachment_Role(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Role = ctwhy.ValueAsString(vals["role"])
+func DecodeIamRolePolicyAttachment_PolicyArn(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.PolicyArn = ctwhy.ValueAsString(vals["policy_arn"])
 }

@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamGroupPolicyAttachment(r IamGroupPolicyAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamGroupPolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicyAttachment_Group(r.Spec.ForProvider, ctyVal)
+	EncodeIamGroupPolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamGroupPolicyAttachment_PolicyArn(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["policy_arn"] = cty.StringVal(p.PolicyArn)
 }
 
 func EncodeIamGroupPolicyAttachment_Group(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["group"] = cty.StringVal(p.Group)
+}
+
+func EncodeIamGroupPolicyAttachment_PolicyArn(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
+	vals["policy_arn"] = cty.StringVal(p.PolicyArn)
 }

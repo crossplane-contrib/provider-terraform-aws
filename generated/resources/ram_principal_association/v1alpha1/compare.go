@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRamPrincipalAssociation_Principal(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRamPrincipalAssociation_ResourceShareArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRamPrincipalAssociation_ResourceShareArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRamPrincipalAssociation_Principal(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRamPrincipalAssociation_Principal(k *RamPrincipalAssociationParameters, p *RamPrincipalAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Principal != p.Principal {
-		p.Principal = k.Principal
+func MergeRamPrincipalAssociation_ResourceShareArn(k *RamPrincipalAssociationParameters, p *RamPrincipalAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceShareArn != p.ResourceShareArn {
+		p.ResourceShareArn = k.ResourceShareArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeRamPrincipalAssociation_Principal(k *RamPrincipalAssociationParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRamPrincipalAssociation_ResourceShareArn(k *RamPrincipalAssociationParameters, p *RamPrincipalAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ResourceShareArn != p.ResourceShareArn {
-		p.ResourceShareArn = k.ResourceShareArn
+func MergeRamPrincipalAssociation_Principal(k *RamPrincipalAssociationParameters, p *RamPrincipalAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.Principal != p.Principal {
+		p.Principal = k.Principal
 		md.NeedsProviderUpdate = true
 		return true
 	}

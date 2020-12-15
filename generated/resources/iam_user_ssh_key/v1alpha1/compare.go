@@ -51,12 +51,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamUserSshKey_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamUserSshKey_SshPublicKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamUserSshKey_SshPublicKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamUserSshKey_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -112,9 +112,9 @@ func MergeIamUserSshKey_Encoding(k *IamUserSshKeyParameters, p *IamUserSshKeyPar
 }
 
 //mergePrimitiveTemplateStatus
-func MergeIamUserSshKey_Fingerprint(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
-	if k.Fingerprint != p.Fingerprint {
-		k.Fingerprint = p.Fingerprint
+func MergeIamUserSshKey_SshPublicKeyId(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
+	if k.SshPublicKeyId != p.SshPublicKeyId {
+		k.SshPublicKeyId = p.SshPublicKeyId
 		md.StatusUpdated = true
 		return true
 	}
@@ -122,9 +122,9 @@ func MergeIamUserSshKey_Fingerprint(k *IamUserSshKeyObservation, p *IamUserSshKe
 }
 
 //mergePrimitiveTemplateStatus
-func MergeIamUserSshKey_SshPublicKeyId(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
-	if k.SshPublicKeyId != p.SshPublicKeyId {
-		k.SshPublicKeyId = p.SshPublicKeyId
+func MergeIamUserSshKey_Fingerprint(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
+	if k.Fingerprint != p.Fingerprint {
+		k.Fingerprint = p.Fingerprint
 		md.StatusUpdated = true
 		return true
 	}

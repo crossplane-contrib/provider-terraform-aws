@@ -46,17 +46,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeNatGateway_NetworkInterfaceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeNatGateway_PrivateIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNatGateway_PublicIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNatGateway_NetworkInterfaceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,6 +102,16 @@ func MergeNatGateway_AllocationId(k *NatGatewayParameters, p *NatGatewayParamete
 }
 
 //mergePrimitiveTemplateStatus
+func MergeNatGateway_NetworkInterfaceId(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		k.NetworkInterfaceId = p.NetworkInterfaceId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeNatGateway_PrivateIp(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
 	if k.PrivateIp != p.PrivateIp {
 		k.PrivateIp = p.PrivateIp
@@ -115,16 +125,6 @@ func MergeNatGateway_PrivateIp(k *NatGatewayObservation, p *NatGatewayObservatio
 func MergeNatGateway_PublicIp(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
 	if k.PublicIp != p.PublicIp {
 		k.PublicIp = p.PublicIp
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNatGateway_NetworkInterfaceId(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
-	if k.NetworkInterfaceId != p.NetworkInterfaceId {
-		k.NetworkInterfaceId = p.NetworkInterfaceId
 		md.StatusUpdated = true
 		return true
 	}

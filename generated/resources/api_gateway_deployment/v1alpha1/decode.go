@@ -40,14 +40,14 @@ func DecodeApiGatewayDeployment(prev *ApiGatewayDeployment, ctyValue cty.Value) 
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeApiGatewayDeployment_RestApiId(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayDeployment_Triggers(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayDeployment_Variables(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayDeployment_Description(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayDeployment_StageDescription(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayDeployment_StageName(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayDeployment_InvokeUrl(&new.Status.AtProvider, valMap)
+	DecodeApiGatewayDeployment_Triggers(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayDeployment_Description(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayDeployment_Variables(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayDeployment_CreatedDate(&new.Status.AtProvider, valMap)
 	DecodeApiGatewayDeployment_ExecutionArn(&new.Status.AtProvider, valMap)
+	DecodeApiGatewayDeployment_InvokeUrl(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -60,6 +60,16 @@ func DecodeApiGatewayDeployment_RestApiId(p *ApiGatewayDeploymentParameters, val
 	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayDeployment_StageDescription(p *ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	p.StageDescription = ctwhy.ValueAsString(vals["stage_description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayDeployment_StageName(p *ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	p.StageName = ctwhy.ValueAsString(vals["stage_name"])
+}
+
 //primitiveMapTypeDecodeTemplate
 func DecodeApiGatewayDeployment_Triggers(p *ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
@@ -69,6 +79,11 @@ func DecodeApiGatewayDeployment_Triggers(p *ApiGatewayDeploymentParameters, vals
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Triggers = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayDeployment_Description(p *ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -83,26 +98,6 @@ func DecodeApiGatewayDeployment_Variables(p *ApiGatewayDeploymentParameters, val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayDeployment_Description(p *ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayDeployment_StageDescription(p *ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	p.StageDescription = ctwhy.ValueAsString(vals["stage_description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayDeployment_StageName(p *ApiGatewayDeploymentParameters, vals map[string]cty.Value) {
-	p.StageName = ctwhy.ValueAsString(vals["stage_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayDeployment_InvokeUrl(p *ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
-	p.InvokeUrl = ctwhy.ValueAsString(vals["invoke_url"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeApiGatewayDeployment_CreatedDate(p *ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
 	p.CreatedDate = ctwhy.ValueAsString(vals["created_date"])
 }
@@ -110,4 +105,9 @@ func DecodeApiGatewayDeployment_CreatedDate(p *ApiGatewayDeploymentObservation, 
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayDeployment_ExecutionArn(p *ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
 	p.ExecutionArn = ctwhy.ValueAsString(vals["execution_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayDeployment_InvokeUrl(p *ApiGatewayDeploymentObservation, vals map[string]cty.Value) {
+	p.InvokeUrl = ctwhy.ValueAsString(vals["invoke_url"])
 }

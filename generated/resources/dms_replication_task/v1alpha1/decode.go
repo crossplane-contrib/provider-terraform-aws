@@ -39,21 +39,31 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDmsReplicationTask(prev *DmsReplicationTask, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDmsReplicationTask_ReplicationTaskSettings(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationTask_SourceEndpointArn(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationTask_TableMappings(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationTask_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationTask_TargetEndpointArn(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationTask_CdcStartTime(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationTask_MigrationType(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationTask_ReplicationInstanceArn(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationTask_ReplicationTaskId(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationTask_ReplicationTaskSettings(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationTask_SourceEndpointArn(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationTask_TargetEndpointArn(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationTask_ReplicationTaskArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationTask_ReplicationTaskSettings(p *DmsReplicationTaskParameters, vals map[string]cty.Value) {
+	p.ReplicationTaskSettings = ctwhy.ValueAsString(vals["replication_task_settings"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationTask_SourceEndpointArn(p *DmsReplicationTaskParameters, vals map[string]cty.Value) {
+	p.SourceEndpointArn = ctwhy.ValueAsString(vals["source_endpoint_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -70,11 +80,6 @@ func DecodeDmsReplicationTask_Tags(p *DmsReplicationTaskParameters, vals map[str
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationTask_TargetEndpointArn(p *DmsReplicationTaskParameters, vals map[string]cty.Value) {
-	p.TargetEndpointArn = ctwhy.ValueAsString(vals["target_endpoint_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -98,13 +103,8 @@ func DecodeDmsReplicationTask_ReplicationTaskId(p *DmsReplicationTaskParameters,
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDmsReplicationTask_ReplicationTaskSettings(p *DmsReplicationTaskParameters, vals map[string]cty.Value) {
-	p.ReplicationTaskSettings = ctwhy.ValueAsString(vals["replication_task_settings"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationTask_SourceEndpointArn(p *DmsReplicationTaskParameters, vals map[string]cty.Value) {
-	p.SourceEndpointArn = ctwhy.ValueAsString(vals["source_endpoint_arn"])
+func DecodeDmsReplicationTask_TargetEndpointArn(p *DmsReplicationTaskParameters, vals map[string]cty.Value) {
+	p.TargetEndpointArn = ctwhy.ValueAsString(vals["target_endpoint_arn"])
 }
 
 //primitiveTypeDecodeTemplate

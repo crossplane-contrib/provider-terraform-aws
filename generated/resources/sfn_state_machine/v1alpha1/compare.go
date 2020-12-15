@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeSfnStateMachine_Definition(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeSfnStateMachine_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,7 +51,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSfnStateMachine_Definition(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSfnStateMachine_CreationDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,11 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSfnStateMachine_CreationDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -74,6 +74,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSfnStateMachine_Definition(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
+	if k.Definition != p.Definition {
+		p.Definition = k.Definition
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -106,11 +116,11 @@ func MergeSfnStateMachine_Tags(k *SfnStateMachineParameters, p *SfnStateMachineP
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeSfnStateMachine_Definition(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
-	if k.Definition != p.Definition {
-		p.Definition = k.Definition
-		md.NeedsProviderUpdate = true
+//mergePrimitiveTemplateStatus
+func MergeSfnStateMachine_CreationDate(k *SfnStateMachineObservation, p *SfnStateMachineObservation, md *plugin.MergeDescription) bool {
+	if k.CreationDate != p.CreationDate {
+		k.CreationDate = p.CreationDate
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -130,16 +140,6 @@ func MergeSfnStateMachine_Status(k *SfnStateMachineObservation, p *SfnStateMachi
 func MergeSfnStateMachine_Arn(k *SfnStateMachineObservation, p *SfnStateMachineObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeSfnStateMachine_CreationDate(k *SfnStateMachineObservation, p *SfnStateMachineObservation, md *plugin.MergeDescription) bool {
-	if k.CreationDate != p.CreationDate {
-		k.CreationDate = p.CreationDate
 		md.StatusUpdated = true
 		return true
 	}

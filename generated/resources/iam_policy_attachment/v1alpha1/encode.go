@@ -37,36 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamPolicyAttachment(r IamPolicyAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamPolicyAttachment_Roles(r.Spec.ForProvider, ctyVal)
+	EncodeIamPolicyAttachment_Users(r.Spec.ForProvider, ctyVal)
 	EncodeIamPolicyAttachment_Groups(r.Spec.ForProvider, ctyVal)
 	EncodeIamPolicyAttachment_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamPolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
-	EncodeIamPolicyAttachment_Roles(r.Spec.ForProvider, ctyVal)
-	EncodeIamPolicyAttachment_Users(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamPolicyAttachment_Groups(p IamPolicyAttachmentParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Groups {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["groups"] = cty.SetVal(colVals)
-}
-
-func EncodeIamPolicyAttachment_Name(p IamPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeIamPolicyAttachment_PolicyArn(p IamPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["policy_arn"] = cty.StringVal(p.PolicyArn)
 }
 
 func EncodeIamPolicyAttachment_Roles(p IamPolicyAttachmentParameters, vals map[string]cty.Value) {
@@ -83,4 +65,20 @@ func EncodeIamPolicyAttachment_Users(p IamPolicyAttachmentParameters, vals map[s
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["users"] = cty.SetVal(colVals)
+}
+
+func EncodeIamPolicyAttachment_Groups(p IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Groups {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["groups"] = cty.SetVal(colVals)
+}
+
+func EncodeIamPolicyAttachment_Name(p IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeIamPolicyAttachment_PolicyArn(p IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	vals["policy_arn"] = cty.StringVal(p.PolicyArn)
 }

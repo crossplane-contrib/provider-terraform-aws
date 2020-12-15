@@ -39,18 +39,23 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRedshiftSnapshotSchedule(prev *RedshiftSnapshotSchedule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeRedshiftSnapshotSchedule_ForceDestroy(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Identifier(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_IdentifierPrefix(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Tags(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Definitions(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Description(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftSnapshotSchedule_ForceDestroy(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftSnapshotSchedule_ForceDestroy(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -86,11 +91,6 @@ func DecodeRedshiftSnapshotSchedule_Definitions(p *RedshiftSnapshotScheduleParam
 //primitiveTypeDecodeTemplate
 func DecodeRedshiftSnapshotSchedule_Description(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRedshiftSnapshotSchedule_ForceDestroy(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
 }
 
 //primitiveTypeDecodeTemplate

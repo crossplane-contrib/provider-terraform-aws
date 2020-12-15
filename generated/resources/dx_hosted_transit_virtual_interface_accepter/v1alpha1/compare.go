@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -67,6 +67,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(k *DxHostedTransitVirtualInterfaceAccepterParameters, p *DxHostedTransitVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.VirtualInterfaceId != p.VirtualInterfaceId {
+		p.VirtualInterfaceId = k.VirtualInterfaceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(k *DxHostedTransitVirtualInterfaceAccepterParameters, p *DxHostedTransitVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
 	if k.DxGatewayId != p.DxGatewayId {
 		p.DxGatewayId = k.DxGatewayId
@@ -86,26 +96,16 @@ func MergeDxHostedTransitVirtualInterfaceAccepter_Tags(k *DxHostedTransitVirtual
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(k *DxHostedTransitVirtualInterfaceAccepterParameters, p *DxHostedTransitVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.VirtualInterfaceId != p.VirtualInterfaceId {
-		p.VirtualInterfaceId = k.VirtualInterfaceId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergeStructTemplateSpec
 func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k, p, md)
+	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k, p, md)
+	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -117,9 +117,9 @@ func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts(k *Timeouts, p *Timeo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Delete != p.Delete {
-		p.Delete = k.Delete
+func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -127,9 +127,9 @@ func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k *Timeouts, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
+func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Delete != p.Delete {
+		p.Delete = k.Delete
 		md.NeedsProviderUpdate = true
 		return true
 	}

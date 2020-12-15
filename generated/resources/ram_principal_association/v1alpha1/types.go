@@ -52,8 +52,8 @@ type RamPrincipalAssociationSpec struct {
 
 // A RamPrincipalAssociationParameters defines the desired state of a RamPrincipalAssociation
 type RamPrincipalAssociationParameters struct {
-	Principal        string `json:"principal"`
 	ResourceShareArn string `json:"resource_share_arn"`
+	Principal        string `json:"principal"`
 }
 
 // A RamPrincipalAssociationStatus defines the observed state of a RamPrincipalAssociation

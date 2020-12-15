@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeGlueWorkflow_MaxConcurrentRuns(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeGlueWorkflow_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,11 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGlueWorkflow_MaxConcurrentRuns(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGlueWorkflow_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -69,6 +69,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeGlueWorkflow_MaxConcurrentRuns(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
+	if k.MaxConcurrentRuns != p.MaxConcurrentRuns {
+		p.MaxConcurrentRuns = k.MaxConcurrentRuns
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -105,16 +115,6 @@ func MergeGlueWorkflow_DefaultRunProperties(k *GlueWorkflowParameters, p *GlueWo
 func MergeGlueWorkflow_Description(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGlueWorkflow_MaxConcurrentRuns(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
-	if k.MaxConcurrentRuns != p.MaxConcurrentRuns {
-		p.MaxConcurrentRuns = k.MaxConcurrentRuns
 		md.NeedsProviderUpdate = true
 		return true
 	}

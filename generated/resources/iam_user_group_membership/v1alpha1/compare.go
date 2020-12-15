@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamUserGroupMembership_Groups(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamUserGroupMembership_User(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamUserGroupMembership_User(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamUserGroupMembership_Groups(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -52,20 +52,20 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeIamUserGroupMembership_Groups(k *IamUserGroupMembershipParameters, p *IamUserGroupMembershipParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Groups, p.Groups) {
-		p.Groups = k.Groups
+//mergePrimitiveTemplateSpec
+func MergeIamUserGroupMembership_User(k *IamUserGroupMembershipParameters, p *IamUserGroupMembershipParameters, md *plugin.MergeDescription) bool {
+	if k.User != p.User {
+		p.User = k.User
 		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeIamUserGroupMembership_User(k *IamUserGroupMembershipParameters, p *IamUserGroupMembershipParameters, md *plugin.MergeDescription) bool {
-	if k.User != p.User {
-		p.User = k.User
+//mergePrimitiveContainerTemplateSpec
+func MergeIamUserGroupMembership_Groups(k *IamUserGroupMembershipParameters, p *IamUserGroupMembershipParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Groups, p.Groups) {
+		p.Groups = k.Groups
 		md.NeedsProviderUpdate = true
 		return true
 	}

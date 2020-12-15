@@ -56,12 +56,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultSubnet_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDefaultSubnet_Ipv6CidrBlock(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultSubnet_AssignIpv6AddressOnCreation(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDefaultSubnet_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,17 +71,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultSubnet_AvailabilityZoneId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDefaultSubnet_CidrBlock(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultSubnet_Ipv6CidrBlock(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDefaultSubnet_AssignIpv6AddressOnCreation(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDefaultSubnet_AvailabilityZoneId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,7 +91,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultSubnet_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDefaultSubnet_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -187,9 +187,9 @@ func MergeDefaultSubnet_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.Mer
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDefaultSubnet_Arn(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeDefaultSubnet_Ipv6CidrBlock(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
+	if k.Ipv6CidrBlock != p.Ipv6CidrBlock {
+		k.Ipv6CidrBlock = p.Ipv6CidrBlock
 		md.StatusUpdated = true
 		return true
 	}
@@ -197,9 +197,9 @@ func MergeDefaultSubnet_Arn(k *DefaultSubnetObservation, p *DefaultSubnetObserva
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDefaultSubnet_AssignIpv6AddressOnCreation(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
-	if k.AssignIpv6AddressOnCreation != p.AssignIpv6AddressOnCreation {
-		k.AssignIpv6AddressOnCreation = p.AssignIpv6AddressOnCreation
+func MergeDefaultSubnet_OwnerId(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
+	if k.OwnerId != p.OwnerId {
+		k.OwnerId = p.OwnerId
 		md.StatusUpdated = true
 		return true
 	}
@@ -217,16 +217,6 @@ func MergeDefaultSubnet_VpcId(k *DefaultSubnetObservation, p *DefaultSubnetObser
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDefaultSubnet_AvailabilityZoneId(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZoneId != p.AvailabilityZoneId {
-		k.AvailabilityZoneId = p.AvailabilityZoneId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeDefaultSubnet_CidrBlock(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
 	if k.CidrBlock != p.CidrBlock {
 		k.CidrBlock = p.CidrBlock
@@ -237,9 +227,19 @@ func MergeDefaultSubnet_CidrBlock(k *DefaultSubnetObservation, p *DefaultSubnetO
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDefaultSubnet_Ipv6CidrBlock(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
-	if k.Ipv6CidrBlock != p.Ipv6CidrBlock {
-		k.Ipv6CidrBlock = p.Ipv6CidrBlock
+func MergeDefaultSubnet_AssignIpv6AddressOnCreation(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
+	if k.AssignIpv6AddressOnCreation != p.AssignIpv6AddressOnCreation {
+		k.AssignIpv6AddressOnCreation = p.AssignIpv6AddressOnCreation
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDefaultSubnet_AvailabilityZoneId(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZoneId != p.AvailabilityZoneId {
+		k.AvailabilityZoneId = p.AvailabilityZoneId
 		md.StatusUpdated = true
 		return true
 	}
@@ -257,9 +257,9 @@ func MergeDefaultSubnet_Ipv6CidrBlockAssociationId(k *DefaultSubnetObservation, 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDefaultSubnet_OwnerId(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
-	if k.OwnerId != p.OwnerId {
-		k.OwnerId = p.OwnerId
+func MergeDefaultSubnet_Arn(k *DefaultSubnetObservation, p *DefaultSubnetObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

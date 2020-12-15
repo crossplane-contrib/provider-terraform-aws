@@ -39,15 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSecurityhubActionTarget(prev *SecurityhubActionTarget, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeSecurityhubActionTarget_Name(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Description(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Identifier(&new.Spec.ForProvider, valMap)
-	DecodeSecurityhubActionTarget_Name(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSecurityhubActionTarget_Name(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -58,11 +63,6 @@ func DecodeSecurityhubActionTarget_Description(p *SecurityhubActionTargetParamet
 //primitiveTypeDecodeTemplate
 func DecodeSecurityhubActionTarget_Identifier(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	p.Identifier = ctwhy.ValueAsString(vals["identifier"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSecurityhubActionTarget_Name(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate

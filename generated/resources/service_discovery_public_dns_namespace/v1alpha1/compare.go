@@ -46,12 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeServiceDiscoveryPublicDnsNamespace_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServiceDiscoveryPublicDnsNamespace_HostedZone(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeServiceDiscoveryPublicDnsNamespace_HostedZone(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServiceDiscoveryPublicDnsNamespace_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,9 +97,9 @@ func MergeServiceDiscoveryPublicDnsNamespace_Tags(k *ServiceDiscoveryPublicDnsNa
 }
 
 //mergePrimitiveTemplateStatus
-func MergeServiceDiscoveryPublicDnsNamespace_Arn(k *ServiceDiscoveryPublicDnsNamespaceObservation, p *ServiceDiscoveryPublicDnsNamespaceObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeServiceDiscoveryPublicDnsNamespace_HostedZone(k *ServiceDiscoveryPublicDnsNamespaceObservation, p *ServiceDiscoveryPublicDnsNamespaceObservation, md *plugin.MergeDescription) bool {
+	if k.HostedZone != p.HostedZone {
+		k.HostedZone = p.HostedZone
 		md.StatusUpdated = true
 		return true
 	}
@@ -107,9 +107,9 @@ func MergeServiceDiscoveryPublicDnsNamespace_Arn(k *ServiceDiscoveryPublicDnsNam
 }
 
 //mergePrimitiveTemplateStatus
-func MergeServiceDiscoveryPublicDnsNamespace_HostedZone(k *ServiceDiscoveryPublicDnsNamespaceObservation, p *ServiceDiscoveryPublicDnsNamespaceObservation, md *plugin.MergeDescription) bool {
-	if k.HostedZone != p.HostedZone {
-		k.HostedZone = p.HostedZone
+func MergeServiceDiscoveryPublicDnsNamespace_Arn(k *ServiceDiscoveryPublicDnsNamespaceObservation, p *ServiceDiscoveryPublicDnsNamespaceObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

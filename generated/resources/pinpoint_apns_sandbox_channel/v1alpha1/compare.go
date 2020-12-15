@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergePinpointApnsSandboxChannel_Certificate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsSandboxChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergePinpointApnsSandboxChannel_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsSandboxChannel_TokenKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsSandboxChannel_TokenKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,7 +56,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsSandboxChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,12 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsSandboxChannel_TokenKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsSandboxChannel_Certificate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsSandboxChannel_TokenKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -88,29 +88,29 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_Certificate(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Certificate != p.Certificate {
-		p.Certificate = k.Certificate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_Enabled(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Enabled != p.Enabled {
-		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergePinpointApnsSandboxChannel_PrivateKey(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
 	if k.PrivateKey != p.PrivateKey {
 		p.PrivateKey = k.PrivateKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsSandboxChannel_TokenKey(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TokenKey != p.TokenKey {
+		p.TokenKey = k.TokenKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsSandboxChannel_TokenKeyId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TokenKeyId != p.TokenKeyId {
+		p.TokenKeyId = k.TokenKeyId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -138,9 +138,9 @@ func MergePinpointApnsSandboxChannel_BundleId(k *PinpointApnsSandboxChannelParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.DefaultAuthenticationMethod != p.DefaultAuthenticationMethod {
-		p.DefaultAuthenticationMethod = k.DefaultAuthenticationMethod
+func MergePinpointApnsSandboxChannel_Enabled(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -158,9 +158,9 @@ func MergePinpointApnsSandboxChannel_TeamId(k *PinpointApnsSandboxChannelParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_TokenKey(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TokenKey != p.TokenKey {
-		p.TokenKey = k.TokenKey
+func MergePinpointApnsSandboxChannel_Certificate(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Certificate != p.Certificate {
+		p.Certificate = k.Certificate
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -168,9 +168,9 @@ func MergePinpointApnsSandboxChannel_TokenKey(k *PinpointApnsSandboxChannelParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_TokenKeyId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TokenKeyId != p.TokenKeyId {
-		p.TokenKeyId = k.TokenKeyId
+func MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.DefaultAuthenticationMethod != p.DefaultAuthenticationMethod {
+		p.DefaultAuthenticationMethod = k.DefaultAuthenticationMethod
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -37,24 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2ClientVpnAuthorizationRule(r Ec2ClientVpnAuthorizationRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnAuthorizationRule_AccessGroupId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnAuthorizationRule_AuthorizeAllGroups(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnAuthorizationRule_Description(r.Spec.ForProvider, ctyVal)
+	EncodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
-	vals["target_network_cidr"] = cty.StringVal(p.TargetNetworkCidr)
 }
 
 func EncodeEc2ClientVpnAuthorizationRule_AccessGroupId(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
@@ -71,4 +65,8 @@ func EncodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(p Ec2ClientVpnAutho
 
 func EncodeEc2ClientVpnAuthorizationRule_Description(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(p Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	vals["target_network_cidr"] = cty.StringVal(p.TargetNetworkCidr)
 }

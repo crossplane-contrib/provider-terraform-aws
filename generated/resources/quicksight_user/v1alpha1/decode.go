@@ -39,14 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeQuicksightUser(prev *QuicksightUser, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeQuicksightUser_IamArn(&new.Spec.ForProvider, valMap)
-	DecodeQuicksightUser_IdentityType(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightUser_SessionName(&new.Spec.ForProvider, valMap)
-	DecodeQuicksightUser_UserName(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightUser_UserRole(&new.Spec.ForProvider, valMap)
-	DecodeQuicksightUser_AwsAccountId(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightUser_Email(&new.Spec.ForProvider, valMap)
+	DecodeQuicksightUser_IdentityType(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightUser_Namespace(&new.Spec.ForProvider, valMap)
+	DecodeQuicksightUser_UserName(&new.Spec.ForProvider, valMap)
+	DecodeQuicksightUser_AwsAccountId(&new.Spec.ForProvider, valMap)
+	DecodeQuicksightUser_IamArn(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightUser_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -56,23 +56,8 @@ func DecodeQuicksightUser(prev *QuicksightUser, ctyValue cty.Value) (resource.Ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeQuicksightUser_IamArn(p *QuicksightUserParameters, vals map[string]cty.Value) {
-	p.IamArn = ctwhy.ValueAsString(vals["iam_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeQuicksightUser_IdentityType(p *QuicksightUserParameters, vals map[string]cty.Value) {
-	p.IdentityType = ctwhy.ValueAsString(vals["identity_type"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeQuicksightUser_SessionName(p *QuicksightUserParameters, vals map[string]cty.Value) {
 	p.SessionName = ctwhy.ValueAsString(vals["session_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeQuicksightUser_UserName(p *QuicksightUserParameters, vals map[string]cty.Value) {
-	p.UserName = ctwhy.ValueAsString(vals["user_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,18 +66,33 @@ func DecodeQuicksightUser_UserRole(p *QuicksightUserParameters, vals map[string]
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeQuicksightUser_AwsAccountId(p *QuicksightUserParameters, vals map[string]cty.Value) {
-	p.AwsAccountId = ctwhy.ValueAsString(vals["aws_account_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeQuicksightUser_Email(p *QuicksightUserParameters, vals map[string]cty.Value) {
 	p.Email = ctwhy.ValueAsString(vals["email"])
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeQuicksightUser_IdentityType(p *QuicksightUserParameters, vals map[string]cty.Value) {
+	p.IdentityType = ctwhy.ValueAsString(vals["identity_type"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeQuicksightUser_Namespace(p *QuicksightUserParameters, vals map[string]cty.Value) {
 	p.Namespace = ctwhy.ValueAsString(vals["namespace"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeQuicksightUser_UserName(p *QuicksightUserParameters, vals map[string]cty.Value) {
+	p.UserName = ctwhy.ValueAsString(vals["user_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeQuicksightUser_AwsAccountId(p *QuicksightUserParameters, vals map[string]cty.Value) {
+	p.AwsAccountId = ctwhy.ValueAsString(vals["aws_account_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeQuicksightUser_IamArn(p *QuicksightUserParameters, vals map[string]cty.Value) {
+	p.IamArn = ctwhy.ValueAsString(vals["iam_arn"])
 }
 
 //primitiveTypeDecodeTemplate

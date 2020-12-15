@@ -39,30 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDmsReplicationInstance(prev *DmsReplicationInstance, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDmsReplicationInstance_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_VpcSecurityGroupIds(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_AutoMinorVersionUpgrade(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_EngineVersion(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_MultiAz(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_AvailabilityZone(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_PreferredMaintenanceWindow(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_ReplicationSubnetGroupId(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_AllowMajorVersionUpgrade(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationInstance_ApplyImmediately(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_ReplicationInstanceId(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationInstance_KmsKeyArn(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationInstance_PubliclyAccessible(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_ReplicationInstanceId(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationInstance_AllocatedStorage(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationInstance_ReplicationInstanceClass(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_VpcSecurityGroupIds(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_AllowMajorVersionUpgrade(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_AutoMinorVersionUpgrade(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_EngineVersion(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_AllocatedStorage(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_MultiAz(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_PreferredMaintenanceWindow(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationInstance_ReplicationSubnetGroupId(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationInstance_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeDmsReplicationInstance_ReplicationInstancePrivateIps(&new.Status.AtProvider, valMap)
-	DecodeDmsReplicationInstance_ReplicationInstanceArn(&new.Status.AtProvider, valMap)
 	DecodeDmsReplicationInstance_ReplicationInstancePublicIps(&new.Status.AtProvider, valMap)
+	DecodeDmsReplicationInstance_ReplicationInstanceArn(&new.Status.AtProvider, valMap)
+	DecodeDmsReplicationInstance_ReplicationInstancePrivateIps(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationInstance_ApplyImmediately(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.ApplyImmediately = ctwhy.ValueAsBool(vals["apply_immediately"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationInstance_ReplicationInstanceId(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.ReplicationInstanceId = ctwhy.ValueAsString(vals["replication_instance_id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -76,53 +86,9 @@ func DecodeDmsReplicationInstance_Tags(p *DmsReplicationInstanceParameters, vals
 	p.Tags = vMap
 }
 
-//primitiveCollectionTypeDecodeTemplate
-func DecodeDmsReplicationInstance_VpcSecurityGroupIds(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["vpc_security_group_ids"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.VpcSecurityGroupIds = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_AutoMinorVersionUpgrade(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.AutoMinorVersionUpgrade = ctwhy.ValueAsBool(vals["auto_minor_version_upgrade"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_EngineVersion(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_MultiAz(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.MultiAz = ctwhy.ValueAsBool(vals["multi_az"])
-}
-
 //primitiveTypeDecodeTemplate
 func DecodeDmsReplicationInstance_AvailabilityZone(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
 	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_PreferredMaintenanceWindow(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.PreferredMaintenanceWindow = ctwhy.ValueAsString(vals["preferred_maintenance_window"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_ReplicationSubnetGroupId(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.ReplicationSubnetGroupId = ctwhy.ValueAsString(vals["replication_subnet_group_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_AllowMajorVersionUpgrade(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.AllowMajorVersionUpgrade = ctwhy.ValueAsBool(vals["allow_major_version_upgrade"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_ApplyImmediately(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.ApplyImmediately = ctwhy.ValueAsBool(vals["apply_immediately"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -136,8 +102,32 @@ func DecodeDmsReplicationInstance_PubliclyAccessible(p *DmsReplicationInstancePa
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_ReplicationInstanceId(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.ReplicationInstanceId = ctwhy.ValueAsString(vals["replication_instance_id"])
+func DecodeDmsReplicationInstance_ReplicationInstanceClass(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.ReplicationInstanceClass = ctwhy.ValueAsString(vals["replication_instance_class"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeDmsReplicationInstance_VpcSecurityGroupIds(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["vpc_security_group_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.VpcSecurityGroupIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationInstance_AllowMajorVersionUpgrade(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.AllowMajorVersionUpgrade = ctwhy.ValueAsBool(vals["allow_major_version_upgrade"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationInstance_AutoMinorVersionUpgrade(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.AutoMinorVersionUpgrade = ctwhy.ValueAsBool(vals["auto_minor_version_upgrade"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationInstance_EngineVersion(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -146,8 +136,18 @@ func DecodeDmsReplicationInstance_AllocatedStorage(p *DmsReplicationInstancePara
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDmsReplicationInstance_ReplicationInstanceClass(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
-	p.ReplicationInstanceClass = ctwhy.ValueAsString(vals["replication_instance_class"])
+func DecodeDmsReplicationInstance_MultiAz(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.MultiAz = ctwhy.ValueAsBool(vals["multi_az"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationInstance_PreferredMaintenanceWindow(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.PreferredMaintenanceWindow = ctwhy.ValueAsString(vals["preferred_maintenance_window"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationInstance_ReplicationSubnetGroupId(p *DmsReplicationInstanceParameters, vals map[string]cty.Value) {
+	p.ReplicationSubnetGroupId = ctwhy.ValueAsString(vals["replication_subnet_group_id"])
 }
 
 //containerTypeDecodeTemplate
@@ -174,12 +174,12 @@ func DecodeDmsReplicationInstance_Timeouts_Update(p *Timeouts, vals map[string]c
 }
 
 //primitiveCollectionTypeDecodeTemplate
-func DecodeDmsReplicationInstance_ReplicationInstancePrivateIps(p *DmsReplicationInstanceObservation, vals map[string]cty.Value) {
+func DecodeDmsReplicationInstance_ReplicationInstancePublicIps(p *DmsReplicationInstanceObservation, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["replication_instance_private_ips"]) {
+	for _, value := range ctwhy.ValueAsList(vals["replication_instance_public_ips"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
-	p.ReplicationInstancePrivateIps = goVals
+	p.ReplicationInstancePublicIps = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -188,10 +188,10 @@ func DecodeDmsReplicationInstance_ReplicationInstanceArn(p *DmsReplicationInstan
 }
 
 //primitiveCollectionTypeDecodeTemplate
-func DecodeDmsReplicationInstance_ReplicationInstancePublicIps(p *DmsReplicationInstanceObservation, vals map[string]cty.Value) {
+func DecodeDmsReplicationInstance_ReplicationInstancePrivateIps(p *DmsReplicationInstanceObservation, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["replication_instance_public_ips"]) {
+	for _, value := range ctwhy.ValueAsList(vals["replication_instance_private_ips"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
-	p.ReplicationInstancePublicIps = goVals
+	p.ReplicationInstancePrivateIps = goVals
 }

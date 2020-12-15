@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVpcIpv4CidrBlockAssociation_CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpcIpv4CidrBlockAssociation_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcIpv4CidrBlockAssociation_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpcIpv4CidrBlockAssociation_CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,9 +58,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpcIpv4CidrBlockAssociation_CidrBlock(k *VpcIpv4CidrBlockAssociationParameters, p *VpcIpv4CidrBlockAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.CidrBlock != p.CidrBlock {
-		p.CidrBlock = k.CidrBlock
+func MergeVpcIpv4CidrBlockAssociation_VpcId(k *VpcIpv4CidrBlockAssociationParameters, p *VpcIpv4CidrBlockAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -68,9 +68,9 @@ func MergeVpcIpv4CidrBlockAssociation_CidrBlock(k *VpcIpv4CidrBlockAssociationPa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpcIpv4CidrBlockAssociation_VpcId(k *VpcIpv4CidrBlockAssociationParameters, p *VpcIpv4CidrBlockAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		p.VpcId = k.VpcId
+func MergeVpcIpv4CidrBlockAssociation_CidrBlock(k *VpcIpv4CidrBlockAssociationParameters, p *VpcIpv4CidrBlockAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.CidrBlock != p.CidrBlock {
+		p.CidrBlock = k.CidrBlock
 		md.NeedsProviderUpdate = true
 		return true
 	}

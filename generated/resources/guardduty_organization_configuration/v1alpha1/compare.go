@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeGuarddutyOrganizationConfiguration_AutoEnable(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeGuarddutyOrganizationConfiguration_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyOrganizationConfiguration_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeGuarddutyOrganizationConfiguration_AutoEnable(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeGuarddutyOrganizationConfiguration_AutoEnable(k *GuarddutyOrganizationConfigurationParameters, p *GuarddutyOrganizationConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.AutoEnable != p.AutoEnable {
-		p.AutoEnable = k.AutoEnable
+func MergeGuarddutyOrganizationConfiguration_DetectorId(k *GuarddutyOrganizationConfigurationParameters, p *GuarddutyOrganizationConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.DetectorId != p.DetectorId {
+		p.DetectorId = k.DetectorId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeGuarddutyOrganizationConfiguration_AutoEnable(k *GuarddutyOrganization
 }
 
 //mergePrimitiveTemplateSpec
-func MergeGuarddutyOrganizationConfiguration_DetectorId(k *GuarddutyOrganizationConfigurationParameters, p *GuarddutyOrganizationConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.DetectorId != p.DetectorId {
-		p.DetectorId = k.DetectorId
+func MergeGuarddutyOrganizationConfiguration_AutoEnable(k *GuarddutyOrganizationConfigurationParameters, p *GuarddutyOrganizationConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.AutoEnable != p.AutoEnable {
+		p.AutoEnable = k.AutoEnable
 		md.NeedsProviderUpdate = true
 		return true
 	}

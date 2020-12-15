@@ -39,28 +39,38 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDefaultVpc(prev *DefaultVpc, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDefaultVpc_EnableClassiclink(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpc_EnableDnsHostnames(&new.Spec.ForProvider, valMap)
 	DecodeDefaultVpc_EnableDnsSupport(&new.Spec.ForProvider, valMap)
 	DecodeDefaultVpc_EnableClassiclinkDnsSupport(&new.Spec.ForProvider, valMap)
-	DecodeDefaultVpc_EnableDnsHostnames(&new.Spec.ForProvider, valMap)
-	DecodeDefaultVpc_EnableClassiclink(&new.Spec.ForProvider, valMap)
 	DecodeDefaultVpc_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpc_DhcpOptionsId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpc_CidrBlock(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpc_DefaultRouteTableId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpc_DefaultSecurityGroupId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpc_Ipv6AssociationId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpc_MainRouteTableId(&new.Status.AtProvider, valMap)
-	DecodeDefaultVpc_DefaultRouteTableId(&new.Status.AtProvider, valMap)
-	DecodeDefaultVpc_OwnerId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpc_Arn(&new.Status.AtProvider, valMap)
-	DecodeDefaultVpc_DefaultNetworkAclId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpc_InstanceTenancy(&new.Status.AtProvider, valMap)
-	DecodeDefaultVpc_AssignGeneratedIpv6CidrBlock(&new.Status.AtProvider, valMap)
-	DecodeDefaultVpc_DhcpOptionsId(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpc_DefaultNetworkAclId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpc_Ipv6CidrBlock(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpc_OwnerId(&new.Status.AtProvider, valMap)
+	DecodeDefaultVpc_AssignGeneratedIpv6CidrBlock(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDefaultVpc_EnableClassiclink(p *DefaultVpcParameters, vals map[string]cty.Value) {
+	p.EnableClassiclink = ctwhy.ValueAsBool(vals["enable_classiclink"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDefaultVpc_EnableDnsHostnames(p *DefaultVpcParameters, vals map[string]cty.Value) {
+	p.EnableDnsHostnames = ctwhy.ValueAsBool(vals["enable_dns_hostnames"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -71,16 +81,6 @@ func DecodeDefaultVpc_EnableDnsSupport(p *DefaultVpcParameters, vals map[string]
 //primitiveTypeDecodeTemplate
 func DecodeDefaultVpc_EnableClassiclinkDnsSupport(p *DefaultVpcParameters, vals map[string]cty.Value) {
 	p.EnableClassiclinkDnsSupport = ctwhy.ValueAsBool(vals["enable_classiclink_dns_support"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDefaultVpc_EnableDnsHostnames(p *DefaultVpcParameters, vals map[string]cty.Value) {
-	p.EnableDnsHostnames = ctwhy.ValueAsBool(vals["enable_dns_hostnames"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDefaultVpc_EnableClassiclink(p *DefaultVpcParameters, vals map[string]cty.Value) {
-	p.EnableClassiclink = ctwhy.ValueAsBool(vals["enable_classiclink"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -95,8 +95,18 @@ func DecodeDefaultVpc_Tags(p *DefaultVpcParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeDefaultVpc_DhcpOptionsId(p *DefaultVpcObservation, vals map[string]cty.Value) {
+	p.DhcpOptionsId = ctwhy.ValueAsString(vals["dhcp_options_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDefaultVpc_CidrBlock(p *DefaultVpcObservation, vals map[string]cty.Value) {
 	p.CidrBlock = ctwhy.ValueAsString(vals["cidr_block"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDefaultVpc_DefaultRouteTableId(p *DefaultVpcObservation, vals map[string]cty.Value) {
+	p.DefaultRouteTableId = ctwhy.ValueAsString(vals["default_route_table_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -115,23 +125,8 @@ func DecodeDefaultVpc_MainRouteTableId(p *DefaultVpcObservation, vals map[string
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultVpc_DefaultRouteTableId(p *DefaultVpcObservation, vals map[string]cty.Value) {
-	p.DefaultRouteTableId = ctwhy.ValueAsString(vals["default_route_table_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDefaultVpc_OwnerId(p *DefaultVpcObservation, vals map[string]cty.Value) {
-	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDefaultVpc_Arn(p *DefaultVpcObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDefaultVpc_DefaultNetworkAclId(p *DefaultVpcObservation, vals map[string]cty.Value) {
-	p.DefaultNetworkAclId = ctwhy.ValueAsString(vals["default_network_acl_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -140,16 +135,21 @@ func DecodeDefaultVpc_InstanceTenancy(p *DefaultVpcObservation, vals map[string]
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultVpc_AssignGeneratedIpv6CidrBlock(p *DefaultVpcObservation, vals map[string]cty.Value) {
-	p.AssignGeneratedIpv6CidrBlock = ctwhy.ValueAsBool(vals["assign_generated_ipv6_cidr_block"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDefaultVpc_DhcpOptionsId(p *DefaultVpcObservation, vals map[string]cty.Value) {
-	p.DhcpOptionsId = ctwhy.ValueAsString(vals["dhcp_options_id"])
+func DecodeDefaultVpc_DefaultNetworkAclId(p *DefaultVpcObservation, vals map[string]cty.Value) {
+	p.DefaultNetworkAclId = ctwhy.ValueAsString(vals["default_network_acl_id"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDefaultVpc_Ipv6CidrBlock(p *DefaultVpcObservation, vals map[string]cty.Value) {
 	p.Ipv6CidrBlock = ctwhy.ValueAsString(vals["ipv6_cidr_block"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDefaultVpc_OwnerId(p *DefaultVpcObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDefaultVpc_AssignGeneratedIpv6CidrBlock(p *DefaultVpcObservation, vals map[string]cty.Value) {
+	p.AssignGeneratedIpv6CidrBlock = ctwhy.ValueAsBool(vals["assign_generated_ipv6_cidr_block"])
 }

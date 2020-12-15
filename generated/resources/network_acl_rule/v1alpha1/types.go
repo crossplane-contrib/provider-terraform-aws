@@ -52,17 +52,17 @@ type NetworkAclRuleSpec struct {
 
 // A NetworkAclRuleParameters defines the desired state of a NetworkAclRule
 type NetworkAclRuleParameters struct {
-	Protocol      string `json:"protocol"`
+	FromPort      int64  `json:"from_port"`
+	IcmpType      string `json:"icmp_type"`
+	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
 	RuleNumber    int64  `json:"rule_number"`
+	ToPort        int64  `json:"to_port"`
 	CidrBlock     string `json:"cidr_block"`
 	IcmpCode      string `json:"icmp_code"`
 	NetworkAclId  string `json:"network_acl_id"`
-	Ipv6CidrBlock string `json:"ipv6_cidr_block"`
+	Protocol      string `json:"protocol"`
 	RuleAction    string `json:"rule_action"`
-	ToPort        int64  `json:"to_port"`
 	Egress        bool   `json:"egress"`
-	FromPort      int64  `json:"from_port"`
-	IcmpType      string `json:"icmp_type"`
 }
 
 // A NetworkAclRuleStatus defines the observed state of a NetworkAclRule

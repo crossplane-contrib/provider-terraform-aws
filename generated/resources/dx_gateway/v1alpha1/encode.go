@@ -45,9 +45,7 @@ func EncodeDxGateway(r DxGateway) cty.Value {
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -61,17 +59,17 @@ func EncodeDxGateway_Name(p DxGatewayParameters, vals map[string]cty.Value) {
 
 func EncodeDxGateway_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxGateway_Timeouts_Delete(p, ctyVal)
 	EncodeDxGateway_Timeouts_Create(p, ctyVal)
+	EncodeDxGateway_Timeouts_Delete(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxGateway_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
-	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeDxGateway_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
 	vals["create"] = cty.StringVal(p.Create)
+}
+
+func EncodeDxGateway_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
+	vals["delete"] = cty.StringVal(p.Delete)
 }
 
 func EncodeDxGateway_OwnerAccountId(p DxGatewayObservation, vals map[string]cty.Value) {

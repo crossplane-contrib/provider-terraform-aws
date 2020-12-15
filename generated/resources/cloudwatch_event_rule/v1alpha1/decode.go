@@ -42,11 +42,11 @@ func DecodeCloudwatchEventRule(prev *CloudwatchEventRule, ctyValue cty.Value) (r
 	DecodeCloudwatchEventRule_EventPattern(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_IsEnabled(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchEventRule_ScheduleExpression(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchEventRule_Description(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchEventRule_ScheduleExpression(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_Tags(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchEventRule_Description(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -71,6 +71,16 @@ func DecodeCloudwatchEventRule_RoleArn(p *CloudwatchEventRuleParameters, vals ma
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeCloudwatchEventRule_ScheduleExpression(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	p.ScheduleExpression = ctwhy.ValueAsString(vals["schedule_expression"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchEventRule_Description(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchEventRule_Name(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
@@ -78,11 +88,6 @@ func DecodeCloudwatchEventRule_Name(p *CloudwatchEventRuleParameters, vals map[s
 //primitiveTypeDecodeTemplate
 func DecodeCloudwatchEventRule_NamePrefix(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchEventRule_ScheduleExpression(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	p.ScheduleExpression = ctwhy.ValueAsString(vals["schedule_expression"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -94,11 +99,6 @@ func DecodeCloudwatchEventRule_Tags(p *CloudwatchEventRuleParameters, vals map[s
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchEventRule_Description(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate

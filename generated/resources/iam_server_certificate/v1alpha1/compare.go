@@ -31,21 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamServerCertificate_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamServerCertificate_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamServerCertificate_CertificateBody(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamServerCertificate_CertificateChain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,6 +51,21 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeIamServerCertificate_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamServerCertificate_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamServerCertificate_CertificateBody(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -75,36 +75,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_PrivateKey(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.PrivateKey != p.PrivateKey {
-		p.PrivateKey = k.PrivateKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_Arn(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		p.Arn = k.Arn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_CertificateBody(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.CertificateBody != p.CertificateBody {
-		p.CertificateBody = k.CertificateBody
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -141,6 +111,36 @@ func MergeIamServerCertificate_NamePrefix(k *IamServerCertificateParameters, p *
 func MergeIamServerCertificate_Path(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
 	if k.Path != p.Path {
 		p.Path = k.Path
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamServerCertificate_PrivateKey(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.PrivateKey != p.PrivateKey {
+		p.PrivateKey = k.PrivateKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamServerCertificate_Arn(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		p.Arn = k.Arn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamServerCertificate_CertificateBody(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.CertificateBody != p.CertificateBody {
+		p.CertificateBody = k.CertificateBody
 		md.NeedsProviderUpdate = true
 		return true
 	}

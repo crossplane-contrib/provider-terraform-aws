@@ -39,17 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSsmMaintenanceWindow(prev *SsmMaintenanceWindow, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSsmMaintenanceWindow_AllowUnassociatedTargets(&new.Spec.ForProvider, valMap)
-	DecodeSsmMaintenanceWindow_Description(&new.Spec.ForProvider, valMap)
+	DecodeSsmMaintenanceWindow_Duration(&new.Spec.ForProvider, valMap)
+	DecodeSsmMaintenanceWindow_EndDate(&new.Spec.ForProvider, valMap)
+	DecodeSsmMaintenanceWindow_Name(&new.Spec.ForProvider, valMap)
 	DecodeSsmMaintenanceWindow_Tags(&new.Spec.ForProvider, valMap)
+	DecodeSsmMaintenanceWindow_Cutoff(&new.Spec.ForProvider, valMap)
+	DecodeSsmMaintenanceWindow_Description(&new.Spec.ForProvider, valMap)
 	DecodeSsmMaintenanceWindow_Schedule(&new.Spec.ForProvider, valMap)
 	DecodeSsmMaintenanceWindow_ScheduleTimezone(&new.Spec.ForProvider, valMap)
 	DecodeSsmMaintenanceWindow_StartDate(&new.Spec.ForProvider, valMap)
-	DecodeSsmMaintenanceWindow_Cutoff(&new.Spec.ForProvider, valMap)
-	DecodeSsmMaintenanceWindow_Duration(&new.Spec.ForProvider, valMap)
+	DecodeSsmMaintenanceWindow_AllowUnassociatedTargets(&new.Spec.ForProvider, valMap)
 	DecodeSsmMaintenanceWindow_Enabled(&new.Spec.ForProvider, valMap)
-	DecodeSsmMaintenanceWindow_EndDate(&new.Spec.ForProvider, valMap)
-	DecodeSsmMaintenanceWindow_Name(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -59,13 +59,18 @@ func DecodeSsmMaintenanceWindow(prev *SsmMaintenanceWindow, ctyValue cty.Value) 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSsmMaintenanceWindow_AllowUnassociatedTargets(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
-	p.AllowUnassociatedTargets = ctwhy.ValueAsBool(vals["allow_unassociated_targets"])
+func DecodeSsmMaintenanceWindow_Duration(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
+	p.Duration = ctwhy.ValueAsInt64(vals["duration"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSsmMaintenanceWindow_Description(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
+func DecodeSsmMaintenanceWindow_EndDate(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
+	p.EndDate = ctwhy.ValueAsString(vals["end_date"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmMaintenanceWindow_Name(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -77,6 +82,16 @@ func DecodeSsmMaintenanceWindow_Tags(p *SsmMaintenanceWindowParameters, vals map
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmMaintenanceWindow_Cutoff(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
+	p.Cutoff = ctwhy.ValueAsInt64(vals["cutoff"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmMaintenanceWindow_Description(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -95,26 +110,11 @@ func DecodeSsmMaintenanceWindow_StartDate(p *SsmMaintenanceWindowParameters, val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSsmMaintenanceWindow_Cutoff(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
-	p.Cutoff = ctwhy.ValueAsInt64(vals["cutoff"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmMaintenanceWindow_Duration(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
-	p.Duration = ctwhy.ValueAsInt64(vals["duration"])
+func DecodeSsmMaintenanceWindow_AllowUnassociatedTargets(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
+	p.AllowUnassociatedTargets = ctwhy.ValueAsBool(vals["allow_unassociated_targets"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeSsmMaintenanceWindow_Enabled(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmMaintenanceWindow_EndDate(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
-	p.EndDate = ctwhy.ValueAsString(vals["end_date"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmMaintenanceWindow_Name(p *SsmMaintenanceWindowParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }

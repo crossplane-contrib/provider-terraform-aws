@@ -37,18 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSecurityhubActionTarget(r SecurityhubActionTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSecurityhubActionTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Identifier(r.Spec.ForProvider, ctyVal)
-	EncodeSecurityhubActionTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSecurityhubActionTarget_Name(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSecurityhubActionTarget_Description(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
@@ -57,10 +59,6 @@ func EncodeSecurityhubActionTarget_Description(p SecurityhubActionTargetParamete
 
 func EncodeSecurityhubActionTarget_Identifier(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	vals["identifier"] = cty.StringVal(p.Identifier)
-}
-
-func EncodeSecurityhubActionTarget_Name(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSecurityhubActionTarget_Arn(p SecurityhubActionTargetObservation, vals map[string]cty.Value) {

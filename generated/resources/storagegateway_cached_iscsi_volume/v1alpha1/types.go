@@ -52,15 +52,15 @@ type StoragegatewayCachedIscsiVolumeSpec struct {
 
 // A StoragegatewayCachedIscsiVolumeParameters defines the desired state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeParameters struct {
-	KmsKey             string            `json:"kms_key"`
+	TargetName         string            `json:"target_name"`
 	NetworkInterfaceId string            `json:"network_interface_id"`
-	SourceVolumeArn    string            `json:"source_volume_arn"`
+	KmsEncrypted       bool              `json:"kms_encrypted"`
+	KmsKey             string            `json:"kms_key"`
 	VolumeSizeInBytes  int64             `json:"volume_size_in_bytes"`
 	GatewayArn         string            `json:"gateway_arn"`
-	Tags               map[string]string `json:"tags"`
-	KmsEncrypted       bool              `json:"kms_encrypted"`
 	SnapshotId         string            `json:"snapshot_id"`
-	TargetName         string            `json:"target_name"`
+	SourceVolumeArn    string            `json:"source_volume_arn"`
+	Tags               map[string]string `json:"tags"`
 }
 
 // A StoragegatewayCachedIscsiVolumeStatus defines the observed state of a StoragegatewayCachedIscsiVolume
@@ -71,11 +71,11 @@ type StoragegatewayCachedIscsiVolumeStatus struct {
 
 // A StoragegatewayCachedIscsiVolumeObservation records the observed state of a StoragegatewayCachedIscsiVolume
 type StoragegatewayCachedIscsiVolumeObservation struct {
-	Arn                  string `json:"arn"`
 	LunNumber            int64  `json:"lun_number"`
-	ChapEnabled          bool   `json:"chap_enabled"`
 	NetworkInterfacePort int64  `json:"network_interface_port"`
 	VolumeId             string `json:"volume_id"`
-	TargetArn            string `json:"target_arn"`
+	Arn                  string `json:"arn"`
 	VolumeArn            string `json:"volume_arn"`
+	ChapEnabled          bool   `json:"chap_enabled"`
+	TargetArn            string `json:"target_arn"`
 }

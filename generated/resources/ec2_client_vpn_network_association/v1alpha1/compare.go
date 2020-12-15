@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2ClientVpnNetworkAssociation_SecurityGroups(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2ClientVpnNetworkAssociation_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEc2ClientVpnNetworkAssociation_ClientVpnEndpointId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2ClientVpnNetworkAssociation_SecurityGroups(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,16 +71,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeEc2ClientVpnNetworkAssociation_SecurityGroups(k *Ec2ClientVpnNetworkAssociationParameters, p *Ec2ClientVpnNetworkAssociationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.SecurityGroups, p.SecurityGroups) {
-		p.SecurityGroups = k.SecurityGroups
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeEc2ClientVpnNetworkAssociation_SubnetId(k *Ec2ClientVpnNetworkAssociationParameters, p *Ec2ClientVpnNetworkAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.SubnetId != p.SubnetId {
@@ -95,6 +85,16 @@ func MergeEc2ClientVpnNetworkAssociation_SubnetId(k *Ec2ClientVpnNetworkAssociat
 func MergeEc2ClientVpnNetworkAssociation_ClientVpnEndpointId(k *Ec2ClientVpnNetworkAssociationParameters, p *Ec2ClientVpnNetworkAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.ClientVpnEndpointId != p.ClientVpnEndpointId {
 		p.ClientVpnEndpointId = k.ClientVpnEndpointId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2ClientVpnNetworkAssociation_SecurityGroups(k *Ec2ClientVpnNetworkAssociationParameters, p *Ec2ClientVpnNetworkAssociationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SecurityGroups, p.SecurityGroups) {
+		p.SecurityGroups = k.SecurityGroups
 		md.NeedsProviderUpdate = true
 		return true
 	}

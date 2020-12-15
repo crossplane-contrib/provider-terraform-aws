@@ -39,20 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDatapipelinePipeline(prev *DatapipelinePipeline, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDatapipelinePipeline_Description(&new.Spec.ForProvider, valMap)
 	DecodeDatapipelinePipeline_Name(&new.Spec.ForProvider, valMap)
 	DecodeDatapipelinePipeline_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDatapipelinePipeline_Description(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDatapipelinePipeline_Description(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,4 +64,9 @@ func DecodeDatapipelinePipeline_Tags(p *DatapipelinePipelineParameters, vals map
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDatapipelinePipeline_Description(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }

@@ -52,19 +52,19 @@ type CloudformationStackSpec struct {
 
 // A CloudformationStackParameters defines the desired state of a CloudformationStack
 type CloudformationStackParameters struct {
-	PolicyBody       string            `json:"policy_body"`
-	TimeoutInMinutes int64             `json:"timeout_in_minutes"`
+	Parameters       map[string]string `json:"parameters"`
+	PolicyUrl        string            `json:"policy_url"`
+	Tags             map[string]string `json:"tags"`
 	TemplateBody     string            `json:"template_body"`
 	TemplateUrl      string            `json:"template_url"`
-	IamRoleArn       string            `json:"iam_role_arn"`
-	OnFailure        string            `json:"on_failure"`
-	Tags             map[string]string `json:"tags"`
-	Parameters       map[string]string `json:"parameters"`
-	Capabilities     []string          `json:"capabilities"`
-	Name             string            `json:"name"`
 	NotificationArns []string          `json:"notification_arns"`
+	IamRoleArn       string            `json:"iam_role_arn"`
+	TimeoutInMinutes int64             `json:"timeout_in_minutes"`
+	Capabilities     []string          `json:"capabilities"`
+	PolicyBody       string            `json:"policy_body"`
+	OnFailure        string            `json:"on_failure"`
+	Name             string            `json:"name"`
 	DisableRollback  bool              `json:"disable_rollback"`
-	PolicyUrl        string            `json:"policy_url"`
 	Timeouts         Timeouts          `json:"timeouts"`
 }
 

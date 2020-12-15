@@ -43,8 +43,8 @@ func DecodeSecretsmanagerSecretVersion(prev *SecretsmanagerSecretVersion, ctyVal
 	DecodeSecretsmanagerSecretVersion_SecretId(&new.Spec.ForProvider, valMap)
 	DecodeSecretsmanagerSecretVersion_SecretString(&new.Spec.ForProvider, valMap)
 	DecodeSecretsmanagerSecretVersion_VersionStages(&new.Spec.ForProvider, valMap)
-	DecodeSecretsmanagerSecretVersion_Arn(&new.Status.AtProvider, valMap)
 	DecodeSecretsmanagerSecretVersion_VersionId(&new.Status.AtProvider, valMap)
+	DecodeSecretsmanagerSecretVersion_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -77,11 +77,11 @@ func DecodeSecretsmanagerSecretVersion_VersionStages(p *SecretsmanagerSecretVers
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSecretsmanagerSecretVersion_Arn(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeSecretsmanagerSecretVersion_VersionId(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	p.VersionId = ctwhy.ValueAsString(vals["version_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSecretsmanagerSecretVersion_VersionId(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
-	p.VersionId = ctwhy.ValueAsString(vals["version_id"])
+func DecodeSecretsmanagerSecretVersion_Arn(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

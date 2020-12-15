@@ -40,13 +40,13 @@ func DecodeSubnet(prev *Subnet, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSubnet_Tags(&new.Spec.ForProvider, valMap)
-	DecodeSubnet_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeSubnet_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeSubnet_AvailabilityZoneId(&new.Spec.ForProvider, valMap)
 	DecodeSubnet_CidrBlock(&new.Spec.ForProvider, valMap)
 	DecodeSubnet_Ipv6CidrBlock(&new.Spec.ForProvider, valMap)
 	DecodeSubnet_OutpostArn(&new.Spec.ForProvider, valMap)
+	DecodeSubnet_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeSubnet_AssignIpv6AddressOnCreation(&new.Spec.ForProvider, valMap)
-	DecodeSubnet_AvailabilityZone(&new.Spec.ForProvider, valMap)
-	DecodeSubnet_AvailabilityZoneId(&new.Spec.ForProvider, valMap)
 	DecodeSubnet_MapPublicIpOnLaunch(&new.Spec.ForProvider, valMap)
 	DecodeSubnet_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeSubnet_Ipv6CidrBlockAssociationId(&new.Status.AtProvider, valMap)
@@ -71,8 +71,13 @@ func DecodeSubnet_Tags(p *SubnetParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSubnet_VpcId(p *SubnetParameters, vals map[string]cty.Value) {
-	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+func DecodeSubnet_AvailabilityZone(p *SubnetParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSubnet_AvailabilityZoneId(p *SubnetParameters, vals map[string]cty.Value) {
+	p.AvailabilityZoneId = ctwhy.ValueAsString(vals["availability_zone_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -91,18 +96,13 @@ func DecodeSubnet_OutpostArn(p *SubnetParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeSubnet_VpcId(p *SubnetParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSubnet_AssignIpv6AddressOnCreation(p *SubnetParameters, vals map[string]cty.Value) {
 	p.AssignIpv6AddressOnCreation = ctwhy.ValueAsBool(vals["assign_ipv6_address_on_creation"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSubnet_AvailabilityZone(p *SubnetParameters, vals map[string]cty.Value) {
-	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSubnet_AvailabilityZoneId(p *SubnetParameters, vals map[string]cty.Value) {
-	p.AvailabilityZoneId = ctwhy.ValueAsString(vals["availability_zone_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -113,18 +113,18 @@ func DecodeSubnet_MapPublicIpOnLaunch(p *SubnetParameters, vals map[string]cty.V
 //containerTypeDecodeTemplate
 func DecodeSubnet_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
-	DecodeSubnet_Timeouts_Create(p, valMap)
 	DecodeSubnet_Timeouts_Delete(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSubnet_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	p.Create = ctwhy.ValueAsString(vals["create"])
+	DecodeSubnet_Timeouts_Create(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeSubnet_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSubnet_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
 //primitiveTypeDecodeTemplate

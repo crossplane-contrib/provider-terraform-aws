@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCodebuildSourceCredential_Token(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCodebuildSourceCredential_UserName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCodebuildSourceCredential_AuthType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeCodebuildSourceCredential_ServerType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCodebuildSourceCredential_Token(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCodebuildSourceCredential_UserName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -67,26 +67,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCodebuildSourceCredential_Token(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
-	if k.Token != p.Token {
-		p.Token = k.Token
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCodebuildSourceCredential_UserName(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
-	if k.UserName != p.UserName {
-		p.UserName = k.UserName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCodebuildSourceCredential_AuthType(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
 	if k.AuthType != p.AuthType {
 		p.AuthType = k.AuthType
@@ -100,6 +80,26 @@ func MergeCodebuildSourceCredential_AuthType(k *CodebuildSourceCredentialParamet
 func MergeCodebuildSourceCredential_ServerType(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
 	if k.ServerType != p.ServerType {
 		p.ServerType = k.ServerType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCodebuildSourceCredential_Token(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
+	if k.Token != p.Token {
+		p.Token = k.Token
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCodebuildSourceCredential_UserName(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
+	if k.UserName != p.UserName {
+		p.UserName = k.UserName
 		md.NeedsProviderUpdate = true
 		return true
 	}

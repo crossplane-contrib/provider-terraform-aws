@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDefaultVpc_EnableClassiclink(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDefaultVpc_EnableDnsHostnames(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDefaultVpc_EnableDnsSupport(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,22 +51,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultVpc_EnableDnsHostnames(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDefaultVpc_EnableClassiclink(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDefaultVpc_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
+	updated = MergeDefaultVpc_DhcpOptionsId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDefaultVpc_CidrBlock(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDefaultVpc_DefaultRouteTableId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,22 +86,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultVpc_DefaultRouteTableId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDefaultVpc_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDefaultVpc_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDefaultVpc_DefaultNetworkAclId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,17 +96,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultVpc_AssignGeneratedIpv6CidrBlock(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDefaultVpc_DhcpOptionsId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDefaultVpc_DefaultNetworkAclId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDefaultVpc_Ipv6CidrBlock(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDefaultVpc_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDefaultVpc_AssignGeneratedIpv6CidrBlock(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -124,6 +124,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDefaultVpc_EnableClassiclink(k *DefaultVpcParameters, p *DefaultVpcParameters, md *plugin.MergeDescription) bool {
+	if k.EnableClassiclink != p.EnableClassiclink {
+		p.EnableClassiclink = k.EnableClassiclink
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDefaultVpc_EnableDnsHostnames(k *DefaultVpcParameters, p *DefaultVpcParameters, md *plugin.MergeDescription) bool {
+	if k.EnableDnsHostnames != p.EnableDnsHostnames {
+		p.EnableDnsHostnames = k.EnableDnsHostnames
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -146,26 +166,6 @@ func MergeDefaultVpc_EnableClassiclinkDnsSupport(k *DefaultVpcParameters, p *Def
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDefaultVpc_EnableDnsHostnames(k *DefaultVpcParameters, p *DefaultVpcParameters, md *plugin.MergeDescription) bool {
-	if k.EnableDnsHostnames != p.EnableDnsHostnames {
-		p.EnableDnsHostnames = k.EnableDnsHostnames
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDefaultVpc_EnableClassiclink(k *DefaultVpcParameters, p *DefaultVpcParameters, md *plugin.MergeDescription) bool {
-	if k.EnableClassiclink != p.EnableClassiclink {
-		p.EnableClassiclink = k.EnableClassiclink
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeDefaultVpc_Tags(k *DefaultVpcParameters, p *DefaultVpcParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
@@ -177,9 +177,29 @@ func MergeDefaultVpc_Tags(k *DefaultVpcParameters, p *DefaultVpcParameters, md *
 }
 
 //mergePrimitiveTemplateStatus
+func MergeDefaultVpc_DhcpOptionsId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
+	if k.DhcpOptionsId != p.DhcpOptionsId {
+		k.DhcpOptionsId = p.DhcpOptionsId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeDefaultVpc_CidrBlock(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
 	if k.CidrBlock != p.CidrBlock {
 		k.CidrBlock = p.CidrBlock
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDefaultVpc_DefaultRouteTableId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
+	if k.DefaultRouteTableId != p.DefaultRouteTableId {
+		k.DefaultRouteTableId = p.DefaultRouteTableId
 		md.StatusUpdated = true
 		return true
 	}
@@ -217,39 +237,9 @@ func MergeDefaultVpc_MainRouteTableId(k *DefaultVpcObservation, p *DefaultVpcObs
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDefaultVpc_DefaultRouteTableId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
-	if k.DefaultRouteTableId != p.DefaultRouteTableId {
-		k.DefaultRouteTableId = p.DefaultRouteTableId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDefaultVpc_OwnerId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
-	if k.OwnerId != p.OwnerId {
-		k.OwnerId = p.OwnerId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeDefaultVpc_Arn(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDefaultVpc_DefaultNetworkAclId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
-	if k.DefaultNetworkAclId != p.DefaultNetworkAclId {
-		k.DefaultNetworkAclId = p.DefaultNetworkAclId
 		md.StatusUpdated = true
 		return true
 	}
@@ -267,19 +257,9 @@ func MergeDefaultVpc_InstanceTenancy(k *DefaultVpcObservation, p *DefaultVpcObse
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDefaultVpc_AssignGeneratedIpv6CidrBlock(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
-	if k.AssignGeneratedIpv6CidrBlock != p.AssignGeneratedIpv6CidrBlock {
-		k.AssignGeneratedIpv6CidrBlock = p.AssignGeneratedIpv6CidrBlock
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDefaultVpc_DhcpOptionsId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
-	if k.DhcpOptionsId != p.DhcpOptionsId {
-		k.DhcpOptionsId = p.DhcpOptionsId
+func MergeDefaultVpc_DefaultNetworkAclId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
+	if k.DefaultNetworkAclId != p.DefaultNetworkAclId {
+		k.DefaultNetworkAclId = p.DefaultNetworkAclId
 		md.StatusUpdated = true
 		return true
 	}
@@ -290,6 +270,26 @@ func MergeDefaultVpc_DhcpOptionsId(k *DefaultVpcObservation, p *DefaultVpcObserv
 func MergeDefaultVpc_Ipv6CidrBlock(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
 	if k.Ipv6CidrBlock != p.Ipv6CidrBlock {
 		k.Ipv6CidrBlock = p.Ipv6CidrBlock
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDefaultVpc_OwnerId(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
+	if k.OwnerId != p.OwnerId {
+		k.OwnerId = p.OwnerId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDefaultVpc_AssignGeneratedIpv6CidrBlock(k *DefaultVpcObservation, p *DefaultVpcObservation, md *plugin.MergeDescription) bool {
+	if k.AssignGeneratedIpv6CidrBlock != p.AssignGeneratedIpv6CidrBlock {
+		k.AssignGeneratedIpv6CidrBlock = p.AssignGeneratedIpv6CidrBlock
 		md.StatusUpdated = true
 		return true
 	}

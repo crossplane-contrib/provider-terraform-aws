@@ -31,27 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergePinpointApnsVoipChannel_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsVoipChannel_TeamId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergePinpointApnsVoipChannel_TokenKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsVoipChannel_BundleId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsVoipChannel_Certificate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsVoipChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,12 +51,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergePinpointApnsVoipChannel_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergePinpointApnsVoipChannel_DefaultAuthenticationMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsVoipChannel_TeamId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsVoipChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsVoipChannel_BundleId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsVoipChannel_Certificate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -88,9 +88,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipChannel_PrivateKey(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
-	if k.PrivateKey != p.PrivateKey {
-		p.PrivateKey = k.PrivateKey
+func MergePinpointApnsVoipChannel_TeamId(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TeamId != p.TeamId {
+		p.TeamId = k.TeamId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -101,36 +101,6 @@ func MergePinpointApnsVoipChannel_PrivateKey(k *PinpointApnsVoipChannelParameter
 func MergePinpointApnsVoipChannel_TokenKey(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
 	if k.TokenKey != p.TokenKey {
 		p.TokenKey = k.TokenKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipChannel_BundleId(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
-	if k.BundleId != p.BundleId {
-		p.BundleId = k.BundleId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipChannel_Certificate(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Certificate != p.Certificate {
-		p.Certificate = k.Certificate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipChannel_Enabled(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Enabled != p.Enabled {
-		p.Enabled = k.Enabled
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -158,6 +128,16 @@ func MergePinpointApnsVoipChannel_ApplicationId(k *PinpointApnsVoipChannelParame
 }
 
 //mergePrimitiveTemplateSpec
+func MergePinpointApnsVoipChannel_PrivateKey(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
+	if k.PrivateKey != p.PrivateKey {
+		p.PrivateKey = k.PrivateKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergePinpointApnsVoipChannel_DefaultAuthenticationMethod(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
 	if k.DefaultAuthenticationMethod != p.DefaultAuthenticationMethod {
 		p.DefaultAuthenticationMethod = k.DefaultAuthenticationMethod
@@ -168,9 +148,29 @@ func MergePinpointApnsVoipChannel_DefaultAuthenticationMethod(k *PinpointApnsVoi
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipChannel_TeamId(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TeamId != p.TeamId {
-		p.TeamId = k.TeamId
+func MergePinpointApnsVoipChannel_Enabled(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsVoipChannel_BundleId(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
+	if k.BundleId != p.BundleId {
+		p.BundleId = k.BundleId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsVoipChannel_Certificate(k *PinpointApnsVoipChannelParameters, p *PinpointApnsVoipChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Certificate != p.Certificate {
+		p.Certificate = k.Certificate
 		md.NeedsProviderUpdate = true
 		return true
 	}

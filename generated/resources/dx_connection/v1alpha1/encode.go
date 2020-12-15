@@ -37,30 +37,32 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxConnection(r DxConnection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxConnection_Location(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnection_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDxConnection_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDxConnection_Location(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnection_Bandwidth(r.Spec.ForProvider, ctyVal)
-	EncodeDxConnection_JumboFrameCapable(r.Status.AtProvider, ctyVal)
-	EncodeDxConnection_AwsDevice(r.Status.AtProvider, ctyVal)
+	EncodeDxConnection_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnection_HasLogicalRedundancy(r.Status.AtProvider, ctyVal)
+	EncodeDxConnection_JumboFrameCapable(r.Status.AtProvider, ctyVal)
 	EncodeDxConnection_Arn(r.Status.AtProvider, ctyVal)
+	EncodeDxConnection_AwsDevice(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDxConnection_Name(p DxConnectionParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeDxConnection_Location(p DxConnectionParameters, vals map[string]cty.Value) {
 	vals["location"] = cty.StringVal(p.Location)
 }
 
-func EncodeDxConnection_Name(p DxConnectionParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeDxConnection_Bandwidth(p DxConnectionParameters, vals map[string]cty.Value) {
+	vals["bandwidth"] = cty.StringVal(p.Bandwidth)
 }
 
 func EncodeDxConnection_Tags(p DxConnectionParameters, vals map[string]cty.Value) {
@@ -75,22 +77,18 @@ func EncodeDxConnection_Tags(p DxConnectionParameters, vals map[string]cty.Value
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDxConnection_Bandwidth(p DxConnectionParameters, vals map[string]cty.Value) {
-	vals["bandwidth"] = cty.StringVal(p.Bandwidth)
+func EncodeDxConnection_HasLogicalRedundancy(p DxConnectionObservation, vals map[string]cty.Value) {
+	vals["has_logical_redundancy"] = cty.StringVal(p.HasLogicalRedundancy)
 }
 
 func EncodeDxConnection_JumboFrameCapable(p DxConnectionObservation, vals map[string]cty.Value) {
 	vals["jumbo_frame_capable"] = cty.BoolVal(p.JumboFrameCapable)
 }
 
-func EncodeDxConnection_AwsDevice(p DxConnectionObservation, vals map[string]cty.Value) {
-	vals["aws_device"] = cty.StringVal(p.AwsDevice)
-}
-
-func EncodeDxConnection_HasLogicalRedundancy(p DxConnectionObservation, vals map[string]cty.Value) {
-	vals["has_logical_redundancy"] = cty.StringVal(p.HasLogicalRedundancy)
-}
-
 func EncodeDxConnection_Arn(p DxConnectionObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeDxConnection_AwsDevice(p DxConnectionObservation, vals map[string]cty.Value) {
+	vals["aws_device"] = cty.StringVal(p.AwsDevice)
 }

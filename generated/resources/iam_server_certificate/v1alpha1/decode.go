@@ -39,34 +39,19 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamServerCertificate(prev *IamServerCertificate, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamServerCertificate_PrivateKey(&new.Spec.ForProvider, valMap)
-	DecodeIamServerCertificate_Arn(&new.Spec.ForProvider, valMap)
-	DecodeIamServerCertificate_CertificateBody(&new.Spec.ForProvider, valMap)
 	DecodeIamServerCertificate_CertificateChain(&new.Spec.ForProvider, valMap)
 	DecodeIamServerCertificate_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamServerCertificate_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeIamServerCertificate_Path(&new.Spec.ForProvider, valMap)
+	DecodeIamServerCertificate_PrivateKey(&new.Spec.ForProvider, valMap)
+	DecodeIamServerCertificate_Arn(&new.Spec.ForProvider, valMap)
+	DecodeIamServerCertificate_CertificateBody(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamServerCertificate_PrivateKey(p *IamServerCertificateParameters, vals map[string]cty.Value) {
-	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamServerCertificate_Arn(p *IamServerCertificateParameters, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamServerCertificate_CertificateBody(p *IamServerCertificateParameters, vals map[string]cty.Value) {
-	p.CertificateBody = ctwhy.ValueAsString(vals["certificate_body"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -87,4 +72,19 @@ func DecodeIamServerCertificate_NamePrefix(p *IamServerCertificateParameters, va
 //primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_Path(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.Path = ctwhy.ValueAsString(vals["path"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamServerCertificate_PrivateKey(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamServerCertificate_Arn(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamServerCertificate_CertificateBody(p *IamServerCertificateParameters, vals map[string]cty.Value) {
+	p.CertificateBody = ctwhy.ValueAsString(vals["certificate_body"])
 }

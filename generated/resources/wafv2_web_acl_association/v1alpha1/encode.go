@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafv2WebAclAssociation(r Wafv2WebAclAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafv2WebAclAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
 	EncodeWafv2WebAclAssociation_WebAclArn(r.Spec.ForProvider, ctyVal)
+	EncodeWafv2WebAclAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafv2WebAclAssociation_ResourceArn(p Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
-	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }
 
 func EncodeWafv2WebAclAssociation_WebAclArn(p Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
 	vals["web_acl_arn"] = cty.StringVal(p.WebAclArn)
+}
+
+func EncodeWafv2WebAclAssociation_ResourceArn(p Wafv2WebAclAssociationParameters, vals map[string]cty.Value) {
+	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
 }

@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSesIdentityPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSesIdentityPolicy_Identity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeSesIdentityPolicy_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSesIdentityPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSesIdentityPolicy_Policy(k *SesIdentityPolicyParameters, p *SesIdentityPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Policy != p.Policy {
-		p.Policy = k.Policy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeSesIdentityPolicy_Identity(k *SesIdentityPolicyParameters, p *SesIdentityPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.Identity != p.Identity {
 		p.Identity = k.Identity
@@ -81,6 +71,16 @@ func MergeSesIdentityPolicy_Identity(k *SesIdentityPolicyParameters, p *SesIdent
 func MergeSesIdentityPolicy_Name(k *SesIdentityPolicyParameters, p *SesIdentityPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSesIdentityPolicy_Policy(k *SesIdentityPolicyParameters, p *SesIdentityPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Policy != p.Policy {
+		p.Policy = k.Policy
 		md.NeedsProviderUpdate = true
 		return true
 	}

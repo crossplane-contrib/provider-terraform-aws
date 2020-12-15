@@ -52,10 +52,10 @@ type GlacierVaultLockSpec struct {
 
 // A GlacierVaultLockParameters defines the desired state of a GlacierVaultLock
 type GlacierVaultLockParameters struct {
-	CompleteLock        bool   `json:"complete_lock"`
 	IgnoreDeletionError bool   `json:"ignore_deletion_error"`
 	Policy              string `json:"policy"`
 	VaultName           string `json:"vault_name"`
+	CompleteLock        bool   `json:"complete_lock"`
 }
 
 // A GlacierVaultLockStatus defines the observed state of a GlacierVaultLock

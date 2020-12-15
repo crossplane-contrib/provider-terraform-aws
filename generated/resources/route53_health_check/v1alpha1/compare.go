@@ -36,72 +36,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53HealthCheck_Port(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_RequestInterval(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_CloudwatchAlarmName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRoute53HealthCheck_Fqdn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53HealthCheck_InsufficientDataHealthStatus(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53HealthCheck_Port(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53HealthCheck_MeasureLatency(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53HealthCheck_Regions(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53HealthCheck_InvertHealthcheck(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_SearchString(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_ChildHealthchecks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_CloudwatchAlarmRegion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_Disabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_FailureThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53HealthCheck_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53HealthCheck_RequestInterval(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -116,17 +66,67 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53HealthCheck_ReferenceName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53HealthCheck_MeasureLatency(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53HealthCheck_Regions(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53HealthCheck_SearchString(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_CloudwatchAlarmName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_CloudwatchAlarmRegion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_Disabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeRoute53HealthCheck_ResourcePath(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_ChildHealthchecks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_FailureThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_InsufficientDataHealthStatus(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_InvertHealthcheck(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53HealthCheck_ReferenceName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -153,36 +153,6 @@ func MergeRoute53HealthCheck_EnableSni(k *Route53HealthCheckParameters, p *Route
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_Port(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.Port != p.Port {
-		p.Port = k.Port
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_RequestInterval(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.RequestInterval != p.RequestInterval {
-		p.RequestInterval = k.RequestInterval
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_CloudwatchAlarmName(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.CloudwatchAlarmName != p.CloudwatchAlarmName {
-		p.CloudwatchAlarmName = k.CloudwatchAlarmName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeRoute53HealthCheck_Fqdn(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
 	if k.Fqdn != p.Fqdn {
 		p.Fqdn = k.Fqdn
@@ -193,49 +163,9 @@ func MergeRoute53HealthCheck_Fqdn(k *Route53HealthCheckParameters, p *Route53Hea
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_InsufficientDataHealthStatus(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.InsufficientDataHealthStatus != p.InsufficientDataHealthStatus {
-		p.InsufficientDataHealthStatus = k.InsufficientDataHealthStatus
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_MeasureLatency(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.MeasureLatency != p.MeasureLatency {
-		p.MeasureLatency = k.MeasureLatency
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_InvertHealthcheck(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.InvertHealthcheck != p.InvertHealthcheck {
-		p.InvertHealthcheck = k.InvertHealthcheck
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_IpAddress(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.IpAddress != p.IpAddress {
-		p.IpAddress = k.IpAddress
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_SearchString(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.SearchString != p.SearchString {
-		p.SearchString = k.SearchString
+func MergeRoute53HealthCheck_Port(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.Port != p.Port {
+		p.Port = k.Port
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -243,9 +173,9 @@ func MergeRoute53HealthCheck_SearchString(k *Route53HealthCheckParameters, p *Ro
 }
 
 //mergePrimitiveContainerTemplateSpec
-func MergeRoute53HealthCheck_ChildHealthchecks(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.ChildHealthchecks, p.ChildHealthchecks) {
-		p.ChildHealthchecks = k.ChildHealthchecks
+func MergeRoute53HealthCheck_Regions(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Regions, p.Regions) {
+		p.Regions = k.Regions
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -253,39 +183,9 @@ func MergeRoute53HealthCheck_ChildHealthchecks(k *Route53HealthCheckParameters, 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_CloudwatchAlarmRegion(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.CloudwatchAlarmRegion != p.CloudwatchAlarmRegion {
-		p.CloudwatchAlarmRegion = k.CloudwatchAlarmRegion
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_Disabled(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.Disabled != p.Disabled {
-		p.Disabled = k.Disabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_FailureThreshold(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.FailureThreshold != p.FailureThreshold {
-		p.FailureThreshold = k.FailureThreshold
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeRoute53HealthCheck_Tags(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeRoute53HealthCheck_RequestInterval(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.RequestInterval != p.RequestInterval {
+		p.RequestInterval = k.RequestInterval
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -313,9 +213,19 @@ func MergeRoute53HealthCheck_ChildHealthThreshold(k *Route53HealthCheckParameter
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53HealthCheck_ReferenceName(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if k.ReferenceName != p.ReferenceName {
-		p.ReferenceName = k.ReferenceName
+func MergeRoute53HealthCheck_MeasureLatency(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.MeasureLatency != p.MeasureLatency {
+		p.MeasureLatency = k.MeasureLatency
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_SearchString(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.SearchString != p.SearchString {
+		p.SearchString = k.SearchString
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -323,9 +233,39 @@ func MergeRoute53HealthCheck_ReferenceName(k *Route53HealthCheckParameters, p *R
 }
 
 //mergePrimitiveContainerTemplateSpec
-func MergeRoute53HealthCheck_Regions(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Regions, p.Regions) {
-		p.Regions = k.Regions
+func MergeRoute53HealthCheck_Tags(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_CloudwatchAlarmName(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.CloudwatchAlarmName != p.CloudwatchAlarmName {
+		p.CloudwatchAlarmName = k.CloudwatchAlarmName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_CloudwatchAlarmRegion(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.CloudwatchAlarmRegion != p.CloudwatchAlarmRegion {
+		p.CloudwatchAlarmRegion = k.CloudwatchAlarmRegion
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_Disabled(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.Disabled != p.Disabled {
+		p.Disabled = k.Disabled
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -336,6 +276,66 @@ func MergeRoute53HealthCheck_Regions(k *Route53HealthCheckParameters, p *Route53
 func MergeRoute53HealthCheck_ResourcePath(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
 	if k.ResourcePath != p.ResourcePath {
 		p.ResourcePath = k.ResourcePath
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeRoute53HealthCheck_ChildHealthchecks(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ChildHealthchecks, p.ChildHealthchecks) {
+		p.ChildHealthchecks = k.ChildHealthchecks
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_FailureThreshold(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.FailureThreshold != p.FailureThreshold {
+		p.FailureThreshold = k.FailureThreshold
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_InsufficientDataHealthStatus(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.InsufficientDataHealthStatus != p.InsufficientDataHealthStatus {
+		p.InsufficientDataHealthStatus = k.InsufficientDataHealthStatus
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_InvertHealthcheck(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.InvertHealthcheck != p.InvertHealthcheck {
+		p.InvertHealthcheck = k.InvertHealthcheck
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_IpAddress(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.IpAddress != p.IpAddress {
+		p.IpAddress = k.IpAddress
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53HealthCheck_ReferenceName(k *Route53HealthCheckParameters, p *Route53HealthCheckParameters, md *plugin.MergeDescription) bool {
+	if k.ReferenceName != p.ReferenceName {
+		p.ReferenceName = k.ReferenceName
 		md.NeedsProviderUpdate = true
 		return true
 	}

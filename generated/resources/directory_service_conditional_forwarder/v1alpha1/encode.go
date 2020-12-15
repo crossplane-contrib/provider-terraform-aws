@@ -37,18 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDirectoryServiceConditionalForwarder(r DirectoryServiceConditionalForwarder) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDirectoryServiceConditionalForwarder_RemoteDomainName(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceConditionalForwarder_DirectoryId(r.Spec.ForProvider, ctyVal)
 	EncodeDirectoryServiceConditionalForwarder_DnsIps(r.Spec.ForProvider, ctyVal)
-	EncodeDirectoryServiceConditionalForwarder_RemoteDomainName(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDirectoryServiceConditionalForwarder_RemoteDomainName(p DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	vals["remote_domain_name"] = cty.StringVal(p.RemoteDomainName)
 }
 
 func EncodeDirectoryServiceConditionalForwarder_DirectoryId(p DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
@@ -61,8 +63,4 @@ func EncodeDirectoryServiceConditionalForwarder_DnsIps(p DirectoryServiceConditi
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["dns_ips"] = cty.ListVal(colVals)
-}
-
-func EncodeDirectoryServiceConditionalForwarder_RemoteDomainName(p DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
-	vals["remote_domain_name"] = cty.StringVal(p.RemoteDomainName)
 }

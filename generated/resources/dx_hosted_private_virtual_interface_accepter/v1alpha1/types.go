@@ -52,10 +52,10 @@ type DxHostedPrivateVirtualInterfaceAccepterSpec struct {
 
 // A DxHostedPrivateVirtualInterfaceAccepterParameters defines the desired state of a DxHostedPrivateVirtualInterfaceAccepter
 type DxHostedPrivateVirtualInterfaceAccepterParameters struct {
-	Tags               map[string]string `json:"tags"`
-	VirtualInterfaceId string            `json:"virtual_interface_id"`
 	VpnGatewayId       string            `json:"vpn_gateway_id"`
 	DxGatewayId        string            `json:"dx_gateway_id"`
+	Tags               map[string]string `json:"tags"`
+	VirtualInterfaceId string            `json:"virtual_interface_id"`
 	Timeouts           Timeouts          `json:"timeouts"`
 }
 

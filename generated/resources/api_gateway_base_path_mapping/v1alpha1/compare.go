@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayBasePathMapping_StageName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayBasePathMapping_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,6 +46,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeApiGatewayBasePathMapping_StageName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -60,16 +60,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayBasePathMapping_StageName(k *ApiGatewayBasePathMappingParameters, p *ApiGatewayBasePathMappingParameters, md *plugin.MergeDescription) bool {
-	if k.StageName != p.StageName {
-		p.StageName = k.StageName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -96,6 +86,16 @@ func MergeApiGatewayBasePathMapping_BasePath(k *ApiGatewayBasePathMappingParamet
 func MergeApiGatewayBasePathMapping_DomainName(k *ApiGatewayBasePathMappingParameters, p *ApiGatewayBasePathMappingParameters, md *plugin.MergeDescription) bool {
 	if k.DomainName != p.DomainName {
 		p.DomainName = k.DomainName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayBasePathMapping_StageName(k *ApiGatewayBasePathMappingParameters, p *ApiGatewayBasePathMappingParameters, md *plugin.MergeDescription) bool {
+	if k.StageName != p.StageName {
+		p.StageName = k.StageName
 		md.NeedsProviderUpdate = true
 		return true
 	}

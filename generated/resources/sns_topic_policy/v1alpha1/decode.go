@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSnsTopicPolicy(prev *SnsTopicPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSnsTopicPolicy_Arn(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicPolicy_Policy(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopicPolicy_Arn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeSnsTopicPolicy(prev *SnsTopicPolicy, ctyValue cty.Value) (resource.Ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopicPolicy_Arn(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeSnsTopicPolicy_Policy(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopicPolicy_Policy(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
+func DecodeSnsTopicPolicy_Arn(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

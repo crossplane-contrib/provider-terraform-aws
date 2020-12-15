@@ -66,6 +66,6 @@ type SecretsmanagerSecretVersionStatus struct {
 
 // A SecretsmanagerSecretVersionObservation records the observed state of a SecretsmanagerSecretVersion
 type SecretsmanagerSecretVersionObservation struct {
-	Arn       string `json:"arn"`
 	VersionId string `json:"version_id"`
+	Arn       string `json:"arn"`
 }

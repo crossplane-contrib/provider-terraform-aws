@@ -39,15 +39,24 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeBackupVaultNotifications(prev *BackupVaultNotifications, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeBackupVaultNotifications_BackupVaultEvents(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_BackupVaultName(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_SnsTopicArn(&new.Spec.ForProvider, valMap)
-	DecodeBackupVaultNotifications_BackupVaultEvents(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_BackupVaultArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeBackupVaultNotifications_BackupVaultEvents(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["backup_vault_events"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.BackupVaultEvents = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -58,15 +67,6 @@ func DecodeBackupVaultNotifications_BackupVaultName(p *BackupVaultNotificationsP
 //primitiveTypeDecodeTemplate
 func DecodeBackupVaultNotifications_SnsTopicArn(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
 	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeBackupVaultNotifications_BackupVaultEvents(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["backup_vault_events"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.BackupVaultEvents = goVals
 }
 
 //primitiveTypeDecodeTemplate

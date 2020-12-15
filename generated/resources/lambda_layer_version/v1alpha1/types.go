@@ -53,14 +53,14 @@ type LambdaLayerVersionSpec struct {
 // A LambdaLayerVersionParameters defines the desired state of a LambdaLayerVersion
 type LambdaLayerVersionParameters struct {
 	CompatibleRuntimes []string `json:"compatible_runtimes"`
+	S3ObjectVersion    string   `json:"s3_object_version"`
 	S3Key              string   `json:"s3_key"`
-	SourceCodeHash     string   `json:"source_code_hash"`
 	Description        string   `json:"description"`
 	LayerName          string   `json:"layer_name"`
 	LicenseInfo        string   `json:"license_info"`
 	Filename           string   `json:"filename"`
 	S3Bucket           string   `json:"s3_bucket"`
-	S3ObjectVersion    string   `json:"s3_object_version"`
+	SourceCodeHash     string   `json:"source_code_hash"`
 }
 
 // A LambdaLayerVersionStatus defines the observed state of a LambdaLayerVersion
@@ -71,9 +71,9 @@ type LambdaLayerVersionStatus struct {
 
 // A LambdaLayerVersionObservation records the observed state of a LambdaLayerVersion
 type LambdaLayerVersionObservation struct {
-	Version        string `json:"version"`
-	LayerArn       string `json:"layer_arn"`
 	SourceCodeSize int64  `json:"source_code_size"`
-	Arn            string `json:"arn"`
+	Version        string `json:"version"`
 	CreatedDate    string `json:"created_date"`
+	Arn            string `json:"arn"`
+	LayerArn       string `json:"layer_arn"`
 }

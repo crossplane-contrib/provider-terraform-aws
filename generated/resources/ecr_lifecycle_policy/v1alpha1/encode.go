@@ -37,25 +37,23 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEcrLifecyclePolicy(r EcrLifecyclePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcrLifecyclePolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrLifecyclePolicy_Policy(r.Spec.ForProvider, ctyVal)
+	EncodeEcrLifecyclePolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrLifecyclePolicy_RegistryId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEcrLifecyclePolicy_Repository(p EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
-	vals["repository"] = cty.StringVal(p.Repository)
 }
 
 func EncodeEcrLifecyclePolicy_Policy(p EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeEcrLifecyclePolicy_Repository(p EcrLifecyclePolicyParameters, vals map[string]cty.Value) {
+	vals["repository"] = cty.StringVal(p.Repository)
 }
 
 func EncodeEcrLifecyclePolicy_RegistryId(p EcrLifecyclePolicyObservation, vals map[string]cty.Value) {

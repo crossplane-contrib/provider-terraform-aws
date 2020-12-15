@@ -31,12 +31,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeXraySamplingRule_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeXraySamplingRule_Priority(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeXraySamplingRule_UrlPath(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeXraySamplingRule_ReservoirSize(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeXraySamplingRule_ServiceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeXraySamplingRule_FixedRate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeXraySamplingRule_Host(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,16 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeXraySamplingRule_FixedRate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeXraySamplingRule_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeXraySamplingRule_RuleName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -71,7 +76,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeXraySamplingRule_ServiceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeXraySamplingRule_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,17 +86,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeXraySamplingRule_Host(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeXraySamplingRule_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeXraySamplingRule_Priority(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeXraySamplingRule_ReservoirSize(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeXraySamplingRule_UrlPath(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -111,10 +111,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeXraySamplingRule_Tags(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeXraySamplingRule_Priority(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Priority != p.Priority {
+		p.Priority = k.Priority
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -122,9 +122,39 @@ func MergeXraySamplingRule_Tags(k *XraySamplingRuleParameters, p *XraySamplingRu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeXraySamplingRule_UrlPath(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if k.UrlPath != p.UrlPath {
-		p.UrlPath = k.UrlPath
+func MergeXraySamplingRule_ReservoirSize(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if k.ReservoirSize != p.ReservoirSize {
+		p.ReservoirSize = k.ReservoirSize
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeXraySamplingRule_ServiceType(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if k.ServiceType != p.ServiceType {
+		p.ServiceType = k.ServiceType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeXraySamplingRule_FixedRate(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if k.FixedRate != p.FixedRate {
+		p.FixedRate = k.FixedRate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeXraySamplingRule_Host(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Host != p.Host {
+		p.Host = k.Host
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -152,26 +182,6 @@ func MergeXraySamplingRule_Version(k *XraySamplingRuleParameters, p *XraySamplin
 }
 
 //mergePrimitiveTemplateSpec
-func MergeXraySamplingRule_FixedRate(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if k.FixedRate != p.FixedRate {
-		p.FixedRate = k.FixedRate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeXraySamplingRule_ResourceArn(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if k.ResourceArn != p.ResourceArn {
-		p.ResourceArn = k.ResourceArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeXraySamplingRule_RuleName(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
 	if k.RuleName != p.RuleName {
 		p.RuleName = k.RuleName
@@ -191,10 +201,10 @@ func MergeXraySamplingRule_ServiceName(k *XraySamplingRuleParameters, p *XraySam
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeXraySamplingRule_ServiceType(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if k.ServiceType != p.ServiceType {
-		p.ServiceType = k.ServiceType
+//mergePrimitiveContainerTemplateSpec
+func MergeXraySamplingRule_Tags(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -212,9 +222,9 @@ func MergeXraySamplingRule_Attributes(k *XraySamplingRuleParameters, p *XraySamp
 }
 
 //mergePrimitiveTemplateSpec
-func MergeXraySamplingRule_Host(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Host != p.Host {
-		p.Host = k.Host
+func MergeXraySamplingRule_ResourceArn(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceArn != p.ResourceArn {
+		p.ResourceArn = k.ResourceArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -222,19 +232,9 @@ func MergeXraySamplingRule_Host(k *XraySamplingRuleParameters, p *XraySamplingRu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeXraySamplingRule_Priority(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Priority != p.Priority {
-		p.Priority = k.Priority
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeXraySamplingRule_ReservoirSize(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
-	if k.ReservoirSize != p.ReservoirSize {
-		p.ReservoirSize = k.ReservoirSize
+func MergeXraySamplingRule_UrlPath(k *XraySamplingRuleParameters, p *XraySamplingRuleParameters, md *plugin.MergeDescription) bool {
+	if k.UrlPath != p.UrlPath {
+		p.UrlPath = k.UrlPath
 		md.NeedsProviderUpdate = true
 		return true
 	}

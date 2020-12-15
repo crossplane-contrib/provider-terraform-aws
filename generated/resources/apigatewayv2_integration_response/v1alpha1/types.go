@@ -52,12 +52,12 @@ type Apigatewayv2IntegrationResponseSpec struct {
 
 // A Apigatewayv2IntegrationResponseParameters defines the desired state of a Apigatewayv2IntegrationResponse
 type Apigatewayv2IntegrationResponseParameters struct {
-	ApiId                       string            `json:"api_id"`
-	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
 	IntegrationId               string            `json:"integration_id"`
 	IntegrationResponseKey      string            `json:"integration_response_key"`
 	ResponseTemplates           map[string]string `json:"response_templates"`
 	TemplateSelectionExpression string            `json:"template_selection_expression"`
+	ApiId                       string            `json:"api_id"`
+	ContentHandlingStrategy     string            `json:"content_handling_strategy"`
 }
 
 // A Apigatewayv2IntegrationResponseStatus defines the observed state of a Apigatewayv2IntegrationResponse

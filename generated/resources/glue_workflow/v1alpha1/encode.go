@@ -37,20 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGlueWorkflow(r GlueWorkflow) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueWorkflow_MaxConcurrentRuns(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_DefaultRunProperties(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Description(r.Spec.ForProvider, ctyVal)
-	EncodeGlueWorkflow_MaxConcurrentRuns(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlueWorkflow_MaxConcurrentRuns(p GlueWorkflowParameters, vals map[string]cty.Value) {
+	vals["max_concurrent_runs"] = cty.NumberIntVal(p.MaxConcurrentRuns)
 }
 
 func EncodeGlueWorkflow_Name(p GlueWorkflowParameters, vals map[string]cty.Value) {
@@ -83,10 +85,6 @@ func EncodeGlueWorkflow_DefaultRunProperties(p GlueWorkflowParameters, vals map[
 
 func EncodeGlueWorkflow_Description(p GlueWorkflowParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeGlueWorkflow_MaxConcurrentRuns(p GlueWorkflowParameters, vals map[string]cty.Value) {
-	vals["max_concurrent_runs"] = cty.NumberIntVal(p.MaxConcurrentRuns)
 }
 
 func EncodeGlueWorkflow_Arn(p GlueWorkflowObservation, vals map[string]cty.Value) {

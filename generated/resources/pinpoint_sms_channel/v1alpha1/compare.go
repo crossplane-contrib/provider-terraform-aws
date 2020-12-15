@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergePinpointSmsChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergePinpointSmsChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,11 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergePinpointSmsChannel_ShortCode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointSmsChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -69,6 +69,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointSmsChannel_ApplicationId(k *PinpointSmsChannelParameters, p *PinpointSmsChannelParameters, md *plugin.MergeDescription) bool {
+	if k.ApplicationId != p.ApplicationId {
+		p.ApplicationId = k.ApplicationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -95,16 +105,6 @@ func MergePinpointSmsChannel_SenderId(k *PinpointSmsChannelParameters, p *Pinpoi
 func MergePinpointSmsChannel_ShortCode(k *PinpointSmsChannelParameters, p *PinpointSmsChannelParameters, md *plugin.MergeDescription) bool {
 	if k.ShortCode != p.ShortCode {
 		p.ShortCode = k.ShortCode
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointSmsChannel_ApplicationId(k *PinpointSmsChannelParameters, p *PinpointSmsChannelParameters, md *plugin.MergeDescription) bool {
-	if k.ApplicationId != p.ApplicationId {
-		p.ApplicationId = k.ApplicationId
 		md.NeedsProviderUpdate = true
 		return true
 	}

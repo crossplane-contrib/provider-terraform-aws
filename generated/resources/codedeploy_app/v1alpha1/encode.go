@@ -37,22 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodedeployApp(r CodedeployApp) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCodedeployApp_ComputePlatform(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployApp_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCodedeployApp_UniqueId(r.Spec.ForProvider, ctyVal)
+	EncodeCodedeployApp_ComputePlatform(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCodedeployApp_ComputePlatform(p CodedeployAppParameters, vals map[string]cty.Value) {
-	vals["compute_platform"] = cty.StringVal(p.ComputePlatform)
 }
 
 func EncodeCodedeployApp_Name(p CodedeployAppParameters, vals map[string]cty.Value) {
@@ -61,4 +55,8 @@ func EncodeCodedeployApp_Name(p CodedeployAppParameters, vals map[string]cty.Val
 
 func EncodeCodedeployApp_UniqueId(p CodedeployAppParameters, vals map[string]cty.Value) {
 	vals["unique_id"] = cty.StringVal(p.UniqueId)
+}
+
+func EncodeCodedeployApp_ComputePlatform(p CodedeployAppParameters, vals map[string]cty.Value) {
+	vals["compute_platform"] = cty.StringVal(p.ComputePlatform)
 }

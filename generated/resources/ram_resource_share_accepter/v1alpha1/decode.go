@@ -41,13 +41,13 @@ func DecodeRamResourceShareAccepter(prev *RamResourceShareAccepter, ctyValue cty
 	new := prev.DeepCopy()
 	DecodeRamResourceShareAccepter_ShareArn(&new.Spec.ForProvider, valMap)
 	DecodeRamResourceShareAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeRamResourceShareAccepter_InvitationArn(&new.Status.AtProvider, valMap)
 	DecodeRamResourceShareAccepter_ReceiverAccountId(&new.Status.AtProvider, valMap)
 	DecodeRamResourceShareAccepter_SenderAccountId(&new.Status.AtProvider, valMap)
-	DecodeRamResourceShareAccepter_ShareId(&new.Status.AtProvider, valMap)
-	DecodeRamResourceShareAccepter_Status(&new.Status.AtProvider, valMap)
+	DecodeRamResourceShareAccepter_InvitationArn(&new.Status.AtProvider, valMap)
 	DecodeRamResourceShareAccepter_Resources(&new.Status.AtProvider, valMap)
+	DecodeRamResourceShareAccepter_ShareId(&new.Status.AtProvider, valMap)
 	DecodeRamResourceShareAccepter_ShareName(&new.Status.AtProvider, valMap)
+	DecodeRamResourceShareAccepter_Status(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -78,11 +78,6 @@ func DecodeRamResourceShareAccepter_Timeouts_Delete(p *Timeouts, vals map[string
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRamResourceShareAccepter_InvitationArn(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
-	p.InvitationArn = ctwhy.ValueAsString(vals["invitation_arn"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeRamResourceShareAccepter_ReceiverAccountId(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
 	p.ReceiverAccountId = ctwhy.ValueAsString(vals["receiver_account_id"])
 }
@@ -93,13 +88,8 @@ func DecodeRamResourceShareAccepter_SenderAccountId(p *RamResourceShareAccepterO
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRamResourceShareAccepter_ShareId(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
-	p.ShareId = ctwhy.ValueAsString(vals["share_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRamResourceShareAccepter_Status(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
-	p.Status = ctwhy.ValueAsString(vals["status"])
+func DecodeRamResourceShareAccepter_InvitationArn(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
+	p.InvitationArn = ctwhy.ValueAsString(vals["invitation_arn"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -112,6 +102,16 @@ func DecodeRamResourceShareAccepter_Resources(p *RamResourceShareAccepterObserva
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeRamResourceShareAccepter_ShareId(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
+	p.ShareId = ctwhy.ValueAsString(vals["share_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceShareAccepter_ShareName(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
 	p.ShareName = ctwhy.ValueAsString(vals["share_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRamResourceShareAccepter_Status(p *RamResourceShareAccepterObservation, vals map[string]cty.Value) {
+	p.Status = ctwhy.ValueAsString(vals["status"])
 }

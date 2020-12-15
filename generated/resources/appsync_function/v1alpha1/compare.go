@@ -36,16 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncFunction_ResponseMappingTemplate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeAppsyncFunction_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAppsyncFunction_DataSource(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,22 +46,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncFunction_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAppsyncFunction_RequestMappingTemplate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncFunction_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeAppsyncFunction_ResponseMappingTemplate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAppsyncFunction_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAppsyncFunction_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeAppsyncFunction_FunctionId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAppsyncFunction_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -90,26 +90,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeAppsyncFunction_FunctionVersion(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
 	if k.FunctionVersion != p.FunctionVersion {
 		p.FunctionVersion = k.FunctionVersion
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_ResponseMappingTemplate(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.ResponseMappingTemplate != p.ResponseMappingTemplate {
-		p.ResponseMappingTemplate = k.ResponseMappingTemplate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_ApiId(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.ApiId != p.ApiId {
-		p.ApiId = k.ApiId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -137,16 +117,6 @@ func MergeAppsyncFunction_Description(k *AppsyncFunctionParameters, p *AppsyncFu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_Name(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeAppsyncFunction_RequestMappingTemplate(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
 	if k.RequestMappingTemplate != p.RequestMappingTemplate {
 		p.RequestMappingTemplate = k.RequestMappingTemplate
@@ -156,11 +126,31 @@ func MergeAppsyncFunction_RequestMappingTemplate(k *AppsyncFunctionParameters, p
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeAppsyncFunction_Arn(k *AppsyncFunctionObservation, p *AppsyncFunctionObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
+//mergePrimitiveTemplateSpec
+func MergeAppsyncFunction_ResponseMappingTemplate(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
+	if k.ResponseMappingTemplate != p.ResponseMappingTemplate {
+		p.ResponseMappingTemplate = k.ResponseMappingTemplate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAppsyncFunction_ApiId(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
+	if k.ApiId != p.ApiId {
+		p.ApiId = k.ApiId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAppsyncFunction_Name(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -170,6 +160,16 @@ func MergeAppsyncFunction_Arn(k *AppsyncFunctionObservation, p *AppsyncFunctionO
 func MergeAppsyncFunction_FunctionId(k *AppsyncFunctionObservation, p *AppsyncFunctionObservation, md *plugin.MergeDescription) bool {
 	if k.FunctionId != p.FunctionId {
 		k.FunctionId = p.FunctionId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeAppsyncFunction_Arn(k *AppsyncFunctionObservation, p *AppsyncFunctionObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

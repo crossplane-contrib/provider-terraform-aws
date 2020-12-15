@@ -37,32 +37,26 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayAuthorizer(r ApiGatewayAuthorizer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayAuthorizer_Name(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayAuthorizer_Type(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAuthorizer_IdentityValidationExpression(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAuthorizer_ProviderArns(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAuthorizer_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAuthorizer_AuthorizerCredentials(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAuthorizer_AuthorizerUri(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayAuthorizer_IdentitySource(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayAuthorizer_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayAuthorizer_Type(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeApiGatewayAuthorizer_Name(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeApiGatewayAuthorizer_Type(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
+func EncodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
+	vals["authorizer_result_ttl_in_seconds"] = cty.NumberIntVal(p.AuthorizerResultTtlInSeconds)
 }
 
 func EncodeApiGatewayAuthorizer_IdentityValidationExpression(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
@@ -85,14 +79,18 @@ func EncodeApiGatewayAuthorizer_AuthorizerCredentials(p ApiGatewayAuthorizerPara
 	vals["authorizer_credentials"] = cty.StringVal(p.AuthorizerCredentials)
 }
 
-func EncodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
-	vals["authorizer_result_ttl_in_seconds"] = cty.NumberIntVal(p.AuthorizerResultTtlInSeconds)
-}
-
 func EncodeApiGatewayAuthorizer_AuthorizerUri(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
 	vals["authorizer_uri"] = cty.StringVal(p.AuthorizerUri)
 }
 
 func EncodeApiGatewayAuthorizer_IdentitySource(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
 	vals["identity_source"] = cty.StringVal(p.IdentitySource)
+}
+
+func EncodeApiGatewayAuthorizer_Name(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeApiGatewayAuthorizer_Type(p ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }

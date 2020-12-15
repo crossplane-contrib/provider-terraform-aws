@@ -44,14 +44,14 @@ func DecodeDefaultSubnet(prev *DefaultSubnet, ctyValue cty.Value) (resource.Mana
 	DecodeDefaultSubnet_MapPublicIpOnLaunch(&new.Spec.ForProvider, valMap)
 	DecodeDefaultSubnet_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDefaultSubnet_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeDefaultSubnet_Arn(&new.Status.AtProvider, valMap)
-	DecodeDefaultSubnet_AssignIpv6AddressOnCreation(&new.Status.AtProvider, valMap)
-	DecodeDefaultSubnet_VpcId(&new.Status.AtProvider, valMap)
-	DecodeDefaultSubnet_AvailabilityZoneId(&new.Status.AtProvider, valMap)
-	DecodeDefaultSubnet_CidrBlock(&new.Status.AtProvider, valMap)
 	DecodeDefaultSubnet_Ipv6CidrBlock(&new.Status.AtProvider, valMap)
-	DecodeDefaultSubnet_Ipv6CidrBlockAssociationId(&new.Status.AtProvider, valMap)
 	DecodeDefaultSubnet_OwnerId(&new.Status.AtProvider, valMap)
+	DecodeDefaultSubnet_VpcId(&new.Status.AtProvider, valMap)
+	DecodeDefaultSubnet_CidrBlock(&new.Status.AtProvider, valMap)
+	DecodeDefaultSubnet_AssignIpv6AddressOnCreation(&new.Status.AtProvider, valMap)
+	DecodeDefaultSubnet_AvailabilityZoneId(&new.Status.AtProvider, valMap)
+	DecodeDefaultSubnet_Ipv6CidrBlockAssociationId(&new.Status.AtProvider, valMap)
+	DecodeDefaultSubnet_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -103,13 +103,13 @@ func DecodeDefaultSubnet_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value)
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultSubnet_Arn(p *DefaultSubnetObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeDefaultSubnet_Ipv6CidrBlock(p *DefaultSubnetObservation, vals map[string]cty.Value) {
+	p.Ipv6CidrBlock = ctwhy.ValueAsString(vals["ipv6_cidr_block"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultSubnet_AssignIpv6AddressOnCreation(p *DefaultSubnetObservation, vals map[string]cty.Value) {
-	p.AssignIpv6AddressOnCreation = ctwhy.ValueAsBool(vals["assign_ipv6_address_on_creation"])
+func DecodeDefaultSubnet_OwnerId(p *DefaultSubnetObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -118,18 +118,18 @@ func DecodeDefaultSubnet_VpcId(p *DefaultSubnetObservation, vals map[string]cty.
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultSubnet_AvailabilityZoneId(p *DefaultSubnetObservation, vals map[string]cty.Value) {
-	p.AvailabilityZoneId = ctwhy.ValueAsString(vals["availability_zone_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDefaultSubnet_CidrBlock(p *DefaultSubnetObservation, vals map[string]cty.Value) {
 	p.CidrBlock = ctwhy.ValueAsString(vals["cidr_block"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultSubnet_Ipv6CidrBlock(p *DefaultSubnetObservation, vals map[string]cty.Value) {
-	p.Ipv6CidrBlock = ctwhy.ValueAsString(vals["ipv6_cidr_block"])
+func DecodeDefaultSubnet_AssignIpv6AddressOnCreation(p *DefaultSubnetObservation, vals map[string]cty.Value) {
+	p.AssignIpv6AddressOnCreation = ctwhy.ValueAsBool(vals["assign_ipv6_address_on_creation"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDefaultSubnet_AvailabilityZoneId(p *DefaultSubnetObservation, vals map[string]cty.Value) {
+	p.AvailabilityZoneId = ctwhy.ValueAsString(vals["availability_zone_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -138,6 +138,6 @@ func DecodeDefaultSubnet_Ipv6CidrBlockAssociationId(p *DefaultSubnetObservation,
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultSubnet_OwnerId(p *DefaultSubnetObservation, vals map[string]cty.Value) {
-	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
+func DecodeDefaultSubnet_Arn(p *DefaultSubnetObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

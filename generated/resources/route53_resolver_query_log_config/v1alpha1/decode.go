@@ -39,9 +39,9 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRoute53ResolverQueryLogConfig(prev *Route53ResolverQueryLogConfig, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeRoute53ResolverQueryLogConfig_Tags(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_DestinationArn(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_Name(&new.Spec.ForProvider, valMap)
-	DecodeRoute53ResolverQueryLogConfig_Tags(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_OwnerId(&new.Status.AtProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_ShareStatus(&new.Status.AtProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_Arn(&new.Status.AtProvider, valMap)
@@ -50,16 +50,6 @@ func DecodeRoute53ResolverQueryLogConfig(prev *Route53ResolverQueryLogConfig, ct
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53ResolverQueryLogConfig_DestinationArn(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
-	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53ResolverQueryLogConfig_Name(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -71,6 +61,16 @@ func DecodeRoute53ResolverQueryLogConfig_Tags(p *Route53ResolverQueryLogConfigPa
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53ResolverQueryLogConfig_DestinationArn(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53ResolverQueryLogConfig_Name(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate

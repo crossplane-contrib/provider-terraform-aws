@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeS3AccountPublicAccessBlock_IgnorePublicAcls(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeS3AccountPublicAccessBlock_RestrictPublicBuckets(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeS3AccountPublicAccessBlock_AccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,16 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3AccountPublicAccessBlock_IgnorePublicAcls(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3AccountPublicAccessBlock_RestrictPublicBuckets(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,6 +65,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3AccountPublicAccessBlock_IgnorePublicAcls(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
+	if k.IgnorePublicAcls != p.IgnorePublicAcls {
+		p.IgnorePublicAcls = k.IgnorePublicAcls
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3AccountPublicAccessBlock_RestrictPublicBuckets(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
+	if k.RestrictPublicBuckets != p.RestrictPublicBuckets {
+		p.RestrictPublicBuckets = k.RestrictPublicBuckets
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -91,26 +111,6 @@ func MergeS3AccountPublicAccessBlock_BlockPublicAcls(k *S3AccountPublicAccessBlo
 func MergeS3AccountPublicAccessBlock_BlockPublicPolicy(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
 	if k.BlockPublicPolicy != p.BlockPublicPolicy {
 		p.BlockPublicPolicy = k.BlockPublicPolicy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3AccountPublicAccessBlock_IgnorePublicAcls(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
-	if k.IgnorePublicAcls != p.IgnorePublicAcls {
-		p.IgnorePublicAcls = k.IgnorePublicAcls
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3AccountPublicAccessBlock_RestrictPublicBuckets(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
-	if k.RestrictPublicBuckets != p.RestrictPublicBuckets {
-		p.RestrictPublicBuckets = k.RestrictPublicBuckets
 		md.NeedsProviderUpdate = true
 		return true
 	}

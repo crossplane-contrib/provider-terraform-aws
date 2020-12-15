@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRoute53ResolverQueryLogConfig(r Route53ResolverQueryLogConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRoute53ResolverQueryLogConfig_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_DestinationArn(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_Name(r.Spec.ForProvider, ctyVal)
-	EncodeRoute53ResolverQueryLogConfig_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_ShareStatus(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_Arn(r.Status.AtProvider, ctyVal)
@@ -47,18 +47,8 @@ func EncodeRoute53ResolverQueryLogConfig(r Route53ResolverQueryLogConfig) cty.Va
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53ResolverQueryLogConfig_DestinationArn(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
-	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
-}
-
-func EncodeRoute53ResolverQueryLogConfig_Name(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeRoute53ResolverQueryLogConfig_Tags(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
@@ -71,6 +61,14 @@ func EncodeRoute53ResolverQueryLogConfig_Tags(p Route53ResolverQueryLogConfigPar
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeRoute53ResolverQueryLogConfig_DestinationArn(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
+}
+
+func EncodeRoute53ResolverQueryLogConfig_Name(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeRoute53ResolverQueryLogConfig_OwnerId(p Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {

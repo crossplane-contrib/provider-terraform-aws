@@ -39,15 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeKmsCiphertext(prev *KmsCiphertext, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeKmsCiphertext_Context(&new.Spec.ForProvider, valMap)
 	DecodeKmsCiphertext_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeKmsCiphertext_Plaintext(&new.Spec.ForProvider, valMap)
+	DecodeKmsCiphertext_Context(&new.Spec.ForProvider, valMap)
 	DecodeKmsCiphertext_CiphertextBlob(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsCiphertext_KeyId(p *KmsCiphertextParameters, vals map[string]cty.Value) {
+	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsCiphertext_Plaintext(p *KmsCiphertextParameters, vals map[string]cty.Value) {
+	p.Plaintext = ctwhy.ValueAsString(vals["plaintext"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -59,16 +69,6 @@ func DecodeKmsCiphertext_Context(p *KmsCiphertextParameters, vals map[string]cty
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Context = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsCiphertext_KeyId(p *KmsCiphertextParameters, vals map[string]cty.Value) {
-	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsCiphertext_Plaintext(p *KmsCiphertextParameters, vals map[string]cty.Value) {
-	p.Plaintext = ctwhy.ValueAsString(vals["plaintext"])
 }
 
 //primitiveTypeDecodeTemplate

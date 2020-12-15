@@ -31,17 +31,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSsmMaintenanceWindow_AllowUnassociatedTargets(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmMaintenanceWindow_Duration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSsmMaintenanceWindow_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmMaintenanceWindow_EndDate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmMaintenanceWindow_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeSsmMaintenanceWindow_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmMaintenanceWindow_Cutoff(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmMaintenanceWindow_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,27 +76,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSsmMaintenanceWindow_Cutoff(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmMaintenanceWindow_Duration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmMaintenanceWindow_AllowUnassociatedTargets(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeSsmMaintenanceWindow_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmMaintenanceWindow_EndDate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmMaintenanceWindow_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -98,9 +98,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmMaintenanceWindow_AllowUnassociatedTargets(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
-	if k.AllowUnassociatedTargets != p.AllowUnassociatedTargets {
-		p.AllowUnassociatedTargets = k.AllowUnassociatedTargets
+func MergeSsmMaintenanceWindow_Duration(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
+	if k.Duration != p.Duration {
+		p.Duration = k.Duration
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -108,9 +108,19 @@ func MergeSsmMaintenanceWindow_AllowUnassociatedTargets(k *SsmMaintenanceWindowP
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmMaintenanceWindow_Description(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
+func MergeSsmMaintenanceWindow_EndDate(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
+	if k.EndDate != p.EndDate {
+		p.EndDate = k.EndDate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSsmMaintenanceWindow_Name(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -121,6 +131,26 @@ func MergeSsmMaintenanceWindow_Description(k *SsmMaintenanceWindowParameters, p 
 func MergeSsmMaintenanceWindow_Tags(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSsmMaintenanceWindow_Cutoff(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
+	if k.Cutoff != p.Cutoff {
+		p.Cutoff = k.Cutoff
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSsmMaintenanceWindow_Description(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -158,19 +188,9 @@ func MergeSsmMaintenanceWindow_StartDate(k *SsmMaintenanceWindowParameters, p *S
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmMaintenanceWindow_Cutoff(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
-	if k.Cutoff != p.Cutoff {
-		p.Cutoff = k.Cutoff
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmMaintenanceWindow_Duration(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
-	if k.Duration != p.Duration {
-		p.Duration = k.Duration
+func MergeSsmMaintenanceWindow_AllowUnassociatedTargets(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
+	if k.AllowUnassociatedTargets != p.AllowUnassociatedTargets {
+		p.AllowUnassociatedTargets = k.AllowUnassociatedTargets
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -181,26 +201,6 @@ func MergeSsmMaintenanceWindow_Duration(k *SsmMaintenanceWindowParameters, p *Ss
 func MergeSsmMaintenanceWindow_Enabled(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
 	if k.Enabled != p.Enabled {
 		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmMaintenanceWindow_EndDate(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
-	if k.EndDate != p.EndDate {
-		p.EndDate = k.EndDate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmMaintenanceWindow_Name(k *SsmMaintenanceWindowParameters, p *SsmMaintenanceWindowParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

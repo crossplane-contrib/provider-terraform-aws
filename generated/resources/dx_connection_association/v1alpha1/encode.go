@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxConnectionAssociation(r DxConnectionAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxConnectionAssociation_LagId(r.Spec.ForProvider, ctyVal)
 	EncodeDxConnectionAssociation_ConnectionId(r.Spec.ForProvider, ctyVal)
+	EncodeDxConnectionAssociation_LagId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxConnectionAssociation_LagId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
-	vals["lag_id"] = cty.StringVal(p.LagId)
 }
 
 func EncodeDxConnectionAssociation_ConnectionId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
 	vals["connection_id"] = cty.StringVal(p.ConnectionId)
+}
+
+func EncodeDxConnectionAssociation_LagId(p DxConnectionAssociationParameters, vals map[string]cty.Value) {
+	vals["lag_id"] = cty.StringVal(p.LagId)
 }

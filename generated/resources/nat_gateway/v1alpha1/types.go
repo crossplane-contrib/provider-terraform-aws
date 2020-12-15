@@ -65,7 +65,7 @@ type NatGatewayStatus struct {
 
 // A NatGatewayObservation records the observed state of a NatGateway
 type NatGatewayObservation struct {
+	NetworkInterfaceId string `json:"network_interface_id"`
 	PrivateIp          string `json:"private_ip"`
 	PublicIp           string `json:"public_ip"`
-	NetworkInterfaceId string `json:"network_interface_id"`
 }

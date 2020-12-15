@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeGuarddutyOrganizationConfiguration(prev *GuarddutyOrganizationConfiguration, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeGuarddutyOrganizationConfiguration_AutoEnable(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyOrganizationConfiguration_DetectorId(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyOrganizationConfiguration_AutoEnable(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeGuarddutyOrganizationConfiguration(prev *GuarddutyOrganizationConfigu
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeGuarddutyOrganizationConfiguration_AutoEnable(p *GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
-	p.AutoEnable = ctwhy.ValueAsBool(vals["auto_enable"])
+func DecodeGuarddutyOrganizationConfiguration_DetectorId(p *GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
+	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeGuarddutyOrganizationConfiguration_DetectorId(p *GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
-	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
+func DecodeGuarddutyOrganizationConfiguration_AutoEnable(p *GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
+	p.AutoEnable = ctwhy.ValueAsBool(vals["auto_enable"])
 }

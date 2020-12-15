@@ -48,9 +48,7 @@ func EncodeServicecatalogPortfolio(r ServicecatalogPortfolio) cty.Value {
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -80,10 +78,14 @@ func EncodeServicecatalogPortfolio_Description(p ServicecatalogPortfolioParamete
 
 func EncodeServicecatalogPortfolio_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeServicecatalogPortfolio_Timeouts_Create(p, ctyVal)
 	EncodeServicecatalogPortfolio_Timeouts_Delete(p, ctyVal)
 	EncodeServicecatalogPortfolio_Timeouts_Update(p, ctyVal)
-	EncodeServicecatalogPortfolio_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeServicecatalogPortfolio_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeServicecatalogPortfolio_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
@@ -92,10 +94,6 @@ func EncodeServicecatalogPortfolio_Timeouts_Delete(p Timeouts, vals map[string]c
 
 func EncodeServicecatalogPortfolio_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
-}
-
-func EncodeServicecatalogPortfolio_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeServicecatalogPortfolio_Arn(p ServicecatalogPortfolioObservation, vals map[string]cty.Value) {

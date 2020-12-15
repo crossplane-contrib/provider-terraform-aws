@@ -39,20 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCodedeployApp(prev *CodedeployApp, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCodedeployApp_ComputePlatform(&new.Spec.ForProvider, valMap)
 	DecodeCodedeployApp_Name(&new.Spec.ForProvider, valMap)
 	DecodeCodedeployApp_UniqueId(&new.Spec.ForProvider, valMap)
+	DecodeCodedeployApp_ComputePlatform(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCodedeployApp_ComputePlatform(p *CodedeployAppParameters, vals map[string]cty.Value) {
-	p.ComputePlatform = ctwhy.ValueAsString(vals["compute_platform"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -63,4 +58,9 @@ func DecodeCodedeployApp_Name(p *CodedeployAppParameters, vals map[string]cty.Va
 //primitiveTypeDecodeTemplate
 func DecodeCodedeployApp_UniqueId(p *CodedeployAppParameters, vals map[string]cty.Value) {
 	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodedeployApp_ComputePlatform(p *CodedeployAppParameters, vals map[string]cty.Value) {
+	p.ComputePlatform = ctwhy.ValueAsString(vals["compute_platform"])
 }

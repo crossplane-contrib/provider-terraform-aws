@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2TransitGatewayRouteTableAssociation(prev *Ec2TransitGatewayRouteTableAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTableAssociation_ResourceId(&new.Status.AtProvider, valMap)
 	DecodeEc2TransitGatewayRouteTableAssociation_ResourceType(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -51,13 +51,13 @@ func DecodeEc2TransitGatewayRouteTableAssociation(prev *Ec2TransitGatewayRouteTa
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.TransitGatewayRouteTableId = ctwhy.ValueAsString(vals["transit_gateway_route_table_id"])
+func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
+func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.TransitGatewayRouteTableId = ctwhy.ValueAsString(vals["transit_gateway_route_table_id"])
 }
 
 //primitiveTypeDecodeTemplate

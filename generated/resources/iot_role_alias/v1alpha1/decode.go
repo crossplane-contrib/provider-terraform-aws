@@ -39,15 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIotRoleAlias(prev *IotRoleAlias, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIotRoleAlias_CredentialDuration(&new.Spec.ForProvider, valMap)
 	DecodeIotRoleAlias_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeIotRoleAlias_Alias(&new.Spec.ForProvider, valMap)
-	DecodeIotRoleAlias_CredentialDuration(&new.Spec.ForProvider, valMap)
 	DecodeIotRoleAlias_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIotRoleAlias_CredentialDuration(p *IotRoleAliasParameters, vals map[string]cty.Value) {
+	p.CredentialDuration = ctwhy.ValueAsInt64(vals["credential_duration"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -58,11 +63,6 @@ func DecodeIotRoleAlias_RoleArn(p *IotRoleAliasParameters, vals map[string]cty.V
 //primitiveTypeDecodeTemplate
 func DecodeIotRoleAlias_Alias(p *IotRoleAliasParameters, vals map[string]cty.Value) {
 	p.Alias = ctwhy.ValueAsString(vals["alias"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIotRoleAlias_CredentialDuration(p *IotRoleAliasParameters, vals map[string]cty.Value) {
-	p.CredentialDuration = ctwhy.ValueAsInt64(vals["credential_duration"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -37,25 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamAccessKey(r IamAccessKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamAccessKey_PgpKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_Status(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_User(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccessKey_KeyFingerprint(r.Status.AtProvider, ctyVal)
+	EncodeIamAccessKey_PgpKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_Secret(r.Status.AtProvider, ctyVal)
 	EncodeIamAccessKey_SesSmtpPasswordV4(r.Status.AtProvider, ctyVal)
 	EncodeIamAccessKey_EncryptedSecret(r.Status.AtProvider, ctyVal)
+	EncodeIamAccessKey_KeyFingerprint(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamAccessKey_PgpKey(p IamAccessKeyParameters, vals map[string]cty.Value) {
-	vals["pgp_key"] = cty.StringVal(p.PgpKey)
 }
 
 func EncodeIamAccessKey_Status(p IamAccessKeyParameters, vals map[string]cty.Value) {
@@ -66,8 +60,8 @@ func EncodeIamAccessKey_User(p IamAccessKeyParameters, vals map[string]cty.Value
 	vals["user"] = cty.StringVal(p.User)
 }
 
-func EncodeIamAccessKey_KeyFingerprint(p IamAccessKeyObservation, vals map[string]cty.Value) {
-	vals["key_fingerprint"] = cty.StringVal(p.KeyFingerprint)
+func EncodeIamAccessKey_PgpKey(p IamAccessKeyParameters, vals map[string]cty.Value) {
+	vals["pgp_key"] = cty.StringVal(p.PgpKey)
 }
 
 func EncodeIamAccessKey_Secret(p IamAccessKeyObservation, vals map[string]cty.Value) {
@@ -80,4 +74,8 @@ func EncodeIamAccessKey_SesSmtpPasswordV4(p IamAccessKeyObservation, vals map[st
 
 func EncodeIamAccessKey_EncryptedSecret(p IamAccessKeyObservation, vals map[string]cty.Value) {
 	vals["encrypted_secret"] = cty.StringVal(p.EncryptedSecret)
+}
+
+func EncodeIamAccessKey_KeyFingerprint(p IamAccessKeyObservation, vals map[string]cty.Value) {
+	vals["key_fingerprint"] = cty.StringVal(p.KeyFingerprint)
 }

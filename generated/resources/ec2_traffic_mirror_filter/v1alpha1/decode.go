@@ -39,20 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2TrafficMirrorFilter(prev *Ec2TrafficMirrorFilter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2TrafficMirrorFilter_Description(&new.Spec.ForProvider, valMap)
 	DecodeEc2TrafficMirrorFilter_NetworkServices(&new.Spec.ForProvider, valMap)
 	DecodeEc2TrafficMirrorFilter_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2TrafficMirrorFilter_Description(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TrafficMirrorFilter_Description(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -73,4 +68,9 @@ func DecodeEc2TrafficMirrorFilter_Tags(p *Ec2TrafficMirrorFilterParameters, vals
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TrafficMirrorFilter_Description(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }

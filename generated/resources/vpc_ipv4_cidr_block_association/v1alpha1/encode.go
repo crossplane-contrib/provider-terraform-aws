@@ -37,26 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpcIpv4CidrBlockAssociation(r VpcIpv4CidrBlockAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcIpv4CidrBlockAssociation_CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeVpcIpv4CidrBlockAssociation_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeVpcIpv4CidrBlockAssociation_CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeVpcIpv4CidrBlockAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcIpv4CidrBlockAssociation_CidrBlock(p VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
-	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
 }
 
 func EncodeVpcIpv4CidrBlockAssociation_VpcId(p VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeVpcIpv4CidrBlockAssociation_CidrBlock(p VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
+	vals["cidr_block"] = cty.StringVal(p.CidrBlock)
 }
 
 func EncodeVpcIpv4CidrBlockAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {

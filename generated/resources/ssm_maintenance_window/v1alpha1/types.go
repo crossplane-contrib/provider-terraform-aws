@@ -52,17 +52,17 @@ type SsmMaintenanceWindowSpec struct {
 
 // A SsmMaintenanceWindowParameters defines the desired state of a SsmMaintenanceWindow
 type SsmMaintenanceWindowParameters struct {
-	AllowUnassociatedTargets bool              `json:"allow_unassociated_targets"`
-	Description              string            `json:"description"`
+	Duration                 int64             `json:"duration"`
+	EndDate                  string            `json:"end_date"`
+	Name                     string            `json:"name"`
 	Tags                     map[string]string `json:"tags"`
+	Cutoff                   int64             `json:"cutoff"`
+	Description              string            `json:"description"`
 	Schedule                 string            `json:"schedule"`
 	ScheduleTimezone         string            `json:"schedule_timezone"`
 	StartDate                string            `json:"start_date"`
-	Cutoff                   int64             `json:"cutoff"`
-	Duration                 int64             `json:"duration"`
+	AllowUnassociatedTargets bool              `json:"allow_unassociated_targets"`
 	Enabled                  bool              `json:"enabled"`
-	EndDate                  string            `json:"end_date"`
-	Name                     string            `json:"name"`
 }
 
 // A SsmMaintenanceWindowStatus defines the observed state of a SsmMaintenanceWindow

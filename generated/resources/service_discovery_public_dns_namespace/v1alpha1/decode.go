@@ -42,8 +42,8 @@ func DecodeServiceDiscoveryPublicDnsNamespace(prev *ServiceDiscoveryPublicDnsNam
 	DecodeServiceDiscoveryPublicDnsNamespace_Description(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Name(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Tags(&new.Spec.ForProvider, valMap)
-	DecodeServiceDiscoveryPublicDnsNamespace_Arn(&new.Status.AtProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(&new.Status.AtProvider, valMap)
+	DecodeServiceDiscoveryPublicDnsNamespace_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -73,11 +73,11 @@ func DecodeServiceDiscoveryPublicDnsNamespace_Tags(p *ServiceDiscoveryPublicDnsN
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeServiceDiscoveryPublicDnsNamespace_Arn(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	p.HostedZone = ctwhy.ValueAsString(vals["hosted_zone"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	p.HostedZone = ctwhy.ValueAsString(vals["hosted_zone"])
+func DecodeServiceDiscoveryPublicDnsNamespace_Arn(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

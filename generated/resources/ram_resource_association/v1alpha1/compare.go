@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRamResourceAssociation_ResourceShareArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRamResourceAssociation_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRamResourceAssociation_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRamResourceAssociation_ResourceShareArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRamResourceAssociation_ResourceShareArn(k *RamResourceAssociationParameters, p *RamResourceAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ResourceShareArn != p.ResourceShareArn {
-		p.ResourceShareArn = k.ResourceShareArn
+func MergeRamResourceAssociation_ResourceArn(k *RamResourceAssociationParameters, p *RamResourceAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceArn != p.ResourceArn {
+		p.ResourceArn = k.ResourceArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeRamResourceAssociation_ResourceShareArn(k *RamResourceAssociationParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRamResourceAssociation_ResourceArn(k *RamResourceAssociationParameters, p *RamResourceAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ResourceArn != p.ResourceArn {
-		p.ResourceArn = k.ResourceArn
+func MergeRamResourceAssociation_ResourceShareArn(k *RamResourceAssociationParameters, p *RamResourceAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceShareArn != p.ResourceShareArn {
+		p.ResourceShareArn = k.ResourceShareArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

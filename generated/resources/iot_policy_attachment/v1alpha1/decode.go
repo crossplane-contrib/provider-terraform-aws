@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIotPolicyAttachment(prev *IotPolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIotPolicyAttachment_Target(&new.Spec.ForProvider, valMap)
 	DecodeIotPolicyAttachment_Policy(&new.Spec.ForProvider, valMap)
+	DecodeIotPolicyAttachment_Target(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeIotPolicyAttachment(prev *IotPolicyAttachment, ctyValue cty.Value) (r
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIotPolicyAttachment_Target(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Target = ctwhy.ValueAsString(vals["target"])
+func DecodeIotPolicyAttachment_Policy(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIotPolicyAttachment_Policy(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
+func DecodeIotPolicyAttachment_Target(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Target = ctwhy.ValueAsString(vals["target"])
 }

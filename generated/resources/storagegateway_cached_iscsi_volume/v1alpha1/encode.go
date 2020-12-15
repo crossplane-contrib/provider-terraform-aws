@@ -37,42 +37,44 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeStoragegatewayCachedIscsiVolume(r StoragegatewayCachedIscsiVolume) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeStoragegatewayCachedIscsiVolume_KmsKey(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_TargetName(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayCachedIscsiVolume_SourceVolumeArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_KmsEncrypted(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_KmsKey(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_VolumeSizeInBytes(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_GatewayArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayCachedIscsiVolume_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayCachedIscsiVolume_KmsEncrypted(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_SnapshotId(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayCachedIscsiVolume_TargetName(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayCachedIscsiVolume_Arn(r.Status.AtProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_SourceVolumeArn(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_LunNumber(r.Status.AtProvider, ctyVal)
-	EncodeStoragegatewayCachedIscsiVolume_ChapEnabled(r.Status.AtProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_NetworkInterfacePort(r.Status.AtProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_VolumeId(r.Status.AtProvider, ctyVal)
-	EncodeStoragegatewayCachedIscsiVolume_TargetArn(r.Status.AtProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_Arn(r.Status.AtProvider, ctyVal)
 	EncodeStoragegatewayCachedIscsiVolume_VolumeArn(r.Status.AtProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_ChapEnabled(r.Status.AtProvider, ctyVal)
+	EncodeStoragegatewayCachedIscsiVolume_TargetArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeStoragegatewayCachedIscsiVolume_KmsKey(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	vals["kms_key"] = cty.StringVal(p.KmsKey)
+func EncodeStoragegatewayCachedIscsiVolume_TargetName(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	vals["target_name"] = cty.StringVal(p.TargetName)
 }
 
 func EncodeStoragegatewayCachedIscsiVolume_NetworkInterfaceId(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
 	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
 }
 
-func EncodeStoragegatewayCachedIscsiVolume_SourceVolumeArn(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	vals["source_volume_arn"] = cty.StringVal(p.SourceVolumeArn)
+func EncodeStoragegatewayCachedIscsiVolume_KmsEncrypted(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	vals["kms_encrypted"] = cty.BoolVal(p.KmsEncrypted)
+}
+
+func EncodeStoragegatewayCachedIscsiVolume_KmsKey(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	vals["kms_key"] = cty.StringVal(p.KmsKey)
 }
 
 func EncodeStoragegatewayCachedIscsiVolume_VolumeSizeInBytes(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
@@ -81,6 +83,14 @@ func EncodeStoragegatewayCachedIscsiVolume_VolumeSizeInBytes(p StoragegatewayCac
 
 func EncodeStoragegatewayCachedIscsiVolume_GatewayArn(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
 	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
+}
+
+func EncodeStoragegatewayCachedIscsiVolume_SnapshotId(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	vals["snapshot_id"] = cty.StringVal(p.SnapshotId)
+}
+
+func EncodeStoragegatewayCachedIscsiVolume_SourceVolumeArn(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	vals["source_volume_arn"] = cty.StringVal(p.SourceVolumeArn)
 }
 
 func EncodeStoragegatewayCachedIscsiVolume_Tags(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
@@ -95,28 +105,8 @@ func EncodeStoragegatewayCachedIscsiVolume_Tags(p StoragegatewayCachedIscsiVolum
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeStoragegatewayCachedIscsiVolume_KmsEncrypted(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	vals["kms_encrypted"] = cty.BoolVal(p.KmsEncrypted)
-}
-
-func EncodeStoragegatewayCachedIscsiVolume_SnapshotId(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	vals["snapshot_id"] = cty.StringVal(p.SnapshotId)
-}
-
-func EncodeStoragegatewayCachedIscsiVolume_TargetName(p StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	vals["target_name"] = cty.StringVal(p.TargetName)
-}
-
-func EncodeStoragegatewayCachedIscsiVolume_Arn(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeStoragegatewayCachedIscsiVolume_LunNumber(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
 	vals["lun_number"] = cty.NumberIntVal(p.LunNumber)
-}
-
-func EncodeStoragegatewayCachedIscsiVolume_ChapEnabled(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	vals["chap_enabled"] = cty.BoolVal(p.ChapEnabled)
 }
 
 func EncodeStoragegatewayCachedIscsiVolume_NetworkInterfacePort(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
@@ -127,10 +117,18 @@ func EncodeStoragegatewayCachedIscsiVolume_VolumeId(p StoragegatewayCachedIscsiV
 	vals["volume_id"] = cty.StringVal(p.VolumeId)
 }
 
-func EncodeStoragegatewayCachedIscsiVolume_TargetArn(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	vals["target_arn"] = cty.StringVal(p.TargetArn)
+func EncodeStoragegatewayCachedIscsiVolume_Arn(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeStoragegatewayCachedIscsiVolume_VolumeArn(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
 	vals["volume_arn"] = cty.StringVal(p.VolumeArn)
+}
+
+func EncodeStoragegatewayCachedIscsiVolume_ChapEnabled(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	vals["chap_enabled"] = cty.BoolVal(p.ChapEnabled)
+}
+
+func EncodeStoragegatewayCachedIscsiVolume_TargetArn(p StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	vals["target_arn"] = cty.StringVal(p.TargetArn)
 }

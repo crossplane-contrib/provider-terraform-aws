@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDbProxyTarget_DbInstanceIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDbProxyTarget_TargetGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDbProxyTarget_DbClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbProxyTarget_DbInstanceIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,12 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbProxyTarget_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDbProxyTarget_Port(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDbProxyTarget_TargetGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,12 +61,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbProxyTarget_TrackedClusterId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDbProxyTarget_Type(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbProxyTarget_Type(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDbProxyTarget_Port(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbProxyTarget_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbProxyTarget_TrackedClusterId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,29 +92,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDbProxyTarget_DbInstanceIdentifier(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
-	if k.DbInstanceIdentifier != p.DbInstanceIdentifier {
-		p.DbInstanceIdentifier = k.DbInstanceIdentifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDbProxyTarget_TargetGroupName(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
-	if k.TargetGroupName != p.TargetGroupName {
-		p.TargetGroupName = k.TargetGroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDbProxyTarget_DbClusterIdentifier(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
 	if k.DbClusterIdentifier != p.DbClusterIdentifier {
 		p.DbClusterIdentifier = k.DbClusterIdentifier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbProxyTarget_DbInstanceIdentifier(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
+	if k.DbInstanceIdentifier != p.DbInstanceIdentifier {
+		p.DbInstanceIdentifier = k.DbInstanceIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -131,21 +121,11 @@ func MergeDbProxyTarget_DbProxyName(k *DbProxyTargetParameters, p *DbProxyTarget
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeDbProxyTarget_Endpoint(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
-	if k.Endpoint != p.Endpoint {
-		k.Endpoint = p.Endpoint
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDbProxyTarget_Port(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
-	if k.Port != p.Port {
-		k.Port = p.Port
-		md.StatusUpdated = true
+//mergePrimitiveTemplateSpec
+func MergeDbProxyTarget_TargetGroupName(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
+	if k.TargetGroupName != p.TargetGroupName {
+		p.TargetGroupName = k.TargetGroupName
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -172,9 +152,9 @@ func MergeDbProxyTarget_TargetArn(k *DbProxyTargetObservation, p *DbProxyTargetO
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDbProxyTarget_TrackedClusterId(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
-	if k.TrackedClusterId != p.TrackedClusterId {
-		k.TrackedClusterId = p.TrackedClusterId
+func MergeDbProxyTarget_Type(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		k.Type = p.Type
 		md.StatusUpdated = true
 		return true
 	}
@@ -182,9 +162,29 @@ func MergeDbProxyTarget_TrackedClusterId(k *DbProxyTargetObservation, p *DbProxy
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDbProxyTarget_Type(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		k.Type = p.Type
+func MergeDbProxyTarget_Port(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
+	if k.Port != p.Port {
+		k.Port = p.Port
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDbProxyTarget_Endpoint(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
+	if k.Endpoint != p.Endpoint {
+		k.Endpoint = p.Endpoint
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDbProxyTarget_TrackedClusterId(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
+	if k.TrackedClusterId != p.TrackedClusterId {
+		k.TrackedClusterId = p.TrackedClusterId
 		md.StatusUpdated = true
 		return true
 	}

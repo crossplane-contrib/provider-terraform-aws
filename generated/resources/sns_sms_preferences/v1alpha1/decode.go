@@ -39,28 +39,18 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSnsSmsPreferences(prev *SnsSmsPreferences, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSnsSmsPreferences_MonthlySpendLimit(&new.Spec.ForProvider, valMap)
-	DecodeSnsSmsPreferences_UsageReportS3Bucket(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_DefaultSenderId(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_DefaultSmsType(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_MonthlySpendLimit(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_UsageReportS3Bucket(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsSmsPreferences_MonthlySpendLimit(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	p.MonthlySpendLimit = ctwhy.ValueAsString(vals["monthly_spend_limit"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsSmsPreferences_UsageReportS3Bucket(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	p.UsageReportS3Bucket = ctwhy.ValueAsString(vals["usage_report_s3_bucket"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,4 +71,14 @@ func DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(p *SnsSmsPreferencesParame
 //primitiveTypeDecodeTemplate
 func DecodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	p.DeliveryStatusSuccessSamplingRate = ctwhy.ValueAsString(vals["delivery_status_success_sampling_rate"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsSmsPreferences_MonthlySpendLimit(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.MonthlySpendLimit = ctwhy.ValueAsString(vals["monthly_spend_limit"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsSmsPreferences_UsageReportS3Bucket(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.UsageReportS3Bucket = ctwhy.ValueAsString(vals["usage_report_s3_bucket"])
 }

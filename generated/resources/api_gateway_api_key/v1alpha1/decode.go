@@ -39,29 +39,19 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayApiKey(prev *ApiGatewayApiKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApiGatewayApiKey_Enabled(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayApiKey_Name(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayApiKey_Tags(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayApiKey_Description(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayApiKey_Enabled(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayApiKey_Name(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayApiKey_Value(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayApiKey_Arn(&new.Status.AtProvider, valMap)
-	DecodeApiGatewayApiKey_CreatedDate(&new.Status.AtProvider, valMap)
 	DecodeApiGatewayApiKey_LastUpdatedDate(&new.Status.AtProvider, valMap)
+	DecodeApiGatewayApiKey_CreatedDate(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayApiKey_Enabled(p *ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayApiKey_Name(p *ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -81,6 +71,16 @@ func DecodeApiGatewayApiKey_Description(p *ApiGatewayApiKeyParameters, vals map[
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeApiGatewayApiKey_Enabled(p *ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayApiKey_Name(p *ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayApiKey_Value(p *ApiGatewayApiKeyParameters, vals map[string]cty.Value) {
 	p.Value = ctwhy.ValueAsString(vals["value"])
 }
@@ -91,11 +91,11 @@ func DecodeApiGatewayApiKey_Arn(p *ApiGatewayApiKeyObservation, vals map[string]
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayApiKey_CreatedDate(p *ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
-	p.CreatedDate = ctwhy.ValueAsString(vals["created_date"])
+func DecodeApiGatewayApiKey_LastUpdatedDate(p *ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
+	p.LastUpdatedDate = ctwhy.ValueAsString(vals["last_updated_date"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayApiKey_LastUpdatedDate(p *ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
-	p.LastUpdatedDate = ctwhy.ValueAsString(vals["last_updated_date"])
+func DecodeApiGatewayApiKey_CreatedDate(p *ApiGatewayApiKeyObservation, vals map[string]cty.Value) {
+	p.CreatedDate = ctwhy.ValueAsString(vals["created_date"])
 }

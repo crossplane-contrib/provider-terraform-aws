@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCloudformationStackSetInstance_RetainStack(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudformationStackSetInstance_StackSetName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCloudformationStackSetInstance_AccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,16 +52,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeCloudformationStackSetInstance_Region(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudformationStackSetInstance_RetainStack(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudformationStackSetInstance_StackSetName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -74,6 +74,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudformationStackSetInstance_RetainStack(k *CloudformationStackSetInstanceParameters, p *CloudformationStackSetInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.RetainStack != p.RetainStack {
+		p.RetainStack = k.RetainStack
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudformationStackSetInstance_StackSetName(k *CloudformationStackSetInstanceParameters, p *CloudformationStackSetInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.StackSetName != p.StackSetName {
+		p.StackSetName = k.StackSetName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -100,26 +120,6 @@ func MergeCloudformationStackSetInstance_ParameterOverrides(k *CloudformationSta
 func MergeCloudformationStackSetInstance_Region(k *CloudformationStackSetInstanceParameters, p *CloudformationStackSetInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.Region != p.Region {
 		p.Region = k.Region
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudformationStackSetInstance_RetainStack(k *CloudformationStackSetInstanceParameters, p *CloudformationStackSetInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.RetainStack != p.RetainStack {
-		p.RetainStack = k.RetainStack
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudformationStackSetInstance_StackSetName(k *CloudformationStackSetInstanceParameters, p *CloudformationStackSetInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.StackSetName != p.StackSetName {
-		p.StackSetName = k.StackSetName
 		md.NeedsProviderUpdate = true
 		return true
 	}

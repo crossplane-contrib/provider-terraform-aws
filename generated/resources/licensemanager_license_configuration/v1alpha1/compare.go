@@ -31,21 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLicensemanagerLicenseConfiguration_LicenseCountingType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLicensemanagerLicenseConfiguration_LicenseRules(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLicensemanagerLicenseConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,6 +51,21 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLicensemanagerLicenseConfiguration_LicenseCountingType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLicensemanagerLicenseConfiguration_LicenseRules(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -75,36 +75,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(k *LicensemanagerLicenseConfigurationParameters, p *LicensemanagerLicenseConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.LicenseCountHardLimit != p.LicenseCountHardLimit {
-		p.LicenseCountHardLimit = k.LicenseCountHardLimit
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLicensemanagerLicenseConfiguration_LicenseCountingType(k *LicensemanagerLicenseConfigurationParameters, p *LicensemanagerLicenseConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.LicenseCountingType != p.LicenseCountingType {
-		p.LicenseCountingType = k.LicenseCountingType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeLicensemanagerLicenseConfiguration_LicenseRules(k *LicensemanagerLicenseConfigurationParameters, p *LicensemanagerLicenseConfigurationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.LicenseRules, p.LicenseRules) {
-		p.LicenseRules = k.LicenseRules
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -141,6 +111,36 @@ func MergeLicensemanagerLicenseConfiguration_Description(k *LicensemanagerLicens
 func MergeLicensemanagerLicenseConfiguration_LicenseCount(k *LicensemanagerLicenseConfigurationParameters, p *LicensemanagerLicenseConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.LicenseCount != p.LicenseCount {
 		p.LicenseCount = k.LicenseCount
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(k *LicensemanagerLicenseConfigurationParameters, p *LicensemanagerLicenseConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.LicenseCountHardLimit != p.LicenseCountHardLimit {
+		p.LicenseCountHardLimit = k.LicenseCountHardLimit
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLicensemanagerLicenseConfiguration_LicenseCountingType(k *LicensemanagerLicenseConfigurationParameters, p *LicensemanagerLicenseConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.LicenseCountingType != p.LicenseCountingType {
+		p.LicenseCountingType = k.LicenseCountingType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeLicensemanagerLicenseConfiguration_LicenseRules(k *LicensemanagerLicenseConfigurationParameters, p *LicensemanagerLicenseConfigurationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.LicenseRules, p.LicenseRules) {
+		p.LicenseRules = k.LicenseRules
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -37,17 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamUserGroupMembership(r IamUserGroupMembership) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamUserGroupMembership_Groups(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserGroupMembership_User(r.Spec.ForProvider, ctyVal)
+	EncodeIamUserGroupMembership_Groups(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamUserGroupMembership_User(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
+	vals["user"] = cty.StringVal(p.User)
 }
 
 func EncodeIamUserGroupMembership_Groups(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
@@ -56,8 +58,4 @@ func EncodeIamUserGroupMembership_Groups(p IamUserGroupMembershipParameters, val
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["groups"] = cty.SetVal(colVals)
-}
-
-func EncodeIamUserGroupMembership_User(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
-	vals["user"] = cty.StringVal(p.User)
 }

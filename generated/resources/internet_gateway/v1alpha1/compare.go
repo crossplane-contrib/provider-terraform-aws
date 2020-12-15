@@ -41,12 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeInternetGateway_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeInternetGateway_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeInternetGateway_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeInternetGateway_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,9 +82,9 @@ func MergeInternetGateway_VpcId(k *InternetGatewayParameters, p *InternetGateway
 }
 
 //mergePrimitiveTemplateStatus
-func MergeInternetGateway_Arn(k *InternetGatewayObservation, p *InternetGatewayObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeInternetGateway_OwnerId(k *InternetGatewayObservation, p *InternetGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.OwnerId != p.OwnerId {
+		k.OwnerId = p.OwnerId
 		md.StatusUpdated = true
 		return true
 	}
@@ -92,9 +92,9 @@ func MergeInternetGateway_Arn(k *InternetGatewayObservation, p *InternetGatewayO
 }
 
 //mergePrimitiveTemplateStatus
-func MergeInternetGateway_OwnerId(k *InternetGatewayObservation, p *InternetGatewayObservation, md *plugin.MergeDescription) bool {
-	if k.OwnerId != p.OwnerId {
-		k.OwnerId = p.OwnerId
+func MergeInternetGateway_Arn(k *InternetGatewayObservation, p *InternetGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

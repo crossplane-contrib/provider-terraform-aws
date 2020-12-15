@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRoute53QueryLog_ZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53QueryLog_CloudwatchLogGroupArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53QueryLog_CloudwatchLogGroupArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53QueryLog_ZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53QueryLog_ZoneId(k *Route53QueryLogParameters, p *Route53QueryLogParameters, md *plugin.MergeDescription) bool {
-	if k.ZoneId != p.ZoneId {
-		p.ZoneId = k.ZoneId
+func MergeRoute53QueryLog_CloudwatchLogGroupArn(k *Route53QueryLogParameters, p *Route53QueryLogParameters, md *plugin.MergeDescription) bool {
+	if k.CloudwatchLogGroupArn != p.CloudwatchLogGroupArn {
+		p.CloudwatchLogGroupArn = k.CloudwatchLogGroupArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeRoute53QueryLog_ZoneId(k *Route53QueryLogParameters, p *Route53QueryLo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53QueryLog_CloudwatchLogGroupArn(k *Route53QueryLogParameters, p *Route53QueryLogParameters, md *plugin.MergeDescription) bool {
-	if k.CloudwatchLogGroupArn != p.CloudwatchLogGroupArn {
-		p.CloudwatchLogGroupArn = k.CloudwatchLogGroupArn
+func MergeRoute53QueryLog_ZoneId(k *Route53QueryLogParameters, p *Route53QueryLogParameters, md *plugin.MergeDescription) bool {
+	if k.ZoneId != p.ZoneId {
+		p.ZoneId = k.ZoneId
 		md.NeedsProviderUpdate = true
 		return true
 	}

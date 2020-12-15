@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayGatewayResponse_ResponseParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayGatewayResponse_ResponseTemplates(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,6 +51,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeApiGatewayGatewayResponse_ResponseParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,16 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeApiGatewayGatewayResponse_ResponseParameters(k *ApiGatewayGatewayResponseParameters, p *ApiGatewayGatewayResponseParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.ResponseParameters, p.ResponseParameters) {
-		p.ResponseParameters = k.ResponseParameters
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -111,6 +101,16 @@ func MergeApiGatewayGatewayResponse_RestApiId(k *ApiGatewayGatewayResponseParame
 func MergeApiGatewayGatewayResponse_StatusCode(k *ApiGatewayGatewayResponseParameters, p *ApiGatewayGatewayResponseParameters, md *plugin.MergeDescription) bool {
 	if k.StatusCode != p.StatusCode {
 		p.StatusCode = k.StatusCode
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeApiGatewayGatewayResponse_ResponseParameters(k *ApiGatewayGatewayResponseParameters, p *ApiGatewayGatewayResponseParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.ResponseParameters, p.ResponseParameters) {
+		p.ResponseParameters = k.ResponseParameters
 		md.NeedsProviderUpdate = true
 		return true
 	}

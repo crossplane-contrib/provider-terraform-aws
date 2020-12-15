@@ -52,22 +52,22 @@ type ApiGatewayIntegrationSpec struct {
 
 // A ApiGatewayIntegrationParameters defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationParameters struct {
-	IntegrationHttpMethod string            `json:"integration_http_method"`
-	PassthroughBehavior   string            `json:"passthrough_behavior"`
+	Credentials           string            `json:"credentials"`
 	RequestParameters     map[string]string `json:"request_parameters"`
-	RestApiId             string            `json:"rest_api_id"`
-	Type                  string            `json:"type"`
-	Uri                   string            `json:"uri"`
+	ResourceId            string            `json:"resource_id"`
 	CacheNamespace        string            `json:"cache_namespace"`
+	ConnectionType        string            `json:"connection_type"`
 	ContentHandling       string            `json:"content_handling"`
+	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
+	Type                  string            `json:"type"`
+	CacheKeyParameters    []string          `json:"cache_key_parameters"`
+	IntegrationHttpMethod string            `json:"integration_http_method"`
+	RestApiId             string            `json:"rest_api_id"`
+	PassthroughBehavior   string            `json:"passthrough_behavior"`
+	RequestTemplates      map[string]string `json:"request_templates"`
+	Uri                   string            `json:"uri"`
 	ConnectionId          string            `json:"connection_id"`
 	HttpMethod            string            `json:"http_method"`
-	CacheKeyParameters    []string          `json:"cache_key_parameters"`
-	ConnectionType        string            `json:"connection_type"`
-	Credentials           string            `json:"credentials"`
-	RequestTemplates      map[string]string `json:"request_templates"`
-	ResourceId            string            `json:"resource_id"`
-	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
 }
 
 // A ApiGatewayIntegrationStatus defines the observed state of a ApiGatewayIntegration

@@ -31,32 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeS3BucketObject_ObjectLockRetainUntilDate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3BucketObject_WebsiteRedirect(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeS3BucketObject_ContentType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_ForceDestroy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_Etag(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_Key(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_Bucket(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_CacheControl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,37 +61,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_ContentEncoding(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_StorageClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_ObjectLockLegalHoldStatus(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_ServerSideEncryption(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3BucketObject_Acl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3BucketObject_CacheControl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3BucketObject_ContentLanguage(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3BucketObject_Etag(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_WebsiteRedirect(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -111,7 +81,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeS3BucketObject_ObjectLockLegalHoldStatus(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeS3BucketObject_ObjectLockMode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeS3BucketObject_ObjectLockRetainUntilDate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeS3BucketObject_ServerSideEncryption(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -121,12 +106,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_StorageClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_Acl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_Bucket(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_ContentLanguage(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeS3BucketObject_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -136,7 +126,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3BucketObject_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3BucketObject_ContentEncoding(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeS3BucketObject_ForceDestroy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeS3BucketObject_Key(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -157,26 +157,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_ObjectLockRetainUntilDate(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.ObjectLockRetainUntilDate != p.ObjectLockRetainUntilDate {
-		p.ObjectLockRetainUntilDate = k.ObjectLockRetainUntilDate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3BucketObject_WebsiteRedirect(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.WebsiteRedirect != p.WebsiteRedirect {
-		p.WebsiteRedirect = k.WebsiteRedirect
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeS3BucketObject_ContentType(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
 	if k.ContentType != p.ContentType {
 		p.ContentType = k.ContentType
@@ -187,9 +167,9 @@ func MergeS3BucketObject_ContentType(k *S3BucketObjectParameters, p *S3BucketObj
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_ForceDestroy(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.ForceDestroy != p.ForceDestroy {
-		p.ForceDestroy = k.ForceDestroy
+func MergeS3BucketObject_Etag(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.Etag != p.Etag {
+		p.Etag = k.Etag
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -197,9 +177,9 @@ func MergeS3BucketObject_ForceDestroy(k *S3BucketObjectParameters, p *S3BucketOb
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_Key(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.Key != p.Key {
-		p.Key = k.Key
+func MergeS3BucketObject_Bucket(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.Bucket != p.Bucket {
+		p.Bucket = k.Bucket
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -207,9 +187,9 @@ func MergeS3BucketObject_Key(k *S3BucketObjectParameters, p *S3BucketObjectParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_KmsKeyId(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.KmsKeyId != p.KmsKeyId {
-		p.KmsKeyId = k.KmsKeyId
+func MergeS3BucketObject_CacheControl(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.CacheControl != p.CacheControl {
+		p.CacheControl = k.CacheControl
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -237,9 +217,19 @@ func MergeS3BucketObject_ContentDisposition(k *S3BucketObjectParameters, p *S3Bu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_ContentEncoding(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.ContentEncoding != p.ContentEncoding {
-		p.ContentEncoding = k.ContentEncoding
+func MergeS3BucketObject_StorageClass(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.StorageClass != p.StorageClass {
+		p.StorageClass = k.StorageClass
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeS3BucketObject_Tags(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -247,59 +237,9 @@ func MergeS3BucketObject_ContentEncoding(k *S3BucketObjectParameters, p *S3Bucke
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_ObjectLockLegalHoldStatus(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.ObjectLockLegalHoldStatus != p.ObjectLockLegalHoldStatus {
-		p.ObjectLockLegalHoldStatus = k.ObjectLockLegalHoldStatus
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3BucketObject_ServerSideEncryption(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.ServerSideEncryption != p.ServerSideEncryption {
-		p.ServerSideEncryption = k.ServerSideEncryption
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3BucketObject_Acl(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.Acl != p.Acl {
-		p.Acl = k.Acl
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3BucketObject_CacheControl(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.CacheControl != p.CacheControl {
-		p.CacheControl = k.CacheControl
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3BucketObject_ContentLanguage(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.ContentLanguage != p.ContentLanguage {
-		p.ContentLanguage = k.ContentLanguage
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3BucketObject_Etag(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.Etag != p.Etag {
-		p.Etag = k.Etag
+func MergeS3BucketObject_WebsiteRedirect(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.WebsiteRedirect != p.WebsiteRedirect {
+		p.WebsiteRedirect = k.WebsiteRedirect
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -317,9 +257,39 @@ func MergeS3BucketObject_Metadata(k *S3BucketObjectParameters, p *S3BucketObject
 }
 
 //mergePrimitiveTemplateSpec
+func MergeS3BucketObject_ObjectLockLegalHoldStatus(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.ObjectLockLegalHoldStatus != p.ObjectLockLegalHoldStatus {
+		p.ObjectLockLegalHoldStatus = k.ObjectLockLegalHoldStatus
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeS3BucketObject_ObjectLockMode(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
 	if k.ObjectLockMode != p.ObjectLockMode {
 		p.ObjectLockMode = k.ObjectLockMode
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3BucketObject_ObjectLockRetainUntilDate(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.ObjectLockRetainUntilDate != p.ObjectLockRetainUntilDate {
+		p.ObjectLockRetainUntilDate = k.ObjectLockRetainUntilDate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3BucketObject_ServerSideEncryption(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.ServerSideEncryption != p.ServerSideEncryption {
+		p.ServerSideEncryption = k.ServerSideEncryption
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -337,9 +307,9 @@ func MergeS3BucketObject_Source(k *S3BucketObjectParameters, p *S3BucketObjectPa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_StorageClass(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.StorageClass != p.StorageClass {
-		p.StorageClass = k.StorageClass
+func MergeS3BucketObject_Acl(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.Acl != p.Acl {
+		p.Acl = k.Acl
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -347,9 +317,19 @@ func MergeS3BucketObject_StorageClass(k *S3BucketObjectParameters, p *S3BucketOb
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3BucketObject_Bucket(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if k.Bucket != p.Bucket {
-		p.Bucket = k.Bucket
+func MergeS3BucketObject_ContentLanguage(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.ContentLanguage != p.ContentLanguage {
+		p.ContentLanguage = k.ContentLanguage
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3BucketObject_KmsKeyId(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.KmsKeyId != p.KmsKeyId {
+		p.KmsKeyId = k.KmsKeyId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -366,10 +346,30 @@ func MergeS3BucketObject_Content(k *S3BucketObjectParameters, p *S3BucketObjectP
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeS3BucketObject_Tags(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeS3BucketObject_ContentEncoding(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.ContentEncoding != p.ContentEncoding {
+		p.ContentEncoding = k.ContentEncoding
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3BucketObject_ForceDestroy(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.ForceDestroy != p.ForceDestroy {
+		p.ForceDestroy = k.ForceDestroy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3BucketObject_Key(k *S3BucketObjectParameters, p *S3BucketObjectParameters, md *plugin.MergeDescription) bool {
+	if k.Key != p.Key {
+		p.Key = k.Key
 		md.NeedsProviderUpdate = true
 		return true
 	}

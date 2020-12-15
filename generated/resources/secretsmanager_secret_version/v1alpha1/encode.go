@@ -41,15 +41,13 @@ func EncodeSecretsmanagerSecretVersion(r SecretsmanagerSecretVersion) cty.Value 
 	EncodeSecretsmanagerSecretVersion_SecretId(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_SecretString(r.Spec.ForProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionStages(r.Spec.ForProvider, ctyVal)
-	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSecretsmanagerSecretVersion_VersionId(r.Status.AtProvider, ctyVal)
+	EncodeSecretsmanagerSecretVersion_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -73,10 +71,10 @@ func EncodeSecretsmanagerSecretVersion_VersionStages(p SecretsmanagerSecretVersi
 	vals["version_stages"] = cty.SetVal(colVals)
 }
 
-func EncodeSecretsmanagerSecretVersion_Arn(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeSecretsmanagerSecretVersion_VersionId(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
 	vals["version_id"] = cty.StringVal(p.VersionId)
+}
+
+func EncodeSecretsmanagerSecretVersion_Arn(p SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

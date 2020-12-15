@@ -46,12 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyDetector_AccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeGuarddutyDetector_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyDetector_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeGuarddutyDetector_AccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,9 +97,9 @@ func MergeGuarddutyDetector_Tags(k *GuarddutyDetectorParameters, p *GuarddutyDet
 }
 
 //mergePrimitiveTemplateStatus
-func MergeGuarddutyDetector_AccountId(k *GuarddutyDetectorObservation, p *GuarddutyDetectorObservation, md *plugin.MergeDescription) bool {
-	if k.AccountId != p.AccountId {
-		k.AccountId = p.AccountId
+func MergeGuarddutyDetector_Arn(k *GuarddutyDetectorObservation, p *GuarddutyDetectorObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}
@@ -107,9 +107,9 @@ func MergeGuarddutyDetector_AccountId(k *GuarddutyDetectorObservation, p *Guardd
 }
 
 //mergePrimitiveTemplateStatus
-func MergeGuarddutyDetector_Arn(k *GuarddutyDetectorObservation, p *GuarddutyDetectorObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeGuarddutyDetector_AccountId(k *GuarddutyDetectorObservation, p *GuarddutyDetectorObservation, md *plugin.MergeDescription) bool {
+	if k.AccountId != p.AccountId {
+		k.AccountId = p.AccountId
 		md.StatusUpdated = true
 		return true
 	}

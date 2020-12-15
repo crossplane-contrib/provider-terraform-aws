@@ -37,33 +37,47 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeKmsExternalKey(r KmsExternalKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKmsExternalKey_KeyMaterialBase64(r.Spec.ForProvider, ctyVal)
 	EncodeKmsExternalKey_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeKmsExternalKey_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeKmsExternalKey_ValidTo(r.Spec.ForProvider, ctyVal)
+	EncodeKmsExternalKey_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodeKmsExternalKey_KeyMaterialBase64(r.Spec.ForProvider, ctyVal)
 	EncodeKmsExternalKey_DeletionWindowInDays(r.Spec.ForProvider, ctyVal)
 	EncodeKmsExternalKey_Description(r.Spec.ForProvider, ctyVal)
-	EncodeKmsExternalKey_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodeKmsExternalKey_Arn(r.Status.AtProvider, ctyVal)
-	EncodeKmsExternalKey_ExpirationModel(r.Status.AtProvider, ctyVal)
-	EncodeKmsExternalKey_KeyState(r.Status.AtProvider, ctyVal)
+	EncodeKmsExternalKey_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeKmsExternalKey_KeyUsage(r.Status.AtProvider, ctyVal)
+	EncodeKmsExternalKey_Arn(r.Status.AtProvider, ctyVal)
+	EncodeKmsExternalKey_KeyState(r.Status.AtProvider, ctyVal)
+	EncodeKmsExternalKey_ExpirationModel(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeKmsExternalKey_Policy(p KmsExternalKeyParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
+}
+
+func EncodeKmsExternalKey_ValidTo(p KmsExternalKeyParameters, vals map[string]cty.Value) {
+	vals["valid_to"] = cty.StringVal(p.ValidTo)
+}
+
+func EncodeKmsExternalKey_Enabled(p KmsExternalKeyParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeKmsExternalKey_KeyMaterialBase64(p KmsExternalKeyParameters, vals map[string]cty.Value) {
 	vals["key_material_base64"] = cty.StringVal(p.KeyMaterialBase64)
 }
 
-func EncodeKmsExternalKey_Policy(p KmsExternalKeyParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
+func EncodeKmsExternalKey_DeletionWindowInDays(p KmsExternalKeyParameters, vals map[string]cty.Value) {
+	vals["deletion_window_in_days"] = cty.NumberIntVal(p.DeletionWindowInDays)
+}
+
+func EncodeKmsExternalKey_Description(p KmsExternalKeyParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeKmsExternalKey_Tags(p KmsExternalKeyParameters, vals map[string]cty.Value) {
@@ -78,34 +92,18 @@ func EncodeKmsExternalKey_Tags(p KmsExternalKeyParameters, vals map[string]cty.V
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeKmsExternalKey_ValidTo(p KmsExternalKeyParameters, vals map[string]cty.Value) {
-	vals["valid_to"] = cty.StringVal(p.ValidTo)
-}
-
-func EncodeKmsExternalKey_DeletionWindowInDays(p KmsExternalKeyParameters, vals map[string]cty.Value) {
-	vals["deletion_window_in_days"] = cty.NumberIntVal(p.DeletionWindowInDays)
-}
-
-func EncodeKmsExternalKey_Description(p KmsExternalKeyParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeKmsExternalKey_Enabled(p KmsExternalKeyParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
+func EncodeKmsExternalKey_KeyUsage(p KmsExternalKeyObservation, vals map[string]cty.Value) {
+	vals["key_usage"] = cty.StringVal(p.KeyUsage)
 }
 
 func EncodeKmsExternalKey_Arn(p KmsExternalKeyObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
-func EncodeKmsExternalKey_ExpirationModel(p KmsExternalKeyObservation, vals map[string]cty.Value) {
-	vals["expiration_model"] = cty.StringVal(p.ExpirationModel)
-}
-
 func EncodeKmsExternalKey_KeyState(p KmsExternalKeyObservation, vals map[string]cty.Value) {
 	vals["key_state"] = cty.StringVal(p.KeyState)
 }
 
-func EncodeKmsExternalKey_KeyUsage(p KmsExternalKeyObservation, vals map[string]cty.Value) {
-	vals["key_usage"] = cty.StringVal(p.KeyUsage)
+func EncodeKmsExternalKey_ExpirationModel(p KmsExternalKeyObservation, vals map[string]cty.Value) {
+	vals["expiration_model"] = cty.StringVal(p.ExpirationModel)
 }

@@ -52,9 +52,9 @@ type LambdaProvisionedConcurrencyConfigSpec struct {
 
 // A LambdaProvisionedConcurrencyConfigParameters defines the desired state of a LambdaProvisionedConcurrencyConfig
 type LambdaProvisionedConcurrencyConfigParameters struct {
-	FunctionName                    string   `json:"function_name"`
 	ProvisionedConcurrentExecutions int64    `json:"provisioned_concurrent_executions"`
 	Qualifier                       string   `json:"qualifier"`
+	FunctionName                    string   `json:"function_name"`
 	Timeouts                        Timeouts `json:"timeouts"`
 }
 

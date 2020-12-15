@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxTransitVirtualInterface_Mtu(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxTransitVirtualInterface_AddressFamily(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,17 +41,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDxTransitVirtualInterface_Mtu(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxTransitVirtualInterface_Vlan(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDxTransitVirtualInterface_BgpAsn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxTransitVirtualInterface_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxTransitVirtualInterface_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxTransitVirtualInterface_CustomerAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxTransitVirtualInterface_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,12 +81,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxTransitVirtualInterface_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxTransitVirtualInterface_Vlan(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxTransitVirtualInterface_CustomerAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,12 +91,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxTransitVirtualInterface_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDxTransitVirtualInterface_AmazonSideAsn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxTransitVirtualInterface_AmazonSideAsn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDxTransitVirtualInterface_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -122,16 +122,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxTransitVirtualInterface_Mtu(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.Mtu != p.Mtu {
-		p.Mtu = k.Mtu
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDxTransitVirtualInterface_AddressFamily(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
 	if k.AddressFamily != p.AddressFamily {
 		p.AddressFamily = k.AddressFamily
@@ -152,9 +142,39 @@ func MergeDxTransitVirtualInterface_AmazonAddress(k *DxTransitVirtualInterfacePa
 }
 
 //mergePrimitiveTemplateSpec
+func MergeDxTransitVirtualInterface_Mtu(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.Mtu != p.Mtu {
+		p.Mtu = k.Mtu
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxTransitVirtualInterface_Vlan(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.Vlan != p.Vlan {
+		p.Vlan = k.Vlan
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeDxTransitVirtualInterface_BgpAsn(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
 	if k.BgpAsn != p.BgpAsn {
 		p.BgpAsn = k.BgpAsn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxTransitVirtualInterface_ConnectionId(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.ConnectionId != p.ConnectionId {
+		p.ConnectionId = k.ConnectionId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -165,16 +185,6 @@ func MergeDxTransitVirtualInterface_BgpAsn(k *DxTransitVirtualInterfaceParameter
 func MergeDxTransitVirtualInterface_Tags(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxTransitVirtualInterface_CustomerAddress(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.CustomerAddress != p.CustomerAddress {
-		p.CustomerAddress = k.CustomerAddress
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -212,19 +222,9 @@ func MergeDxTransitVirtualInterface_BgpAuthKey(k *DxTransitVirtualInterfaceParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxTransitVirtualInterface_ConnectionId(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.ConnectionId != p.ConnectionId {
-		p.ConnectionId = k.ConnectionId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxTransitVirtualInterface_Vlan(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.Vlan != p.Vlan {
-		p.Vlan = k.Vlan
+func MergeDxTransitVirtualInterface_CustomerAddress(k *DxTransitVirtualInterfaceParameters, p *DxTransitVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.CustomerAddress != p.CustomerAddress {
+		p.CustomerAddress = k.CustomerAddress
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -235,6 +235,11 @@ func MergeDxTransitVirtualInterface_Vlan(k *DxTransitVirtualInterfaceParameters,
 func MergeDxTransitVirtualInterface_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeDxTransitVirtualInterface_Timeouts_Update(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDxTransitVirtualInterface_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -245,15 +250,20 @@ func MergeDxTransitVirtualInterface_Timeouts(k *Timeouts, p *Timeouts, md *plugi
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxTransitVirtualInterface_Timeouts_Update(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxTransitVirtualInterface_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Update != p.Update {
+		p.Update = k.Update
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -276,11 +286,11 @@ func MergeDxTransitVirtualInterface_Timeouts_Delete(k *Timeouts, p *Timeouts, md
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDxTransitVirtualInterface_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Update != p.Update {
-		p.Update = k.Update
-		md.NeedsProviderUpdate = true
+//mergePrimitiveTemplateStatus
+func MergeDxTransitVirtualInterface_AmazonSideAsn(k *DxTransitVirtualInterfaceObservation, p *DxTransitVirtualInterfaceObservation, md *plugin.MergeDescription) bool {
+	if k.AmazonSideAsn != p.AmazonSideAsn {
+		k.AmazonSideAsn = p.AmazonSideAsn
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -290,16 +300,6 @@ func MergeDxTransitVirtualInterface_Timeouts_Update(k *Timeouts, p *Timeouts, md
 func MergeDxTransitVirtualInterface_Arn(k *DxTransitVirtualInterfaceObservation, p *DxTransitVirtualInterfaceObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDxTransitVirtualInterface_AmazonSideAsn(k *DxTransitVirtualInterfaceObservation, p *DxTransitVirtualInterfaceObservation, md *plugin.MergeDescription) bool {
-	if k.AmazonSideAsn != p.AmazonSideAsn {
-		k.AmazonSideAsn = p.AmazonSideAsn
 		md.StatusUpdated = true
 		return true
 	}

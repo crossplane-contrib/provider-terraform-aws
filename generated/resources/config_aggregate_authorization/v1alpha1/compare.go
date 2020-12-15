@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeConfigAggregateAuthorization_AccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeConfigAggregateAuthorization_Region(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeConfigAggregateAuthorization_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigAggregateAuthorization_AccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,16 +62,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeConfigAggregateAuthorization_AccountId(k *ConfigAggregateAuthorizationParameters, p *ConfigAggregateAuthorizationParameters, md *plugin.MergeDescription) bool {
-	if k.AccountId != p.AccountId {
-		p.AccountId = k.AccountId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeConfigAggregateAuthorization_Region(k *ConfigAggregateAuthorizationParameters, p *ConfigAggregateAuthorizationParameters, md *plugin.MergeDescription) bool {
 	if k.Region != p.Region {
 		p.Region = k.Region
@@ -85,6 +75,16 @@ func MergeConfigAggregateAuthorization_Region(k *ConfigAggregateAuthorizationPar
 func MergeConfigAggregateAuthorization_Tags(k *ConfigAggregateAuthorizationParameters, p *ConfigAggregateAuthorizationParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigAggregateAuthorization_AccountId(k *ConfigAggregateAuthorizationParameters, p *ConfigAggregateAuthorizationParameters, md *plugin.MergeDescription) bool {
+	if k.AccountId != p.AccountId {
+		p.AccountId = k.AccountId
 		md.NeedsProviderUpdate = true
 		return true
 	}

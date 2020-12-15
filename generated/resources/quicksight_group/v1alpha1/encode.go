@@ -37,19 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeQuicksightGroup(r QuicksightGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeQuicksightGroup_Namespace(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_AwsAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_GroupName(r.Spec.ForProvider, ctyVal)
-	EncodeQuicksightGroup_Namespace(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeQuicksightGroup_Namespace(p QuicksightGroupParameters, vals map[string]cty.Value) {
+	vals["namespace"] = cty.StringVal(p.Namespace)
 }
 
 func EncodeQuicksightGroup_AwsAccountId(p QuicksightGroupParameters, vals map[string]cty.Value) {
@@ -62,10 +64,6 @@ func EncodeQuicksightGroup_Description(p QuicksightGroupParameters, vals map[str
 
 func EncodeQuicksightGroup_GroupName(p QuicksightGroupParameters, vals map[string]cty.Value) {
 	vals["group_name"] = cty.StringVal(p.GroupName)
-}
-
-func EncodeQuicksightGroup_Namespace(p QuicksightGroupParameters, vals map[string]cty.Value) {
-	vals["namespace"] = cty.StringVal(p.Namespace)
 }
 
 func EncodeQuicksightGroup_Arn(p QuicksightGroupObservation, vals map[string]cty.Value) {

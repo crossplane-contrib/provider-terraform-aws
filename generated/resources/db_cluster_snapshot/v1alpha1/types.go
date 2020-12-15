@@ -52,9 +52,9 @@ type DbClusterSnapshotSpec struct {
 
 // A DbClusterSnapshotParameters defines the desired state of a DbClusterSnapshot
 type DbClusterSnapshotParameters struct {
-	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
-	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
 	Tags                        map[string]string `json:"tags"`
+	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
+	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
 	Timeouts                    Timeouts          `json:"timeouts"`
 }
 
@@ -70,17 +70,17 @@ type DbClusterSnapshotStatus struct {
 
 // A DbClusterSnapshotObservation records the observed state of a DbClusterSnapshot
 type DbClusterSnapshotObservation struct {
-	Engine                     string   `json:"engine"`
-	Port                       int64    `json:"port"`
-	SnapshotType               string   `json:"snapshot_type"`
-	AllocatedStorage           int64    `json:"allocated_storage"`
-	KmsKeyId                   string   `json:"kms_key_id"`
-	LicenseModel               string   `json:"license_model"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
-	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
 	EngineVersion              string   `json:"engine_version"`
+	Port                       int64    `json:"port"`
 	Status                     string   `json:"status"`
-	VpcId                      string   `json:"vpc_id"`
-	AvailabilityZones          []string `json:"availability_zones"`
+	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
+	AllocatedStorage           int64    `json:"allocated_storage"`
+	LicenseModel               string   `json:"license_model"`
+	SnapshotType               string   `json:"snapshot_type"`
 	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	VpcId                      string   `json:"vpc_id"`
+	KmsKeyId                   string   `json:"kms_key_id"`
+	Engine                     string   `json:"engine"`
+	AvailabilityZones          []string `json:"availability_zones"`
 }

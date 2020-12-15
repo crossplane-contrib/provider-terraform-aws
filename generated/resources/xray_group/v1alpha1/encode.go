@@ -37,26 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeXrayGroup(r XrayGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeXrayGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_FilterExpression(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_GroupName(r.Spec.ForProvider, ctyVal)
-	EncodeXrayGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeXrayGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeXrayGroup_FilterExpression(p XrayGroupParameters, vals map[string]cty.Value) {
-	vals["filter_expression"] = cty.StringVal(p.FilterExpression)
-}
-
-func EncodeXrayGroup_GroupName(p XrayGroupParameters, vals map[string]cty.Value) {
-	vals["group_name"] = cty.StringVal(p.GroupName)
 }
 
 func EncodeXrayGroup_Tags(p XrayGroupParameters, vals map[string]cty.Value) {
@@ -69,6 +59,14 @@ func EncodeXrayGroup_Tags(p XrayGroupParameters, vals map[string]cty.Value) {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeXrayGroup_FilterExpression(p XrayGroupParameters, vals map[string]cty.Value) {
+	vals["filter_expression"] = cty.StringVal(p.FilterExpression)
+}
+
+func EncodeXrayGroup_GroupName(p XrayGroupParameters, vals map[string]cty.Value) {
+	vals["group_name"] = cty.StringVal(p.GroupName)
 }
 
 func EncodeXrayGroup_Arn(p XrayGroupObservation, vals map[string]cty.Value) {

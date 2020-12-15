@@ -39,31 +39,31 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeNeptuneClusterInstance(prev *NeptuneClusterInstance, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeNeptuneClusterInstance_ApplyImmediately(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_AutoMinorVersionUpgrade(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_ClusterIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_PreferredMaintenanceWindow(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_PubliclyAccessible(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterInstance_Engine(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterInstance_EngineVersion(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterInstance_NeptuneSubnetGroupName(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_PreferredBackupWindow(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_PromotionTier(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_IdentifierPrefix(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_InstanceClass(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_NeptuneParameterGroupName(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterInstance_Port(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterInstance_AvailabilityZone(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_Identifier(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_PreferredMaintenanceWindow(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneClusterInstance_PubliclyAccessible(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_IdentifierPrefix(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_PreferredBackupWindow(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_PromotionTier(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_NeptuneParameterGroupName(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterInstance_Tags(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_AutoMinorVersionUpgrade(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_ClusterIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_InstanceClass(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_ApplyImmediately(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneClusterInstance_Identifier(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterInstance_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeNeptuneClusterInstance_Address(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterInstance_DbiResourceId(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterInstance_Endpoint(&new.Status.AtProvider, valMap)
 	DecodeNeptuneClusterInstance_StorageEncrypted(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterInstance_Writer(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterInstance_Arn(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterInstance_DbiResourceId(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterInstance_Address(&new.Status.AtProvider, valMap)
 	DecodeNeptuneClusterInstance_KmsKeyArn(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterInstance_Arn(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterInstance_Endpoint(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterInstance_Writer(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -72,18 +72,13 @@ func DecodeNeptuneClusterInstance(prev *NeptuneClusterInstance, ctyValue cty.Val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_ApplyImmediately(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.ApplyImmediately = ctwhy.ValueAsBool(vals["apply_immediately"])
+func DecodeNeptuneClusterInstance_PreferredMaintenanceWindow(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PreferredMaintenanceWindow = ctwhy.ValueAsString(vals["preferred_maintenance_window"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_AutoMinorVersionUpgrade(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.AutoMinorVersionUpgrade = ctwhy.ValueAsBool(vals["auto_minor_version_upgrade"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_ClusterIdentifier(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.ClusterIdentifier = ctwhy.ValueAsString(vals["cluster_identifier"])
+func DecodeNeptuneClusterInstance_PubliclyAccessible(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PubliclyAccessible = ctwhy.ValueAsBool(vals["publicly_accessible"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -102,31 +97,6 @@ func DecodeNeptuneClusterInstance_NeptuneSubnetGroupName(p *NeptuneClusterInstan
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_PreferredBackupWindow(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PreferredBackupWindow = ctwhy.ValueAsString(vals["preferred_backup_window"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_PromotionTier(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PromotionTier = ctwhy.ValueAsInt64(vals["promotion_tier"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_IdentifierPrefix(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.IdentifierPrefix = ctwhy.ValueAsString(vals["identifier_prefix"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_InstanceClass(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.InstanceClass = ctwhy.ValueAsString(vals["instance_class"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_NeptuneParameterGroupName(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.NeptuneParameterGroupName = ctwhy.ValueAsString(vals["neptune_parameter_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeNeptuneClusterInstance_Port(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
 	p.Port = ctwhy.ValueAsInt64(vals["port"])
 }
@@ -137,18 +107,23 @@ func DecodeNeptuneClusterInstance_AvailabilityZone(p *NeptuneClusterInstancePara
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_Identifier(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.Identifier = ctwhy.ValueAsString(vals["identifier"])
+func DecodeNeptuneClusterInstance_IdentifierPrefix(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.IdentifierPrefix = ctwhy.ValueAsString(vals["identifier_prefix"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_PreferredMaintenanceWindow(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PreferredMaintenanceWindow = ctwhy.ValueAsString(vals["preferred_maintenance_window"])
+func DecodeNeptuneClusterInstance_PreferredBackupWindow(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PreferredBackupWindow = ctwhy.ValueAsString(vals["preferred_backup_window"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_PubliclyAccessible(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PubliclyAccessible = ctwhy.ValueAsBool(vals["publicly_accessible"])
+func DecodeNeptuneClusterInstance_PromotionTier(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PromotionTier = ctwhy.ValueAsInt64(vals["promotion_tier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterInstance_NeptuneParameterGroupName(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.NeptuneParameterGroupName = ctwhy.ValueAsString(vals["neptune_parameter_group_name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -160,6 +135,31 @@ func DecodeNeptuneClusterInstance_Tags(p *NeptuneClusterInstanceParameters, vals
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterInstance_AutoMinorVersionUpgrade(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.AutoMinorVersionUpgrade = ctwhy.ValueAsBool(vals["auto_minor_version_upgrade"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterInstance_ClusterIdentifier(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.ClusterIdentifier = ctwhy.ValueAsString(vals["cluster_identifier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterInstance_InstanceClass(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.InstanceClass = ctwhy.ValueAsString(vals["instance_class"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterInstance_ApplyImmediately(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.ApplyImmediately = ctwhy.ValueAsBool(vals["apply_immediately"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterInstance_Identifier(p *NeptuneClusterInstanceParameters, vals map[string]cty.Value) {
+	p.Identifier = ctwhy.ValueAsString(vals["identifier"])
 }
 
 //containerTypeDecodeTemplate
@@ -186,8 +186,8 @@ func DecodeNeptuneClusterInstance_Timeouts_Update(p *Timeouts, vals map[string]c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_Address(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
-	p.Address = ctwhy.ValueAsString(vals["address"])
+func DecodeNeptuneClusterInstance_StorageEncrypted(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
+	p.StorageEncrypted = ctwhy.ValueAsBool(vals["storage_encrypted"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -196,18 +196,13 @@ func DecodeNeptuneClusterInstance_DbiResourceId(p *NeptuneClusterInstanceObserva
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_Endpoint(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
-	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
+func DecodeNeptuneClusterInstance_Address(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
+	p.Address = ctwhy.ValueAsString(vals["address"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_StorageEncrypted(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
-	p.StorageEncrypted = ctwhy.ValueAsBool(vals["storage_encrypted"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_Writer(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
-	p.Writer = ctwhy.ValueAsBool(vals["writer"])
+func DecodeNeptuneClusterInstance_KmsKeyArn(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
+	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -216,6 +211,11 @@ func DecodeNeptuneClusterInstance_Arn(p *NeptuneClusterInstanceObservation, vals
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterInstance_KmsKeyArn(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
-	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
+func DecodeNeptuneClusterInstance_Endpoint(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
+	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterInstance_Writer(p *NeptuneClusterInstanceObservation, vals map[string]cty.Value) {
+	p.Writer = ctwhy.ValueAsBool(vals["writer"])
 }

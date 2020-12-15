@@ -31,12 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayAuthorizer_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayAuthorizer_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,17 +56,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayAuthorizer_AuthorizerUri(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeApiGatewayAuthorizer_IdentitySource(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayAuthorizer_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayAuthorizer_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -88,19 +88,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApiGatewayAuthorizer_Name(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayAuthorizer_Type(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		p.Type = k.Type
+func MergeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
+	if k.AuthorizerResultTtlInSeconds != p.AuthorizerResultTtlInSeconds {
+		p.AuthorizerResultTtlInSeconds = k.AuthorizerResultTtlInSeconds
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -148,16 +138,6 @@ func MergeApiGatewayAuthorizer_AuthorizerCredentials(k *ApiGatewayAuthorizerPara
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
-	if k.AuthorizerResultTtlInSeconds != p.AuthorizerResultTtlInSeconds {
-		p.AuthorizerResultTtlInSeconds = k.AuthorizerResultTtlInSeconds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeApiGatewayAuthorizer_AuthorizerUri(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
 	if k.AuthorizerUri != p.AuthorizerUri {
 		p.AuthorizerUri = k.AuthorizerUri
@@ -171,6 +151,26 @@ func MergeApiGatewayAuthorizer_AuthorizerUri(k *ApiGatewayAuthorizerParameters, 
 func MergeApiGatewayAuthorizer_IdentitySource(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
 	if k.IdentitySource != p.IdentitySource {
 		p.IdentitySource = k.IdentitySource
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayAuthorizer_Name(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayAuthorizer_Type(k *ApiGatewayAuthorizerParameters, p *ApiGatewayAuthorizerParameters, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		p.Type = k.Type
 		md.NeedsProviderUpdate = true
 		return true
 	}

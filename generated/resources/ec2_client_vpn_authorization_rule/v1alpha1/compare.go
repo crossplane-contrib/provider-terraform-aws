@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2ClientVpnAuthorizationRule_AccessGroupId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,6 +51,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,16 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(k *Ec2ClientVpnAuthorizationRuleParameters, p *Ec2ClientVpnAuthorizationRuleParameters, md *plugin.MergeDescription) bool {
-	if k.TargetNetworkCidr != p.TargetNetworkCidr {
-		p.TargetNetworkCidr = k.TargetNetworkCidr
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -111,6 +101,16 @@ func MergeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(k *Ec2ClientVpnAutho
 func MergeEc2ClientVpnAuthorizationRule_Description(k *Ec2ClientVpnAuthorizationRuleParameters, p *Ec2ClientVpnAuthorizationRuleParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(k *Ec2ClientVpnAuthorizationRuleParameters, p *Ec2ClientVpnAuthorizationRuleParameters, md *plugin.MergeDescription) bool {
+	if k.TargetNetworkCidr != p.TargetNetworkCidr {
+		p.TargetNetworkCidr = k.TargetNetworkCidr
 		md.NeedsProviderUpdate = true
 		return true
 	}

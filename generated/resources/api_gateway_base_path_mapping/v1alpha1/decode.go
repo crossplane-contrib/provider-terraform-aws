@@ -39,21 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayBasePathMapping(prev *ApiGatewayBasePathMapping, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApiGatewayBasePathMapping_StageName(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayBasePathMapping_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayBasePathMapping_BasePath(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayBasePathMapping_DomainName(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayBasePathMapping_StageName(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayBasePathMapping_StageName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
-	p.StageName = ctwhy.ValueAsString(vals["stage_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,4 +64,9 @@ func DecodeApiGatewayBasePathMapping_BasePath(p *ApiGatewayBasePathMappingParame
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayBasePathMapping_DomainName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayBasePathMapping_StageName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
+	p.StageName = ctwhy.ValueAsString(vals["stage_name"])
 }

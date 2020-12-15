@@ -40,16 +40,14 @@ func EncodeNatGateway(r NatGateway) cty.Value {
 	EncodeNatGateway_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeNatGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNatGateway_AllocationId(r.Spec.ForProvider, ctyVal)
+	EncodeNatGateway_NetworkInterfaceId(r.Status.AtProvider, ctyVal)
 	EncodeNatGateway_PrivateIp(r.Status.AtProvider, ctyVal)
 	EncodeNatGateway_PublicIp(r.Status.AtProvider, ctyVal)
-	EncodeNatGateway_NetworkInterfaceId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -73,14 +71,14 @@ func EncodeNatGateway_AllocationId(p NatGatewayParameters, vals map[string]cty.V
 	vals["allocation_id"] = cty.StringVal(p.AllocationId)
 }
 
+func EncodeNatGateway_NetworkInterfaceId(p NatGatewayObservation, vals map[string]cty.Value) {
+	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
+}
+
 func EncodeNatGateway_PrivateIp(p NatGatewayObservation, vals map[string]cty.Value) {
 	vals["private_ip"] = cty.StringVal(p.PrivateIp)
 }
 
 func EncodeNatGateway_PublicIp(p NatGatewayObservation, vals map[string]cty.Value) {
 	vals["public_ip"] = cty.StringVal(p.PublicIp)
-}
-
-func EncodeNatGateway_NetworkInterfaceId(p NatGatewayObservation, vals map[string]cty.Value) {
-	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
 }

@@ -37,46 +37,44 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeFlowLog(r FlowLog) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeFlowLog_EniId(r.Spec.ForProvider, ctyVal)
-	EncodeFlowLog_IamRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeFlowLog_LogDestination(r.Spec.ForProvider, ctyVal)
-	EncodeFlowLog_LogDestinationType(r.Spec.ForProvider, ctyVal)
+	EncodeFlowLog_IamRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeFlowLog_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeFlowLog_MaxAggregationInterval(r.Spec.ForProvider, ctyVal)
+	EncodeFlowLog_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeFlowLog_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeFlowLog_TrafficType(r.Spec.ForProvider, ctyVal)
-	EncodeFlowLog_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeFlowLog_EniId(r.Spec.ForProvider, ctyVal)
+	EncodeFlowLog_LogDestinationType(r.Spec.ForProvider, ctyVal)
 	EncodeFlowLog_LogFormat(r.Spec.ForProvider, ctyVal)
-	EncodeFlowLog_LogGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeFlowLog_SubnetId(r.Spec.ForProvider, ctyVal)
+	EncodeFlowLog_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeFlowLog_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeFlowLog_EniId(p FlowLogParameters, vals map[string]cty.Value) {
-	vals["eni_id"] = cty.StringVal(p.EniId)
-}
-
-func EncodeFlowLog_IamRoleArn(p FlowLogParameters, vals map[string]cty.Value) {
-	vals["iam_role_arn"] = cty.StringVal(p.IamRoleArn)
 }
 
 func EncodeFlowLog_LogDestination(p FlowLogParameters, vals map[string]cty.Value) {
 	vals["log_destination"] = cty.StringVal(p.LogDestination)
 }
 
-func EncodeFlowLog_LogDestinationType(p FlowLogParameters, vals map[string]cty.Value) {
-	vals["log_destination_type"] = cty.StringVal(p.LogDestinationType)
+func EncodeFlowLog_IamRoleArn(p FlowLogParameters, vals map[string]cty.Value) {
+	vals["iam_role_arn"] = cty.StringVal(p.IamRoleArn)
+}
+
+func EncodeFlowLog_LogGroupName(p FlowLogParameters, vals map[string]cty.Value) {
+	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
 }
 
 func EncodeFlowLog_MaxAggregationInterval(p FlowLogParameters, vals map[string]cty.Value) {
 	vals["max_aggregation_interval"] = cty.NumberIntVal(p.MaxAggregationInterval)
+}
+
+func EncodeFlowLog_SubnetId(p FlowLogParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
 func EncodeFlowLog_Tags(p FlowLogParameters, vals map[string]cty.Value) {
@@ -95,20 +93,20 @@ func EncodeFlowLog_TrafficType(p FlowLogParameters, vals map[string]cty.Value) {
 	vals["traffic_type"] = cty.StringVal(p.TrafficType)
 }
 
-func EncodeFlowLog_VpcId(p FlowLogParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
+func EncodeFlowLog_EniId(p FlowLogParameters, vals map[string]cty.Value) {
+	vals["eni_id"] = cty.StringVal(p.EniId)
+}
+
+func EncodeFlowLog_LogDestinationType(p FlowLogParameters, vals map[string]cty.Value) {
+	vals["log_destination_type"] = cty.StringVal(p.LogDestinationType)
 }
 
 func EncodeFlowLog_LogFormat(p FlowLogParameters, vals map[string]cty.Value) {
 	vals["log_format"] = cty.StringVal(p.LogFormat)
 }
 
-func EncodeFlowLog_LogGroupName(p FlowLogParameters, vals map[string]cty.Value) {
-	vals["log_group_name"] = cty.StringVal(p.LogGroupName)
-}
-
-func EncodeFlowLog_SubnetId(p FlowLogParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
+func EncodeFlowLog_VpcId(p FlowLogParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeFlowLog_Arn(p FlowLogObservation, vals map[string]cty.Value) {

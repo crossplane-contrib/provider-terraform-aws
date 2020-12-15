@@ -31,52 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDmsReplicationInstance_ApplyImmediately(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationInstance_ReplicationInstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDmsReplicationInstance_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsReplicationInstance_VpcSecurityGroupIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationInstance_EngineVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationInstance_MultiAz(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDmsReplicationInstance_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationInstance_PreferredMaintenanceWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationInstance_ReplicationSubnetGroupId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationInstance_AllowMajorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationInstance_ApplyImmediately(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,7 +61,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsReplicationInstance_ReplicationInstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDmsReplicationInstance_ReplicationInstanceClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationInstance_VpcSecurityGroupIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationInstance_AllowMajorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationInstance_EngineVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,7 +91,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsReplicationInstance_ReplicationInstanceClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDmsReplicationInstance_MultiAz(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationInstance_PreferredMaintenanceWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationInstance_ReplicationSubnetGroupId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -111,7 +111,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsReplicationInstance_ReplicationInstancePrivateIps(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDmsReplicationInstance_ReplicationInstancePublicIps(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -121,7 +121,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsReplicationInstance_ReplicationInstancePublicIps(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDmsReplicationInstance_ReplicationInstancePrivateIps(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -136,6 +136,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationInstance_ApplyImmediately(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.ApplyImmediately != p.ApplyImmediately {
+		p.ApplyImmediately = k.ApplyImmediately
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationInstance_ReplicationInstanceId(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.ReplicationInstanceId != p.ReplicationInstanceId {
+		p.ReplicationInstanceId = k.ReplicationInstanceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeDmsReplicationInstance_Tags(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
@@ -146,90 +166,10 @@ func MergeDmsReplicationInstance_Tags(k *DmsReplicationInstanceParameters, p *Dm
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDmsReplicationInstance_VpcSecurityGroupIds(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.VpcSecurityGroupIds, p.VpcSecurityGroupIds) {
-		p.VpcSecurityGroupIds = k.VpcSecurityGroupIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_AutoMinorVersionUpgrade(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
-		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_EngineVersion(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.EngineVersion != p.EngineVersion {
-		p.EngineVersion = k.EngineVersion
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_MultiAz(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.MultiAz != p.MultiAz {
-		p.MultiAz = k.MultiAz
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeDmsReplicationInstance_AvailabilityZone(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.AvailabilityZone != p.AvailabilityZone {
 		p.AvailabilityZone = k.AvailabilityZone
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_PreferredMaintenanceWindow(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PreferredMaintenanceWindow != p.PreferredMaintenanceWindow {
-		p.PreferredMaintenanceWindow = k.PreferredMaintenanceWindow
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_ReplicationSubnetGroupId(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.ReplicationSubnetGroupId != p.ReplicationSubnetGroupId {
-		p.ReplicationSubnetGroupId = k.ReplicationSubnetGroupId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_AllowMajorVersionUpgrade(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AllowMajorVersionUpgrade != p.AllowMajorVersionUpgrade {
-		p.AllowMajorVersionUpgrade = k.AllowMajorVersionUpgrade
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_ApplyImmediately(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.ApplyImmediately != p.ApplyImmediately {
-		p.ApplyImmediately = k.ApplyImmediately
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -257,9 +197,49 @@ func MergeDmsReplicationInstance_PubliclyAccessible(k *DmsReplicationInstancePar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_ReplicationInstanceId(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.ReplicationInstanceId != p.ReplicationInstanceId {
-		p.ReplicationInstanceId = k.ReplicationInstanceId
+func MergeDmsReplicationInstance_ReplicationInstanceClass(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.ReplicationInstanceClass != p.ReplicationInstanceClass {
+		p.ReplicationInstanceClass = k.ReplicationInstanceClass
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDmsReplicationInstance_VpcSecurityGroupIds(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.VpcSecurityGroupIds, p.VpcSecurityGroupIds) {
+		p.VpcSecurityGroupIds = k.VpcSecurityGroupIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationInstance_AllowMajorVersionUpgrade(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AllowMajorVersionUpgrade != p.AllowMajorVersionUpgrade {
+		p.AllowMajorVersionUpgrade = k.AllowMajorVersionUpgrade
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationInstance_AutoMinorVersionUpgrade(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
+		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationInstance_EngineVersion(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.EngineVersion != p.EngineVersion {
+		p.EngineVersion = k.EngineVersion
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -277,9 +257,29 @@ func MergeDmsReplicationInstance_AllocatedStorage(k *DmsReplicationInstanceParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDmsReplicationInstance_ReplicationInstanceClass(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.ReplicationInstanceClass != p.ReplicationInstanceClass {
-		p.ReplicationInstanceClass = k.ReplicationInstanceClass
+func MergeDmsReplicationInstance_MultiAz(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.MultiAz != p.MultiAz {
+		p.MultiAz = k.MultiAz
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationInstance_PreferredMaintenanceWindow(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PreferredMaintenanceWindow != p.PreferredMaintenanceWindow {
+		p.PreferredMaintenanceWindow = k.PreferredMaintenanceWindow
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationInstance_ReplicationSubnetGroupId(k *DmsReplicationInstanceParameters, p *DmsReplicationInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.ReplicationSubnetGroupId != p.ReplicationSubnetGroupId {
+		p.ReplicationSubnetGroupId = k.ReplicationSubnetGroupId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -342,9 +342,9 @@ func MergeDmsReplicationInstance_Timeouts_Update(k *Timeouts, p *Timeouts, md *p
 }
 
 //mergePrimitiveContainerTemplateStatus
-func MergeDmsReplicationInstance_ReplicationInstancePrivateIps(k *DmsReplicationInstanceObservation, p *DmsReplicationInstanceObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.ReplicationInstancePrivateIps, p.ReplicationInstancePrivateIps) {
-		k.ReplicationInstancePrivateIps = p.ReplicationInstancePrivateIps
+func MergeDmsReplicationInstance_ReplicationInstancePublicIps(k *DmsReplicationInstanceObservation, p *DmsReplicationInstanceObservation, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ReplicationInstancePublicIps, p.ReplicationInstancePublicIps) {
+		k.ReplicationInstancePublicIps = p.ReplicationInstancePublicIps
 		md.StatusUpdated = true
 		return true
 	}
@@ -362,9 +362,9 @@ func MergeDmsReplicationInstance_ReplicationInstanceArn(k *DmsReplicationInstanc
 }
 
 //mergePrimitiveContainerTemplateStatus
-func MergeDmsReplicationInstance_ReplicationInstancePublicIps(k *DmsReplicationInstanceObservation, p *DmsReplicationInstanceObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.ReplicationInstancePublicIps, p.ReplicationInstancePublicIps) {
-		k.ReplicationInstancePublicIps = p.ReplicationInstancePublicIps
+func MergeDmsReplicationInstance_ReplicationInstancePrivateIps(k *DmsReplicationInstanceObservation, p *DmsReplicationInstanceObservation, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ReplicationInstancePrivateIps, p.ReplicationInstancePrivateIps) {
+		k.ReplicationInstancePrivateIps = p.ReplicationInstancePrivateIps
 		md.StatusUpdated = true
 		return true
 	}

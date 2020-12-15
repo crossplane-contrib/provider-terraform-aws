@@ -52,11 +52,11 @@ type Ec2TransitGatewayPeeringAttachmentSpec struct {
 
 // A Ec2TransitGatewayPeeringAttachmentParameters defines the desired state of a Ec2TransitGatewayPeeringAttachment
 type Ec2TransitGatewayPeeringAttachmentParameters struct {
-	TransitGatewayId     string            `json:"transit_gateway_id"`
 	PeerAccountId        string            `json:"peer_account_id"`
 	PeerRegion           string            `json:"peer_region"`
 	PeerTransitGatewayId string            `json:"peer_transit_gateway_id"`
 	Tags                 map[string]string `json:"tags"`
+	TransitGatewayId     string            `json:"transit_gateway_id"`
 }
 
 // A Ec2TransitGatewayPeeringAttachmentStatus defines the observed state of a Ec2TransitGatewayPeeringAttachment

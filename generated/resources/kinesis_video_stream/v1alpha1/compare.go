@@ -36,7 +36,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKinesisVideoStream_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKinesisVideoStream_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,7 +56,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKinesisVideoStream_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKinesisVideoStream_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,7 +66,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKinesisVideoStream_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeKinesisVideoStream_Version(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,7 +76,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKinesisVideoStream_Version(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeKinesisVideoStream_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,10 +101,10 @@ func MergeKinesisVideoStream_KmsKeyId(k *KinesisVideoStreamParameters, p *Kinesi
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeKinesisVideoStream_Tags(k *KinesisVideoStreamParameters, p *KinesisVideoStreamParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeKinesisVideoStream_Name(k *KinesisVideoStreamParameters, p *KinesisVideoStreamParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -141,10 +141,10 @@ func MergeKinesisVideoStream_MediaType(k *KinesisVideoStreamParameters, p *Kines
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeKinesisVideoStream_Name(k *KinesisVideoStreamParameters, p *KinesisVideoStreamParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+//mergePrimitiveContainerTemplateSpec
+func MergeKinesisVideoStream_Tags(k *KinesisVideoStreamParameters, p *KinesisVideoStreamParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -207,9 +207,9 @@ func MergeKinesisVideoStream_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugi
 }
 
 //mergePrimitiveTemplateStatus
-func MergeKinesisVideoStream_Arn(k *KinesisVideoStreamObservation, p *KinesisVideoStreamObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeKinesisVideoStream_Version(k *KinesisVideoStreamObservation, p *KinesisVideoStreamObservation, md *plugin.MergeDescription) bool {
+	if k.Version != p.Version {
+		k.Version = p.Version
 		md.StatusUpdated = true
 		return true
 	}
@@ -227,9 +227,9 @@ func MergeKinesisVideoStream_CreationTime(k *KinesisVideoStreamObservation, p *K
 }
 
 //mergePrimitiveTemplateStatus
-func MergeKinesisVideoStream_Version(k *KinesisVideoStreamObservation, p *KinesisVideoStreamObservation, md *plugin.MergeDescription) bool {
-	if k.Version != p.Version {
-		k.Version = p.Version
+func MergeKinesisVideoStream_Arn(k *KinesisVideoStreamObservation, p *KinesisVideoStreamObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

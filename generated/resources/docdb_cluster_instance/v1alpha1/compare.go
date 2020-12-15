@@ -36,32 +36,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDocdbClusterInstance_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDocdbClusterInstance_PreferredMaintenanceWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDocdbClusterInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDocdbClusterInstance_CaCertIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDocdbClusterInstance_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_InstanceClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_PreferredMaintenanceWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,7 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDocdbClusterInstance_CaCertIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDocdbClusterInstance_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,7 +81,37 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDocdbClusterInstance_InstanceClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDocdbClusterInstance_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_Port(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_PubliclyAccessible(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_EngineVersion(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,7 +121,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDocdbClusterInstance_Port(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDocdbClusterInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterInstance_PreferredBackupWindow(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -117,36 +147,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeDocdbClusterInstance_DbiResourceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_PreferredBackupWindow(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_EngineVersion(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterInstance_PubliclyAccessible(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -171,10 +171,10 @@ func MergeDocdbClusterInstance_IdentifierPrefix(k *DocdbClusterInstanceParameter
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDocdbClusterInstance_Tags(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeDocdbClusterInstance_PreferredMaintenanceWindow(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PreferredMaintenanceWindow != p.PreferredMaintenanceWindow {
+		p.PreferredMaintenanceWindow = k.PreferredMaintenanceWindow
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -182,9 +182,9 @@ func MergeDocdbClusterInstance_Tags(k *DocdbClusterInstanceParameters, p *DocdbC
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDocdbClusterInstance_AutoMinorVersionUpgrade(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
-		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
+func MergeDocdbClusterInstance_CaCertIdentifier(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.CaCertIdentifier != p.CaCertIdentifier {
+		p.CaCertIdentifier = k.CaCertIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -195,36 +195,6 @@ func MergeDocdbClusterInstance_AutoMinorVersionUpgrade(k *DocdbClusterInstancePa
 func MergeDocdbClusterInstance_ClusterIdentifier(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.ClusterIdentifier != p.ClusterIdentifier {
 		p.ClusterIdentifier = k.ClusterIdentifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDocdbClusterInstance_Identifier(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Identifier != p.Identifier {
-		p.Identifier = k.Identifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDocdbClusterInstance_InstanceClass(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.InstanceClass != p.InstanceClass {
-		p.InstanceClass = k.InstanceClass
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDocdbClusterInstance_PreferredMaintenanceWindow(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PreferredMaintenanceWindow != p.PreferredMaintenanceWindow {
-		p.PreferredMaintenanceWindow = k.PreferredMaintenanceWindow
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -262,9 +232,19 @@ func MergeDocdbClusterInstance_AvailabilityZone(k *DocdbClusterInstanceParameter
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDocdbClusterInstance_CaCertIdentifier(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.CaCertIdentifier != p.CaCertIdentifier {
-		p.CaCertIdentifier = k.CaCertIdentifier
+func MergeDocdbClusterInstance_Identifier(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.Identifier != p.Identifier {
+		p.Identifier = k.Identifier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDocdbClusterInstance_Tags(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -275,6 +255,26 @@ func MergeDocdbClusterInstance_CaCertIdentifier(k *DocdbClusterInstanceParameter
 func MergeDocdbClusterInstance_Engine(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.Engine != p.Engine {
 		p.Engine = k.Engine
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDocdbClusterInstance_InstanceClass(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.InstanceClass != p.InstanceClass {
+		p.InstanceClass = k.InstanceClass
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDocdbClusterInstance_AutoMinorVersionUpgrade(k *DocdbClusterInstanceParameters, p *DocdbClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
+		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -337,9 +337,9 @@ func MergeDocdbClusterInstance_Timeouts_Update(k *Timeouts, p *Timeouts, md *plu
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDocdbClusterInstance_Writer(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Writer != p.Writer {
-		k.Writer = p.Writer
+func MergeDocdbClusterInstance_KmsKeyId(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.KmsKeyId != p.KmsKeyId {
+		k.KmsKeyId = p.KmsKeyId
 		md.StatusUpdated = true
 		return true
 	}
@@ -350,6 +350,66 @@ func MergeDocdbClusterInstance_Writer(k *DocdbClusterInstanceObservation, p *Doc
 func MergeDocdbClusterInstance_Port(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
 	if k.Port != p.Port {
 		k.Port = p.Port
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterInstance_PubliclyAccessible(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.PubliclyAccessible != p.PubliclyAccessible {
+		k.PubliclyAccessible = p.PubliclyAccessible
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterInstance_EngineVersion(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.EngineVersion != p.EngineVersion {
+		k.EngineVersion = p.EngineVersion
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterInstance_Writer(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Writer != p.Writer {
+		k.Writer = p.Writer
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterInstance_Arn(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterInstance_Endpoint(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Endpoint != p.Endpoint {
+		k.Endpoint = p.Endpoint
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterInstance_PreferredBackupWindow(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.PreferredBackupWindow != p.PreferredBackupWindow {
+		k.PreferredBackupWindow = p.PreferredBackupWindow
 		md.StatusUpdated = true
 		return true
 	}
@@ -380,66 +440,6 @@ func MergeDocdbClusterInstance_DbSubnetGroupName(k *DocdbClusterInstanceObservat
 func MergeDocdbClusterInstance_DbiResourceId(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
 	if k.DbiResourceId != p.DbiResourceId {
 		k.DbiResourceId = p.DbiResourceId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterInstance_PreferredBackupWindow(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.PreferredBackupWindow != p.PreferredBackupWindow {
-		k.PreferredBackupWindow = p.PreferredBackupWindow
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterInstance_Arn(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterInstance_EngineVersion(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.EngineVersion != p.EngineVersion {
-		k.EngineVersion = p.EngineVersion
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterInstance_KmsKeyId(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.KmsKeyId != p.KmsKeyId {
-		k.KmsKeyId = p.KmsKeyId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterInstance_Endpoint(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Endpoint != p.Endpoint {
-		k.Endpoint = p.Endpoint
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterInstance_PubliclyAccessible(k *DocdbClusterInstanceObservation, p *DocdbClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.PubliclyAccessible != p.PubliclyAccessible {
-		k.PubliclyAccessible = p.PubliclyAccessible
 		md.StatusUpdated = true
 		return true
 	}

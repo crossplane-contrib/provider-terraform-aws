@@ -39,18 +39,16 @@ func EncodeCodeartifactDomain(r CodeartifactDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeCodeartifactDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_EncryptionKey(r.Spec.ForProvider, ctyVal)
+	EncodeCodeartifactDomain_RepositoryCount(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_Arn(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_AssetSizeBytes(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_CreatedTime(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_Owner(r.Status.AtProvider, ctyVal)
-	EncodeCodeartifactDomain_RepositoryCount(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -60,6 +58,10 @@ func EncodeCodeartifactDomain_Domain(p CodeartifactDomainParameters, vals map[st
 
 func EncodeCodeartifactDomain_EncryptionKey(p CodeartifactDomainParameters, vals map[string]cty.Value) {
 	vals["encryption_key"] = cty.StringVal(p.EncryptionKey)
+}
+
+func EncodeCodeartifactDomain_RepositoryCount(p CodeartifactDomainObservation, vals map[string]cty.Value) {
+	vals["repository_count"] = cty.NumberIntVal(p.RepositoryCount)
 }
 
 func EncodeCodeartifactDomain_Arn(p CodeartifactDomainObservation, vals map[string]cty.Value) {
@@ -76,8 +78,4 @@ func EncodeCodeartifactDomain_CreatedTime(p CodeartifactDomainObservation, vals 
 
 func EncodeCodeartifactDomain_Owner(p CodeartifactDomainObservation, vals map[string]cty.Value) {
 	vals["owner"] = cty.StringVal(p.Owner)
-}
-
-func EncodeCodeartifactDomain_RepositoryCount(p CodeartifactDomainObservation, vals map[string]cty.Value) {
-	vals["repository_count"] = cty.NumberIntVal(p.RepositoryCount)
 }

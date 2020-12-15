@@ -52,8 +52,8 @@ type RamResourceAssociationSpec struct {
 
 // A RamResourceAssociationParameters defines the desired state of a RamResourceAssociation
 type RamResourceAssociationParameters struct {
-	ResourceShareArn string `json:"resource_share_arn"`
 	ResourceArn      string `json:"resource_arn"`
+	ResourceShareArn string `json:"resource_share_arn"`
 }
 
 // A RamResourceAssociationStatus defines the observed state of a RamResourceAssociation

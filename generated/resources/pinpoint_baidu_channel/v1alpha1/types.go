@@ -52,10 +52,10 @@ type PinpointBaiduChannelSpec struct {
 
 // A PinpointBaiduChannelParameters defines the desired state of a PinpointBaiduChannel
 type PinpointBaiduChannelParameters struct {
-	SecretKey     string `json:"secret_key"`
 	ApiKey        string `json:"api_key"`
 	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
+	SecretKey     string `json:"secret_key"`
 }
 
 // A PinpointBaiduChannelStatus defines the observed state of a PinpointBaiduChannel

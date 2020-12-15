@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyOrganizationConfiguration(r GuarddutyOrganizationConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeGuarddutyOrganizationConfiguration_AutoEnable(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyOrganizationConfiguration_DetectorId(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyOrganizationConfiguration_AutoEnable(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeGuarddutyOrganizationConfiguration_AutoEnable(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
-	vals["auto_enable"] = cty.BoolVal(p.AutoEnable)
 }
 
 func EncodeGuarddutyOrganizationConfiguration_DetectorId(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
+}
+
+func EncodeGuarddutyOrganizationConfiguration_AutoEnable(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
+	vals["auto_enable"] = cty.BoolVal(p.AutoEnable)
 }

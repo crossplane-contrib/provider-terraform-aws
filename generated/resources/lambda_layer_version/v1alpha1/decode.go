@@ -40,19 +40,19 @@ func DecodeLambdaLayerVersion(prev *LambdaLayerVersion, ctyValue cty.Value) (res
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeLambdaLayerVersion_CompatibleRuntimes(&new.Spec.ForProvider, valMap)
+	DecodeLambdaLayerVersion_S3ObjectVersion(&new.Spec.ForProvider, valMap)
 	DecodeLambdaLayerVersion_S3Key(&new.Spec.ForProvider, valMap)
-	DecodeLambdaLayerVersion_SourceCodeHash(&new.Spec.ForProvider, valMap)
 	DecodeLambdaLayerVersion_Description(&new.Spec.ForProvider, valMap)
 	DecodeLambdaLayerVersion_LayerName(&new.Spec.ForProvider, valMap)
 	DecodeLambdaLayerVersion_LicenseInfo(&new.Spec.ForProvider, valMap)
 	DecodeLambdaLayerVersion_Filename(&new.Spec.ForProvider, valMap)
 	DecodeLambdaLayerVersion_S3Bucket(&new.Spec.ForProvider, valMap)
-	DecodeLambdaLayerVersion_S3ObjectVersion(&new.Spec.ForProvider, valMap)
-	DecodeLambdaLayerVersion_Version(&new.Status.AtProvider, valMap)
-	DecodeLambdaLayerVersion_LayerArn(&new.Status.AtProvider, valMap)
+	DecodeLambdaLayerVersion_SourceCodeHash(&new.Spec.ForProvider, valMap)
 	DecodeLambdaLayerVersion_SourceCodeSize(&new.Status.AtProvider, valMap)
-	DecodeLambdaLayerVersion_Arn(&new.Status.AtProvider, valMap)
+	DecodeLambdaLayerVersion_Version(&new.Status.AtProvider, valMap)
 	DecodeLambdaLayerVersion_CreatedDate(&new.Status.AtProvider, valMap)
+	DecodeLambdaLayerVersion_Arn(&new.Status.AtProvider, valMap)
+	DecodeLambdaLayerVersion_LayerArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -70,13 +70,13 @@ func DecodeLambdaLayerVersion_CompatibleRuntimes(p *LambdaLayerVersionParameters
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLambdaLayerVersion_S3Key(p *LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	p.S3Key = ctwhy.ValueAsString(vals["s3_key"])
+func DecodeLambdaLayerVersion_S3ObjectVersion(p *LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	p.S3ObjectVersion = ctwhy.ValueAsString(vals["s3_object_version"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLambdaLayerVersion_SourceCodeHash(p *LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	p.SourceCodeHash = ctwhy.ValueAsString(vals["source_code_hash"])
+func DecodeLambdaLayerVersion_S3Key(p *LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	p.S3Key = ctwhy.ValueAsString(vals["s3_key"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -105,18 +105,8 @@ func DecodeLambdaLayerVersion_S3Bucket(p *LambdaLayerVersionParameters, vals map
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLambdaLayerVersion_S3ObjectVersion(p *LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	p.S3ObjectVersion = ctwhy.ValueAsString(vals["s3_object_version"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLambdaLayerVersion_Version(p *LambdaLayerVersionObservation, vals map[string]cty.Value) {
-	p.Version = ctwhy.ValueAsString(vals["version"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLambdaLayerVersion_LayerArn(p *LambdaLayerVersionObservation, vals map[string]cty.Value) {
-	p.LayerArn = ctwhy.ValueAsString(vals["layer_arn"])
+func DecodeLambdaLayerVersion_SourceCodeHash(p *LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	p.SourceCodeHash = ctwhy.ValueAsString(vals["source_code_hash"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -125,11 +115,21 @@ func DecodeLambdaLayerVersion_SourceCodeSize(p *LambdaLayerVersionObservation, v
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLambdaLayerVersion_Arn(p *LambdaLayerVersionObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeLambdaLayerVersion_Version(p *LambdaLayerVersionObservation, vals map[string]cty.Value) {
+	p.Version = ctwhy.ValueAsString(vals["version"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeLambdaLayerVersion_CreatedDate(p *LambdaLayerVersionObservation, vals map[string]cty.Value) {
 	p.CreatedDate = ctwhy.ValueAsString(vals["created_date"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLambdaLayerVersion_Arn(p *LambdaLayerVersionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLambdaLayerVersion_LayerArn(p *LambdaLayerVersionObservation, vals map[string]cty.Value) {
+	p.LayerArn = ctwhy.ValueAsString(vals["layer_arn"])
 }

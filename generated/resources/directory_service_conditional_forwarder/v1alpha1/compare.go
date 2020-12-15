@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDirectoryServiceConditionalForwarder_RemoteDomainName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDirectoryServiceConditionalForwarder_DirectoryId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDirectoryServiceConditionalForwarder_DnsIps(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDirectoryServiceConditionalForwarder_RemoteDomainName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,6 +58,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeDirectoryServiceConditionalForwarder_RemoteDomainName(k *DirectoryServiceConditionalForwarderParameters, p *DirectoryServiceConditionalForwarderParameters, md *plugin.MergeDescription) bool {
+	if k.RemoteDomainName != p.RemoteDomainName {
+		p.RemoteDomainName = k.RemoteDomainName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeDirectoryServiceConditionalForwarder_DirectoryId(k *DirectoryServiceConditionalForwarderParameters, p *DirectoryServiceConditionalForwarderParameters, md *plugin.MergeDescription) bool {
 	if k.DirectoryId != p.DirectoryId {
 		p.DirectoryId = k.DirectoryId
@@ -71,16 +81,6 @@ func MergeDirectoryServiceConditionalForwarder_DirectoryId(k *DirectoryServiceCo
 func MergeDirectoryServiceConditionalForwarder_DnsIps(k *DirectoryServiceConditionalForwarderParameters, p *DirectoryServiceConditionalForwarderParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.DnsIps, p.DnsIps) {
 		p.DnsIps = k.DnsIps
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDirectoryServiceConditionalForwarder_RemoteDomainName(k *DirectoryServiceConditionalForwarderParameters, p *DirectoryServiceConditionalForwarderParameters, md *plugin.MergeDescription) bool {
-	if k.RemoteDomainName != p.RemoteDomainName {
-		p.RemoteDomainName = k.RemoteDomainName
 		md.NeedsProviderUpdate = true
 		return true
 	}

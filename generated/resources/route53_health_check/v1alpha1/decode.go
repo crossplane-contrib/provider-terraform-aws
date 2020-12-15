@@ -40,25 +40,25 @@ func DecodeRoute53HealthCheck(prev *Route53HealthCheck, ctyValue cty.Value) (res
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeRoute53HealthCheck_EnableSni(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_Port(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_RequestInterval(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_CloudwatchAlarmName(&new.Spec.ForProvider, valMap)
 	DecodeRoute53HealthCheck_Fqdn(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_InsufficientDataHealthStatus(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_MeasureLatency(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_InvertHealthcheck(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_IpAddress(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_SearchString(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_ChildHealthchecks(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_CloudwatchAlarmRegion(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_Disabled(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_FailureThreshold(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_Port(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_Regions(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_RequestInterval(&new.Spec.ForProvider, valMap)
 	DecodeRoute53HealthCheck_Type(&new.Spec.ForProvider, valMap)
 	DecodeRoute53HealthCheck_ChildHealthThreshold(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_ReferenceName(&new.Spec.ForProvider, valMap)
-	DecodeRoute53HealthCheck_Regions(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_MeasureLatency(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_SearchString(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_CloudwatchAlarmName(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_CloudwatchAlarmRegion(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_Disabled(&new.Spec.ForProvider, valMap)
 	DecodeRoute53HealthCheck_ResourcePath(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_ChildHealthchecks(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_FailureThreshold(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_InsufficientDataHealthStatus(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_InvertHealthcheck(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_IpAddress(&new.Spec.ForProvider, valMap)
+	DecodeRoute53HealthCheck_ReferenceName(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -73,8 +73,22 @@ func DecodeRoute53HealthCheck_EnableSni(p *Route53HealthCheckParameters, vals ma
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeRoute53HealthCheck_Fqdn(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.Fqdn = ctwhy.ValueAsString(vals["fqdn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeRoute53HealthCheck_Port(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
 	p.Port = ctwhy.ValueAsInt64(vals["port"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeRoute53HealthCheck_Regions(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["regions"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Regions = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -83,18 +97,13 @@ func DecodeRoute53HealthCheck_RequestInterval(p *Route53HealthCheckParameters, v
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_CloudwatchAlarmName(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.CloudwatchAlarmName = ctwhy.ValueAsString(vals["cloudwatch_alarm_name"])
+func DecodeRoute53HealthCheck_Type(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_Fqdn(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.Fqdn = ctwhy.ValueAsString(vals["fqdn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_InsufficientDataHealthStatus(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.InsufficientDataHealthStatus = ctwhy.ValueAsString(vals["insufficient_data_health_status"])
+func DecodeRoute53HealthCheck_ChildHealthThreshold(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.ChildHealthThreshold = ctwhy.ValueAsInt64(vals["child_health_threshold"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -103,42 +112,8 @@ func DecodeRoute53HealthCheck_MeasureLatency(p *Route53HealthCheckParameters, va
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_InvertHealthcheck(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.InvertHealthcheck = ctwhy.ValueAsBool(vals["invert_healthcheck"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_IpAddress(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeRoute53HealthCheck_SearchString(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
 	p.SearchString = ctwhy.ValueAsString(vals["search_string"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeRoute53HealthCheck_ChildHealthchecks(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["child_healthchecks"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.ChildHealthchecks = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_CloudwatchAlarmRegion(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.CloudwatchAlarmRegion = ctwhy.ValueAsString(vals["cloudwatch_alarm_region"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_Disabled(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.Disabled = ctwhy.ValueAsBool(vals["disabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_FailureThreshold(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.FailureThreshold = ctwhy.ValueAsInt64(vals["failure_threshold"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -153,30 +128,55 @@ func DecodeRoute53HealthCheck_Tags(p *Route53HealthCheckParameters, vals map[str
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_Type(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
+func DecodeRoute53HealthCheck_CloudwatchAlarmName(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.CloudwatchAlarmName = ctwhy.ValueAsString(vals["cloudwatch_alarm_name"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_ChildHealthThreshold(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.ChildHealthThreshold = ctwhy.ValueAsInt64(vals["child_health_threshold"])
+func DecodeRoute53HealthCheck_CloudwatchAlarmRegion(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.CloudwatchAlarmRegion = ctwhy.ValueAsString(vals["cloudwatch_alarm_region"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRoute53HealthCheck_ReferenceName(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	p.ReferenceName = ctwhy.ValueAsString(vals["reference_name"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeRoute53HealthCheck_Regions(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["regions"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Regions = goVals
+func DecodeRoute53HealthCheck_Disabled(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.Disabled = ctwhy.ValueAsBool(vals["disabled"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeRoute53HealthCheck_ResourcePath(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
 	p.ResourcePath = ctwhy.ValueAsString(vals["resource_path"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeRoute53HealthCheck_ChildHealthchecks(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["child_healthchecks"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ChildHealthchecks = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53HealthCheck_FailureThreshold(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.FailureThreshold = ctwhy.ValueAsInt64(vals["failure_threshold"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53HealthCheck_InsufficientDataHealthStatus(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.InsufficientDataHealthStatus = ctwhy.ValueAsString(vals["insufficient_data_health_status"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53HealthCheck_InvertHealthcheck(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.InvertHealthcheck = ctwhy.ValueAsBool(vals["invert_healthcheck"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53HealthCheck_IpAddress(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53HealthCheck_ReferenceName(p *Route53HealthCheckParameters, vals map[string]cty.Value) {
+	p.ReferenceName = ctwhy.ValueAsString(vals["reference_name"])
 }

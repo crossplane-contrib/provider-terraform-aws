@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCloudwatchLogSubscriptionFilter_Distribution(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchLogSubscriptionFilter_FilterPattern(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCloudwatchLogSubscriptionFilter_LogGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,16 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudwatchLogSubscriptionFilter_Distribution(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudwatchLogSubscriptionFilter_FilterPattern(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,6 +70,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchLogSubscriptionFilter_Distribution(k *CloudwatchLogSubscriptionFilterParameters, p *CloudwatchLogSubscriptionFilterParameters, md *plugin.MergeDescription) bool {
+	if k.Distribution != p.Distribution {
+		p.Distribution = k.Distribution
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchLogSubscriptionFilter_FilterPattern(k *CloudwatchLogSubscriptionFilterParameters, p *CloudwatchLogSubscriptionFilterParameters, md *plugin.MergeDescription) bool {
+	if k.FilterPattern != p.FilterPattern {
+		p.FilterPattern = k.FilterPattern
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -106,26 +126,6 @@ func MergeCloudwatchLogSubscriptionFilter_RoleArn(k *CloudwatchLogSubscriptionFi
 func MergeCloudwatchLogSubscriptionFilter_DestinationArn(k *CloudwatchLogSubscriptionFilterParameters, p *CloudwatchLogSubscriptionFilterParameters, md *plugin.MergeDescription) bool {
 	if k.DestinationArn != p.DestinationArn {
 		p.DestinationArn = k.DestinationArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchLogSubscriptionFilter_Distribution(k *CloudwatchLogSubscriptionFilterParameters, p *CloudwatchLogSubscriptionFilterParameters, md *plugin.MergeDescription) bool {
-	if k.Distribution != p.Distribution {
-		p.Distribution = k.Distribution
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchLogSubscriptionFilter_FilterPattern(k *CloudwatchLogSubscriptionFilterParameters, p *CloudwatchLogSubscriptionFilterParameters, md *plugin.MergeDescription) bool {
-	if k.FilterPattern != p.FilterPattern {
-		p.FilterPattern = k.FilterPattern
 		md.NeedsProviderUpdate = true
 		return true
 	}

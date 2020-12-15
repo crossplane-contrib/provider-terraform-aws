@@ -41,13 +41,13 @@ func DecodeKinesisStream(prev *KinesisStream, ctyValue cty.Value) (resource.Mana
 	new := prev.DeepCopy()
 	DecodeKinesisStream_EncryptionType(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_ShardCount(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_RetentionPeriod(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_ShardLevelMetrics(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_Arn(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_EnforceConsumerDeletion(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_Name(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_RetentionPeriod(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_ShardCount(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_EnforceConsumerDeletion(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
 	eid := valMap["id"].AsString()
@@ -68,8 +68,8 @@ func DecodeKinesisStream_KmsKeyId(p *KinesisStreamParameters, vals map[string]ct
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKinesisStream_ShardCount(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.ShardCount = ctwhy.ValueAsInt64(vals["shard_count"])
+func DecodeKinesisStream_RetentionPeriod(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	p.RetentionPeriod = ctwhy.ValueAsInt64(vals["retention_period"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -98,18 +98,18 @@ func DecodeKinesisStream_Arn(p *KinesisStreamParameters, vals map[string]cty.Val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKinesisStream_EnforceConsumerDeletion(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.EnforceConsumerDeletion = ctwhy.ValueAsBool(vals["enforce_consumer_deletion"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeKinesisStream_Name(p *KinesisStreamParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKinesisStream_RetentionPeriod(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.RetentionPeriod = ctwhy.ValueAsInt64(vals["retention_period"])
+func DecodeKinesisStream_ShardCount(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	p.ShardCount = ctwhy.ValueAsInt64(vals["shard_count"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKinesisStream_EnforceConsumerDeletion(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	p.EnforceConsumerDeletion = ctwhy.ValueAsBool(vals["enforce_consumer_deletion"])
 }
 
 //containerTypeDecodeTemplate

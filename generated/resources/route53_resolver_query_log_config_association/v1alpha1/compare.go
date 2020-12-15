@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53ResolverQueryLogConfigAssociation_ResourceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53ResolverQueryLogConfigAssociation_ResourceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(k *Route53ResolverQueryLogConfigAssociationParameters, p *Route53ResolverQueryLogConfigAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ResolverQueryLogConfigId != p.ResolverQueryLogConfigId {
-		p.ResolverQueryLogConfigId = k.ResolverQueryLogConfigId
+func MergeRoute53ResolverQueryLogConfigAssociation_ResourceId(k *Route53ResolverQueryLogConfigAssociationParameters, p *Route53ResolverQueryLogConfigAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceId != p.ResourceId {
+		p.ResourceId = k.ResourceId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(k *R
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53ResolverQueryLogConfigAssociation_ResourceId(k *Route53ResolverQueryLogConfigAssociationParameters, p *Route53ResolverQueryLogConfigAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ResourceId != p.ResourceId {
-		p.ResourceId = k.ResourceId
+func MergeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(k *Route53ResolverQueryLogConfigAssociationParameters, p *Route53ResolverQueryLogConfigAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResolverQueryLogConfigId != p.ResolverQueryLogConfigId {
+		p.ResolverQueryLogConfigId = k.ResolverQueryLogConfigId
 		md.NeedsProviderUpdate = true
 		return true
 	}

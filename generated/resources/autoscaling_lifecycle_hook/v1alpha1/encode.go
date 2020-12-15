@@ -38,21 +38,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeAutoscalingLifecycleHook(r AutoscalingLifecycleHook) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeAutoscalingLifecycleHook_LifecycleTransition(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingLifecycleHook_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingLifecycleHook_Name(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingLifecycleHook_NotificationMetadata(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingLifecycleHook_NotificationTargetArn(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingLifecycleHook_AutoscalingGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingLifecycleHook_DefaultResult(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingLifecycleHook_HeartbeatTimeout(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingLifecycleHook_NotificationTargetArn(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingLifecycleHook_Name(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingLifecycleHook_NotificationMetadata(r.Spec.ForProvider, ctyVal)
+	EncodeAutoscalingLifecycleHook_RoleArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -60,8 +58,16 @@ func EncodeAutoscalingLifecycleHook_LifecycleTransition(p AutoscalingLifecycleHo
 	vals["lifecycle_transition"] = cty.StringVal(p.LifecycleTransition)
 }
 
-func EncodeAutoscalingLifecycleHook_RoleArn(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
+func EncodeAutoscalingLifecycleHook_Name(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeAutoscalingLifecycleHook_NotificationMetadata(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	vals["notification_metadata"] = cty.StringVal(p.NotificationMetadata)
+}
+
+func EncodeAutoscalingLifecycleHook_NotificationTargetArn(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	vals["notification_target_arn"] = cty.StringVal(p.NotificationTargetArn)
 }
 
 func EncodeAutoscalingLifecycleHook_AutoscalingGroupName(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
@@ -76,14 +82,6 @@ func EncodeAutoscalingLifecycleHook_HeartbeatTimeout(p AutoscalingLifecycleHookP
 	vals["heartbeat_timeout"] = cty.NumberIntVal(p.HeartbeatTimeout)
 }
 
-func EncodeAutoscalingLifecycleHook_NotificationTargetArn(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	vals["notification_target_arn"] = cty.StringVal(p.NotificationTargetArn)
-}
-
-func EncodeAutoscalingLifecycleHook_Name(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeAutoscalingLifecycleHook_NotificationMetadata(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	vals["notification_metadata"] = cty.StringVal(p.NotificationMetadata)
+func EncodeAutoscalingLifecycleHook_RoleArn(p AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }

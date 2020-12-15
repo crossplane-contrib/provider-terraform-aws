@@ -39,18 +39,23 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSfnStateMachine(prev *SfnStateMachine, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeSfnStateMachine_Definition(&new.Spec.ForProvider, valMap)
 	DecodeSfnStateMachine_Name(&new.Spec.ForProvider, valMap)
 	DecodeSfnStateMachine_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSfnStateMachine_Tags(&new.Spec.ForProvider, valMap)
-	DecodeSfnStateMachine_Definition(&new.Spec.ForProvider, valMap)
+	DecodeSfnStateMachine_CreationDate(&new.Status.AtProvider, valMap)
 	DecodeSfnStateMachine_Status(&new.Status.AtProvider, valMap)
 	DecodeSfnStateMachine_Arn(&new.Status.AtProvider, valMap)
-	DecodeSfnStateMachine_CreationDate(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSfnStateMachine_Definition(p *SfnStateMachineParameters, vals map[string]cty.Value) {
+	p.Definition = ctwhy.ValueAsString(vals["definition"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -75,8 +80,8 @@ func DecodeSfnStateMachine_Tags(p *SfnStateMachineParameters, vals map[string]ct
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSfnStateMachine_Definition(p *SfnStateMachineParameters, vals map[string]cty.Value) {
-	p.Definition = ctwhy.ValueAsString(vals["definition"])
+func DecodeSfnStateMachine_CreationDate(p *SfnStateMachineObservation, vals map[string]cty.Value) {
+	p.CreationDate = ctwhy.ValueAsString(vals["creation_date"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -87,9 +92,4 @@ func DecodeSfnStateMachine_Status(p *SfnStateMachineObservation, vals map[string
 //primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_Arn(p *SfnStateMachineObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSfnStateMachine_CreationDate(p *SfnStateMachineObservation, vals map[string]cty.Value) {
-	p.CreationDate = ctwhy.ValueAsString(vals["creation_date"])
 }

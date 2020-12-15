@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeKmsKey_CustomerMasterKeySpec(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKmsKey_DeletionWindowInDays(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKmsKey_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeKmsKey_EnableKeyRotation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeKmsKey_IsEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,17 +56,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKmsKey_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKmsKey_CustomerMasterKeySpec(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeKmsKey_DeletionWindowInDays(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeKmsKey_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKmsKey_IsEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,20 +91,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeKmsKey_CustomerMasterKeySpec(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
-	if k.CustomerMasterKeySpec != p.CustomerMasterKeySpec {
-		p.CustomerMasterKeySpec = k.CustomerMasterKeySpec
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeKmsKey_DeletionWindowInDays(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
-	if k.DeletionWindowInDays != p.DeletionWindowInDays {
-		p.DeletionWindowInDays = k.DeletionWindowInDays
+//mergePrimitiveContainerTemplateSpec
+func MergeKmsKey_Tags(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -115,6 +105,16 @@ func MergeKmsKey_DeletionWindowInDays(k *KmsKeyParameters, p *KmsKeyParameters, 
 func MergeKmsKey_EnableKeyRotation(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
 	if k.EnableKeyRotation != p.EnableKeyRotation {
 		p.EnableKeyRotation = k.EnableKeyRotation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeKmsKey_IsEnabled(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
+	if k.IsEnabled != p.IsEnabled {
+		p.IsEnabled = k.IsEnabled
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -141,10 +141,20 @@ func MergeKmsKey_Policy(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.Mer
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeKmsKey_Tags(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeKmsKey_CustomerMasterKeySpec(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
+	if k.CustomerMasterKeySpec != p.CustomerMasterKeySpec {
+		p.CustomerMasterKeySpec = k.CustomerMasterKeySpec
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeKmsKey_DeletionWindowInDays(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
+	if k.DeletionWindowInDays != p.DeletionWindowInDays {
+		p.DeletionWindowInDays = k.DeletionWindowInDays
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -155,16 +165,6 @@ func MergeKmsKey_Tags(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.Merge
 func MergeKmsKey_Description(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeKmsKey_IsEnabled(k *KmsKeyParameters, p *KmsKeyParameters, md *plugin.MergeDescription) bool {
-	if k.IsEnabled != p.IsEnabled {
-		p.IsEnabled = k.IsEnabled
 		md.NeedsProviderUpdate = true
 		return true
 	}

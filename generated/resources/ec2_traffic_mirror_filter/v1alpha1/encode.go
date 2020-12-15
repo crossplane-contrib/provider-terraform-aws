@@ -37,22 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TrafficMirrorFilter(r Ec2TrafficMirrorFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TrafficMirrorFilter_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilter_NetworkServices(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorFilter_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TrafficMirrorFilter_Description(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2TrafficMirrorFilter_Description(p Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeEc2TrafficMirrorFilter_NetworkServices(p Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
@@ -73,4 +67,8 @@ func EncodeEc2TrafficMirrorFilter_Tags(p Ec2TrafficMirrorFilterParameters, vals 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeEc2TrafficMirrorFilter_Description(p Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }

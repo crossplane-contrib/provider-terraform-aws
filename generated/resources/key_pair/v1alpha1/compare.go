@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeKeyPair_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeKeyPair_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,7 +51,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKeyPair_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKeyPair_KeyPairId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,11 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKeyPair_KeyPairId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -74,6 +74,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeKeyPair_PublicKey(k *KeyPairParameters, p *KeyPairParameters, md *plugin.MergeDescription) bool {
+	if k.PublicKey != p.PublicKey {
+		p.PublicKey = k.PublicKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -106,11 +116,11 @@ func MergeKeyPair_KeyNamePrefix(k *KeyPairParameters, p *KeyPairParameters, md *
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeKeyPair_PublicKey(k *KeyPairParameters, p *KeyPairParameters, md *plugin.MergeDescription) bool {
-	if k.PublicKey != p.PublicKey {
-		p.PublicKey = k.PublicKey
-		md.NeedsProviderUpdate = true
+//mergePrimitiveTemplateStatus
+func MergeKeyPair_KeyPairId(k *KeyPairObservation, p *KeyPairObservation, md *plugin.MergeDescription) bool {
+	if k.KeyPairId != p.KeyPairId {
+		k.KeyPairId = p.KeyPairId
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -130,16 +140,6 @@ func MergeKeyPair_Arn(k *KeyPairObservation, p *KeyPairObservation, md *plugin.M
 func MergeKeyPair_Fingerprint(k *KeyPairObservation, p *KeyPairObservation, md *plugin.MergeDescription) bool {
 	if k.Fingerprint != p.Fingerprint {
 		k.Fingerprint = p.Fingerprint
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeKeyPair_KeyPairId(k *KeyPairObservation, p *KeyPairObservation, md *plugin.MergeDescription) bool {
-	if k.KeyPairId != p.KeyPairId {
-		k.KeyPairId = p.KeyPairId
 		md.StatusUpdated = true
 		return true
 	}

@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2TrafficMirrorSession_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TrafficMirrorSession_SessionNumber(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2TrafficMirrorSession_TrafficMirrorTargetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TrafficMirrorSession_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,12 +51,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TrafficMirrorSession_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TrafficMirrorSession_SessionNumber(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEc2TrafficMirrorSession_TrafficMirrorFilterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TrafficMirrorSession_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -87,29 +87,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2TrafficMirrorSession_Description(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TrafficMirrorSession_SessionNumber(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
-	if k.SessionNumber != p.SessionNumber {
-		p.SessionNumber = k.SessionNumber
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEc2TrafficMirrorSession_TrafficMirrorTargetId(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
 	if k.TrafficMirrorTargetId != p.TrafficMirrorTargetId {
 		p.TrafficMirrorTargetId = k.TrafficMirrorTargetId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TrafficMirrorSession_Description(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -136,10 +126,10 @@ func MergeEc2TrafficMirrorSession_PacketLength(k *Ec2TrafficMirrorSessionParamet
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeEc2TrafficMirrorSession_Tags(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeEc2TrafficMirrorSession_SessionNumber(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
+	if k.SessionNumber != p.SessionNumber {
+		p.SessionNumber = k.SessionNumber
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -150,6 +140,16 @@ func MergeEc2TrafficMirrorSession_Tags(k *Ec2TrafficMirrorSessionParameters, p *
 func MergeEc2TrafficMirrorSession_TrafficMirrorFilterId(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
 	if k.TrafficMirrorFilterId != p.TrafficMirrorFilterId {
 		p.TrafficMirrorFilterId = k.TrafficMirrorFilterId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2TrafficMirrorSession_Tags(k *Ec2TrafficMirrorSessionParameters, p *Ec2TrafficMirrorSessionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

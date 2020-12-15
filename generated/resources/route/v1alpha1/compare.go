@@ -31,41 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRoute_NetworkInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute_VpcPeeringConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute_NatGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute_DestinationCidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute_EgressOnlyGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute_GatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRoute_RouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -76,7 +41,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeRoute_NetworkInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute_DestinationCidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute_GatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeRoute_DestinationIpv6CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute_NatGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,7 +71,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeRoute_VpcPeeringConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute_EgressOnlyGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeRoute_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute_InstanceOwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -96,17 +101,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute_Origin(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRoute_DestinationPrefixListId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute_InstanceOwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRoute_Origin(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -119,76 +119,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_NetworkInterfaceId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
-	if k.NetworkInterfaceId != p.NetworkInterfaceId {
-		p.NetworkInterfaceId = k.NetworkInterfaceId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_VpcPeeringConnectionId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
-	if k.VpcPeeringConnectionId != p.VpcPeeringConnectionId {
-		p.VpcPeeringConnectionId = k.VpcPeeringConnectionId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_InstanceId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
-	if k.InstanceId != p.InstanceId {
-		p.InstanceId = k.InstanceId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_NatGatewayId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
-	if k.NatGatewayId != p.NatGatewayId {
-		p.NatGatewayId = k.NatGatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_DestinationCidrBlock(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
-	if k.DestinationCidrBlock != p.DestinationCidrBlock {
-		p.DestinationCidrBlock = k.DestinationCidrBlock
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_EgressOnlyGatewayId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
-	if k.EgressOnlyGatewayId != p.EgressOnlyGatewayId {
-		p.EgressOnlyGatewayId = k.EgressOnlyGatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_GatewayId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
-	if k.GatewayId != p.GatewayId {
-		p.GatewayId = k.GatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -212,9 +142,49 @@ func MergeRoute_TransitGatewayId(k *RouteParameters, p *RouteParameters, md *plu
 }
 
 //mergePrimitiveTemplateSpec
+func MergeRoute_NetworkInterfaceId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		p.NetworkInterfaceId = k.NetworkInterfaceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute_DestinationCidrBlock(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
+	if k.DestinationCidrBlock != p.DestinationCidrBlock {
+		p.DestinationCidrBlock = k.DestinationCidrBlock
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute_GatewayId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
+	if k.GatewayId != p.GatewayId {
+		p.GatewayId = k.GatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeRoute_DestinationIpv6CidrBlock(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
 	if k.DestinationIpv6CidrBlock != p.DestinationIpv6CidrBlock {
 		p.DestinationIpv6CidrBlock = k.DestinationIpv6CidrBlock
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute_NatGatewayId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
+	if k.NatGatewayId != p.NatGatewayId {
+		p.NatGatewayId = k.NatGatewayId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -231,16 +201,46 @@ func MergeRoute_LocalGatewayId(k *RouteParameters, p *RouteParameters, md *plugi
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeRoute_VpcPeeringConnectionId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
+	if k.VpcPeeringConnectionId != p.VpcPeeringConnectionId {
+		p.VpcPeeringConnectionId = k.VpcPeeringConnectionId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute_EgressOnlyGatewayId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
+	if k.EgressOnlyGatewayId != p.EgressOnlyGatewayId {
+		p.EgressOnlyGatewayId = k.EgressOnlyGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute_InstanceId(k *RouteParameters, p *RouteParameters, md *plugin.MergeDescription) bool {
+	if k.InstanceId != p.InstanceId {
+		p.InstanceId = k.InstanceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergeStructTemplateSpec
 func MergeRoute_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeRoute_Timeouts_Create(k, p, md)
+	updated = MergeRoute_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute_Timeouts_Delete(k, p, md)
+	updated = MergeRoute_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -249,16 +249,6 @@ func MergeRoute_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) 
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRoute_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -271,10 +261,20 @@ func MergeRoute_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescri
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeRoute_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateStatus
-func MergeRoute_State(k *RouteObservation, p *RouteObservation, md *plugin.MergeDescription) bool {
-	if k.State != p.State {
-		k.State = p.State
+func MergeRoute_InstanceOwnerId(k *RouteObservation, p *RouteObservation, md *plugin.MergeDescription) bool {
+	if k.InstanceOwnerId != p.InstanceOwnerId {
+		k.InstanceOwnerId = p.InstanceOwnerId
 		md.StatusUpdated = true
 		return true
 	}
@@ -282,9 +282,9 @@ func MergeRoute_State(k *RouteObservation, p *RouteObservation, md *plugin.Merge
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRoute_Origin(k *RouteObservation, p *RouteObservation, md *plugin.MergeDescription) bool {
-	if k.Origin != p.Origin {
-		k.Origin = p.Origin
+func MergeRoute_State(k *RouteObservation, p *RouteObservation, md *plugin.MergeDescription) bool {
+	if k.State != p.State {
+		k.State = p.State
 		md.StatusUpdated = true
 		return true
 	}
@@ -302,9 +302,9 @@ func MergeRoute_DestinationPrefixListId(k *RouteObservation, p *RouteObservation
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRoute_InstanceOwnerId(k *RouteObservation, p *RouteObservation, md *plugin.MergeDescription) bool {
-	if k.InstanceOwnerId != p.InstanceOwnerId {
-		k.InstanceOwnerId = p.InstanceOwnerId
+func MergeRoute_Origin(k *RouteObservation, p *RouteObservation, md *plugin.MergeDescription) bool {
+	if k.Origin != p.Origin {
+		k.Origin = p.Origin
 		md.StatusUpdated = true
 		return true
 	}

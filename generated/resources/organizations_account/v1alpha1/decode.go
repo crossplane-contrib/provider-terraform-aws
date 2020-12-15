@@ -39,16 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeOrganizationsAccount(prev *OrganizationsAccount, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeOrganizationsAccount_ParentId(&new.Spec.ForProvider, valMap)
-	DecodeOrganizationsAccount_Email(&new.Spec.ForProvider, valMap)
-	DecodeOrganizationsAccount_IamUserAccessToBilling(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsAccount_Name(&new.Spec.ForProvider, valMap)
+	DecodeOrganizationsAccount_ParentId(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsAccount_RoleName(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsAccount_Tags(&new.Spec.ForProvider, valMap)
-	DecodeOrganizationsAccount_Arn(&new.Status.AtProvider, valMap)
-	DecodeOrganizationsAccount_JoinedMethod(&new.Status.AtProvider, valMap)
-	DecodeOrganizationsAccount_JoinedTimestamp(&new.Status.AtProvider, valMap)
+	DecodeOrganizationsAccount_Email(&new.Spec.ForProvider, valMap)
+	DecodeOrganizationsAccount_IamUserAccessToBilling(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsAccount_Status(&new.Status.AtProvider, valMap)
+	DecodeOrganizationsAccount_Arn(&new.Status.AtProvider, valMap)
+	DecodeOrganizationsAccount_JoinedTimestamp(&new.Status.AtProvider, valMap)
+	DecodeOrganizationsAccount_JoinedMethod(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -57,23 +57,13 @@ func DecodeOrganizationsAccount(prev *OrganizationsAccount, ctyValue cty.Value) 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeOrganizationsAccount_ParentId(p *OrganizationsAccountParameters, vals map[string]cty.Value) {
-	p.ParentId = ctwhy.ValueAsString(vals["parent_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOrganizationsAccount_Email(p *OrganizationsAccountParameters, vals map[string]cty.Value) {
-	p.Email = ctwhy.ValueAsString(vals["email"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOrganizationsAccount_IamUserAccessToBilling(p *OrganizationsAccountParameters, vals map[string]cty.Value) {
-	p.IamUserAccessToBilling = ctwhy.ValueAsString(vals["iam_user_access_to_billing"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeOrganizationsAccount_Name(p *OrganizationsAccountParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeOrganizationsAccount_ParentId(p *OrganizationsAccountParameters, vals map[string]cty.Value) {
+	p.ParentId = ctwhy.ValueAsString(vals["parent_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -93,13 +83,23 @@ func DecodeOrganizationsAccount_Tags(p *OrganizationsAccountParameters, vals map
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeOrganizationsAccount_Arn(p *OrganizationsAccountObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeOrganizationsAccount_Email(p *OrganizationsAccountParameters, vals map[string]cty.Value) {
+	p.Email = ctwhy.ValueAsString(vals["email"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeOrganizationsAccount_JoinedMethod(p *OrganizationsAccountObservation, vals map[string]cty.Value) {
-	p.JoinedMethod = ctwhy.ValueAsString(vals["joined_method"])
+func DecodeOrganizationsAccount_IamUserAccessToBilling(p *OrganizationsAccountParameters, vals map[string]cty.Value) {
+	p.IamUserAccessToBilling = ctwhy.ValueAsString(vals["iam_user_access_to_billing"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeOrganizationsAccount_Status(p *OrganizationsAccountObservation, vals map[string]cty.Value) {
+	p.Status = ctwhy.ValueAsString(vals["status"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeOrganizationsAccount_Arn(p *OrganizationsAccountObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -108,6 +108,6 @@ func DecodeOrganizationsAccount_JoinedTimestamp(p *OrganizationsAccountObservati
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeOrganizationsAccount_Status(p *OrganizationsAccountObservation, vals map[string]cty.Value) {
-	p.Status = ctwhy.ValueAsString(vals["status"])
+func DecodeOrganizationsAccount_JoinedMethod(p *OrganizationsAccountObservation, vals map[string]cty.Value) {
+	p.JoinedMethod = ctwhy.ValueAsString(vals["joined_method"])
 }

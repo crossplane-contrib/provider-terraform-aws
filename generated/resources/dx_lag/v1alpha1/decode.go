@@ -39,14 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxLag(prev *DxLag, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDxLag_ConnectionsBandwidth(&new.Spec.ForProvider, valMap)
+	DecodeDxLag_Location(&new.Spec.ForProvider, valMap)
+	DecodeDxLag_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDxLag_ForceDestroy(&new.Spec.ForProvider, valMap)
 	DecodeDxLag_Name(&new.Spec.ForProvider, valMap)
-	DecodeDxLag_ConnectionsBandwidth(&new.Spec.ForProvider, valMap)
-	DecodeDxLag_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDxLag_Location(&new.Spec.ForProvider, valMap)
-	DecodeDxLag_JumboFrameCapable(&new.Status.AtProvider, valMap)
 	DecodeDxLag_Arn(&new.Status.AtProvider, valMap)
 	DecodeDxLag_HasLogicalRedundancy(&new.Status.AtProvider, valMap)
+	DecodeDxLag_JumboFrameCapable(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -55,18 +55,13 @@ func DecodeDxLag(prev *DxLag, ctyValue cty.Value) (resource.Managed, error) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxLag_ForceDestroy(p *DxLagParameters, vals map[string]cty.Value) {
-	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxLag_Name(p *DxLagParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDxLag_ConnectionsBandwidth(p *DxLagParameters, vals map[string]cty.Value) {
 	p.ConnectionsBandwidth = ctwhy.ValueAsString(vals["connections_bandwidth"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxLag_Location(p *DxLagParameters, vals map[string]cty.Value) {
+	p.Location = ctwhy.ValueAsString(vals["location"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -81,13 +76,13 @@ func DecodeDxLag_Tags(p *DxLagParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxLag_Location(p *DxLagParameters, vals map[string]cty.Value) {
-	p.Location = ctwhy.ValueAsString(vals["location"])
+func DecodeDxLag_ForceDestroy(p *DxLagParameters, vals map[string]cty.Value) {
+	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxLag_JumboFrameCapable(p *DxLagObservation, vals map[string]cty.Value) {
-	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
+func DecodeDxLag_Name(p *DxLagParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -98,4 +93,9 @@ func DecodeDxLag_Arn(p *DxLagObservation, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeDxLag_HasLogicalRedundancy(p *DxLagObservation, vals map[string]cty.Value) {
 	p.HasLogicalRedundancy = ctwhy.ValueAsString(vals["has_logical_redundancy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxLag_JumboFrameCapable(p *DxLagObservation, vals map[string]cty.Value) {
+	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
 }

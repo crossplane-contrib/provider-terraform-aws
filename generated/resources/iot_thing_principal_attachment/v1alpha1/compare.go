@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIotThingPrincipalAttachment_Principal(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIotThingPrincipalAttachment_Thing(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIotThingPrincipalAttachment_Thing(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIotThingPrincipalAttachment_Principal(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIotThingPrincipalAttachment_Principal(k *IotThingPrincipalAttachmentParameters, p *IotThingPrincipalAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Principal != p.Principal {
-		p.Principal = k.Principal
+func MergeIotThingPrincipalAttachment_Thing(k *IotThingPrincipalAttachmentParameters, p *IotThingPrincipalAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Thing != p.Thing {
+		p.Thing = k.Thing
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeIotThingPrincipalAttachment_Principal(k *IotThingPrincipalAttachmentPa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIotThingPrincipalAttachment_Thing(k *IotThingPrincipalAttachmentParameters, p *IotThingPrincipalAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Thing != p.Thing {
-		p.Thing = k.Thing
+func MergeIotThingPrincipalAttachment_Principal(k *IotThingPrincipalAttachmentParameters, p *IotThingPrincipalAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Principal != p.Principal {
+		p.Principal = k.Principal
 		md.NeedsProviderUpdate = true
 		return true
 	}

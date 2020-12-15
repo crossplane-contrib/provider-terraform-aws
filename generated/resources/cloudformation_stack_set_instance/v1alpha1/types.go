@@ -52,11 +52,11 @@ type CloudformationStackSetInstanceSpec struct {
 
 // A CloudformationStackSetInstanceParameters defines the desired state of a CloudformationStackSetInstance
 type CloudformationStackSetInstanceParameters struct {
+	RetainStack        bool              `json:"retain_stack"`
+	StackSetName       string            `json:"stack_set_name"`
 	AccountId          string            `json:"account_id"`
 	ParameterOverrides map[string]string `json:"parameter_overrides"`
 	Region             string            `json:"region"`
-	RetainStack        bool              `json:"retain_stack"`
-	StackSetName       string            `json:"stack_set_name"`
 	Timeouts           Timeouts          `json:"timeouts"`
 }
 

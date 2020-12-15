@@ -41,8 +41,8 @@ func DecodeInternetGateway(prev *InternetGateway, ctyValue cty.Value) (resource.
 	new := prev.DeepCopy()
 	DecodeInternetGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeInternetGateway_VpcId(&new.Spec.ForProvider, valMap)
-	DecodeInternetGateway_Arn(&new.Status.AtProvider, valMap)
 	DecodeInternetGateway_OwnerId(&new.Status.AtProvider, valMap)
+	DecodeInternetGateway_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -67,11 +67,11 @@ func DecodeInternetGateway_VpcId(p *InternetGatewayParameters, vals map[string]c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeInternetGateway_Arn(p *InternetGatewayObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeInternetGateway_OwnerId(p *InternetGatewayObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeInternetGateway_OwnerId(p *InternetGatewayObservation, vals map[string]cty.Value) {
-	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
+func DecodeInternetGateway_Arn(p *InternetGatewayObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

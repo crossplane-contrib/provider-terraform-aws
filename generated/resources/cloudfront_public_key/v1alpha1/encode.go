@@ -37,28 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudfrontPublicKey(r CloudfrontPublicKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudfrontPublicKey_Comment(r.Spec.ForProvider, ctyVal)
-	EncodeCloudfrontPublicKey_EncodedKey(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeCloudfrontPublicKey_Comment(r.Spec.ForProvider, ctyVal)
+	EncodeCloudfrontPublicKey_EncodedKey(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontPublicKey_CallerReference(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontPublicKey_Etag(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudfrontPublicKey_Comment(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
-	vals["comment"] = cty.StringVal(p.Comment)
-}
-
-func EncodeCloudfrontPublicKey_EncodedKey(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
-	vals["encoded_key"] = cty.StringVal(p.EncodedKey)
 }
 
 func EncodeCloudfrontPublicKey_Name(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
@@ -67,6 +57,14 @@ func EncodeCloudfrontPublicKey_Name(p CloudfrontPublicKeyParameters, vals map[st
 
 func EncodeCloudfrontPublicKey_NamePrefix(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeCloudfrontPublicKey_Comment(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
+	vals["comment"] = cty.StringVal(p.Comment)
+}
+
+func EncodeCloudfrontPublicKey_EncodedKey(p CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
+	vals["encoded_key"] = cty.StringVal(p.EncodedKey)
 }
 
 func EncodeCloudfrontPublicKey_CallerReference(p CloudfrontPublicKeyObservation, vals map[string]cty.Value) {

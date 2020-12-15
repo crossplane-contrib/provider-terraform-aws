@@ -52,10 +52,10 @@ type CloudfrontPublicKeySpec struct {
 
 // A CloudfrontPublicKeyParameters defines the desired state of a CloudfrontPublicKey
 type CloudfrontPublicKeyParameters struct {
-	Comment    string `json:"comment"`
-	EncodedKey string `json:"encoded_key"`
 	Name       string `json:"name"`
 	NamePrefix string `json:"name_prefix"`
+	Comment    string `json:"comment"`
+	EncodedKey string `json:"encoded_key"`
 }
 
 // A CloudfrontPublicKeyStatus defines the observed state of a CloudfrontPublicKey

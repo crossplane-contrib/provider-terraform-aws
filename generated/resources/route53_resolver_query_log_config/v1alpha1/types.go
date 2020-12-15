@@ -52,9 +52,9 @@ type Route53ResolverQueryLogConfigSpec struct {
 
 // A Route53ResolverQueryLogConfigParameters defines the desired state of a Route53ResolverQueryLogConfig
 type Route53ResolverQueryLogConfigParameters struct {
+	Tags           map[string]string `json:"tags"`
 	DestinationArn string            `json:"destination_arn"`
 	Name           string            `json:"name"`
-	Tags           map[string]string `json:"tags"`
 }
 
 // A Route53ResolverQueryLogConfigStatus defines the observed state of a Route53ResolverQueryLogConfig

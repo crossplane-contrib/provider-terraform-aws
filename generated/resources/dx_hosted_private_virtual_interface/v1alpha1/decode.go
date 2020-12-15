@@ -39,36 +39,26 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxHostedPrivateVirtualInterface(prev *DxHostedPrivateVirtualInterface, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxHostedPrivateVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
-	DecodeDxHostedPrivateVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedPrivateVirtualInterface_OwnerAccountId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_AddressFamily(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_BgpAuthKey(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_Mtu(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_Name(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedPrivateVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
-	DecodeDxHostedPrivateVirtualInterface_OwnerAccountId(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedPrivateVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeDxHostedPrivateVirtualInterface_AwsDevice(&new.Status.AtProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_Arn(&new.Status.AtProvider, valMap)
-	DecodeDxHostedPrivateVirtualInterface_AmazonSideAsn(&new.Status.AtProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterface_JumboFrameCapable(&new.Status.AtProvider, valMap)
+	DecodeDxHostedPrivateVirtualInterface_AmazonSideAsn(&new.Status.AtProvider, valMap)
+	DecodeDxHostedPrivateVirtualInterface_AwsDevice(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterface_AmazonAddress(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterface_BgpAsn(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -79,6 +69,11 @@ func DecodeDxHostedPrivateVirtualInterface_ConnectionId(p *DxHostedPrivateVirtua
 //primitiveTypeDecodeTemplate
 func DecodeDxHostedPrivateVirtualInterface_CustomerAddress(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
 	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxHostedPrivateVirtualInterface_OwnerAccountId(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.OwnerAccountId = ctwhy.ValueAsString(vals["owner_account_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -102,13 +97,18 @@ func DecodeDxHostedPrivateVirtualInterface_Name(p *DxHostedPrivateVirtualInterfa
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeDxHostedPrivateVirtualInterface_BgpAsn(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedPrivateVirtualInterface_Vlan(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
 	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterface_OwnerAccountId(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.OwnerAccountId = ctwhy.ValueAsString(vals["owner_account_id"])
+func DecodeDxHostedPrivateVirtualInterface_AmazonAddress(p *DxHostedPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
 }
 
 //containerTypeDecodeTemplate
@@ -135,13 +135,13 @@ func DecodeDxHostedPrivateVirtualInterface_Timeouts_Delete(p *Timeouts, vals map
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterface_AwsDevice(p *DxHostedPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
-	p.AwsDevice = ctwhy.ValueAsString(vals["aws_device"])
+func DecodeDxHostedPrivateVirtualInterface_Arn(p *DxHostedPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterface_Arn(p *DxHostedPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeDxHostedPrivateVirtualInterface_JumboFrameCapable(p *DxHostedPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -150,6 +150,6 @@ func DecodeDxHostedPrivateVirtualInterface_AmazonSideAsn(p *DxHostedPrivateVirtu
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterface_JumboFrameCapable(p *DxHostedPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
-	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
+func DecodeDxHostedPrivateVirtualInterface_AwsDevice(p *DxHostedPrivateVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.AwsDevice = ctwhy.ValueAsString(vals["aws_device"])
 }

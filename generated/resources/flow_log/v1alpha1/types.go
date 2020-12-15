@@ -52,17 +52,17 @@ type FlowLogSpec struct {
 
 // A FlowLogParameters defines the desired state of a FlowLog
 type FlowLogParameters struct {
-	EniId                  string            `json:"eni_id"`
-	IamRoleArn             string            `json:"iam_role_arn"`
 	LogDestination         string            `json:"log_destination"`
-	LogDestinationType     string            `json:"log_destination_type"`
+	IamRoleArn             string            `json:"iam_role_arn"`
+	LogGroupName           string            `json:"log_group_name"`
 	MaxAggregationInterval int64             `json:"max_aggregation_interval"`
+	SubnetId               string            `json:"subnet_id"`
 	Tags                   map[string]string `json:"tags"`
 	TrafficType            string            `json:"traffic_type"`
-	VpcId                  string            `json:"vpc_id"`
+	EniId                  string            `json:"eni_id"`
+	LogDestinationType     string            `json:"log_destination_type"`
 	LogFormat              string            `json:"log_format"`
-	LogGroupName           string            `json:"log_group_name"`
-	SubnetId               string            `json:"subnet_id"`
+	VpcId                  string            `json:"vpc_id"`
 }
 
 // A FlowLogStatus defines the observed state of a FlowLog

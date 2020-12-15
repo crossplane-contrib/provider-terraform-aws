@@ -40,15 +40,13 @@ func EncodeServiceDiscoveryPublicDnsNamespace(r ServiceDiscoveryPublicDnsNamespa
 	EncodeServiceDiscoveryPublicDnsNamespace_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryPublicDnsNamespace_Arn(r.Status.AtProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(r.Status.AtProvider, ctyVal)
+	EncodeServiceDiscoveryPublicDnsNamespace_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -72,10 +70,10 @@ func EncodeServiceDiscoveryPublicDnsNamespace_Tags(p ServiceDiscoveryPublicDnsNa
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeServiceDiscoveryPublicDnsNamespace_Arn(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
 func EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
 	vals["hosted_zone"] = cty.StringVal(p.HostedZone)
+}
+
+func EncodeServiceDiscoveryPublicDnsNamespace_Arn(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

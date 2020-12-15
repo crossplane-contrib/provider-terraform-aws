@@ -31,21 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDmsEventSubscription_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsEventSubscription_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsEventSubscription_SnsTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDmsEventSubscription_SourceIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,7 +46,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDmsEventSubscription_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDmsEventSubscription_EventCategories(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsEventSubscription_SnsTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsEventSubscription_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -84,36 +84,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsEventSubscription_Enabled(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Enabled != p.Enabled {
-		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsEventSubscription_Name(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsEventSubscription_SnsTopicArn(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.SnsTopicArn != p.SnsTopicArn {
-		p.SnsTopicArn = k.SnsTopicArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -146,10 +116,40 @@ func MergeDmsEventSubscription_Tags(k *DmsEventSubscriptionParameters, p *DmsEve
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeDmsEventSubscription_Name(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeDmsEventSubscription_EventCategories(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.EventCategories, p.EventCategories) {
 		p.EventCategories = k.EventCategories
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsEventSubscription_SnsTopicArn(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.SnsTopicArn != p.SnsTopicArn {
+		p.SnsTopicArn = k.SnsTopicArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsEventSubscription_Enabled(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
 		md.NeedsProviderUpdate = true
 		return true
 	}

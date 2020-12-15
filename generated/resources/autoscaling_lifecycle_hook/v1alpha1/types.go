@@ -53,13 +53,13 @@ type AutoscalingLifecycleHookSpec struct {
 // A AutoscalingLifecycleHookParameters defines the desired state of a AutoscalingLifecycleHook
 type AutoscalingLifecycleHookParameters struct {
 	LifecycleTransition   string `json:"lifecycle_transition"`
-	RoleArn               string `json:"role_arn"`
+	Name                  string `json:"name"`
+	NotificationMetadata  string `json:"notification_metadata"`
+	NotificationTargetArn string `json:"notification_target_arn"`
 	AutoscalingGroupName  string `json:"autoscaling_group_name"`
 	DefaultResult         string `json:"default_result"`
 	HeartbeatTimeout      int64  `json:"heartbeat_timeout"`
-	NotificationTargetArn string `json:"notification_target_arn"`
-	Name                  string `json:"name"`
-	NotificationMetadata  string `json:"notification_metadata"`
+	RoleArn               string `json:"role_arn"`
 }
 
 // A AutoscalingLifecycleHookStatus defines the observed state of a AutoscalingLifecycleHook

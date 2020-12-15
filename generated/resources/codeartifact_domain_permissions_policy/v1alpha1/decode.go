@@ -39,16 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCodeartifactDomainPermissionsPolicy(prev *CodeartifactDomainPermissionsPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCodeartifactDomainPermissionsPolicy_PolicyRevision(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_DomainOwner(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_PolicyDocument(&new.Spec.ForProvider, valMap)
-	DecodeCodeartifactDomainPermissionsPolicy_PolicyRevision(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_ResourceArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodeartifactDomainPermissionsPolicy_PolicyRevision(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
+	p.PolicyRevision = ctwhy.ValueAsString(vals["policy_revision"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -64,11 +69,6 @@ func DecodeCodeartifactDomainPermissionsPolicy_DomainOwner(p *CodeartifactDomain
 //primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_PolicyDocument(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	p.PolicyDocument = ctwhy.ValueAsString(vals["policy_document"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCodeartifactDomainPermissionsPolicy_PolicyRevision(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
-	p.PolicyRevision = ctwhy.ValueAsString(vals["policy_revision"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -39,17 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2CapacityReservation(prev *Ec2CapacityReservation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2CapacityReservation_Tenancy(&new.Spec.ForProvider, valMap)
 	DecodeEc2CapacityReservation_InstanceType(&new.Spec.ForProvider, valMap)
-	DecodeEc2CapacityReservation_EndDateType(&new.Spec.ForProvider, valMap)
-	DecodeEc2CapacityReservation_EphemeralStorage(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeEc2CapacityReservation_InstanceCount(&new.Spec.ForProvider, valMap)
 	DecodeEc2CapacityReservation_InstanceMatchCriteria(&new.Spec.ForProvider, valMap)
 	DecodeEc2CapacityReservation_InstancePlatform(&new.Spec.ForProvider, valMap)
-	DecodeEc2CapacityReservation_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_Tenancy(&new.Spec.ForProvider, valMap)
 	DecodeEc2CapacityReservation_EbsOptimized(&new.Spec.ForProvider, valMap)
 	DecodeEc2CapacityReservation_EndDate(&new.Spec.ForProvider, valMap)
-	DecodeEc2CapacityReservation_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_EndDateType(&new.Spec.ForProvider, valMap)
+	DecodeEc2CapacityReservation_EphemeralStorage(&new.Spec.ForProvider, valMap)
 	DecodeEc2CapacityReservation_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -59,23 +59,24 @@ func DecodeEc2CapacityReservation(prev *Ec2CapacityReservation, ctyValue cty.Val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2CapacityReservation_Tenancy(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
-	p.Tenancy = ctwhy.ValueAsString(vals["tenancy"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeEc2CapacityReservation_InstanceType(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
 	p.InstanceType = ctwhy.ValueAsString(vals["instance_type"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeEc2CapacityReservation_EndDateType(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
-	p.EndDateType = ctwhy.ValueAsString(vals["end_date_type"])
+//primitiveMapTypeDecodeTemplate
+func DecodeEc2CapacityReservation_Tags(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2CapacityReservation_EphemeralStorage(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
-	p.EphemeralStorage = ctwhy.ValueAsBool(vals["ephemeral_storage"])
+func DecodeEc2CapacityReservation_AvailabilityZone(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -94,8 +95,8 @@ func DecodeEc2CapacityReservation_InstancePlatform(p *Ec2CapacityReservationPara
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2CapacityReservation_AvailabilityZone(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
-	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+func DecodeEc2CapacityReservation_Tenancy(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.Tenancy = ctwhy.ValueAsString(vals["tenancy"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -108,15 +109,14 @@ func DecodeEc2CapacityReservation_EndDate(p *Ec2CapacityReservationParameters, v
 	p.EndDate = ctwhy.ValueAsString(vals["end_date"])
 }
 
-//primitiveMapTypeDecodeTemplate
-func DecodeEc2CapacityReservation_Tags(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
+//primitiveTypeDecodeTemplate
+func DecodeEc2CapacityReservation_EndDateType(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.EndDateType = ctwhy.ValueAsString(vals["end_date_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2CapacityReservation_EphemeralStorage(p *Ec2CapacityReservationParameters, vals map[string]cty.Value) {
+	p.EphemeralStorage = ctwhy.ValueAsBool(vals["ephemeral_storage"])
 }
 
 //primitiveTypeDecodeTemplate

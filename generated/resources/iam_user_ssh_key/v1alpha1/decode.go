@@ -43,8 +43,8 @@ func DecodeIamUserSshKey(prev *IamUserSshKey, ctyValue cty.Value) (resource.Mana
 	DecodeIamUserSshKey_Status(&new.Spec.ForProvider, valMap)
 	DecodeIamUserSshKey_Username(&new.Spec.ForProvider, valMap)
 	DecodeIamUserSshKey_Encoding(&new.Spec.ForProvider, valMap)
-	DecodeIamUserSshKey_Fingerprint(&new.Status.AtProvider, valMap)
 	DecodeIamUserSshKey_SshPublicKeyId(&new.Status.AtProvider, valMap)
+	DecodeIamUserSshKey_Fingerprint(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -73,11 +73,11 @@ func DecodeIamUserSshKey_Encoding(p *IamUserSshKeyParameters, vals map[string]ct
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamUserSshKey_Fingerprint(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
-	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
+func DecodeIamUserSshKey_SshPublicKeyId(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
+	p.SshPublicKeyId = ctwhy.ValueAsString(vals["ssh_public_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamUserSshKey_SshPublicKeyId(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
-	p.SshPublicKeyId = ctwhy.ValueAsString(vals["ssh_public_key_id"])
+func DecodeIamUserSshKey_Fingerprint(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
+	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
 }

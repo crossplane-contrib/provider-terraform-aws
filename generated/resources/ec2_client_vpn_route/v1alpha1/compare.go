@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeEc2ClientVpnRoute_TargetVpcSubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeEc2ClientVpnRoute_ClientVpnEndpointId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,11 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeEc2ClientVpnRoute_DestinationCidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2ClientVpnRoute_TargetVpcSubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -69,6 +69,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2ClientVpnRoute_TargetVpcSubnetId(k *Ec2ClientVpnRouteParameters, p *Ec2ClientVpnRouteParameters, md *plugin.MergeDescription) bool {
+	if k.TargetVpcSubnetId != p.TargetVpcSubnetId {
+		p.TargetVpcSubnetId = k.TargetVpcSubnetId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -95,16 +105,6 @@ func MergeEc2ClientVpnRoute_Description(k *Ec2ClientVpnRouteParameters, p *Ec2Cl
 func MergeEc2ClientVpnRoute_DestinationCidrBlock(k *Ec2ClientVpnRouteParameters, p *Ec2ClientVpnRouteParameters, md *plugin.MergeDescription) bool {
 	if k.DestinationCidrBlock != p.DestinationCidrBlock {
 		p.DestinationCidrBlock = k.DestinationCidrBlock
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2ClientVpnRoute_TargetVpcSubnetId(k *Ec2ClientVpnRouteParameters, p *Ec2ClientVpnRouteParameters, md *plugin.MergeDescription) bool {
-	if k.TargetVpcSubnetId != p.TargetVpcSubnetId {
-		p.TargetVpcSubnetId = k.TargetVpcSubnetId
 		md.NeedsProviderUpdate = true
 		return true
 	}

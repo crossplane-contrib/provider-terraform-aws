@@ -37,35 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDmsEventSubscription(r DmsEventSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDmsEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodeDmsEventSubscription_Name(r.Spec.ForProvider, ctyVal)
-	EncodeDmsEventSubscription_SnsTopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeDmsEventSubscription_SourceIds(r.Spec.ForProvider, ctyVal)
 	EncodeDmsEventSubscription_SourceType(r.Spec.ForProvider, ctyVal)
 	EncodeDmsEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDmsEventSubscription_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDmsEventSubscription_EventCategories(r.Spec.ForProvider, ctyVal)
+	EncodeDmsEventSubscription_SnsTopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeDmsEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeDmsEventSubscription_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDmsEventSubscription_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDmsEventSubscription_Enabled(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodeDmsEventSubscription_Name(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeDmsEventSubscription_SnsTopicArn(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
 }
 
 func EncodeDmsEventSubscription_SourceIds(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
@@ -92,12 +78,24 @@ func EncodeDmsEventSubscription_Tags(p DmsEventSubscriptionParameters, vals map[
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeDmsEventSubscription_Name(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
 func EncodeDmsEventSubscription_EventCategories(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.EventCategories {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["event_categories"] = cty.SetVal(colVals)
+}
+
+func EncodeDmsEventSubscription_SnsTopicArn(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
+}
+
+func EncodeDmsEventSubscription_Enabled(p DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
 func EncodeDmsEventSubscription_Timeouts(p Timeouts, vals map[string]cty.Value) {

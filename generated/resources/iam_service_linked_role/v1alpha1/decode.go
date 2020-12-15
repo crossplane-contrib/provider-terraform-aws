@@ -39,14 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamServiceLinkedRole(prev *IamServiceLinkedRole, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamServiceLinkedRole_CustomSuffix(&new.Spec.ForProvider, valMap)
 	DecodeIamServiceLinkedRole_AwsServiceName(&new.Spec.ForProvider, valMap)
+	DecodeIamServiceLinkedRole_CustomSuffix(&new.Spec.ForProvider, valMap)
 	DecodeIamServiceLinkedRole_Description(&new.Spec.ForProvider, valMap)
-	DecodeIamServiceLinkedRole_Arn(&new.Status.AtProvider, valMap)
-	DecodeIamServiceLinkedRole_CreateDate(&new.Status.AtProvider, valMap)
-	DecodeIamServiceLinkedRole_Name(&new.Status.AtProvider, valMap)
 	DecodeIamServiceLinkedRole_Path(&new.Status.AtProvider, valMap)
+	DecodeIamServiceLinkedRole_Arn(&new.Status.AtProvider, valMap)
+	DecodeIamServiceLinkedRole_Name(&new.Status.AtProvider, valMap)
 	DecodeIamServiceLinkedRole_UniqueId(&new.Status.AtProvider, valMap)
+	DecodeIamServiceLinkedRole_CreateDate(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -55,13 +55,13 @@ func DecodeIamServiceLinkedRole(prev *IamServiceLinkedRole, ctyValue cty.Value) 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamServiceLinkedRole_CustomSuffix(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
-	p.CustomSuffix = ctwhy.ValueAsString(vals["custom_suffix"])
+func DecodeIamServiceLinkedRole_AwsServiceName(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	p.AwsServiceName = ctwhy.ValueAsString(vals["aws_service_name"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamServiceLinkedRole_AwsServiceName(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
-	p.AwsServiceName = ctwhy.ValueAsString(vals["aws_service_name"])
+func DecodeIamServiceLinkedRole_CustomSuffix(p *IamServiceLinkedRoleParameters, vals map[string]cty.Value) {
+	p.CustomSuffix = ctwhy.ValueAsString(vals["custom_suffix"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -70,13 +70,13 @@ func DecodeIamServiceLinkedRole_Description(p *IamServiceLinkedRoleParameters, v
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamServiceLinkedRole_Arn(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeIamServiceLinkedRole_Path(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.Path = ctwhy.ValueAsString(vals["path"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamServiceLinkedRole_CreateDate(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
-	p.CreateDate = ctwhy.ValueAsString(vals["create_date"])
+func DecodeIamServiceLinkedRole_Arn(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -85,11 +85,11 @@ func DecodeIamServiceLinkedRole_Name(p *IamServiceLinkedRoleObservation, vals ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamServiceLinkedRole_Path(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
-	p.Path = ctwhy.ValueAsString(vals["path"])
+func DecodeIamServiceLinkedRole_UniqueId(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamServiceLinkedRole_UniqueId(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
-	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
+func DecodeIamServiceLinkedRole_CreateDate(p *IamServiceLinkedRoleObservation, vals map[string]cty.Value) {
+	p.CreateDate = ctwhy.ValueAsString(vals["create_date"])
 }

@@ -52,12 +52,12 @@ type OrganizationsAccountSpec struct {
 
 // A OrganizationsAccountParameters defines the desired state of a OrganizationsAccount
 type OrganizationsAccountParameters struct {
-	ParentId               string            `json:"parent_id"`
-	Email                  string            `json:"email"`
-	IamUserAccessToBilling string            `json:"iam_user_access_to_billing"`
 	Name                   string            `json:"name"`
+	ParentId               string            `json:"parent_id"`
 	RoleName               string            `json:"role_name"`
 	Tags                   map[string]string `json:"tags"`
+	Email                  string            `json:"email"`
+	IamUserAccessToBilling string            `json:"iam_user_access_to_billing"`
 }
 
 // A OrganizationsAccountStatus defines the observed state of a OrganizationsAccount
@@ -68,8 +68,8 @@ type OrganizationsAccountStatus struct {
 
 // A OrganizationsAccountObservation records the observed state of a OrganizationsAccount
 type OrganizationsAccountObservation struct {
-	Arn             string `json:"arn"`
-	JoinedMethod    string `json:"joined_method"`
-	JoinedTimestamp string `json:"joined_timestamp"`
 	Status          string `json:"status"`
+	Arn             string `json:"arn"`
+	JoinedTimestamp string `json:"joined_timestamp"`
+	JoinedMethod    string `json:"joined_method"`
 }

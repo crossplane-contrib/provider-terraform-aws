@@ -37,22 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDatapipelinePipeline(r DatapipelinePipeline) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatapipelinePipeline_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDatapipelinePipeline_Description(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatapipelinePipeline_Description(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeDatapipelinePipeline_Name(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
@@ -69,4 +63,8 @@ func EncodeDatapipelinePipeline_Tags(p DatapipelinePipelineParameters, vals map[
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDatapipelinePipeline_Description(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }

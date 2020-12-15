@@ -40,16 +40,16 @@ func DecodeDbEventSubscription(prev *DbEventSubscription, ctyValue cty.Value) (r
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeDbEventSubscription_Name(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_SnsTopic(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_SourceIds(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_Enabled(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_EventCategories(&new.Spec.ForProvider, valMap)
+	DecodeDbEventSubscription_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeDbEventSubscription_SnsTopic(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
+	DecodeDbEventSubscription_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeDbEventSubscription_Arn(&new.Status.AtProvider, valMap)
 	DecodeDbEventSubscription_CustomerAwsId(&new.Status.AtProvider, valMap)
+	DecodeDbEventSubscription_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -62,16 +62,6 @@ func DecodeDbEventSubscription_Name(p *DbEventSubscriptionParameters, vals map[s
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_NamePrefix(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_SnsTopic(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.SnsTopic = ctwhy.ValueAsString(vals["sns_topic"])
-}
-
 //primitiveCollectionTypeDecodeTemplate
 func DecodeDbEventSubscription_SourceIds(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
@@ -79,17 +69,6 @@ func DecodeDbEventSubscription_SourceIds(p *DbEventSubscriptionParameters, vals 
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.SourceIds = goVals
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeDbEventSubscription_Tags(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate
@@ -107,8 +86,29 @@ func DecodeDbEventSubscription_EventCategories(p *DbEventSubscriptionParameters,
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeDbEventSubscription_NamePrefix(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbEventSubscription_SnsTopic(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SnsTopic = ctwhy.ValueAsString(vals["sns_topic"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDbEventSubscription_SourceType(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
 	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeDbEventSubscription_Tags(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //containerTypeDecodeTemplate
@@ -135,11 +135,11 @@ func DecodeDbEventSubscription_Timeouts_Update(p *Timeouts, vals map[string]cty.
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_Arn(p *DbEventSubscriptionObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeDbEventSubscription_CustomerAwsId(p *DbEventSubscriptionObservation, vals map[string]cty.Value) {
+	p.CustomerAwsId = ctwhy.ValueAsString(vals["customer_aws_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_CustomerAwsId(p *DbEventSubscriptionObservation, vals map[string]cty.Value) {
-	p.CustomerAwsId = ctwhy.ValueAsString(vals["customer_aws_id"])
+func DecodeDbEventSubscription_Arn(p *DbEventSubscriptionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

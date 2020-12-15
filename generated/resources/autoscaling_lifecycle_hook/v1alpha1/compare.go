@@ -36,7 +36,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAutoscalingLifecycleHook_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAutoscalingLifecycleHook_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAutoscalingLifecycleHook_NotificationMetadata(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAutoscalingLifecycleHook_NotificationTargetArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,17 +66,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAutoscalingLifecycleHook_NotificationTargetArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeAutoscalingLifecycleHook_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeAutoscalingLifecycleHook_NotificationMetadata(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAutoscalingLifecycleHook_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -93,9 +93,29 @@ func MergeAutoscalingLifecycleHook_LifecycleTransition(k *AutoscalingLifecycleHo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAutoscalingLifecycleHook_RoleArn(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
-	if k.RoleArn != p.RoleArn {
-		p.RoleArn = k.RoleArn
+func MergeAutoscalingLifecycleHook_Name(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAutoscalingLifecycleHook_NotificationMetadata(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
+	if k.NotificationMetadata != p.NotificationMetadata {
+		p.NotificationMetadata = k.NotificationMetadata
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAutoscalingLifecycleHook_NotificationTargetArn(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
+	if k.NotificationTargetArn != p.NotificationTargetArn {
+		p.NotificationTargetArn = k.NotificationTargetArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -133,29 +153,9 @@ func MergeAutoscalingLifecycleHook_HeartbeatTimeout(k *AutoscalingLifecycleHookP
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAutoscalingLifecycleHook_NotificationTargetArn(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
-	if k.NotificationTargetArn != p.NotificationTargetArn {
-		p.NotificationTargetArn = k.NotificationTargetArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAutoscalingLifecycleHook_Name(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAutoscalingLifecycleHook_NotificationMetadata(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
-	if k.NotificationMetadata != p.NotificationMetadata {
-		p.NotificationMetadata = k.NotificationMetadata
+func MergeAutoscalingLifecycleHook_RoleArn(k *AutoscalingLifecycleHookParameters, p *AutoscalingLifecycleHookParameters, md *plugin.MergeDescription) bool {
+	if k.RoleArn != p.RoleArn {
+		p.RoleArn = k.RoleArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

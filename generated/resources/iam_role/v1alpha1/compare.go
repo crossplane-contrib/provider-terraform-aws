@@ -31,22 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamRole_MaxSessionDuration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamRole_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamRole_ForceDetachPolicies(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamRole_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamRole_MaxSessionDuration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,7 +46,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeIamRole_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeIamRole_Path(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamRole_AssumeRolePolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamRole_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,12 +76,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamRole_AssumeRolePolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamRole_UniqueId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamRole_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,7 +86,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamRole_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamRole_UniqueId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,26 +102,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamRole_MaxSessionDuration(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.MaxSessionDuration != p.MaxSessionDuration {
-		p.MaxSessionDuration = k.MaxSessionDuration
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamRole_NamePrefix(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.NamePrefix != p.NamePrefix {
-		p.NamePrefix = k.NamePrefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeIamRole_ForceDetachPolicies(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
 	if k.ForceDetachPolicies != p.ForceDetachPolicies {
 		p.ForceDetachPolicies = k.ForceDetachPolicies
@@ -132,9 +112,9 @@ func MergeIamRole_ForceDetachPolicies(k *IamRoleParameters, p *IamRoleParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamRole_Description(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
+func MergeIamRole_MaxSessionDuration(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
+	if k.MaxSessionDuration != p.MaxSessionDuration {
+		p.MaxSessionDuration = k.MaxSessionDuration
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -152,9 +132,39 @@ func MergeIamRole_Name(k *IamRoleParameters, p *IamRoleParameters, md *plugin.Me
 }
 
 //mergePrimitiveTemplateSpec
+func MergeIamRole_NamePrefix(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
+	if k.NamePrefix != p.NamePrefix {
+		p.NamePrefix = k.NamePrefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeIamRole_Path(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
 	if k.Path != p.Path {
 		p.Path = k.Path
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamRole_AssumeRolePolicy(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
+	if k.AssumeRolePolicy != p.AssumeRolePolicy {
+		p.AssumeRolePolicy = k.AssumeRolePolicy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamRole_Description(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -181,20 +191,10 @@ func MergeIamRole_Tags(k *IamRoleParameters, p *IamRoleParameters, md *plugin.Me
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeIamRole_AssumeRolePolicy(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.AssumeRolePolicy != p.AssumeRolePolicy {
-		p.AssumeRolePolicy = k.AssumeRolePolicy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateStatus
-func MergeIamRole_UniqueId(k *IamRoleObservation, p *IamRoleObservation, md *plugin.MergeDescription) bool {
-	if k.UniqueId != p.UniqueId {
-		k.UniqueId = p.UniqueId
+func MergeIamRole_Arn(k *IamRoleObservation, p *IamRoleObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}
@@ -212,9 +212,9 @@ func MergeIamRole_CreateDate(k *IamRoleObservation, p *IamRoleObservation, md *p
 }
 
 //mergePrimitiveTemplateStatus
-func MergeIamRole_Arn(k *IamRoleObservation, p *IamRoleObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeIamRole_UniqueId(k *IamRoleObservation, p *IamRoleObservation, md *plugin.MergeDescription) bool {
+	if k.UniqueId != p.UniqueId {
+		k.UniqueId = p.UniqueId
 		md.StatusUpdated = true
 		return true
 	}

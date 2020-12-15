@@ -39,22 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2ClientVpnAuthorizationRule(prev *Ec2ClientVpnAuthorizationRule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnAuthorizationRule_AccessGroupId(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnAuthorizationRule_AuthorizeAllGroups(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnAuthorizationRule_Description(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
-	p.TargetNetworkCidr = ctwhy.ValueAsString(vals["target_network_cidr"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -75,4 +70,9 @@ func DecodeEc2ClientVpnAuthorizationRule_ClientVpnEndpointId(p *Ec2ClientVpnAuth
 //primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnAuthorizationRule_Description(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2ClientVpnAuthorizationRule_TargetNetworkCidr(p *Ec2ClientVpnAuthorizationRuleParameters, vals map[string]cty.Value) {
+	p.TargetNetworkCidr = ctwhy.ValueAsString(vals["target_network_cidr"])
 }

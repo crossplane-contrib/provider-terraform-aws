@@ -46,12 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecurityhubMember_MemberStatus(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeSecurityhubMember_MasterId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecurityhubMember_MasterId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeSecurityhubMember_MemberStatus(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,9 +97,9 @@ func MergeSecurityhubMember_Invite(k *SecurityhubMemberParameters, p *Securityhu
 }
 
 //mergePrimitiveTemplateStatus
-func MergeSecurityhubMember_MemberStatus(k *SecurityhubMemberObservation, p *SecurityhubMemberObservation, md *plugin.MergeDescription) bool {
-	if k.MemberStatus != p.MemberStatus {
-		k.MemberStatus = p.MemberStatus
+func MergeSecurityhubMember_MasterId(k *SecurityhubMemberObservation, p *SecurityhubMemberObservation, md *plugin.MergeDescription) bool {
+	if k.MasterId != p.MasterId {
+		k.MasterId = p.MasterId
 		md.StatusUpdated = true
 		return true
 	}
@@ -107,9 +107,9 @@ func MergeSecurityhubMember_MemberStatus(k *SecurityhubMemberObservation, p *Sec
 }
 
 //mergePrimitiveTemplateStatus
-func MergeSecurityhubMember_MasterId(k *SecurityhubMemberObservation, p *SecurityhubMemberObservation, md *plugin.MergeDescription) bool {
-	if k.MasterId != p.MasterId {
-		k.MasterId = p.MasterId
+func MergeSecurityhubMember_MemberStatus(k *SecurityhubMemberObservation, p *SecurityhubMemberObservation, md *plugin.MergeDescription) bool {
+	if k.MemberStatus != p.MemberStatus {
+		k.MemberStatus = p.MemberStatus
 		md.StatusUpdated = true
 		return true
 	}

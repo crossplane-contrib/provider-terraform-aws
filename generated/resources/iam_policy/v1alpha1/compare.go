@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeIamPolicy_Path(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeIamPolicy_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,16 +52,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeIamPolicy_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamPolicy_Path(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -69,6 +69,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamPolicy_Path(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Path != p.Path {
+		p.Path = k.Path
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamPolicy_Policy(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Policy != p.Policy {
+		p.Policy = k.Policy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -95,26 +115,6 @@ func MergeIamPolicy_Name(k *IamPolicyParameters, p *IamPolicyParameters, md *plu
 func MergeIamPolicy_NamePrefix(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.NamePrefix != p.NamePrefix {
 		p.NamePrefix = k.NamePrefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamPolicy_Path(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Path != p.Path {
-		p.Path = k.Path
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamPolicy_Policy(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Policy != p.Policy {
-		p.Policy = k.Policy
 		md.NeedsProviderUpdate = true
 		return true
 	}

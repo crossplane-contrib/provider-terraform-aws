@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(k *RedshiftSnapshotScheduleAssociationParameters, p *RedshiftSnapshotScheduleAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ScheduleIdentifier != p.ScheduleIdentifier {
-		p.ScheduleIdentifier = k.ScheduleIdentifier
+func MergeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(k *RedshiftSnapshotScheduleAssociationParameters, p *RedshiftSnapshotScheduleAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ClusterIdentifier != p.ClusterIdentifier {
+		p.ClusterIdentifier = k.ClusterIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(k *RedshiftSnap
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(k *RedshiftSnapshotScheduleAssociationParameters, p *RedshiftSnapshotScheduleAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ClusterIdentifier != p.ClusterIdentifier {
-		p.ClusterIdentifier = k.ClusterIdentifier
+func MergeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(k *RedshiftSnapshotScheduleAssociationParameters, p *RedshiftSnapshotScheduleAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ScheduleIdentifier != p.ScheduleIdentifier {
+		p.ScheduleIdentifier = k.ScheduleIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}

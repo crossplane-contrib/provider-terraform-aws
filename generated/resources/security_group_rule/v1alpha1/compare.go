@@ -31,17 +31,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSecurityGroupRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSecurityGroupRule_Ipv6CidrBlocks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecurityGroupRule_PrefixListIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSecurityGroupRule_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecurityGroupRule_SecurityGroupId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSecurityGroupRule_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSecurityGroupRule_CidrBlocks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSecurityGroupRule_FromPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,27 +71,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecurityGroupRule_CidrBlocks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSecurityGroupRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecurityGroupRule_FromPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSecurityGroupRule_PrefixListIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecurityGroupRule_Ipv6CidrBlocks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSecurityGroupRule_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSecurityGroupRule_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSecurityGroupRule_SecurityGroupId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,10 +97,30 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeSecurityGroupRule_Ipv6CidrBlocks(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Ipv6CidrBlocks, p.Ipv6CidrBlocks) {
+		p.Ipv6CidrBlocks = k.Ipv6CidrBlocks
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateSpec
-func MergeSecurityGroupRule_Description(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
+func MergeSecurityGroupRule_Protocol(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Protocol != p.Protocol {
+		p.Protocol = k.Protocol
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSecurityGroupRule_Type(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		p.Type = k.Type
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -108,9 +128,9 @@ func MergeSecurityGroupRule_Description(k *SecurityGroupRuleParameters, p *Secur
 }
 
 //mergePrimitiveContainerTemplateSpec
-func MergeSecurityGroupRule_PrefixListIds(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.PrefixListIds, p.PrefixListIds) {
-		p.PrefixListIds = k.PrefixListIds
+func MergeSecurityGroupRule_CidrBlocks(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.CidrBlocks, p.CidrBlocks) {
+		p.CidrBlocks = k.CidrBlocks
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -118,9 +138,9 @@ func MergeSecurityGroupRule_PrefixListIds(k *SecurityGroupRuleParameters, p *Sec
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSecurityGroupRule_SecurityGroupId(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if k.SecurityGroupId != p.SecurityGroupId {
-		p.SecurityGroupId = k.SecurityGroupId
+func MergeSecurityGroupRule_FromPort(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if k.FromPort != p.FromPort {
+		p.FromPort = k.FromPort
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -157,20 +177,10 @@ func MergeSecurityGroupRule_ToPort(k *SecurityGroupRuleParameters, p *SecurityGr
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeSecurityGroupRule_CidrBlocks(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.CidrBlocks, p.CidrBlocks) {
-		p.CidrBlocks = k.CidrBlocks
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
-func MergeSecurityGroupRule_FromPort(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if k.FromPort != p.FromPort {
-		p.FromPort = k.FromPort
+func MergeSecurityGroupRule_Description(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -178,9 +188,9 @@ func MergeSecurityGroupRule_FromPort(k *SecurityGroupRuleParameters, p *Security
 }
 
 //mergePrimitiveContainerTemplateSpec
-func MergeSecurityGroupRule_Ipv6CidrBlocks(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Ipv6CidrBlocks, p.Ipv6CidrBlocks) {
-		p.Ipv6CidrBlocks = k.Ipv6CidrBlocks
+func MergeSecurityGroupRule_PrefixListIds(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.PrefixListIds, p.PrefixListIds) {
+		p.PrefixListIds = k.PrefixListIds
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -188,19 +198,9 @@ func MergeSecurityGroupRule_Ipv6CidrBlocks(k *SecurityGroupRuleParameters, p *Se
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSecurityGroupRule_Protocol(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Protocol != p.Protocol {
-		p.Protocol = k.Protocol
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSecurityGroupRule_Type(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		p.Type = k.Type
+func MergeSecurityGroupRule_SecurityGroupId(k *SecurityGroupRuleParameters, p *SecurityGroupRuleParameters, md *plugin.MergeDescription) bool {
+	if k.SecurityGroupId != p.SecurityGroupId {
+		p.SecurityGroupId = k.SecurityGroupId
 		md.NeedsProviderUpdate = true
 		return true
 	}

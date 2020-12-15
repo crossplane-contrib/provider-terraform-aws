@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeXrayGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeXrayGroup_FilterExpression(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeXrayGroup_GroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeXrayGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,6 +61,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeXrayGroup_Tags(k *XrayGroupParameters, p *XrayGroupParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateSpec
 func MergeXrayGroup_FilterExpression(k *XrayGroupParameters, p *XrayGroupParameters, md *plugin.MergeDescription) bool {
 	if k.FilterExpression != p.FilterExpression {
@@ -75,16 +85,6 @@ func MergeXrayGroup_FilterExpression(k *XrayGroupParameters, p *XrayGroupParamet
 func MergeXrayGroup_GroupName(k *XrayGroupParameters, p *XrayGroupParameters, md *plugin.MergeDescription) bool {
 	if k.GroupName != p.GroupName {
 		p.GroupName = k.GroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeXrayGroup_Tags(k *XrayGroupParameters, p *XrayGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

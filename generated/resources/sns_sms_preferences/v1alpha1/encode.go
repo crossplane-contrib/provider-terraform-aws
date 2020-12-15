@@ -37,29 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSnsSmsPreferences(r SnsSmsPreferences) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSnsSmsPreferences_MonthlySpendLimit(r.Spec.ForProvider, ctyVal)
-	EncodeSnsSmsPreferences_UsageReportS3Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DefaultSenderId(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DefaultSmsType(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DeliveryStatusIamRoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(r.Spec.ForProvider, ctyVal)
+	EncodeSnsSmsPreferences_MonthlySpendLimit(r.Spec.ForProvider, ctyVal)
+	EncodeSnsSmsPreferences_UsageReportS3Bucket(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSnsSmsPreferences_MonthlySpendLimit(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	vals["monthly_spend_limit"] = cty.StringVal(p.MonthlySpendLimit)
-}
-
-func EncodeSnsSmsPreferences_UsageReportS3Bucket(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	vals["usage_report_s3_bucket"] = cty.StringVal(p.UsageReportS3Bucket)
 }
 
 func EncodeSnsSmsPreferences_DefaultSenderId(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
@@ -76,4 +66,12 @@ func EncodeSnsSmsPreferences_DeliveryStatusIamRoleArn(p SnsSmsPreferencesParamet
 
 func EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	vals["delivery_status_success_sampling_rate"] = cty.StringVal(p.DeliveryStatusSuccessSamplingRate)
+}
+
+func EncodeSnsSmsPreferences_MonthlySpendLimit(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	vals["monthly_spend_limit"] = cty.StringVal(p.MonthlySpendLimit)
+}
+
+func EncodeSnsSmsPreferences_UsageReportS3Bucket(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	vals["usage_report_s3_bucket"] = cty.StringVal(p.UsageReportS3Bucket)
 }

@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEmrSecurityConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEmrSecurityConfiguration_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEmrSecurityConfiguration_Configuration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEmrSecurityConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,16 +62,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEmrSecurityConfiguration_Name(k *EmrSecurityConfigurationParameters, p *EmrSecurityConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEmrSecurityConfiguration_NamePrefix(k *EmrSecurityConfigurationParameters, p *EmrSecurityConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.NamePrefix != p.NamePrefix {
 		p.NamePrefix = k.NamePrefix
@@ -85,6 +75,16 @@ func MergeEmrSecurityConfiguration_NamePrefix(k *EmrSecurityConfigurationParamet
 func MergeEmrSecurityConfiguration_Configuration(k *EmrSecurityConfigurationParameters, p *EmrSecurityConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.Configuration != p.Configuration {
 		p.Configuration = k.Configuration
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEmrSecurityConfiguration_Name(k *EmrSecurityConfigurationParameters, p *EmrSecurityConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

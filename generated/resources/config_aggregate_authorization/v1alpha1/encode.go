@@ -37,22 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeConfigAggregateAuthorization(r ConfigAggregateAuthorization) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeConfigAggregateAuthorization_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Region(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeConfigAggregateAuthorization_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeConfigAggregateAuthorization_AccountId(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
-	vals["account_id"] = cty.StringVal(p.AccountId)
 }
 
 func EncodeConfigAggregateAuthorization_Region(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
@@ -69,6 +63,10 @@ func EncodeConfigAggregateAuthorization_Tags(p ConfigAggregateAuthorizationParam
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeConfigAggregateAuthorization_AccountId(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
+	vals["account_id"] = cty.StringVal(p.AccountId)
 }
 
 func EncodeConfigAggregateAuthorization_Arn(p ConfigAggregateAuthorizationObservation, vals map[string]cty.Value) {

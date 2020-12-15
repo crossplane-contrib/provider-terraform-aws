@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIotThing_ThingTypeName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIotThing_Attributes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,7 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIotThing_Version(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIotThing_ThingTypeName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,6 +56,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeIotThing_Version(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -69,16 +69,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIotThing_ThingTypeName(k *IotThingParameters, p *IotThingParameters, md *plugin.MergeDescription) bool {
-	if k.ThingTypeName != p.ThingTypeName {
-		p.ThingTypeName = k.ThingTypeName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -101,11 +91,11 @@ func MergeIotThing_Name(k *IotThingParameters, p *IotThingParameters, md *plugin
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeIotThing_Version(k *IotThingObservation, p *IotThingObservation, md *plugin.MergeDescription) bool {
-	if k.Version != p.Version {
-		k.Version = p.Version
-		md.StatusUpdated = true
+//mergePrimitiveTemplateSpec
+func MergeIotThing_ThingTypeName(k *IotThingParameters, p *IotThingParameters, md *plugin.MergeDescription) bool {
+	if k.ThingTypeName != p.ThingTypeName {
+		p.ThingTypeName = k.ThingTypeName
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -125,6 +115,16 @@ func MergeIotThing_Arn(k *IotThingObservation, p *IotThingObservation, md *plugi
 func MergeIotThing_DefaultClientId(k *IotThingObservation, p *IotThingObservation, md *plugin.MergeDescription) bool {
 	if k.DefaultClientId != p.DefaultClientId {
 		k.DefaultClientId = p.DefaultClientId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIotThing_Version(k *IotThingObservation, p *IotThingObservation, md *plugin.MergeDescription) bool {
+	if k.Version != p.Version {
+		k.Version = p.Version
 		md.StatusUpdated = true
 		return true
 	}

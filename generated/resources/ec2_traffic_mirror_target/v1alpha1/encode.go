@@ -37,31 +37,17 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TrafficMirrorTarget(r Ec2TrafficMirrorTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEc2TrafficMirrorTarget_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorTarget_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorTarget_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorTarget_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorTarget_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2TrafficMirrorTarget_Description(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeEc2TrafficMirrorTarget_NetworkInterfaceId(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
-	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
-}
-
-func EncodeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
-	vals["network_load_balancer_arn"] = cty.StringVal(p.NetworkLoadBalancerArn)
 }
 
 func EncodeEc2TrafficMirrorTarget_Tags(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
@@ -74,6 +60,18 @@ func EncodeEc2TrafficMirrorTarget_Tags(p Ec2TrafficMirrorTargetParameters, vals 
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeEc2TrafficMirrorTarget_Description(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeEc2TrafficMirrorTarget_NetworkInterfaceId(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
+	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
+}
+
+func EncodeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
+	vals["network_load_balancer_arn"] = cty.StringVal(p.NetworkLoadBalancerArn)
 }
 
 func EncodeEc2TrafficMirrorTarget_Arn(p Ec2TrafficMirrorTargetObservation, vals map[string]cty.Value) {

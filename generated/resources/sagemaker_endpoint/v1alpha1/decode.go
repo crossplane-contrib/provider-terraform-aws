@@ -39,20 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSagemakerEndpoint(prev *SagemakerEndpoint, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSagemakerEndpoint_EndpointConfigName(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerEndpoint_Name(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerEndpoint_Tags(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerEndpoint_EndpointConfigName(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerEndpoint_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSagemakerEndpoint_EndpointConfigName(p *SagemakerEndpointParameters, vals map[string]cty.Value) {
-	p.EndpointConfigName = ctwhy.ValueAsString(vals["endpoint_config_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,6 +64,11 @@ func DecodeSagemakerEndpoint_Tags(p *SagemakerEndpointParameters, vals map[strin
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerEndpoint_EndpointConfigName(p *SagemakerEndpointParameters, vals map[string]cty.Value) {
+	p.EndpointConfigName = ctwhy.ValueAsString(vals["endpoint_config_name"])
 }
 
 //primitiveTypeDecodeTemplate

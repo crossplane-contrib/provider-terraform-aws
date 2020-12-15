@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCodedeployApp_ComputePlatform(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCodedeployApp_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeCodedeployApp_UniqueId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCodedeployApp_ComputePlatform(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCodedeployApp_ComputePlatform(k *CodedeployAppParameters, p *CodedeployAppParameters, md *plugin.MergeDescription) bool {
-	if k.ComputePlatform != p.ComputePlatform {
-		p.ComputePlatform = k.ComputePlatform
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCodedeployApp_Name(k *CodedeployAppParameters, p *CodedeployAppParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -81,6 +71,16 @@ func MergeCodedeployApp_Name(k *CodedeployAppParameters, p *CodedeployAppParamet
 func MergeCodedeployApp_UniqueId(k *CodedeployAppParameters, p *CodedeployAppParameters, md *plugin.MergeDescription) bool {
 	if k.UniqueId != p.UniqueId {
 		p.UniqueId = k.UniqueId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCodedeployApp_ComputePlatform(k *CodedeployAppParameters, p *CodedeployAppParameters, md *plugin.MergeDescription) bool {
+	if k.ComputePlatform != p.ComputePlatform {
+		p.ComputePlatform = k.ComputePlatform
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCognitoUserPoolDomain_Domain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCognitoUserPoolDomain_UserPoolId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeCognitoUserPoolDomain_CertificateArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCognitoUserPoolDomain_Domain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,16 +77,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCognitoUserPoolDomain_Domain(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
-	if k.Domain != p.Domain {
-		p.Domain = k.Domain
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCognitoUserPoolDomain_UserPoolId(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
 	if k.UserPoolId != p.UserPoolId {
 		p.UserPoolId = k.UserPoolId
@@ -100,6 +90,16 @@ func MergeCognitoUserPoolDomain_UserPoolId(k *CognitoUserPoolDomainParameters, p
 func MergeCognitoUserPoolDomain_CertificateArn(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
 	if k.CertificateArn != p.CertificateArn {
 		p.CertificateArn = k.CertificateArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCognitoUserPoolDomain_Domain(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
+	if k.Domain != p.Domain {
+		p.Domain = k.Domain
 		md.NeedsProviderUpdate = true
 		return true
 	}

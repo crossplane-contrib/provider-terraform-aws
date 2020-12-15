@@ -37,22 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudwatchLogDestination(r CloudwatchLogDestination) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogDestination_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestination_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestination_TargetArn(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogDestination_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestination_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogDestination_Name(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeCloudwatchLogDestination_RoleArn(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
@@ -61,6 +55,10 @@ func EncodeCloudwatchLogDestination_RoleArn(p CloudwatchLogDestinationParameters
 
 func EncodeCloudwatchLogDestination_TargetArn(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
 	vals["target_arn"] = cty.StringVal(p.TargetArn)
+}
+
+func EncodeCloudwatchLogDestination_Name(p CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeCloudwatchLogDestination_Arn(p CloudwatchLogDestinationObservation, vals map[string]cty.Value) {

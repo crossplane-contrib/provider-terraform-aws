@@ -39,11 +39,11 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudformationStackSetInstance(prev *CloudformationStackSetInstance, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCloudformationStackSetInstance_RetainStack(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSetInstance_StackSetName(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSetInstance_AccountId(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSetInstance_ParameterOverrides(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSetInstance_Region(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSetInstance_RetainStack(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSetInstance_StackSetName(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSetInstance_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeCloudformationStackSetInstance_StackId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -51,6 +51,16 @@ func DecodeCloudformationStackSetInstance(prev *CloudformationStackSetInstance, 
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStackSetInstance_RetainStack(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	p.RetainStack = ctwhy.ValueAsBool(vals["retain_stack"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStackSetInstance_StackSetName(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
+	p.StackSetName = ctwhy.ValueAsString(vals["stack_set_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -72,16 +82,6 @@ func DecodeCloudformationStackSetInstance_ParameterOverrides(p *CloudformationSt
 //primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_Region(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	p.Region = ctwhy.ValueAsString(vals["region"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSetInstance_RetainStack(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
-	p.RetainStack = ctwhy.ValueAsBool(vals["retain_stack"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSetInstance_StackSetName(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
-	p.StackSetName = ctwhy.ValueAsString(vals["stack_set_name"])
 }
 
 //containerTypeDecodeTemplate

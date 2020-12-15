@@ -52,10 +52,10 @@ type PinpointSmsChannelSpec struct {
 
 // A PinpointSmsChannelParameters defines the desired state of a PinpointSmsChannel
 type PinpointSmsChannelParameters struct {
+	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
 	SenderId      string `json:"sender_id"`
 	ShortCode     string `json:"short_code"`
-	ApplicationId string `json:"application_id"`
 }
 
 // A PinpointSmsChannelStatus defines the observed state of a PinpointSmsChannel

@@ -39,9 +39,9 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCognitoUserPoolDomain(prev *CognitoUserPoolDomain, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCognitoUserPoolDomain_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCognitoUserPoolDomain_UserPoolId(&new.Spec.ForProvider, valMap)
 	DecodeCognitoUserPoolDomain_CertificateArn(&new.Spec.ForProvider, valMap)
+	DecodeCognitoUserPoolDomain_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCognitoUserPoolDomain_S3Bucket(&new.Status.AtProvider, valMap)
 	DecodeCognitoUserPoolDomain_Version(&new.Status.AtProvider, valMap)
 	DecodeCognitoUserPoolDomain_AwsAccountId(&new.Status.AtProvider, valMap)
@@ -54,11 +54,6 @@ func DecodeCognitoUserPoolDomain(prev *CognitoUserPoolDomain, ctyValue cty.Value
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCognitoUserPoolDomain_Domain(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
-	p.Domain = ctwhy.ValueAsString(vals["domain"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_UserPoolId(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
 	p.UserPoolId = ctwhy.ValueAsString(vals["user_pool_id"])
 }
@@ -66,6 +61,11 @@ func DecodeCognitoUserPoolDomain_UserPoolId(p *CognitoUserPoolDomainParameters, 
 //primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_CertificateArn(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
 	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCognitoUserPoolDomain_Domain(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
+	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
 //primitiveTypeDecodeTemplate

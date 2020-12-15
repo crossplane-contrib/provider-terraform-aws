@@ -39,9 +39,9 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2ClientVpnNetworkAssociation(prev *Ec2ClientVpnNetworkAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2ClientVpnNetworkAssociation_SecurityGroups(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnNetworkAssociation_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnNetworkAssociation_ClientVpnEndpointId(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnNetworkAssociation_SecurityGroups(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnNetworkAssociation_Status(&new.Status.AtProvider, valMap)
 	DecodeEc2ClientVpnNetworkAssociation_VpcId(&new.Status.AtProvider, valMap)
 	DecodeEc2ClientVpnNetworkAssociation_AssociationId(&new.Status.AtProvider, valMap)
@@ -52,15 +52,6 @@ func DecodeEc2ClientVpnNetworkAssociation(prev *Ec2ClientVpnNetworkAssociation, 
 	return new, nil
 }
 
-//primitiveCollectionTypeDecodeTemplate
-func DecodeEc2ClientVpnNetworkAssociation_SecurityGroups(p *Ec2ClientVpnNetworkAssociationParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["security_groups"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.SecurityGroups = goVals
-}
-
 //primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnNetworkAssociation_SubnetId(p *Ec2ClientVpnNetworkAssociationParameters, vals map[string]cty.Value) {
 	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
@@ -69,6 +60,15 @@ func DecodeEc2ClientVpnNetworkAssociation_SubnetId(p *Ec2ClientVpnNetworkAssocia
 //primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnNetworkAssociation_ClientVpnEndpointId(p *Ec2ClientVpnNetworkAssociationParameters, vals map[string]cty.Value) {
 	p.ClientVpnEndpointId = ctwhy.ValueAsString(vals["client_vpn_endpoint_id"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeEc2ClientVpnNetworkAssociation_SecurityGroups(p *Ec2ClientVpnNetworkAssociationParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["security_groups"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SecurityGroups = goVals
 }
 
 //primitiveTypeDecodeTemplate

@@ -39,14 +39,19 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamUserGroupMembership(prev *IamUserGroupMembership, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamUserGroupMembership_Groups(&new.Spec.ForProvider, valMap)
 	DecodeIamUserGroupMembership_User(&new.Spec.ForProvider, valMap)
+	DecodeIamUserGroupMembership_Groups(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamUserGroupMembership_User(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
+	p.User = ctwhy.ValueAsString(vals["user"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -56,9 +61,4 @@ func DecodeIamUserGroupMembership_Groups(p *IamUserGroupMembershipParameters, va
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.Groups = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamUserGroupMembership_User(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
-	p.User = ctwhy.ValueAsString(vals["user"])
 }

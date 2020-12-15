@@ -58,8 +58,8 @@ type VpcEndpointSubnetAssociationParameters struct {
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A VpcEndpointSubnetAssociationStatus defines the observed state of a VpcEndpointSubnetAssociation

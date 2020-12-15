@@ -39,15 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayAuthorizer(prev *ApiGatewayAuthorizer, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApiGatewayAuthorizer_Name(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayAuthorizer_Type(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayAuthorizer_IdentityValidationExpression(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayAuthorizer_ProviderArns(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayAuthorizer_RestApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayAuthorizer_AuthorizerCredentials(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayAuthorizer_AuthorizerUri(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayAuthorizer_IdentitySource(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayAuthorizer_Name(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayAuthorizer_Type(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -57,13 +57,8 @@ func DecodeApiGatewayAuthorizer(prev *ApiGatewayAuthorizer, ctyValue cty.Value) 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayAuthorizer_Name(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayAuthorizer_Type(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
+func DecodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
+	p.AuthorizerResultTtlInSeconds = ctwhy.ValueAsInt64(vals["authorizer_result_ttl_in_seconds"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -91,11 +86,6 @@ func DecodeApiGatewayAuthorizer_AuthorizerCredentials(p *ApiGatewayAuthorizerPar
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayAuthorizer_AuthorizerResultTtlInSeconds(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
-	p.AuthorizerResultTtlInSeconds = ctwhy.ValueAsInt64(vals["authorizer_result_ttl_in_seconds"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeApiGatewayAuthorizer_AuthorizerUri(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
 	p.AuthorizerUri = ctwhy.ValueAsString(vals["authorizer_uri"])
 }
@@ -103,4 +93,14 @@ func DecodeApiGatewayAuthorizer_AuthorizerUri(p *ApiGatewayAuthorizerParameters,
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayAuthorizer_IdentitySource(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
 	p.IdentitySource = ctwhy.ValueAsString(vals["identity_source"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayAuthorizer_Name(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayAuthorizer_Type(p *ApiGatewayAuthorizerParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }

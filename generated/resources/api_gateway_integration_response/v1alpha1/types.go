@@ -52,14 +52,14 @@ type ApiGatewayIntegrationResponseSpec struct {
 
 // A ApiGatewayIntegrationResponseParameters defines the desired state of a ApiGatewayIntegrationResponse
 type ApiGatewayIntegrationResponseParameters struct {
-	StatusCode         string            `json:"status_code"`
-	ResponseParameters map[string]string `json:"response_parameters"`
-	HttpMethod         string            `json:"http_method"`
-	ResourceId         string            `json:"resource_id"`
 	ResponseTemplates  map[string]string `json:"response_templates"`
+	StatusCode         string            `json:"status_code"`
+	ContentHandling    string            `json:"content_handling"`
+	ResourceId         string            `json:"resource_id"`
+	ResponseParameters map[string]string `json:"response_parameters"`
 	RestApiId          string            `json:"rest_api_id"`
 	SelectionPattern   string            `json:"selection_pattern"`
-	ContentHandling    string            `json:"content_handling"`
+	HttpMethod         string            `json:"http_method"`
 }
 
 // A ApiGatewayIntegrationResponseStatus defines the observed state of a ApiGatewayIntegrationResponse

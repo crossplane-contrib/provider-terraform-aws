@@ -31,12 +31,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergePinpointApnsChannel_TokenKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergePinpointApnsChannel_BundleId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsChannel_TokenKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsChannel_Certificate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsChannel_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,27 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsChannel_Certificate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergePinpointApnsChannel_DefaultAuthenticationMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergePinpointApnsChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsChannel_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -88,6 +88,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergePinpointApnsChannel_TokenKeyId(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TokenKeyId != p.TokenKeyId {
+		p.TokenKeyId = k.TokenKeyId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsChannel_ApplicationId(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
+	if k.ApplicationId != p.ApplicationId {
+		p.ApplicationId = k.ApplicationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergePinpointApnsChannel_BundleId(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
 	if k.BundleId != p.BundleId {
 		p.BundleId = k.BundleId
@@ -98,9 +118,19 @@ func MergePinpointApnsChannel_BundleId(k *PinpointApnsChannelParameters, p *Pinp
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsChannel_TokenKeyId(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TokenKeyId != p.TokenKeyId {
-		p.TokenKeyId = k.TokenKeyId
+func MergePinpointApnsChannel_Certificate(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Certificate != p.Certificate {
+		p.Certificate = k.Certificate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsChannel_PrivateKey(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
+	if k.PrivateKey != p.PrivateKey {
+		p.PrivateKey = k.PrivateKey
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -128,26 +158,6 @@ func MergePinpointApnsChannel_TokenKey(k *PinpointApnsChannelParameters, p *Pinp
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsChannel_ApplicationId(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
-	if k.ApplicationId != p.ApplicationId {
-		p.ApplicationId = k.ApplicationId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsChannel_Certificate(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Certificate != p.Certificate {
-		p.Certificate = k.Certificate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergePinpointApnsChannel_DefaultAuthenticationMethod(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
 	if k.DefaultAuthenticationMethod != p.DefaultAuthenticationMethod {
 		p.DefaultAuthenticationMethod = k.DefaultAuthenticationMethod
@@ -161,16 +171,6 @@ func MergePinpointApnsChannel_DefaultAuthenticationMethod(k *PinpointApnsChannel
 func MergePinpointApnsChannel_Enabled(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
 	if k.Enabled != p.Enabled {
 		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsChannel_PrivateKey(k *PinpointApnsChannelParameters, p *PinpointApnsChannelParameters, md *plugin.MergeDescription) bool {
-	if k.PrivateKey != p.PrivateKey {
-		p.PrivateKey = k.PrivateKey
 		md.NeedsProviderUpdate = true
 		return true
 	}

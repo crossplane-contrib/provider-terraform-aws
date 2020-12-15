@@ -52,10 +52,10 @@ type ApiGatewayBasePathMappingSpec struct {
 
 // A ApiGatewayBasePathMappingParameters defines the desired state of a ApiGatewayBasePathMapping
 type ApiGatewayBasePathMappingParameters struct {
-	StageName  string `json:"stage_name"`
 	ApiId      string `json:"api_id"`
 	BasePath   string `json:"base_path"`
 	DomainName string `json:"domain_name"`
+	StageName  string `json:"stage_name"`
 }
 
 // A ApiGatewayBasePathMappingStatus defines the observed state of a ApiGatewayBasePathMapping

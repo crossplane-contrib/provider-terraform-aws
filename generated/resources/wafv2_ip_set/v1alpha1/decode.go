@@ -39,12 +39,12 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeWafv2IpSet(prev *Wafv2IpSet, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeWafv2IpSet_Tags(&new.Spec.ForProvider, valMap)
-	DecodeWafv2IpSet_Description(&new.Spec.ForProvider, valMap)
 	DecodeWafv2IpSet_Addresses(&new.Spec.ForProvider, valMap)
+	DecodeWafv2IpSet_Description(&new.Spec.ForProvider, valMap)
 	DecodeWafv2IpSet_IpAddressVersion(&new.Spec.ForProvider, valMap)
-	DecodeWafv2IpSet_Name(&new.Spec.ForProvider, valMap)
 	DecodeWafv2IpSet_Scope(&new.Spec.ForProvider, valMap)
+	DecodeWafv2IpSet_Name(&new.Spec.ForProvider, valMap)
+	DecodeWafv2IpSet_Tags(&new.Spec.ForProvider, valMap)
 	DecodeWafv2IpSet_Arn(&new.Status.AtProvider, valMap)
 	DecodeWafv2IpSet_LockToken(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -52,22 +52,6 @@ func DecodeWafv2IpSet(prev *Wafv2IpSet, ctyValue cty.Value) (resource.Managed, e
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeWafv2IpSet_Tags(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeWafv2IpSet_Description(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -80,8 +64,18 @@ func DecodeWafv2IpSet_Addresses(p *Wafv2IpSetParameters, vals map[string]cty.Val
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeWafv2IpSet_Description(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeWafv2IpSet_IpAddressVersion(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
 	p.IpAddressVersion = ctwhy.ValueAsString(vals["ip_address_version"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeWafv2IpSet_Scope(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
+	p.Scope = ctwhy.ValueAsString(vals["scope"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -89,9 +83,15 @@ func DecodeWafv2IpSet_Name(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeWafv2IpSet_Scope(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
-	p.Scope = ctwhy.ValueAsString(vals["scope"])
+//primitiveMapTypeDecodeTemplate
+func DecodeWafv2IpSet_Tags(p *Wafv2IpSetParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate

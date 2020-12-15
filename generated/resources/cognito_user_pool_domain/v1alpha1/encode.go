@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCognitoUserPoolDomain(r CognitoUserPoolDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCognitoUserPoolDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_CertificateArn(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoUserPoolDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_S3Bucket(r.Status.AtProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_Version(r.Status.AtProvider, ctyVal)
 	EncodeCognitoUserPoolDomain_AwsAccountId(r.Status.AtProvider, ctyVal)
@@ -48,14 +48,8 @@ func EncodeCognitoUserPoolDomain(r CognitoUserPoolDomain) cty.Value {
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCognitoUserPoolDomain_Domain(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
 }
 
 func EncodeCognitoUserPoolDomain_UserPoolId(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
@@ -64,6 +58,10 @@ func EncodeCognitoUserPoolDomain_UserPoolId(p CognitoUserPoolDomainParameters, v
 
 func EncodeCognitoUserPoolDomain_CertificateArn(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
 	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
+}
+
+func EncodeCognitoUserPoolDomain_Domain(p CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
 }
 
 func EncodeCognitoUserPoolDomain_S3Bucket(p CognitoUserPoolDomainObservation, vals map[string]cty.Value) {

@@ -39,12 +39,12 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeGuarddutyMember(prev *GuarddutyMember, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeGuarddutyMember_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_DisableEmailNotification(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_Email(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_InvitationMessage(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_Invite(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_AccountId(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyMember_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeGuarddutyMember_RelationshipStatus(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -52,11 +52,6 @@ func DecodeGuarddutyMember(prev *GuarddutyMember, ctyValue cty.Value) (resource.
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGuarddutyMember_DetectorId(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
-	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -82,6 +77,11 @@ func DecodeGuarddutyMember_Invite(p *GuarddutyMemberParameters, vals map[string]
 //primitiveTypeDecodeTemplate
 func DecodeGuarddutyMember_AccountId(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
 	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeGuarddutyMember_DetectorId(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
+	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
 //containerTypeDecodeTemplate

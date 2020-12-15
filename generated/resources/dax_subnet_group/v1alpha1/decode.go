@@ -39,15 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDaxSubnetGroup(prev *DaxSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDaxSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeDaxSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeDaxSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
-	DecodeDaxSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeDaxSubnetGroup_VpcId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDaxSubnetGroup_Description(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -62,11 +67,6 @@ func DecodeDaxSubnetGroup_SubnetIds(p *DaxSubnetGroupParameters, vals map[string
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.SubnetIds = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDaxSubnetGroup_Description(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate

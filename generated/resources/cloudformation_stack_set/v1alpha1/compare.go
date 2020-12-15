@@ -31,7 +31,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCloudformationStackSet_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloudformationStackSet_AdministrationRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudformationStackSet_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudformationStackSet_Parameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudformationStackSet_TemplateUrl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudformationStackSet_TemplateBody(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,32 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudformationStackSet_Parameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudformationStackSet_TemplateBody(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudformationStackSet_TemplateUrl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudformationStackSet_AdministrationRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudformationStackSet_ExecutionRoleName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudformationStackSet_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloudformationStackSet_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,10 +101,50 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveTemplateSpec
+func MergeCloudformationStackSet_AdministrationRoleArn(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
+	if k.AdministrationRoleArn != p.AdministrationRoleArn {
+		p.AdministrationRoleArn = k.AdministrationRoleArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudformationStackSet_Name(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
-func MergeCloudformationStackSet_Tags(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeCloudformationStackSet_Parameters(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Parameters, p.Parameters) {
+		p.Parameters = k.Parameters
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudformationStackSet_TemplateUrl(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
+	if k.TemplateUrl != p.TemplateUrl {
+		p.TemplateUrl = k.TemplateUrl
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudformationStackSet_TemplateBody(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
+	if k.TemplateBody != p.TemplateBody {
+		p.TemplateBody = k.TemplateBody
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -131,46 +171,6 @@ func MergeCloudformationStackSet_Description(k *CloudformationStackSetParameters
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeCloudformationStackSet_Parameters(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Parameters, p.Parameters) {
-		p.Parameters = k.Parameters
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudformationStackSet_TemplateBody(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
-	if k.TemplateBody != p.TemplateBody {
-		p.TemplateBody = k.TemplateBody
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudformationStackSet_TemplateUrl(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
-	if k.TemplateUrl != p.TemplateUrl {
-		p.TemplateUrl = k.TemplateUrl
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudformationStackSet_AdministrationRoleArn(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
-	if k.AdministrationRoleArn != p.AdministrationRoleArn {
-		p.AdministrationRoleArn = k.AdministrationRoleArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeCloudformationStackSet_ExecutionRoleName(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
 	if k.ExecutionRoleName != p.ExecutionRoleName {
@@ -181,10 +181,10 @@ func MergeCloudformationStackSet_ExecutionRoleName(k *CloudformationStackSetPara
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeCloudformationStackSet_Name(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+//mergePrimitiveContainerTemplateSpec
+func MergeCloudformationStackSet_Tags(k *CloudformationStackSetParameters, p *CloudformationStackSetParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

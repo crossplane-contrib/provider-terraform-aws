@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAmiLaunchPermission(r AmiLaunchPermission) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAmiLaunchPermission_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeAmiLaunchPermission_ImageId(r.Spec.ForProvider, ctyVal)
+	EncodeAmiLaunchPermission_AccountId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAmiLaunchPermission_AccountId(p AmiLaunchPermissionParameters, vals map[string]cty.Value) {
-	vals["account_id"] = cty.StringVal(p.AccountId)
 }
 
 func EncodeAmiLaunchPermission_ImageId(p AmiLaunchPermissionParameters, vals map[string]cty.Value) {
 	vals["image_id"] = cty.StringVal(p.ImageId)
+}
+
+func EncodeAmiLaunchPermission_AccountId(p AmiLaunchPermissionParameters, vals map[string]cty.Value) {
+	vals["account_id"] = cty.StringVal(p.AccountId)
 }

@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRoute53VpcAssociationAuthorization_ZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRoute53VpcAssociationAuthorization_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeRoute53VpcAssociationAuthorization_VpcRegion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53VpcAssociationAuthorization_ZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53VpcAssociationAuthorization_ZoneId(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
-	if k.ZoneId != p.ZoneId {
-		p.ZoneId = k.ZoneId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeRoute53VpcAssociationAuthorization_VpcId(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
 	if k.VpcId != p.VpcId {
 		p.VpcId = k.VpcId
@@ -81,6 +71,16 @@ func MergeRoute53VpcAssociationAuthorization_VpcId(k *Route53VpcAssociationAutho
 func MergeRoute53VpcAssociationAuthorization_VpcRegion(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
 	if k.VpcRegion != p.VpcRegion {
 		p.VpcRegion = k.VpcRegion
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53VpcAssociationAuthorization_ZoneId(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
+	if k.ZoneId != p.ZoneId {
+		p.ZoneId = k.ZoneId
 		md.NeedsProviderUpdate = true
 		return true
 	}

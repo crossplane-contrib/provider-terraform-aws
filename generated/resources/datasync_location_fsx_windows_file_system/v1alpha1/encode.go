@@ -37,40 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDatasyncLocationFsxWindowsFileSystem(r DatasyncLocationFsxWindowsFileSystem) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_User(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Password(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_CreationTime(r.Status.AtProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Uri(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Arn(r.Status.AtProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_Uri(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_User(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["user"] = cty.StringVal(p.User)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_Domain(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["fsx_filesystem_arn"] = cty.StringVal(p.FsxFilesystemArn)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_Password(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["password"] = cty.StringVal(p.Password)
 }
 
 func EncodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
@@ -97,14 +79,30 @@ func EncodeDatasyncLocationFsxWindowsFileSystem_Tags(p DatasyncLocationFsxWindow
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeDatasyncLocationFsxWindowsFileSystem_User(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["user"] = cty.StringVal(p.User)
+}
+
+func EncodeDatasyncLocationFsxWindowsFileSystem_Domain(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
+}
+
+func EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["fsx_filesystem_arn"] = cty.StringVal(p.FsxFilesystemArn)
+}
+
+func EncodeDatasyncLocationFsxWindowsFileSystem_Password(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["password"] = cty.StringVal(p.Password)
+}
+
 func EncodeDatasyncLocationFsxWindowsFileSystem_CreationTime(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
 	vals["creation_time"] = cty.StringVal(p.CreationTime)
 }
 
-func EncodeDatasyncLocationFsxWindowsFileSystem_Uri(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
-	vals["uri"] = cty.StringVal(p.Uri)
-}
-
 func EncodeDatasyncLocationFsxWindowsFileSystem_Arn(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeDatasyncLocationFsxWindowsFileSystem_Uri(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
+	vals["uri"] = cty.StringVal(p.Uri)
 }

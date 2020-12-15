@@ -37,18 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation(r WorklinkWebsiteCertificateAuthorityAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(r.Spec.ForProvider, ctyVal)
-	EncodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(r.Spec.ForProvider, ctyVal)
 	EncodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	vals["fleet_arn"] = cty.StringVal(p.FleetArn)
 }
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
@@ -57,10 +59,6 @@ func EncodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(p Worklink
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
 	vals["display_name"] = cty.StringVal(p.DisplayName)
-}
-
-func EncodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(p WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
-	vals["fleet_arn"] = cty.StringVal(p.FleetArn)
 }
 
 func EncodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(p WorklinkWebsiteCertificateAuthorityAssociationObservation, vals map[string]cty.Value) {

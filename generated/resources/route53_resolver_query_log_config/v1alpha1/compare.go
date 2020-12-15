@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeRoute53ResolverQueryLogConfig_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeRoute53ResolverQueryLogConfig_DestinationArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeRoute53ResolverQueryLogConfig_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRoute53ResolverQueryLogConfig_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,6 +71,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeRoute53ResolverQueryLogConfig_Tags(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateSpec
 func MergeRoute53ResolverQueryLogConfig_DestinationArn(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
 	if k.DestinationArn != p.DestinationArn {
@@ -85,16 +95,6 @@ func MergeRoute53ResolverQueryLogConfig_DestinationArn(k *Route53ResolverQueryLo
 func MergeRoute53ResolverQueryLogConfig_Name(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeRoute53ResolverQueryLogConfig_Tags(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

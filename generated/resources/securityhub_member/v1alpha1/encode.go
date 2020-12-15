@@ -40,15 +40,13 @@ func EncodeSecurityhubMember(r SecurityhubMember) cty.Value {
 	EncodeSecurityhubMember_AccountId(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Email(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubMember_Invite(r.Spec.ForProvider, ctyVal)
-	EncodeSecurityhubMember_MemberStatus(r.Status.AtProvider, ctyVal)
 	EncodeSecurityhubMember_MasterId(r.Status.AtProvider, ctyVal)
+	EncodeSecurityhubMember_MemberStatus(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -64,10 +62,10 @@ func EncodeSecurityhubMember_Invite(p SecurityhubMemberParameters, vals map[stri
 	vals["invite"] = cty.BoolVal(p.Invite)
 }
 
-func EncodeSecurityhubMember_MemberStatus(p SecurityhubMemberObservation, vals map[string]cty.Value) {
-	vals["member_status"] = cty.StringVal(p.MemberStatus)
-}
-
 func EncodeSecurityhubMember_MasterId(p SecurityhubMemberObservation, vals map[string]cty.Value) {
 	vals["master_id"] = cty.StringVal(p.MasterId)
+}
+
+func EncodeSecurityhubMember_MemberStatus(p SecurityhubMemberObservation, vals map[string]cty.Value) {
+	vals["member_status"] = cty.StringVal(p.MemberStatus)
 }

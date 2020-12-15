@@ -31,17 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDmsReplicationTask_ReplicationTaskSettings(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationTask_SourceEndpointArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDmsReplicationTask_TableMappings(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDmsReplicationTask_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationTask_TargetEndpointArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,12 +71,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsReplicationTask_ReplicationTaskSettings(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationTask_SourceEndpointArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDmsReplicationTask_TargetEndpointArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,6 +92,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeDmsReplicationTask_ReplicationTaskSettings(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
+	if k.ReplicationTaskSettings != p.ReplicationTaskSettings {
+		p.ReplicationTaskSettings = k.ReplicationTaskSettings
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsReplicationTask_SourceEndpointArn(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
+	if k.SourceEndpointArn != p.SourceEndpointArn {
+		p.SourceEndpointArn = k.SourceEndpointArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeDmsReplicationTask_TableMappings(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
 	if k.TableMappings != p.TableMappings {
 		p.TableMappings = k.TableMappings
@@ -105,16 +125,6 @@ func MergeDmsReplicationTask_TableMappings(k *DmsReplicationTaskParameters, p *D
 func MergeDmsReplicationTask_Tags(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationTask_TargetEndpointArn(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
-	if k.TargetEndpointArn != p.TargetEndpointArn {
-		p.TargetEndpointArn = k.TargetEndpointArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -162,19 +172,9 @@ func MergeDmsReplicationTask_ReplicationTaskId(k *DmsReplicationTaskParameters, 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDmsReplicationTask_ReplicationTaskSettings(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
-	if k.ReplicationTaskSettings != p.ReplicationTaskSettings {
-		p.ReplicationTaskSettings = k.ReplicationTaskSettings
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsReplicationTask_SourceEndpointArn(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
-	if k.SourceEndpointArn != p.SourceEndpointArn {
-		p.SourceEndpointArn = k.SourceEndpointArn
+func MergeDmsReplicationTask_TargetEndpointArn(k *DmsReplicationTaskParameters, p *DmsReplicationTaskParameters, md *plugin.MergeDescription) bool {
+	if k.TargetEndpointArn != p.TargetEndpointArn {
+		p.TargetEndpointArn = k.TargetEndpointArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

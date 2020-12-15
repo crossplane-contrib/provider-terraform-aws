@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpcIpv4CidrBlockAssociation(prev *VpcIpv4CidrBlockAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVpcIpv4CidrBlockAssociation_CidrBlock(&new.Spec.ForProvider, valMap)
 	DecodeVpcIpv4CidrBlockAssociation_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeVpcIpv4CidrBlockAssociation_CidrBlock(&new.Spec.ForProvider, valMap)
 	DecodeVpcIpv4CidrBlockAssociation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
 	eid := valMap["id"].AsString()
@@ -51,13 +51,13 @@ func DecodeVpcIpv4CidrBlockAssociation(prev *VpcIpv4CidrBlockAssociation, ctyVal
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVpcIpv4CidrBlockAssociation_CidrBlock(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
-	p.CidrBlock = ctwhy.ValueAsString(vals["cidr_block"])
+func DecodeVpcIpv4CidrBlockAssociation_VpcId(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVpcIpv4CidrBlockAssociation_VpcId(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
-	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+func DecodeVpcIpv4CidrBlockAssociation_CidrBlock(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
+	p.CidrBlock = ctwhy.ValueAsString(vals["cidr_block"])
 }
 
 //containerTypeDecodeTemplate

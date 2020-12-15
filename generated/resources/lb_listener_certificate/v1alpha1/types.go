@@ -52,8 +52,8 @@ type LbListenerCertificateSpec struct {
 
 // A LbListenerCertificateParameters defines the desired state of a LbListenerCertificate
 type LbListenerCertificateParameters struct {
-	CertificateArn string `json:"certificate_arn"`
 	ListenerArn    string `json:"listener_arn"`
+	CertificateArn string `json:"certificate_arn"`
 }
 
 // A LbListenerCertificateStatus defines the observed state of a LbListenerCertificate

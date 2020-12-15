@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLightsailKeyPair_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLightsailKeyPair_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,17 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLightsailKeyPair_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailKeyPair_PrivateKey(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailKeyPair_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeLightsailKeyPair_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,6 +66,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeLightsailKeyPair_PrivateKey(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLightsailKeyPair_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -87,9 +87,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLightsailKeyPair_PublicKey(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
-	if k.PublicKey != p.PublicKey {
-		p.PublicKey = k.PublicKey
+func MergeLightsailKeyPair_Name(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -117,30 +117,10 @@ func MergeLightsailKeyPair_PgpKey(k *LightsailKeyPairParameters, p *LightsailKey
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLightsailKeyPair_Name(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeLightsailKeyPair_PublicKey(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
+	if k.PublicKey != p.PublicKey {
+		p.PublicKey = k.PublicKey
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeLightsailKeyPair_PrivateKey(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
-	if k.PrivateKey != p.PrivateKey {
-		k.PrivateKey = p.PrivateKey
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeLightsailKeyPair_Fingerprint(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
-	if k.Fingerprint != p.Fingerprint {
-		k.Fingerprint = p.Fingerprint
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -170,6 +150,26 @@ func MergeLightsailKeyPair_EncryptedFingerprint(k *LightsailKeyPairObservation, 
 func MergeLightsailKeyPair_EncryptedPrivateKey(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
 	if k.EncryptedPrivateKey != p.EncryptedPrivateKey {
 		k.EncryptedPrivateKey = p.EncryptedPrivateKey
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLightsailKeyPair_PrivateKey(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
+	if k.PrivateKey != p.PrivateKey {
+		k.PrivateKey = p.PrivateKey
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLightsailKeyPair_Fingerprint(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
+	if k.Fingerprint != p.Fingerprint {
+		k.Fingerprint = p.Fingerprint
 		md.StatusUpdated = true
 		return true
 	}

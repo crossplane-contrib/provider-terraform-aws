@@ -69,11 +69,11 @@ type RamResourceShareAccepterStatus struct {
 
 // A RamResourceShareAccepterObservation records the observed state of a RamResourceShareAccepter
 type RamResourceShareAccepterObservation struct {
-	InvitationArn     string   `json:"invitation_arn"`
 	ReceiverAccountId string   `json:"receiver_account_id"`
 	SenderAccountId   string   `json:"sender_account_id"`
-	ShareId           string   `json:"share_id"`
-	Status            string   `json:"status"`
+	InvitationArn     string   `json:"invitation_arn"`
 	Resources         []string `json:"resources"`
+	ShareId           string   `json:"share_id"`
 	ShareName         string   `json:"share_name"`
+	Status            string   `json:"status"`
 }

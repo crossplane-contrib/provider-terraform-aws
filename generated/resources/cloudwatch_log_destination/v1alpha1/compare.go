@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCloudwatchLogDestination_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudwatchLogDestination_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeCloudwatchLogDestination_TargetArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchLogDestination_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,16 +62,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloudwatchLogDestination_Name(k *CloudwatchLogDestinationParameters, p *CloudwatchLogDestinationParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCloudwatchLogDestination_RoleArn(k *CloudwatchLogDestinationParameters, p *CloudwatchLogDestinationParameters, md *plugin.MergeDescription) bool {
 	if k.RoleArn != p.RoleArn {
 		p.RoleArn = k.RoleArn
@@ -85,6 +75,16 @@ func MergeCloudwatchLogDestination_RoleArn(k *CloudwatchLogDestinationParameters
 func MergeCloudwatchLogDestination_TargetArn(k *CloudwatchLogDestinationParameters, p *CloudwatchLogDestinationParameters, md *plugin.MergeDescription) bool {
 	if k.TargetArn != p.TargetArn {
 		p.TargetArn = k.TargetArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchLogDestination_Name(k *CloudwatchLogDestinationParameters, p *CloudwatchLogDestinationParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

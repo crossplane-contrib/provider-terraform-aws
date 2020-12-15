@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAmiLaunchPermission(prev *AmiLaunchPermission, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAmiLaunchPermission_AccountId(&new.Spec.ForProvider, valMap)
 	DecodeAmiLaunchPermission_ImageId(&new.Spec.ForProvider, valMap)
+	DecodeAmiLaunchPermission_AccountId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeAmiLaunchPermission(prev *AmiLaunchPermission, ctyValue cty.Value) (r
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAmiLaunchPermission_AccountId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
-	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
+func DecodeAmiLaunchPermission_ImageId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
+	p.ImageId = ctwhy.ValueAsString(vals["image_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAmiLaunchPermission_ImageId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
-	p.ImageId = ctwhy.ValueAsString(vals["image_id"])
+func DecodeAmiLaunchPermission_AccountId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }

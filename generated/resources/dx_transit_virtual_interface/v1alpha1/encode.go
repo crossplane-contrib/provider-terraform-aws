@@ -37,34 +37,28 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxTransitVirtualInterface(r DxTransitVirtualInterface) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxTransitVirtualInterface_Mtu(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_AddressFamily(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_AmazonAddress(r.Spec.ForProvider, ctyVal)
+	EncodeDxTransitVirtualInterface_Mtu(r.Spec.ForProvider, ctyVal)
+	EncodeDxTransitVirtualInterface_Vlan(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_BgpAsn(r.Spec.ForProvider, ctyVal)
+	EncodeDxTransitVirtualInterface_ConnectionId(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDxTransitVirtualInterface_CustomerAddress(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_BgpAuthKey(r.Spec.ForProvider, ctyVal)
-	EncodeDxTransitVirtualInterface_ConnectionId(r.Spec.ForProvider, ctyVal)
-	EncodeDxTransitVirtualInterface_Vlan(r.Spec.ForProvider, ctyVal)
+	EncodeDxTransitVirtualInterface_CustomerAddress(r.Spec.ForProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeDxTransitVirtualInterface_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_AmazonSideAsn(r.Status.AtProvider, ctyVal)
+	EncodeDxTransitVirtualInterface_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_AwsDevice(r.Status.AtProvider, ctyVal)
 	EncodeDxTransitVirtualInterface_JumboFrameCapable(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxTransitVirtualInterface_Mtu(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	vals["mtu"] = cty.NumberIntVal(p.Mtu)
 }
 
 func EncodeDxTransitVirtualInterface_AddressFamily(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
@@ -75,8 +69,20 @@ func EncodeDxTransitVirtualInterface_AmazonAddress(p DxTransitVirtualInterfacePa
 	vals["amazon_address"] = cty.StringVal(p.AmazonAddress)
 }
 
+func EncodeDxTransitVirtualInterface_Mtu(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	vals["mtu"] = cty.NumberIntVal(p.Mtu)
+}
+
+func EncodeDxTransitVirtualInterface_Vlan(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	vals["vlan"] = cty.NumberIntVal(p.Vlan)
+}
+
 func EncodeDxTransitVirtualInterface_BgpAsn(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
 	vals["bgp_asn"] = cty.NumberIntVal(p.BgpAsn)
+}
+
+func EncodeDxTransitVirtualInterface_ConnectionId(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	vals["connection_id"] = cty.StringVal(p.ConnectionId)
 }
 
 func EncodeDxTransitVirtualInterface_Tags(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
@@ -91,10 +97,6 @@ func EncodeDxTransitVirtualInterface_Tags(p DxTransitVirtualInterfaceParameters,
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDxTransitVirtualInterface_CustomerAddress(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	vals["customer_address"] = cty.StringVal(p.CustomerAddress)
-}
-
 func EncodeDxTransitVirtualInterface_DxGatewayId(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
 	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
 }
@@ -107,20 +109,20 @@ func EncodeDxTransitVirtualInterface_BgpAuthKey(p DxTransitVirtualInterfaceParam
 	vals["bgp_auth_key"] = cty.StringVal(p.BgpAuthKey)
 }
 
-func EncodeDxTransitVirtualInterface_ConnectionId(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	vals["connection_id"] = cty.StringVal(p.ConnectionId)
-}
-
-func EncodeDxTransitVirtualInterface_Vlan(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	vals["vlan"] = cty.NumberIntVal(p.Vlan)
+func EncodeDxTransitVirtualInterface_CustomerAddress(p DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	vals["customer_address"] = cty.StringVal(p.CustomerAddress)
 }
 
 func EncodeDxTransitVirtualInterface_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDxTransitVirtualInterface_Timeouts_Update(p, ctyVal)
 	EncodeDxTransitVirtualInterface_Timeouts_Create(p, ctyVal)
 	EncodeDxTransitVirtualInterface_Timeouts_Delete(p, ctyVal)
-	EncodeDxTransitVirtualInterface_Timeouts_Update(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeDxTransitVirtualInterface_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
+	vals["update"] = cty.StringVal(p.Update)
 }
 
 func EncodeDxTransitVirtualInterface_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
@@ -131,16 +133,12 @@ func EncodeDxTransitVirtualInterface_Timeouts_Delete(p Timeouts, vals map[string
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeDxTransitVirtualInterface_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
-	vals["update"] = cty.StringVal(p.Update)
+func EncodeDxTransitVirtualInterface_AmazonSideAsn(p DxTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
+	vals["amazon_side_asn"] = cty.StringVal(p.AmazonSideAsn)
 }
 
 func EncodeDxTransitVirtualInterface_Arn(p DxTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeDxTransitVirtualInterface_AmazonSideAsn(p DxTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
-	vals["amazon_side_asn"] = cty.StringVal(p.AmazonSideAsn)
 }
 
 func EncodeDxTransitVirtualInterface_AwsDevice(p DxTransitVirtualInterfaceObservation, vals map[string]cty.Value) {

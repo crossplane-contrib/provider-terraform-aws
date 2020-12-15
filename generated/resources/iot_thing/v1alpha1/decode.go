@@ -39,22 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIotThing(prev *IotThing, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIotThing_ThingTypeName(&new.Spec.ForProvider, valMap)
 	DecodeIotThing_Attributes(&new.Spec.ForProvider, valMap)
 	DecodeIotThing_Name(&new.Spec.ForProvider, valMap)
-	DecodeIotThing_Version(&new.Status.AtProvider, valMap)
+	DecodeIotThing_ThingTypeName(&new.Spec.ForProvider, valMap)
 	DecodeIotThing_Arn(&new.Status.AtProvider, valMap)
 	DecodeIotThing_DefaultClientId(&new.Status.AtProvider, valMap)
+	DecodeIotThing_Version(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIotThing_ThingTypeName(p *IotThingParameters, vals map[string]cty.Value) {
-	p.ThingTypeName = ctwhy.ValueAsString(vals["thing_type_name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -74,8 +69,8 @@ func DecodeIotThing_Name(p *IotThingParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIotThing_Version(p *IotThingObservation, vals map[string]cty.Value) {
-	p.Version = ctwhy.ValueAsInt64(vals["version"])
+func DecodeIotThing_ThingTypeName(p *IotThingParameters, vals map[string]cty.Value) {
+	p.ThingTypeName = ctwhy.ValueAsString(vals["thing_type_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -86,4 +81,9 @@ func DecodeIotThing_Arn(p *IotThingObservation, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeIotThing_DefaultClientId(p *IotThingObservation, vals map[string]cty.Value) {
 	p.DefaultClientId = ctwhy.ValueAsString(vals["default_client_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIotThing_Version(p *IotThingObservation, vals map[string]cty.Value) {
+	p.Version = ctwhy.ValueAsInt64(vals["version"])
 }

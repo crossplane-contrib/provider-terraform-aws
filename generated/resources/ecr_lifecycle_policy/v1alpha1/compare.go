@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEcrLifecyclePolicy_Repository(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEcrLifecyclePolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEcrLifecyclePolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEcrLifecyclePolicy_Repository(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -57,9 +57,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEcrLifecyclePolicy_Repository(k *EcrLifecyclePolicyParameters, p *EcrLifecyclePolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Repository != p.Repository {
-		p.Repository = k.Repository
+func MergeEcrLifecyclePolicy_Policy(k *EcrLifecyclePolicyParameters, p *EcrLifecyclePolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Policy != p.Policy {
+		p.Policy = k.Policy
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -67,9 +67,9 @@ func MergeEcrLifecyclePolicy_Repository(k *EcrLifecyclePolicyParameters, p *EcrL
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEcrLifecyclePolicy_Policy(k *EcrLifecyclePolicyParameters, p *EcrLifecyclePolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Policy != p.Policy {
-		p.Policy = k.Policy
+func MergeEcrLifecyclePolicy_Repository(k *EcrLifecyclePolicyParameters, p *EcrLifecyclePolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Repository != p.Repository {
+		p.Repository = k.Repository
 		md.NeedsProviderUpdate = true
 		return true
 	}

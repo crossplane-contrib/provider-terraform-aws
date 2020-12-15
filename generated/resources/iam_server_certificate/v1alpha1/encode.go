@@ -37,34 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamServerCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_CertificateBody(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_CertificateChain(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Path(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_CertificateBody(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamServerCertificate_PrivateKey(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["private_key"] = cty.StringVal(p.PrivateKey)
-}
-
-func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeIamServerCertificate_CertificateBody(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
 }
 
 func EncodeIamServerCertificate_CertificateChain(p IamServerCertificateParameters, vals map[string]cty.Value) {
@@ -81,4 +67,16 @@ func EncodeIamServerCertificate_NamePrefix(p IamServerCertificateParameters, val
 
 func EncodeIamServerCertificate_Path(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
+}
+
+func EncodeIamServerCertificate_PrivateKey(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["private_key"] = cty.StringVal(p.PrivateKey)
+}
+
+func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeIamServerCertificate_CertificateBody(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
 }

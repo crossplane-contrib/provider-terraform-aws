@@ -39,20 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxTransitVirtualInterface(prev *DxTransitVirtualInterface, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxTransitVirtualInterface_Mtu(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_AddressFamily(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxTransitVirtualInterface_Mtu(&new.Spec.ForProvider, valMap)
+	DecodeDxTransitVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
+	DecodeDxTransitVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDxTransitVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_DxGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_Name(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_BgpAuthKey(&new.Spec.ForProvider, valMap)
-	DecodeDxTransitVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
-	DecodeDxTransitVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
+	DecodeDxTransitVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
 	DecodeDxTransitVirtualInterface_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeDxTransitVirtualInterface_Arn(&new.Status.AtProvider, valMap)
 	DecodeDxTransitVirtualInterface_AmazonSideAsn(&new.Status.AtProvider, valMap)
+	DecodeDxTransitVirtualInterface_Arn(&new.Status.AtProvider, valMap)
 	DecodeDxTransitVirtualInterface_AwsDevice(&new.Status.AtProvider, valMap)
 	DecodeDxTransitVirtualInterface_JumboFrameCapable(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -60,11 +60,6 @@ func DecodeDxTransitVirtualInterface(prev *DxTransitVirtualInterface, ctyValue c
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxTransitVirtualInterface_Mtu(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -78,8 +73,23 @@ func DecodeDxTransitVirtualInterface_AmazonAddress(p *DxTransitVirtualInterfaceP
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeDxTransitVirtualInterface_Mtu(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxTransitVirtualInterface_Vlan(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDxTransitVirtualInterface_BgpAsn(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
 	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxTransitVirtualInterface_ConnectionId(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -91,11 +101,6 @@ func DecodeDxTransitVirtualInterface_Tags(p *DxTransitVirtualInterfaceParameters
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxTransitVirtualInterface_CustomerAddress(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -114,21 +119,21 @@ func DecodeDxTransitVirtualInterface_BgpAuthKey(p *DxTransitVirtualInterfacePara
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxTransitVirtualInterface_ConnectionId(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxTransitVirtualInterface_Vlan(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
+func DecodeDxTransitVirtualInterface_CustomerAddress(p *DxTransitVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
 }
 
 //containerTypeDecodeTemplate
 func DecodeDxTransitVirtualInterface_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
+	DecodeDxTransitVirtualInterface_Timeouts_Update(p, valMap)
 	DecodeDxTransitVirtualInterface_Timeouts_Create(p, valMap)
 	DecodeDxTransitVirtualInterface_Timeouts_Delete(p, valMap)
-	DecodeDxTransitVirtualInterface_Timeouts_Update(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxTransitVirtualInterface_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -142,18 +147,13 @@ func DecodeDxTransitVirtualInterface_Timeouts_Delete(p *Timeouts, vals map[strin
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxTransitVirtualInterface_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
-	p.Update = ctwhy.ValueAsString(vals["update"])
+func DecodeDxTransitVirtualInterface_AmazonSideAsn(p *DxTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
+	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDxTransitVirtualInterface_Arn(p *DxTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxTransitVirtualInterface_AmazonSideAsn(p *DxTransitVirtualInterfaceObservation, vals map[string]cty.Value) {
-	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
 }
 
 //primitiveTypeDecodeTemplate

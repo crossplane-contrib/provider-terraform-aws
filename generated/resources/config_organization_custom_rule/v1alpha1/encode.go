@@ -37,35 +37,33 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeConfigOrganizationCustomRule(r ConfigOrganizationCustomRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeConfigOrganizationCustomRule_LambdaFunctionArn(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationCustomRule_Name(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationCustomRule_ResourceIdScope(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationCustomRule_ResourceTypesScope(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationCustomRule_TagKeyScope(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationCustomRule_TagValueScope(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationCustomRule_TriggerTypes(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationCustomRule_Description(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationCustomRule_ExcludedAccounts(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationCustomRule_LambdaFunctionArn(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationCustomRule_TriggerTypes(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationCustomRule_InputParameters(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationCustomRule_MaximumExecutionFrequency(r.Spec.ForProvider, ctyVal)
-	EncodeConfigOrganizationCustomRule_TagValueScope(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationCustomRule_ResourceIdScope(r.Spec.ForProvider, ctyVal)
+	EncodeConfigOrganizationCustomRule_TagKeyScope(r.Spec.ForProvider, ctyVal)
 	EncodeConfigOrganizationCustomRule_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeConfigOrganizationCustomRule_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeConfigOrganizationCustomRule_LambdaFunctionArn(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	vals["lambda_function_arn"] = cty.StringVal(p.LambdaFunctionArn)
 }
 
 func EncodeConfigOrganizationCustomRule_Name(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeConfigOrganizationCustomRule_ResourceIdScope(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	vals["resource_id_scope"] = cty.StringVal(p.ResourceIdScope)
 }
 
 func EncodeConfigOrganizationCustomRule_ResourceTypesScope(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
@@ -76,8 +74,16 @@ func EncodeConfigOrganizationCustomRule_ResourceTypesScope(p ConfigOrganizationC
 	vals["resource_types_scope"] = cty.SetVal(colVals)
 }
 
-func EncodeConfigOrganizationCustomRule_TagKeyScope(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	vals["tag_key_scope"] = cty.StringVal(p.TagKeyScope)
+func EncodeConfigOrganizationCustomRule_TagValueScope(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	vals["tag_value_scope"] = cty.StringVal(p.TagValueScope)
+}
+
+func EncodeConfigOrganizationCustomRule_TriggerTypes(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.TriggerTypes {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["trigger_types"] = cty.SetVal(colVals)
 }
 
 func EncodeConfigOrganizationCustomRule_Description(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
@@ -92,18 +98,6 @@ func EncodeConfigOrganizationCustomRule_ExcludedAccounts(p ConfigOrganizationCus
 	vals["excluded_accounts"] = cty.SetVal(colVals)
 }
 
-func EncodeConfigOrganizationCustomRule_LambdaFunctionArn(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	vals["lambda_function_arn"] = cty.StringVal(p.LambdaFunctionArn)
-}
-
-func EncodeConfigOrganizationCustomRule_TriggerTypes(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.TriggerTypes {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["trigger_types"] = cty.SetVal(colVals)
-}
-
 func EncodeConfigOrganizationCustomRule_InputParameters(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
 	vals["input_parameters"] = cty.StringVal(p.InputParameters)
 }
@@ -112,8 +106,12 @@ func EncodeConfigOrganizationCustomRule_MaximumExecutionFrequency(p ConfigOrgani
 	vals["maximum_execution_frequency"] = cty.StringVal(p.MaximumExecutionFrequency)
 }
 
-func EncodeConfigOrganizationCustomRule_TagValueScope(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	vals["tag_value_scope"] = cty.StringVal(p.TagValueScope)
+func EncodeConfigOrganizationCustomRule_ResourceIdScope(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	vals["resource_id_scope"] = cty.StringVal(p.ResourceIdScope)
+}
+
+func EncodeConfigOrganizationCustomRule_TagKeyScope(p ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	vals["tag_key_scope"] = cty.StringVal(p.TagKeyScope)
 }
 
 func EncodeConfigOrganizationCustomRule_Timeouts(p Timeouts, vals map[string]cty.Value) {

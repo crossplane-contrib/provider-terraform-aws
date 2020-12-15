@@ -41,12 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeMediaStoreContainer_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeMediaStoreContainer_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeMediaStoreContainer_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeMediaStoreContainer_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,9 +82,9 @@ func MergeMediaStoreContainer_Tags(k *MediaStoreContainerParameters, p *MediaSto
 }
 
 //mergePrimitiveTemplateStatus
-func MergeMediaStoreContainer_Endpoint(k *MediaStoreContainerObservation, p *MediaStoreContainerObservation, md *plugin.MergeDescription) bool {
-	if k.Endpoint != p.Endpoint {
-		k.Endpoint = p.Endpoint
+func MergeMediaStoreContainer_Arn(k *MediaStoreContainerObservation, p *MediaStoreContainerObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}
@@ -92,9 +92,9 @@ func MergeMediaStoreContainer_Endpoint(k *MediaStoreContainerObservation, p *Med
 }
 
 //mergePrimitiveTemplateStatus
-func MergeMediaStoreContainer_Arn(k *MediaStoreContainerObservation, p *MediaStoreContainerObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeMediaStoreContainer_Endpoint(k *MediaStoreContainerObservation, p *MediaStoreContainerObservation, md *plugin.MergeDescription) bool {
+	if k.Endpoint != p.Endpoint {
+		k.Endpoint = p.Endpoint
 		md.StatusUpdated = true
 		return true
 	}

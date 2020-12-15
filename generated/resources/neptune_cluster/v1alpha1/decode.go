@@ -39,37 +39,37 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeNeptuneCluster(prev *NeptuneCluster, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeNeptuneCluster_IamDatabaseAuthenticationEnabled(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_Tags(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_Engine(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_FinalSnapshotIdentifier(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_EnableCloudwatchLogsExports(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_Port(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_SkipFinalSnapshot(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_EngineVersion(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_KmsKeyArn(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_IamRoles(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_BackupRetentionPeriod(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_EngineVersion(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_PreferredBackupWindow(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_ReplicationSourceIdentifier(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_SnapshotIdentifier(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_StorageEncrypted(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_ApplyImmediately(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_DeletionProtection(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_NeptuneClusterParameterGroupName(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_IamRoles(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_NeptuneSubnetGroupName(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_PreferredMaintenanceWindow(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_AvailabilityZones(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_SnapshotIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_VpcSecurityGroupIds(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneCluster_ClusterIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_DeletionProtection(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_Engine(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_IamDatabaseAuthenticationEnabled(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_StorageEncrypted(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_ApplyImmediately(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_SkipFinalSnapshot(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_Tags(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_AvailabilityZones(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_BackupRetentionPeriod(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_ClusterIdentifierPrefix(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_EnableCloudwatchLogsExports(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_NeptuneClusterParameterGroupName(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_ClusterIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_FinalSnapshotIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneCluster_Port(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneCluster_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeNeptuneCluster_Endpoint(&new.Status.AtProvider, valMap)
-	DecodeNeptuneCluster_ReaderEndpoint(&new.Status.AtProvider, valMap)
-	DecodeNeptuneCluster_ClusterResourceId(&new.Status.AtProvider, valMap)
-	DecodeNeptuneCluster_HostedZoneId(&new.Status.AtProvider, valMap)
-	DecodeNeptuneCluster_ClusterMembers(&new.Status.AtProvider, valMap)
 	DecodeNeptuneCluster_Arn(&new.Status.AtProvider, valMap)
+	DecodeNeptuneCluster_HostedZoneId(&new.Status.AtProvider, valMap)
+	DecodeNeptuneCluster_ReaderEndpoint(&new.Status.AtProvider, valMap)
+	DecodeNeptuneCluster_ClusterMembers(&new.Status.AtProvider, valMap)
+	DecodeNeptuneCluster_ClusterResourceId(&new.Status.AtProvider, valMap)
+	DecodeNeptuneCluster_Endpoint(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -78,72 +78,13 @@ func DecodeNeptuneCluster(prev *NeptuneCluster, ctyValue cty.Value) (resource.Ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_IamDatabaseAuthenticationEnabled(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.IamDatabaseAuthenticationEnabled = ctwhy.ValueAsBool(vals["iam_database_authentication_enabled"])
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeNeptuneCluster_Tags(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_Engine(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.Engine = ctwhy.ValueAsString(vals["engine"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_FinalSnapshotIdentifier(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.FinalSnapshotIdentifier = ctwhy.ValueAsString(vals["final_snapshot_identifier"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeNeptuneCluster_EnableCloudwatchLogsExports(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["enable_cloudwatch_logs_exports"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.EnableCloudwatchLogsExports = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_Port(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.Port = ctwhy.ValueAsInt64(vals["port"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_SkipFinalSnapshot(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.SkipFinalSnapshot = ctwhy.ValueAsBool(vals["skip_final_snapshot"])
+func DecodeNeptuneCluster_KmsKeyArn(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeNeptuneCluster_EngineVersion(p *NeptuneClusterParameters, vals map[string]cty.Value) {
 	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_KmsKeyArn(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeNeptuneCluster_IamRoles(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["iam_roles"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.IamRoles = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_BackupRetentionPeriod(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.BackupRetentionPeriod = ctwhy.ValueAsInt64(vals["backup_retention_period"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -156,9 +97,52 @@ func DecodeNeptuneCluster_ReplicationSourceIdentifier(p *NeptuneClusterParameter
 	p.ReplicationSourceIdentifier = ctwhy.ValueAsString(vals["replication_source_identifier"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
+func DecodeNeptuneCluster_IamRoles(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["iam_roles"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.IamRoles = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_NeptuneSubnetGroupName(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.NeptuneSubnetGroupName = ctwhy.ValueAsString(vals["neptune_subnet_group_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_PreferredMaintenanceWindow(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.PreferredMaintenanceWindow = ctwhy.ValueAsString(vals["preferred_maintenance_window"])
+}
+
 //primitiveTypeDecodeTemplate
 func DecodeNeptuneCluster_SnapshotIdentifier(p *NeptuneClusterParameters, vals map[string]cty.Value) {
 	p.SnapshotIdentifier = ctwhy.ValueAsString(vals["snapshot_identifier"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeNeptuneCluster_VpcSecurityGroupIds(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["vpc_security_group_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.VpcSecurityGroupIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_DeletionProtection(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.DeletionProtection = ctwhy.ValueAsBool(vals["deletion_protection"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_Engine(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.Engine = ctwhy.ValueAsString(vals["engine"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_IamDatabaseAuthenticationEnabled(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.IamDatabaseAuthenticationEnabled = ctwhy.ValueAsBool(vals["iam_database_authentication_enabled"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -172,23 +156,19 @@ func DecodeNeptuneCluster_ApplyImmediately(p *NeptuneClusterParameters, vals map
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_DeletionProtection(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.DeletionProtection = ctwhy.ValueAsBool(vals["deletion_protection"])
+func DecodeNeptuneCluster_SkipFinalSnapshot(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.SkipFinalSnapshot = ctwhy.ValueAsBool(vals["skip_final_snapshot"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_NeptuneClusterParameterGroupName(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.NeptuneClusterParameterGroupName = ctwhy.ValueAsString(vals["neptune_cluster_parameter_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_NeptuneSubnetGroupName(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.NeptuneSubnetGroupName = ctwhy.ValueAsString(vals["neptune_subnet_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_PreferredMaintenanceWindow(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.PreferredMaintenanceWindow = ctwhy.ValueAsString(vals["preferred_maintenance_window"])
+//primitiveMapTypeDecodeTemplate
+func DecodeNeptuneCluster_Tags(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -200,13 +180,28 @@ func DecodeNeptuneCluster_AvailabilityZones(p *NeptuneClusterParameters, vals ma
 	p.AvailabilityZones = goVals
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_BackupRetentionPeriod(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.BackupRetentionPeriod = ctwhy.ValueAsInt64(vals["backup_retention_period"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_ClusterIdentifierPrefix(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.ClusterIdentifierPrefix = ctwhy.ValueAsString(vals["cluster_identifier_prefix"])
+}
+
 //primitiveCollectionTypeDecodeTemplate
-func DecodeNeptuneCluster_VpcSecurityGroupIds(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+func DecodeNeptuneCluster_EnableCloudwatchLogsExports(p *NeptuneClusterParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["vpc_security_group_ids"]) {
+	for _, value := range ctwhy.ValueAsSet(vals["enable_cloudwatch_logs_exports"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
-	p.VpcSecurityGroupIds = goVals
+	p.EnableCloudwatchLogsExports = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_NeptuneClusterParameterGroupName(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.NeptuneClusterParameterGroupName = ctwhy.ValueAsString(vals["neptune_cluster_parameter_group_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -215,8 +210,13 @@ func DecodeNeptuneCluster_ClusterIdentifier(p *NeptuneClusterParameters, vals ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_ClusterIdentifierPrefix(p *NeptuneClusterParameters, vals map[string]cty.Value) {
-	p.ClusterIdentifierPrefix = ctwhy.ValueAsString(vals["cluster_identifier_prefix"])
+func DecodeNeptuneCluster_FinalSnapshotIdentifier(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.FinalSnapshotIdentifier = ctwhy.ValueAsString(vals["final_snapshot_identifier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_Port(p *NeptuneClusterParameters, vals map[string]cty.Value) {
+	p.Port = ctwhy.ValueAsInt64(vals["port"])
 }
 
 //containerTypeDecodeTemplate
@@ -243,23 +243,18 @@ func DecodeNeptuneCluster_Timeouts_Update(p *Timeouts, vals map[string]cty.Value
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_Endpoint(p *NeptuneClusterObservation, vals map[string]cty.Value) {
-	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_ReaderEndpoint(p *NeptuneClusterObservation, vals map[string]cty.Value) {
-	p.ReaderEndpoint = ctwhy.ValueAsString(vals["reader_endpoint"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_ClusterResourceId(p *NeptuneClusterObservation, vals map[string]cty.Value) {
-	p.ClusterResourceId = ctwhy.ValueAsString(vals["cluster_resource_id"])
+func DecodeNeptuneCluster_Arn(p *NeptuneClusterObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeNeptuneCluster_HostedZoneId(p *NeptuneClusterObservation, vals map[string]cty.Value) {
 	p.HostedZoneId = ctwhy.ValueAsString(vals["hosted_zone_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_ReaderEndpoint(p *NeptuneClusterObservation, vals map[string]cty.Value) {
+	p.ReaderEndpoint = ctwhy.ValueAsString(vals["reader_endpoint"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -272,6 +267,11 @@ func DecodeNeptuneCluster_ClusterMembers(p *NeptuneClusterObservation, vals map[
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneCluster_Arn(p *NeptuneClusterObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeNeptuneCluster_ClusterResourceId(p *NeptuneClusterObservation, vals map[string]cty.Value) {
+	p.ClusterResourceId = ctwhy.ValueAsString(vals["cluster_resource_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneCluster_Endpoint(p *NeptuneClusterObservation, vals map[string]cty.Value) {
+	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
 }

@@ -36,12 +36,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxGatewayAssociation_ProposalId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxGatewayAssociation_DxGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxGatewayAssociation_AssociatedGatewayOwnerAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,7 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxGatewayAssociation_AssociatedGatewayOwnerAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxGatewayAssociation_DxGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxGatewayAssociation_ProposalId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,7 +61,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxGatewayAssociation_DxGatewayOwnerAccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDxGatewayAssociation_AssociatedGatewayType(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,7 +71,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxGatewayAssociation_AssociatedGatewayType(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDxGatewayAssociation_DxGatewayOwnerAccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,19 +97,9 @@ func MergeDxGatewayAssociation_AllowedPrefixes(k *DxGatewayAssociationParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxGatewayAssociation_ProposalId(k *DxGatewayAssociationParameters, p *DxGatewayAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ProposalId != p.ProposalId {
-		p.ProposalId = k.ProposalId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxGatewayAssociation_DxGatewayId(k *DxGatewayAssociationParameters, p *DxGatewayAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.DxGatewayId != p.DxGatewayId {
-		p.DxGatewayId = k.DxGatewayId
+func MergeDxGatewayAssociation_AssociatedGatewayOwnerAccountId(k *DxGatewayAssociationParameters, p *DxGatewayAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.AssociatedGatewayOwnerAccountId != p.AssociatedGatewayOwnerAccountId {
+		p.AssociatedGatewayOwnerAccountId = k.AssociatedGatewayOwnerAccountId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -127,9 +117,19 @@ func MergeDxGatewayAssociation_AssociatedGatewayId(k *DxGatewayAssociationParame
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxGatewayAssociation_AssociatedGatewayOwnerAccountId(k *DxGatewayAssociationParameters, p *DxGatewayAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.AssociatedGatewayOwnerAccountId != p.AssociatedGatewayOwnerAccountId {
-		p.AssociatedGatewayOwnerAccountId = k.AssociatedGatewayOwnerAccountId
+func MergeDxGatewayAssociation_DxGatewayId(k *DxGatewayAssociationParameters, p *DxGatewayAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.DxGatewayId != p.DxGatewayId {
+		p.DxGatewayId = k.DxGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxGatewayAssociation_ProposalId(k *DxGatewayAssociationParameters, p *DxGatewayAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ProposalId != p.ProposalId {
+		p.ProposalId = k.ProposalId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -192,9 +192,9 @@ func MergeDxGatewayAssociation_Timeouts_Update(k *Timeouts, p *Timeouts, md *plu
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDxGatewayAssociation_DxGatewayOwnerAccountId(k *DxGatewayAssociationObservation, p *DxGatewayAssociationObservation, md *plugin.MergeDescription) bool {
-	if k.DxGatewayOwnerAccountId != p.DxGatewayOwnerAccountId {
-		k.DxGatewayOwnerAccountId = p.DxGatewayOwnerAccountId
+func MergeDxGatewayAssociation_AssociatedGatewayType(k *DxGatewayAssociationObservation, p *DxGatewayAssociationObservation, md *plugin.MergeDescription) bool {
+	if k.AssociatedGatewayType != p.AssociatedGatewayType {
+		k.AssociatedGatewayType = p.AssociatedGatewayType
 		md.StatusUpdated = true
 		return true
 	}
@@ -212,9 +212,9 @@ func MergeDxGatewayAssociation_DxGatewayAssociationId(k *DxGatewayAssociationObs
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDxGatewayAssociation_AssociatedGatewayType(k *DxGatewayAssociationObservation, p *DxGatewayAssociationObservation, md *plugin.MergeDescription) bool {
-	if k.AssociatedGatewayType != p.AssociatedGatewayType {
-		k.AssociatedGatewayType = p.AssociatedGatewayType
+func MergeDxGatewayAssociation_DxGatewayOwnerAccountId(k *DxGatewayAssociationObservation, p *DxGatewayAssociationObservation, md *plugin.MergeDescription) bool {
+	if k.DxGatewayOwnerAccountId != p.DxGatewayOwnerAccountId {
+		k.DxGatewayOwnerAccountId = p.DxGatewayOwnerAccountId
 		md.StatusUpdated = true
 		return true
 	}

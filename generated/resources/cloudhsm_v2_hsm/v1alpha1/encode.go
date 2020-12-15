@@ -37,22 +37,24 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudhsmV2Hsm(r CloudhsmV2Hsm) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudhsmV2Hsm_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_ClusterId(r.Spec.ForProvider, ctyVal)
-	EncodeCloudhsmV2Hsm_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeCloudhsmV2Hsm_HsmEniId(r.Status.AtProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_HsmId(r.Status.AtProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_HsmState(r.Status.AtProvider, ctyVal)
+	EncodeCloudhsmV2Hsm_HsmEniId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudhsmV2Hsm_IpAddress(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
 func EncodeCloudhsmV2Hsm_SubnetId(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
@@ -65,10 +67,6 @@ func EncodeCloudhsmV2Hsm_AvailabilityZone(p CloudhsmV2HsmParameters, vals map[st
 
 func EncodeCloudhsmV2Hsm_ClusterId(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
 	vals["cluster_id"] = cty.StringVal(p.ClusterId)
-}
-
-func EncodeCloudhsmV2Hsm_IpAddress(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
-	vals["ip_address"] = cty.StringVal(p.IpAddress)
 }
 
 func EncodeCloudhsmV2Hsm_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -91,14 +89,14 @@ func EncodeCloudhsmV2Hsm_Timeouts_Create(p Timeouts, vals map[string]cty.Value) 
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeCloudhsmV2Hsm_HsmEniId(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
-	vals["hsm_eni_id"] = cty.StringVal(p.HsmEniId)
-}
-
 func EncodeCloudhsmV2Hsm_HsmId(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
 	vals["hsm_id"] = cty.StringVal(p.HsmId)
 }
 
 func EncodeCloudhsmV2Hsm_HsmState(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
 	vals["hsm_state"] = cty.StringVal(p.HsmState)
+}
+
+func EncodeCloudhsmV2Hsm_HsmEniId(p CloudhsmV2HsmObservation, vals map[string]cty.Value) {
+	vals["hsm_eni_id"] = cty.StringVal(p.HsmEniId)
 }

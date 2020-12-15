@@ -39,10 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDmsReplicationSubnetGroup(prev *DmsReplicationSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDmsReplicationSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
-	DecodeDmsReplicationSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
+	DecodeDmsReplicationSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationSubnetGroup_VpcId(&new.Status.AtProvider, valMap)
 	DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -50,6 +50,16 @@ func DecodeDmsReplicationSubnetGroup(prev *DmsReplicationSubnetGroup, ctyValue c
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
+	p.ReplicationSubnetGroupDescription = ctwhy.ValueAsString(vals["replication_subnet_group_description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
+	p.ReplicationSubnetGroupId = ctwhy.ValueAsString(vals["replication_subnet_group_id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -70,16 +80,6 @@ func DecodeDmsReplicationSubnetGroup_Tags(p *DmsReplicationSubnetGroupParameters
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
-	p.ReplicationSubnetGroupDescription = ctwhy.ValueAsString(vals["replication_subnet_group_description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
-	p.ReplicationSubnetGroupId = ctwhy.ValueAsString(vals["replication_subnet_group_id"])
 }
 
 //primitiveTypeDecodeTemplate

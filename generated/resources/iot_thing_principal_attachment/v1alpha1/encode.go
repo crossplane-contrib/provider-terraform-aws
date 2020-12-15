@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotThingPrincipalAttachment(r IotThingPrincipalAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIotThingPrincipalAttachment_Principal(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingPrincipalAttachment_Thing(r.Spec.ForProvider, ctyVal)
+	EncodeIotThingPrincipalAttachment_Principal(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIotThingPrincipalAttachment_Principal(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
-	vals["principal"] = cty.StringVal(p.Principal)
 }
 
 func EncodeIotThingPrincipalAttachment_Thing(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
 	vals["thing"] = cty.StringVal(p.Thing)
+}
+
+func EncodeIotThingPrincipalAttachment_Principal(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
+	vals["principal"] = cty.StringVal(p.Principal)
 }

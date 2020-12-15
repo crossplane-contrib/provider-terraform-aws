@@ -52,11 +52,11 @@ type MqConfigurationSpec struct {
 
 // A MqConfigurationParameters defines the desired state of a MqConfiguration
 type MqConfigurationParameters struct {
-	Description   string            `json:"description"`
 	Data          string            `json:"data"`
+	Description   string            `json:"description"`
 	EngineType    string            `json:"engine_type"`
-	EngineVersion string            `json:"engine_version"`
 	Name          string            `json:"name"`
+	EngineVersion string            `json:"engine_version"`
 	Tags          map[string]string `json:"tags"`
 }
 

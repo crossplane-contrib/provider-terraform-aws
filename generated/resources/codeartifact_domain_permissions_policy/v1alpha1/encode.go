@@ -37,19 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodeartifactDomainPermissionsPolicy(r CodeartifactDomainPermissionsPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_DomainOwner(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
-	EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_ResourceArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
+	vals["policy_revision"] = cty.StringVal(p.PolicyRevision)
 }
 
 func EncodeCodeartifactDomainPermissionsPolicy_Domain(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
@@ -62,10 +64,6 @@ func EncodeCodeartifactDomainPermissionsPolicy_DomainOwner(p CodeartifactDomainP
 
 func EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	vals["policy_document"] = cty.StringVal(p.PolicyDocument)
-}
-
-func EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
-	vals["policy_revision"] = cty.StringVal(p.PolicyRevision)
 }
 
 func EncodeCodeartifactDomainPermissionsPolicy_ResourceArn(p CodeartifactDomainPermissionsPolicyObservation, vals map[string]cty.Value) {

@@ -37,32 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayGatewayResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_StatusCode(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayGatewayResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayGatewayResponse_ResponseParameters(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	if len(p.ResponseParameters) == 0 {
-		vals["response_parameters"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.ResponseParameters {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["response_parameters"] = cty.MapVal(mVals)
 }
 
 func EncodeApiGatewayGatewayResponse_ResponseTemplates(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
@@ -87,4 +73,16 @@ func EncodeApiGatewayGatewayResponse_RestApiId(p ApiGatewayGatewayResponseParame
 
 func EncodeApiGatewayGatewayResponse_StatusCode(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	vals["status_code"] = cty.StringVal(p.StatusCode)
+}
+
+func EncodeApiGatewayGatewayResponse_ResponseParameters(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	if len(p.ResponseParameters) == 0 {
+		vals["response_parameters"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.ResponseParameters {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["response_parameters"] = cty.MapVal(mVals)
 }

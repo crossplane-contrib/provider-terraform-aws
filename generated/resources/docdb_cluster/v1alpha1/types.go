@@ -52,30 +52,30 @@ type DocdbClusterSpec struct {
 
 // A DocdbClusterParameters defines the desired state of a DocdbCluster
 type DocdbClusterParameters struct {
-	FinalSnapshotIdentifier      string            `json:"final_snapshot_identifier"`
-	MasterUsername               string            `json:"master_username"`
-	SnapshotIdentifier           string            `json:"snapshot_identifier"`
-	Port                         int64             `json:"port"`
 	AvailabilityZones            []string          `json:"availability_zones"`
-	ClusterMembers               []string          `json:"cluster_members"`
-	DbClusterParameterGroupName  string            `json:"db_cluster_parameter_group_name"`
-	DbSubnetGroupName            string            `json:"db_subnet_group_name"`
-	EngineVersion                string            `json:"engine_version"`
-	Tags                         map[string]string `json:"tags"`
-	VpcSecurityGroupIds          []string          `json:"vpc_security_group_ids"`
-	ClusterIdentifierPrefix      string            `json:"cluster_identifier_prefix"`
-	KmsKeyId                     string            `json:"kms_key_id"`
-	PreferredBackupWindow        string            `json:"preferred_backup_window"`
-	PreferredMaintenanceWindow   string            `json:"preferred_maintenance_window"`
-	StorageEncrypted             bool              `json:"storage_encrypted"`
-	EnabledCloudwatchLogsExports []string          `json:"enabled_cloudwatch_logs_exports"`
+	Engine                       string            `json:"engine"`
 	MasterPassword               string            `json:"master_password"`
-	SkipFinalSnapshot            bool              `json:"skip_final_snapshot"`
+	Port                         int64             `json:"port"`
+	PreferredMaintenanceWindow   string            `json:"preferred_maintenance_window"`
+	EnabledCloudwatchLogsExports []string          `json:"enabled_cloudwatch_logs_exports"`
+	MasterUsername               string            `json:"master_username"`
+	Tags                         map[string]string `json:"tags"`
 	ApplyImmediately             bool              `json:"apply_immediately"`
 	DeletionProtection           bool              `json:"deletion_protection"`
-	ClusterIdentifier            string            `json:"cluster_identifier"`
-	Engine                       string            `json:"engine"`
+	SnapshotIdentifier           string            `json:"snapshot_identifier"`
+	StorageEncrypted             bool              `json:"storage_encrypted"`
 	BackupRetentionPeriod        int64             `json:"backup_retention_period"`
+	ClusterMembers               []string          `json:"cluster_members"`
+	DbSubnetGroupName            string            `json:"db_subnet_group_name"`
+	FinalSnapshotIdentifier      string            `json:"final_snapshot_identifier"`
+	KmsKeyId                     string            `json:"kms_key_id"`
+	VpcSecurityGroupIds          []string          `json:"vpc_security_group_ids"`
+	ClusterIdentifierPrefix      string            `json:"cluster_identifier_prefix"`
+	ClusterIdentifier            string            `json:"cluster_identifier"`
+	PreferredBackupWindow        string            `json:"preferred_backup_window"`
+	SkipFinalSnapshot            bool              `json:"skip_final_snapshot"`
+	DbClusterParameterGroupName  string            `json:"db_cluster_parameter_group_name"`
+	EngineVersion                string            `json:"engine_version"`
 	Timeouts                     Timeouts          `json:"timeouts"`
 }
 
@@ -93,9 +93,9 @@ type DocdbClusterStatus struct {
 
 // A DocdbClusterObservation records the observed state of a DocdbCluster
 type DocdbClusterObservation struct {
-	ClusterResourceId string `json:"cluster_resource_id"`
-	Endpoint          string `json:"endpoint"`
 	Arn               string `json:"arn"`
-	HostedZoneId      string `json:"hosted_zone_id"`
+	Endpoint          string `json:"endpoint"`
+	ClusterResourceId string `json:"cluster_resource_id"`
 	ReaderEndpoint    string `json:"reader_endpoint"`
+	HostedZoneId      string `json:"hosted_zone_id"`
 }

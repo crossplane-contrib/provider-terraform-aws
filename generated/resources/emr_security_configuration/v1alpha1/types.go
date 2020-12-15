@@ -52,9 +52,9 @@ type EmrSecurityConfigurationSpec struct {
 
 // A EmrSecurityConfigurationParameters defines the desired state of a EmrSecurityConfiguration
 type EmrSecurityConfigurationParameters struct {
-	Name          string `json:"name"`
 	NamePrefix    string `json:"name_prefix"`
 	Configuration string `json:"configuration"`
+	Name          string `json:"name"`
 }
 
 // A EmrSecurityConfigurationStatus defines the observed state of a EmrSecurityConfiguration

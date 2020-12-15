@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeIotRoleAlias_CredentialDuration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeIotRoleAlias_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeIotRoleAlias_Alias(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIotRoleAlias_CredentialDuration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,6 +62,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeIotRoleAlias_CredentialDuration(k *IotRoleAliasParameters, p *IotRoleAliasParameters, md *plugin.MergeDescription) bool {
+	if k.CredentialDuration != p.CredentialDuration {
+		p.CredentialDuration = k.CredentialDuration
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeIotRoleAlias_RoleArn(k *IotRoleAliasParameters, p *IotRoleAliasParameters, md *plugin.MergeDescription) bool {
 	if k.RoleArn != p.RoleArn {
 		p.RoleArn = k.RoleArn
@@ -75,16 +85,6 @@ func MergeIotRoleAlias_RoleArn(k *IotRoleAliasParameters, p *IotRoleAliasParamet
 func MergeIotRoleAlias_Alias(k *IotRoleAliasParameters, p *IotRoleAliasParameters, md *plugin.MergeDescription) bool {
 	if k.Alias != p.Alias {
 		p.Alias = k.Alias
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIotRoleAlias_CredentialDuration(k *IotRoleAliasParameters, p *IotRoleAliasParameters, md *plugin.MergeDescription) bool {
-	if k.CredentialDuration != p.CredentialDuration {
-		p.CredentialDuration = k.CredentialDuration
 		md.NeedsProviderUpdate = true
 		return true
 	}

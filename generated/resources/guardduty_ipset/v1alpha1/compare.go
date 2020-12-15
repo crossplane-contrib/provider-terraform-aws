@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeGuarddutyIpset_Activate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeGuarddutyIpset_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeGuarddutyIpset_Format(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,16 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyIpset_Activate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeGuarddutyIpset_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGuarddutyIpset_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -74,6 +74,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeGuarddutyIpset_Activate(k *GuarddutyIpsetParameters, p *GuarddutyIpsetParameters, md *plugin.MergeDescription) bool {
+	if k.Activate != p.Activate {
+		p.Activate = k.Activate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeGuarddutyIpset_DetectorId(k *GuarddutyIpsetParameters, p *GuarddutyIpsetParameters, md *plugin.MergeDescription) bool {
+	if k.DetectorId != p.DetectorId {
+		p.DetectorId = k.DetectorId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -110,26 +130,6 @@ func MergeGuarddutyIpset_Name(k *GuarddutyIpsetParameters, p *GuarddutyIpsetPara
 func MergeGuarddutyIpset_Tags(k *GuarddutyIpsetParameters, p *GuarddutyIpsetParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyIpset_Activate(k *GuarddutyIpsetParameters, p *GuarddutyIpsetParameters, md *plugin.MergeDescription) bool {
-	if k.Activate != p.Activate {
-		p.Activate = k.Activate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyIpset_DetectorId(k *GuarddutyIpsetParameters, p *GuarddutyIpsetParameters, md *plugin.MergeDescription) bool {
-	if k.DetectorId != p.DetectorId {
-		p.DetectorId = k.DetectorId
 		md.NeedsProviderUpdate = true
 		return true
 	}

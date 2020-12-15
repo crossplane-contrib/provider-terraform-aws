@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeBackupVaultNotifications_BackupVaultEvents(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeBackupVaultNotifications_BackupVaultName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeBackupVaultNotifications_SnsTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeBackupVaultNotifications_BackupVaultEvents(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,6 +61,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeBackupVaultNotifications_BackupVaultEvents(k *BackupVaultNotificationsParameters, p *BackupVaultNotificationsParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.BackupVaultEvents, p.BackupVaultEvents) {
+		p.BackupVaultEvents = k.BackupVaultEvents
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateSpec
 func MergeBackupVaultNotifications_BackupVaultName(k *BackupVaultNotificationsParameters, p *BackupVaultNotificationsParameters, md *plugin.MergeDescription) bool {
 	if k.BackupVaultName != p.BackupVaultName {
@@ -75,16 +85,6 @@ func MergeBackupVaultNotifications_BackupVaultName(k *BackupVaultNotificationsPa
 func MergeBackupVaultNotifications_SnsTopicArn(k *BackupVaultNotificationsParameters, p *BackupVaultNotificationsParameters, md *plugin.MergeDescription) bool {
 	if k.SnsTopicArn != p.SnsTopicArn {
 		p.SnsTopicArn = k.SnsTopicArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeBackupVaultNotifications_BackupVaultEvents(k *BackupVaultNotificationsParameters, p *BackupVaultNotificationsParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.BackupVaultEvents, p.BackupVaultEvents) {
-		p.BackupVaultEvents = k.BackupVaultEvents
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -39,16 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxBgpPeer(prev *DxBgpPeer, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxBgpPeer_AmazonAddress(&new.Spec.ForProvider, valMap)
-	DecodeDxBgpPeer_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_AddressFamily(&new.Spec.ForProvider, valMap)
-	DecodeDxBgpPeer_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_BgpAuthKey(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_CustomerAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxBgpPeer_AmazonAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxBgpPeer_BgpAsn(&new.Spec.ForProvider, valMap)
+	DecodeDxBgpPeer_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeDxBgpPeer_BgpStatus(&new.Status.AtProvider, valMap)
 	DecodeDxBgpPeer_AwsDevice(&new.Status.AtProvider, valMap)
 	DecodeDxBgpPeer_BgpPeerId(&new.Status.AtProvider, valMap)
+	DecodeDxBgpPeer_BgpStatus(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -57,23 +57,8 @@ func DecodeDxBgpPeer(prev *DxBgpPeer, ctyValue cty.Value) (resource.Managed, err
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_AmazonAddress(p *DxBgpPeerParameters, vals map[string]cty.Value) {
-	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_VirtualInterfaceId(p *DxBgpPeerParameters, vals map[string]cty.Value) {
-	p.VirtualInterfaceId = ctwhy.ValueAsString(vals["virtual_interface_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDxBgpPeer_AddressFamily(p *DxBgpPeerParameters, vals map[string]cty.Value) {
 	p.AddressFamily = ctwhy.ValueAsString(vals["address_family"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_BgpAsn(p *DxBgpPeerParameters, vals map[string]cty.Value) {
-	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -84,6 +69,21 @@ func DecodeDxBgpPeer_BgpAuthKey(p *DxBgpPeerParameters, vals map[string]cty.Valu
 //primitiveTypeDecodeTemplate
 func DecodeDxBgpPeer_CustomerAddress(p *DxBgpPeerParameters, vals map[string]cty.Value) {
 	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxBgpPeer_AmazonAddress(p *DxBgpPeerParameters, vals map[string]cty.Value) {
+	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxBgpPeer_BgpAsn(p *DxBgpPeerParameters, vals map[string]cty.Value) {
+	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxBgpPeer_VirtualInterfaceId(p *DxBgpPeerParameters, vals map[string]cty.Value) {
+	p.VirtualInterfaceId = ctwhy.ValueAsString(vals["virtual_interface_id"])
 }
 
 //containerTypeDecodeTemplate
@@ -104,11 +104,6 @@ func DecodeDxBgpPeer_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_BgpStatus(p *DxBgpPeerObservation, vals map[string]cty.Value) {
-	p.BgpStatus = ctwhy.ValueAsString(vals["bgp_status"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDxBgpPeer_AwsDevice(p *DxBgpPeerObservation, vals map[string]cty.Value) {
 	p.AwsDevice = ctwhy.ValueAsString(vals["aws_device"])
 }
@@ -116,4 +111,9 @@ func DecodeDxBgpPeer_AwsDevice(p *DxBgpPeerObservation, vals map[string]cty.Valu
 //primitiveTypeDecodeTemplate
 func DecodeDxBgpPeer_BgpPeerId(p *DxBgpPeerObservation, vals map[string]cty.Value) {
 	p.BgpPeerId = ctwhy.ValueAsString(vals["bgp_peer_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxBgpPeer_BgpStatus(p *DxBgpPeerObservation, vals map[string]cty.Value) {
+	p.BgpStatus = ctwhy.ValueAsString(vals["bgp_status"])
 }

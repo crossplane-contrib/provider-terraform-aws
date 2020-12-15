@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayModel_Schema(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayModel_ContentType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,6 +51,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeApiGatewayModel_Schema(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,16 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayModel_Schema(k *ApiGatewayModelParameters, p *ApiGatewayModelParameters, md *plugin.MergeDescription) bool {
-	if k.Schema != p.Schema {
-		p.Schema = k.Schema
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -111,6 +101,16 @@ func MergeApiGatewayModel_Name(k *ApiGatewayModelParameters, p *ApiGatewayModelP
 func MergeApiGatewayModel_RestApiId(k *ApiGatewayModelParameters, p *ApiGatewayModelParameters, md *plugin.MergeDescription) bool {
 	if k.RestApiId != p.RestApiId {
 		p.RestApiId = k.RestApiId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayModel_Schema(k *ApiGatewayModelParameters, p *ApiGatewayModelParameters, md *plugin.MergeDescription) bool {
+	if k.Schema != p.Schema {
+		p.Schema = k.Schema
 		md.NeedsProviderUpdate = true
 		return true
 	}

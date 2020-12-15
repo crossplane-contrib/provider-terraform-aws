@@ -39,16 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSagemakerNotebookInstance(prev *SagemakerNotebookInstance, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSagemakerNotebookInstance_LifecycleConfigName(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_Name(&new.Spec.ForProvider, valMap)
-	DecodeSagemakerNotebookInstance_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_RootAccess(&new.Spec.ForProvider, valMap)
-	DecodeSagemakerNotebookInstance_SecurityGroups(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstance_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_DirectInternetAccess(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_InstanceType(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeSagemakerNotebookInstance_Tags(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstance_LifecycleConfigName(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstance_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstance_SecurityGroups(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,18 +58,8 @@ func DecodeSagemakerNotebookInstance(prev *SagemakerNotebookInstance, ctyValue c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSagemakerNotebookInstance_LifecycleConfigName(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	p.LifecycleConfigName = ctwhy.ValueAsString(vals["lifecycle_config_name"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_Name(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSagemakerNotebookInstance_RoleArn(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -77,13 +67,15 @@ func DecodeSagemakerNotebookInstance_RootAccess(p *SagemakerNotebookInstancePara
 	p.RootAccess = ctwhy.ValueAsString(vals["root_access"])
 }
 
-//primitiveCollectionTypeDecodeTemplate
-func DecodeSagemakerNotebookInstance_SecurityGroups(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["security_groups"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
+//primitiveMapTypeDecodeTemplate
+func DecodeSagemakerNotebookInstance_Tags(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
 	}
-	p.SecurityGroups = goVals
+	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate
@@ -106,15 +98,23 @@ func DecodeSagemakerNotebookInstance_KmsKeyId(p *SagemakerNotebookInstanceParame
 	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
 }
 
-//primitiveMapTypeDecodeTemplate
-func DecodeSagemakerNotebookInstance_Tags(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerNotebookInstance_LifecycleConfigName(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	p.LifecycleConfigName = ctwhy.ValueAsString(vals["lifecycle_config_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerNotebookInstance_RoleArn(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeSagemakerNotebookInstance_SecurityGroups(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["security_groups"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
-	p.Tags = vMap
+	p.SecurityGroups = goVals
 }
 
 //primitiveTypeDecodeTemplate

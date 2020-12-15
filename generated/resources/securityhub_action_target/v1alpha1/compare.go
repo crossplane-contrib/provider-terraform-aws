@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeSecurityhubActionTarget_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeSecurityhubActionTarget_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeSecurityhubActionTarget_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSecurityhubActionTarget_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,6 +62,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeSecurityhubActionTarget_Name(k *SecurityhubActionTargetParameters, p *SecurityhubActionTargetParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeSecurityhubActionTarget_Description(k *SecurityhubActionTargetParameters, p *SecurityhubActionTargetParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
@@ -75,16 +85,6 @@ func MergeSecurityhubActionTarget_Description(k *SecurityhubActionTargetParamete
 func MergeSecurityhubActionTarget_Identifier(k *SecurityhubActionTargetParameters, p *SecurityhubActionTargetParameters, md *plugin.MergeDescription) bool {
 	if k.Identifier != p.Identifier {
 		p.Identifier = k.Identifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSecurityhubActionTarget_Name(k *SecurityhubActionTargetParameters, p *SecurityhubActionTargetParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

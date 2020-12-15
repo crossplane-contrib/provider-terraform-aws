@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeWafv2WebAclAssociation_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeWafv2WebAclAssociation_WebAclArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeWafv2WebAclAssociation_WebAclArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeWafv2WebAclAssociation_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeWafv2WebAclAssociation_ResourceArn(k *Wafv2WebAclAssociationParameters, p *Wafv2WebAclAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ResourceArn != p.ResourceArn {
-		p.ResourceArn = k.ResourceArn
+func MergeWafv2WebAclAssociation_WebAclArn(k *Wafv2WebAclAssociationParameters, p *Wafv2WebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.WebAclArn != p.WebAclArn {
+		p.WebAclArn = k.WebAclArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeWafv2WebAclAssociation_ResourceArn(k *Wafv2WebAclAssociationParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeWafv2WebAclAssociation_WebAclArn(k *Wafv2WebAclAssociationParameters, p *Wafv2WebAclAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.WebAclArn != p.WebAclArn {
-		p.WebAclArn = k.WebAclArn
+func MergeWafv2WebAclAssociation_ResourceArn(k *Wafv2WebAclAssociationParameters, p *Wafv2WebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceArn != p.ResourceArn {
+		p.ResourceArn = k.ResourceArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

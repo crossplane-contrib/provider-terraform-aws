@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeKmsAlias_TargetKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeKmsAlias_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeKmsAlias_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeKmsAlias_TargetKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -67,16 +67,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeKmsAlias_TargetKeyId(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin.MergeDescription) bool {
-	if k.TargetKeyId != p.TargetKeyId {
-		p.TargetKeyId = k.TargetKeyId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeKmsAlias_Name(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -90,6 +80,16 @@ func MergeKmsAlias_Name(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin
 func MergeKmsAlias_NamePrefix(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin.MergeDescription) bool {
 	if k.NamePrefix != p.NamePrefix {
 		p.NamePrefix = k.NamePrefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeKmsAlias_TargetKeyId(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin.MergeDescription) bool {
+	if k.TargetKeyId != p.TargetKeyId {
+		p.TargetKeyId = k.TargetKeyId
 		md.NeedsProviderUpdate = true
 		return true
 	}

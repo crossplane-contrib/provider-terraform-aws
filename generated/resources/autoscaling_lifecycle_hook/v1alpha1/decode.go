@@ -40,13 +40,13 @@ func DecodeAutoscalingLifecycleHook(prev *AutoscalingLifecycleHook, ctyValue cty
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeAutoscalingLifecycleHook_LifecycleTransition(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingLifecycleHook_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingLifecycleHook_Name(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingLifecycleHook_NotificationMetadata(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingLifecycleHook_NotificationTargetArn(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingLifecycleHook_AutoscalingGroupName(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingLifecycleHook_DefaultResult(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingLifecycleHook_HeartbeatTimeout(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingLifecycleHook_NotificationTargetArn(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingLifecycleHook_Name(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingLifecycleHook_NotificationMetadata(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingLifecycleHook_RoleArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -61,8 +61,18 @@ func DecodeAutoscalingLifecycleHook_LifecycleTransition(p *AutoscalingLifecycleH
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAutoscalingLifecycleHook_RoleArn(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
+func DecodeAutoscalingLifecycleHook_Name(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAutoscalingLifecycleHook_NotificationMetadata(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	p.NotificationMetadata = ctwhy.ValueAsString(vals["notification_metadata"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAutoscalingLifecycleHook_NotificationTargetArn(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	p.NotificationTargetArn = ctwhy.ValueAsString(vals["notification_target_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,16 +91,6 @@ func DecodeAutoscalingLifecycleHook_HeartbeatTimeout(p *AutoscalingLifecycleHook
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAutoscalingLifecycleHook_NotificationTargetArn(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	p.NotificationTargetArn = ctwhy.ValueAsString(vals["notification_target_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAutoscalingLifecycleHook_Name(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAutoscalingLifecycleHook_NotificationMetadata(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
-	p.NotificationMetadata = ctwhy.ValueAsString(vals["notification_metadata"])
+func DecodeAutoscalingLifecycleHook_RoleArn(p *AutoscalingLifecycleHookParameters, vals map[string]cty.Value) {
+	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }

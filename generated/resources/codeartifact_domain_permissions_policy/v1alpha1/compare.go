@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCodeartifactDomainPermissionsPolicy_PolicyRevision(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCodeartifactDomainPermissionsPolicy_Domain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,11 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeCodeartifactDomainPermissionsPolicy_PolicyDocument(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCodeartifactDomainPermissionsPolicy_PolicyRevision(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -64,6 +64,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCodeartifactDomainPermissionsPolicy_PolicyRevision(k *CodeartifactDomainPermissionsPolicyParameters, p *CodeartifactDomainPermissionsPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.PolicyRevision != p.PolicyRevision {
+		p.PolicyRevision = k.PolicyRevision
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -90,16 +100,6 @@ func MergeCodeartifactDomainPermissionsPolicy_DomainOwner(k *CodeartifactDomainP
 func MergeCodeartifactDomainPermissionsPolicy_PolicyDocument(k *CodeartifactDomainPermissionsPolicyParameters, p *CodeartifactDomainPermissionsPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.PolicyDocument != p.PolicyDocument {
 		p.PolicyDocument = k.PolicyDocument
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCodeartifactDomainPermissionsPolicy_PolicyRevision(k *CodeartifactDomainPermissionsPolicyParameters, p *CodeartifactDomainPermissionsPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.PolicyRevision != p.PolicyRevision {
-		p.PolicyRevision = k.PolicyRevision
 		md.NeedsProviderUpdate = true
 		return true
 	}

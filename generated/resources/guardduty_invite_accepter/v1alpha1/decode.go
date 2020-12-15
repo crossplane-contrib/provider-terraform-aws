@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeGuarddutyInviteAccepter(prev *GuarddutyInviteAccepter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeGuarddutyInviteAccepter_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyInviteAccepter_MasterAccountId(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyInviteAccepter_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyInviteAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
 	eid := valMap["id"].AsString()
@@ -51,13 +51,13 @@ func DecodeGuarddutyInviteAccepter(prev *GuarddutyInviteAccepter, ctyValue cty.V
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeGuarddutyInviteAccepter_DetectorId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
-	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
+func DecodeGuarddutyInviteAccepter_MasterAccountId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
+	p.MasterAccountId = ctwhy.ValueAsString(vals["master_account_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeGuarddutyInviteAccepter_MasterAccountId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
-	p.MasterAccountId = ctwhy.ValueAsString(vals["master_account_id"])
+func DecodeGuarddutyInviteAccepter_DetectorId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
+	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
 //containerTypeDecodeTemplate

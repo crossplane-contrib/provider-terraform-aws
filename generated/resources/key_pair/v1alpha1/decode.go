@@ -39,18 +39,23 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeKeyPair(prev *KeyPair, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeKeyPair_PublicKey(&new.Spec.ForProvider, valMap)
 	DecodeKeyPair_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKeyPair_KeyName(&new.Spec.ForProvider, valMap)
 	DecodeKeyPair_KeyNamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeKeyPair_PublicKey(&new.Spec.ForProvider, valMap)
+	DecodeKeyPair_KeyPairId(&new.Status.AtProvider, valMap)
 	DecodeKeyPair_Arn(&new.Status.AtProvider, valMap)
 	DecodeKeyPair_Fingerprint(&new.Status.AtProvider, valMap)
-	DecodeKeyPair_KeyPairId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKeyPair_PublicKey(p *KeyPairParameters, vals map[string]cty.Value) {
+	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -75,8 +80,8 @@ func DecodeKeyPair_KeyNamePrefix(p *KeyPairParameters, vals map[string]cty.Value
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKeyPair_PublicKey(p *KeyPairParameters, vals map[string]cty.Value) {
-	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
+func DecodeKeyPair_KeyPairId(p *KeyPairObservation, vals map[string]cty.Value) {
+	p.KeyPairId = ctwhy.ValueAsString(vals["key_pair_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -87,9 +92,4 @@ func DecodeKeyPair_Arn(p *KeyPairObservation, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeKeyPair_Fingerprint(p *KeyPairObservation, vals map[string]cty.Value) {
 	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKeyPair_KeyPairId(p *KeyPairObservation, vals map[string]cty.Value) {
-	p.KeyPairId = ctwhy.ValueAsString(vals["key_pair_id"])
 }

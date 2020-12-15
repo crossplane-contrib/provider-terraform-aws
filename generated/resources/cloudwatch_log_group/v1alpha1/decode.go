@@ -39,17 +39,32 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudwatchLogGroup(prev *CloudwatchLogGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloudwatchLogGroup_RetentionInDays(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchLogGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogGroup_KmsKeyId(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogGroup_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogGroup_RetentionInDays(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogGroup_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchLogGroup_KmsKeyId(p *CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchLogGroup_Name(p *CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchLogGroup_NamePrefix(p *CloudwatchLogGroupParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -66,21 +81,6 @@ func DecodeCloudwatchLogGroup_Tags(p *CloudwatchLogGroupParameters, vals map[str
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogGroup_KmsKeyId(p *CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogGroup_Name(p *CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogGroup_NamePrefix(p *CloudwatchLogGroupParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
 //primitiveTypeDecodeTemplate

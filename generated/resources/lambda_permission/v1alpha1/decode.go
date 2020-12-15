@@ -39,15 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLambdaPermission(prev *LambdaPermission, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeLambdaPermission_Action(&new.Spec.ForProvider, valMap)
+	DecodeLambdaPermission_EventSourceToken(&new.Spec.ForProvider, valMap)
 	DecodeLambdaPermission_Principal(&new.Spec.ForProvider, valMap)
 	DecodeLambdaPermission_StatementId(&new.Spec.ForProvider, valMap)
+	DecodeLambdaPermission_Action(&new.Spec.ForProvider, valMap)
+	DecodeLambdaPermission_FunctionName(&new.Spec.ForProvider, valMap)
 	DecodeLambdaPermission_Qualifier(&new.Spec.ForProvider, valMap)
 	DecodeLambdaPermission_SourceAccount(&new.Spec.ForProvider, valMap)
 	DecodeLambdaPermission_SourceArn(&new.Spec.ForProvider, valMap)
 	DecodeLambdaPermission_StatementIdPrefix(&new.Spec.ForProvider, valMap)
-	DecodeLambdaPermission_EventSourceToken(&new.Spec.ForProvider, valMap)
-	DecodeLambdaPermission_FunctionName(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -57,8 +57,8 @@ func DecodeLambdaPermission(prev *LambdaPermission, ctyValue cty.Value) (resourc
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLambdaPermission_Action(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	p.Action = ctwhy.ValueAsString(vals["action"])
+func DecodeLambdaPermission_EventSourceToken(p *LambdaPermissionParameters, vals map[string]cty.Value) {
+	p.EventSourceToken = ctwhy.ValueAsString(vals["event_source_token"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,6 +69,16 @@ func DecodeLambdaPermission_Principal(p *LambdaPermissionParameters, vals map[st
 //primitiveTypeDecodeTemplate
 func DecodeLambdaPermission_StatementId(p *LambdaPermissionParameters, vals map[string]cty.Value) {
 	p.StatementId = ctwhy.ValueAsString(vals["statement_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLambdaPermission_Action(p *LambdaPermissionParameters, vals map[string]cty.Value) {
+	p.Action = ctwhy.ValueAsString(vals["action"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLambdaPermission_FunctionName(p *LambdaPermissionParameters, vals map[string]cty.Value) {
+	p.FunctionName = ctwhy.ValueAsString(vals["function_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -89,14 +99,4 @@ func DecodeLambdaPermission_SourceArn(p *LambdaPermissionParameters, vals map[st
 //primitiveTypeDecodeTemplate
 func DecodeLambdaPermission_StatementIdPrefix(p *LambdaPermissionParameters, vals map[string]cty.Value) {
 	p.StatementIdPrefix = ctwhy.ValueAsString(vals["statement_id_prefix"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLambdaPermission_EventSourceToken(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	p.EventSourceToken = ctwhy.ValueAsString(vals["event_source_token"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLambdaPermission_FunctionName(p *LambdaPermissionParameters, vals map[string]cty.Value) {
-	p.FunctionName = ctwhy.ValueAsString(vals["function_name"])
 }

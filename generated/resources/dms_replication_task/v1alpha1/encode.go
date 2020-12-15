@@ -37,24 +37,30 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDmsReplicationTask(r DmsReplicationTask) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDmsReplicationTask_ReplicationTaskSettings(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationTask_SourceEndpointArn(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationTask_TableMappings(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationTask_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationTask_TargetEndpointArn(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationTask_CdcStartTime(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationTask_MigrationType(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationTask_ReplicationInstanceArn(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationTask_ReplicationTaskId(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationTask_ReplicationTaskSettings(r.Spec.ForProvider, ctyVal)
-	EncodeDmsReplicationTask_SourceEndpointArn(r.Spec.ForProvider, ctyVal)
+	EncodeDmsReplicationTask_TargetEndpointArn(r.Spec.ForProvider, ctyVal)
 	EncodeDmsReplicationTask_ReplicationTaskArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDmsReplicationTask_ReplicationTaskSettings(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
+	vals["replication_task_settings"] = cty.StringVal(p.ReplicationTaskSettings)
+}
+
+func EncodeDmsReplicationTask_SourceEndpointArn(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
+	vals["source_endpoint_arn"] = cty.StringVal(p.SourceEndpointArn)
 }
 
 func EncodeDmsReplicationTask_TableMappings(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
@@ -73,10 +79,6 @@ func EncodeDmsReplicationTask_Tags(p DmsReplicationTaskParameters, vals map[stri
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDmsReplicationTask_TargetEndpointArn(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
-	vals["target_endpoint_arn"] = cty.StringVal(p.TargetEndpointArn)
-}
-
 func EncodeDmsReplicationTask_CdcStartTime(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
 	vals["cdc_start_time"] = cty.StringVal(p.CdcStartTime)
 }
@@ -93,12 +95,8 @@ func EncodeDmsReplicationTask_ReplicationTaskId(p DmsReplicationTaskParameters, 
 	vals["replication_task_id"] = cty.StringVal(p.ReplicationTaskId)
 }
 
-func EncodeDmsReplicationTask_ReplicationTaskSettings(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
-	vals["replication_task_settings"] = cty.StringVal(p.ReplicationTaskSettings)
-}
-
-func EncodeDmsReplicationTask_SourceEndpointArn(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
-	vals["source_endpoint_arn"] = cty.StringVal(p.SourceEndpointArn)
+func EncodeDmsReplicationTask_TargetEndpointArn(p DmsReplicationTaskParameters, vals map[string]cty.Value) {
+	vals["target_endpoint_arn"] = cty.StringVal(p.TargetEndpointArn)
 }
 
 func EncodeDmsReplicationTask_ReplicationTaskArn(p DmsReplicationTaskObservation, vals map[string]cty.Value) {

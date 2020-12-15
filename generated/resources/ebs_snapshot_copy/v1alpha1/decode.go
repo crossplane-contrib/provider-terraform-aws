@@ -39,18 +39,18 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEbsSnapshotCopy(prev *EbsSnapshotCopy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEbsSnapshotCopy_SourceRegion(&new.Spec.ForProvider, valMap)
+	DecodeEbsSnapshotCopy_KmsKeyId(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_SourceSnapshotId(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_Description(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_Encrypted(&new.Spec.ForProvider, valMap)
-	DecodeEbsSnapshotCopy_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeEbsSnapshotCopy_OwnerId(&new.Status.AtProvider, valMap)
-	DecodeEbsSnapshotCopy_OwnerAlias(&new.Status.AtProvider, valMap)
+	DecodeEbsSnapshotCopy_SourceRegion(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_Arn(&new.Status.AtProvider, valMap)
-	DecodeEbsSnapshotCopy_DataEncryptionKeyId(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshotCopy_VolumeId(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshotCopy_VolumeSize(&new.Status.AtProvider, valMap)
+	DecodeEbsSnapshotCopy_DataEncryptionKeyId(&new.Status.AtProvider, valMap)
+	DecodeEbsSnapshotCopy_OwnerAlias(&new.Status.AtProvider, valMap)
+	DecodeEbsSnapshotCopy_OwnerId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -59,8 +59,8 @@ func DecodeEbsSnapshotCopy(prev *EbsSnapshotCopy, ctyValue cty.Value) (resource.
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEbsSnapshotCopy_SourceRegion(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	p.SourceRegion = ctwhy.ValueAsString(vals["source_region"])
+func DecodeEbsSnapshotCopy_KmsKeyId(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -90,28 +90,13 @@ func DecodeEbsSnapshotCopy_Encrypted(p *EbsSnapshotCopyParameters, vals map[stri
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEbsSnapshotCopy_KmsKeyId(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsSnapshotCopy_OwnerId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsSnapshotCopy_OwnerAlias(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	p.OwnerAlias = ctwhy.ValueAsString(vals["owner_alias"])
+func DecodeEbsSnapshotCopy_SourceRegion(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	p.SourceRegion = ctwhy.ValueAsString(vals["source_region"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeEbsSnapshotCopy_Arn(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsSnapshotCopy_DataEncryptionKeyId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	p.DataEncryptionKeyId = ctwhy.ValueAsString(vals["data_encryption_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -122,4 +107,19 @@ func DecodeEbsSnapshotCopy_VolumeId(p *EbsSnapshotCopyObservation, vals map[stri
 //primitiveTypeDecodeTemplate
 func DecodeEbsSnapshotCopy_VolumeSize(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
 	p.VolumeSize = ctwhy.ValueAsInt64(vals["volume_size"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_DataEncryptionKeyId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	p.DataEncryptionKeyId = ctwhy.ValueAsString(vals["data_encryption_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_OwnerAlias(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	p.OwnerAlias = ctwhy.ValueAsString(vals["owner_alias"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_OwnerId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }

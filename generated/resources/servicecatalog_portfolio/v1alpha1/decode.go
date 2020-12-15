@@ -82,9 +82,14 @@ func DecodeServicecatalogPortfolio_Description(p *ServicecatalogPortfolioParamet
 //containerTypeDecodeTemplate
 func DecodeServicecatalogPortfolio_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
+	DecodeServicecatalogPortfolio_Timeouts_Create(p, valMap)
 	DecodeServicecatalogPortfolio_Timeouts_Delete(p, valMap)
 	DecodeServicecatalogPortfolio_Timeouts_Update(p, valMap)
-	DecodeServicecatalogPortfolio_Timeouts_Create(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeServicecatalogPortfolio_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -95,11 +100,6 @@ func DecodeServicecatalogPortfolio_Timeouts_Delete(p *Timeouts, vals map[string]
 //primitiveTypeDecodeTemplate
 func DecodeServicecatalogPortfolio_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
 	p.Update = ctwhy.ValueAsString(vals["update"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeServicecatalogPortfolio_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
 //primitiveTypeDecodeTemplate

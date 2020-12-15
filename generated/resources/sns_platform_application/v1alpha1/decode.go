@@ -39,17 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSnsPlatformApplication(prev *SnsPlatformApplication, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSnsPlatformApplication_EventDeliveryFailureTopicArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsPlatformApplication_FailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsPlatformApplication_Platform(&new.Spec.ForProvider, valMap)
-	DecodeSnsPlatformApplication_PlatformCredential(&new.Spec.ForProvider, valMap)
 	DecodeSnsPlatformApplication_SuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
-	DecodeSnsPlatformApplication_EventEndpointCreatedTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsPlatformApplication_EventDeliveryFailureTopicArn(&new.Spec.ForProvider, valMap)
 	DecodeSnsPlatformApplication_EventEndpointDeletedTopicArn(&new.Spec.ForProvider, valMap)
 	DecodeSnsPlatformApplication_Name(&new.Spec.ForProvider, valMap)
-	DecodeSnsPlatformApplication_PlatformPrincipal(&new.Spec.ForProvider, valMap)
+	DecodeSnsPlatformApplication_Platform(&new.Spec.ForProvider, valMap)
 	DecodeSnsPlatformApplication_SuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsPlatformApplication_PlatformCredential(&new.Spec.ForProvider, valMap)
+	DecodeSnsPlatformApplication_PlatformPrincipal(&new.Spec.ForProvider, valMap)
+	DecodeSnsPlatformApplication_EventEndpointCreatedTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsPlatformApplication_FailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSnsPlatformApplication_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -59,38 +59,13 @@ func DecodeSnsPlatformApplication(prev *SnsPlatformApplication, ctyValue cty.Val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsPlatformApplication_EventDeliveryFailureTopicArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	p.EventDeliveryFailureTopicArn = ctwhy.ValueAsString(vals["event_delivery_failure_topic_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	p.EventEndpointUpdatedTopicArn = ctwhy.ValueAsString(vals["event_endpoint_updated_topic_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsPlatformApplication_FailureFeedbackRoleArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	p.FailureFeedbackRoleArn = ctwhy.ValueAsString(vals["failure_feedback_role_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsPlatformApplication_Platform(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	p.Platform = ctwhy.ValueAsString(vals["platform"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsPlatformApplication_PlatformCredential(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	p.PlatformCredential = ctwhy.ValueAsString(vals["platform_credential"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeSnsPlatformApplication_SuccessFeedbackSampleRate(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
 	p.SuccessFeedbackSampleRate = ctwhy.ValueAsString(vals["success_feedback_sample_rate"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsPlatformApplication_EventEndpointCreatedTopicArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	p.EventEndpointCreatedTopicArn = ctwhy.ValueAsString(vals["event_endpoint_created_topic_arn"])
+func DecodeSnsPlatformApplication_EventDeliveryFailureTopicArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	p.EventDeliveryFailureTopicArn = ctwhy.ValueAsString(vals["event_delivery_failure_topic_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -104,13 +79,38 @@ func DecodeSnsPlatformApplication_Name(p *SnsPlatformApplicationParameters, vals
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsPlatformApplication_PlatformPrincipal(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
-	p.PlatformPrincipal = ctwhy.ValueAsString(vals["platform_principal"])
+func DecodeSnsPlatformApplication_Platform(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	p.Platform = ctwhy.ValueAsString(vals["platform"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeSnsPlatformApplication_SuccessFeedbackRoleArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
 	p.SuccessFeedbackRoleArn = ctwhy.ValueAsString(vals["success_feedback_role_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsPlatformApplication_PlatformCredential(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	p.PlatformCredential = ctwhy.ValueAsString(vals["platform_credential"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsPlatformApplication_PlatformPrincipal(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	p.PlatformPrincipal = ctwhy.ValueAsString(vals["platform_principal"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsPlatformApplication_EventEndpointCreatedTopicArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	p.EventEndpointCreatedTopicArn = ctwhy.ValueAsString(vals["event_endpoint_created_topic_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsPlatformApplication_EventEndpointUpdatedTopicArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	p.EventEndpointUpdatedTopicArn = ctwhy.ValueAsString(vals["event_endpoint_updated_topic_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsPlatformApplication_FailureFeedbackRoleArn(p *SnsPlatformApplicationParameters, vals map[string]cty.Value) {
+	p.FailureFeedbackRoleArn = ctwhy.ValueAsString(vals["failure_feedback_role_arn"])
 }
 
 //primitiveTypeDecodeTemplate

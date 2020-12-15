@@ -41,6 +41,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeApiGatewayClientCertificate_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeApiGatewayClientCertificate_CreatedDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -52,11 +57,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeApiGatewayClientCertificate_PemEncodedCertificate(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayClientCertificate_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,6 +92,16 @@ func MergeApiGatewayClientCertificate_Tags(k *ApiGatewayClientCertificateParamet
 }
 
 //mergePrimitiveTemplateStatus
+func MergeApiGatewayClientCertificate_Arn(k *ApiGatewayClientCertificateObservation, p *ApiGatewayClientCertificateObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeApiGatewayClientCertificate_CreatedDate(k *ApiGatewayClientCertificateObservation, p *ApiGatewayClientCertificateObservation, md *plugin.MergeDescription) bool {
 	if k.CreatedDate != p.CreatedDate {
 		k.CreatedDate = p.CreatedDate
@@ -115,16 +125,6 @@ func MergeApiGatewayClientCertificate_ExpirationDate(k *ApiGatewayClientCertific
 func MergeApiGatewayClientCertificate_PemEncodedCertificate(k *ApiGatewayClientCertificateObservation, p *ApiGatewayClientCertificateObservation, md *plugin.MergeDescription) bool {
 	if k.PemEncodedCertificate != p.PemEncodedCertificate {
 		k.PemEncodedCertificate = p.PemEncodedCertificate
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeApiGatewayClientCertificate_Arn(k *ApiGatewayClientCertificateObservation, p *ApiGatewayClientCertificateObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

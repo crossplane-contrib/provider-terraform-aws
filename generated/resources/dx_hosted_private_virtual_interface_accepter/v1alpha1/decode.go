@@ -39,10 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxHostedPrivateVirtualInterfaceAccepter(prev *DxHostedPrivateVirtualInterfaceAccepter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxHostedPrivateVirtualInterfaceAccepter_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedPrivateVirtualInterfaceAccepter_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDxHostedPrivateVirtualInterfaceAccepter_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -50,6 +50,16 @@ func DecodeDxHostedPrivateVirtualInterfaceAccepter(prev *DxHostedPrivateVirtualI
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	p.DxGatewayId = ctwhy.ValueAsString(vals["dx_gateway_id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -66,16 +76,6 @@ func DecodeDxHostedPrivateVirtualInterfaceAccepter_Tags(p *DxHostedPrivateVirtua
 //primitiveTypeDecodeTemplate
 func DecodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	p.VirtualInterfaceId = ctwhy.ValueAsString(vals["virtual_interface_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p *DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	p.DxGatewayId = ctwhy.ValueAsString(vals["dx_gateway_id"])
 }
 
 //containerTypeDecodeTemplate

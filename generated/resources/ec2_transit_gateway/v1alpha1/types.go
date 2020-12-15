@@ -52,14 +52,14 @@ type Ec2TransitGatewaySpec struct {
 
 // A Ec2TransitGatewayParameters defines the desired state of a Ec2TransitGateway
 type Ec2TransitGatewayParameters struct {
+	AutoAcceptSharedAttachments  string            `json:"auto_accept_shared_attachments"`
+	DefaultRouteTableAssociation string            `json:"default_route_table_association"`
+	Description                  string            `json:"description"`
 	Tags                         map[string]string `json:"tags"`
 	AmazonSideAsn                int64             `json:"amazon_side_asn"`
-	AutoAcceptSharedAttachments  string            `json:"auto_accept_shared_attachments"`
 	DefaultRouteTablePropagation string            `json:"default_route_table_propagation"`
-	Description                  string            `json:"description"`
-	VpnEcmpSupport               string            `json:"vpn_ecmp_support"`
-	DefaultRouteTableAssociation string            `json:"default_route_table_association"`
 	DnsSupport                   string            `json:"dns_support"`
+	VpnEcmpSupport               string            `json:"vpn_ecmp_support"`
 }
 
 // A Ec2TransitGatewayStatus defines the observed state of a Ec2TransitGateway

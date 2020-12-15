@@ -52,9 +52,9 @@ type WorklinkWebsiteCertificateAuthorityAssociationSpec struct {
 
 // A WorklinkWebsiteCertificateAuthorityAssociationParameters defines the desired state of a WorklinkWebsiteCertificateAuthorityAssociation
 type WorklinkWebsiteCertificateAuthorityAssociationParameters struct {
+	FleetArn    string `json:"fleet_arn"`
 	Certificate string `json:"certificate"`
 	DisplayName string `json:"display_name"`
-	FleetArn    string `json:"fleet_arn"`
 }
 
 // A WorklinkWebsiteCertificateAuthorityAssociationStatus defines the observed state of a WorklinkWebsiteCertificateAuthorityAssociation

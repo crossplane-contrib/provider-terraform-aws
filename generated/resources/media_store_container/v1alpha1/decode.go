@@ -41,8 +41,8 @@ func DecodeMediaStoreContainer(prev *MediaStoreContainer, ctyValue cty.Value) (r
 	new := prev.DeepCopy()
 	DecodeMediaStoreContainer_Name(&new.Spec.ForProvider, valMap)
 	DecodeMediaStoreContainer_Tags(&new.Spec.ForProvider, valMap)
-	DecodeMediaStoreContainer_Endpoint(&new.Status.AtProvider, valMap)
 	DecodeMediaStoreContainer_Arn(&new.Status.AtProvider, valMap)
+	DecodeMediaStoreContainer_Endpoint(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -67,11 +67,11 @@ func DecodeMediaStoreContainer_Tags(p *MediaStoreContainerParameters, vals map[s
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeMediaStoreContainer_Endpoint(p *MediaStoreContainerObservation, vals map[string]cty.Value) {
-	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
+func DecodeMediaStoreContainer_Arn(p *MediaStoreContainerObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeMediaStoreContainer_Arn(p *MediaStoreContainerObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeMediaStoreContainer_Endpoint(p *MediaStoreContainerObservation, vals map[string]cty.Value) {
+	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
 }

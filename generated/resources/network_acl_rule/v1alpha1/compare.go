@@ -31,12 +31,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeNetworkAclRule_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNetworkAclRule_FromPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkAclRule_IcmpType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkAclRule_Ipv6CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNetworkAclRule_RuleNumber(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkAclRule_ToPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,7 +71,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNetworkAclRule_Ipv6CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNetworkAclRule_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,22 +81,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNetworkAclRule_ToPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeNetworkAclRule_Egress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNetworkAclRule_FromPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNetworkAclRule_IcmpType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -98,9 +98,29 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_Protocol(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Protocol != p.Protocol {
-		p.Protocol = k.Protocol
+func MergeNetworkAclRule_FromPort(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.FromPort != p.FromPort {
+		p.FromPort = k.FromPort
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkAclRule_IcmpType(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.IcmpType != p.IcmpType {
+		p.IcmpType = k.IcmpType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkAclRule_Ipv6CidrBlock(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Ipv6CidrBlock != p.Ipv6CidrBlock {
+		p.Ipv6CidrBlock = k.Ipv6CidrBlock
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -111,6 +131,16 @@ func MergeNetworkAclRule_Protocol(k *NetworkAclRuleParameters, p *NetworkAclRule
 func MergeNetworkAclRule_RuleNumber(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
 	if k.RuleNumber != p.RuleNumber {
 		p.RuleNumber = k.RuleNumber
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkAclRule_ToPort(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.ToPort != p.ToPort {
+		p.ToPort = k.ToPort
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -148,9 +178,9 @@ func MergeNetworkAclRule_NetworkAclId(k *NetworkAclRuleParameters, p *NetworkAcl
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_Ipv6CidrBlock(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Ipv6CidrBlock != p.Ipv6CidrBlock {
-		p.Ipv6CidrBlock = k.Ipv6CidrBlock
+func MergeNetworkAclRule_Protocol(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Protocol != p.Protocol {
+		p.Protocol = k.Protocol
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -168,39 +198,9 @@ func MergeNetworkAclRule_RuleAction(k *NetworkAclRuleParameters, p *NetworkAclRu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_ToPort(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.ToPort != p.ToPort {
-		p.ToPort = k.ToPort
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeNetworkAclRule_Egress(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
 	if k.Egress != p.Egress {
 		p.Egress = k.Egress
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_FromPort(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.FromPort != p.FromPort {
-		p.FromPort = k.FromPort
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_IcmpType(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.IcmpType != p.IcmpType {
-		p.IcmpType = k.IcmpType
 		md.NeedsProviderUpdate = true
 		return true
 	}

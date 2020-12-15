@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDmsReplicationSubnetGroup_SubnetIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsReplicationSubnetGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationSubnetGroup_SubnetIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsReplicationSubnetGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,26 +71,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDmsReplicationSubnetGroup_SubnetIds(k *DmsReplicationSubnetGroupParameters, p *DmsReplicationSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
-		p.SubnetIds = k.SubnetIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDmsReplicationSubnetGroup_Tags(k *DmsReplicationSubnetGroupParameters, p *DmsReplicationSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(k *DmsReplicationSubnetGroupParameters, p *DmsReplicationSubnetGroupParameters, md *plugin.MergeDescription) bool {
 	if k.ReplicationSubnetGroupDescription != p.ReplicationSubnetGroupDescription {
@@ -105,6 +85,26 @@ func MergeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(k *DmsRepl
 func MergeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(k *DmsReplicationSubnetGroupParameters, p *DmsReplicationSubnetGroupParameters, md *plugin.MergeDescription) bool {
 	if k.ReplicationSubnetGroupId != p.ReplicationSubnetGroupId {
 		p.ReplicationSubnetGroupId = k.ReplicationSubnetGroupId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDmsReplicationSubnetGroup_SubnetIds(k *DmsReplicationSubnetGroupParameters, p *DmsReplicationSubnetGroupParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
+		p.SubnetIds = k.SubnetIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDmsReplicationSubnetGroup_Tags(k *DmsReplicationSubnetGroupParameters, p *DmsReplicationSubnetGroupParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

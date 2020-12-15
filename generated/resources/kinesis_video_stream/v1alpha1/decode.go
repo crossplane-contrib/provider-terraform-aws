@@ -40,15 +40,15 @@ func DecodeKinesisVideoStream(prev *KinesisVideoStream, ctyValue cty.Value) (res
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeKinesisVideoStream_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeKinesisVideoStream_Tags(&new.Spec.ForProvider, valMap)
+	DecodeKinesisVideoStream_Name(&new.Spec.ForProvider, valMap)
 	DecodeKinesisVideoStream_DataRetentionInHours(&new.Spec.ForProvider, valMap)
 	DecodeKinesisVideoStream_DeviceName(&new.Spec.ForProvider, valMap)
 	DecodeKinesisVideoStream_MediaType(&new.Spec.ForProvider, valMap)
-	DecodeKinesisVideoStream_Name(&new.Spec.ForProvider, valMap)
+	DecodeKinesisVideoStream_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKinesisVideoStream_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeKinesisVideoStream_Arn(&new.Status.AtProvider, valMap)
-	DecodeKinesisVideoStream_CreationTime(&new.Status.AtProvider, valMap)
 	DecodeKinesisVideoStream_Version(&new.Status.AtProvider, valMap)
+	DecodeKinesisVideoStream_CreationTime(&new.Status.AtProvider, valMap)
+	DecodeKinesisVideoStream_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -61,15 +61,9 @@ func DecodeKinesisVideoStream_KmsKeyId(p *KinesisVideoStreamParameters, vals map
 	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
 }
 
-//primitiveMapTypeDecodeTemplate
-func DecodeKinesisVideoStream_Tags(p *KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
+//primitiveTypeDecodeTemplate
+func DecodeKinesisVideoStream_Name(p *KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -87,9 +81,15 @@ func DecodeKinesisVideoStream_MediaType(p *KinesisVideoStreamParameters, vals ma
 	p.MediaType = ctwhy.ValueAsString(vals["media_type"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeKinesisVideoStream_Name(p *KinesisVideoStreamParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+//primitiveMapTypeDecodeTemplate
+func DecodeKinesisVideoStream_Tags(p *KinesisVideoStreamParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //containerTypeDecodeTemplate
@@ -116,8 +116,8 @@ func DecodeKinesisVideoStream_Timeouts_Update(p *Timeouts, vals map[string]cty.V
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKinesisVideoStream_Arn(p *KinesisVideoStreamObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeKinesisVideoStream_Version(p *KinesisVideoStreamObservation, vals map[string]cty.Value) {
+	p.Version = ctwhy.ValueAsString(vals["version"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -126,6 +126,6 @@ func DecodeKinesisVideoStream_CreationTime(p *KinesisVideoStreamObservation, val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKinesisVideoStream_Version(p *KinesisVideoStreamObservation, vals map[string]cty.Value) {
-	p.Version = ctwhy.ValueAsString(vals["version"])
+func DecodeKinesisVideoStream_Arn(p *KinesisVideoStreamObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

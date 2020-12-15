@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeServiceDiscoveryPrivateDnsNamespace_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeServiceDiscoveryPrivateDnsNamespace_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,11 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeServiceDiscoveryPrivateDnsNamespace_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeServiceDiscoveryPrivateDnsNamespace_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -69,6 +69,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeServiceDiscoveryPrivateDnsNamespace_Name(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -95,16 +105,6 @@ func MergeServiceDiscoveryPrivateDnsNamespace_Vpc(k *ServiceDiscoveryPrivateDnsN
 func MergeServiceDiscoveryPrivateDnsNamespace_Description(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeServiceDiscoveryPrivateDnsNamespace_Name(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

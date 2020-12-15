@@ -39,25 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeXrayGroup(prev *XrayGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeXrayGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_FilterExpression(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_GroupName(&new.Spec.ForProvider, valMap)
-	DecodeXrayGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeXrayGroup_FilterExpression(p *XrayGroupParameters, vals map[string]cty.Value) {
-	p.FilterExpression = ctwhy.ValueAsString(vals["filter_expression"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeXrayGroup_GroupName(p *XrayGroupParameters, vals map[string]cty.Value) {
-	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -69,6 +59,16 @@ func DecodeXrayGroup_Tags(p *XrayGroupParameters, vals map[string]cty.Value) {
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeXrayGroup_FilterExpression(p *XrayGroupParameters, vals map[string]cty.Value) {
+	p.FilterExpression = ctwhy.ValueAsString(vals["filter_expression"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeXrayGroup_GroupName(p *XrayGroupParameters, vals map[string]cty.Value) {
+	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
 }
 
 //primitiveTypeDecodeTemplate

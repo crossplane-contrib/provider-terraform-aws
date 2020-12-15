@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLightsailInstance_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailInstance_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLightsailInstance_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,7 +51,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeLightsailInstance_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLightsailInstance_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeLightsailInstance_UserData(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLightsailInstance_CreatedAt(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,17 +76,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeLightsailInstance_PublicIpAddress(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLightsailInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeLightsailInstance_Username(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailInstance_CpuCount(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailInstance_CreatedAt(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -96,17 +101,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLightsailInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailInstance_PublicIpAddress(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLightsailInstance_RamSize(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLightsailInstance_CpuCount(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -119,26 +119,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLightsailInstance_AvailabilityZone(k *LightsailInstanceParameters, p *LightsailInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLightsailInstance_Name(k *LightsailInstanceParameters, p *LightsailInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -182,10 +162,40 @@ func MergeLightsailInstance_KeyPairName(k *LightsailInstanceParameters, p *Light
 }
 
 //mergePrimitiveTemplateSpec
+func MergeLightsailInstance_Name(k *LightsailInstanceParameters, p *LightsailInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLightsailInstance_AvailabilityZone(k *LightsailInstanceParameters, p *LightsailInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeLightsailInstance_UserData(k *LightsailInstanceParameters, p *LightsailInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.UserData != p.UserData {
 		p.UserData = k.UserData
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLightsailInstance_CreatedAt(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.CreatedAt != p.CreatedAt {
+		k.CreatedAt = p.CreatedAt
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -202,29 +212,29 @@ func MergeLightsailInstance_Ipv6Address(k *LightsailInstanceObservation, p *Ligh
 }
 
 //mergePrimitiveTemplateStatus
+func MergeLightsailInstance_PublicIpAddress(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.PublicIpAddress != p.PublicIpAddress {
+		k.PublicIpAddress = p.PublicIpAddress
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLightsailInstance_Arn(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeLightsailInstance_Username(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
 	if k.Username != p.Username {
 		k.Username = p.Username
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeLightsailInstance_CpuCount(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.CpuCount != p.CpuCount {
-		k.CpuCount = p.CpuCount
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeLightsailInstance_CreatedAt(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.CreatedAt != p.CreatedAt {
-		k.CreatedAt = p.CreatedAt
 		md.StatusUpdated = true
 		return true
 	}
@@ -252,29 +262,19 @@ func MergeLightsailInstance_PrivateIpAddress(k *LightsailInstanceObservation, p 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeLightsailInstance_Arn(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeLightsailInstance_PublicIpAddress(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.PublicIpAddress != p.PublicIpAddress {
-		k.PublicIpAddress = p.PublicIpAddress
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeLightsailInstance_RamSize(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
 	if k.RamSize != p.RamSize {
 		k.RamSize = p.RamSize
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLightsailInstance_CpuCount(k *LightsailInstanceObservation, p *LightsailInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.CpuCount != p.CpuCount {
+		k.CpuCount = p.CpuCount
 		md.StatusUpdated = true
 		return true
 	}

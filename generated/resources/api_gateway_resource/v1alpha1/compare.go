@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeApiGatewayResource_RestApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeApiGatewayResource_ParentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeApiGatewayResource_PathPart(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayResource_RestApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,6 +62,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeApiGatewayResource_RestApiId(k *ApiGatewayResourceParameters, p *ApiGatewayResourceParameters, md *plugin.MergeDescription) bool {
+	if k.RestApiId != p.RestApiId {
+		p.RestApiId = k.RestApiId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeApiGatewayResource_ParentId(k *ApiGatewayResourceParameters, p *ApiGatewayResourceParameters, md *plugin.MergeDescription) bool {
 	if k.ParentId != p.ParentId {
 		p.ParentId = k.ParentId
@@ -75,16 +85,6 @@ func MergeApiGatewayResource_ParentId(k *ApiGatewayResourceParameters, p *ApiGat
 func MergeApiGatewayResource_PathPart(k *ApiGatewayResourceParameters, p *ApiGatewayResourceParameters, md *plugin.MergeDescription) bool {
 	if k.PathPart != p.PathPart {
 		p.PathPart = k.PathPart
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayResource_RestApiId(k *ApiGatewayResourceParameters, p *ApiGatewayResourceParameters, md *plugin.MergeDescription) bool {
-	if k.RestApiId != p.RestApiId {
-		p.RestApiId = k.RestApiId
 		md.NeedsProviderUpdate = true
 		return true
 	}

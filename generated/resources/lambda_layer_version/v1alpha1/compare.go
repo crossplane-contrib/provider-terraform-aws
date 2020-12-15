@@ -36,12 +36,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaLayerVersion_S3Key(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLambdaLayerVersion_S3ObjectVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaLayerVersion_SourceCodeHash(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLambdaLayerVersion_S3Key(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,17 +71,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaLayerVersion_S3ObjectVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLambdaLayerVersion_Version(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLambdaLayerVersion_LayerArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeLambdaLayerVersion_SourceCodeHash(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,12 +81,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaLayerVersion_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeLambdaLayerVersion_Version(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeLambdaLayerVersion_CreatedDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLambdaLayerVersion_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLambdaLayerVersion_LayerArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -122,9 +122,9 @@ func MergeLambdaLayerVersion_CompatibleRuntimes(k *LambdaLayerVersionParameters,
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaLayerVersion_S3Key(k *LambdaLayerVersionParameters, p *LambdaLayerVersionParameters, md *plugin.MergeDescription) bool {
-	if k.S3Key != p.S3Key {
-		p.S3Key = k.S3Key
+func MergeLambdaLayerVersion_S3ObjectVersion(k *LambdaLayerVersionParameters, p *LambdaLayerVersionParameters, md *plugin.MergeDescription) bool {
+	if k.S3ObjectVersion != p.S3ObjectVersion {
+		p.S3ObjectVersion = k.S3ObjectVersion
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -132,9 +132,9 @@ func MergeLambdaLayerVersion_S3Key(k *LambdaLayerVersionParameters, p *LambdaLay
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaLayerVersion_SourceCodeHash(k *LambdaLayerVersionParameters, p *LambdaLayerVersionParameters, md *plugin.MergeDescription) bool {
-	if k.SourceCodeHash != p.SourceCodeHash {
-		p.SourceCodeHash = k.SourceCodeHash
+func MergeLambdaLayerVersion_S3Key(k *LambdaLayerVersionParameters, p *LambdaLayerVersionParameters, md *plugin.MergeDescription) bool {
+	if k.S3Key != p.S3Key {
+		p.S3Key = k.S3Key
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -192,10 +192,20 @@ func MergeLambdaLayerVersion_S3Bucket(k *LambdaLayerVersionParameters, p *Lambda
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaLayerVersion_S3ObjectVersion(k *LambdaLayerVersionParameters, p *LambdaLayerVersionParameters, md *plugin.MergeDescription) bool {
-	if k.S3ObjectVersion != p.S3ObjectVersion {
-		p.S3ObjectVersion = k.S3ObjectVersion
+func MergeLambdaLayerVersion_SourceCodeHash(k *LambdaLayerVersionParameters, p *LambdaLayerVersionParameters, md *plugin.MergeDescription) bool {
+	if k.SourceCodeHash != p.SourceCodeHash {
+		p.SourceCodeHash = k.SourceCodeHash
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLambdaLayerVersion_SourceCodeSize(k *LambdaLayerVersionObservation, p *LambdaLayerVersionObservation, md *plugin.MergeDescription) bool {
+	if k.SourceCodeSize != p.SourceCodeSize {
+		k.SourceCodeSize = p.SourceCodeSize
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -212,19 +222,9 @@ func MergeLambdaLayerVersion_Version(k *LambdaLayerVersionObservation, p *Lambda
 }
 
 //mergePrimitiveTemplateStatus
-func MergeLambdaLayerVersion_LayerArn(k *LambdaLayerVersionObservation, p *LambdaLayerVersionObservation, md *plugin.MergeDescription) bool {
-	if k.LayerArn != p.LayerArn {
-		k.LayerArn = p.LayerArn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeLambdaLayerVersion_SourceCodeSize(k *LambdaLayerVersionObservation, p *LambdaLayerVersionObservation, md *plugin.MergeDescription) bool {
-	if k.SourceCodeSize != p.SourceCodeSize {
-		k.SourceCodeSize = p.SourceCodeSize
+func MergeLambdaLayerVersion_CreatedDate(k *LambdaLayerVersionObservation, p *LambdaLayerVersionObservation, md *plugin.MergeDescription) bool {
+	if k.CreatedDate != p.CreatedDate {
+		k.CreatedDate = p.CreatedDate
 		md.StatusUpdated = true
 		return true
 	}
@@ -242,9 +242,9 @@ func MergeLambdaLayerVersion_Arn(k *LambdaLayerVersionObservation, p *LambdaLaye
 }
 
 //mergePrimitiveTemplateStatus
-func MergeLambdaLayerVersion_CreatedDate(k *LambdaLayerVersionObservation, p *LambdaLayerVersionObservation, md *plugin.MergeDescription) bool {
-	if k.CreatedDate != p.CreatedDate {
-		k.CreatedDate = p.CreatedDate
+func MergeLambdaLayerVersion_LayerArn(k *LambdaLayerVersionObservation, p *LambdaLayerVersionObservation, md *plugin.MergeDescription) bool {
+	if k.LayerArn != p.LayerArn {
+		k.LayerArn = p.LayerArn
 		md.StatusUpdated = true
 		return true
 	}

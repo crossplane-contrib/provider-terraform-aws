@@ -85,12 +85,12 @@ func MergeDxGateway_Name(k *DxGatewayParameters, p *DxGatewayParameters, md *plu
 func MergeDxGateway_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeDxGateway_Timeouts_Delete(k, p, md)
+	updated = MergeDxGateway_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxGateway_Timeouts_Create(k, p, md)
+	updated = MergeDxGateway_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,9 +102,9 @@ func MergeDxGateway_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescripti
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxGateway_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Delete != p.Delete {
-		p.Delete = k.Delete
+func MergeDxGateway_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -112,9 +112,9 @@ func MergeDxGateway_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDe
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxGateway_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
+func MergeDxGateway_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Delete != p.Delete {
+		p.Delete = k.Delete
 		md.NeedsProviderUpdate = true
 		return true
 	}

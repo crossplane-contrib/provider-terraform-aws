@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRamResourceShareAccepter_InvitationArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRamResourceShareAccepter_ReceiverAccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,12 +51,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRamResourceShareAccepter_ShareId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRamResourceShareAccepter_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRamResourceShareAccepter_InvitationArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,7 +61,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeRamResourceShareAccepter_ShareId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeRamResourceShareAccepter_ShareName(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRamResourceShareAccepter_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -137,16 +137,6 @@ func MergeRamResourceShareAccepter_Timeouts_Delete(k *Timeouts, p *Timeouts, md 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRamResourceShareAccepter_InvitationArn(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.InvitationArn != p.InvitationArn {
-		k.InvitationArn = p.InvitationArn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeRamResourceShareAccepter_ReceiverAccountId(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
 	if k.ReceiverAccountId != p.ReceiverAccountId {
 		k.ReceiverAccountId = p.ReceiverAccountId
@@ -167,19 +157,9 @@ func MergeRamResourceShareAccepter_SenderAccountId(k *RamResourceShareAccepterOb
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRamResourceShareAccepter_ShareId(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.ShareId != p.ShareId {
-		k.ShareId = p.ShareId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeRamResourceShareAccepter_Status(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.Status != p.Status {
-		k.Status = p.Status
+func MergeRamResourceShareAccepter_InvitationArn(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.InvitationArn != p.InvitationArn {
+		k.InvitationArn = p.InvitationArn
 		md.StatusUpdated = true
 		return true
 	}
@@ -197,9 +177,29 @@ func MergeRamResourceShareAccepter_Resources(k *RamResourceShareAccepterObservat
 }
 
 //mergePrimitiveTemplateStatus
+func MergeRamResourceShareAccepter_ShareId(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.ShareId != p.ShareId {
+		k.ShareId = p.ShareId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeRamResourceShareAccepter_ShareName(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
 	if k.ShareName != p.ShareName {
 		k.ShareName = p.ShareName
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRamResourceShareAccepter_Status(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.Status != p.Status {
+		k.Status = p.Status
 		md.StatusUpdated = true
 		return true
 	}

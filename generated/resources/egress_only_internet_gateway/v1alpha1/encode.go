@@ -37,17 +37,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEgressOnlyInternetGateway(r EgressOnlyInternetGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEgressOnlyInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEgressOnlyInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeEgressOnlyInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEgressOnlyInternetGateway_VpcId(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeEgressOnlyInternetGateway_Tags(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
@@ -60,8 +62,4 @@ func EncodeEgressOnlyInternetGateway_Tags(p EgressOnlyInternetGatewayParameters,
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeEgressOnlyInternetGateway_VpcId(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }

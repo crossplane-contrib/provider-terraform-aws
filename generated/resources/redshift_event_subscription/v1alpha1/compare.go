@@ -31,12 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRedshiftEventSubscription_SourceIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRedshiftEventSubscription_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRedshiftEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRedshiftEventSubscription_SnsTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftEventSubscription_SourceIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,7 +51,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRedshiftEventSubscription_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRedshiftEventSubscription_Severity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,22 +71,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRedshiftEventSubscription_Severity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRedshiftEventSubscription_SnsTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRedshiftEventSubscription_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRedshiftEventSubscription_CustomerAwsId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRedshiftEventSubscription_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,7 +86,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRedshiftEventSubscription_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRedshiftEventSubscription_CustomerAwsId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,10 +101,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeRedshiftEventSubscription_SourceIds(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.SourceIds, p.SourceIds) {
-		p.SourceIds = k.SourceIds
+//mergePrimitiveTemplateSpec
+func MergeRedshiftEventSubscription_Enabled(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -112,9 +112,19 @@ func MergeRedshiftEventSubscription_SourceIds(k *RedshiftEventSubscriptionParame
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRedshiftEventSubscription_SourceType(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.SourceType != p.SourceType {
-		p.SourceType = k.SourceType
+func MergeRedshiftEventSubscription_SnsTopicArn(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.SnsTopicArn != p.SnsTopicArn {
+		p.SnsTopicArn = k.SnsTopicArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeRedshiftEventSubscription_SourceIds(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SourceIds, p.SourceIds) {
+		p.SourceIds = k.SourceIds
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -132,9 +142,19 @@ func MergeRedshiftEventSubscription_Tags(k *RedshiftEventSubscriptionParameters,
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRedshiftEventSubscription_Enabled(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Enabled != p.Enabled {
-		p.Enabled = k.Enabled
+func MergeRedshiftEventSubscription_Severity(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Severity != p.Severity {
+		p.Severity = k.Severity
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRedshiftEventSubscription_SourceType(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.SourceType != p.SourceType {
+		p.SourceType = k.SourceType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -155,26 +175,6 @@ func MergeRedshiftEventSubscription_EventCategories(k *RedshiftEventSubscription
 func MergeRedshiftEventSubscription_Name(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRedshiftEventSubscription_Severity(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Severity != p.Severity {
-		p.Severity = k.Severity
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRedshiftEventSubscription_SnsTopicArn(k *RedshiftEventSubscriptionParameters, p *RedshiftEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.SnsTopicArn != p.SnsTopicArn {
-		p.SnsTopicArn = k.SnsTopicArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -237,9 +237,9 @@ func MergeRedshiftEventSubscription_Timeouts_Update(k *Timeouts, p *Timeouts, md
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRedshiftEventSubscription_CustomerAwsId(k *RedshiftEventSubscriptionObservation, p *RedshiftEventSubscriptionObservation, md *plugin.MergeDescription) bool {
-	if k.CustomerAwsId != p.CustomerAwsId {
-		k.CustomerAwsId = p.CustomerAwsId
+func MergeRedshiftEventSubscription_Status(k *RedshiftEventSubscriptionObservation, p *RedshiftEventSubscriptionObservation, md *plugin.MergeDescription) bool {
+	if k.Status != p.Status {
+		k.Status = p.Status
 		md.StatusUpdated = true
 		return true
 	}
@@ -257,9 +257,9 @@ func MergeRedshiftEventSubscription_Arn(k *RedshiftEventSubscriptionObservation,
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRedshiftEventSubscription_Status(k *RedshiftEventSubscriptionObservation, p *RedshiftEventSubscriptionObservation, md *plugin.MergeDescription) bool {
-	if k.Status != p.Status {
-		k.Status = p.Status
+func MergeRedshiftEventSubscription_CustomerAwsId(k *RedshiftEventSubscriptionObservation, p *RedshiftEventSubscriptionObservation, md *plugin.MergeDescription) bool {
+	if k.CustomerAwsId != p.CustomerAwsId {
+		k.CustomerAwsId = p.CustomerAwsId
 		md.StatusUpdated = true
 		return true
 	}

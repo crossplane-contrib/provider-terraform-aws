@@ -39,14 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeKmsKey(prev *KmsKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeKmsKey_CustomerMasterKeySpec(&new.Spec.ForProvider, valMap)
-	DecodeKmsKey_DeletionWindowInDays(&new.Spec.ForProvider, valMap)
+	DecodeKmsKey_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKmsKey_EnableKeyRotation(&new.Spec.ForProvider, valMap)
+	DecodeKmsKey_IsEnabled(&new.Spec.ForProvider, valMap)
 	DecodeKmsKey_KeyUsage(&new.Spec.ForProvider, valMap)
 	DecodeKmsKey_Policy(&new.Spec.ForProvider, valMap)
-	DecodeKmsKey_Tags(&new.Spec.ForProvider, valMap)
+	DecodeKmsKey_CustomerMasterKeySpec(&new.Spec.ForProvider, valMap)
+	DecodeKmsKey_DeletionWindowInDays(&new.Spec.ForProvider, valMap)
 	DecodeKmsKey_Description(&new.Spec.ForProvider, valMap)
-	DecodeKmsKey_IsEnabled(&new.Spec.ForProvider, valMap)
 	DecodeKmsKey_Arn(&new.Status.AtProvider, valMap)
 	DecodeKmsKey_KeyId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -54,31 +54,6 @@ func DecodeKmsKey(prev *KmsKey, ctyValue cty.Value) (resource.Managed, error) {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsKey_CustomerMasterKeySpec(p *KmsKeyParameters, vals map[string]cty.Value) {
-	p.CustomerMasterKeySpec = ctwhy.ValueAsString(vals["customer_master_key_spec"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsKey_DeletionWindowInDays(p *KmsKeyParameters, vals map[string]cty.Value) {
-	p.DeletionWindowInDays = ctwhy.ValueAsInt64(vals["deletion_window_in_days"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsKey_EnableKeyRotation(p *KmsKeyParameters, vals map[string]cty.Value) {
-	p.EnableKeyRotation = ctwhy.ValueAsBool(vals["enable_key_rotation"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsKey_KeyUsage(p *KmsKeyParameters, vals map[string]cty.Value) {
-	p.KeyUsage = ctwhy.ValueAsString(vals["key_usage"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsKey_Policy(p *KmsKeyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -93,13 +68,38 @@ func DecodeKmsKey_Tags(p *KmsKeyParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKmsKey_Description(p *KmsKeyParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
+func DecodeKmsKey_EnableKeyRotation(p *KmsKeyParameters, vals map[string]cty.Value) {
+	p.EnableKeyRotation = ctwhy.ValueAsBool(vals["enable_key_rotation"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeKmsKey_IsEnabled(p *KmsKeyParameters, vals map[string]cty.Value) {
 	p.IsEnabled = ctwhy.ValueAsBool(vals["is_enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsKey_KeyUsage(p *KmsKeyParameters, vals map[string]cty.Value) {
+	p.KeyUsage = ctwhy.ValueAsString(vals["key_usage"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsKey_Policy(p *KmsKeyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsKey_CustomerMasterKeySpec(p *KmsKeyParameters, vals map[string]cty.Value) {
+	p.CustomerMasterKeySpec = ctwhy.ValueAsString(vals["customer_master_key_spec"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsKey_DeletionWindowInDays(p *KmsKeyParameters, vals map[string]cty.Value) {
+	p.DeletionWindowInDays = ctwhy.ValueAsInt64(vals["deletion_window_in_days"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsKey_Description(p *KmsKeyParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate

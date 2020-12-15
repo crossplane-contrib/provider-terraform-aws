@@ -63,16 +63,16 @@ func DecodeVpcEndpointSubnetAssociation_VpcEndpointId(p *VpcEndpointSubnetAssoci
 //containerTypeDecodeTemplate
 func DecodeVpcEndpointSubnetAssociation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
-	DecodeVpcEndpointSubnetAssociation_Timeouts_Delete(p, valMap)
 	DecodeVpcEndpointSubnetAssociation_Timeouts_Create(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpcEndpointSubnetAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
-	p.Delete = ctwhy.ValueAsString(vals["delete"])
+	DecodeVpcEndpointSubnetAssociation_Timeouts_Delete(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeVpcEndpointSubnetAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVpcEndpointSubnetAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
+	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }

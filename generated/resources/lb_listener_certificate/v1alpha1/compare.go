@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLbListenerCertificate_CertificateArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLbListenerCertificate_ListenerArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeLbListenerCertificate_ListenerArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLbListenerCertificate_CertificateArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLbListenerCertificate_CertificateArn(k *LbListenerCertificateParameters, p *LbListenerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.CertificateArn != p.CertificateArn {
-		p.CertificateArn = k.CertificateArn
+func MergeLbListenerCertificate_ListenerArn(k *LbListenerCertificateParameters, p *LbListenerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.ListenerArn != p.ListenerArn {
+		p.ListenerArn = k.ListenerArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeLbListenerCertificate_CertificateArn(k *LbListenerCertificateParameter
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLbListenerCertificate_ListenerArn(k *LbListenerCertificateParameters, p *LbListenerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.ListenerArn != p.ListenerArn {
-		p.ListenerArn = k.ListenerArn
+func MergeLbListenerCertificate_CertificateArn(k *LbListenerCertificateParameters, p *LbListenerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.CertificateArn != p.CertificateArn {
+		p.CertificateArn = k.CertificateArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

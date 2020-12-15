@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxConnection_Location(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxConnection_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxConnection_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxConnection_Location(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,12 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxConnection_JumboFrameCapable(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxConnection_AwsDevice(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDxConnection_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,7 +56,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDxConnection_JumboFrameCapable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDxConnection_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxConnection_AwsDevice(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,16 +82,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxConnection_Location(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
-	if k.Location != p.Location {
-		p.Location = k.Location
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDxConnection_Name(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -101,10 +91,10 @@ func MergeDxConnection_Name(k *DxConnectionParameters, p *DxConnectionParameters
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDxConnection_Tags(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeDxConnection_Location(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
+	if k.Location != p.Location {
+		p.Location = k.Location
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -121,21 +111,11 @@ func MergeDxConnection_Bandwidth(k *DxConnectionParameters, p *DxConnectionParam
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeDxConnection_JumboFrameCapable(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
-	if k.JumboFrameCapable != p.JumboFrameCapable {
-		k.JumboFrameCapable = p.JumboFrameCapable
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDxConnection_AwsDevice(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
-	if k.AwsDevice != p.AwsDevice {
-		k.AwsDevice = p.AwsDevice
-		md.StatusUpdated = true
+//mergePrimitiveContainerTemplateSpec
+func MergeDxConnection_Tags(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -152,9 +132,29 @@ func MergeDxConnection_HasLogicalRedundancy(k *DxConnectionObservation, p *DxCon
 }
 
 //mergePrimitiveTemplateStatus
+func MergeDxConnection_JumboFrameCapable(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
+	if k.JumboFrameCapable != p.JumboFrameCapable {
+		k.JumboFrameCapable = p.JumboFrameCapable
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeDxConnection_Arn(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDxConnection_AwsDevice(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
+	if k.AwsDevice != p.AwsDevice {
+		k.AwsDevice = p.AwsDevice
 		md.StatusUpdated = true
 		return true
 	}

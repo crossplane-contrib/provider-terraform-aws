@@ -39,16 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamGroupPolicy(prev *IamGroupPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIamGroupPolicy_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamGroupPolicy_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeIamGroupPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeIamGroupPolicy_Group(&new.Spec.ForProvider, valMap)
-	DecodeIamGroupPolicy_Name(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamGroupPolicy_Name(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -64,9 +69,4 @@ func DecodeIamGroupPolicy_Policy(p *IamGroupPolicyParameters, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeIamGroupPolicy_Group(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
 	p.Group = ctwhy.ValueAsString(vals["group"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamGroupPolicy_Name(p *IamGroupPolicyParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }

@@ -36,6 +36,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeCloudfrontOriginAccessIdentity_Etag(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCloudfrontOriginAccessIdentity_IamArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,11 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudfrontOriginAccessIdentity_Etag(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -76,6 +76,16 @@ func MergeCloudfrontOriginAccessIdentity_Comment(k *CloudfrontOriginAccessIdenti
 	if k.Comment != p.Comment {
 		p.Comment = k.Comment
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeCloudfrontOriginAccessIdentity_Etag(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
+	if k.Etag != p.Etag {
+		k.Etag = p.Etag
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -115,16 +125,6 @@ func MergeCloudfrontOriginAccessIdentity_CallerReference(k *CloudfrontOriginAcce
 func MergeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
 	if k.CloudfrontAccessIdentityPath != p.CloudfrontAccessIdentityPath {
 		k.CloudfrontAccessIdentityPath = p.CloudfrontAccessIdentityPath
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeCloudfrontOriginAccessIdentity_Etag(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
-	if k.Etag != p.Etag {
-		k.Etag = p.Etag
 		md.StatusUpdated = true
 		return true
 	}

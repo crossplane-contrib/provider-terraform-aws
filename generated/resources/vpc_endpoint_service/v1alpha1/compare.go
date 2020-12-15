@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVpcEndpointService_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpcEndpointService_AcceptanceRequired(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,7 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointService_AcceptanceRequired(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpcEndpointService_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpcEndpointService_State(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,17 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointService_ManagesVpcEndpoints(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVpcEndpointService_PrivateDnsName(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointService_State(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeVpcEndpointService_ServiceName(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,7 +81,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointService_ServiceName(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeVpcEndpointService_ManagesVpcEndpoints(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,10 +101,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeVpcEndpointService_Tags(k *VpcEndpointServiceParameters, p *VpcEndpointServiceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeVpcEndpointService_AcceptanceRequired(k *VpcEndpointServiceParameters, p *VpcEndpointServiceParameters, md *plugin.MergeDescription) bool {
+	if k.AcceptanceRequired != p.AcceptanceRequired {
+		p.AcceptanceRequired = k.AcceptanceRequired
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -131,11 +131,21 @@ func MergeVpcEndpointService_NetworkLoadBalancerArns(k *VpcEndpointServiceParame
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeVpcEndpointService_AcceptanceRequired(k *VpcEndpointServiceParameters, p *VpcEndpointServiceParameters, md *plugin.MergeDescription) bool {
-	if k.AcceptanceRequired != p.AcceptanceRequired {
-		p.AcceptanceRequired = k.AcceptanceRequired
+//mergePrimitiveContainerTemplateSpec
+func MergeVpcEndpointService_Tags(k *VpcEndpointServiceParameters, p *VpcEndpointServiceParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeVpcEndpointService_State(k *VpcEndpointServiceObservation, p *VpcEndpointServiceObservation, md *plugin.MergeDescription) bool {
+	if k.State != p.State {
+		k.State = p.State
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -162,16 +172,6 @@ func MergeVpcEndpointService_AvailabilityZones(k *VpcEndpointServiceObservation,
 }
 
 //mergePrimitiveTemplateStatus
-func MergeVpcEndpointService_ManagesVpcEndpoints(k *VpcEndpointServiceObservation, p *VpcEndpointServiceObservation, md *plugin.MergeDescription) bool {
-	if k.ManagesVpcEndpoints != p.ManagesVpcEndpoints {
-		k.ManagesVpcEndpoints = p.ManagesVpcEndpoints
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeVpcEndpointService_PrivateDnsName(k *VpcEndpointServiceObservation, p *VpcEndpointServiceObservation, md *plugin.MergeDescription) bool {
 	if k.PrivateDnsName != p.PrivateDnsName {
 		k.PrivateDnsName = p.PrivateDnsName
@@ -182,9 +182,9 @@ func MergeVpcEndpointService_PrivateDnsName(k *VpcEndpointServiceObservation, p 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeVpcEndpointService_State(k *VpcEndpointServiceObservation, p *VpcEndpointServiceObservation, md *plugin.MergeDescription) bool {
-	if k.State != p.State {
-		k.State = p.State
+func MergeVpcEndpointService_ServiceName(k *VpcEndpointServiceObservation, p *VpcEndpointServiceObservation, md *plugin.MergeDescription) bool {
+	if k.ServiceName != p.ServiceName {
+		k.ServiceName = p.ServiceName
 		md.StatusUpdated = true
 		return true
 	}
@@ -202,9 +202,9 @@ func MergeVpcEndpointService_BaseEndpointDnsNames(k *VpcEndpointServiceObservati
 }
 
 //mergePrimitiveTemplateStatus
-func MergeVpcEndpointService_ServiceName(k *VpcEndpointServiceObservation, p *VpcEndpointServiceObservation, md *plugin.MergeDescription) bool {
-	if k.ServiceName != p.ServiceName {
-		k.ServiceName = p.ServiceName
+func MergeVpcEndpointService_ManagesVpcEndpoints(k *VpcEndpointServiceObservation, p *VpcEndpointServiceObservation, md *plugin.MergeDescription) bool {
+	if k.ManagesVpcEndpoints != p.ManagesVpcEndpoints {
+		k.ManagesVpcEndpoints = p.ManagesVpcEndpoints
 		md.StatusUpdated = true
 		return true
 	}

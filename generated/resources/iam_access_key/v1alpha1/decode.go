@@ -39,23 +39,18 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamAccessKey(prev *IamAccessKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamAccessKey_PgpKey(&new.Spec.ForProvider, valMap)
 	DecodeIamAccessKey_Status(&new.Spec.ForProvider, valMap)
 	DecodeIamAccessKey_User(&new.Spec.ForProvider, valMap)
-	DecodeIamAccessKey_KeyFingerprint(&new.Status.AtProvider, valMap)
+	DecodeIamAccessKey_PgpKey(&new.Spec.ForProvider, valMap)
 	DecodeIamAccessKey_Secret(&new.Status.AtProvider, valMap)
 	DecodeIamAccessKey_SesSmtpPasswordV4(&new.Status.AtProvider, valMap)
 	DecodeIamAccessKey_EncryptedSecret(&new.Status.AtProvider, valMap)
+	DecodeIamAccessKey_KeyFingerprint(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamAccessKey_PgpKey(p *IamAccessKeyParameters, vals map[string]cty.Value) {
-	p.PgpKey = ctwhy.ValueAsString(vals["pgp_key"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,8 +64,8 @@ func DecodeIamAccessKey_User(p *IamAccessKeyParameters, vals map[string]cty.Valu
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamAccessKey_KeyFingerprint(p *IamAccessKeyObservation, vals map[string]cty.Value) {
-	p.KeyFingerprint = ctwhy.ValueAsString(vals["key_fingerprint"])
+func DecodeIamAccessKey_PgpKey(p *IamAccessKeyParameters, vals map[string]cty.Value) {
+	p.PgpKey = ctwhy.ValueAsString(vals["pgp_key"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -86,4 +81,9 @@ func DecodeIamAccessKey_SesSmtpPasswordV4(p *IamAccessKeyObservation, vals map[s
 //primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_EncryptedSecret(p *IamAccessKeyObservation, vals map[string]cty.Value) {
 	p.EncryptedSecret = ctwhy.ValueAsString(vals["encrypted_secret"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamAccessKey_KeyFingerprint(p *IamAccessKeyObservation, vals map[string]cty.Value) {
+	p.KeyFingerprint = ctwhy.ValueAsString(vals["key_fingerprint"])
 }

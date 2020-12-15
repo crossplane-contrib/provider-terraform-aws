@@ -120,6 +120,11 @@ func MergeServicecatalogPortfolio_Description(k *ServicecatalogPortfolioParamete
 func MergeServicecatalogPortfolio_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeServicecatalogPortfolio_Timeouts_Create(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeServicecatalogPortfolio_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -130,15 +135,20 @@ func MergeServicecatalogPortfolio_Timeouts(k *Timeouts, p *Timeouts, md *plugin.
 		anyChildUpdated = true
 	}
 
-	updated = MergeServicecatalogPortfolio_Timeouts_Create(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeServicecatalogPortfolio_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -155,16 +165,6 @@ func MergeServicecatalogPortfolio_Timeouts_Delete(k *Timeouts, p *Timeouts, md *
 func MergeServicecatalogPortfolio_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	if k.Update != p.Update {
 		p.Update = k.Update
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeServicecatalogPortfolio_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}

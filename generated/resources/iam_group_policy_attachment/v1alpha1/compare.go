@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamGroupPolicyAttachment_PolicyArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamGroupPolicyAttachment_Group(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamGroupPolicyAttachment_Group(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamGroupPolicyAttachment_PolicyArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamGroupPolicyAttachment_PolicyArn(k *IamGroupPolicyAttachmentParameters, p *IamGroupPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.PolicyArn != p.PolicyArn {
-		p.PolicyArn = k.PolicyArn
+func MergeIamGroupPolicyAttachment_Group(k *IamGroupPolicyAttachmentParameters, p *IamGroupPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Group != p.Group {
+		p.Group = k.Group
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeIamGroupPolicyAttachment_PolicyArn(k *IamGroupPolicyAttachmentParamete
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamGroupPolicyAttachment_Group(k *IamGroupPolicyAttachmentParameters, p *IamGroupPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Group != p.Group {
-		p.Group = k.Group
+func MergeIamGroupPolicyAttachment_PolicyArn(k *IamGroupPolicyAttachmentParameters, p *IamGroupPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.PolicyArn != p.PolicyArn {
+		p.PolicyArn = k.PolicyArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

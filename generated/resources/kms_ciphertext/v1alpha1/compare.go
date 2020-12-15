@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeKmsCiphertext_Context(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeKmsCiphertext_KeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeKmsCiphertext_Plaintext(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeKmsCiphertext_Context(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,16 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeKmsCiphertext_Context(k *KmsCiphertextParameters, p *KmsCiphertextParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Context, p.Context) {
-		p.Context = k.Context
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeKmsCiphertext_KeyId(k *KmsCiphertextParameters, p *KmsCiphertextParameters, md *plugin.MergeDescription) bool {
 	if k.KeyId != p.KeyId {
@@ -85,6 +75,16 @@ func MergeKmsCiphertext_KeyId(k *KmsCiphertextParameters, p *KmsCiphertextParame
 func MergeKmsCiphertext_Plaintext(k *KmsCiphertextParameters, p *KmsCiphertextParameters, md *plugin.MergeDescription) bool {
 	if k.Plaintext != p.Plaintext {
 		p.Plaintext = k.Plaintext
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeKmsCiphertext_Context(k *KmsCiphertextParameters, p *KmsCiphertextParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Context, p.Context) {
+		p.Context = k.Context
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeEc2TrafficMirrorTarget_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeEc2TrafficMirrorTarget_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,11 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TrafficMirrorTarget_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -64,6 +64,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2TrafficMirrorTarget_Tags(k *Ec2TrafficMirrorTargetParameters, p *Ec2TrafficMirrorTargetParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -90,16 +100,6 @@ func MergeEc2TrafficMirrorTarget_NetworkInterfaceId(k *Ec2TrafficMirrorTargetPar
 func MergeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(k *Ec2TrafficMirrorTargetParameters, p *Ec2TrafficMirrorTargetParameters, md *plugin.MergeDescription) bool {
 	if k.NetworkLoadBalancerArn != p.NetworkLoadBalancerArn {
 		p.NetworkLoadBalancerArn = k.NetworkLoadBalancerArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeEc2TrafficMirrorTarget_Tags(k *Ec2TrafficMirrorTargetParameters, p *Ec2TrafficMirrorTargetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

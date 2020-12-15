@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeAlbTargetGroupAttachment_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeAlbTargetGroupAttachment_Port(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAlbTargetGroupAttachment_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -60,6 +60,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAlbTargetGroupAttachment_AvailabilityZone(k *AlbTargetGroupAttachmentParameters, p *AlbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -86,16 +96,6 @@ func MergeAlbTargetGroupAttachment_TargetGroupArn(k *AlbTargetGroupAttachmentPar
 func MergeAlbTargetGroupAttachment_TargetId(k *AlbTargetGroupAttachmentParameters, p *AlbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.TargetId != p.TargetId {
 		p.TargetId = k.TargetId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAlbTargetGroupAttachment_AvailabilityZone(k *AlbTargetGroupAttachmentParameters, p *AlbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
 		md.NeedsProviderUpdate = true
 		return true
 	}

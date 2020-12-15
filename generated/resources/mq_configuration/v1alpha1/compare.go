@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeMqConfiguration_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeMqConfiguration_Data(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeMqConfiguration_Data(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeMqConfiguration_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,12 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeMqConfiguration_EngineVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeMqConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeMqConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeMqConfiguration_EngineVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,9 +82,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeMqConfiguration_Description(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
+func MergeMqConfiguration_Data(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.Data != p.Data {
+		p.Data = k.Data
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -92,9 +92,9 @@ func MergeMqConfiguration_Description(k *MqConfigurationParameters, p *MqConfigu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeMqConfiguration_Data(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Data != p.Data {
-		p.Data = k.Data
+func MergeMqConfiguration_Description(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -112,9 +112,9 @@ func MergeMqConfiguration_EngineType(k *MqConfigurationParameters, p *MqConfigur
 }
 
 //mergePrimitiveTemplateSpec
-func MergeMqConfiguration_EngineVersion(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.EngineVersion != p.EngineVersion {
-		p.EngineVersion = k.EngineVersion
+func MergeMqConfiguration_Name(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -122,9 +122,9 @@ func MergeMqConfiguration_EngineVersion(k *MqConfigurationParameters, p *MqConfi
 }
 
 //mergePrimitiveTemplateSpec
-func MergeMqConfiguration_Name(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeMqConfiguration_EngineVersion(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.EngineVersion != p.EngineVersion {
+		p.EngineVersion = k.EngineVersion
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -37,21 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyIpset(r GuarddutyIpset) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyIpset_Activate(r.Spec.ForProvider, ctyVal)
+	EncodeGuarddutyIpset_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Format(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Location(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyIpset_Activate(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyIpset_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyIpset_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGuarddutyIpset_Activate(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	vals["activate"] = cty.BoolVal(p.Activate)
+}
+
+func EncodeGuarddutyIpset_DetectorId(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	vals["detector_id"] = cty.StringVal(p.DetectorId)
 }
 
 func EncodeGuarddutyIpset_Format(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
@@ -76,14 +82,6 @@ func EncodeGuarddutyIpset_Tags(p GuarddutyIpsetParameters, vals map[string]cty.V
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeGuarddutyIpset_Activate(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
-	vals["activate"] = cty.BoolVal(p.Activate)
-}
-
-func EncodeGuarddutyIpset_DetectorId(p GuarddutyIpsetParameters, vals map[string]cty.Value) {
-	vals["detector_id"] = cty.StringVal(p.DetectorId)
 }
 
 func EncodeGuarddutyIpset_Arn(p GuarddutyIpsetObservation, vals map[string]cty.Value) {

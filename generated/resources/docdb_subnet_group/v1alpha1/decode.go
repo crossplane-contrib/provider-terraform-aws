@@ -39,22 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDocdbSubnetGroup(prev *DocdbSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDocdbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDocdbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDocdbSubnetGroup_Description(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -85,6 +80,11 @@ func DecodeDocdbSubnetGroup_Tags(p *DocdbSubnetGroupParameters, vals map[string]
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDocdbSubnetGroup_Description(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate

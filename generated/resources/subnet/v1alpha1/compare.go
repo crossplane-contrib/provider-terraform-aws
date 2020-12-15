@@ -36,7 +36,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSubnet_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSubnet_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSubnet_AvailabilityZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,17 +61,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeSubnet_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeSubnet_AssignIpv6AddressOnCreation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSubnet_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSubnet_AvailabilityZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -117,9 +117,19 @@ func MergeSubnet_Tags(k *SubnetParameters, p *SubnetParameters, md *plugin.Merge
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSubnet_VpcId(k *SubnetParameters, p *SubnetParameters, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		p.VpcId = k.VpcId
+func MergeSubnet_AvailabilityZone(k *SubnetParameters, p *SubnetParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSubnet_AvailabilityZoneId(k *SubnetParameters, p *SubnetParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZoneId != p.AvailabilityZoneId {
+		p.AvailabilityZoneId = k.AvailabilityZoneId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -157,29 +167,19 @@ func MergeSubnet_OutpostArn(k *SubnetParameters, p *SubnetParameters, md *plugin
 }
 
 //mergePrimitiveTemplateSpec
+func MergeSubnet_VpcId(k *SubnetParameters, p *SubnetParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeSubnet_AssignIpv6AddressOnCreation(k *SubnetParameters, p *SubnetParameters, md *plugin.MergeDescription) bool {
 	if k.AssignIpv6AddressOnCreation != p.AssignIpv6AddressOnCreation {
 		p.AssignIpv6AddressOnCreation = k.AssignIpv6AddressOnCreation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSubnet_AvailabilityZone(k *SubnetParameters, p *SubnetParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSubnet_AvailabilityZoneId(k *SubnetParameters, p *SubnetParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZoneId != p.AvailabilityZoneId {
-		p.AvailabilityZoneId = k.AvailabilityZoneId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -200,12 +200,12 @@ func MergeSubnet_MapPublicIpOnLaunch(k *SubnetParameters, p *SubnetParameters, m
 func MergeSubnet_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeSubnet_Timeouts_Create(k, p, md)
+	updated = MergeSubnet_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSubnet_Timeouts_Delete(k, p, md)
+	updated = MergeSubnet_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -217,9 +217,9 @@ func MergeSubnet_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription)
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSubnet_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
+func MergeSubnet_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Delete != p.Delete {
+		p.Delete = k.Delete
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -227,9 +227,9 @@ func MergeSubnet_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescr
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSubnet_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Delete != p.Delete {
-		p.Delete = k.Delete
+func MergeSubnet_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}

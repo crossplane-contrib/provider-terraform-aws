@@ -52,12 +52,12 @@ type RedshiftSnapshotScheduleSpec struct {
 
 // A RedshiftSnapshotScheduleParameters defines the desired state of a RedshiftSnapshotSchedule
 type RedshiftSnapshotScheduleParameters struct {
+	ForceDestroy     bool              `json:"force_destroy"`
 	Identifier       string            `json:"identifier"`
 	IdentifierPrefix string            `json:"identifier_prefix"`
 	Tags             map[string]string `json:"tags"`
 	Definitions      []string          `json:"definitions"`
 	Description      string            `json:"description"`
-	ForceDestroy     bool              `json:"force_destroy"`
 }
 
 // A RedshiftSnapshotScheduleStatus defines the observed state of a RedshiftSnapshotSchedule

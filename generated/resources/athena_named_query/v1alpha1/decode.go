@@ -39,27 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAthenaNamedQuery(prev *AthenaNamedQuery, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAthenaNamedQuery_Workgroup(&new.Spec.ForProvider, valMap)
-	DecodeAthenaNamedQuery_Database(&new.Spec.ForProvider, valMap)
 	DecodeAthenaNamedQuery_Description(&new.Spec.ForProvider, valMap)
 	DecodeAthenaNamedQuery_Name(&new.Spec.ForProvider, valMap)
 	DecodeAthenaNamedQuery_Query(&new.Spec.ForProvider, valMap)
+	DecodeAthenaNamedQuery_Workgroup(&new.Spec.ForProvider, valMap)
+	DecodeAthenaNamedQuery_Database(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAthenaNamedQuery_Workgroup(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
-	p.Workgroup = ctwhy.ValueAsString(vals["workgroup"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAthenaNamedQuery_Database(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
-	p.Database = ctwhy.ValueAsString(vals["database"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -75,4 +65,14 @@ func DecodeAthenaNamedQuery_Name(p *AthenaNamedQueryParameters, vals map[string]
 //primitiveTypeDecodeTemplate
 func DecodeAthenaNamedQuery_Query(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
 	p.Query = ctwhy.ValueAsString(vals["query"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAthenaNamedQuery_Workgroup(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Workgroup = ctwhy.ValueAsString(vals["workgroup"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAthenaNamedQuery_Database(p *AthenaNamedQueryParameters, vals map[string]cty.Value) {
+	p.Database = ctwhy.ValueAsString(vals["database"])
 }

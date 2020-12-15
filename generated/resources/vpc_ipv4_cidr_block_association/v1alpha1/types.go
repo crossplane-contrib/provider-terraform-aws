@@ -52,8 +52,8 @@ type VpcIpv4CidrBlockAssociationSpec struct {
 
 // A VpcIpv4CidrBlockAssociationParameters defines the desired state of a VpcIpv4CidrBlockAssociation
 type VpcIpv4CidrBlockAssociationParameters struct {
-	CidrBlock string   `json:"cidr_block"`
 	VpcId     string   `json:"vpc_id"`
+	CidrBlock string   `json:"cidr_block"`
 	Timeouts  Timeouts `json:"timeouts"`
 }
 

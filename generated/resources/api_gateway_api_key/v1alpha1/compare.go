@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayApiKey_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayApiKey_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayApiKey_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeApiGatewayApiKey_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayApiKey_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayApiKey_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,12 +61,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayApiKey_CreatedDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeApiGatewayApiKey_LastUpdatedDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayApiKey_LastUpdatedDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeApiGatewayApiKey_CreatedDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -79,26 +79,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayApiKey_Enabled(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Enabled != p.Enabled {
-		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayApiKey_Name(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -115,6 +95,26 @@ func MergeApiGatewayApiKey_Tags(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiK
 func MergeApiGatewayApiKey_Description(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayApiKey_Enabled(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayApiKey_Name(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -142,9 +142,9 @@ func MergeApiGatewayApiKey_Arn(k *ApiGatewayApiKeyObservation, p *ApiGatewayApiK
 }
 
 //mergePrimitiveTemplateStatus
-func MergeApiGatewayApiKey_CreatedDate(k *ApiGatewayApiKeyObservation, p *ApiGatewayApiKeyObservation, md *plugin.MergeDescription) bool {
-	if k.CreatedDate != p.CreatedDate {
-		k.CreatedDate = p.CreatedDate
+func MergeApiGatewayApiKey_LastUpdatedDate(k *ApiGatewayApiKeyObservation, p *ApiGatewayApiKeyObservation, md *plugin.MergeDescription) bool {
+	if k.LastUpdatedDate != p.LastUpdatedDate {
+		k.LastUpdatedDate = p.LastUpdatedDate
 		md.StatusUpdated = true
 		return true
 	}
@@ -152,9 +152,9 @@ func MergeApiGatewayApiKey_CreatedDate(k *ApiGatewayApiKeyObservation, p *ApiGat
 }
 
 //mergePrimitiveTemplateStatus
-func MergeApiGatewayApiKey_LastUpdatedDate(k *ApiGatewayApiKeyObservation, p *ApiGatewayApiKeyObservation, md *plugin.MergeDescription) bool {
-	if k.LastUpdatedDate != p.LastUpdatedDate {
-		k.LastUpdatedDate = p.LastUpdatedDate
+func MergeApiGatewayApiKey_CreatedDate(k *ApiGatewayApiKeyObservation, p *ApiGatewayApiKeyObservation, md *plugin.MergeDescription) bool {
+	if k.CreatedDate != p.CreatedDate {
+		k.CreatedDate = p.CreatedDate
 		md.StatusUpdated = true
 		return true
 	}

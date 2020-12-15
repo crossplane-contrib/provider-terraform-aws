@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDynamodbTableItem_HashKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDynamodbTableItem_Item(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDynamodbTableItem_RangeKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDynamodbTableItem_TableName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDynamodbTableItem_HashKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDynamodbTableItem_Item(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -63,26 +63,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDynamodbTableItem_HashKey(k *DynamodbTableItemParameters, p *DynamodbTableItemParameters, md *plugin.MergeDescription) bool {
-	if k.HashKey != p.HashKey {
-		p.HashKey = k.HashKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDynamodbTableItem_Item(k *DynamodbTableItemParameters, p *DynamodbTableItemParameters, md *plugin.MergeDescription) bool {
-	if k.Item != p.Item {
-		p.Item = k.Item
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDynamodbTableItem_RangeKey(k *DynamodbTableItemParameters, p *DynamodbTableItemParameters, md *plugin.MergeDescription) bool {
 	if k.RangeKey != p.RangeKey {
 		p.RangeKey = k.RangeKey
@@ -96,6 +76,26 @@ func MergeDynamodbTableItem_RangeKey(k *DynamodbTableItemParameters, p *Dynamodb
 func MergeDynamodbTableItem_TableName(k *DynamodbTableItemParameters, p *DynamodbTableItemParameters, md *plugin.MergeDescription) bool {
 	if k.TableName != p.TableName {
 		p.TableName = k.TableName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDynamodbTableItem_HashKey(k *DynamodbTableItemParameters, p *DynamodbTableItemParameters, md *plugin.MergeDescription) bool {
+	if k.HashKey != p.HashKey {
+		p.HashKey = k.HashKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDynamodbTableItem_Item(k *DynamodbTableItemParameters, p *DynamodbTableItemParameters, md *plugin.MergeDescription) bool {
+	if k.Item != p.Item {
+		p.Item = k.Item
 		md.NeedsProviderUpdate = true
 		return true
 	}

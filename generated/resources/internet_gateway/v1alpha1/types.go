@@ -64,6 +64,6 @@ type InternetGatewayStatus struct {
 
 // A InternetGatewayObservation records the observed state of a InternetGateway
 type InternetGatewayObservation struct {
-	Arn     string `json:"arn"`
 	OwnerId string `json:"owner_id"`
+	Arn     string `json:"arn"`
 }

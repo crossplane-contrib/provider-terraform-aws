@@ -39,34 +39,34 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRdsClusterInstance(prev *RdsClusterInstance, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRdsClusterInstance_IdentifierPrefix(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_PerformanceInsightsEnabled(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_ClusterIdentifier(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_PromotionTier(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_ApplyImmediately(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_CopyTagsToSnapshot(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_DbParameterGroupName(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_PreferredMaintenanceWindow(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_PubliclyAccessible(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_ApplyImmediately(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_DbSubnetGroupName(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_PerformanceInsightsKmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_AutoMinorVersionUpgrade(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_MonitoringRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_InstanceClass(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_ClusterIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_IdentifierPrefix(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_PreferredBackupWindow(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_Tags(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_EngineVersion(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_Identifier(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterInstance_CaCertIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_DbParameterGroupName(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_Engine(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_PerformanceInsightsEnabled(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_CaCertIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_EngineVersion(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_DbSubnetGroupName(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_MonitoringRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_AutoMinorVersionUpgrade(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_Identifier(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_MonitoringInterval(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_PerformanceInsightsKmsKeyId(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_PromotionTier(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterInstance_InstanceClass(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterInstance_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeRdsClusterInstance_Port(&new.Status.AtProvider, valMap)
-	DecodeRdsClusterInstance_Endpoint(&new.Status.AtProvider, valMap)
-	DecodeRdsClusterInstance_StorageEncrypted(&new.Status.AtProvider, valMap)
 	DecodeRdsClusterInstance_KmsKeyId(&new.Status.AtProvider, valMap)
+	DecodeRdsClusterInstance_StorageEncrypted(&new.Status.AtProvider, valMap)
 	DecodeRdsClusterInstance_Writer(&new.Status.AtProvider, valMap)
+	DecodeRdsClusterInstance_Endpoint(&new.Status.AtProvider, valMap)
+	DecodeRdsClusterInstance_Port(&new.Status.AtProvider, valMap)
 	DecodeRdsClusterInstance_DbiResourceId(&new.Status.AtProvider, valMap)
 	DecodeRdsClusterInstance_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -77,23 +77,8 @@ func DecodeRdsClusterInstance(prev *RdsClusterInstance, ctyValue cty.Value) (res
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_IdentifierPrefix(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.IdentifierPrefix = ctwhy.ValueAsString(vals["identifier_prefix"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_PerformanceInsightsEnabled(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PerformanceInsightsEnabled = ctwhy.ValueAsBool(vals["performance_insights_enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_ClusterIdentifier(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.ClusterIdentifier = ctwhy.ValueAsString(vals["cluster_identifier"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_PromotionTier(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PromotionTier = ctwhy.ValueAsInt64(vals["promotion_tier"])
+func DecodeRdsClusterInstance_ApplyImmediately(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.ApplyImmediately = ctwhy.ValueAsBool(vals["apply_immediately"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -107,11 +92,6 @@ func DecodeRdsClusterInstance_CopyTagsToSnapshot(p *RdsClusterInstanceParameters
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_DbParameterGroupName(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.DbParameterGroupName = ctwhy.ValueAsString(vals["db_parameter_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeRdsClusterInstance_PreferredMaintenanceWindow(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	p.PreferredMaintenanceWindow = ctwhy.ValueAsString(vals["preferred_maintenance_window"])
 }
@@ -122,8 +102,43 @@ func DecodeRdsClusterInstance_PubliclyAccessible(p *RdsClusterInstanceParameters
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_ApplyImmediately(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.ApplyImmediately = ctwhy.ValueAsBool(vals["apply_immediately"])
+func DecodeRdsClusterInstance_ClusterIdentifier(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.ClusterIdentifier = ctwhy.ValueAsString(vals["cluster_identifier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_IdentifierPrefix(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.IdentifierPrefix = ctwhy.ValueAsString(vals["identifier_prefix"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_PreferredBackupWindow(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PreferredBackupWindow = ctwhy.ValueAsString(vals["preferred_backup_window"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_DbParameterGroupName(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.DbParameterGroupName = ctwhy.ValueAsString(vals["db_parameter_group_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_Engine(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.Engine = ctwhy.ValueAsString(vals["engine"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_PerformanceInsightsEnabled(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PerformanceInsightsEnabled = ctwhy.ValueAsBool(vals["performance_insights_enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_CaCertIdentifier(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.CaCertIdentifier = ctwhy.ValueAsString(vals["ca_cert_identifier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_EngineVersion(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -132,28 +147,8 @@ func DecodeRdsClusterInstance_DbSubnetGroupName(p *RdsClusterInstanceParameters,
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_PerformanceInsightsKmsKeyId(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PerformanceInsightsKmsKeyId = ctwhy.ValueAsString(vals["performance_insights_kms_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_AutoMinorVersionUpgrade(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.AutoMinorVersionUpgrade = ctwhy.ValueAsBool(vals["auto_minor_version_upgrade"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeRdsClusterInstance_MonitoringRoleArn(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	p.MonitoringRoleArn = ctwhy.ValueAsString(vals["monitoring_role_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_InstanceClass(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.InstanceClass = ctwhy.ValueAsString(vals["instance_class"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_PreferredBackupWindow(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.PreferredBackupWindow = ctwhy.ValueAsString(vals["preferred_backup_window"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -168,8 +163,8 @@ func DecodeRdsClusterInstance_Tags(p *RdsClusterInstanceParameters, vals map[str
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_EngineVersion(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
+func DecodeRdsClusterInstance_AutoMinorVersionUpgrade(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.AutoMinorVersionUpgrade = ctwhy.ValueAsBool(vals["auto_minor_version_upgrade"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -178,18 +173,23 @@ func DecodeRdsClusterInstance_Identifier(p *RdsClusterInstanceParameters, vals m
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_CaCertIdentifier(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.CaCertIdentifier = ctwhy.ValueAsString(vals["ca_cert_identifier"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_Engine(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
-	p.Engine = ctwhy.ValueAsString(vals["engine"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeRdsClusterInstance_MonitoringInterval(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
 	p.MonitoringInterval = ctwhy.ValueAsInt64(vals["monitoring_interval"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_PerformanceInsightsKmsKeyId(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PerformanceInsightsKmsKeyId = ctwhy.ValueAsString(vals["performance_insights_kms_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_PromotionTier(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.PromotionTier = ctwhy.ValueAsInt64(vals["promotion_tier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_InstanceClass(p *RdsClusterInstanceParameters, vals map[string]cty.Value) {
+	p.InstanceClass = ctwhy.ValueAsString(vals["instance_class"])
 }
 
 //containerTypeDecodeTemplate
@@ -216,13 +216,8 @@ func DecodeRdsClusterInstance_Timeouts_Update(p *Timeouts, vals map[string]cty.V
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_Port(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
-	p.Port = ctwhy.ValueAsInt64(vals["port"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_Endpoint(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
-	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
+func DecodeRdsClusterInstance_KmsKeyId(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -231,13 +226,18 @@ func DecodeRdsClusterInstance_StorageEncrypted(p *RdsClusterInstanceObservation,
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_KmsKeyId(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+func DecodeRdsClusterInstance_Writer(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
+	p.Writer = ctwhy.ValueAsBool(vals["writer"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRdsClusterInstance_Writer(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
-	p.Writer = ctwhy.ValueAsBool(vals["writer"])
+func DecodeRdsClusterInstance_Endpoint(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
+	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterInstance_Port(p *RdsClusterInstanceObservation, vals map[string]cty.Value) {
+	p.Port = ctwhy.ValueAsInt64(vals["port"])
 }
 
 //primitiveTypeDecodeTemplate

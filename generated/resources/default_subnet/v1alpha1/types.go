@@ -72,12 +72,12 @@ type DefaultSubnetStatus struct {
 
 // A DefaultSubnetObservation records the observed state of a DefaultSubnet
 type DefaultSubnetObservation struct {
-	Arn                         string `json:"arn"`
-	AssignIpv6AddressOnCreation bool   `json:"assign_ipv6_address_on_creation"`
-	VpcId                       string `json:"vpc_id"`
-	AvailabilityZoneId          string `json:"availability_zone_id"`
-	CidrBlock                   string `json:"cidr_block"`
 	Ipv6CidrBlock               string `json:"ipv6_cidr_block"`
-	Ipv6CidrBlockAssociationId  string `json:"ipv6_cidr_block_association_id"`
 	OwnerId                     string `json:"owner_id"`
+	VpcId                       string `json:"vpc_id"`
+	CidrBlock                   string `json:"cidr_block"`
+	AssignIpv6AddressOnCreation bool   `json:"assign_ipv6_address_on_creation"`
+	AvailabilityZoneId          string `json:"availability_zone_id"`
+	Ipv6CidrBlockAssociationId  string `json:"ipv6_cidr_block_association_id"`
+	Arn                         string `json:"arn"`
 }

@@ -66,6 +66,6 @@ type IamUserSshKeyStatus struct {
 
 // A IamUserSshKeyObservation records the observed state of a IamUserSshKey
 type IamUserSshKeyObservation struct {
-	Fingerprint    string `json:"fingerprint"`
 	SshPublicKeyId string `json:"ssh_public_key_id"`
+	Fingerprint    string `json:"fingerprint"`
 }

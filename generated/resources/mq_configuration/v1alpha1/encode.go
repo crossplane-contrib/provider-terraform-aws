@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeMqConfiguration(r MqConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMqConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Data(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_EngineType(r.Spec.ForProvider, ctyVal)
-	EncodeMqConfiguration_EngineVersion(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeMqConfiguration_EngineVersion(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeMqConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMqConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
@@ -49,30 +49,28 @@ func EncodeMqConfiguration(r MqConfiguration) cty.Value {
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeMqConfiguration_Description(p MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeMqConfiguration_Data(p MqConfigurationParameters, vals map[string]cty.Value) {
 	vals["data"] = cty.StringVal(p.Data)
 }
 
+func EncodeMqConfiguration_Description(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
 func EncodeMqConfiguration_EngineType(p MqConfigurationParameters, vals map[string]cty.Value) {
 	vals["engine_type"] = cty.StringVal(p.EngineType)
 }
 
-func EncodeMqConfiguration_EngineVersion(p MqConfigurationParameters, vals map[string]cty.Value) {
-	vals["engine_version"] = cty.StringVal(p.EngineVersion)
-}
-
 func EncodeMqConfiguration_Name(p MqConfigurationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeMqConfiguration_EngineVersion(p MqConfigurationParameters, vals map[string]cty.Value) {
+	vals["engine_version"] = cty.StringVal(p.EngineVersion)
 }
 
 func EncodeMqConfiguration_Tags(p MqConfigurationParameters, vals map[string]cty.Value) {

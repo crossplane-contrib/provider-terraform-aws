@@ -52,9 +52,9 @@ type KmsAliasSpec struct {
 
 // A KmsAliasParameters defines the desired state of a KmsAlias
 type KmsAliasParameters struct {
-	TargetKeyId string `json:"target_key_id"`
 	Name        string `json:"name"`
 	NamePrefix  string `json:"name_prefix"`
+	TargetKeyId string `json:"target_key_id"`
 }
 
 // A KmsAliasStatus defines the observed state of a KmsAlias

@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLambdaProvisionedConcurrencyConfig_FunctionName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeLambdaProvisionedConcurrencyConfig_Qualifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLambdaProvisionedConcurrencyConfig_FunctionName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -63,16 +63,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaProvisionedConcurrencyConfig_FunctionName(k *LambdaProvisionedConcurrencyConfigParameters, p *LambdaProvisionedConcurrencyConfigParameters, md *plugin.MergeDescription) bool {
-	if k.FunctionName != p.FunctionName {
-		p.FunctionName = k.FunctionName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(k *LambdaProvisionedConcurrencyConfigParameters, p *LambdaProvisionedConcurrencyConfigParameters, md *plugin.MergeDescription) bool {
 	if k.ProvisionedConcurrentExecutions != p.ProvisionedConcurrentExecutions {
 		p.ProvisionedConcurrentExecutions = k.ProvisionedConcurrentExecutions
@@ -86,6 +76,16 @@ func MergeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(k *
 func MergeLambdaProvisionedConcurrencyConfig_Qualifier(k *LambdaProvisionedConcurrencyConfigParameters, p *LambdaProvisionedConcurrencyConfigParameters, md *plugin.MergeDescription) bool {
 	if k.Qualifier != p.Qualifier {
 		p.Qualifier = k.Qualifier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLambdaProvisionedConcurrencyConfig_FunctionName(k *LambdaProvisionedConcurrencyConfigParameters, p *LambdaProvisionedConcurrencyConfigParameters, md *plugin.MergeDescription) bool {
+	if k.FunctionName != p.FunctionName {
+		p.FunctionName = k.FunctionName
 		md.NeedsProviderUpdate = true
 		return true
 	}

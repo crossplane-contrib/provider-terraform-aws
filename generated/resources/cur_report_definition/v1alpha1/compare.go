@@ -31,26 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCurReportDefinition_AdditionalArtifacts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_Format(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_ReportName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_S3Prefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCurReportDefinition_AdditionalSchemaElements(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -62,6 +42,31 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeCurReportDefinition_RefreshClosedReports(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_S3Prefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_TimeUnit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_AdditionalArtifacts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_Format(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_ReportName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,11 +86,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCurReportDefinition_TimeUnit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -95,46 +95,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeCurReportDefinition_AdditionalArtifacts(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.AdditionalArtifacts, p.AdditionalArtifacts) {
-		p.AdditionalArtifacts = k.AdditionalArtifacts
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_Format(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.Format != p.Format {
-		p.Format = k.Format
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_ReportName(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.ReportName != p.ReportName {
-		p.ReportName = k.ReportName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_S3Prefix(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.S3Prefix != p.S3Prefix {
-		p.S3Prefix = k.S3Prefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -168,6 +128,56 @@ func MergeCurReportDefinition_RefreshClosedReports(k *CurReportDefinitionParamet
 }
 
 //mergePrimitiveTemplateSpec
+func MergeCurReportDefinition_S3Prefix(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.S3Prefix != p.S3Prefix {
+		p.S3Prefix = k.S3Prefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCurReportDefinition_TimeUnit(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.TimeUnit != p.TimeUnit {
+		p.TimeUnit = k.TimeUnit
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeCurReportDefinition_AdditionalArtifacts(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.AdditionalArtifacts, p.AdditionalArtifacts) {
+		p.AdditionalArtifacts = k.AdditionalArtifacts
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCurReportDefinition_Format(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.Format != p.Format {
+		p.Format = k.Format
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCurReportDefinition_ReportName(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.ReportName != p.ReportName {
+		p.ReportName = k.ReportName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeCurReportDefinition_ReportVersioning(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
 	if k.ReportVersioning != p.ReportVersioning {
 		p.ReportVersioning = k.ReportVersioning
@@ -191,16 +201,6 @@ func MergeCurReportDefinition_S3Bucket(k *CurReportDefinitionParameters, p *CurR
 func MergeCurReportDefinition_S3Region(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
 	if k.S3Region != p.S3Region {
 		p.S3Region = k.S3Region
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_TimeUnit(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.TimeUnit != p.TimeUnit {
-		p.TimeUnit = k.TimeUnit
 		md.NeedsProviderUpdate = true
 		return true
 	}

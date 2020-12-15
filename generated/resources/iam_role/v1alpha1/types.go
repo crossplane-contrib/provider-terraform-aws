@@ -52,15 +52,15 @@ type IamRoleSpec struct {
 
 // A IamRoleParameters defines the desired state of a IamRole
 type IamRoleParameters struct {
-	MaxSessionDuration  int64             `json:"max_session_duration"`
-	NamePrefix          string            `json:"name_prefix"`
 	ForceDetachPolicies bool              `json:"force_detach_policies"`
-	Description         string            `json:"description"`
+	MaxSessionDuration  int64             `json:"max_session_duration"`
 	Name                string            `json:"name"`
+	NamePrefix          string            `json:"name_prefix"`
 	Path                string            `json:"path"`
+	AssumeRolePolicy    string            `json:"assume_role_policy"`
+	Description         string            `json:"description"`
 	PermissionsBoundary string            `json:"permissions_boundary"`
 	Tags                map[string]string `json:"tags"`
-	AssumeRolePolicy    string            `json:"assume_role_policy"`
 }
 
 // A IamRoleStatus defines the observed state of a IamRole
@@ -71,7 +71,7 @@ type IamRoleStatus struct {
 
 // A IamRoleObservation records the observed state of a IamRole
 type IamRoleObservation struct {
-	UniqueId   string `json:"unique_id"`
-	CreateDate string `json:"create_date"`
 	Arn        string `json:"arn"`
+	CreateDate string `json:"create_date"`
+	UniqueId   string `json:"unique_id"`
 }

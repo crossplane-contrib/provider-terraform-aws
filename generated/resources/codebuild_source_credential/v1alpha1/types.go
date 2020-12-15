@@ -52,10 +52,10 @@ type CodebuildSourceCredentialSpec struct {
 
 // A CodebuildSourceCredentialParameters defines the desired state of a CodebuildSourceCredential
 type CodebuildSourceCredentialParameters struct {
-	Token      string `json:"token"`
-	UserName   string `json:"user_name"`
 	AuthType   string `json:"auth_type"`
 	ServerType string `json:"server_type"`
+	Token      string `json:"token"`
+	UserName   string `json:"user_name"`
 }
 
 // A CodebuildSourceCredentialStatus defines the observed state of a CodebuildSourceCredential

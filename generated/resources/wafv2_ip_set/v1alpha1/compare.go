@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeWafv2IpSet_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeWafv2IpSet_Addresses(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -41,12 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeWafv2IpSet_Addresses(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeWafv2IpSet_IpAddressVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeWafv2IpSet_IpAddressVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeWafv2IpSet_Scope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,7 +56,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeWafv2IpSet_Scope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeWafv2IpSet_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,9 +82,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveContainerTemplateSpec
-func MergeWafv2IpSet_Tags(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeWafv2IpSet_Addresses(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Addresses, p.Addresses) {
+		p.Addresses = k.Addresses
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -95,16 +95,6 @@ func MergeWafv2IpSet_Tags(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *
 func MergeWafv2IpSet_Description(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeWafv2IpSet_Addresses(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Addresses, p.Addresses) {
-		p.Addresses = k.Addresses
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -122,6 +112,16 @@ func MergeWafv2IpSet_IpAddressVersion(k *Wafv2IpSetParameters, p *Wafv2IpSetPara
 }
 
 //mergePrimitiveTemplateSpec
+func MergeWafv2IpSet_Scope(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
+	if k.Scope != p.Scope {
+		p.Scope = k.Scope
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeWafv2IpSet_Name(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -131,10 +131,10 @@ func MergeWafv2IpSet_Name(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeWafv2IpSet_Scope(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
-	if k.Scope != p.Scope {
-		p.Scope = k.Scope
+//mergePrimitiveContainerTemplateSpec
+func MergeWafv2IpSet_Tags(k *Wafv2IpSetParameters, p *Wafv2IpSetParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

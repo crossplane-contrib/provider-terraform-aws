@@ -39,10 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamInstanceProfile(prev *IamInstanceProfile, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIamInstanceProfile_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamInstanceProfile_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeIamInstanceProfile_Path(&new.Spec.ForProvider, valMap)
 	DecodeIamInstanceProfile_Role(&new.Spec.ForProvider, valMap)
-	DecodeIamInstanceProfile_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamInstanceProfile_UniqueId(&new.Status.AtProvider, valMap)
 	DecodeIamInstanceProfile_Arn(&new.Status.AtProvider, valMap)
 	DecodeIamInstanceProfile_CreateDate(&new.Status.AtProvider, valMap)
@@ -51,6 +51,11 @@ func DecodeIamInstanceProfile(prev *IamInstanceProfile, ctyValue cty.Value) (res
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamInstanceProfile_Name(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -66,11 +71,6 @@ func DecodeIamInstanceProfile_Path(p *IamInstanceProfileParameters, vals map[str
 //primitiveTypeDecodeTemplate
 func DecodeIamInstanceProfile_Role(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
 	p.Role = ctwhy.ValueAsString(vals["role"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamInstanceProfile_Name(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate

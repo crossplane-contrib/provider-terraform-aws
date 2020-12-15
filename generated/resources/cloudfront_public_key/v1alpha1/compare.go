@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCloudfrontPublicKey_Comment(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudfrontPublicKey_EncodedKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudfrontPublicKey_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeCloudfrontPublicKey_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudfrontPublicKey_Comment(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudfrontPublicKey_EncodedKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -72,26 +72,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloudfrontPublicKey_Comment(k *CloudfrontPublicKeyParameters, p *CloudfrontPublicKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Comment != p.Comment {
-		p.Comment = k.Comment
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudfrontPublicKey_EncodedKey(k *CloudfrontPublicKeyParameters, p *CloudfrontPublicKeyParameters, md *plugin.MergeDescription) bool {
-	if k.EncodedKey != p.EncodedKey {
-		p.EncodedKey = k.EncodedKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCloudfrontPublicKey_Name(k *CloudfrontPublicKeyParameters, p *CloudfrontPublicKeyParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -105,6 +85,26 @@ func MergeCloudfrontPublicKey_Name(k *CloudfrontPublicKeyParameters, p *Cloudfro
 func MergeCloudfrontPublicKey_NamePrefix(k *CloudfrontPublicKeyParameters, p *CloudfrontPublicKeyParameters, md *plugin.MergeDescription) bool {
 	if k.NamePrefix != p.NamePrefix {
 		p.NamePrefix = k.NamePrefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudfrontPublicKey_Comment(k *CloudfrontPublicKeyParameters, p *CloudfrontPublicKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Comment != p.Comment {
+		p.Comment = k.Comment
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudfrontPublicKey_EncodedKey(k *CloudfrontPublicKeyParameters, p *CloudfrontPublicKeyParameters, md *plugin.MergeDescription) bool {
+	if k.EncodedKey != p.EncodedKey {
+		p.EncodedKey = k.EncodedKey
 		md.NeedsProviderUpdate = true
 		return true
 	}

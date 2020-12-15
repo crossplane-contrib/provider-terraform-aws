@@ -43,23 +43,23 @@ func DecodeDbSnapshot(prev *DbSnapshot, ctyValue cty.Value) (resource.Managed, e
 	DecodeDbSnapshot_DbSnapshotIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeDbSnapshot_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDbSnapshot_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeDbSnapshot_AllocatedStorage(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_AvailabilityZone(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_KmsKeyId(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_SnapshotType(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_Status(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_LicenseModel(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_SourceDbSnapshotIdentifier(&new.Status.AtProvider, valMap)
 	DecodeDbSnapshot_StorageType(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_VpcId(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_DbSnapshotArn(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_Encrypted(&new.Status.AtProvider, valMap)
 	DecodeDbSnapshot_Engine(&new.Status.AtProvider, valMap)
 	DecodeDbSnapshot_EngineVersion(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_Iops(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_SourceDbSnapshotIdentifier(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_DbSnapshotArn(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_LicenseModel(&new.Status.AtProvider, valMap)
 	DecodeDbSnapshot_OptionGroupName(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_Port(&new.Status.AtProvider, valMap)
-	DecodeDbSnapshot_Encrypted(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_Status(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_AllocatedStorage(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_KmsKeyId(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_VpcId(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_Iops(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_SnapshotType(&new.Status.AtProvider, valMap)
 	DecodeDbSnapshot_SourceRegion(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_AvailabilityZone(&new.Status.AtProvider, valMap)
+	DecodeDbSnapshot_Port(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -100,28 +100,13 @@ func DecodeDbSnapshot_Timeouts_Read(p *Timeouts, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_AllocatedStorage(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.AllocatedStorage = ctwhy.ValueAsInt64(vals["allocated_storage"])
+func DecodeDbSnapshot_LicenseModel(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.LicenseModel = ctwhy.ValueAsString(vals["license_model"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_AvailabilityZone(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_KmsKeyId(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_SnapshotType(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.SnapshotType = ctwhy.ValueAsString(vals["snapshot_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_Status(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.Status = ctwhy.ValueAsString(vals["status"])
+func DecodeDbSnapshot_SourceDbSnapshotIdentifier(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.SourceDbSnapshotIdentifier = ctwhy.ValueAsString(vals["source_db_snapshot_identifier"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -130,8 +115,13 @@ func DecodeDbSnapshot_StorageType(p *DbSnapshotObservation, vals map[string]cty.
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_VpcId(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+func DecodeDbSnapshot_DbSnapshotArn(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.DbSnapshotArn = ctwhy.ValueAsString(vals["db_snapshot_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbSnapshot_Encrypted(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.Encrypted = ctwhy.ValueAsBool(vals["encrypted"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -145,41 +135,51 @@ func DecodeDbSnapshot_EngineVersion(p *DbSnapshotObservation, vals map[string]ct
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_Iops(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.Iops = ctwhy.ValueAsInt64(vals["iops"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_SourceDbSnapshotIdentifier(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.SourceDbSnapshotIdentifier = ctwhy.ValueAsString(vals["source_db_snapshot_identifier"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_DbSnapshotArn(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.DbSnapshotArn = ctwhy.ValueAsString(vals["db_snapshot_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_LicenseModel(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.LicenseModel = ctwhy.ValueAsString(vals["license_model"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDbSnapshot_OptionGroupName(p *DbSnapshotObservation, vals map[string]cty.Value) {
 	p.OptionGroupName = ctwhy.ValueAsString(vals["option_group_name"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_Port(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.Port = ctwhy.ValueAsInt64(vals["port"])
+func DecodeDbSnapshot_Status(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.Status = ctwhy.ValueAsString(vals["status"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbSnapshot_Encrypted(p *DbSnapshotObservation, vals map[string]cty.Value) {
-	p.Encrypted = ctwhy.ValueAsBool(vals["encrypted"])
+func DecodeDbSnapshot_AllocatedStorage(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.AllocatedStorage = ctwhy.ValueAsInt64(vals["allocated_storage"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbSnapshot_KmsKeyId(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbSnapshot_VpcId(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbSnapshot_Iops(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.Iops = ctwhy.ValueAsInt64(vals["iops"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbSnapshot_SnapshotType(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.SnapshotType = ctwhy.ValueAsString(vals["snapshot_type"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDbSnapshot_SourceRegion(p *DbSnapshotObservation, vals map[string]cty.Value) {
 	p.SourceRegion = ctwhy.ValueAsString(vals["source_region"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbSnapshot_AvailabilityZone(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbSnapshot_Port(p *DbSnapshotObservation, vals map[string]cty.Value) {
+	p.Port = ctwhy.ValueAsInt64(vals["port"])
 }

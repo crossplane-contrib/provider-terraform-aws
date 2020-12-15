@@ -36,21 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayDeployment_Triggers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayDeployment_Variables(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayDeployment_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayDeployment_StageDescription(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,7 +46,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayDeployment_InvokeUrl(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeApiGatewayDeployment_Triggers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayDeployment_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayDeployment_Variables(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -72,6 +67,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeApiGatewayDeployment_ExecutionArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayDeployment_InvokeUrl(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -90,36 +90,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeApiGatewayDeployment_RestApiId(k *ApiGatewayDeploymentParameters, p *ApiGatewayDeploymentParameters, md *plugin.MergeDescription) bool {
 	if k.RestApiId != p.RestApiId {
 		p.RestApiId = k.RestApiId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeApiGatewayDeployment_Triggers(k *ApiGatewayDeploymentParameters, p *ApiGatewayDeploymentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Triggers, p.Triggers) {
-		p.Triggers = k.Triggers
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeApiGatewayDeployment_Variables(k *ApiGatewayDeploymentParameters, p *ApiGatewayDeploymentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Variables, p.Variables) {
-		p.Variables = k.Variables
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayDeployment_Description(k *ApiGatewayDeploymentParameters, p *ApiGatewayDeploymentParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -146,11 +116,31 @@ func MergeApiGatewayDeployment_StageName(k *ApiGatewayDeploymentParameters, p *A
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeApiGatewayDeployment_InvokeUrl(k *ApiGatewayDeploymentObservation, p *ApiGatewayDeploymentObservation, md *plugin.MergeDescription) bool {
-	if k.InvokeUrl != p.InvokeUrl {
-		k.InvokeUrl = p.InvokeUrl
-		md.StatusUpdated = true
+//mergePrimitiveContainerTemplateSpec
+func MergeApiGatewayDeployment_Triggers(k *ApiGatewayDeploymentParameters, p *ApiGatewayDeploymentParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Triggers, p.Triggers) {
+		p.Triggers = k.Triggers
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayDeployment_Description(k *ApiGatewayDeploymentParameters, p *ApiGatewayDeploymentParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeApiGatewayDeployment_Variables(k *ApiGatewayDeploymentParameters, p *ApiGatewayDeploymentParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Variables, p.Variables) {
+		p.Variables = k.Variables
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -170,6 +160,16 @@ func MergeApiGatewayDeployment_CreatedDate(k *ApiGatewayDeploymentObservation, p
 func MergeApiGatewayDeployment_ExecutionArn(k *ApiGatewayDeploymentObservation, p *ApiGatewayDeploymentObservation, md *plugin.MergeDescription) bool {
 	if k.ExecutionArn != p.ExecutionArn {
 		k.ExecutionArn = p.ExecutionArn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeApiGatewayDeployment_InvokeUrl(k *ApiGatewayDeploymentObservation, p *ApiGatewayDeploymentObservation, md *plugin.MergeDescription) bool {
+	if k.InvokeUrl != p.InvokeUrl {
+		k.InvokeUrl = p.InvokeUrl
 		md.StatusUpdated = true
 		return true
 	}

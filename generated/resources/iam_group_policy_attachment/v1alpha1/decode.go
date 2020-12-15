@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamGroupPolicyAttachment(prev *IamGroupPolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamGroupPolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 	DecodeIamGroupPolicyAttachment_Group(&new.Spec.ForProvider, valMap)
+	DecodeIamGroupPolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeIamGroupPolicyAttachment(prev *IamGroupPolicyAttachment, ctyValue cty
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamGroupPolicyAttachment_PolicyArn(p *IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.PolicyArn = ctwhy.ValueAsString(vals["policy_arn"])
+func DecodeIamGroupPolicyAttachment_Group(p *IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Group = ctwhy.ValueAsString(vals["group"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeIamGroupPolicyAttachment_Group(p *IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Group = ctwhy.ValueAsString(vals["group"])
+func DecodeIamGroupPolicyAttachment_PolicyArn(p *IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.PolicyArn = ctwhy.ValueAsString(vals["policy_arn"])
 }

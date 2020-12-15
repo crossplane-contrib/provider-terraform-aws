@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSnsTopicPolicy_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsTopicPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSnsTopicPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsTopicPolicy_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -53,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsTopicPolicy_Arn(k *SnsTopicPolicyParameters, p *SnsTopicPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		p.Arn = k.Arn
+func MergeSnsTopicPolicy_Policy(k *SnsTopicPolicyParameters, p *SnsTopicPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Policy != p.Policy {
+		p.Policy = k.Policy
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -63,9 +63,9 @@ func MergeSnsTopicPolicy_Arn(k *SnsTopicPolicyParameters, p *SnsTopicPolicyParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsTopicPolicy_Policy(k *SnsTopicPolicyParameters, p *SnsTopicPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Policy != p.Policy {
-		p.Policy = k.Policy
+func MergeSnsTopicPolicy_Arn(k *SnsTopicPolicyParameters, p *SnsTopicPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		p.Arn = k.Arn
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLbCookieStickinessPolicy_CookieExpirationPeriod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLbCookieStickinessPolicy_LbPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLbCookieStickinessPolicy_LoadBalancer(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeLbCookieStickinessPolicy_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLbCookieStickinessPolicy_CookieExpirationPeriod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLbCookieStickinessPolicy_LbPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -63,26 +63,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLbCookieStickinessPolicy_CookieExpirationPeriod(k *LbCookieStickinessPolicyParameters, p *LbCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.CookieExpirationPeriod != p.CookieExpirationPeriod {
-		p.CookieExpirationPeriod = k.CookieExpirationPeriod
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLbCookieStickinessPolicy_LbPort(k *LbCookieStickinessPolicyParameters, p *LbCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.LbPort != p.LbPort {
-		p.LbPort = k.LbPort
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeLbCookieStickinessPolicy_LoadBalancer(k *LbCookieStickinessPolicyParameters, p *LbCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.LoadBalancer != p.LoadBalancer {
 		p.LoadBalancer = k.LoadBalancer
@@ -96,6 +76,26 @@ func MergeLbCookieStickinessPolicy_LoadBalancer(k *LbCookieStickinessPolicyParam
 func MergeLbCookieStickinessPolicy_Name(k *LbCookieStickinessPolicyParameters, p *LbCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbCookieStickinessPolicy_CookieExpirationPeriod(k *LbCookieStickinessPolicyParameters, p *LbCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.CookieExpirationPeriod != p.CookieExpirationPeriod {
+		p.CookieExpirationPeriod = k.CookieExpirationPeriod
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbCookieStickinessPolicy_LbPort(k *LbCookieStickinessPolicyParameters, p *LbCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.LbPort != p.LbPort {
+		p.LbPort = k.LbPort
 		md.NeedsProviderUpdate = true
 		return true
 	}

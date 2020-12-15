@@ -37,24 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayModel(r ApiGatewayModel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayModel_Schema(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayModel_ContentType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayModel_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayModel_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayModel_RestApiId(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayModel_Schema(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayModel_Schema(p ApiGatewayModelParameters, vals map[string]cty.Value) {
-	vals["schema"] = cty.StringVal(p.Schema)
 }
 
 func EncodeApiGatewayModel_ContentType(p ApiGatewayModelParameters, vals map[string]cty.Value) {
@@ -71,4 +65,8 @@ func EncodeApiGatewayModel_Name(p ApiGatewayModelParameters, vals map[string]cty
 
 func EncodeApiGatewayModel_RestApiId(p ApiGatewayModelParameters, vals map[string]cty.Value) {
 	vals["rest_api_id"] = cty.StringVal(p.RestApiId)
+}
+
+func EncodeApiGatewayModel_Schema(p ApiGatewayModelParameters, vals map[string]cty.Value) {
+	vals["schema"] = cty.StringVal(p.Schema)
 }

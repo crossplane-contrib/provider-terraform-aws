@@ -39,17 +39,15 @@ func EncodeApiGatewayClientCertificate(r ApiGatewayClientCertificate) cty.Value 
 	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayClientCertificate_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApiGatewayClientCertificate_Arn(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_ExpirationDate(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayClientCertificate_PemEncodedCertificate(r.Status.AtProvider, ctyVal)
-	EncodeApiGatewayClientCertificate_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -69,6 +67,10 @@ func EncodeApiGatewayClientCertificate_Tags(p ApiGatewayClientCertificateParamet
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeApiGatewayClientCertificate_Arn(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
 func EncodeApiGatewayClientCertificate_CreatedDate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
 	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
@@ -79,8 +81,4 @@ func EncodeApiGatewayClientCertificate_ExpirationDate(p ApiGatewayClientCertific
 
 func EncodeApiGatewayClientCertificate_PemEncodedCertificate(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
 	vals["pem_encoded_certificate"] = cty.StringVal(p.PemEncodedCertificate)
-}
-
-func EncodeApiGatewayClientCertificate_Arn(p ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

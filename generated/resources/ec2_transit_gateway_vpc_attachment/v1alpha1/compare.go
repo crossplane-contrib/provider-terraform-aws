@@ -31,6 +31,21 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeEc2TransitGatewayVpcAttachment_Ipv6Support(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,32 +56,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayVpcAttachment_DnsSupport(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2TransitGatewayVpcAttachment_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TransitGatewayVpcAttachment_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachment_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TransitGatewayVpcAttachment_DnsSupport(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -84,6 +84,36 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayDefaultRouteTableAssociation != p.TransitGatewayDefaultRouteTableAssociation {
+		p.TransitGatewayDefaultRouteTableAssociation = k.TransitGatewayDefaultRouteTableAssociation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayDefaultRouteTablePropagation != p.TransitGatewayDefaultRouteTablePropagation {
+		p.TransitGatewayDefaultRouteTablePropagation = k.TransitGatewayDefaultRouteTablePropagation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayVpcAttachment_TransitGatewayId(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayId != p.TransitGatewayId {
+		p.TransitGatewayId = k.TransitGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -106,36 +136,6 @@ func MergeEc2TransitGatewayVpcAttachment_SubnetIds(k *Ec2TransitGatewayVpcAttach
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayDefaultRouteTableAssociation != p.TransitGatewayDefaultRouteTableAssociation {
-		p.TransitGatewayDefaultRouteTableAssociation = k.TransitGatewayDefaultRouteTableAssociation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_TransitGatewayId(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayId != p.TransitGatewayId {
-		p.TransitGatewayId = k.TransitGatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_DnsSupport(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.DnsSupport != p.DnsSupport {
-		p.DnsSupport = k.DnsSupport
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TransitGatewayVpcAttachment_Tags(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
@@ -147,9 +147,9 @@ func MergeEc2TransitGatewayVpcAttachment_Tags(k *Ec2TransitGatewayVpcAttachmentP
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayDefaultRouteTablePropagation != p.TransitGatewayDefaultRouteTablePropagation {
-		p.TransitGatewayDefaultRouteTablePropagation = k.TransitGatewayDefaultRouteTablePropagation
+func MergeEc2TransitGatewayVpcAttachment_VpcId(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -157,9 +157,9 @@ func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagat
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_VpcId(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		p.VpcId = k.VpcId
+func MergeEc2TransitGatewayVpcAttachment_DnsSupport(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.DnsSupport != p.DnsSupport {
+		p.DnsSupport = k.DnsSupport
 		md.NeedsProviderUpdate = true
 		return true
 	}

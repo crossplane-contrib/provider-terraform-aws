@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamAccessKey_PgpKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamAccessKey_Status(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,7 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamAccessKey_KeyFingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamAccessKey_PgpKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,6 +61,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeIamAccessKey_KeyFingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -74,16 +74,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamAccessKey_PgpKey(k *IamAccessKeyParameters, p *IamAccessKeyParameters, md *plugin.MergeDescription) bool {
-	if k.PgpKey != p.PgpKey {
-		p.PgpKey = k.PgpKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -106,11 +96,11 @@ func MergeIamAccessKey_User(k *IamAccessKeyParameters, p *IamAccessKeyParameters
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeIamAccessKey_KeyFingerprint(k *IamAccessKeyObservation, p *IamAccessKeyObservation, md *plugin.MergeDescription) bool {
-	if k.KeyFingerprint != p.KeyFingerprint {
-		k.KeyFingerprint = p.KeyFingerprint
-		md.StatusUpdated = true
+//mergePrimitiveTemplateSpec
+func MergeIamAccessKey_PgpKey(k *IamAccessKeyParameters, p *IamAccessKeyParameters, md *plugin.MergeDescription) bool {
+	if k.PgpKey != p.PgpKey {
+		p.PgpKey = k.PgpKey
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -140,6 +130,16 @@ func MergeIamAccessKey_SesSmtpPasswordV4(k *IamAccessKeyObservation, p *IamAcces
 func MergeIamAccessKey_EncryptedSecret(k *IamAccessKeyObservation, p *IamAccessKeyObservation, md *plugin.MergeDescription) bool {
 	if k.EncryptedSecret != p.EncryptedSecret {
 		k.EncryptedSecret = p.EncryptedSecret
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamAccessKey_KeyFingerprint(k *IamAccessKeyObservation, p *IamAccessKeyObservation, md *plugin.MergeDescription) bool {
+	if k.KeyFingerprint != p.KeyFingerprint {
+		k.KeyFingerprint = p.KeyFingerprint
 		md.StatusUpdated = true
 		return true
 	}

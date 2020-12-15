@@ -52,13 +52,13 @@ type Ec2TrafficMirrorSessionSpec struct {
 
 // A Ec2TrafficMirrorSessionParameters defines the desired state of a Ec2TrafficMirrorSession
 type Ec2TrafficMirrorSessionParameters struct {
-	Description           string            `json:"description"`
-	SessionNumber         int64             `json:"session_number"`
 	TrafficMirrorTargetId string            `json:"traffic_mirror_target_id"`
+	Description           string            `json:"description"`
 	NetworkInterfaceId    string            `json:"network_interface_id"`
 	PacketLength          int64             `json:"packet_length"`
-	Tags                  map[string]string `json:"tags"`
+	SessionNumber         int64             `json:"session_number"`
 	TrafficMirrorFilterId string            `json:"traffic_mirror_filter_id"`
+	Tags                  map[string]string `json:"tags"`
 	VirtualNetworkId      int64             `json:"virtual_network_id"`
 }
 

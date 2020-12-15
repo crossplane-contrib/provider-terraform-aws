@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeRedshiftSnapshotSchedule_ForceDestroy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeRedshiftSnapshotSchedule_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,11 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRedshiftSnapshotSchedule_ForceDestroy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRedshiftSnapshotSchedule_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -74,6 +74,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRedshiftSnapshotSchedule_ForceDestroy(k *RedshiftSnapshotScheduleParameters, p *RedshiftSnapshotScheduleParameters, md *plugin.MergeDescription) bool {
+	if k.ForceDestroy != p.ForceDestroy {
+		p.ForceDestroy = k.ForceDestroy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -120,16 +130,6 @@ func MergeRedshiftSnapshotSchedule_Definitions(k *RedshiftSnapshotScheduleParame
 func MergeRedshiftSnapshotSchedule_Description(k *RedshiftSnapshotScheduleParameters, p *RedshiftSnapshotScheduleParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRedshiftSnapshotSchedule_ForceDestroy(k *RedshiftSnapshotScheduleParameters, p *RedshiftSnapshotScheduleParameters, md *plugin.MergeDescription) bool {
-	if k.ForceDestroy != p.ForceDestroy {
-		p.ForceDestroy = k.ForceDestroy
 		md.NeedsProviderUpdate = true
 		return true
 	}

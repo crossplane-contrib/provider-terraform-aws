@@ -37,21 +37,31 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCognitoIdentityProvider(r CognitoIdentityProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoIdentityProvider_AttributeMapping(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_IdpIdentifiers(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_ProviderDetails(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_ProviderName(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_ProviderType(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_UserPoolId(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_AttributeMapping(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCognitoIdentityProvider_AttributeMapping(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	if len(p.AttributeMapping) == 0 {
+		vals["attribute_mapping"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.AttributeMapping {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["attribute_mapping"] = cty.MapVal(mVals)
 }
 
 func EncodeCognitoIdentityProvider_IdpIdentifiers(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
@@ -84,16 +94,4 @@ func EncodeCognitoIdentityProvider_ProviderType(p CognitoIdentityProviderParamet
 
 func EncodeCognitoIdentityProvider_UserPoolId(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
 	vals["user_pool_id"] = cty.StringVal(p.UserPoolId)
-}
-
-func EncodeCognitoIdentityProvider_AttributeMapping(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	if len(p.AttributeMapping) == 0 {
-		vals["attribute_mapping"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.AttributeMapping {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["attribute_mapping"] = cty.MapVal(mVals)
 }

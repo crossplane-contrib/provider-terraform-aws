@@ -52,11 +52,11 @@ type AthenaNamedQuerySpec struct {
 
 // A AthenaNamedQueryParameters defines the desired state of a AthenaNamedQuery
 type AthenaNamedQueryParameters struct {
-	Workgroup   string `json:"workgroup"`
-	Database    string `json:"database"`
 	Description string `json:"description"`
 	Name        string `json:"name"`
 	Query       string `json:"query"`
+	Workgroup   string `json:"workgroup"`
+	Database    string `json:"database"`
 }
 
 // A AthenaNamedQueryStatus defines the observed state of a AthenaNamedQuery

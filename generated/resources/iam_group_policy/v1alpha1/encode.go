@@ -37,19 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamGroupPolicy(r IamGroupPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamGroupPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicy_Group(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroupPolicy_Name(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamGroupPolicy_Name(p IamGroupPolicyParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeIamGroupPolicy_NamePrefix(p IamGroupPolicyParameters, vals map[string]cty.Value) {
@@ -62,8 +64,4 @@ func EncodeIamGroupPolicy_Policy(p IamGroupPolicyParameters, vals map[string]cty
 
 func EncodeIamGroupPolicy_Group(p IamGroupPolicyParameters, vals map[string]cty.Value) {
 	vals["group"] = cty.StringVal(p.Group)
-}
-
-func EncodeIamGroupPolicy_Name(p IamGroupPolicyParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }

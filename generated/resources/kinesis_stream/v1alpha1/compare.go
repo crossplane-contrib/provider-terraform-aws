@@ -41,7 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKinesisStream_ShardCount(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKinesisStream_RetentionPeriod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,17 +61,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKinesisStream_EnforceConsumerDeletion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeKinesisStream_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeKinesisStream_RetentionPeriod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKinesisStream_ShardCount(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeKinesisStream_EnforceConsumerDeletion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -113,9 +113,9 @@ func MergeKinesisStream_KmsKeyId(k *KinesisStreamParameters, p *KinesisStreamPar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeKinesisStream_ShardCount(k *KinesisStreamParameters, p *KinesisStreamParameters, md *plugin.MergeDescription) bool {
-	if k.ShardCount != p.ShardCount {
-		p.ShardCount = k.ShardCount
+func MergeKinesisStream_RetentionPeriod(k *KinesisStreamParameters, p *KinesisStreamParameters, md *plugin.MergeDescription) bool {
+	if k.RetentionPeriod != p.RetentionPeriod {
+		p.RetentionPeriod = k.RetentionPeriod
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -153,16 +153,6 @@ func MergeKinesisStream_Arn(k *KinesisStreamParameters, p *KinesisStreamParamete
 }
 
 //mergePrimitiveTemplateSpec
-func MergeKinesisStream_EnforceConsumerDeletion(k *KinesisStreamParameters, p *KinesisStreamParameters, md *plugin.MergeDescription) bool {
-	if k.EnforceConsumerDeletion != p.EnforceConsumerDeletion {
-		p.EnforceConsumerDeletion = k.EnforceConsumerDeletion
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeKinesisStream_Name(k *KinesisStreamParameters, p *KinesisStreamParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -173,9 +163,19 @@ func MergeKinesisStream_Name(k *KinesisStreamParameters, p *KinesisStreamParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergeKinesisStream_RetentionPeriod(k *KinesisStreamParameters, p *KinesisStreamParameters, md *plugin.MergeDescription) bool {
-	if k.RetentionPeriod != p.RetentionPeriod {
-		p.RetentionPeriod = k.RetentionPeriod
+func MergeKinesisStream_ShardCount(k *KinesisStreamParameters, p *KinesisStreamParameters, md *plugin.MergeDescription) bool {
+	if k.ShardCount != p.ShardCount {
+		p.ShardCount = k.ShardCount
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeKinesisStream_EnforceConsumerDeletion(k *KinesisStreamParameters, p *KinesisStreamParameters, md *plugin.MergeDescription) bool {
+	if k.EnforceConsumerDeletion != p.EnforceConsumerDeletion {
+		p.EnforceConsumerDeletion = k.EnforceConsumerDeletion
 		md.NeedsProviderUpdate = true
 		return true
 	}

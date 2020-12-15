@@ -39,22 +39,51 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeNeptuneEventSubscription(prev *NeptuneEventSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeNeptuneEventSubscription_SnsTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneEventSubscription_Name(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneEventSubscription_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeNeptuneEventSubscription_SourceIds(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneEventSubscription_Tags(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneEventSubscription_Enabled(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneEventSubscription_EventCategories(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneEventSubscription_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneEventSubscription_SnsTopicArn(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneEventSubscription_SourceIds(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
-	DecodeNeptuneEventSubscription_Name(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneEventSubscription_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeNeptuneEventSubscription_Arn(&new.Status.AtProvider, valMap)
 	DecodeNeptuneEventSubscription_CustomerAwsId(&new.Status.AtProvider, valMap)
+	DecodeNeptuneEventSubscription_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneEventSubscription_SnsTopicArn(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneEventSubscription_SourceType(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneEventSubscription_Name(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneEventSubscription_NamePrefix(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeNeptuneEventSubscription_SourceIds(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["source_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SourceIds = goVals
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -82,35 +111,6 @@ func DecodeNeptuneEventSubscription_EventCategories(p *NeptuneEventSubscriptionP
 	p.EventCategories = goVals
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneEventSubscription_NamePrefix(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneEventSubscription_SnsTopicArn(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeNeptuneEventSubscription_SourceIds(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["source_ids"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.SourceIds = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneEventSubscription_SourceType(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneEventSubscription_Name(p *NeptuneEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
 //containerTypeDecodeTemplate
 func DecodeNeptuneEventSubscription_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
@@ -135,11 +135,11 @@ func DecodeNeptuneEventSubscription_Timeouts_Create(p *Timeouts, vals map[string
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneEventSubscription_Arn(p *NeptuneEventSubscriptionObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeNeptuneEventSubscription_CustomerAwsId(p *NeptuneEventSubscriptionObservation, vals map[string]cty.Value) {
+	p.CustomerAwsId = ctwhy.ValueAsString(vals["customer_aws_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneEventSubscription_CustomerAwsId(p *NeptuneEventSubscriptionObservation, vals map[string]cty.Value) {
-	p.CustomerAwsId = ctwhy.ValueAsString(vals["customer_aws_id"])
+func DecodeNeptuneEventSubscription_Arn(p *NeptuneEventSubscriptionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -39,20 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEmrSecurityConfiguration(prev *EmrSecurityConfiguration, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEmrSecurityConfiguration_Name(&new.Spec.ForProvider, valMap)
 	DecodeEmrSecurityConfiguration_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeEmrSecurityConfiguration_Configuration(&new.Spec.ForProvider, valMap)
+	DecodeEmrSecurityConfiguration_Name(&new.Spec.ForProvider, valMap)
 	DecodeEmrSecurityConfiguration_CreationDate(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEmrSecurityConfiguration_Name(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -63,6 +58,11 @@ func DecodeEmrSecurityConfiguration_NamePrefix(p *EmrSecurityConfigurationParame
 //primitiveTypeDecodeTemplate
 func DecodeEmrSecurityConfiguration_Configuration(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
 	p.Configuration = ctwhy.ValueAsString(vals["configuration"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEmrSecurityConfiguration_Name(p *EmrSecurityConfigurationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate

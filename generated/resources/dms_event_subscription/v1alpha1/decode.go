@@ -39,13 +39,13 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDmsEventSubscription(prev *DmsEventSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDmsEventSubscription_Enabled(&new.Spec.ForProvider, valMap)
-	DecodeDmsEventSubscription_Name(&new.Spec.ForProvider, valMap)
-	DecodeDmsEventSubscription_SnsTopicArn(&new.Spec.ForProvider, valMap)
 	DecodeDmsEventSubscription_SourceIds(&new.Spec.ForProvider, valMap)
 	DecodeDmsEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
 	DecodeDmsEventSubscription_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_Name(&new.Spec.ForProvider, valMap)
 	DecodeDmsEventSubscription_EventCategories(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_SnsTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeDmsEventSubscription_Enabled(&new.Spec.ForProvider, valMap)
 	DecodeDmsEventSubscription_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDmsEventSubscription_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -53,21 +53,6 @@ func DecodeDmsEventSubscription(prev *DmsEventSubscription, ctyValue cty.Value) 
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsEventSubscription_Enabled(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsEventSubscription_Name(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDmsEventSubscription_SnsTopicArn(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -95,6 +80,11 @@ func DecodeDmsEventSubscription_Tags(p *DmsEventSubscriptionParameters, vals map
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDmsEventSubscription_Name(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
 //primitiveCollectionTypeDecodeTemplate
 func DecodeDmsEventSubscription_EventCategories(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
@@ -102,6 +92,16 @@ func DecodeDmsEventSubscription_EventCategories(p *DmsEventSubscriptionParameter
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.EventCategories = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsEventSubscription_SnsTopicArn(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDmsEventSubscription_Enabled(p *DmsEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
 }
 
 //containerTypeDecodeTemplate

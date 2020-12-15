@@ -42,19 +42,19 @@ func DecodeNeptuneClusterSnapshot(prev *NeptuneClusterSnapshot, ctyValue cty.Val
 	DecodeNeptuneClusterSnapshot_DbClusterIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterSnapshot_DbClusterSnapshotIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneClusterSnapshot_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeNeptuneClusterSnapshot_EngineVersion(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterSnapshot_LicenseModel(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterSnapshot_Port(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterSnapshot_SnapshotType(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_VpcId(&new.Status.AtProvider, valMap)
 	DecodeNeptuneClusterSnapshot_AllocatedStorage(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterSnapshot_AvailabilityZones(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_LicenseModel(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_StorageEncrypted(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_Port(&new.Status.AtProvider, valMap)
 	DecodeNeptuneClusterSnapshot_Status(&new.Status.AtProvider, valMap)
 	DecodeNeptuneClusterSnapshot_DbClusterSnapshotArn(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterSnapshot_StorageEncrypted(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterSnapshot_VpcId(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_EngineVersion(&new.Status.AtProvider, valMap)
 	DecodeNeptuneClusterSnapshot_KmsKeyId(&new.Status.AtProvider, valMap)
-	DecodeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(&new.Status.AtProvider, valMap)
 	DecodeNeptuneClusterSnapshot_Engine(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_AvailabilityZones(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_SnapshotType(&new.Status.AtProvider, valMap)
+	DecodeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -84,8 +84,13 @@ func DecodeNeptuneClusterSnapshot_Timeouts_Create(p *Timeouts, vals map[string]c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_EngineVersion(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
+func DecodeNeptuneClusterSnapshot_VpcId(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterSnapshot_AllocatedStorage(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	p.AllocatedStorage = ctwhy.ValueAsInt64(vals["allocated_storage"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -94,27 +99,13 @@ func DecodeNeptuneClusterSnapshot_LicenseModel(p *NeptuneClusterSnapshotObservat
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterSnapshot_StorageEncrypted(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	p.StorageEncrypted = ctwhy.ValueAsBool(vals["storage_encrypted"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeNeptuneClusterSnapshot_Port(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
 	p.Port = ctwhy.ValueAsInt64(vals["port"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_SnapshotType(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	p.SnapshotType = ctwhy.ValueAsString(vals["snapshot_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_AllocatedStorage(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	p.AllocatedStorage = ctwhy.ValueAsInt64(vals["allocated_storage"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_AvailabilityZones(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["availability_zones"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.AvailabilityZones = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -128,13 +119,8 @@ func DecodeNeptuneClusterSnapshot_DbClusterSnapshotArn(p *NeptuneClusterSnapshot
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_StorageEncrypted(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	p.StorageEncrypted = ctwhy.ValueAsBool(vals["storage_encrypted"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_VpcId(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+func DecodeNeptuneClusterSnapshot_EngineVersion(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -143,11 +129,25 @@ func DecodeNeptuneClusterSnapshot_KmsKeyId(p *NeptuneClusterSnapshotObservation,
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	p.SourceDbClusterSnapshotArn = ctwhy.ValueAsString(vals["source_db_cluster_snapshot_arn"])
+func DecodeNeptuneClusterSnapshot_Engine(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	p.Engine = ctwhy.ValueAsString(vals["engine"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeNeptuneClusterSnapshot_AvailabilityZones(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["availability_zones"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AvailabilityZones = goVals
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNeptuneClusterSnapshot_Engine(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
-	p.Engine = ctwhy.ValueAsString(vals["engine"])
+func DecodeNeptuneClusterSnapshot_SnapshotType(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	p.SnapshotType = ctwhy.ValueAsString(vals["snapshot_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(p *NeptuneClusterSnapshotObservation, vals map[string]cty.Value) {
+	p.SourceDbClusterSnapshotArn = ctwhy.ValueAsString(vals["source_db_cluster_snapshot_arn"])
 }

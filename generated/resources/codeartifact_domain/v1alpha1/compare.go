@@ -41,6 +41,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeCodeartifactDomain_RepositoryCount(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCodeartifactDomain_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -57,11 +62,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeCodeartifactDomain_Owner(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCodeartifactDomain_RepositoryCount(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,6 +91,16 @@ func MergeCodeartifactDomain_EncryptionKey(k *CodeartifactDomainParameters, p *C
 	if k.EncryptionKey != p.EncryptionKey {
 		p.EncryptionKey = k.EncryptionKey
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeCodeartifactDomain_RepositoryCount(k *CodeartifactDomainObservation, p *CodeartifactDomainObservation, md *plugin.MergeDescription) bool {
+	if k.RepositoryCount != p.RepositoryCount {
+		k.RepositoryCount = p.RepositoryCount
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -130,16 +140,6 @@ func MergeCodeartifactDomain_CreatedTime(k *CodeartifactDomainObservation, p *Co
 func MergeCodeartifactDomain_Owner(k *CodeartifactDomainObservation, p *CodeartifactDomainObservation, md *plugin.MergeDescription) bool {
 	if k.Owner != p.Owner {
 		k.Owner = p.Owner
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeCodeartifactDomain_RepositoryCount(k *CodeartifactDomainObservation, p *CodeartifactDomainObservation, md *plugin.MergeDescription) bool {
-	if k.RepositoryCount != p.RepositoryCount {
-		k.RepositoryCount = p.RepositoryCount
 		md.StatusUpdated = true
 		return true
 	}

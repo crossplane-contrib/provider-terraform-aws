@@ -37,27 +37,17 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLbCookieStickinessPolicy(r LbCookieStickinessPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(r.Spec.ForProvider, ctyVal)
-	EncodeLbCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_Name(r.Spec.ForProvider, ctyVal)
+	EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(r.Spec.ForProvider, ctyVal)
+	EncodeLbCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["cookie_expiration_period"] = cty.NumberIntVal(p.CookieExpirationPeriod)
-}
-
-func EncodeLbCookieStickinessPolicy_LbPort(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["lb_port"] = cty.NumberIntVal(p.LbPort)
 }
 
 func EncodeLbCookieStickinessPolicy_LoadBalancer(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
@@ -66,4 +56,12 @@ func EncodeLbCookieStickinessPolicy_LoadBalancer(p LbCookieStickinessPolicyParam
 
 func EncodeLbCookieStickinessPolicy_Name(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["cookie_expiration_period"] = cty.NumberIntVal(p.CookieExpirationPeriod)
+}
+
+func EncodeLbCookieStickinessPolicy_LbPort(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["lb_port"] = cty.NumberIntVal(p.LbPort)
 }

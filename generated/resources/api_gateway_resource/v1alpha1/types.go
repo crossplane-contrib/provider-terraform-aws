@@ -52,9 +52,9 @@ type ApiGatewayResourceSpec struct {
 
 // A ApiGatewayResourceParameters defines the desired state of a ApiGatewayResource
 type ApiGatewayResourceParameters struct {
+	RestApiId string `json:"rest_api_id"`
 	ParentId  string `json:"parent_id"`
 	PathPart  string `json:"path_part"`
-	RestApiId string `json:"rest_api_id"`
 }
 
 // A ApiGatewayResourceStatus defines the observed state of a ApiGatewayResource

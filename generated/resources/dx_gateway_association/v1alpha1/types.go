@@ -53,10 +53,10 @@ type DxGatewayAssociationSpec struct {
 // A DxGatewayAssociationParameters defines the desired state of a DxGatewayAssociation
 type DxGatewayAssociationParameters struct {
 	AllowedPrefixes                 []string `json:"allowed_prefixes"`
-	ProposalId                      string   `json:"proposal_id"`
-	DxGatewayId                     string   `json:"dx_gateway_id"`
-	AssociatedGatewayId             string   `json:"associated_gateway_id"`
 	AssociatedGatewayOwnerAccountId string   `json:"associated_gateway_owner_account_id"`
+	AssociatedGatewayId             string   `json:"associated_gateway_id"`
+	DxGatewayId                     string   `json:"dx_gateway_id"`
+	ProposalId                      string   `json:"proposal_id"`
 	Timeouts                        Timeouts `json:"timeouts"`
 }
 
@@ -74,7 +74,7 @@ type DxGatewayAssociationStatus struct {
 
 // A DxGatewayAssociationObservation records the observed state of a DxGatewayAssociation
 type DxGatewayAssociationObservation struct {
-	DxGatewayOwnerAccountId string `json:"dx_gateway_owner_account_id"`
-	DxGatewayAssociationId  string `json:"dx_gateway_association_id"`
 	AssociatedGatewayType   string `json:"associated_gateway_type"`
+	DxGatewayAssociationId  string `json:"dx_gateway_association_id"`
+	DxGatewayOwnerAccountId string `json:"dx_gateway_owner_account_id"`
 }

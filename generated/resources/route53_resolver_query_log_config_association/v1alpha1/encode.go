@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRoute53ResolverQueryLogConfigAssociation(r Route53ResolverQueryLogConfigAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfigAssociation_ResourceId(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(p Route53ResolverQueryLogConfigAssociationParameters, vals map[string]cty.Value) {
-	vals["resolver_query_log_config_id"] = cty.StringVal(p.ResolverQueryLogConfigId)
 }
 
 func EncodeRoute53ResolverQueryLogConfigAssociation_ResourceId(p Route53ResolverQueryLogConfigAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_id"] = cty.StringVal(p.ResourceId)
+}
+
+func EncodeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(p Route53ResolverQueryLogConfigAssociationParameters, vals map[string]cty.Value) {
+	vals["resolver_query_log_config_id"] = cty.StringVal(p.ResolverQueryLogConfigId)
 }

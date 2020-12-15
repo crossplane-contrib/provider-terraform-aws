@@ -37,23 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSnapshotScheduleAssociation(r RedshiftSnapshotScheduleAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
-	vals["schedule_identifier"] = cty.StringVal(p.ScheduleIdentifier)
 }
 
 func EncodeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
 	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
+}
+
+func EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
+	vals["schedule_identifier"] = cty.StringVal(p.ScheduleIdentifier)
 }

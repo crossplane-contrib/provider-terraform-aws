@@ -39,20 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesIdentityPolicy(prev *SesIdentityPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesIdentityPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityPolicy_Identity(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityPolicy_Name(&new.Spec.ForProvider, valMap)
+	DecodeSesIdentityPolicy_Policy(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesIdentityPolicy_Policy(p *SesIdentityPolicyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -63,4 +58,9 @@ func DecodeSesIdentityPolicy_Identity(p *SesIdentityPolicyParameters, vals map[s
 //primitiveTypeDecodeTemplate
 func DecodeSesIdentityPolicy_Name(p *SesIdentityPolicyParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSesIdentityPolicy_Policy(p *SesIdentityPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }

@@ -52,10 +52,10 @@ type DefaultVpcSpec struct {
 
 // A DefaultVpcParameters defines the desired state of a DefaultVpc
 type DefaultVpcParameters struct {
+	EnableClassiclink           bool              `json:"enable_classiclink"`
+	EnableDnsHostnames          bool              `json:"enable_dns_hostnames"`
 	EnableDnsSupport            bool              `json:"enable_dns_support"`
 	EnableClassiclinkDnsSupport bool              `json:"enable_classiclink_dns_support"`
-	EnableDnsHostnames          bool              `json:"enable_dns_hostnames"`
-	EnableClassiclink           bool              `json:"enable_classiclink"`
 	Tags                        map[string]string `json:"tags"`
 }
 
@@ -67,16 +67,16 @@ type DefaultVpcStatus struct {
 
 // A DefaultVpcObservation records the observed state of a DefaultVpc
 type DefaultVpcObservation struct {
+	DhcpOptionsId                string `json:"dhcp_options_id"`
 	CidrBlock                    string `json:"cidr_block"`
+	DefaultRouteTableId          string `json:"default_route_table_id"`
 	DefaultSecurityGroupId       string `json:"default_security_group_id"`
 	Ipv6AssociationId            string `json:"ipv6_association_id"`
 	MainRouteTableId             string `json:"main_route_table_id"`
-	DefaultRouteTableId          string `json:"default_route_table_id"`
-	OwnerId                      string `json:"owner_id"`
 	Arn                          string `json:"arn"`
-	DefaultNetworkAclId          string `json:"default_network_acl_id"`
 	InstanceTenancy              string `json:"instance_tenancy"`
-	AssignGeneratedIpv6CidrBlock bool   `json:"assign_generated_ipv6_cidr_block"`
-	DhcpOptionsId                string `json:"dhcp_options_id"`
+	DefaultNetworkAclId          string `json:"default_network_acl_id"`
 	Ipv6CidrBlock                string `json:"ipv6_cidr_block"`
+	OwnerId                      string `json:"owner_id"`
+	AssignGeneratedIpv6CidrBlock bool   `json:"assign_generated_ipv6_cidr_block"`
 }

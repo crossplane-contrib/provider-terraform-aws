@@ -36,6 +36,21 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeEip_CustomerOwnedIpv4Pool(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEip_Vpc(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEip_AssociateWithPrivateIp(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeEip_NetworkInterface(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,22 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEip_AssociateWithPrivateIp(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEip_Vpc(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEip_CustomerOwnedIpv4Pool(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEip_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEip_PrivateIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,7 +86,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEip_Domain(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEip_PublicDns(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,22 +96,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEip_PrivateIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEip_AssociationId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEip_PublicIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEip_Domain(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEip_PublicDns(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEip_PublicIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -125,6 +125,36 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeEip_Instance(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
 	if k.Instance != p.Instance {
 		p.Instance = k.Instance
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEip_CustomerOwnedIpv4Pool(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
+	if k.CustomerOwnedIpv4Pool != p.CustomerOwnedIpv4Pool {
+		p.CustomerOwnedIpv4Pool = k.CustomerOwnedIpv4Pool
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEip_Vpc(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
+	if k.Vpc != p.Vpc {
+		p.Vpc = k.Vpc
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEip_AssociateWithPrivateIp(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
+	if k.AssociateWithPrivateIp != p.AssociateWithPrivateIp {
+		p.AssociateWithPrivateIp = k.AssociateWithPrivateIp
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -155,36 +185,6 @@ func MergeEip_PublicIpv4Pool(k *EipParameters, p *EipParameters, md *plugin.Merg
 func MergeEip_Tags(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEip_AssociateWithPrivateIp(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
-	if k.AssociateWithPrivateIp != p.AssociateWithPrivateIp {
-		p.AssociateWithPrivateIp = k.AssociateWithPrivateIp
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEip_Vpc(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
-	if k.Vpc != p.Vpc {
-		p.Vpc = k.Vpc
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEip_CustomerOwnedIpv4Pool(k *EipParameters, p *EipParameters, md *plugin.MergeDescription) bool {
-	if k.CustomerOwnedIpv4Pool != p.CustomerOwnedIpv4Pool {
-		p.CustomerOwnedIpv4Pool = k.CustomerOwnedIpv4Pool
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -247,6 +247,16 @@ func MergeEip_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescript
 }
 
 //mergePrimitiveTemplateStatus
+func MergeEip_PrivateIp(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
+	if k.PrivateIp != p.PrivateIp {
+		k.PrivateIp = p.PrivateIp
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeEip_AllocationId(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
 	if k.AllocationId != p.AllocationId {
 		k.AllocationId = p.AllocationId
@@ -267,9 +277,9 @@ func MergeEip_CustomerOwnedIp(k *EipObservation, p *EipObservation, md *plugin.M
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEip_Domain(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
-	if k.Domain != p.Domain {
-		k.Domain = p.Domain
+func MergeEip_PublicDns(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
+	if k.PublicDns != p.PublicDns {
+		k.PublicDns = p.PublicDns
 		md.StatusUpdated = true
 		return true
 	}
@@ -287,16 +297,6 @@ func MergeEip_PrivateDns(k *EipObservation, p *EipObservation, md *plugin.MergeD
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEip_PrivateIp(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
-	if k.PrivateIp != p.PrivateIp {
-		k.PrivateIp = p.PrivateIp
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeEip_AssociationId(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
 	if k.AssociationId != p.AssociationId {
 		k.AssociationId = p.AssociationId
@@ -307,9 +307,9 @@ func MergeEip_AssociationId(k *EipObservation, p *EipObservation, md *plugin.Mer
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEip_PublicIp(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
-	if k.PublicIp != p.PublicIp {
-		k.PublicIp = p.PublicIp
+func MergeEip_Domain(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
+	if k.Domain != p.Domain {
+		k.Domain = p.Domain
 		md.StatusUpdated = true
 		return true
 	}
@@ -317,9 +317,9 @@ func MergeEip_PublicIp(k *EipObservation, p *EipObservation, md *plugin.MergeDes
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEip_PublicDns(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
-	if k.PublicDns != p.PublicDns {
-		k.PublicDns = p.PublicDns
+func MergeEip_PublicIp(k *EipObservation, p *EipObservation, md *plugin.MergeDescription) bool {
+	if k.PublicIp != p.PublicIp {
+		k.PublicIp = p.PublicIp
 		md.StatusUpdated = true
 		return true
 	}

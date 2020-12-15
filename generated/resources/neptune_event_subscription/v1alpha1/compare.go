@@ -31,6 +31,31 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeNeptuneEventSubscription_SnsTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneEventSubscription_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneEventSubscription_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneEventSubscription_SourceIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeNeptuneEventSubscription_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,42 +71,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneEventSubscription_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneEventSubscription_SnsTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneEventSubscription_SourceIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneEventSubscription_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeNeptuneEventSubscription_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneEventSubscription_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeNeptuneEventSubscription_CustomerAwsId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneEventSubscription_CustomerAwsId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeNeptuneEventSubscription_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -94,6 +94,56 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneEventSubscription_SnsTopicArn(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.SnsTopicArn != p.SnsTopicArn {
+		p.SnsTopicArn = k.SnsTopicArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneEventSubscription_SourceType(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.SourceType != p.SourceType {
+		p.SourceType = k.SourceType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneEventSubscription_Name(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneEventSubscription_NamePrefix(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.NamePrefix != p.NamePrefix {
+		p.NamePrefix = k.NamePrefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeNeptuneEventSubscription_SourceIds(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SourceIds, p.SourceIds) {
+		p.SourceIds = k.SourceIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -120,56 +170,6 @@ func MergeNeptuneEventSubscription_Enabled(k *NeptuneEventSubscriptionParameters
 func MergeNeptuneEventSubscription_EventCategories(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.EventCategories, p.EventCategories) {
 		p.EventCategories = k.EventCategories
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneEventSubscription_NamePrefix(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.NamePrefix != p.NamePrefix {
-		p.NamePrefix = k.NamePrefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneEventSubscription_SnsTopicArn(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.SnsTopicArn != p.SnsTopicArn {
-		p.SnsTopicArn = k.SnsTopicArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeNeptuneEventSubscription_SourceIds(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.SourceIds, p.SourceIds) {
-		p.SourceIds = k.SourceIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneEventSubscription_SourceType(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.SourceType != p.SourceType {
-		p.SourceType = k.SourceType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneEventSubscription_Name(k *NeptuneEventSubscriptionParameters, p *NeptuneEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -232,9 +232,9 @@ func MergeNeptuneEventSubscription_Timeouts_Create(k *Timeouts, p *Timeouts, md 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneEventSubscription_Arn(k *NeptuneEventSubscriptionObservation, p *NeptuneEventSubscriptionObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeNeptuneEventSubscription_CustomerAwsId(k *NeptuneEventSubscriptionObservation, p *NeptuneEventSubscriptionObservation, md *plugin.MergeDescription) bool {
+	if k.CustomerAwsId != p.CustomerAwsId {
+		k.CustomerAwsId = p.CustomerAwsId
 		md.StatusUpdated = true
 		return true
 	}
@@ -242,9 +242,9 @@ func MergeNeptuneEventSubscription_Arn(k *NeptuneEventSubscriptionObservation, p
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneEventSubscription_CustomerAwsId(k *NeptuneEventSubscriptionObservation, p *NeptuneEventSubscriptionObservation, md *plugin.MergeDescription) bool {
-	if k.CustomerAwsId != p.CustomerAwsId {
-		k.CustomerAwsId = p.CustomerAwsId
+func MergeNeptuneEventSubscription_Arn(k *NeptuneEventSubscriptionObservation, p *NeptuneEventSubscriptionObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

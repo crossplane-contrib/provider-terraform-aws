@@ -39,20 +39,45 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSsmActivation(prev *SsmActivation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSsmActivation_Tags(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_Description(&new.Spec.ForProvider, valMap)
 	DecodeSsmActivation_ExpirationDate(&new.Spec.ForProvider, valMap)
+	DecodeSsmActivation_IamRole(&new.Spec.ForProvider, valMap)
 	DecodeSsmActivation_Name(&new.Spec.ForProvider, valMap)
 	DecodeSsmActivation_RegistrationLimit(&new.Spec.ForProvider, valMap)
-	DecodeSsmActivation_Description(&new.Spec.ForProvider, valMap)
-	DecodeSsmActivation_IamRole(&new.Spec.ForProvider, valMap)
-	DecodeSsmActivation_RegistrationCount(&new.Status.AtProvider, valMap)
-	DecodeSsmActivation_ActivationCode(&new.Status.AtProvider, valMap)
+	DecodeSsmActivation_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSsmActivation_Expired(&new.Status.AtProvider, valMap)
+	DecodeSsmActivation_ActivationCode(&new.Status.AtProvider, valMap)
+	DecodeSsmActivation_RegistrationCount(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmActivation_Description(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmActivation_ExpirationDate(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.ExpirationDate = ctwhy.ValueAsString(vals["expiration_date"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmActivation_IamRole(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.IamRole = ctwhy.ValueAsString(vals["iam_role"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmActivation_Name(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmActivation_RegistrationLimit(p *SsmActivationParameters, vals map[string]cty.Value) {
+	p.RegistrationLimit = ctwhy.ValueAsInt64(vals["registration_limit"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -67,33 +92,8 @@ func DecodeSsmActivation_Tags(p *SsmActivationParameters, vals map[string]cty.Va
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSsmActivation_ExpirationDate(p *SsmActivationParameters, vals map[string]cty.Value) {
-	p.ExpirationDate = ctwhy.ValueAsString(vals["expiration_date"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmActivation_Name(p *SsmActivationParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmActivation_RegistrationLimit(p *SsmActivationParameters, vals map[string]cty.Value) {
-	p.RegistrationLimit = ctwhy.ValueAsInt64(vals["registration_limit"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmActivation_Description(p *SsmActivationParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmActivation_IamRole(p *SsmActivationParameters, vals map[string]cty.Value) {
-	p.IamRole = ctwhy.ValueAsString(vals["iam_role"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmActivation_RegistrationCount(p *SsmActivationObservation, vals map[string]cty.Value) {
-	p.RegistrationCount = ctwhy.ValueAsInt64(vals["registration_count"])
+func DecodeSsmActivation_Expired(p *SsmActivationObservation, vals map[string]cty.Value) {
+	p.Expired = ctwhy.ValueAsBool(vals["expired"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -102,6 +102,6 @@ func DecodeSsmActivation_ActivationCode(p *SsmActivationObservation, vals map[st
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSsmActivation_Expired(p *SsmActivationObservation, vals map[string]cty.Value) {
-	p.Expired = ctwhy.ValueAsBool(vals["expired"])
+func DecodeSsmActivation_RegistrationCount(p *SsmActivationObservation, vals map[string]cty.Value) {
+	p.RegistrationCount = ctwhy.ValueAsInt64(vals["registration_count"])
 }

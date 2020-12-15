@@ -51,12 +51,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecretsmanagerSecretVersion_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeSecretsmanagerSecretVersion_VersionId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSecretsmanagerSecretVersion_VersionId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeSecretsmanagerSecretVersion_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -112,9 +112,9 @@ func MergeSecretsmanagerSecretVersion_VersionStages(k *SecretsmanagerSecretVersi
 }
 
 //mergePrimitiveTemplateStatus
-func MergeSecretsmanagerSecretVersion_Arn(k *SecretsmanagerSecretVersionObservation, p *SecretsmanagerSecretVersionObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeSecretsmanagerSecretVersion_VersionId(k *SecretsmanagerSecretVersionObservation, p *SecretsmanagerSecretVersionObservation, md *plugin.MergeDescription) bool {
+	if k.VersionId != p.VersionId {
+		k.VersionId = p.VersionId
 		md.StatusUpdated = true
 		return true
 	}
@@ -122,9 +122,9 @@ func MergeSecretsmanagerSecretVersion_Arn(k *SecretsmanagerSecretVersionObservat
 }
 
 //mergePrimitiveTemplateStatus
-func MergeSecretsmanagerSecretVersion_VersionId(k *SecretsmanagerSecretVersionObservation, p *SecretsmanagerSecretVersionObservation, md *plugin.MergeDescription) bool {
-	if k.VersionId != p.VersionId {
-		k.VersionId = p.VersionId
+func MergeSecretsmanagerSecretVersion_Arn(k *SecretsmanagerSecretVersionObservation, p *SecretsmanagerSecretVersionObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

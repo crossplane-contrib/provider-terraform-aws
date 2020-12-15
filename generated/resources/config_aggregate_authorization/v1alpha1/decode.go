@@ -39,20 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeConfigAggregateAuthorization(prev *ConfigAggregateAuthorization, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeConfigAggregateAuthorization_AccountId(&new.Spec.ForProvider, valMap)
 	DecodeConfigAggregateAuthorization_Region(&new.Spec.ForProvider, valMap)
 	DecodeConfigAggregateAuthorization_Tags(&new.Spec.ForProvider, valMap)
+	DecodeConfigAggregateAuthorization_AccountId(&new.Spec.ForProvider, valMap)
 	DecodeConfigAggregateAuthorization_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeConfigAggregateAuthorization_AccountId(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
-	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,6 +64,11 @@ func DecodeConfigAggregateAuthorization_Tags(p *ConfigAggregateAuthorizationPara
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigAggregateAuthorization_AccountId(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }
 
 //primitiveTypeDecodeTemplate

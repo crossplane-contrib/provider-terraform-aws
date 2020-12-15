@@ -31,21 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEipAssociation_AllocationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEipAssociation_AllowReassociation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEipAssociation_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEipAssociation_NetworkInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,6 +46,21 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeEipAssociation_AllocationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_AllowReassociation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,36 +70,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEipAssociation_AllocationId(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.AllocationId != p.AllocationId {
-		p.AllocationId = k.AllocationId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEipAssociation_AllowReassociation(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.AllowReassociation != p.AllowReassociation {
-		p.AllowReassociation = k.AllowReassociation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEipAssociation_InstanceId(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.InstanceId != p.InstanceId {
-		p.InstanceId = k.InstanceId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -126,6 +96,36 @@ func MergeEipAssociation_PrivateIpAddress(k *EipAssociationParameters, p *EipAss
 func MergeEipAssociation_PublicIp(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.PublicIp != p.PublicIp {
 		p.PublicIp = k.PublicIp
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_AllocationId(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.AllocationId != p.AllocationId {
+		p.AllocationId = k.AllocationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_AllowReassociation(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.AllowReassociation != p.AllowReassociation {
+		p.AllowReassociation = k.AllowReassociation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_InstanceId(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.InstanceId != p.InstanceId {
+		p.InstanceId = k.InstanceId
 		md.NeedsProviderUpdate = true
 		return true
 	}

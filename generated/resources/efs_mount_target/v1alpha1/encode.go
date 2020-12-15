@@ -37,29 +37,27 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEfsMountTarget(r EfsMountTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEfsMountTarget_FileSystemId(r.Spec.ForProvider, ctyVal)
+	EncodeEfsMountTarget_SubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeEfsMountTarget_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeEfsMountTarget_SecurityGroups(r.Spec.ForProvider, ctyVal)
-	EncodeEfsMountTarget_SubnetId(r.Spec.ForProvider, ctyVal)
-	EncodeEfsMountTarget_MountTargetDnsName(r.Status.AtProvider, ctyVal)
-	EncodeEfsMountTarget_OwnerId(r.Status.AtProvider, ctyVal)
+	EncodeEfsMountTarget_FileSystemId(r.Spec.ForProvider, ctyVal)
 	EncodeEfsMountTarget_FileSystemArn(r.Status.AtProvider, ctyVal)
-	EncodeEfsMountTarget_AvailabilityZoneName(r.Status.AtProvider, ctyVal)
-	EncodeEfsMountTarget_DnsName(r.Status.AtProvider, ctyVal)
-	EncodeEfsMountTarget_NetworkInterfaceId(r.Status.AtProvider, ctyVal)
 	EncodeEfsMountTarget_AvailabilityZoneId(r.Status.AtProvider, ctyVal)
+	EncodeEfsMountTarget_DnsName(r.Status.AtProvider, ctyVal)
+	EncodeEfsMountTarget_MountTargetDnsName(r.Status.AtProvider, ctyVal)
+	EncodeEfsMountTarget_NetworkInterfaceId(r.Status.AtProvider, ctyVal)
+	EncodeEfsMountTarget_OwnerId(r.Status.AtProvider, ctyVal)
+	EncodeEfsMountTarget_AvailabilityZoneName(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEfsMountTarget_FileSystemId(p EfsMountTargetParameters, vals map[string]cty.Value) {
-	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
+func EncodeEfsMountTarget_SubnetId(p EfsMountTargetParameters, vals map[string]cty.Value) {
+	vals["subnet_id"] = cty.StringVal(p.SubnetId)
 }
 
 func EncodeEfsMountTarget_IpAddress(p EfsMountTargetParameters, vals map[string]cty.Value) {
@@ -74,34 +72,34 @@ func EncodeEfsMountTarget_SecurityGroups(p EfsMountTargetParameters, vals map[st
 	vals["security_groups"] = cty.SetVal(colVals)
 }
 
-func EncodeEfsMountTarget_SubnetId(p EfsMountTargetParameters, vals map[string]cty.Value) {
-	vals["subnet_id"] = cty.StringVal(p.SubnetId)
-}
-
-func EncodeEfsMountTarget_MountTargetDnsName(p EfsMountTargetObservation, vals map[string]cty.Value) {
-	vals["mount_target_dns_name"] = cty.StringVal(p.MountTargetDnsName)
-}
-
-func EncodeEfsMountTarget_OwnerId(p EfsMountTargetObservation, vals map[string]cty.Value) {
-	vals["owner_id"] = cty.StringVal(p.OwnerId)
+func EncodeEfsMountTarget_FileSystemId(p EfsMountTargetParameters, vals map[string]cty.Value) {
+	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
 }
 
 func EncodeEfsMountTarget_FileSystemArn(p EfsMountTargetObservation, vals map[string]cty.Value) {
 	vals["file_system_arn"] = cty.StringVal(p.FileSystemArn)
 }
 
-func EncodeEfsMountTarget_AvailabilityZoneName(p EfsMountTargetObservation, vals map[string]cty.Value) {
-	vals["availability_zone_name"] = cty.StringVal(p.AvailabilityZoneName)
+func EncodeEfsMountTarget_AvailabilityZoneId(p EfsMountTargetObservation, vals map[string]cty.Value) {
+	vals["availability_zone_id"] = cty.StringVal(p.AvailabilityZoneId)
 }
 
 func EncodeEfsMountTarget_DnsName(p EfsMountTargetObservation, vals map[string]cty.Value) {
 	vals["dns_name"] = cty.StringVal(p.DnsName)
 }
 
+func EncodeEfsMountTarget_MountTargetDnsName(p EfsMountTargetObservation, vals map[string]cty.Value) {
+	vals["mount_target_dns_name"] = cty.StringVal(p.MountTargetDnsName)
+}
+
 func EncodeEfsMountTarget_NetworkInterfaceId(p EfsMountTargetObservation, vals map[string]cty.Value) {
 	vals["network_interface_id"] = cty.StringVal(p.NetworkInterfaceId)
 }
 
-func EncodeEfsMountTarget_AvailabilityZoneId(p EfsMountTargetObservation, vals map[string]cty.Value) {
-	vals["availability_zone_id"] = cty.StringVal(p.AvailabilityZoneId)
+func EncodeEfsMountTarget_OwnerId(p EfsMountTargetObservation, vals map[string]cty.Value) {
+	vals["owner_id"] = cty.StringVal(p.OwnerId)
+}
+
+func EncodeEfsMountTarget_AvailabilityZoneName(p EfsMountTargetObservation, vals map[string]cty.Value) {
+	vals["availability_zone_name"] = cty.StringVal(p.AvailabilityZoneName)
 }

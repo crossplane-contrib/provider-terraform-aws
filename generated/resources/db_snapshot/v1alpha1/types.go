@@ -70,21 +70,21 @@ type DbSnapshotStatus struct {
 
 // A DbSnapshotObservation records the observed state of a DbSnapshot
 type DbSnapshotObservation struct {
-	AllocatedStorage           int64  `json:"allocated_storage"`
-	AvailabilityZone           string `json:"availability_zone"`
-	KmsKeyId                   string `json:"kms_key_id"`
-	SnapshotType               string `json:"snapshot_type"`
-	Status                     string `json:"status"`
+	LicenseModel               string `json:"license_model"`
+	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
 	StorageType                string `json:"storage_type"`
-	VpcId                      string `json:"vpc_id"`
+	DbSnapshotArn              string `json:"db_snapshot_arn"`
+	Encrypted                  bool   `json:"encrypted"`
 	Engine                     string `json:"engine"`
 	EngineVersion              string `json:"engine_version"`
-	Iops                       int64  `json:"iops"`
-	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
-	DbSnapshotArn              string `json:"db_snapshot_arn"`
-	LicenseModel               string `json:"license_model"`
 	OptionGroupName            string `json:"option_group_name"`
-	Port                       int64  `json:"port"`
-	Encrypted                  bool   `json:"encrypted"`
+	Status                     string `json:"status"`
+	AllocatedStorage           int64  `json:"allocated_storage"`
+	KmsKeyId                   string `json:"kms_key_id"`
+	VpcId                      string `json:"vpc_id"`
+	Iops                       int64  `json:"iops"`
+	SnapshotType               string `json:"snapshot_type"`
 	SourceRegion               string `json:"source_region"`
+	AvailabilityZone           string `json:"availability_zone"`
+	Port                       int64  `json:"port"`
 }

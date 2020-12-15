@@ -39,8 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeWafregionalWebAclAssociation(prev *WafregionalWebAclAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeWafregionalWebAclAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
 	DecodeWafregionalWebAclAssociation_WebAclId(&new.Spec.ForProvider, valMap)
+	DecodeWafregionalWebAclAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -50,11 +50,11 @@ func DecodeWafregionalWebAclAssociation(prev *WafregionalWebAclAssociation, ctyV
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeWafregionalWebAclAssociation_ResourceArn(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
-	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
+func DecodeWafregionalWebAclAssociation_WebAclId(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+	p.WebAclId = ctwhy.ValueAsString(vals["web_acl_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeWafregionalWebAclAssociation_WebAclId(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
-	p.WebAclId = ctwhy.ValueAsString(vals["web_acl_id"])
+func DecodeWafregionalWebAclAssociation_ResourceArn(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
+	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
 }

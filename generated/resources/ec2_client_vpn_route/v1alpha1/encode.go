@@ -37,20 +37,22 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2ClientVpnRoute(r Ec2ClientVpnRoute) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEc2ClientVpnRoute_TargetVpcSubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_ClientVpnEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeEc2ClientVpnRoute_TargetVpcSubnetId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_Origin(r.Status.AtProvider, ctyVal)
 	EncodeEc2ClientVpnRoute_Type(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEc2ClientVpnRoute_TargetVpcSubnetId(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+	vals["target_vpc_subnet_id"] = cty.StringVal(p.TargetVpcSubnetId)
 }
 
 func EncodeEc2ClientVpnRoute_ClientVpnEndpointId(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
@@ -63,10 +65,6 @@ func EncodeEc2ClientVpnRoute_Description(p Ec2ClientVpnRouteParameters, vals map
 
 func EncodeEc2ClientVpnRoute_DestinationCidrBlock(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
-}
-
-func EncodeEc2ClientVpnRoute_TargetVpcSubnetId(p Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
-	vals["target_vpc_subnet_id"] = cty.StringVal(p.TargetVpcSubnetId)
 }
 
 func EncodeEc2ClientVpnRoute_Origin(p Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {

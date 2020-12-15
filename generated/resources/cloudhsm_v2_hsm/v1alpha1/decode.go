@@ -39,19 +39,24 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudhsmV2Hsm(prev *CloudhsmV2Hsm, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCloudhsmV2Hsm_IpAddress(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_ClusterId(&new.Spec.ForProvider, valMap)
-	DecodeCloudhsmV2Hsm_IpAddress(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeCloudhsmV2Hsm_HsmEniId(&new.Status.AtProvider, valMap)
 	DecodeCloudhsmV2Hsm_HsmId(&new.Status.AtProvider, valMap)
 	DecodeCloudhsmV2Hsm_HsmState(&new.Status.AtProvider, valMap)
+	DecodeCloudhsmV2Hsm_HsmEniId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudhsmV2Hsm_IpAddress(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -67,11 +72,6 @@ func DecodeCloudhsmV2Hsm_AvailabilityZone(p *CloudhsmV2HsmParameters, vals map[s
 //primitiveTypeDecodeTemplate
 func DecodeCloudhsmV2Hsm_ClusterId(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
 	p.ClusterId = ctwhy.ValueAsString(vals["cluster_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudhsmV2Hsm_IpAddress(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
-	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
 }
 
 //containerTypeDecodeTemplate
@@ -98,11 +98,6 @@ func DecodeCloudhsmV2Hsm_Timeouts_Create(p *Timeouts, vals map[string]cty.Value)
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudhsmV2Hsm_HsmEniId(p *CloudhsmV2HsmObservation, vals map[string]cty.Value) {
-	p.HsmEniId = ctwhy.ValueAsString(vals["hsm_eni_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeCloudhsmV2Hsm_HsmId(p *CloudhsmV2HsmObservation, vals map[string]cty.Value) {
 	p.HsmId = ctwhy.ValueAsString(vals["hsm_id"])
 }
@@ -110,4 +105,9 @@ func DecodeCloudhsmV2Hsm_HsmId(p *CloudhsmV2HsmObservation, vals map[string]cty.
 //primitiveTypeDecodeTemplate
 func DecodeCloudhsmV2Hsm_HsmState(p *CloudhsmV2HsmObservation, vals map[string]cty.Value) {
 	p.HsmState = ctwhy.ValueAsString(vals["hsm_state"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudhsmV2Hsm_HsmEniId(p *CloudhsmV2HsmObservation, vals map[string]cty.Value) {
+	p.HsmEniId = ctwhy.ValueAsString(vals["hsm_eni_id"])
 }

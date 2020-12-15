@@ -31,22 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2CapacityReservation_Tenancy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2CapacityReservation_InstanceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2CapacityReservation_EndDateType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2CapacityReservation_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2CapacityReservation_EphemeralStorage(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2CapacityReservation_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,7 +61,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2CapacityReservation_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2CapacityReservation_Tenancy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,7 +76,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2CapacityReservation_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2CapacityReservation_EndDateType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2CapacityReservation_EphemeralStorage(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,16 +102,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_Tenancy(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.Tenancy != p.Tenancy {
-		p.Tenancy = k.Tenancy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEc2CapacityReservation_InstanceType(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
 	if k.InstanceType != p.InstanceType {
 		p.InstanceType = k.InstanceType
@@ -121,10 +111,10 @@ func MergeEc2CapacityReservation_InstanceType(k *Ec2CapacityReservationParameter
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_EndDateType(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.EndDateType != p.EndDateType {
-		p.EndDateType = k.EndDateType
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2CapacityReservation_Tags(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -132,9 +122,9 @@ func MergeEc2CapacityReservation_EndDateType(k *Ec2CapacityReservationParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_EphemeralStorage(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.EphemeralStorage != p.EphemeralStorage {
-		p.EphemeralStorage = k.EphemeralStorage
+func MergeEc2CapacityReservation_AvailabilityZone(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -172,9 +162,9 @@ func MergeEc2CapacityReservation_InstancePlatform(k *Ec2CapacityReservationParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_AvailabilityZone(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
+func MergeEc2CapacityReservation_Tenancy(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.Tenancy != p.Tenancy {
+		p.Tenancy = k.Tenancy
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -201,10 +191,20 @@ func MergeEc2CapacityReservation_EndDate(k *Ec2CapacityReservationParameters, p 
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeEc2CapacityReservation_Tags(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeEc2CapacityReservation_EndDateType(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.EndDateType != p.EndDateType {
+		p.EndDateType = k.EndDateType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2CapacityReservation_EphemeralStorage(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.EphemeralStorage != p.EphemeralStorage {
+		p.EphemeralStorage = k.EphemeralStorage
 		md.NeedsProviderUpdate = true
 		return true
 	}

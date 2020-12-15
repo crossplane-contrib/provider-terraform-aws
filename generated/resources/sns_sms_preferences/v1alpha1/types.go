@@ -52,12 +52,12 @@ type SnsSmsPreferencesSpec struct {
 
 // A SnsSmsPreferencesParameters defines the desired state of a SnsSmsPreferences
 type SnsSmsPreferencesParameters struct {
-	MonthlySpendLimit                 string `json:"monthly_spend_limit"`
-	UsageReportS3Bucket               string `json:"usage_report_s3_bucket"`
 	DefaultSenderId                   string `json:"default_sender_id"`
 	DefaultSmsType                    string `json:"default_sms_type"`
 	DeliveryStatusIamRoleArn          string `json:"delivery_status_iam_role_arn"`
 	DeliveryStatusSuccessSamplingRate string `json:"delivery_status_success_sampling_rate"`
+	MonthlySpendLimit                 string `json:"monthly_spend_limit"`
+	UsageReportS3Bucket               string `json:"usage_report_s3_bucket"`
 }
 
 // A SnsSmsPreferencesStatus defines the observed state of a SnsSmsPreferences

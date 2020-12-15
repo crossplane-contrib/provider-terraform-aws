@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeStoragegatewayCachedIscsiVolume_KmsKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeStoragegatewayCachedIscsiVolume_TargetName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -41,7 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeStoragegatewayCachedIscsiVolume_SourceVolumeArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeStoragegatewayCachedIscsiVolume_KmsEncrypted(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeStoragegatewayCachedIscsiVolume_KmsKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,37 +61,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeStoragegatewayCachedIscsiVolume_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeStoragegatewayCachedIscsiVolume_KmsEncrypted(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeStoragegatewayCachedIscsiVolume_SnapshotId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeStoragegatewayCachedIscsiVolume_TargetName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeStoragegatewayCachedIscsiVolume_SourceVolumeArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeStoragegatewayCachedIscsiVolume_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeStoragegatewayCachedIscsiVolume_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeStoragegatewayCachedIscsiVolume_LunNumber(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeStoragegatewayCachedIscsiVolume_ChapEnabled(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,12 +91,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeStoragegatewayCachedIscsiVolume_TargetArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeStoragegatewayCachedIscsiVolume_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeStoragegatewayCachedIscsiVolume_VolumeArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeStoragegatewayCachedIscsiVolume_ChapEnabled(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeStoragegatewayCachedIscsiVolume_TargetArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -122,9 +122,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeStoragegatewayCachedIscsiVolume_KmsKey(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.KmsKey != p.KmsKey {
-		p.KmsKey = k.KmsKey
+func MergeStoragegatewayCachedIscsiVolume_TargetName(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
+	if k.TargetName != p.TargetName {
+		p.TargetName = k.TargetName
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -142,9 +142,19 @@ func MergeStoragegatewayCachedIscsiVolume_NetworkInterfaceId(k *StoragegatewayCa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeStoragegatewayCachedIscsiVolume_SourceVolumeArn(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.SourceVolumeArn != p.SourceVolumeArn {
-		p.SourceVolumeArn = k.SourceVolumeArn
+func MergeStoragegatewayCachedIscsiVolume_KmsEncrypted(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
+	if k.KmsEncrypted != p.KmsEncrypted {
+		p.KmsEncrypted = k.KmsEncrypted
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeStoragegatewayCachedIscsiVolume_KmsKey(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
+	if k.KmsKey != p.KmsKey {
+		p.KmsKey = k.KmsKey
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -171,26 +181,6 @@ func MergeStoragegatewayCachedIscsiVolume_GatewayArn(k *StoragegatewayCachedIscs
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeStoragegatewayCachedIscsiVolume_Tags(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeStoragegatewayCachedIscsiVolume_KmsEncrypted(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.KmsEncrypted != p.KmsEncrypted {
-		p.KmsEncrypted = k.KmsEncrypted
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeStoragegatewayCachedIscsiVolume_SnapshotId(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
 	if k.SnapshotId != p.SnapshotId {
@@ -202,20 +192,20 @@ func MergeStoragegatewayCachedIscsiVolume_SnapshotId(k *StoragegatewayCachedIscs
 }
 
 //mergePrimitiveTemplateSpec
-func MergeStoragegatewayCachedIscsiVolume_TargetName(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.TargetName != p.TargetName {
-		p.TargetName = k.TargetName
+func MergeStoragegatewayCachedIscsiVolume_SourceVolumeArn(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
+	if k.SourceVolumeArn != p.SourceVolumeArn {
+		p.SourceVolumeArn = k.SourceVolumeArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeStoragegatewayCachedIscsiVolume_Arn(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
+//mergePrimitiveContainerTemplateSpec
+func MergeStoragegatewayCachedIscsiVolume_Tags(k *StoragegatewayCachedIscsiVolumeParameters, p *StoragegatewayCachedIscsiVolumeParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -225,16 +215,6 @@ func MergeStoragegatewayCachedIscsiVolume_Arn(k *StoragegatewayCachedIscsiVolume
 func MergeStoragegatewayCachedIscsiVolume_LunNumber(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
 	if k.LunNumber != p.LunNumber {
 		k.LunNumber = p.LunNumber
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeStoragegatewayCachedIscsiVolume_ChapEnabled(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
-	if k.ChapEnabled != p.ChapEnabled {
-		k.ChapEnabled = p.ChapEnabled
 		md.StatusUpdated = true
 		return true
 	}
@@ -262,9 +242,9 @@ func MergeStoragegatewayCachedIscsiVolume_VolumeId(k *StoragegatewayCachedIscsiV
 }
 
 //mergePrimitiveTemplateStatus
-func MergeStoragegatewayCachedIscsiVolume_TargetArn(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
-	if k.TargetArn != p.TargetArn {
-		k.TargetArn = p.TargetArn
+func MergeStoragegatewayCachedIscsiVolume_Arn(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}
@@ -275,6 +255,26 @@ func MergeStoragegatewayCachedIscsiVolume_TargetArn(k *StoragegatewayCachedIscsi
 func MergeStoragegatewayCachedIscsiVolume_VolumeArn(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
 	if k.VolumeArn != p.VolumeArn {
 		k.VolumeArn = p.VolumeArn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeStoragegatewayCachedIscsiVolume_ChapEnabled(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
+	if k.ChapEnabled != p.ChapEnabled {
+		k.ChapEnabled = p.ChapEnabled
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeStoragegatewayCachedIscsiVolume_TargetArn(k *StoragegatewayCachedIscsiVolumeObservation, p *StoragegatewayCachedIscsiVolumeObservation, md *plugin.MergeDescription) bool {
+	if k.TargetArn != p.TargetArn {
+		k.TargetArn = p.TargetArn
 		md.StatusUpdated = true
 		return true
 	}

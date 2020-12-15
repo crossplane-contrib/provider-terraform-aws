@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeGuarddutyMember_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGuarddutyMember_DisableEmailNotification(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,6 +56,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeGuarddutyMember_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeGuarddutyMember_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
 	if updated {
 		anyChildUpdated = true
@@ -79,16 +79,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyMember_DetectorId(k *GuarddutyMemberParameters, p *GuarddutyMemberParameters, md *plugin.MergeDescription) bool {
-	if k.DetectorId != p.DetectorId {
-		p.DetectorId = k.DetectorId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -135,6 +125,16 @@ func MergeGuarddutyMember_Invite(k *GuarddutyMemberParameters, p *GuarddutyMembe
 func MergeGuarddutyMember_AccountId(k *GuarddutyMemberParameters, p *GuarddutyMemberParameters, md *plugin.MergeDescription) bool {
 	if k.AccountId != p.AccountId {
 		p.AccountId = k.AccountId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeGuarddutyMember_DetectorId(k *GuarddutyMemberParameters, p *GuarddutyMemberParameters, md *plugin.MergeDescription) bool {
+	if k.DetectorId != p.DetectorId {
+		p.DetectorId = k.DetectorId
 		md.NeedsProviderUpdate = true
 		return true
 	}

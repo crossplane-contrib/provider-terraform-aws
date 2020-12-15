@@ -38,21 +38,19 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeDxGatewayAssociation(r DxGatewayAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeDxGatewayAssociation_AllowedPrefixes(r.Spec.ForProvider, ctyVal)
-	EncodeDxGatewayAssociation_ProposalId(r.Spec.ForProvider, ctyVal)
-	EncodeDxGatewayAssociation_DxGatewayId(r.Spec.ForProvider, ctyVal)
-	EncodeDxGatewayAssociation_AssociatedGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociation_AssociatedGatewayOwnerAccountId(r.Spec.ForProvider, ctyVal)
+	EncodeDxGatewayAssociation_AssociatedGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeDxGatewayAssociation_DxGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeDxGatewayAssociation_ProposalId(r.Spec.ForProvider, ctyVal)
 	EncodeDxGatewayAssociation_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeDxGatewayAssociation_DxGatewayOwnerAccountId(r.Status.AtProvider, ctyVal)
-	EncodeDxGatewayAssociation_DxGatewayAssociationId(r.Status.AtProvider, ctyVal)
 	EncodeDxGatewayAssociation_AssociatedGatewayType(r.Status.AtProvider, ctyVal)
+	EncodeDxGatewayAssociation_DxGatewayAssociationId(r.Status.AtProvider, ctyVal)
+	EncodeDxGatewayAssociation_DxGatewayOwnerAccountId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
 	en := meta.GetExternalName(&r)
-	if len(en) > 0 {
-		ctyVal["id"] = cty.StringVal(en)
-	}
+	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
 }
 
@@ -64,20 +62,20 @@ func EncodeDxGatewayAssociation_AllowedPrefixes(p DxGatewayAssociationParameters
 	vals["allowed_prefixes"] = cty.SetVal(colVals)
 }
 
-func EncodeDxGatewayAssociation_ProposalId(p DxGatewayAssociationParameters, vals map[string]cty.Value) {
-	vals["proposal_id"] = cty.StringVal(p.ProposalId)
-}
-
-func EncodeDxGatewayAssociation_DxGatewayId(p DxGatewayAssociationParameters, vals map[string]cty.Value) {
-	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
+func EncodeDxGatewayAssociation_AssociatedGatewayOwnerAccountId(p DxGatewayAssociationParameters, vals map[string]cty.Value) {
+	vals["associated_gateway_owner_account_id"] = cty.StringVal(p.AssociatedGatewayOwnerAccountId)
 }
 
 func EncodeDxGatewayAssociation_AssociatedGatewayId(p DxGatewayAssociationParameters, vals map[string]cty.Value) {
 	vals["associated_gateway_id"] = cty.StringVal(p.AssociatedGatewayId)
 }
 
-func EncodeDxGatewayAssociation_AssociatedGatewayOwnerAccountId(p DxGatewayAssociationParameters, vals map[string]cty.Value) {
-	vals["associated_gateway_owner_account_id"] = cty.StringVal(p.AssociatedGatewayOwnerAccountId)
+func EncodeDxGatewayAssociation_DxGatewayId(p DxGatewayAssociationParameters, vals map[string]cty.Value) {
+	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
+}
+
+func EncodeDxGatewayAssociation_ProposalId(p DxGatewayAssociationParameters, vals map[string]cty.Value) {
+	vals["proposal_id"] = cty.StringVal(p.ProposalId)
 }
 
 func EncodeDxGatewayAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -100,14 +98,14 @@ func EncodeDxGatewayAssociation_Timeouts_Update(p Timeouts, vals map[string]cty.
 	vals["update"] = cty.StringVal(p.Update)
 }
 
-func EncodeDxGatewayAssociation_DxGatewayOwnerAccountId(p DxGatewayAssociationObservation, vals map[string]cty.Value) {
-	vals["dx_gateway_owner_account_id"] = cty.StringVal(p.DxGatewayOwnerAccountId)
+func EncodeDxGatewayAssociation_AssociatedGatewayType(p DxGatewayAssociationObservation, vals map[string]cty.Value) {
+	vals["associated_gateway_type"] = cty.StringVal(p.AssociatedGatewayType)
 }
 
 func EncodeDxGatewayAssociation_DxGatewayAssociationId(p DxGatewayAssociationObservation, vals map[string]cty.Value) {
 	vals["dx_gateway_association_id"] = cty.StringVal(p.DxGatewayAssociationId)
 }
 
-func EncodeDxGatewayAssociation_AssociatedGatewayType(p DxGatewayAssociationObservation, vals map[string]cty.Value) {
-	vals["associated_gateway_type"] = cty.StringVal(p.AssociatedGatewayType)
+func EncodeDxGatewayAssociation_DxGatewayOwnerAccountId(p DxGatewayAssociationObservation, vals map[string]cty.Value) {
+	vals["dx_gateway_owner_account_id"] = cty.StringVal(p.DxGatewayOwnerAccountId)
 }

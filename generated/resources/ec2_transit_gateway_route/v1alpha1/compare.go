@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2TransitGatewayRoute_DestinationCidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayRoute_TransitGatewayAttachmentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2TransitGatewayRoute_TransitGatewayRouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEc2TransitGatewayRoute_Blackhole(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayRoute_DestinationCidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayRoute_TransitGatewayAttachmentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -63,26 +63,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayRoute_DestinationCidrBlock(k *Ec2TransitGatewayRouteParameters, p *Ec2TransitGatewayRouteParameters, md *plugin.MergeDescription) bool {
-	if k.DestinationCidrBlock != p.DestinationCidrBlock {
-		p.DestinationCidrBlock = k.DestinationCidrBlock
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayRoute_TransitGatewayAttachmentId(k *Ec2TransitGatewayRouteParameters, p *Ec2TransitGatewayRouteParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayAttachmentId != p.TransitGatewayAttachmentId {
-		p.TransitGatewayAttachmentId = k.TransitGatewayAttachmentId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEc2TransitGatewayRoute_TransitGatewayRouteTableId(k *Ec2TransitGatewayRouteParameters, p *Ec2TransitGatewayRouteParameters, md *plugin.MergeDescription) bool {
 	if k.TransitGatewayRouteTableId != p.TransitGatewayRouteTableId {
 		p.TransitGatewayRouteTableId = k.TransitGatewayRouteTableId
@@ -96,6 +76,26 @@ func MergeEc2TransitGatewayRoute_TransitGatewayRouteTableId(k *Ec2TransitGateway
 func MergeEc2TransitGatewayRoute_Blackhole(k *Ec2TransitGatewayRouteParameters, p *Ec2TransitGatewayRouteParameters, md *plugin.MergeDescription) bool {
 	if k.Blackhole != p.Blackhole {
 		p.Blackhole = k.Blackhole
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayRoute_DestinationCidrBlock(k *Ec2TransitGatewayRouteParameters, p *Ec2TransitGatewayRouteParameters, md *plugin.MergeDescription) bool {
+	if k.DestinationCidrBlock != p.DestinationCidrBlock {
+		p.DestinationCidrBlock = k.DestinationCidrBlock
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayRoute_TransitGatewayAttachmentId(k *Ec2TransitGatewayRouteParameters, p *Ec2TransitGatewayRouteParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayAttachmentId != p.TransitGatewayAttachmentId {
+		p.TransitGatewayAttachmentId = k.TransitGatewayAttachmentId
 		md.NeedsProviderUpdate = true
 		return true
 	}

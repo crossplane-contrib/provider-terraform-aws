@@ -39,17 +39,27 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamPolicy(prev *IamPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIamPolicy_Path(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicy_Description(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicy_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicy_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeIamPolicy_Path(&new.Spec.ForProvider, valMap)
-	DecodeIamPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicy_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamPolicy_Path(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.Path = ctwhy.ValueAsString(vals["path"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamPolicy_Policy(p *IamPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -65,16 +75,6 @@ func DecodeIamPolicy_Name(p *IamPolicyParameters, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeIamPolicy_NamePrefix(p *IamPolicyParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamPolicy_Path(p *IamPolicyParameters, vals map[string]cty.Value) {
-	p.Path = ctwhy.ValueAsString(vals["path"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamPolicy_Policy(p *IamPolicyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
 //primitiveTypeDecodeTemplate
