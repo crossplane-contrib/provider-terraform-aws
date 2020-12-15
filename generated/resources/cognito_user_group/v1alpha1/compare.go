@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCognitoUserGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCognitoUserGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCognitoUserGroup_Precedence(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,21 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCognitoUserGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCognitoUserGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCognitoUserGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,6 +65,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCognitoUserGroup_Description(k *CognitoUserGroupParameters, p *CognitoUserGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCognitoUserGroup_Name(k *CognitoUserGroupParameters, p *CognitoUserGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -96,36 +111,6 @@ func MergeCognitoUserGroup_RoleArn(k *CognitoUserGroupParameters, p *CognitoUser
 func MergeCognitoUserGroup_UserPoolId(k *CognitoUserGroupParameters, p *CognitoUserGroupParameters, md *plugin.MergeDescription) bool {
 	if k.UserPoolId != p.UserPoolId {
 		p.UserPoolId = k.UserPoolId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCognitoUserGroup_Description(k *CognitoUserGroupParameters, p *CognitoUserGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCognitoUserGroup_Id(k *CognitoUserGroupParameters, p *CognitoUserGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCognitoUserGroup_Name(k *CognitoUserGroupParameters, p *CognitoUserGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

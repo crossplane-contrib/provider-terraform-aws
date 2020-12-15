@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeShieldProtection(prev *ShieldProtection, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeShieldProtection_Id(&new.Spec.ForProvider, valMap)
 	DecodeShieldProtection_Name(&new.Spec.ForProvider, valMap)
 	DecodeShieldProtection_ResourceArn(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeShieldProtection(prev *ShieldProtection, ctyValue cty.Value) (resourc
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeShieldProtection_Id(p *ShieldProtectionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

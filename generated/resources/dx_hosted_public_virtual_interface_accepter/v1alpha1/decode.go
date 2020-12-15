@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxHostedPublicVirtualInterfaceAccepter(prev *DxHostedPublicVirtualInterfaceAccepter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxHostedPublicVirtualInterfaceAccepter_Id(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPublicVirtualInterfaceAccepter_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPublicVirtualInterfaceAccepter_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPublicVirtualInterfaceAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
@@ -49,11 +48,6 @@ func DecodeDxHostedPublicVirtualInterfaceAccepter(prev *DxHostedPublicVirtualInt
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxHostedPublicVirtualInterfaceAccepter_Id(p *DxHostedPublicVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate

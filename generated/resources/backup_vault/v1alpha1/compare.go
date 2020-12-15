@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeBackupVault_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeBackupVault_KmsKeyArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -72,16 +67,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeBackupVault_Id(k *BackupVaultParameters, p *BackupVaultParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeBackupVault_KmsKeyArn(k *BackupVaultParameters, p *BackupVaultParameters, md *plugin.MergeDescription) bool {
 	if k.KmsKeyArn != p.KmsKeyArn {
 		p.KmsKeyArn = k.KmsKeyArn
@@ -103,7 +88,7 @@ func MergeBackupVault_Name(k *BackupVaultParameters, p *BackupVaultParameters, m
 
 //mergePrimitiveContainerTemplateSpec
 func MergeBackupVault_Tags(k *BackupVaultParameters, p *BackupVaultParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

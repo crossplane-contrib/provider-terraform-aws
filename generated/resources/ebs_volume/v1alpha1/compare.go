@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEbsVolume_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEbsVolume_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEbsVolume_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEbsVolume_OutpostArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,7 +56,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEbsVolume_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEbsVolume_OutpostArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEbsVolume_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,11 +77,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeEbsVolume_MultiAttachEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEbsVolume_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,9 +97,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEbsVolume_Id(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeEbsVolume_AvailabilityZone(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -115,16 +110,6 @@ func MergeEbsVolume_Id(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugi
 func MergeEbsVolume_KmsKeyId(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
 	if k.KmsKeyId != p.KmsKeyId {
 		p.KmsKeyId = k.KmsKeyId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEbsVolume_OutpostArn(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.OutpostArn != p.OutpostArn {
-		p.OutpostArn = k.OutpostArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -153,7 +138,7 @@ func MergeEbsVolume_SnapshotId(k *EbsVolumeParameters, p *EbsVolumeParameters, m
 
 //mergePrimitiveContainerTemplateSpec
 func MergeEbsVolume_Tags(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -162,9 +147,19 @@ func MergeEbsVolume_Tags(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEbsVolume_AvailabilityZone(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
+func MergeEbsVolume_OutpostArn(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
+	if k.OutpostArn != p.OutpostArn {
+		p.OutpostArn = k.OutpostArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEbsVolume_Type(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		p.Type = k.Type
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -195,16 +190,6 @@ func MergeEbsVolume_Iops(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plu
 func MergeEbsVolume_MultiAttachEnabled(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
 	if k.MultiAttachEnabled != p.MultiAttachEnabled {
 		p.MultiAttachEnabled = k.MultiAttachEnabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEbsVolume_Type(k *EbsVolumeParameters, p *EbsVolumeParameters, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		p.Type = k.Type
 		md.NeedsProviderUpdate = true
 		return true
 	}

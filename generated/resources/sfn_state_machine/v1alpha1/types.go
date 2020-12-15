@@ -52,11 +52,10 @@ type SfnStateMachineSpec struct {
 
 // A SfnStateMachineParameters defines the desired state of a SfnStateMachine
 type SfnStateMachineParameters struct {
+	Name       string            `json:"name"`
 	RoleArn    string            `json:"role_arn"`
 	Tags       map[string]string `json:"tags"`
 	Definition string            `json:"definition"`
-	Id         string            `json:"id"`
-	Name       string            `json:"name"`
 }
 
 // A SfnStateMachineStatus defines the observed state of a SfnStateMachine

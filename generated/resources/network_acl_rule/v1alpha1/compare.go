@@ -31,12 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeNetworkAclRule_IcmpCode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNetworkAclRule_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeNetworkAclRule_Ipv6CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNetworkAclRule_RuleNumber(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkAclRule_CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkAclRule_IcmpCode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,7 +56,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNetworkAclRule_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNetworkAclRule_Ipv6CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkAclRule_RuleAction(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,26 +86,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNetworkAclRule_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNetworkAclRule_RuleAction(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNetworkAclRule_RuleNumber(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNetworkAclRule_CidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -103,9 +98,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_IcmpCode(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.IcmpCode != p.IcmpCode {
-		p.IcmpCode = k.IcmpCode
+func MergeNetworkAclRule_Protocol(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Protocol != p.Protocol {
+		p.Protocol = k.Protocol
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -113,9 +108,29 @@ func MergeNetworkAclRule_IcmpCode(k *NetworkAclRuleParameters, p *NetworkAclRule
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_Ipv6CidrBlock(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Ipv6CidrBlock != p.Ipv6CidrBlock {
-		p.Ipv6CidrBlock = k.Ipv6CidrBlock
+func MergeNetworkAclRule_RuleNumber(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.RuleNumber != p.RuleNumber {
+		p.RuleNumber = k.RuleNumber
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkAclRule_CidrBlock(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.CidrBlock != p.CidrBlock {
+		p.CidrBlock = k.CidrBlock
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkAclRule_IcmpCode(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.IcmpCode != p.IcmpCode {
+		p.IcmpCode = k.IcmpCode
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -133,9 +148,19 @@ func MergeNetworkAclRule_NetworkAclId(k *NetworkAclRuleParameters, p *NetworkAcl
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_Protocol(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Protocol != p.Protocol {
-		p.Protocol = k.Protocol
+func MergeNetworkAclRule_Ipv6CidrBlock(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Ipv6CidrBlock != p.Ipv6CidrBlock {
+		p.Ipv6CidrBlock = k.Ipv6CidrBlock
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkAclRule_RuleAction(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
+	if k.RuleAction != p.RuleAction {
+		p.RuleAction = k.RuleAction
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -176,46 +201,6 @@ func MergeNetworkAclRule_FromPort(k *NetworkAclRuleParameters, p *NetworkAclRule
 func MergeNetworkAclRule_IcmpType(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
 	if k.IcmpType != p.IcmpType {
 		p.IcmpType = k.IcmpType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_Id(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_RuleAction(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.RuleAction != p.RuleAction {
-		p.RuleAction = k.RuleAction
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_RuleNumber(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.RuleNumber != p.RuleNumber {
-		p.RuleNumber = k.RuleNumber
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNetworkAclRule_CidrBlock(k *NetworkAclRuleParameters, p *NetworkAclRuleParameters, md *plugin.MergeDescription) bool {
-	if k.CidrBlock != p.CidrBlock {
-		p.CidrBlock = k.CidrBlock
 		md.NeedsProviderUpdate = true
 		return true
 	}

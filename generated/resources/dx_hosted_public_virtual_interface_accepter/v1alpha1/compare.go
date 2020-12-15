@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxHostedPublicVirtualInterfaceAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxHostedPublicVirtualInterfaceAccepter_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,19 +61,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDxHostedPublicVirtualInterfaceAccepter_Id(k *DxHostedPublicVirtualInterfaceAccepterParameters, p *DxHostedPublicVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeDxHostedPublicVirtualInterfaceAccepter_Tags(k *DxHostedPublicVirtualInterfaceAccepterParameters, p *DxHostedPublicVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

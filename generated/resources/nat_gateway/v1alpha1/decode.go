@@ -42,10 +42,9 @@ func DecodeNatGateway(prev *NatGateway, ctyValue cty.Value) (resource.Managed, e
 	DecodeNatGateway_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeNatGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeNatGateway_AllocationId(&new.Spec.ForProvider, valMap)
-	DecodeNatGateway_Id(&new.Spec.ForProvider, valMap)
-	DecodeNatGateway_NetworkInterfaceId(&new.Status.AtProvider, valMap)
 	DecodeNatGateway_PrivateIp(&new.Status.AtProvider, valMap)
 	DecodeNatGateway_PublicIp(&new.Status.AtProvider, valMap)
+	DecodeNatGateway_NetworkInterfaceId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -75,16 +74,6 @@ func DecodeNatGateway_AllocationId(p *NatGatewayParameters, vals map[string]cty.
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNatGateway_Id(p *NatGatewayParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNatGateway_NetworkInterfaceId(p *NatGatewayObservation, vals map[string]cty.Value) {
-	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeNatGateway_PrivateIp(p *NatGatewayObservation, vals map[string]cty.Value) {
 	p.PrivateIp = ctwhy.ValueAsString(vals["private_ip"])
 }
@@ -92,4 +81,9 @@ func DecodeNatGateway_PrivateIp(p *NatGatewayObservation, vals map[string]cty.Va
 //primitiveTypeDecodeTemplate
 func DecodeNatGateway_PublicIp(p *NatGatewayObservation, vals map[string]cty.Value) {
 	p.PublicIp = ctwhy.ValueAsString(vals["public_ip"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNatGateway_NetworkInterfaceId(p *NatGatewayObservation, vals map[string]cty.Value) {
+	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
 }

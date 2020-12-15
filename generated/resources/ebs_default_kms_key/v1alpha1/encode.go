@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEbsDefaultKmsKey(r EbsDefaultKmsKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEbsDefaultKmsKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEbsDefaultKmsKey_KeyArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -48,10 +47,6 @@ func EncodeEbsDefaultKmsKey(r EbsDefaultKmsKey) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEbsDefaultKmsKey_Id(p EbsDefaultKmsKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEbsDefaultKmsKey_KeyArn(p EbsDefaultKmsKeyParameters, vals map[string]cty.Value) {

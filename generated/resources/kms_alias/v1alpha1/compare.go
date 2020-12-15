@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeKmsAlias_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKmsAlias_TargetKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,17 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKmsAlias_TargetKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKmsAlias_TargetKeyArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeKmsAlias_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKmsAlias_TargetKeyArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -72,9 +67,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeKmsAlias_Id(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeKmsAlias_TargetKeyId(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin.MergeDescription) bool {
+	if k.TargetKeyId != p.TargetKeyId {
+		p.TargetKeyId = k.TargetKeyId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -101,11 +96,11 @@ func MergeKmsAlias_NamePrefix(k *KmsAliasParameters, p *KmsAliasParameters, md *
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeKmsAlias_TargetKeyId(k *KmsAliasParameters, p *KmsAliasParameters, md *plugin.MergeDescription) bool {
-	if k.TargetKeyId != p.TargetKeyId {
-		p.TargetKeyId = k.TargetKeyId
-		md.NeedsProviderUpdate = true
+//mergePrimitiveTemplateStatus
+func MergeKmsAlias_TargetKeyArn(k *KmsAliasObservation, p *KmsAliasObservation, md *plugin.MergeDescription) bool {
+	if k.TargetKeyArn != p.TargetKeyArn {
+		k.TargetKeyArn = p.TargetKeyArn
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -115,16 +110,6 @@ func MergeKmsAlias_TargetKeyId(k *KmsAliasParameters, p *KmsAliasParameters, md 
 func MergeKmsAlias_Arn(k *KmsAliasObservation, p *KmsAliasObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeKmsAlias_TargetKeyArn(k *KmsAliasObservation, p *KmsAliasObservation, md *plugin.MergeDescription) bool {
-	if k.TargetKeyArn != p.TargetKeyArn {
-		k.TargetKeyArn = p.TargetKeyArn
 		md.StatusUpdated = true
 		return true
 	}

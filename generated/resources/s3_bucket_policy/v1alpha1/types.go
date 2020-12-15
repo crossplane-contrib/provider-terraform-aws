@@ -53,7 +53,6 @@ type S3BucketPolicySpec struct {
 // A S3BucketPolicyParameters defines the desired state of a S3BucketPolicy
 type S3BucketPolicyParameters struct {
 	Bucket string `json:"bucket"`
-	Id     string `json:"id"`
 	Policy string `json:"policy"`
 }
 

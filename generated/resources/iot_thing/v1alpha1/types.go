@@ -54,7 +54,6 @@ type IotThingSpec struct {
 type IotThingParameters struct {
 	ThingTypeName string            `json:"thing_type_name"`
 	Attributes    map[string]string `json:"attributes"`
-	Id            string            `json:"id"`
 	Name          string            `json:"name"`
 }
 

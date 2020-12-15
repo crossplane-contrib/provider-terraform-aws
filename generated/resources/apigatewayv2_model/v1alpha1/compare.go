@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApigatewayv2Model_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApigatewayv2Model_Schema(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApigatewayv2Model_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,7 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApigatewayv2Model_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApigatewayv2Model_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApigatewayv2Model_Schema(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -70,26 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2Model_Name(k *Apigatewayv2ModelParameters, p *Apigatewayv2ModelParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2Model_Schema(k *Apigatewayv2ModelParameters, p *Apigatewayv2ModelParameters, md *plugin.MergeDescription) bool {
-	if k.Schema != p.Schema {
-		p.Schema = k.Schema
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -123,9 +98,19 @@ func MergeApigatewayv2Model_Description(k *Apigatewayv2ModelParameters, p *Apiga
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApigatewayv2Model_Id(k *Apigatewayv2ModelParameters, p *Apigatewayv2ModelParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeApigatewayv2Model_Name(k *Apigatewayv2ModelParameters, p *Apigatewayv2ModelParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApigatewayv2Model_Schema(k *Apigatewayv2ModelParameters, p *Apigatewayv2ModelParameters, md *plugin.MergeDescription) bool {
+	if k.Schema != p.Schema {
+		p.Schema = k.Schema
 		md.NeedsProviderUpdate = true
 		return true
 	}

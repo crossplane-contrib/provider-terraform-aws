@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamSamlProvider(r IamSamlProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamSamlProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_SamlMetadataDocument(r.Spec.ForProvider, ctyVal)
 	EncodeIamSamlProvider_Arn(r.Status.AtProvider, ctyVal)
@@ -50,10 +49,6 @@ func EncodeIamSamlProvider(r IamSamlProvider) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamSamlProvider_Id(p IamSamlProviderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamSamlProvider_Name(p IamSamlProviderParameters, vals map[string]cty.Value) {

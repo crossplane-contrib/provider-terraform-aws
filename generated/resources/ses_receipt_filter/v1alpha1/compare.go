@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSesReceiptFilter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSesReceiptFilter_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -70,16 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeSesReceiptFilter_Cidr(k *SesReceiptFilterParameters, p *SesReceiptFilterParameters, md *plugin.MergeDescription) bool {
 	if k.Cidr != p.Cidr {
 		p.Cidr = k.Cidr
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSesReceiptFilter_Id(k *SesReceiptFilterParameters, p *SesReceiptFilterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

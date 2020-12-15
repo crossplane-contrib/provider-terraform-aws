@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEbsSnapshot_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEbsSnapshot_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,17 +51,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEbsSnapshot_OwnerAlias(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEbsSnapshot_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEbsSnapshot_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEbsSnapshot_OwnerAlias(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,19 +96,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeEbsSnapshot_Id(k *EbsSnapshotParameters, p *EbsSnapshotParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeEbsSnapshot_Tags(k *EbsSnapshotParameters, p *EbsSnapshotParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -182,16 +167,6 @@ func MergeEbsSnapshot_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.Merge
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEbsSnapshot_OwnerAlias(k *EbsSnapshotObservation, p *EbsSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.OwnerAlias != p.OwnerAlias {
-		k.OwnerAlias = p.OwnerAlias
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeEbsSnapshot_Arn(k *EbsSnapshotObservation, p *EbsSnapshotObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
@@ -205,6 +180,16 @@ func MergeEbsSnapshot_Arn(k *EbsSnapshotObservation, p *EbsSnapshotObservation, 
 func MergeEbsSnapshot_KmsKeyId(k *EbsSnapshotObservation, p *EbsSnapshotObservation, md *plugin.MergeDescription) bool {
 	if k.KmsKeyId != p.KmsKeyId {
 		k.KmsKeyId = p.KmsKeyId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEbsSnapshot_OwnerAlias(k *EbsSnapshotObservation, p *EbsSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.OwnerAlias != p.OwnerAlias {
+		k.OwnerAlias = p.OwnerAlias
 		md.StatusUpdated = true
 		return true
 	}

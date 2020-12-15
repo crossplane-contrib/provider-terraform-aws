@@ -39,14 +39,13 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAppsyncFunction(prev *AppsyncFunction, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAppsyncFunction_Name(&new.Spec.ForProvider, valMap)
-	DecodeAppsyncFunction_RequestMappingTemplate(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_FunctionVersion(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_ResponseMappingTemplate(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncFunction_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncFunction_DataSource(&new.Spec.ForProvider, valMap)
-	DecodeAppsyncFunction_FunctionVersion(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncFunction_Description(&new.Spec.ForProvider, valMap)
-	DecodeAppsyncFunction_Id(&new.Spec.ForProvider, valMap)
-	DecodeAppsyncFunction_ResponseMappingTemplate(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_Name(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncFunction_RequestMappingTemplate(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncFunction_Arn(&new.Status.AtProvider, valMap)
 	DecodeAppsyncFunction_FunctionId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -57,13 +56,13 @@ func DecodeAppsyncFunction(prev *AppsyncFunction, ctyValue cty.Value) (resource.
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAppsyncFunction_Name(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+func DecodeAppsyncFunction_FunctionVersion(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.FunctionVersion = ctwhy.ValueAsString(vals["function_version"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAppsyncFunction_RequestMappingTemplate(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
-	p.RequestMappingTemplate = ctwhy.ValueAsString(vals["request_mapping_template"])
+func DecodeAppsyncFunction_ResponseMappingTemplate(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.ResponseMappingTemplate = ctwhy.ValueAsString(vals["response_mapping_template"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -77,23 +76,18 @@ func DecodeAppsyncFunction_DataSource(p *AppsyncFunctionParameters, vals map[str
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAppsyncFunction_FunctionVersion(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
-	p.FunctionVersion = ctwhy.ValueAsString(vals["function_version"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeAppsyncFunction_Description(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAppsyncFunction_Id(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeAppsyncFunction_Name(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAppsyncFunction_ResponseMappingTemplate(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
-	p.ResponseMappingTemplate = ctwhy.ValueAsString(vals["response_mapping_template"])
+func DecodeAppsyncFunction_RequestMappingTemplate(p *AppsyncFunctionParameters, vals map[string]cty.Value) {
+	p.RequestMappingTemplate = ctwhy.ValueAsString(vals["request_mapping_template"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDmsCertificate_CertificateId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDmsCertificate_CertificatePem(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,7 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsCertificate_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDmsCertificate_CertificateId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -64,16 +59,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsCertificate_CertificateId(k *DmsCertificateParameters, p *DmsCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.CertificateId != p.CertificateId {
-		p.CertificateId = k.CertificateId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -97,9 +82,9 @@ func MergeDmsCertificate_CertificateWallet(k *DmsCertificateParameters, p *DmsCe
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDmsCertificate_Id(k *DmsCertificateParameters, p *DmsCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeDmsCertificate_CertificateId(k *DmsCertificateParameters, p *DmsCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.CertificateId != p.CertificateId {
+		p.CertificateId = k.CertificateId
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -41,7 +41,6 @@ func DecodeIotPolicy(prev *IotPolicy, ctyValue cty.Value) (resource.Managed, err
 	new := prev.DeepCopy()
 	DecodeIotPolicy_Name(&new.Spec.ForProvider, valMap)
 	DecodeIotPolicy_Policy(&new.Spec.ForProvider, valMap)
-	DecodeIotPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeIotPolicy_Arn(&new.Status.AtProvider, valMap)
 	DecodeIotPolicy_DefaultVersionId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -59,11 +58,6 @@ func DecodeIotPolicy_Name(p *IotPolicyParameters, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeIotPolicy_Policy(p *IotPolicyParameters, vals map[string]cty.Value) {
 	p.Policy = ctwhy.ValueAsString(vals["policy"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIotPolicy_Id(p *IotPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

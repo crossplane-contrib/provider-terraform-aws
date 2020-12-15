@@ -39,16 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeKinesisStream(prev *KinesisStream, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeKinesisStream_Id(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_Name(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_EncryptionType(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_EnforceConsumerDeletion(&new.Spec.ForProvider, valMap)
-	DecodeKinesisStream_RetentionPeriod(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_KmsKeyId(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_ShardCount(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_ShardLevelMetrics(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_Arn(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_EnforceConsumerDeletion(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_Name(&new.Spec.ForProvider, valMap)
+	DecodeKinesisStream_RetentionPeriod(&new.Spec.ForProvider, valMap)
 	DecodeKinesisStream_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
 	eid := valMap["id"].AsString()
@@ -59,44 +58,13 @@ func DecodeKinesisStream(prev *KinesisStream, ctyValue cty.Value) (resource.Mana
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKinesisStream_Id(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKinesisStream_KmsKeyId(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKinesisStream_Name(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeKinesisStream_Tags(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeKinesisStream_EncryptionType(p *KinesisStreamParameters, vals map[string]cty.Value) {
 	p.EncryptionType = ctwhy.ValueAsString(vals["encryption_type"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKinesisStream_EnforceConsumerDeletion(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.EnforceConsumerDeletion = ctwhy.ValueAsBool(vals["enforce_consumer_deletion"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKinesisStream_RetentionPeriod(p *KinesisStreamParameters, vals map[string]cty.Value) {
-	p.RetentionPeriod = ctwhy.ValueAsInt64(vals["retention_period"])
+func DecodeKinesisStream_KmsKeyId(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -113,9 +81,35 @@ func DecodeKinesisStream_ShardLevelMetrics(p *KinesisStreamParameters, vals map[
 	p.ShardLevelMetrics = goVals
 }
 
+//primitiveMapTypeDecodeTemplate
+func DecodeKinesisStream_Tags(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
 //primitiveTypeDecodeTemplate
 func DecodeKinesisStream_Arn(p *KinesisStreamParameters, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKinesisStream_EnforceConsumerDeletion(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	p.EnforceConsumerDeletion = ctwhy.ValueAsBool(vals["enforce_consumer_deletion"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKinesisStream_Name(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKinesisStream_RetentionPeriod(p *KinesisStreamParameters, vals map[string]cty.Value) {
+	p.RetentionPeriod = ctwhy.ValueAsInt64(vals["retention_period"])
 }
 
 //containerTypeDecodeTemplate

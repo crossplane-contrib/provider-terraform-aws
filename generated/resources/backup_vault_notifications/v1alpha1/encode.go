@@ -37,10 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeBackupVaultNotifications(r BackupVaultNotifications) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeBackupVaultNotifications_BackupVaultEvents(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVaultNotifications_BackupVaultName(r.Spec.ForProvider, ctyVal)
-	EncodeBackupVaultNotifications_Id(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVaultNotifications_SnsTopicArn(r.Spec.ForProvider, ctyVal)
+	EncodeBackupVaultNotifications_BackupVaultEvents(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVaultNotifications_BackupVaultArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,24 +51,20 @@ func EncodeBackupVaultNotifications(r BackupVaultNotifications) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeBackupVaultNotifications_BackupVaultName(p BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	vals["backup_vault_name"] = cty.StringVal(p.BackupVaultName)
+}
+
+func EncodeBackupVaultNotifications_SnsTopicArn(p BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
+}
+
 func EncodeBackupVaultNotifications_BackupVaultEvents(p BackupVaultNotificationsParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.BackupVaultEvents {
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["backup_vault_events"] = cty.SetVal(colVals)
-}
-
-func EncodeBackupVaultNotifications_BackupVaultName(p BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	vals["backup_vault_name"] = cty.StringVal(p.BackupVaultName)
-}
-
-func EncodeBackupVaultNotifications_Id(p BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeBackupVaultNotifications_SnsTopicArn(p BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	vals["sns_topic_arn"] = cty.StringVal(p.SnsTopicArn)
 }
 
 func EncodeBackupVaultNotifications_BackupVaultArn(p BackupVaultNotificationsObservation, vals map[string]cty.Value) {

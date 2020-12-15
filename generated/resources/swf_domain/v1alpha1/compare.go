@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSwfDomain_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSwfDomain_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,11 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSwfDomain_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSwfDomain_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -77,9 +72,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSwfDomain_Id(k *SwfDomainParameters, p *SwfDomainParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSwfDomain_Description(k *SwfDomainParameters, p *SwfDomainParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -108,7 +103,7 @@ func MergeSwfDomain_NamePrefix(k *SwfDomainParameters, p *SwfDomainParameters, m
 
 //mergePrimitiveContainerTemplateSpec
 func MergeSwfDomain_Tags(k *SwfDomainParameters, p *SwfDomainParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -120,16 +115,6 @@ func MergeSwfDomain_Tags(k *SwfDomainParameters, p *SwfDomainParameters, md *plu
 func MergeSwfDomain_WorkflowExecutionRetentionPeriodInDays(k *SwfDomainParameters, p *SwfDomainParameters, md *plugin.MergeDescription) bool {
 	if k.WorkflowExecutionRetentionPeriodInDays != p.WorkflowExecutionRetentionPeriodInDays {
 		p.WorkflowExecutionRetentionPeriodInDays = k.WorkflowExecutionRetentionPeriodInDays
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSwfDomain_Description(k *SwfDomainParameters, p *SwfDomainParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}

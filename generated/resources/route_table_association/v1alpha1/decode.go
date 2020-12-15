@@ -40,7 +40,6 @@ func DecodeRouteTableAssociation(prev *RouteTableAssociation, ctyValue cty.Value
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeRouteTableAssociation_GatewayId(&new.Spec.ForProvider, valMap)
-	DecodeRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeRouteTableAssociation_SubnetId(&new.Spec.ForProvider, valMap)
 
@@ -54,11 +53,6 @@ func DecodeRouteTableAssociation(prev *RouteTableAssociation, ctyValue cty.Value
 //primitiveTypeDecodeTemplate
 func DecodeRouteTableAssociation_GatewayId(p *RouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.GatewayId = ctwhy.ValueAsString(vals["gateway_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRouteTableAssociation_Id(p *RouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

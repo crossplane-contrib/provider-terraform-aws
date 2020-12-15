@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxGatewayAssociationProposal_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxGatewayAssociationProposal_AllowedPrefixes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxGatewayAssociationProposal_AssociatedGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -52,6 +42,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxGatewayAssociationProposal_AllowedPrefixes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -74,26 +69,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxGatewayAssociationProposal_Id(k *DxGatewayAssociationProposalParameters, p *DxGatewayAssociationProposalParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDxGatewayAssociationProposal_AllowedPrefixes(k *DxGatewayAssociationProposalParameters, p *DxGatewayAssociationProposalParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.AllowedPrefixes, p.AllowedPrefixes) {
-		p.AllowedPrefixes = k.AllowedPrefixes
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -120,6 +95,16 @@ func MergeDxGatewayAssociationProposal_DxGatewayId(k *DxGatewayAssociationPropos
 func MergeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(k *DxGatewayAssociationProposalParameters, p *DxGatewayAssociationProposalParameters, md *plugin.MergeDescription) bool {
 	if k.DxGatewayOwnerAccountId != p.DxGatewayOwnerAccountId {
 		p.DxGatewayOwnerAccountId = k.DxGatewayOwnerAccountId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDxGatewayAssociationProposal_AllowedPrefixes(k *DxGatewayAssociationProposalParameters, p *DxGatewayAssociationProposalParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.AllowedPrefixes, p.AllowedPrefixes) {
+		p.AllowedPrefixes = k.AllowedPrefixes
 		md.NeedsProviderUpdate = true
 		return true
 	}

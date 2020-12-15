@@ -52,24 +52,23 @@ type DxHostedTransitVirtualInterfaceSpec struct {
 
 // A DxHostedTransitVirtualInterfaceParameters defines the desired state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceParameters struct {
-	BgpAsn          int64    `json:"bgp_asn"`
-	CustomerAddress string   `json:"customer_address"`
-	Id              string   `json:"id"`
-	AmazonAddress   string   `json:"amazon_address"`
-	OwnerAccountId  string   `json:"owner_account_id"`
-	AddressFamily   string   `json:"address_family"`
-	BgpAuthKey      string   `json:"bgp_auth_key"`
-	ConnectionId    string   `json:"connection_id"`
 	Mtu             int64    `json:"mtu"`
 	Name            string   `json:"name"`
+	AddressFamily   string   `json:"address_family"`
+	AmazonAddress   string   `json:"amazon_address"`
+	BgpAuthKey      string   `json:"bgp_auth_key"`
+	CustomerAddress string   `json:"customer_address"`
+	ConnectionId    string   `json:"connection_id"`
+	OwnerAccountId  string   `json:"owner_account_id"`
+	BgpAsn          int64    `json:"bgp_asn"`
 	Vlan            int64    `json:"vlan"`
 	Timeouts        Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DxHostedTransitVirtualInterfaceStatus defines the observed state of a DxHostedTransitVirtualInterface
@@ -80,8 +79,8 @@ type DxHostedTransitVirtualInterfaceStatus struct {
 
 // A DxHostedTransitVirtualInterfaceObservation records the observed state of a DxHostedTransitVirtualInterface
 type DxHostedTransitVirtualInterfaceObservation struct {
-	AwsDevice         string `json:"aws_device"`
+	Arn               string `json:"arn"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
 	AmazonSideAsn     string `json:"amazon_side_asn"`
-	Arn               string `json:"arn"`
+	AwsDevice         string `json:"aws_device"`
 }

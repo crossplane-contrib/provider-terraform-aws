@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRouteTableAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRouteTableAssociation_RouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,16 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeRouteTableAssociation_GatewayId(k *RouteTableAssociationParameters, p *RouteTableAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.GatewayId != p.GatewayId {
 		p.GatewayId = k.GatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRouteTableAssociation_Id(k *RouteTableAssociationParameters, p *RouteTableAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

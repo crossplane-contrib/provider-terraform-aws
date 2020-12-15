@@ -39,7 +39,6 @@ func EncodeEipAssociation(r EipAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeEipAssociation_AllocationId(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_AllowReassociation(r.Spec.ForProvider, ctyVal)
-	EncodeEipAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_InstanceId(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeEipAssociation_PrivateIpAddress(r.Spec.ForProvider, ctyVal)
@@ -61,10 +60,6 @@ func EncodeEipAssociation_AllocationId(p EipAssociationParameters, vals map[stri
 
 func EncodeEipAssociation_AllowReassociation(p EipAssociationParameters, vals map[string]cty.Value) {
 	vals["allow_reassociation"] = cty.BoolVal(p.AllowReassociation)
-}
-
-func EncodeEipAssociation_Id(p EipAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEipAssociation_InstanceId(p EipAssociationParameters, vals map[string]cty.Value) {

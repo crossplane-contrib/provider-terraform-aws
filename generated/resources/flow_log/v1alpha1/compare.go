@@ -36,7 +36,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFlowLog_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFlowLog_IamRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,22 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFlowLog_LogFormat(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFlowLog_TrafficType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeFlowLog_LogDestinationType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFlowLog_LogGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,12 +56,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFlowLog_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFlowLog_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeFlowLog_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFlowLog_TrafficType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,7 +71,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFlowLog_IamRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFlowLog_LogFormat(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeFlowLog_LogGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeFlowLog_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -117,9 +112,9 @@ func MergeFlowLog_EniId(k *FlowLogParameters, p *FlowLogParameters, md *plugin.M
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFlowLog_Id(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeFlowLog_IamRoleArn(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
+	if k.IamRoleArn != p.IamRoleArn {
+		p.IamRoleArn = k.IamRoleArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -137,9 +132,29 @@ func MergeFlowLog_LogDestination(k *FlowLogParameters, p *FlowLogParameters, md 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFlowLog_LogFormat(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
-	if k.LogFormat != p.LogFormat {
-		p.LogFormat = k.LogFormat
+func MergeFlowLog_LogDestinationType(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
+	if k.LogDestinationType != p.LogDestinationType {
+		p.LogDestinationType = k.LogDestinationType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeFlowLog_MaxAggregationInterval(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
+	if k.MaxAggregationInterval != p.MaxAggregationInterval {
+		p.MaxAggregationInterval = k.MaxAggregationInterval
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeFlowLog_Tags(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -157,9 +172,19 @@ func MergeFlowLog_TrafficType(k *FlowLogParameters, p *FlowLogParameters, md *pl
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFlowLog_LogDestinationType(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
-	if k.LogDestinationType != p.LogDestinationType {
-		p.LogDestinationType = k.LogDestinationType
+func MergeFlowLog_VpcId(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeFlowLog_LogFormat(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
+	if k.LogFormat != p.LogFormat {
+		p.LogFormat = k.LogFormat
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -177,49 +202,9 @@ func MergeFlowLog_LogGroupName(k *FlowLogParameters, p *FlowLogParameters, md *p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFlowLog_MaxAggregationInterval(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
-	if k.MaxAggregationInterval != p.MaxAggregationInterval {
-		p.MaxAggregationInterval = k.MaxAggregationInterval
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeFlowLog_SubnetId(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
 	if k.SubnetId != p.SubnetId {
 		p.SubnetId = k.SubnetId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeFlowLog_Tags(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeFlowLog_VpcId(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		p.VpcId = k.VpcId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeFlowLog_IamRoleArn(k *FlowLogParameters, p *FlowLogParameters, md *plugin.MergeDescription) bool {
-	if k.IamRoleArn != p.IamRoleArn {
-		p.IamRoleArn = k.IamRoleArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

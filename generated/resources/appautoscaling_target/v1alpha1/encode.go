@@ -43,7 +43,6 @@ func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Value {
 	EncodeAppautoscalingTarget_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ScalableDimension(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ServiceNamespace(r.Spec.ForProvider, ctyVal)
-	EncodeAppautoscalingTarget_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -77,8 +76,4 @@ func EncodeAppautoscalingTarget_ScalableDimension(p AppautoscalingTargetParamete
 
 func EncodeAppautoscalingTarget_ServiceNamespace(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["service_namespace"] = cty.StringVal(p.ServiceNamespace)
-}
-
-func EncodeAppautoscalingTarget_Id(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

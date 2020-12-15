@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2Tag(r Ec2Tag) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2Tag_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Key(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2Tag_Value(r.Spec.ForProvider, ctyVal)
@@ -50,10 +49,6 @@ func EncodeEc2Tag(r Ec2Tag) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2Tag_Id(p Ec2TagParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2Tag_Key(p Ec2TagParameters, vals map[string]cty.Value) {

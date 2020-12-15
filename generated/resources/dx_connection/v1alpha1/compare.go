@@ -31,21 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxConnection_Bandwidth(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxConnection_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxConnection_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxConnection_Location(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,12 +41,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxConnection_JumboFrameCapable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDxConnection_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxConnection_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDxConnection_Bandwidth(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxConnection_JumboFrameCapable(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,6 +66,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDxConnection_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -84,36 +79,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxConnection_Bandwidth(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
-	if k.Bandwidth != p.Bandwidth {
-		p.Bandwidth = k.Bandwidth
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDxConnection_Tags(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxConnection_Id(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -136,20 +101,30 @@ func MergeDxConnection_Name(k *DxConnectionParameters, p *DxConnectionParameters
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeDxConnection_JumboFrameCapable(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
-	if k.JumboFrameCapable != p.JumboFrameCapable {
-		k.JumboFrameCapable = p.JumboFrameCapable
-		md.StatusUpdated = true
+//mergePrimitiveContainerTemplateSpec
+func MergeDxConnection_Tags(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxConnection_Bandwidth(k *DxConnectionParameters, p *DxConnectionParameters, md *plugin.MergeDescription) bool {
+	if k.Bandwidth != p.Bandwidth {
+		p.Bandwidth = k.Bandwidth
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDxConnection_Arn(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeDxConnection_JumboFrameCapable(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
+	if k.JumboFrameCapable != p.JumboFrameCapable {
+		k.JumboFrameCapable = p.JumboFrameCapable
 		md.StatusUpdated = true
 		return true
 	}
@@ -170,6 +145,16 @@ func MergeDxConnection_AwsDevice(k *DxConnectionObservation, p *DxConnectionObse
 func MergeDxConnection_HasLogicalRedundancy(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
 	if k.HasLogicalRedundancy != p.HasLogicalRedundancy {
 		k.HasLogicalRedundancy = p.HasLogicalRedundancy
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDxConnection_Arn(k *DxConnectionObservation, p *DxConnectionObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

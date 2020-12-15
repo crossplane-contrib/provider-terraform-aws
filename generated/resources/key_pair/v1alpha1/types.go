@@ -52,11 +52,10 @@ type KeyPairSpec struct {
 
 // A KeyPairParameters defines the desired state of a KeyPair
 type KeyPairParameters struct {
-	Id            string            `json:"id"`
+	Tags          map[string]string `json:"tags"`
 	KeyName       string            `json:"key_name"`
 	KeyNamePrefix string            `json:"key_name_prefix"`
 	PublicKey     string            `json:"public_key"`
-	Tags          map[string]string `json:"tags"`
 }
 
 // A KeyPairStatus defines the observed state of a KeyPair

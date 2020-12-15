@@ -37,14 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeServicecatalogPortfolio(r ServicecatalogPortfolio) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeServicecatalogPortfolio_Description(r.Spec.ForProvider, ctyVal)
-	EncodeServicecatalogPortfolio_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_ProviderName(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeServicecatalogPortfolio_Description(r.Spec.ForProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeServicecatalogPortfolio_CreatedTime(r.Status.AtProvider, ctyVal)
 	EncodeServicecatalogPortfolio_Arn(r.Status.AtProvider, ctyVal)
+	EncodeServicecatalogPortfolio_CreatedTime(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -53,14 +52,6 @@ func EncodeServicecatalogPortfolio(r ServicecatalogPortfolio) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeServicecatalogPortfolio_Description(p ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeServicecatalogPortfolio_Id(p ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeServicecatalogPortfolio_Name(p ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
@@ -83,6 +74,10 @@ func EncodeServicecatalogPortfolio_Tags(p ServicecatalogPortfolioParameters, val
 	vals["tags"] = cty.MapVal(mVals)
 }
 
+func EncodeServicecatalogPortfolio_Description(p ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
 func EncodeServicecatalogPortfolio_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
 	EncodeServicecatalogPortfolio_Timeouts_Delete(p, ctyVal)
@@ -103,10 +98,10 @@ func EncodeServicecatalogPortfolio_Timeouts_Create(p Timeouts, vals map[string]c
 	vals["create"] = cty.StringVal(p.Create)
 }
 
-func EncodeServicecatalogPortfolio_CreatedTime(p ServicecatalogPortfolioObservation, vals map[string]cty.Value) {
-	vals["created_time"] = cty.StringVal(p.CreatedTime)
-}
-
 func EncodeServicecatalogPortfolio_Arn(p ServicecatalogPortfolioObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeServicecatalogPortfolio_CreatedTime(p ServicecatalogPortfolioObservation, vals map[string]cty.Value) {
+	vals["created_time"] = cty.StringVal(p.CreatedTime)
 }

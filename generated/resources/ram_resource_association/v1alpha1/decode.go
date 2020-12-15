@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRamResourceAssociation(prev *RamResourceAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRamResourceAssociation_Id(&new.Spec.ForProvider, valMap)
-	DecodeRamResourceAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
 	DecodeRamResourceAssociation_ResourceShareArn(&new.Spec.ForProvider, valMap)
+	DecodeRamResourceAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeRamResourceAssociation(prev *RamResourceAssociation, ctyValue cty.Val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRamResourceAssociation_Id(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeRamResourceAssociation_ResourceShareArn(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
+	p.ResourceShareArn = ctwhy.ValueAsString(vals["resource_share_arn"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeRamResourceAssociation_ResourceArn(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
 	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRamResourceAssociation_ResourceShareArn(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
-	p.ResourceShareArn = ctwhy.ValueAsString(vals["resource_share_arn"])
 }

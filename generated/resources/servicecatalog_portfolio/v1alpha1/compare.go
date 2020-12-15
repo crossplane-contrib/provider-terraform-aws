@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeServicecatalogPortfolio_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeServicecatalogPortfolio_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeServicecatalogPortfolio_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,17 +46,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeServicecatalogPortfolio_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeServicecatalogPortfolio_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeServicecatalogPortfolio_CreatedTime(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServicecatalogPortfolio_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeServicecatalogPortfolio_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServicecatalogPortfolio_CreatedTime(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -79,26 +74,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeServicecatalogPortfolio_Description(k *ServicecatalogPortfolioParameters, p *ServicecatalogPortfolioParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeServicecatalogPortfolio_Id(k *ServicecatalogPortfolioParameters, p *ServicecatalogPortfolioParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -123,8 +98,18 @@ func MergeServicecatalogPortfolio_ProviderName(k *ServicecatalogPortfolioParamet
 
 //mergePrimitiveContainerTemplateSpec
 func MergeServicecatalogPortfolio_Tags(k *ServicecatalogPortfolioParameters, p *ServicecatalogPortfolioParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeServicecatalogPortfolio_Description(k *ServicecatalogPortfolioParameters, p *ServicecatalogPortfolioParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -187,9 +172,9 @@ func MergeServicecatalogPortfolio_Timeouts_Create(k *Timeouts, p *Timeouts, md *
 }
 
 //mergePrimitiveTemplateStatus
-func MergeServicecatalogPortfolio_CreatedTime(k *ServicecatalogPortfolioObservation, p *ServicecatalogPortfolioObservation, md *plugin.MergeDescription) bool {
-	if k.CreatedTime != p.CreatedTime {
-		k.CreatedTime = p.CreatedTime
+func MergeServicecatalogPortfolio_Arn(k *ServicecatalogPortfolioObservation, p *ServicecatalogPortfolioObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}
@@ -197,9 +182,9 @@ func MergeServicecatalogPortfolio_CreatedTime(k *ServicecatalogPortfolioObservat
 }
 
 //mergePrimitiveTemplateStatus
-func MergeServicecatalogPortfolio_Arn(k *ServicecatalogPortfolioObservation, p *ServicecatalogPortfolioObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeServicecatalogPortfolio_CreatedTime(k *ServicecatalogPortfolioObservation, p *ServicecatalogPortfolioObservation, md *plugin.MergeDescription) bool {
+	if k.CreatedTime != p.CreatedTime {
+		k.CreatedTime = p.CreatedTime
 		md.StatusUpdated = true
 		return true
 	}

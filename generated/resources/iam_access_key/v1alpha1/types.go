@@ -55,7 +55,6 @@ type IamAccessKeyParameters struct {
 	PgpKey string `json:"pgp_key"`
 	Status string `json:"status"`
 	User   string `json:"user"`
-	Id     string `json:"id"`
 }
 
 // A IamAccessKeyStatus defines the observed state of a IamAccessKey

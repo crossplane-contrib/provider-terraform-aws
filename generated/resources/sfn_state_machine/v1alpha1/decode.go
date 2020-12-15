@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSfnStateMachine(prev *SfnStateMachine, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeSfnStateMachine_Name(&new.Spec.ForProvider, valMap)
 	DecodeSfnStateMachine_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSfnStateMachine_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSfnStateMachine_Definition(&new.Spec.ForProvider, valMap)
-	DecodeSfnStateMachine_Id(&new.Spec.ForProvider, valMap)
-	DecodeSfnStateMachine_Name(&new.Spec.ForProvider, valMap)
 	DecodeSfnStateMachine_Status(&new.Status.AtProvider, valMap)
 	DecodeSfnStateMachine_Arn(&new.Status.AtProvider, valMap)
 	DecodeSfnStateMachine_CreationDate(&new.Status.AtProvider, valMap)
@@ -52,6 +51,11 @@ func DecodeSfnStateMachine(prev *SfnStateMachine, ctyValue cty.Value) (resource.
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSfnStateMachine_Name(p *SfnStateMachineParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -73,16 +77,6 @@ func DecodeSfnStateMachine_Tags(p *SfnStateMachineParameters, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_Definition(p *SfnStateMachineParameters, vals map[string]cty.Value) {
 	p.Definition = ctwhy.ValueAsString(vals["definition"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSfnStateMachine_Id(p *SfnStateMachineParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSfnStateMachine_Name(p *SfnStateMachineParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate

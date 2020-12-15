@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeOpsworksUserProfile(r OpsworksUserProfile) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksUserProfile_Id(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksUserProfile_AllowSelfManagement(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_SshPublicKey(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_SshUsername(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksUserProfile_UserArn(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksUserProfile_AllowSelfManagement(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,8 +52,8 @@ func EncodeOpsworksUserProfile(r OpsworksUserProfile) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeOpsworksUserProfile_Id(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeOpsworksUserProfile_AllowSelfManagement(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
+	vals["allow_self_management"] = cty.BoolVal(p.AllowSelfManagement)
 }
 
 func EncodeOpsworksUserProfile_SshPublicKey(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
@@ -67,8 +66,4 @@ func EncodeOpsworksUserProfile_SshUsername(p OpsworksUserProfileParameters, vals
 
 func EncodeOpsworksUserProfile_UserArn(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
 	vals["user_arn"] = cty.StringVal(p.UserArn)
-}
-
-func EncodeOpsworksUserProfile_AllowSelfManagement(p OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	vals["allow_self_management"] = cty.BoolVal(p.AllowSelfManagement)
 }

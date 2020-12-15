@@ -39,21 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2TransitGatewayRouteTable(prev *Ec2TransitGatewayRouteTable, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2TransitGatewayRouteTable_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTable_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTable_TransitGatewayId(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(&new.Status.AtProvider, valMap)
 	DecodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGatewayRouteTable_Id(p *Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -73,11 +67,11 @@ func DecodeEc2TransitGatewayRouteTable_TransitGatewayId(p *Ec2TransitGatewayRout
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
-	p.DefaultPropagationRouteTable = ctwhy.ValueAsBool(vals["default_propagation_route_table"])
+func DecodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
+	p.DefaultAssociationRouteTable = ctwhy.ValueAsBool(vals["default_association_route_table"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
-	p.DefaultAssociationRouteTable = ctwhy.ValueAsBool(vals["default_association_route_table"])
+func DecodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(p *Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
+	p.DefaultPropagationRouteTable = ctwhy.ValueAsBool(vals["default_propagation_route_table"])
 }

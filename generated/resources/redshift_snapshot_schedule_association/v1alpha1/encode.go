@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSnapshotScheduleAssociation(r RedshiftSnapshotScheduleAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotScheduleAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeRedshiftSnapshotScheduleAssociation(r RedshiftSnapshotScheduleAssocia
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotScheduleAssociation_Id(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(p RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {

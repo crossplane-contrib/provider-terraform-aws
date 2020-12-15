@@ -37,10 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDmsCertificate(r DmsCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDmsCertificate_CertificateId(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificatePem(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificateWallet(r.Spec.ForProvider, ctyVal)
-	EncodeDmsCertificate_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDmsCertificate_CertificateId(r.Spec.ForProvider, ctyVal)
 	EncodeDmsCertificate_CertificateArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,10 +51,6 @@ func EncodeDmsCertificate(r DmsCertificate) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDmsCertificate_CertificateId(p DmsCertificateParameters, vals map[string]cty.Value) {
-	vals["certificate_id"] = cty.StringVal(p.CertificateId)
-}
-
 func EncodeDmsCertificate_CertificatePem(p DmsCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_pem"] = cty.StringVal(p.CertificatePem)
 }
@@ -64,8 +59,8 @@ func EncodeDmsCertificate_CertificateWallet(p DmsCertificateParameters, vals map
 	vals["certificate_wallet"] = cty.StringVal(p.CertificateWallet)
 }
 
-func EncodeDmsCertificate_Id(p DmsCertificateParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeDmsCertificate_CertificateId(p DmsCertificateParameters, vals map[string]cty.Value) {
+	vals["certificate_id"] = cty.StringVal(p.CertificateId)
 }
 
 func EncodeDmsCertificate_CertificateArn(p DmsCertificateObservation, vals map[string]cty.Value) {

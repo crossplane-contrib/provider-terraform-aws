@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAlbListenerCertificate_ListenerArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAlbListenerCertificate_CertificateArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAlbListenerCertificate_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAlbListenerCertificate_ListenerArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +53,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAlbListenerCertificate_ListenerArn(k *AlbListenerCertificateParameters, p *AlbListenerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.ListenerArn != p.ListenerArn {
-		p.ListenerArn = k.ListenerArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeAlbListenerCertificate_CertificateArn(k *AlbListenerCertificateParameters, p *AlbListenerCertificateParameters, md *plugin.MergeDescription) bool {
 	if k.CertificateArn != p.CertificateArn {
 		p.CertificateArn = k.CertificateArn
@@ -78,9 +63,9 @@ func MergeAlbListenerCertificate_CertificateArn(k *AlbListenerCertificateParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAlbListenerCertificate_Id(k *AlbListenerCertificateParameters, p *AlbListenerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeAlbListenerCertificate_ListenerArn(k *AlbListenerCertificateParameters, p *AlbListenerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.ListenerArn != p.ListenerArn {
+		p.ListenerArn = k.ListenerArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

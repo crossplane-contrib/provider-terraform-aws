@@ -39,46 +39,19 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLicensemanagerLicenseConfiguration(prev *LicensemanagerLicenseConfiguration, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeLicensemanagerLicenseConfiguration_Tags(&new.Spec.ForProvider, valMap)
-	DecodeLicensemanagerLicenseConfiguration_Description(&new.Spec.ForProvider, valMap)
-	DecodeLicensemanagerLicenseConfiguration_Id(&new.Spec.ForProvider, valMap)
-	DecodeLicensemanagerLicenseConfiguration_LicenseCount(&new.Spec.ForProvider, valMap)
 	DecodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(&new.Spec.ForProvider, valMap)
 	DecodeLicensemanagerLicenseConfiguration_LicenseCountingType(&new.Spec.ForProvider, valMap)
 	DecodeLicensemanagerLicenseConfiguration_LicenseRules(&new.Spec.ForProvider, valMap)
 	DecodeLicensemanagerLicenseConfiguration_Name(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_Tags(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_Description(&new.Spec.ForProvider, valMap)
+	DecodeLicensemanagerLicenseConfiguration_LicenseCount(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeLicensemanagerLicenseConfiguration_Tags(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLicensemanagerLicenseConfiguration_Description(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLicensemanagerLicenseConfiguration_Id(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLicensemanagerLicenseConfiguration_LicenseCount(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	p.LicenseCount = ctwhy.ValueAsInt64(vals["license_count"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -103,4 +76,25 @@ func DecodeLicensemanagerLicenseConfiguration_LicenseRules(p *LicensemanagerLice
 //primitiveTypeDecodeTemplate
 func DecodeLicensemanagerLicenseConfiguration_Name(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeLicensemanagerLicenseConfiguration_Tags(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLicensemanagerLicenseConfiguration_Description(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLicensemanagerLicenseConfiguration_LicenseCount(p *LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	p.LicenseCount = ctwhy.ValueAsInt64(vals["license_count"])
 }

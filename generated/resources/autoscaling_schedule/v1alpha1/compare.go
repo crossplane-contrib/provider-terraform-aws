@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAutoscalingSchedule_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAutoscalingSchedule_MinSize(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,22 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAutoscalingSchedule_AutoscalingGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAutoscalingSchedule_EndTime(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeAutoscalingSchedule_ScheduledActionName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeAutoscalingSchedule_DesiredCapacity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,7 +56,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAutoscalingSchedule_MinSize(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAutoscalingSchedule_ScheduledActionName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAutoscalingSchedule_AutoscalingGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeAutoscalingSchedule_DesiredCapacity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,9 +87,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAutoscalingSchedule_Id(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeAutoscalingSchedule_MinSize(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
+	if k.MinSize != p.MinSize {
+		p.MinSize = k.MinSize
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -122,39 +117,9 @@ func MergeAutoscalingSchedule_StartTime(k *AutoscalingScheduleParameters, p *Aut
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAutoscalingSchedule_AutoscalingGroupName(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
-	if k.AutoscalingGroupName != p.AutoscalingGroupName {
-		p.AutoscalingGroupName = k.AutoscalingGroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeAutoscalingSchedule_EndTime(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
 	if k.EndTime != p.EndTime {
 		p.EndTime = k.EndTime
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAutoscalingSchedule_ScheduledActionName(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
-	if k.ScheduledActionName != p.ScheduledActionName {
-		p.ScheduledActionName = k.ScheduledActionName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAutoscalingSchedule_DesiredCapacity(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
-	if k.DesiredCapacity != p.DesiredCapacity {
-		p.DesiredCapacity = k.DesiredCapacity
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -172,9 +137,29 @@ func MergeAutoscalingSchedule_MaxSize(k *AutoscalingScheduleParameters, p *Autos
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAutoscalingSchedule_MinSize(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
-	if k.MinSize != p.MinSize {
-		p.MinSize = k.MinSize
+func MergeAutoscalingSchedule_ScheduledActionName(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
+	if k.ScheduledActionName != p.ScheduledActionName {
+		p.ScheduledActionName = k.ScheduledActionName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAutoscalingSchedule_AutoscalingGroupName(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
+	if k.AutoscalingGroupName != p.AutoscalingGroupName {
+		p.AutoscalingGroupName = k.AutoscalingGroupName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAutoscalingSchedule_DesiredCapacity(k *AutoscalingScheduleParameters, p *AutoscalingScheduleParameters, md *plugin.MergeDescription) bool {
+	if k.DesiredCapacity != p.DesiredCapacity {
+		p.DesiredCapacity = k.DesiredCapacity
 		md.NeedsProviderUpdate = true
 		return true
 	}

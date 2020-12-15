@@ -37,13 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudwatchLogSubscriptionFilter(r CloudwatchLogSubscriptionFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogSubscriptionFilter_DestinationArn(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogSubscriptionFilter_Distribution(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogSubscriptionFilter_FilterPattern(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogSubscriptionFilter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogSubscriptionFilter_RoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogSubscriptionFilter_DestinationArn(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogSubscriptionFilter_Distribution(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchLogSubscriptionFilter_FilterPattern(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,22 +52,6 @@ func EncodeCloudwatchLogSubscriptionFilter(r CloudwatchLogSubscriptionFilter) ct
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogSubscriptionFilter_DestinationArn(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
-}
-
-func EncodeCloudwatchLogSubscriptionFilter_Distribution(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	vals["distribution"] = cty.StringVal(p.Distribution)
-}
-
-func EncodeCloudwatchLogSubscriptionFilter_FilterPattern(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	vals["filter_pattern"] = cty.StringVal(p.FilterPattern)
-}
-
-func EncodeCloudwatchLogSubscriptionFilter_Id(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogSubscriptionFilter_LogGroupName(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
@@ -81,4 +64,16 @@ func EncodeCloudwatchLogSubscriptionFilter_Name(p CloudwatchLogSubscriptionFilte
 
 func EncodeCloudwatchLogSubscriptionFilter_RoleArn(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
+func EncodeCloudwatchLogSubscriptionFilter_DestinationArn(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	vals["destination_arn"] = cty.StringVal(p.DestinationArn)
+}
+
+func EncodeCloudwatchLogSubscriptionFilter_Distribution(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	vals["distribution"] = cty.StringVal(p.Distribution)
+}
+
+func EncodeCloudwatchLogSubscriptionFilter_FilterPattern(p CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	vals["filter_pattern"] = cty.StringVal(p.FilterPattern)
 }

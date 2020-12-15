@@ -52,7 +52,6 @@ type RamResourceShareAccepterSpec struct {
 
 // A RamResourceShareAccepterParameters defines the desired state of a RamResourceShareAccepter
 type RamResourceShareAccepterParameters struct {
-	Id       string   `json:"id"`
 	ShareArn string   `json:"share_arn"`
 	Timeouts Timeouts `json:"timeouts"`
 }
@@ -70,11 +69,11 @@ type RamResourceShareAccepterStatus struct {
 
 // A RamResourceShareAccepterObservation records the observed state of a RamResourceShareAccepter
 type RamResourceShareAccepterObservation struct {
-	Status            string   `json:"status"`
-	Resources         []string `json:"resources"`
-	ShareId           string   `json:"share_id"`
-	ShareName         string   `json:"share_name"`
 	InvitationArn     string   `json:"invitation_arn"`
 	ReceiverAccountId string   `json:"receiver_account_id"`
 	SenderAccountId   string   `json:"sender_account_id"`
+	ShareId           string   `json:"share_id"`
+	Status            string   `json:"status"`
+	Resources         []string `json:"resources"`
+	ShareName         string   `json:"share_name"`
 }

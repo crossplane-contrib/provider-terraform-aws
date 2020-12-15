@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2AvailabilityZoneGroup_OptInStatus(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2AvailabilityZoneGroup_GroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2AvailabilityZoneGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2AvailabilityZoneGroup_OptInStatus(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +53,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2AvailabilityZoneGroup_OptInStatus(k *Ec2AvailabilityZoneGroupParameters, p *Ec2AvailabilityZoneGroupParameters, md *plugin.MergeDescription) bool {
-	if k.OptInStatus != p.OptInStatus {
-		p.OptInStatus = k.OptInStatus
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEc2AvailabilityZoneGroup_GroupName(k *Ec2AvailabilityZoneGroupParameters, p *Ec2AvailabilityZoneGroupParameters, md *plugin.MergeDescription) bool {
 	if k.GroupName != p.GroupName {
 		p.GroupName = k.GroupName
@@ -78,9 +63,9 @@ func MergeEc2AvailabilityZoneGroup_GroupName(k *Ec2AvailabilityZoneGroupParamete
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2AvailabilityZoneGroup_Id(k *Ec2AvailabilityZoneGroupParameters, p *Ec2AvailabilityZoneGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeEc2AvailabilityZoneGroup_OptInStatus(k *Ec2AvailabilityZoneGroupParameters, p *Ec2AvailabilityZoneGroupParameters, md *plugin.MergeDescription) bool {
+	if k.OptInStatus != p.OptInStatus {
+		p.OptInStatus = k.OptInStatus
 		md.NeedsProviderUpdate = true
 		return true
 	}

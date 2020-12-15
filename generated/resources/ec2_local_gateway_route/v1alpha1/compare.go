@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2LocalGatewayRoute_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2LocalGatewayRoute_LocalGatewayRouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,16 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeEc2LocalGatewayRoute_DestinationCidrBlock(k *Ec2LocalGatewayRouteParameters, p *Ec2LocalGatewayRouteParameters, md *plugin.MergeDescription) bool {
 	if k.DestinationCidrBlock != p.DestinationCidrBlock {
 		p.DestinationCidrBlock = k.DestinationCidrBlock
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2LocalGatewayRoute_Id(k *Ec2LocalGatewayRouteParameters, p *Ec2LocalGatewayRouteParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -40,17 +40,16 @@ func DecodeFlowLog(prev *FlowLog, ctyValue cty.Value) (resource.Managed, error) 
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeFlowLog_EniId(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_Id(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_LogDestination(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_LogFormat(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_TrafficType(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_LogDestinationType(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_LogGroupName(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_MaxAggregationInterval(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_SubnetId(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_Tags(&new.Spec.ForProvider, valMap)
-	DecodeFlowLog_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeFlowLog_IamRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogDestination(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogDestinationType(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_MaxAggregationInterval(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_Tags(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_TrafficType(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogFormat(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_LogGroupName(&new.Spec.ForProvider, valMap)
+	DecodeFlowLog_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeFlowLog_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -65,8 +64,8 @@ func DecodeFlowLog_EniId(p *FlowLogParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFlowLog_Id(p *FlowLogParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeFlowLog_IamRoleArn(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.IamRoleArn = ctwhy.ValueAsString(vals["iam_role_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -75,33 +74,13 @@ func DecodeFlowLog_LogDestination(p *FlowLogParameters, vals map[string]cty.Valu
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFlowLog_LogFormat(p *FlowLogParameters, vals map[string]cty.Value) {
-	p.LogFormat = ctwhy.ValueAsString(vals["log_format"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFlowLog_TrafficType(p *FlowLogParameters, vals map[string]cty.Value) {
-	p.TrafficType = ctwhy.ValueAsString(vals["traffic_type"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeFlowLog_LogDestinationType(p *FlowLogParameters, vals map[string]cty.Value) {
 	p.LogDestinationType = ctwhy.ValueAsString(vals["log_destination_type"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFlowLog_LogGroupName(p *FlowLogParameters, vals map[string]cty.Value) {
-	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeFlowLog_MaxAggregationInterval(p *FlowLogParameters, vals map[string]cty.Value) {
 	p.MaxAggregationInterval = ctwhy.ValueAsInt64(vals["max_aggregation_interval"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFlowLog_SubnetId(p *FlowLogParameters, vals map[string]cty.Value) {
-	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -116,13 +95,28 @@ func DecodeFlowLog_Tags(p *FlowLogParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeFlowLog_TrafficType(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.TrafficType = ctwhy.ValueAsString(vals["traffic_type"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeFlowLog_VpcId(p *FlowLogParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFlowLog_IamRoleArn(p *FlowLogParameters, vals map[string]cty.Value) {
-	p.IamRoleArn = ctwhy.ValueAsString(vals["iam_role_arn"])
+func DecodeFlowLog_LogFormat(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.LogFormat = ctwhy.ValueAsString(vals["log_format"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFlowLog_LogGroupName(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFlowLog_SubnetId(p *FlowLogParameters, vals map[string]cty.Value) {
+	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }
 
 //primitiveTypeDecodeTemplate

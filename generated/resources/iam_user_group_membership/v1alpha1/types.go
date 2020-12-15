@@ -53,7 +53,6 @@ type IamUserGroupMembershipSpec struct {
 // A IamUserGroupMembershipParameters defines the desired state of a IamUserGroupMembership
 type IamUserGroupMembershipParameters struct {
 	Groups []string `json:"groups"`
-	Id     string   `json:"id"`
 	User   string   `json:"user"`
 }
 

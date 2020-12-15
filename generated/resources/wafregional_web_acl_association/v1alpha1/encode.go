@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafregionalWebAclAssociation(r WafregionalWebAclAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafregionalWebAclAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAclAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
 	EncodeWafregionalWebAclAssociation_WebAclId(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeWafregionalWebAclAssociation(r WafregionalWebAclAssociation) cty.Valu
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafregionalWebAclAssociation_Id(p WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafregionalWebAclAssociation_ResourceArn(p WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {

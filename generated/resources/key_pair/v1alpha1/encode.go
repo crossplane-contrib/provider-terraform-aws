@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeKeyPair(r KeyPair) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKeyPair_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKeyPair_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_KeyName(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_KeyNamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_PublicKey(r.Spec.ForProvider, ctyVal)
-	EncodeKeyPair_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeKeyPair_Arn(r.Status.AtProvider, ctyVal)
 	EncodeKeyPair_Fingerprint(r.Status.AtProvider, ctyVal)
 	EncodeKeyPair_KeyPairId(r.Status.AtProvider, ctyVal)
@@ -55,8 +54,16 @@ func EncodeKeyPair(r KeyPair) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeKeyPair_Id(p KeyPairParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeKeyPair_Tags(p KeyPairParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeKeyPair_KeyName(p KeyPairParameters, vals map[string]cty.Value) {
@@ -69,18 +76,6 @@ func EncodeKeyPair_KeyNamePrefix(p KeyPairParameters, vals map[string]cty.Value)
 
 func EncodeKeyPair_PublicKey(p KeyPairParameters, vals map[string]cty.Value) {
 	vals["public_key"] = cty.StringVal(p.PublicKey)
-}
-
-func EncodeKeyPair_Tags(p KeyPairParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeKeyPair_Arn(p KeyPairObservation, vals map[string]cty.Value) {

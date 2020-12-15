@@ -36,21 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudfrontOriginAccessIdentity_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudfrontOriginAccessIdentity_Etag(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudfrontOriginAccessIdentity_IamArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -62,6 +47,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeCloudfrontOriginAccessIdentity_CallerReference(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudfrontOriginAccessIdentity_Etag(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,36 +76,6 @@ func MergeCloudfrontOriginAccessIdentity_Comment(k *CloudfrontOriginAccessIdenti
 	if k.Comment != p.Comment {
 		p.Comment = k.Comment
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudfrontOriginAccessIdentity_Id(k *CloudfrontOriginAccessIdentityParameters, p *CloudfrontOriginAccessIdentityParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
-	if k.CloudfrontAccessIdentityPath != p.CloudfrontAccessIdentityPath {
-		k.CloudfrontAccessIdentityPath = p.CloudfrontAccessIdentityPath
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeCloudfrontOriginAccessIdentity_Etag(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
-	if k.Etag != p.Etag {
-		k.Etag = p.Etag
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -140,6 +105,26 @@ func MergeCloudfrontOriginAccessIdentity_S3CanonicalUserId(k *CloudfrontOriginAc
 func MergeCloudfrontOriginAccessIdentity_CallerReference(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
 	if k.CallerReference != p.CallerReference {
 		k.CallerReference = p.CallerReference
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
+	if k.CloudfrontAccessIdentityPath != p.CloudfrontAccessIdentityPath {
+		k.CloudfrontAccessIdentityPath = p.CloudfrontAccessIdentityPath
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeCloudfrontOriginAccessIdentity_Etag(k *CloudfrontOriginAccessIdentityObservation, p *CloudfrontOriginAccessIdentityObservation, md *plugin.MergeDescription) bool {
+	if k.Etag != p.Etag {
+		k.Etag = p.Etag
 		md.StatusUpdated = true
 		return true
 	}

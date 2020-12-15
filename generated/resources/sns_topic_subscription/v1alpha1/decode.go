@@ -39,15 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSnsTopicSubscription(prev *SnsTopicSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSnsTopicSubscription_Endpoint(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopicSubscription_ConfirmationTimeoutInMinutes(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopicSubscription_DeliveryPolicy(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicSubscription_EndpointAutoConfirms(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicSubscription_FilterPolicy(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopicSubscription_Id(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicSubscription_Protocol(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopicSubscription_Endpoint(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicSubscription_RawMessageDelivery(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopicSubscription_ConfirmationTimeoutInMinutes(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicSubscription_TopicArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopicSubscription_DeliveryPolicy(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicSubscription_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -57,8 +56,13 @@ func DecodeSnsTopicSubscription(prev *SnsTopicSubscription, ctyValue cty.Value) 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopicSubscription_Endpoint(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
+func DecodeSnsTopicSubscription_ConfirmationTimeoutInMinutes(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	p.ConfirmationTimeoutInMinutes = ctwhy.ValueAsInt64(vals["confirmation_timeout_in_minutes"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopicSubscription_DeliveryPolicy(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	p.DeliveryPolicy = ctwhy.ValueAsString(vals["delivery_policy"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -72,13 +76,13 @@ func DecodeSnsTopicSubscription_FilterPolicy(p *SnsTopicSubscriptionParameters, 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopicSubscription_Id(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeSnsTopicSubscription_Protocol(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	p.Protocol = ctwhy.ValueAsString(vals["protocol"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopicSubscription_Protocol(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	p.Protocol = ctwhy.ValueAsString(vals["protocol"])
+func DecodeSnsTopicSubscription_Endpoint(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
+	p.Endpoint = ctwhy.ValueAsString(vals["endpoint"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -87,18 +91,8 @@ func DecodeSnsTopicSubscription_RawMessageDelivery(p *SnsTopicSubscriptionParame
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopicSubscription_ConfirmationTimeoutInMinutes(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	p.ConfirmationTimeoutInMinutes = ctwhy.ValueAsInt64(vals["confirmation_timeout_in_minutes"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeSnsTopicSubscription_TopicArn(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
 	p.TopicArn = ctwhy.ValueAsString(vals["topic_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopicSubscription_DeliveryPolicy(p *SnsTopicSubscriptionParameters, vals map[string]cty.Value) {
-	p.DeliveryPolicy = ctwhy.ValueAsString(vals["delivery_policy"])
 }
 
 //primitiveTypeDecodeTemplate

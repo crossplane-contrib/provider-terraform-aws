@@ -39,16 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeBackupVaultNotifications(prev *BackupVaultNotifications, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeBackupVaultNotifications_BackupVaultEvents(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_BackupVaultName(&new.Spec.ForProvider, valMap)
-	DecodeBackupVaultNotifications_Id(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_SnsTopicArn(&new.Spec.ForProvider, valMap)
+	DecodeBackupVaultNotifications_BackupVaultEvents(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_BackupVaultArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeBackupVaultNotifications_BackupVaultName(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	p.BackupVaultName = ctwhy.ValueAsString(vals["backup_vault_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeBackupVaultNotifications_SnsTopicArn(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -58,21 +67,6 @@ func DecodeBackupVaultNotifications_BackupVaultEvents(p *BackupVaultNotification
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.BackupVaultEvents = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeBackupVaultNotifications_BackupVaultName(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	p.BackupVaultName = ctwhy.ValueAsString(vals["backup_vault_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeBackupVaultNotifications_Id(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeBackupVaultNotifications_SnsTopicArn(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
 }
 
 //primitiveTypeDecodeTemplate

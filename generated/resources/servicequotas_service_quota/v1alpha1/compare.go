@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeServicequotasServiceQuota_Value(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeServicequotasServiceQuota_ServiceCode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeServicequotasServiceQuota_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeServicequotasServiceQuota_Value(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,7 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeServicequotasServiceQuota_ServiceCode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeServicequotasServiceQuota_QuotaName(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,7 +56,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeServicequotasServiceQuota_Adjustable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServicequotasServiceQuota_RequestStatus(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,12 +76,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeServicequotasServiceQuota_QuotaName(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeServicequotasServiceQuota_RequestStatus(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServicequotasServiceQuota_Adjustable(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,9 +92,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeServicequotasServiceQuota_Value(k *ServicequotasServiceQuotaParameters, p *ServicequotasServiceQuotaParameters, md *plugin.MergeDescription) bool {
-	if k.Value != p.Value {
-		p.Value = k.Value
+func MergeServicequotasServiceQuota_ServiceCode(k *ServicequotasServiceQuotaParameters, p *ServicequotasServiceQuotaParameters, md *plugin.MergeDescription) bool {
+	if k.ServiceCode != p.ServiceCode {
+		p.ServiceCode = k.ServiceCode
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -107,9 +102,9 @@ func MergeServicequotasServiceQuota_Value(k *ServicequotasServiceQuotaParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeServicequotasServiceQuota_Id(k *ServicequotasServiceQuotaParameters, p *ServicequotasServiceQuotaParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeServicequotasServiceQuota_Value(k *ServicequotasServiceQuotaParameters, p *ServicequotasServiceQuotaParameters, md *plugin.MergeDescription) bool {
+	if k.Value != p.Value {
+		p.Value = k.Value
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -126,11 +121,11 @@ func MergeServicequotasServiceQuota_QuotaCode(k *ServicequotasServiceQuotaParame
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeServicequotasServiceQuota_ServiceCode(k *ServicequotasServiceQuotaParameters, p *ServicequotasServiceQuotaParameters, md *plugin.MergeDescription) bool {
-	if k.ServiceCode != p.ServiceCode {
-		p.ServiceCode = k.ServiceCode
-		md.NeedsProviderUpdate = true
+//mergePrimitiveTemplateStatus
+func MergeServicequotasServiceQuota_QuotaName(k *ServicequotasServiceQuotaObservation, p *ServicequotasServiceQuotaObservation, md *plugin.MergeDescription) bool {
+	if k.QuotaName != p.QuotaName {
+		k.QuotaName = p.QuotaName
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -147,9 +142,9 @@ func MergeServicequotasServiceQuota_RequestId(k *ServicequotasServiceQuotaObserv
 }
 
 //mergePrimitiveTemplateStatus
-func MergeServicequotasServiceQuota_Adjustable(k *ServicequotasServiceQuotaObservation, p *ServicequotasServiceQuotaObservation, md *plugin.MergeDescription) bool {
-	if k.Adjustable != p.Adjustable {
-		k.Adjustable = p.Adjustable
+func MergeServicequotasServiceQuota_RequestStatus(k *ServicequotasServiceQuotaObservation, p *ServicequotasServiceQuotaObservation, md *plugin.MergeDescription) bool {
+	if k.RequestStatus != p.RequestStatus {
+		k.RequestStatus = p.RequestStatus
 		md.StatusUpdated = true
 		return true
 	}
@@ -187,19 +182,9 @@ func MergeServicequotasServiceQuota_ServiceName(k *ServicequotasServiceQuotaObse
 }
 
 //mergePrimitiveTemplateStatus
-func MergeServicequotasServiceQuota_QuotaName(k *ServicequotasServiceQuotaObservation, p *ServicequotasServiceQuotaObservation, md *plugin.MergeDescription) bool {
-	if k.QuotaName != p.QuotaName {
-		k.QuotaName = p.QuotaName
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeServicequotasServiceQuota_RequestStatus(k *ServicequotasServiceQuotaObservation, p *ServicequotasServiceQuotaObservation, md *plugin.MergeDescription) bool {
-	if k.RequestStatus != p.RequestStatus {
-		k.RequestStatus = p.RequestStatus
+func MergeServicequotasServiceQuota_Adjustable(k *ServicequotasServiceQuotaObservation, p *ServicequotasServiceQuotaObservation, md *plugin.MergeDescription) bool {
+	if k.Adjustable != p.Adjustable {
+		k.Adjustable = p.Adjustable
 		md.StatusUpdated = true
 		return true
 	}

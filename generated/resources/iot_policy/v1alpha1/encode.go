@@ -39,7 +39,6 @@ func EncodeIotPolicy(r IotPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeIotPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicy_Policy(r.Spec.ForProvider, ctyVal)
-	EncodeIotPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotPolicy_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotPolicy_DefaultVersionId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -58,10 +57,6 @@ func EncodeIotPolicy_Name(p IotPolicyParameters, vals map[string]cty.Value) {
 
 func EncodeIotPolicy_Policy(p IotPolicyParameters, vals map[string]cty.Value) {
 	vals["policy"] = cty.StringVal(p.Policy)
-}
-
-func EncodeIotPolicy_Id(p IotPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIotPolicy_Arn(p IotPolicyObservation, vals map[string]cty.Value) {

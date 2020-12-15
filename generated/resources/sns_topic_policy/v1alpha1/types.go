@@ -53,7 +53,6 @@ type SnsTopicPolicySpec struct {
 // A SnsTopicPolicyParameters defines the desired state of a SnsTopicPolicy
 type SnsTopicPolicyParameters struct {
 	Arn    string `json:"arn"`
-	Id     string `json:"id"`
 	Policy string `json:"policy"`
 }
 

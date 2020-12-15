@@ -40,7 +40,6 @@ func EncodeAppsyncApiKey(r AppsyncApiKey) cty.Value {
 	EncodeAppsyncApiKey_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Description(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Expires(r.Spec.ForProvider, ctyVal)
-	EncodeAppsyncApiKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppsyncApiKey_Key(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -62,10 +61,6 @@ func EncodeAppsyncApiKey_Description(p AppsyncApiKeyParameters, vals map[string]
 
 func EncodeAppsyncApiKey_Expires(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
 	vals["expires"] = cty.StringVal(p.Expires)
-}
-
-func EncodeAppsyncApiKey_Id(p AppsyncApiKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppsyncApiKey_Key(p AppsyncApiKeyObservation, vals map[string]cty.Value) {

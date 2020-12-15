@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxConnectionAssociation_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxConnectionAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxConnectionAssociation_LagId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxConnectionAssociation_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,29 +53,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxConnectionAssociation_ConnectionId(k *DxConnectionAssociationParameters, p *DxConnectionAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.ConnectionId != p.ConnectionId {
-		p.ConnectionId = k.ConnectionId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxConnectionAssociation_Id(k *DxConnectionAssociationParameters, p *DxConnectionAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDxConnectionAssociation_LagId(k *DxConnectionAssociationParameters, p *DxConnectionAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.LagId != p.LagId {
 		p.LagId = k.LagId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxConnectionAssociation_ConnectionId(k *DxConnectionAssociationParameters, p *DxConnectionAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ConnectionId != p.ConnectionId {
+		p.ConnectionId = k.ConnectionId
 		md.NeedsProviderUpdate = true
 		return true
 	}

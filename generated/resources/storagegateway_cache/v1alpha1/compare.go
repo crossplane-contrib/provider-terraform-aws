@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeStoragegatewayCache_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -71,16 +66,6 @@ func MergeStoragegatewayCache_DiskId(k *StoragegatewayCacheParameters, p *Storag
 func MergeStoragegatewayCache_GatewayArn(k *StoragegatewayCacheParameters, p *StoragegatewayCacheParameters, md *plugin.MergeDescription) bool {
 	if k.GatewayArn != p.GatewayArn {
 		p.GatewayArn = k.GatewayArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeStoragegatewayCache_Id(k *StoragegatewayCacheParameters, p *StoragegatewayCacheParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

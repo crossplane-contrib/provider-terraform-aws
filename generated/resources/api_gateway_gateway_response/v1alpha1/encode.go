@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApiGatewayGatewayResponse_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseParameters(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseTemplates(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayGatewayResponse_ResponseType(r.Spec.ForProvider, ctyVal)
@@ -52,10 +51,6 @@ func EncodeApiGatewayGatewayResponse(r ApiGatewayGatewayResponse) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApiGatewayGatewayResponse_Id(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayGatewayResponse_ResponseParameters(p ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {

@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEcrRepositoryPolicy(r EcrRepositoryPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEcrRepositoryPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_Repository(r.Spec.ForProvider, ctyVal)
 	EncodeEcrRepositoryPolicy_RegistryId(r.Status.AtProvider, ctyVal)
@@ -49,10 +48,6 @@ func EncodeEcrRepositoryPolicy(r EcrRepositoryPolicy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEcrRepositoryPolicy_Id(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEcrRepositoryPolicy_Policy(p EcrRepositoryPolicyParameters, vals map[string]cty.Value) {

@@ -37,12 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDbSubnetGroup(r DbSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDbSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDbSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
+	EncodeDbSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -54,24 +53,8 @@ func EncodeDbSubnetGroup(r DbSubnetGroup) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDbSubnetGroup_Tags(p DbSubnetGroupParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
 func EncodeDbSubnetGroup_Description(p DbSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDbSubnetGroup_Id(p DbSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDbSubnetGroup_Name(p DbSubnetGroupParameters, vals map[string]cty.Value) {
@@ -88,6 +71,18 @@ func EncodeDbSubnetGroup_SubnetIds(p DbSubnetGroupParameters, vals map[string]ct
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["subnet_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeDbSubnetGroup_Tags(p DbSubnetGroupParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeDbSubnetGroup_Arn(p DbSubnetGroupObservation, vals map[string]cty.Value) {

@@ -37,16 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodePinpointApnsChannel(r PinpointApnsChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodePinpointApnsChannel_PrivateKey(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsChannel_BundleId(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsChannel_TokenKeyId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsChannel_TeamId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsChannel_TokenKey(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsChannel_TokenKeyId(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsChannel_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsChannel_Id(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsChannel_Certificate(r.Spec.ForProvider, ctyVal)
 	EncodePinpointApnsChannel_DefaultAuthenticationMethod(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
-	EncodePinpointApnsChannel_BundleId(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsChannel_Enabled(r.Spec.ForProvider, ctyVal)
+	EncodePinpointApnsChannel_PrivateKey(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -58,8 +57,12 @@ func EncodePinpointApnsChannel(r PinpointApnsChannel) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodePinpointApnsChannel_PrivateKey(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	vals["private_key"] = cty.StringVal(p.PrivateKey)
+func EncodePinpointApnsChannel_BundleId(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	vals["bundle_id"] = cty.StringVal(p.BundleId)
+}
+
+func EncodePinpointApnsChannel_TokenKeyId(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	vals["token_key_id"] = cty.StringVal(p.TokenKeyId)
 }
 
 func EncodePinpointApnsChannel_TeamId(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
@@ -70,16 +73,8 @@ func EncodePinpointApnsChannel_TokenKey(p PinpointApnsChannelParameters, vals ma
 	vals["token_key"] = cty.StringVal(p.TokenKey)
 }
 
-func EncodePinpointApnsChannel_TokenKeyId(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	vals["token_key_id"] = cty.StringVal(p.TokenKeyId)
-}
-
-func EncodePinpointApnsChannel_Enabled(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodePinpointApnsChannel_Id(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodePinpointApnsChannel_ApplicationId(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	vals["application_id"] = cty.StringVal(p.ApplicationId)
 }
 
 func EncodePinpointApnsChannel_Certificate(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
@@ -90,10 +85,10 @@ func EncodePinpointApnsChannel_DefaultAuthenticationMethod(p PinpointApnsChannel
 	vals["default_authentication_method"] = cty.StringVal(p.DefaultAuthenticationMethod)
 }
 
-func EncodePinpointApnsChannel_ApplicationId(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	vals["application_id"] = cty.StringVal(p.ApplicationId)
+func EncodePinpointApnsChannel_Enabled(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	vals["enabled"] = cty.BoolVal(p.Enabled)
 }
 
-func EncodePinpointApnsChannel_BundleId(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	vals["bundle_id"] = cty.StringVal(p.BundleId)
+func EncodePinpointApnsChannel_PrivateKey(p PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	vals["private_key"] = cty.StringVal(p.PrivateKey)
 }

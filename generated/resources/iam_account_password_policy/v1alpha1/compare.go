@@ -31,6 +31,31 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeIamAccountPasswordPolicy_RequireUppercaseCharacters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamAccountPasswordPolicy_AllowUsersToChangePassword(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamAccountPasswordPolicy_PasswordReusePrevention(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamAccountPasswordPolicy_RequireNumbers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamAccountPasswordPolicy_HardExpiry(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeIamAccountPasswordPolicy_MaxPasswordAge(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,42 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamAccountPasswordPolicy_AllowUsersToChangePassword(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamAccountPasswordPolicy_HardExpiry(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamAccountPasswordPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamAccountPasswordPolicy_PasswordReusePrevention(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamAccountPasswordPolicy_RequireLowercaseCharacters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamAccountPasswordPolicy_RequireNumbers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamAccountPasswordPolicy_RequireSymbols(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamAccountPasswordPolicy_RequireUppercaseCharacters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -94,6 +89,56 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamAccountPasswordPolicy_RequireUppercaseCharacters(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.RequireUppercaseCharacters != p.RequireUppercaseCharacters {
+		p.RequireUppercaseCharacters = k.RequireUppercaseCharacters
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamAccountPasswordPolicy_AllowUsersToChangePassword(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.AllowUsersToChangePassword != p.AllowUsersToChangePassword {
+		p.AllowUsersToChangePassword = k.AllowUsersToChangePassword
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamAccountPasswordPolicy_PasswordReusePrevention(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.PasswordReusePrevention != p.PasswordReusePrevention {
+		p.PasswordReusePrevention = k.PasswordReusePrevention
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamAccountPasswordPolicy_RequireNumbers(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.RequireNumbers != p.RequireNumbers {
+		p.RequireNumbers = k.RequireNumbers
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamAccountPasswordPolicy_HardExpiry(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.HardExpiry != p.HardExpiry {
+		p.HardExpiry = k.HardExpiry
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -117,46 +162,6 @@ func MergeIamAccountPasswordPolicy_MinimumPasswordLength(k *IamAccountPasswordPo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamAccountPasswordPolicy_AllowUsersToChangePassword(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.AllowUsersToChangePassword != p.AllowUsersToChangePassword {
-		p.AllowUsersToChangePassword = k.AllowUsersToChangePassword
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamAccountPasswordPolicy_HardExpiry(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.HardExpiry != p.HardExpiry {
-		p.HardExpiry = k.HardExpiry
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamAccountPasswordPolicy_Id(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamAccountPasswordPolicy_PasswordReusePrevention(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.PasswordReusePrevention != p.PasswordReusePrevention {
-		p.PasswordReusePrevention = k.PasswordReusePrevention
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeIamAccountPasswordPolicy_RequireLowercaseCharacters(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.RequireLowercaseCharacters != p.RequireLowercaseCharacters {
 		p.RequireLowercaseCharacters = k.RequireLowercaseCharacters
@@ -167,29 +172,9 @@ func MergeIamAccountPasswordPolicy_RequireLowercaseCharacters(k *IamAccountPassw
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamAccountPasswordPolicy_RequireNumbers(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.RequireNumbers != p.RequireNumbers {
-		p.RequireNumbers = k.RequireNumbers
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeIamAccountPasswordPolicy_RequireSymbols(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.RequireSymbols != p.RequireSymbols {
 		p.RequireSymbols = k.RequireSymbols
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamAccountPasswordPolicy_RequireUppercaseCharacters(k *IamAccountPasswordPolicyParameters, p *IamAccountPasswordPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.RequireUppercaseCharacters != p.RequireUppercaseCharacters {
-		p.RequireUppercaseCharacters = k.RequireUppercaseCharacters
 		md.NeedsProviderUpdate = true
 		return true
 	}

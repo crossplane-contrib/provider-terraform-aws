@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeEc2TrafficMirrorTarget(r Ec2TrafficMirrorTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeEc2TrafficMirrorTarget_Description(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TrafficMirrorTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorTarget_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TrafficMirrorTarget_Tags(r.Spec.ForProvider, ctyVal)
@@ -55,10 +54,6 @@ func EncodeEc2TrafficMirrorTarget(r Ec2TrafficMirrorTarget) cty.Value {
 
 func EncodeEc2TrafficMirrorTarget_Description(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeEc2TrafficMirrorTarget_Id(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2TrafficMirrorTarget_NetworkInterfaceId(p Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {

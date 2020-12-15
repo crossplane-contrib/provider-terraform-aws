@@ -41,7 +41,6 @@ func DecodeCodeartifactDomainPermissionsPolicy(prev *CodeartifactDomainPermissio
 	new := prev.DeepCopy()
 	DecodeCodeartifactDomainPermissionsPolicy_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_DomainOwner(&new.Spec.ForProvider, valMap)
-	DecodeCodeartifactDomainPermissionsPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_PolicyDocument(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_PolicyRevision(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_ResourceArn(&new.Status.AtProvider, valMap)
@@ -60,11 +59,6 @@ func DecodeCodeartifactDomainPermissionsPolicy_Domain(p *CodeartifactDomainPermi
 //primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_DomainOwner(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	p.DomainOwner = ctwhy.ValueAsString(vals["domain_owner"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCodeartifactDomainPermissionsPolicy_Id(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

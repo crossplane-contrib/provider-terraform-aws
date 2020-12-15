@@ -52,7 +52,6 @@ type IamSamlProviderSpec struct {
 
 // A IamSamlProviderParameters defines the desired state of a IamSamlProvider
 type IamSamlProviderParameters struct {
-	Id                   string `json:"id"`
 	Name                 string `json:"name"`
 	SamlMetadataDocument string `json:"saml_metadata_document"`
 }

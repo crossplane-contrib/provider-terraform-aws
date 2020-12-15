@@ -52,7 +52,6 @@ type IamUserLoginProfileSpec struct {
 
 // A IamUserLoginProfileParameters defines the desired state of a IamUserLoginProfile
 type IamUserLoginProfileParameters struct {
-	Id                    string `json:"id"`
 	PasswordLength        int64  `json:"password_length"`
 	PasswordResetRequired bool   `json:"password_reset_required"`
 	PgpKey                string `json:"pgp_key"`

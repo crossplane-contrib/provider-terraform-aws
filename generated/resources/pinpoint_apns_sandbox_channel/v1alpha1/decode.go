@@ -39,16 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodePinpointApnsSandboxChannel(prev *PinpointApnsSandboxChannel, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodePinpointApnsSandboxChannel_TokenKeyId(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsSandboxChannel_ApplicationId(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsSandboxChannel_BundleId(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsSandboxChannel_Certificate(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsSandboxChannel_Id(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsSandboxChannel_TokenKey(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsSandboxChannel_DefaultAuthenticationMethod(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsSandboxChannel_Enabled(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsSandboxChannel_PrivateKey(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsSandboxChannel_ApplicationId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsSandboxChannel_BundleId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsSandboxChannel_DefaultAuthenticationMethod(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsSandboxChannel_TeamId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsSandboxChannel_TokenKey(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsSandboxChannel_TokenKeyId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,38 +57,8 @@ func DecodePinpointApnsSandboxChannel(prev *PinpointApnsSandboxChannel, ctyValue
 }
 
 //primitiveTypeDecodeTemplate
-func DecodePinpointApnsSandboxChannel_TokenKeyId(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
-	p.TokenKeyId = ctwhy.ValueAsString(vals["token_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsSandboxChannel_ApplicationId(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
-	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsSandboxChannel_BundleId(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
-	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodePinpointApnsSandboxChannel_Certificate(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
 	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsSandboxChannel_Id(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsSandboxChannel_TokenKey(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
-	p.TokenKey = ctwhy.ValueAsString(vals["token_key"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointApnsSandboxChannel_DefaultAuthenticationMethod(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
-	p.DefaultAuthenticationMethod = ctwhy.ValueAsString(vals["default_authentication_method"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -103,6 +72,31 @@ func DecodePinpointApnsSandboxChannel_PrivateKey(p *PinpointApnsSandboxChannelPa
 }
 
 //primitiveTypeDecodeTemplate
+func DecodePinpointApnsSandboxChannel_ApplicationId(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
+	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsSandboxChannel_BundleId(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
+	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsSandboxChannel_DefaultAuthenticationMethod(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
+	p.DefaultAuthenticationMethod = ctwhy.ValueAsString(vals["default_authentication_method"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsSandboxChannel_TeamId(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
 	p.TeamId = ctwhy.ValueAsString(vals["team_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsSandboxChannel_TokenKey(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
+	p.TokenKey = ctwhy.ValueAsString(vals["token_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsSandboxChannel_TokenKeyId(p *PinpointApnsSandboxChannelParameters, vals map[string]cty.Value) {
+	p.TokenKeyId = ctwhy.ValueAsString(vals["token_key_id"])
 }

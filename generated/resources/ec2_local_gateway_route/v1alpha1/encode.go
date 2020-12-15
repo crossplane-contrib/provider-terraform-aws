@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeEc2LocalGatewayRoute(r Ec2LocalGatewayRoute) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeEc2LocalGatewayRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeEc2LocalGatewayRoute_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(r.Spec.ForProvider, ctyVal)
 
@@ -54,10 +53,6 @@ func EncodeEc2LocalGatewayRoute(r Ec2LocalGatewayRoute) cty.Value {
 
 func EncodeEc2LocalGatewayRoute_DestinationCidrBlock(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
-}
-
-func EncodeEc2LocalGatewayRoute_Id(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(p Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {

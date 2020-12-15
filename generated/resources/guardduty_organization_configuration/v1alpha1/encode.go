@@ -39,7 +39,6 @@ func EncodeGuarddutyOrganizationConfiguration(r GuarddutyOrganizationConfigurati
 	ctyVal := make(map[string]cty.Value)
 	EncodeGuarddutyOrganizationConfiguration_AutoEnable(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyOrganizationConfiguration_DetectorId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyOrganizationConfiguration_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,8 +56,4 @@ func EncodeGuarddutyOrganizationConfiguration_AutoEnable(p GuarddutyOrganization
 
 func EncodeGuarddutyOrganizationConfiguration_DetectorId(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
-}
-
-func EncodeGuarddutyOrganizationConfiguration_Id(p GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

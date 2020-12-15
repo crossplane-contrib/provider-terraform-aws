@@ -52,7 +52,6 @@ type AlbTargetGroupAttachmentSpec struct {
 
 // A AlbTargetGroupAttachmentParameters defines the desired state of a AlbTargetGroupAttachment
 type AlbTargetGroupAttachmentParameters struct {
-	Id               string `json:"id"`
 	Port             int64  `json:"port"`
 	TargetGroupArn   string `json:"target_group_arn"`
 	TargetId         string `json:"target_id"`

@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSnsSmsPreferences_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSnsSmsPreferences_MonthlySpendLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,6 +56,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -75,26 +70,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
-	if k.DeliveryStatusSuccessSamplingRate != p.DeliveryStatusSuccessSamplingRate {
-		p.DeliveryStatusSuccessSamplingRate = k.DeliveryStatusSuccessSamplingRate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsSmsPreferences_Id(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -141,6 +116,16 @@ func MergeSnsSmsPreferences_DefaultSmsType(k *SnsSmsPreferencesParameters, p *Sn
 func MergeSnsSmsPreferences_DeliveryStatusIamRoleArn(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
 	if k.DeliveryStatusIamRoleArn != p.DeliveryStatusIamRoleArn {
 		p.DeliveryStatusIamRoleArn = k.DeliveryStatusIamRoleArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(k *SnsSmsPreferencesParameters, p *SnsSmsPreferencesParameters, md *plugin.MergeDescription) bool {
+	if k.DeliveryStatusSuccessSamplingRate != p.DeliveryStatusSuccessSamplingRate {
+		p.DeliveryStatusSuccessSamplingRate = k.DeliveryStatusSuccessSamplingRate
 		md.NeedsProviderUpdate = true
 		return true
 	}

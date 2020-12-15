@@ -39,7 +39,6 @@ func EncodeStoragegatewayCache(r StoragegatewayCache) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeStoragegatewayCache_DiskId(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayCache_GatewayArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayCache_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,8 +56,4 @@ func EncodeStoragegatewayCache_DiskId(p StoragegatewayCacheParameters, vals map[
 
 func EncodeStoragegatewayCache_GatewayArn(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
-}
-
-func EncodeStoragegatewayCache_Id(p StoragegatewayCacheParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

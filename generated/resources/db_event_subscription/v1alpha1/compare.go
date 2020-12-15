@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDbEventSubscription_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbEventSubscription_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDbEventSubscription_SnsTopic(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,17 +51,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDbEventSubscription_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDbEventSubscription_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDbEventSubscription_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,12 +66,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbEventSubscription_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDbEventSubscription_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDbEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,6 +97,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeDbEventSubscription_Name(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbEventSubscription_NamePrefix(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.NamePrefix != p.NamePrefix {
+		p.NamePrefix = k.NamePrefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeDbEventSubscription_SnsTopic(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if k.SnsTopic != p.SnsTopic {
 		p.SnsTopic = k.SnsTopic
@@ -113,7 +128,7 @@ func MergeDbEventSubscription_SnsTopic(k *DbEventSubscriptionParameters, p *DbEv
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDbEventSubscription_SourceIds(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SourceIds, p.SourceIds) {
+	if !plugin.CompareStringSlices(k.SourceIds, p.SourceIds) {
 		p.SourceIds = k.SourceIds
 		md.NeedsProviderUpdate = true
 		return true
@@ -121,30 +136,10 @@ func MergeDbEventSubscription_SourceIds(k *DbEventSubscriptionParameters, p *DbE
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDbEventSubscription_SourceType(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.SourceType != p.SourceType {
-		p.SourceType = k.SourceType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDbEventSubscription_Id(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDbEventSubscription_Name(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+//mergePrimitiveContainerTemplateSpec
+func MergeDbEventSubscription_Tags(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -163,7 +158,7 @@ func MergeDbEventSubscription_Enabled(k *DbEventSubscriptionParameters, p *DbEve
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDbEventSubscription_EventCategories(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.EventCategories, p.EventCategories) {
+	if !plugin.CompareStringSlices(k.EventCategories, p.EventCategories) {
 		p.EventCategories = k.EventCategories
 		md.NeedsProviderUpdate = true
 		return true
@@ -172,19 +167,9 @@ func MergeDbEventSubscription_EventCategories(k *DbEventSubscriptionParameters, 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDbEventSubscription_NamePrefix(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.NamePrefix != p.NamePrefix {
-		p.NamePrefix = k.NamePrefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDbEventSubscription_Tags(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeDbEventSubscription_SourceType(k *DbEventSubscriptionParameters, p *DbEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.SourceType != p.SourceType {
+		p.SourceType = k.SourceType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -195,6 +180,11 @@ func MergeDbEventSubscription_Tags(k *DbEventSubscriptionParameters, p *DbEventS
 func MergeDbEventSubscription_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeDbEventSubscription_Timeouts_Create(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDbEventSubscription_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -205,15 +195,20 @@ func MergeDbEventSubscription_Timeouts(k *Timeouts, p *Timeouts, md *plugin.Merg
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbEventSubscription_Timeouts_Create(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbEventSubscription_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -230,16 +225,6 @@ func MergeDbEventSubscription_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plug
 func MergeDbEventSubscription_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	if k.Update != p.Update {
 		p.Update = k.Update
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDbEventSubscription_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}

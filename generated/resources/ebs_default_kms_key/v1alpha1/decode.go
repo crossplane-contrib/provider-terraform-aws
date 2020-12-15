@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEbsDefaultKmsKey(prev *EbsDefaultKmsKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEbsDefaultKmsKey_Id(&new.Spec.ForProvider, valMap)
 	DecodeEbsDefaultKmsKey_KeyArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeEbsDefaultKmsKey(prev *EbsDefaultKmsKey, ctyValue cty.Value) (resourc
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsDefaultKmsKey_Id(p *EbsDefaultKmsKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

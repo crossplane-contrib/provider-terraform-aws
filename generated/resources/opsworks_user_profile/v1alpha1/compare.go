@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeOpsworksUserProfile_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeOpsworksUserProfile_AllowSelfManagement(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeOpsworksUserProfile_AllowSelfManagement(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -68,9 +63,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeOpsworksUserProfile_Id(k *OpsworksUserProfileParameters, p *OpsworksUserProfileParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeOpsworksUserProfile_AllowSelfManagement(k *OpsworksUserProfileParameters, p *OpsworksUserProfileParameters, md *plugin.MergeDescription) bool {
+	if k.AllowSelfManagement != p.AllowSelfManagement {
+		p.AllowSelfManagement = k.AllowSelfManagement
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -101,16 +96,6 @@ func MergeOpsworksUserProfile_SshUsername(k *OpsworksUserProfileParameters, p *O
 func MergeOpsworksUserProfile_UserArn(k *OpsworksUserProfileParameters, p *OpsworksUserProfileParameters, md *plugin.MergeDescription) bool {
 	if k.UserArn != p.UserArn {
 		p.UserArn = k.UserArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeOpsworksUserProfile_AllowSelfManagement(k *OpsworksUserProfileParameters, p *OpsworksUserProfileParameters, md *plugin.MergeDescription) bool {
-	if k.AllowSelfManagement != p.AllowSelfManagement {
-		p.AllowSelfManagement = k.AllowSelfManagement
 		md.NeedsProviderUpdate = true
 		return true
 	}

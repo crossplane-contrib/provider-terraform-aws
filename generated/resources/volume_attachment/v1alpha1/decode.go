@@ -44,7 +44,6 @@ func DecodeVolumeAttachment(prev *VolumeAttachment, ctyValue cty.Value) (resourc
 	DecodeVolumeAttachment_VolumeId(&new.Spec.ForProvider, valMap)
 	DecodeVolumeAttachment_DeviceName(&new.Spec.ForProvider, valMap)
 	DecodeVolumeAttachment_ForceDetach(&new.Spec.ForProvider, valMap)
-	DecodeVolumeAttachment_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -76,9 +75,4 @@ func DecodeVolumeAttachment_DeviceName(p *VolumeAttachmentParameters, vals map[s
 //primitiveTypeDecodeTemplate
 func DecodeVolumeAttachment_ForceDetach(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
 	p.ForceDetach = ctwhy.ValueAsBool(vals["force_detach"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVolumeAttachment_Id(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

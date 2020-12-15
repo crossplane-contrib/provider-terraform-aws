@@ -36,21 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcDhcpOptions_DomainNameServers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVpcDhcpOptions_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVpcDhcpOptions_NetbiosNameServers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVpcDhcpOptions_NetbiosNodeType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -62,6 +47,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeVpcDhcpOptions_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpcDhcpOptions_DomainNameServers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpcDhcpOptions_NetbiosNameServers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -96,36 +91,6 @@ func MergeVpcDhcpOptions_DomainName(k *VpcDhcpOptionsParameters, p *VpcDhcpOptio
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeVpcDhcpOptions_DomainNameServers(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.DomainNameServers, p.DomainNameServers) {
-		p.DomainNameServers = k.DomainNameServers
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVpcDhcpOptions_Id(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeVpcDhcpOptions_NetbiosNameServers(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.NetbiosNameServers, p.NetbiosNameServers) {
-		p.NetbiosNameServers = k.NetbiosNameServers
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeVpcDhcpOptions_NetbiosNodeType(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
 	if k.NetbiosNodeType != p.NetbiosNodeType {
@@ -138,7 +103,7 @@ func MergeVpcDhcpOptions_NetbiosNodeType(k *VpcDhcpOptionsParameters, p *VpcDhcp
 
 //mergePrimitiveContainerTemplateSpec
 func MergeVpcDhcpOptions_NtpServers(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.NtpServers, p.NtpServers) {
+	if !plugin.CompareStringSlices(k.NtpServers, p.NtpServers) {
 		p.NtpServers = k.NtpServers
 		md.NeedsProviderUpdate = true
 		return true
@@ -148,8 +113,28 @@ func MergeVpcDhcpOptions_NtpServers(k *VpcDhcpOptionsParameters, p *VpcDhcpOptio
 
 //mergePrimitiveContainerTemplateSpec
 func MergeVpcDhcpOptions_Tags(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeVpcDhcpOptions_DomainNameServers(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.DomainNameServers, p.DomainNameServers) {
+		p.DomainNameServers = k.DomainNameServers
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeVpcDhcpOptions_NetbiosNameServers(k *VpcDhcpOptionsParameters, p *VpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.NetbiosNameServers, p.NetbiosNameServers) {
+		p.NetbiosNameServers = k.NetbiosNameServers
 		md.NeedsProviderUpdate = true
 		return true
 	}

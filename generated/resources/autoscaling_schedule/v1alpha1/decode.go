@@ -39,15 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAutoscalingSchedule(prev *AutoscalingSchedule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAutoscalingSchedule_Id(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingSchedule_MinSize(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingSchedule_Recurrence(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingSchedule_StartTime(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingSchedule_AutoscalingGroupName(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingSchedule_EndTime(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingSchedule_ScheduledActionName(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingSchedule_DesiredCapacity(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingSchedule_MaxSize(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingSchedule_MinSize(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingSchedule_ScheduledActionName(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingSchedule_AutoscalingGroupName(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingSchedule_DesiredCapacity(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingSchedule_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -57,8 +56,8 @@ func DecodeAutoscalingSchedule(prev *AutoscalingSchedule, ctyValue cty.Value) (r
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAutoscalingSchedule_Id(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeAutoscalingSchedule_MinSize(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	p.MinSize = ctwhy.ValueAsInt64(vals["min_size"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -72,23 +71,8 @@ func DecodeAutoscalingSchedule_StartTime(p *AutoscalingScheduleParameters, vals 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAutoscalingSchedule_AutoscalingGroupName(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	p.AutoscalingGroupName = ctwhy.ValueAsString(vals["autoscaling_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeAutoscalingSchedule_EndTime(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
 	p.EndTime = ctwhy.ValueAsString(vals["end_time"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAutoscalingSchedule_ScheduledActionName(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	p.ScheduledActionName = ctwhy.ValueAsString(vals["scheduled_action_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAutoscalingSchedule_DesiredCapacity(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	p.DesiredCapacity = ctwhy.ValueAsInt64(vals["desired_capacity"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -97,8 +81,18 @@ func DecodeAutoscalingSchedule_MaxSize(p *AutoscalingScheduleParameters, vals ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAutoscalingSchedule_MinSize(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
-	p.MinSize = ctwhy.ValueAsInt64(vals["min_size"])
+func DecodeAutoscalingSchedule_ScheduledActionName(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	p.ScheduledActionName = ctwhy.ValueAsString(vals["scheduled_action_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAutoscalingSchedule_AutoscalingGroupName(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	p.AutoscalingGroupName = ctwhy.ValueAsString(vals["autoscaling_group_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAutoscalingSchedule_DesiredCapacity(p *AutoscalingScheduleParameters, vals map[string]cty.Value) {
+	p.DesiredCapacity = ctwhy.ValueAsInt64(vals["desired_capacity"])
 }
 
 //primitiveTypeDecodeTemplate

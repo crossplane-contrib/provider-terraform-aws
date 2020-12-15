@@ -54,7 +54,6 @@ type DbSnapshotSpec struct {
 type DbSnapshotParameters struct {
 	DbInstanceIdentifier string            `json:"db_instance_identifier"`
 	DbSnapshotIdentifier string            `json:"db_snapshot_identifier"`
-	Id                   string            `json:"id"`
 	Tags                 map[string]string `json:"tags"`
 	Timeouts             Timeouts          `json:"timeouts"`
 }
@@ -71,21 +70,21 @@ type DbSnapshotStatus struct {
 
 // A DbSnapshotObservation records the observed state of a DbSnapshot
 type DbSnapshotObservation struct {
-	LicenseModel               string `json:"license_model"`
-	OptionGroupName            string `json:"option_group_name"`
-	Port                       int64  `json:"port"`
+	AllocatedStorage           int64  `json:"allocated_storage"`
+	AvailabilityZone           string `json:"availability_zone"`
+	KmsKeyId                   string `json:"kms_key_id"`
 	SnapshotType               string `json:"snapshot_type"`
-	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
+	Status                     string `json:"status"`
+	StorageType                string `json:"storage_type"`
+	VpcId                      string `json:"vpc_id"`
 	Engine                     string `json:"engine"`
 	EngineVersion              string `json:"engine_version"`
 	Iops                       int64  `json:"iops"`
-	KmsKeyId                   string `json:"kms_key_id"`
-	Status                     string `json:"status"`
-	StorageType                string `json:"storage_type"`
-	AllocatedStorage           int64  `json:"allocated_storage"`
-	AvailabilityZone           string `json:"availability_zone"`
+	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
 	DbSnapshotArn              string `json:"db_snapshot_arn"`
+	LicenseModel               string `json:"license_model"`
+	OptionGroupName            string `json:"option_group_name"`
+	Port                       int64  `json:"port"`
 	Encrypted                  bool   `json:"encrypted"`
 	SourceRegion               string `json:"source_region"`
-	VpcId                      string `json:"vpc_id"`
 }

@@ -31,7 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVpnGateway_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpnGateway_AmazonSideAsn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpnGateway_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -42,16 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeVpnGateway_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVpnGateway_AmazonSideAsn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVpnGateway_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -72,36 +67,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpnGateway_Id(k *VpnGatewayParameters, p *VpnGatewayParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeVpnGateway_Tags(k *VpnGatewayParameters, p *VpnGatewayParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVpnGateway_VpcId(k *VpnGatewayParameters, p *VpnGatewayParameters, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		p.VpcId = k.VpcId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeVpnGateway_AmazonSideAsn(k *VpnGatewayParameters, p *VpnGatewayParameters, md *plugin.MergeDescription) bool {
 	if k.AmazonSideAsn != p.AmazonSideAsn {
 		p.AmazonSideAsn = k.AmazonSideAsn
@@ -115,6 +80,26 @@ func MergeVpnGateway_AmazonSideAsn(k *VpnGatewayParameters, p *VpnGatewayParamet
 func MergeVpnGateway_AvailabilityZone(k *VpnGatewayParameters, p *VpnGatewayParameters, md *plugin.MergeDescription) bool {
 	if k.AvailabilityZone != p.AvailabilityZone {
 		p.AvailabilityZone = k.AvailabilityZone
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeVpnGateway_Tags(k *VpnGatewayParameters, p *VpnGatewayParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpnGateway_VpcId(k *VpnGatewayParameters, p *VpnGatewayParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
 		md.NeedsProviderUpdate = true
 		return true
 	}

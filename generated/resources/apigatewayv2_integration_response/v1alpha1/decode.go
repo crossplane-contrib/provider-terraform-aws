@@ -39,13 +39,12 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApigatewayv2IntegrationResponse(prev *Apigatewayv2IntegrationResponse, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeApigatewayv2IntegrationResponse_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2IntegrationResponse_ContentHandlingStrategy(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2IntegrationResponse_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2IntegrationResponse_IntegrationId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2IntegrationResponse_IntegrationResponseKey(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2IntegrationResponse_ResponseTemplates(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2IntegrationResponse_TemplateSelectionExpression(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2IntegrationResponse_ApiId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -55,13 +54,13 @@ func DecodeApigatewayv2IntegrationResponse(prev *Apigatewayv2IntegrationResponse
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApigatewayv2IntegrationResponse_ContentHandlingStrategy(p *Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
-	p.ContentHandlingStrategy = ctwhy.ValueAsString(vals["content_handling_strategy"])
+func DecodeApigatewayv2IntegrationResponse_ApiId(p *Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
+	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApigatewayv2IntegrationResponse_Id(p *Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeApigatewayv2IntegrationResponse_ContentHandlingStrategy(p *Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
+	p.ContentHandlingStrategy = ctwhy.ValueAsString(vals["content_handling_strategy"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -88,9 +87,4 @@ func DecodeApigatewayv2IntegrationResponse_ResponseTemplates(p *Apigatewayv2Inte
 //primitiveTypeDecodeTemplate
 func DecodeApigatewayv2IntegrationResponse_TemplateSelectionExpression(p *Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
 	p.TemplateSelectionExpression = ctwhy.ValueAsString(vals["template_selection_expression"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2IntegrationResponse_ApiId(p *Apigatewayv2IntegrationResponseParameters, vals map[string]cty.Value) {
-	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }

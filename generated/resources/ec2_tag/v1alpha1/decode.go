@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2Tag(prev *Ec2Tag, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2Tag_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2Tag_Key(&new.Spec.ForProvider, valMap)
 	DecodeEc2Tag_ResourceId(&new.Spec.ForProvider, valMap)
 	DecodeEc2Tag_Value(&new.Spec.ForProvider, valMap)
@@ -49,11 +48,6 @@ func DecodeEc2Tag(prev *Ec2Tag, ctyValue cty.Value) (resource.Managed, error) {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2Tag_Id(p *Ec2TagParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

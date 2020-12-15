@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaProvisionedConcurrencyConfig_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -71,16 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeLambdaProvisionedConcurrencyConfig_FunctionName(k *LambdaProvisionedConcurrencyConfigParameters, p *LambdaProvisionedConcurrencyConfigParameters, md *plugin.MergeDescription) bool {
 	if k.FunctionName != p.FunctionName {
 		p.FunctionName = k.FunctionName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLambdaProvisionedConcurrencyConfig_Id(k *LambdaProvisionedConcurrencyConfigParameters, p *LambdaProvisionedConcurrencyConfigParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

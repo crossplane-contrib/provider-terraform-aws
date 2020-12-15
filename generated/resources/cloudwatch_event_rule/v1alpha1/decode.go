@@ -39,15 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudwatchEventRule(prev *CloudwatchEventRule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloudwatchEventRule_Description(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchEventRule_Id(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchEventRule_EventPattern(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_IsEnabled(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchEventRule_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchEventRule_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_ScheduleExpression(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_Tags(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchEventRule_EventPattern(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchEventRule_Name(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchEventRule_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchEventRule_Description(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchEventRule_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -57,18 +56,23 @@ func DecodeCloudwatchEventRule(prev *CloudwatchEventRule, ctyValue cty.Value) (r
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudwatchEventRule_Description(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchEventRule_Id(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeCloudwatchEventRule_EventPattern(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	p.EventPattern = ctwhy.ValueAsString(vals["event_pattern"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeCloudwatchEventRule_IsEnabled(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
 	p.IsEnabled = ctwhy.ValueAsBool(vals["is_enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchEventRule_RoleArn(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchEventRule_Name(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -93,18 +97,8 @@ func DecodeCloudwatchEventRule_Tags(p *CloudwatchEventRuleParameters, vals map[s
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudwatchEventRule_EventPattern(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	p.EventPattern = ctwhy.ValueAsString(vals["event_pattern"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchEventRule_Name(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchEventRule_RoleArn(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
+func DecodeCloudwatchEventRule_Description(p *CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate

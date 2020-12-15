@@ -53,9 +53,8 @@ type DbClusterSnapshotSpec struct {
 // A DbClusterSnapshotParameters defines the desired state of a DbClusterSnapshot
 type DbClusterSnapshotParameters struct {
 	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
-	Tags                        map[string]string `json:"tags"`
-	Id                          string            `json:"id"`
 	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
+	Tags                        map[string]string `json:"tags"`
 	Timeouts                    Timeouts          `json:"timeouts"`
 }
 
@@ -71,17 +70,17 @@ type DbClusterSnapshotStatus struct {
 
 // A DbClusterSnapshotObservation records the observed state of a DbClusterSnapshot
 type DbClusterSnapshotObservation struct {
-	AvailabilityZones          []string `json:"availability_zones"`
-	VpcId                      string   `json:"vpc_id"`
 	Engine                     string   `json:"engine"`
+	Port                       int64    `json:"port"`
+	SnapshotType               string   `json:"snapshot_type"`
+	AllocatedStorage           int64    `json:"allocated_storage"`
 	KmsKeyId                   string   `json:"kms_key_id"`
-	Status                     string   `json:"status"`
+	LicenseModel               string   `json:"license_model"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
 	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
 	EngineVersion              string   `json:"engine_version"`
-	SnapshotType               string   `json:"snapshot_type"`
+	Status                     string   `json:"status"`
+	VpcId                      string   `json:"vpc_id"`
+	AvailabilityZones          []string `json:"availability_zones"`
 	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
-	AllocatedStorage           int64    `json:"allocated_storage"`
-	LicenseModel               string   `json:"license_model"`
-	Port                       int64    `json:"port"`
 }

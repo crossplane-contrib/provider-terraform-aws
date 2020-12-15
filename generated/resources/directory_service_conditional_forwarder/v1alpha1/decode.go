@@ -39,26 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDirectoryServiceConditionalForwarder(prev *DirectoryServiceConditionalForwarder, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDirectoryServiceConditionalForwarder_Id(&new.Spec.ForProvider, valMap)
-	DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(&new.Spec.ForProvider, valMap)
 	DecodeDirectoryServiceConditionalForwarder_DirectoryId(&new.Spec.ForProvider, valMap)
 	DecodeDirectoryServiceConditionalForwarder_DnsIps(&new.Spec.ForProvider, valMap)
+	DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDirectoryServiceConditionalForwarder_Id(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
-	p.RemoteDomainName = ctwhy.ValueAsString(vals["remote_domain_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -73,4 +62,9 @@ func DecodeDirectoryServiceConditionalForwarder_DnsIps(p *DirectoryServiceCondit
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.DnsIps = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	p.RemoteDomainName = ctwhy.ValueAsString(vals["remote_domain_name"])
 }

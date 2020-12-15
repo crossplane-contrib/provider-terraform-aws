@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVpcEndpointConnectionNotification_VpcEndpointServiceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVpcEndpointConnectionNotification_ConnectionEvents(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,12 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointConnectionNotification_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpcEndpointConnectionNotification_VpcEndpointId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointConnectionNotification_VpcEndpointId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpcEndpointConnectionNotification_VpcEndpointServiceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,19 +71,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeVpcEndpointConnectionNotification_VpcEndpointServiceId(k *VpcEndpointConnectionNotificationParameters, p *VpcEndpointConnectionNotificationParameters, md *plugin.MergeDescription) bool {
-	if k.VpcEndpointServiceId != p.VpcEndpointServiceId {
-		p.VpcEndpointServiceId = k.VpcEndpointServiceId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeVpcEndpointConnectionNotification_ConnectionEvents(k *VpcEndpointConnectionNotificationParameters, p *VpcEndpointConnectionNotificationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ConnectionEvents, p.ConnectionEvents) {
+	if !plugin.CompareStringSlices(k.ConnectionEvents, p.ConnectionEvents) {
 		p.ConnectionEvents = k.ConnectionEvents
 		md.NeedsProviderUpdate = true
 		return true
@@ -107,9 +92,9 @@ func MergeVpcEndpointConnectionNotification_ConnectionNotificationArn(k *VpcEndp
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpcEndpointConnectionNotification_Id(k *VpcEndpointConnectionNotificationParameters, p *VpcEndpointConnectionNotificationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeVpcEndpointConnectionNotification_VpcEndpointId(k *VpcEndpointConnectionNotificationParameters, p *VpcEndpointConnectionNotificationParameters, md *plugin.MergeDescription) bool {
+	if k.VpcEndpointId != p.VpcEndpointId {
+		p.VpcEndpointId = k.VpcEndpointId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -117,9 +102,9 @@ func MergeVpcEndpointConnectionNotification_Id(k *VpcEndpointConnectionNotificat
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpcEndpointConnectionNotification_VpcEndpointId(k *VpcEndpointConnectionNotificationParameters, p *VpcEndpointConnectionNotificationParameters, md *plugin.MergeDescription) bool {
-	if k.VpcEndpointId != p.VpcEndpointId {
-		p.VpcEndpointId = k.VpcEndpointId
+func MergeVpcEndpointConnectionNotification_VpcEndpointServiceId(k *VpcEndpointConnectionNotificationParameters, p *VpcEndpointConnectionNotificationParameters, md *plugin.MergeDescription) bool {
+	if k.VpcEndpointServiceId != p.VpcEndpointServiceId {
+		p.VpcEndpointServiceId = k.VpcEndpointServiceId
 		md.NeedsProviderUpdate = true
 		return true
 	}

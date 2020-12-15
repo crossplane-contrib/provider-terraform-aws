@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCloud9EnvironmentEc2_InstanceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloud9EnvironmentEc2_OwnerArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,12 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloud9EnvironmentEc2_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloud9EnvironmentEc2_InstanceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloud9EnvironmentEc2_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloud9EnvironmentEc2_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,7 +61,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloud9EnvironmentEc2_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloud9EnvironmentEc2_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,16 +87,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloud9EnvironmentEc2_InstanceType(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
-	if k.InstanceType != p.InstanceType {
-		p.InstanceType = k.InstanceType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCloud9EnvironmentEc2_OwnerArn(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
 	if k.OwnerArn != p.OwnerArn {
 		p.OwnerArn = k.OwnerArn
@@ -123,7 +108,7 @@ func MergeCloud9EnvironmentEc2_SubnetId(k *Cloud9EnvironmentEc2Parameters, p *Cl
 
 //mergePrimitiveContainerTemplateSpec
 func MergeCloud9EnvironmentEc2_Tags(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -132,9 +117,9 @@ func MergeCloud9EnvironmentEc2_Tags(k *Cloud9EnvironmentEc2Parameters, p *Cloud9
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloud9EnvironmentEc2_Description(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
+func MergeCloud9EnvironmentEc2_InstanceType(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
+	if k.InstanceType != p.InstanceType {
+		p.InstanceType = k.InstanceType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -142,9 +127,9 @@ func MergeCloud9EnvironmentEc2_Description(k *Cloud9EnvironmentEc2Parameters, p 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloud9EnvironmentEc2_Id(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeCloud9EnvironmentEc2_Name(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -162,9 +147,9 @@ func MergeCloud9EnvironmentEc2_AutomaticStopTimeMinutes(k *Cloud9EnvironmentEc2P
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloud9EnvironmentEc2_Name(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeCloud9EnvironmentEc2_Description(k *Cloud9EnvironmentEc2Parameters, p *Cloud9EnvironmentEc2Parameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}

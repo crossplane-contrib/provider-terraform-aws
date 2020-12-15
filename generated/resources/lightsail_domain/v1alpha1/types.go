@@ -53,7 +53,6 @@ type LightsailDomainSpec struct {
 // A LightsailDomainParameters defines the desired state of a LightsailDomain
 type LightsailDomainParameters struct {
 	DomainName string `json:"domain_name"`
-	Id         string `json:"id"`
 }
 
 // A LightsailDomainStatus defines the observed state of a LightsailDomain

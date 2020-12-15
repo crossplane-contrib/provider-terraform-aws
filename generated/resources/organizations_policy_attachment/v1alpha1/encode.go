@@ -39,7 +39,6 @@ func EncodeOrganizationsPolicyAttachment(r OrganizationsPolicyAttachment) cty.Va
 	ctyVal := make(map[string]cty.Value)
 	EncodeOrganizationsPolicyAttachment_PolicyId(r.Spec.ForProvider, ctyVal)
 	EncodeOrganizationsPolicyAttachment_TargetId(r.Spec.ForProvider, ctyVal)
-	EncodeOrganizationsPolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,8 +56,4 @@ func EncodeOrganizationsPolicyAttachment_PolicyId(p OrganizationsPolicyAttachmen
 
 func EncodeOrganizationsPolicyAttachment_TargetId(p OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_id"] = cty.StringVal(p.TargetId)
-}
-
-func EncodeOrganizationsPolicyAttachment_Id(p OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

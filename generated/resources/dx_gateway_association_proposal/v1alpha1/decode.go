@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxGatewayAssociationProposal(prev *DxGatewayAssociationProposal, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxGatewayAssociationProposal_Id(&new.Spec.ForProvider, valMap)
-	DecodeDxGatewayAssociationProposal_AllowedPrefixes(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_AssociatedGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_DxGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(&new.Spec.ForProvider, valMap)
+	DecodeDxGatewayAssociationProposal_AllowedPrefixes(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(&new.Status.AtProvider, valMap)
 	DecodeDxGatewayAssociationProposal_AssociatedGatewayType(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -51,20 +50,6 @@ func DecodeDxGatewayAssociationProposal(prev *DxGatewayAssociationProposal, ctyV
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxGatewayAssociationProposal_Id(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeDxGatewayAssociationProposal_AllowedPrefixes(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["allowed_prefixes"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.AllowedPrefixes = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -80,6 +65,15 @@ func DecodeDxGatewayAssociationProposal_DxGatewayId(p *DxGatewayAssociationPropo
 //primitiveTypeDecodeTemplate
 func DecodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
 	p.DxGatewayOwnerAccountId = ctwhy.ValueAsString(vals["dx_gateway_owner_account_id"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeDxGatewayAssociationProposal_AllowedPrefixes(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["allowed_prefixes"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AllowedPrefixes = goVals
 }
 
 //primitiveTypeDecodeTemplate

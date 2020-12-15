@@ -52,7 +52,6 @@ type InspectorResourceGroupSpec struct {
 
 // A InspectorResourceGroupParameters defines the desired state of a InspectorResourceGroup
 type InspectorResourceGroupParameters struct {
-	Id   string            `json:"id"`
 	Tags map[string]string `json:"tags"`
 }
 

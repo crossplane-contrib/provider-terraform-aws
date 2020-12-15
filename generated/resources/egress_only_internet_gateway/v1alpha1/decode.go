@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEgressOnlyInternetGateway(prev *EgressOnlyInternetGateway, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEgressOnlyInternetGateway_Id(&new.Spec.ForProvider, valMap)
 	DecodeEgressOnlyInternetGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEgressOnlyInternetGateway_VpcId(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeEgressOnlyInternetGateway(prev *EgressOnlyInternetGateway, ctyValue c
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEgressOnlyInternetGateway_Id(p *EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate

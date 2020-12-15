@@ -31,27 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeServiceDiscoveryPrivateDnsNamespace_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeServiceDiscoveryPrivateDnsNamespace_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeServiceDiscoveryPrivateDnsNamespace_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeServiceDiscoveryPrivateDnsNamespace_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeServiceDiscoveryPrivateDnsNamespace_Vpc(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeServiceDiscoveryPrivateDnsNamespace_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeServiceDiscoveryPrivateDnsNamespace_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,39 +71,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeServiceDiscoveryPrivateDnsNamespace_Description(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeServiceDiscoveryPrivateDnsNamespace_Id(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeServiceDiscoveryPrivateDnsNamespace_Name(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeServiceDiscoveryPrivateDnsNamespace_Tags(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -120,6 +85,26 @@ func MergeServiceDiscoveryPrivateDnsNamespace_Tags(k *ServiceDiscoveryPrivateDns
 func MergeServiceDiscoveryPrivateDnsNamespace_Vpc(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
 	if k.Vpc != p.Vpc {
 		p.Vpc = k.Vpc
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeServiceDiscoveryPrivateDnsNamespace_Description(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeServiceDiscoveryPrivateDnsNamespace_Name(k *ServiceDiscoveryPrivateDnsNamespaceParameters, p *ServiceDiscoveryPrivateDnsNamespaceParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApigatewayv2Deployment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApigatewayv2Deployment_Triggers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -86,19 +81,9 @@ func MergeApigatewayv2Deployment_Description(k *Apigatewayv2DeploymentParameters
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2Deployment_Id(k *Apigatewayv2DeploymentParameters, p *Apigatewayv2DeploymentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeApigatewayv2Deployment_Triggers(k *Apigatewayv2DeploymentParameters, p *Apigatewayv2DeploymentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Triggers, p.Triggers) {
+	if !plugin.CompareMapString(k.Triggers, p.Triggers) {
 		p.Triggers = k.Triggers
 		md.NeedsProviderUpdate = true
 		return true

@@ -41,7 +41,6 @@ func DecodeCloudwatchLogDestinationPolicy(prev *CloudwatchLogDestinationPolicy, 
 	new := prev.DeepCopy()
 	DecodeCloudwatchLogDestinationPolicy_AccessPolicy(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogDestinationPolicy_DestinationName(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchLogDestinationPolicy_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,9 +57,4 @@ func DecodeCloudwatchLogDestinationPolicy_AccessPolicy(p *CloudwatchLogDestinati
 //primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestinationPolicy_DestinationName(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	p.DestinationName = ctwhy.ValueAsString(vals["destination_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogDestinationPolicy_Id(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

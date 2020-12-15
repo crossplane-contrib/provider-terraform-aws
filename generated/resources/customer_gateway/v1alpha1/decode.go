@@ -40,7 +40,6 @@ func DecodeCustomerGateway(prev *CustomerGateway, ctyValue cty.Value) (resource.
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeCustomerGateway_BgpAsn(&new.Spec.ForProvider, valMap)
-	DecodeCustomerGateway_Id(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_IpAddress(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_Type(&new.Spec.ForProvider, valMap)
@@ -55,11 +54,6 @@ func DecodeCustomerGateway(prev *CustomerGateway, ctyValue cty.Value) (resource.
 //primitiveTypeDecodeTemplate
 func DecodeCustomerGateway_BgpAsn(p *CustomerGatewayParameters, vals map[string]cty.Value) {
 	p.BgpAsn = ctwhy.ValueAsString(vals["bgp_asn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCustomerGateway_Id(p *CustomerGatewayParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

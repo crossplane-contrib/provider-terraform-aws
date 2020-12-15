@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeMskConfiguration(r MskConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMskConfiguration_ServerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Description(r.Spec.ForProvider, ctyVal)
-	EncodeMskConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_KafkaVersions(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Name(r.Spec.ForProvider, ctyVal)
+	EncodeMskConfiguration_ServerProperties(r.Spec.ForProvider, ctyVal)
 	EncodeMskConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	EncodeMskConfiguration_LatestRevision(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -54,16 +53,8 @@ func EncodeMskConfiguration(r MskConfiguration) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeMskConfiguration_ServerProperties(p MskConfigurationParameters, vals map[string]cty.Value) {
-	vals["server_properties"] = cty.StringVal(p.ServerProperties)
-}
-
 func EncodeMskConfiguration_Description(p MskConfigurationParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeMskConfiguration_Id(p MskConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMskConfiguration_KafkaVersions(p MskConfigurationParameters, vals map[string]cty.Value) {
@@ -76,6 +67,10 @@ func EncodeMskConfiguration_KafkaVersions(p MskConfigurationParameters, vals map
 
 func EncodeMskConfiguration_Name(p MskConfigurationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeMskConfiguration_ServerProperties(p MskConfigurationParameters, vals map[string]cty.Value) {
+	vals["server_properties"] = cty.StringVal(p.ServerProperties)
 }
 
 func EncodeMskConfiguration_Arn(p MskConfigurationObservation, vals map[string]cty.Value) {

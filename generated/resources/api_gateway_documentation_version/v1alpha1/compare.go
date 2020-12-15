@@ -31,22 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayDocumentationVersion_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayDocumentationVersion_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayDocumentationVersion_RestApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeApiGatewayDocumentationVersion_Version(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayDocumentationVersion_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -63,26 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApiGatewayDocumentationVersion_Description(k *ApiGatewayDocumentationVersionParameters, p *ApiGatewayDocumentationVersionParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayDocumentationVersion_Id(k *ApiGatewayDocumentationVersionParameters, p *ApiGatewayDocumentationVersionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeApiGatewayDocumentationVersion_RestApiId(k *ApiGatewayDocumentationVersionParameters, p *ApiGatewayDocumentationVersionParameters, md *plugin.MergeDescription) bool {
 	if k.RestApiId != p.RestApiId {
 		p.RestApiId = k.RestApiId
@@ -96,6 +71,16 @@ func MergeApiGatewayDocumentationVersion_RestApiId(k *ApiGatewayDocumentationVer
 func MergeApiGatewayDocumentationVersion_Version(k *ApiGatewayDocumentationVersionParameters, p *ApiGatewayDocumentationVersionParameters, md *plugin.MergeDescription) bool {
 	if k.Version != p.Version {
 		p.Version = k.Version
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayDocumentationVersion_Description(k *ApiGatewayDocumentationVersionParameters, p *ApiGatewayDocumentationVersionParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}

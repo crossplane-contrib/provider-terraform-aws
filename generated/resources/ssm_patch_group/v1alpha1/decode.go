@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSsmPatchGroup(prev *SsmPatchGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSsmPatchGroup_Id(&new.Spec.ForProvider, valMap)
-	DecodeSsmPatchGroup_PatchGroup(&new.Spec.ForProvider, valMap)
 	DecodeSsmPatchGroup_BaselineId(&new.Spec.ForProvider, valMap)
+	DecodeSsmPatchGroup_PatchGroup(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeSsmPatchGroup(prev *SsmPatchGroup, ctyValue cty.Value) (resource.Mana
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSsmPatchGroup_Id(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeSsmPatchGroup_BaselineId(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
+	p.BaselineId = ctwhy.ValueAsString(vals["baseline_id"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeSsmPatchGroup_PatchGroup(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
 	p.PatchGroup = ctwhy.ValueAsString(vals["patch_group"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSsmPatchGroup_BaselineId(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
-	p.BaselineId = ctwhy.ValueAsString(vals["baseline_id"])
 }

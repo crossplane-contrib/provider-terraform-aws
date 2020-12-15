@@ -40,7 +40,6 @@ func DecodeGlacierVaultLock(prev *GlacierVaultLock, ctyValue cty.Value) (resourc
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeGlacierVaultLock_CompleteLock(&new.Spec.ForProvider, valMap)
-	DecodeGlacierVaultLock_Id(&new.Spec.ForProvider, valMap)
 	DecodeGlacierVaultLock_IgnoreDeletionError(&new.Spec.ForProvider, valMap)
 	DecodeGlacierVaultLock_Policy(&new.Spec.ForProvider, valMap)
 	DecodeGlacierVaultLock_VaultName(&new.Spec.ForProvider, valMap)
@@ -55,11 +54,6 @@ func DecodeGlacierVaultLock(prev *GlacierVaultLock, ctyValue cty.Value) (resourc
 //primitiveTypeDecodeTemplate
 func DecodeGlacierVaultLock_CompleteLock(p *GlacierVaultLockParameters, vals map[string]cty.Value) {
 	p.CompleteLock = ctwhy.ValueAsBool(vals["complete_lock"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGlacierVaultLock_Id(p *GlacierVaultLockParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

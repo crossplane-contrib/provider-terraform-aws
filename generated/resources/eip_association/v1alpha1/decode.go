@@ -41,7 +41,6 @@ func DecodeEipAssociation(prev *EipAssociation, ctyValue cty.Value) (resource.Ma
 	new := prev.DeepCopy()
 	DecodeEipAssociation_AllocationId(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_AllowReassociation(&new.Spec.ForProvider, valMap)
-	DecodeEipAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_InstanceId(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_PrivateIpAddress(&new.Spec.ForProvider, valMap)
@@ -62,11 +61,6 @@ func DecodeEipAssociation_AllocationId(p *EipAssociationParameters, vals map[str
 //primitiveTypeDecodeTemplate
 func DecodeEipAssociation_AllowReassociation(p *EipAssociationParameters, vals map[string]cty.Value) {
 	p.AllowReassociation = ctwhy.ValueAsBool(vals["allow_reassociation"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEipAssociation_Id(p *EipAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

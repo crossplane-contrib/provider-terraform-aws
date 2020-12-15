@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSesDomainIdentityVerification_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSesDomainIdentityVerification_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
 	if updated {
 		anyChildUpdated = true
@@ -65,16 +60,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeSesDomainIdentityVerification_Domain(k *SesDomainIdentityVerificationParameters, p *SesDomainIdentityVerificationParameters, md *plugin.MergeDescription) bool {
 	if k.Domain != p.Domain {
 		p.Domain = k.Domain
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSesDomainIdentityVerification_Id(k *SesDomainIdentityVerificationParameters, p *SesDomainIdentityVerificationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

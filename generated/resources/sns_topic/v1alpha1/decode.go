@@ -39,26 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSnsTopic(prev *SnsTopic, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSnsTopic_ApplicationSuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_SqsSuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_ApplicationSuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_DisplayName(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_HttpSuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_HttpSuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopic_LambdaFailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_Name(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_SqsSuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_KmsMasterKeyId(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopic_LambdaSuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_Policy(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_SqsFailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_ApplicationFailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_DeliveryPolicy(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_HttpFailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSnsTopic_Id(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_SqsSuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_SqsSuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_DisplayName(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_KmsMasterKeyId(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopic_LambdaSuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopic_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_Policy(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_ApplicationSuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_HttpSuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_HttpSuccessFeedbackSampleRate(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_Name(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_ApplicationSuccessFeedbackRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_DeliveryPolicy(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_HttpFailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_SqsFailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopic_Tags(&new.Spec.ForProvider, valMap)
+	DecodeSnsTopic_ApplicationFailureFeedbackRoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopic_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -68,8 +67,13 @@ func DecodeSnsTopic(prev *SnsTopic, ctyValue cty.Value) (resource.Managed, error
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopic_ApplicationSuccessFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.ApplicationSuccessFeedbackRoleArn = ctwhy.ValueAsString(vals["application_success_feedback_role_arn"])
+func DecodeSnsTopic_LambdaFailureFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.LambdaFailureFeedbackRoleArn = ctwhy.ValueAsString(vals["lambda_failure_feedback_role_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopic_LambdaSuccessFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.LambdaSuccessFeedbackRoleArn = ctwhy.ValueAsString(vals["lambda_success_feedback_role_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -78,13 +82,38 @@ func DecodeSnsTopic_SqsSuccessFeedbackRoleArn(p *SnsTopicParameters, vals map[st
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopic_ApplicationSuccessFeedbackSampleRate(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.ApplicationSuccessFeedbackSampleRate = ctwhy.ValueAsInt64(vals["application_success_feedback_sample_rate"])
+func DecodeSnsTopic_SqsSuccessFeedbackSampleRate(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.SqsSuccessFeedbackSampleRate = ctwhy.ValueAsInt64(vals["sqs_success_feedback_sample_rate"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeSnsTopic_DisplayName(p *SnsTopicParameters, vals map[string]cty.Value) {
 	p.DisplayName = ctwhy.ValueAsString(vals["display_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopic_KmsMasterKeyId(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.KmsMasterKeyId = ctwhy.ValueAsString(vals["kms_master_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopic_LambdaSuccessFeedbackSampleRate(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.LambdaSuccessFeedbackSampleRate = ctwhy.ValueAsInt64(vals["lambda_success_feedback_sample_rate"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopic_NamePrefix(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopic_Policy(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopic_ApplicationSuccessFeedbackSampleRate(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.ApplicationSuccessFeedbackSampleRate = ctwhy.ValueAsInt64(vals["application_success_feedback_sample_rate"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -98,43 +127,13 @@ func DecodeSnsTopic_HttpSuccessFeedbackSampleRate(p *SnsTopicParameters, vals ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopic_LambdaFailureFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.LambdaFailureFeedbackRoleArn = ctwhy.ValueAsString(vals["lambda_failure_feedback_role_arn"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeSnsTopic_Name(p *SnsTopicParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopic_SqsSuccessFeedbackSampleRate(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.SqsSuccessFeedbackSampleRate = ctwhy.ValueAsInt64(vals["sqs_success_feedback_sample_rate"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopic_KmsMasterKeyId(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.KmsMasterKeyId = ctwhy.ValueAsString(vals["kms_master_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopic_LambdaSuccessFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.LambdaSuccessFeedbackRoleArn = ctwhy.ValueAsString(vals["lambda_success_feedback_role_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopic_Policy(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopic_SqsFailureFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.SqsFailureFeedbackRoleArn = ctwhy.ValueAsString(vals["sqs_failure_feedback_role_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopic_ApplicationFailureFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.ApplicationFailureFeedbackRoleArn = ctwhy.ValueAsString(vals["application_failure_feedback_role_arn"])
+func DecodeSnsTopic_ApplicationSuccessFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.ApplicationSuccessFeedbackRoleArn = ctwhy.ValueAsString(vals["application_success_feedback_role_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -148,18 +147,8 @@ func DecodeSnsTopic_HttpFailureFeedbackRoleArn(p *SnsTopicParameters, vals map[s
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSnsTopic_Id(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopic_LambdaSuccessFeedbackSampleRate(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.LambdaSuccessFeedbackSampleRate = ctwhy.ValueAsInt64(vals["lambda_success_feedback_sample_rate"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSnsTopic_NamePrefix(p *SnsTopicParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+func DecodeSnsTopic_SqsFailureFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.SqsFailureFeedbackRoleArn = ctwhy.ValueAsString(vals["sqs_failure_feedback_role_arn"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -171,6 +160,11 @@ func DecodeSnsTopic_Tags(p *SnsTopicParameters, vals map[string]cty.Value) {
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsTopic_ApplicationFailureFeedbackRoleArn(p *SnsTopicParameters, vals map[string]cty.Value) {
+	p.ApplicationFailureFeedbackRoleArn = ctwhy.ValueAsString(vals["application_failure_feedback_role_arn"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -37,10 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDbInstanceRoleAssociation(r DbInstanceRoleAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbInstanceRoleAssociation_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeDbInstanceRoleAssociation_DbInstanceIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeDbInstanceRoleAssociation_FeatureName(r.Spec.ForProvider, ctyVal)
-	EncodeDbInstanceRoleAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDbInstanceRoleAssociation_RoleArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,18 +51,14 @@ func EncodeDbInstanceRoleAssociation(r DbInstanceRoleAssociation) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeDbInstanceRoleAssociation_RoleArn(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
 func EncodeDbInstanceRoleAssociation_DbInstanceIdentifier(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
 	vals["db_instance_identifier"] = cty.StringVal(p.DbInstanceIdentifier)
 }
 
 func EncodeDbInstanceRoleAssociation_FeatureName(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
 	vals["feature_name"] = cty.StringVal(p.FeatureName)
-}
-
-func EncodeDbInstanceRoleAssociation_Id(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDbInstanceRoleAssociation_RoleArn(p DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }

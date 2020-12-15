@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSimpledbDomain(prev *SimpledbDomain, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSimpledbDomain_Id(&new.Spec.ForProvider, valMap)
 	DecodeSimpledbDomain_Name(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeSimpledbDomain(prev *SimpledbDomain, ctyValue cty.Value) (resource.Ma
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSimpledbDomain_Id(p *SimpledbDomainParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

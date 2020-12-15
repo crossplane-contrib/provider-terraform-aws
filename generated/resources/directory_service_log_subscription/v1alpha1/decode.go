@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDirectoryServiceLogSubscription(prev *DirectoryServiceLogSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDirectoryServiceLogSubscription_LogGroupName(&new.Spec.ForProvider, valMap)
 	DecodeDirectoryServiceLogSubscription_DirectoryId(&new.Spec.ForProvider, valMap)
-	DecodeDirectoryServiceLogSubscription_Id(&new.Spec.ForProvider, valMap)
+	DecodeDirectoryServiceLogSubscription_LogGroupName(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeDirectoryServiceLogSubscription(prev *DirectoryServiceLogSubscription
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDirectoryServiceLogSubscription_LogGroupName(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
-	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDirectoryServiceLogSubscription_DirectoryId(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
 	p.DirectoryId = ctwhy.ValueAsString(vals["directory_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDirectoryServiceLogSubscription_Id(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeDirectoryServiceLogSubscription_LogGroupName(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
+	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
 }

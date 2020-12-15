@@ -37,13 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCognitoIdentityProvider(r CognitoIdentityProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCognitoIdentityProvider_IdpIdentifiers(r.Spec.ForProvider, ctyVal)
+	EncodeCognitoIdentityProvider_ProviderDetails(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_ProviderName(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_ProviderType(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_UserPoolId(r.Spec.ForProvider, ctyVal)
 	EncodeCognitoIdentityProvider_AttributeMapping(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_IdpIdentifiers(r.Spec.ForProvider, ctyVal)
-	EncodeCognitoIdentityProvider_ProviderDetails(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,6 +52,26 @@ func EncodeCognitoIdentityProvider(r CognitoIdentityProvider) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCognitoIdentityProvider_IdpIdentifiers(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.IdpIdentifiers {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["idp_identifiers"] = cty.ListVal(colVals)
+}
+
+func EncodeCognitoIdentityProvider_ProviderDetails(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	if len(p.ProviderDetails) == 0 {
+		vals["provider_details"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.ProviderDetails {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["provider_details"] = cty.MapVal(mVals)
 }
 
 func EncodeCognitoIdentityProvider_ProviderName(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
@@ -77,28 +96,4 @@ func EncodeCognitoIdentityProvider_AttributeMapping(p CognitoIdentityProviderPar
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["attribute_mapping"] = cty.MapVal(mVals)
-}
-
-func EncodeCognitoIdentityProvider_Id(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCognitoIdentityProvider_IdpIdentifiers(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.IdpIdentifiers {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["idp_identifiers"] = cty.ListVal(colVals)
-}
-
-func EncodeCognitoIdentityProvider_ProviderDetails(p CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	if len(p.ProviderDetails) == 0 {
-		vals["provider_details"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.ProviderDetails {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["provider_details"] = cty.MapVal(mVals)
 }

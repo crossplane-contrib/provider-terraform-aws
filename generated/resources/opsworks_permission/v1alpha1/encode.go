@@ -37,12 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeOpsworksPermission(r OpsworksPermission) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeOpsworksPermission_AllowSudo(r.Spec.ForProvider, ctyVal)
-	EncodeOpsworksPermission_Id(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_Level(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_StackId(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_UserArn(r.Spec.ForProvider, ctyVal)
 	EncodeOpsworksPermission_AllowSsh(r.Spec.ForProvider, ctyVal)
+	EncodeOpsworksPermission_AllowSudo(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,14 +51,6 @@ func EncodeOpsworksPermission(r OpsworksPermission) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeOpsworksPermission_AllowSudo(p OpsworksPermissionParameters, vals map[string]cty.Value) {
-	vals["allow_sudo"] = cty.BoolVal(p.AllowSudo)
-}
-
-func EncodeOpsworksPermission_Id(p OpsworksPermissionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeOpsworksPermission_Level(p OpsworksPermissionParameters, vals map[string]cty.Value) {
@@ -76,4 +67,8 @@ func EncodeOpsworksPermission_UserArn(p OpsworksPermissionParameters, vals map[s
 
 func EncodeOpsworksPermission_AllowSsh(p OpsworksPermissionParameters, vals map[string]cty.Value) {
 	vals["allow_ssh"] = cty.BoolVal(p.AllowSsh)
+}
+
+func EncodeOpsworksPermission_AllowSudo(p OpsworksPermissionParameters, vals map[string]cty.Value) {
+	vals["allow_sudo"] = cty.BoolVal(p.AllowSudo)
 }

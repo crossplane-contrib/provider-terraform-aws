@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeS3BucketPolicy(r S3BucketPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeS3BucketPolicy_Bucket(r.Spec.ForProvider, ctyVal)
-	EncodeS3BucketPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -53,10 +52,6 @@ func EncodeS3BucketPolicy(r S3BucketPolicy) cty.Value {
 
 func EncodeS3BucketPolicy_Bucket(p S3BucketPolicyParameters, vals map[string]cty.Value) {
 	vals["bucket"] = cty.StringVal(p.Bucket)
-}
-
-func EncodeS3BucketPolicy_Id(p S3BucketPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeS3BucketPolicy_Policy(p S3BucketPolicyParameters, vals map[string]cty.Value) {

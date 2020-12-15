@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2TransitGatewayRouteTable_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2TransitGatewayRouteTable_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,12 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,19 +61,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayRouteTable_Id(k *Ec2TransitGatewayRouteTableParameters, p *Ec2TransitGatewayRouteTableParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TransitGatewayRouteTable_Tags(k *Ec2TransitGatewayRouteTableParameters, p *Ec2TransitGatewayRouteTableParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -97,9 +82,9 @@ func MergeEc2TransitGatewayRouteTable_TransitGatewayId(k *Ec2TransitGatewayRoute
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(k *Ec2TransitGatewayRouteTableObservation, p *Ec2TransitGatewayRouteTableObservation, md *plugin.MergeDescription) bool {
-	if k.DefaultPropagationRouteTable != p.DefaultPropagationRouteTable {
-		k.DefaultPropagationRouteTable = p.DefaultPropagationRouteTable
+func MergeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(k *Ec2TransitGatewayRouteTableObservation, p *Ec2TransitGatewayRouteTableObservation, md *plugin.MergeDescription) bool {
+	if k.DefaultAssociationRouteTable != p.DefaultAssociationRouteTable {
+		k.DefaultAssociationRouteTable = p.DefaultAssociationRouteTable
 		md.StatusUpdated = true
 		return true
 	}
@@ -107,9 +92,9 @@ func MergeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(k *Ec2Transit
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(k *Ec2TransitGatewayRouteTableObservation, p *Ec2TransitGatewayRouteTableObservation, md *plugin.MergeDescription) bool {
-	if k.DefaultAssociationRouteTable != p.DefaultAssociationRouteTable {
-		k.DefaultAssociationRouteTable = p.DefaultAssociationRouteTable
+func MergeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(k *Ec2TransitGatewayRouteTableObservation, p *Ec2TransitGatewayRouteTableObservation, md *plugin.MergeDescription) bool {
+	if k.DefaultPropagationRouteTable != p.DefaultPropagationRouteTable {
+		k.DefaultPropagationRouteTable = p.DefaultPropagationRouteTable
 		md.StatusUpdated = true
 		return true
 	}

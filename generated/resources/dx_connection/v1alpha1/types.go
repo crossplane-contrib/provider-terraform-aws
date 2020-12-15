@@ -52,11 +52,10 @@ type DxConnectionSpec struct {
 
 // A DxConnectionParameters defines the desired state of a DxConnection
 type DxConnectionParameters struct {
-	Bandwidth string            `json:"bandwidth"`
-	Tags      map[string]string `json:"tags"`
-	Id        string            `json:"id"`
 	Location  string            `json:"location"`
 	Name      string            `json:"name"`
+	Tags      map[string]string `json:"tags"`
+	Bandwidth string            `json:"bandwidth"`
 }
 
 // A DxConnectionStatus defines the observed state of a DxConnection
@@ -68,7 +67,7 @@ type DxConnectionStatus struct {
 // A DxConnectionObservation records the observed state of a DxConnection
 type DxConnectionObservation struct {
 	JumboFrameCapable    bool   `json:"jumbo_frame_capable"`
-	Arn                  string `json:"arn"`
 	AwsDevice            string `json:"aws_device"`
 	HasLogicalRedundancy string `json:"has_logical_redundancy"`
+	Arn                  string `json:"arn"`
 }

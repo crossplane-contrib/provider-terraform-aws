@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeElbAttachment(prev *ElbAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeElbAttachment_Elb(&new.Spec.ForProvider, valMap)
-	DecodeElbAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeElbAttachment_Instance(&new.Spec.ForProvider, valMap)
+	DecodeElbAttachment_Elb(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeElbAttachment(prev *ElbAttachment, ctyValue cty.Value) (resource.Mana
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeElbAttachment_Elb(p *ElbAttachmentParameters, vals map[string]cty.Value) {
-	p.Elb = ctwhy.ValueAsString(vals["elb"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeElbAttachment_Id(p *ElbAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeElbAttachment_Instance(p *ElbAttachmentParameters, vals map[string]cty.Value) {
 	p.Instance = ctwhy.ValueAsString(vals["instance"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeElbAttachment_Elb(p *ElbAttachmentParameters, vals map[string]cty.Value) {
+	p.Elb = ctwhy.ValueAsString(vals["elb"])
 }

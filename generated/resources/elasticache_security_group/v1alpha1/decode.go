@@ -39,10 +39,9 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeElasticacheSecurityGroup(prev *ElasticacheSecurityGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeElasticacheSecurityGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodeElasticacheSecurityGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeElasticacheSecurityGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeElasticacheSecurityGroup_SecurityGroupNames(&new.Spec.ForProvider, valMap)
-	DecodeElasticacheSecurityGroup_Description(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,8 +51,8 @@ func DecodeElasticacheSecurityGroup(prev *ElasticacheSecurityGroup, ctyValue cty
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeElasticacheSecurityGroup_Id(p *ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeElasticacheSecurityGroup_Description(p *ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -68,9 +67,4 @@ func DecodeElasticacheSecurityGroup_SecurityGroupNames(p *ElasticacheSecurityGro
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.SecurityGroupNames = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeElasticacheSecurityGroup_Description(p *ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }

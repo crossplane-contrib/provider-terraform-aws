@@ -31,17 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRedshiftSubnetGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRedshiftSubnetGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRedshiftSubnetGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -52,6 +42,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeRedshiftSubnetGroup_SubnetIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftSubnetGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,30 +66,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeRedshiftSubnetGroup_Tags(k *RedshiftSubnetGroupParameters, p *RedshiftSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeRedshiftSubnetGroup_Description(k *RedshiftSubnetGroupParameters, p *RedshiftSubnetGroupParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRedshiftSubnetGroup_Id(k *RedshiftSubnetGroupParameters, p *RedshiftSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -113,8 +88,18 @@ func MergeRedshiftSubnetGroup_Name(k *RedshiftSubnetGroupParameters, p *Redshift
 
 //mergePrimitiveContainerTemplateSpec
 func MergeRedshiftSubnetGroup_SubnetIds(k *RedshiftSubnetGroupParameters, p *RedshiftSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SubnetIds, p.SubnetIds) {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
 		p.SubnetIds = k.SubnetIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeRedshiftSubnetGroup_Tags(k *RedshiftSubnetGroupParameters, p *RedshiftSubnetGroupParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

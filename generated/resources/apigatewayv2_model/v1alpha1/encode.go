@@ -37,12 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApigatewayv2Model(r Apigatewayv2Model) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2Model_Name(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Model_Schema(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_ContentType(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2Model_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2Model_Id(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Model_Name(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2Model_Schema(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,14 +51,6 @@ func EncodeApigatewayv2Model(r Apigatewayv2Model) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApigatewayv2Model_Name(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeApigatewayv2Model_Schema(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	vals["schema"] = cty.StringVal(p.Schema)
 }
 
 func EncodeApigatewayv2Model_ApiId(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
@@ -74,6 +65,10 @@ func EncodeApigatewayv2Model_Description(p Apigatewayv2ModelParameters, vals map
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeApigatewayv2Model_Id(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeApigatewayv2Model_Name(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeApigatewayv2Model_Schema(p Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+	vals["schema"] = cty.StringVal(p.Schema)
 }

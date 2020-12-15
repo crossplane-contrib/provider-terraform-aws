@@ -39,15 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDbEventSubscription(prev *DbEventSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDbEventSubscription_Name(&new.Spec.ForProvider, valMap)
+	DecodeDbEventSubscription_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_SnsTopic(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_SourceIds(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_Id(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_Name(&new.Spec.ForProvider, valMap)
+	DecodeDbEventSubscription_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_Enabled(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_EventCategories(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeDbEventSubscription_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDbEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
 	DecodeDbEventSubscription_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDbEventSubscription_Arn(&new.Status.AtProvider, valMap)
 	DecodeDbEventSubscription_CustomerAwsId(&new.Status.AtProvider, valMap)
@@ -56,6 +55,16 @@ func DecodeDbEventSubscription(prev *DbEventSubscription, ctyValue cty.Value) (r
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbEventSubscription_Name(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbEventSubscription_NamePrefix(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -72,19 +81,15 @@ func DecodeDbEventSubscription_SourceIds(p *DbEventSubscriptionParameters, vals 
 	p.SourceIds = goVals
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_SourceType(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_Id(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_Name(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+//primitiveMapTypeDecodeTemplate
+func DecodeDbEventSubscription_Tags(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate
@@ -102,27 +107,21 @@ func DecodeDbEventSubscription_EventCategories(p *DbEventSubscriptionParameters,
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_NamePrefix(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeDbEventSubscription_Tags(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
+func DecodeDbEventSubscription_SourceType(p *DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
 }
 
 //containerTypeDecodeTemplate
 func DecodeDbEventSubscription_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
+	DecodeDbEventSubscription_Timeouts_Create(p, valMap)
 	DecodeDbEventSubscription_Timeouts_Delete(p, valMap)
 	DecodeDbEventSubscription_Timeouts_Update(p, valMap)
-	DecodeDbEventSubscription_Timeouts_Create(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbEventSubscription_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -133,11 +132,6 @@ func DecodeDbEventSubscription_Timeouts_Delete(p *Timeouts, vals map[string]cty.
 //primitiveTypeDecodeTemplate
 func DecodeDbEventSubscription_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
 	p.Update = ctwhy.ValueAsString(vals["update"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbEventSubscription_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
 //primitiveTypeDecodeTemplate

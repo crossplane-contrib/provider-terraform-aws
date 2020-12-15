@@ -52,12 +52,11 @@ type PinpointEmailChannelSpec struct {
 
 // A PinpointEmailChannelParameters defines the desired state of a PinpointEmailChannel
 type PinpointEmailChannelParameters struct {
-	Id            string `json:"id"`
-	Identity      string `json:"identity"`
-	RoleArn       string `json:"role_arn"`
 	ApplicationId string `json:"application_id"`
 	Enabled       bool   `json:"enabled"`
 	FromAddress   string `json:"from_address"`
+	Identity      string `json:"identity"`
+	RoleArn       string `json:"role_arn"`
 }
 
 // A PinpointEmailChannelStatus defines the observed state of a PinpointEmailChannel

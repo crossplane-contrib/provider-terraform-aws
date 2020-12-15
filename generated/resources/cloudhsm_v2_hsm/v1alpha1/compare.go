@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCloudhsmV2Hsm_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCloudhsmV2Hsm_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,17 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudhsmV2Hsm_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudhsmV2Hsm_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudhsmV2Hsm_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -87,6 +82,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeCloudhsmV2Hsm_SubnetId(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
+	if k.SubnetId != p.SubnetId {
+		p.SubnetId = k.SubnetId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeCloudhsmV2Hsm_AvailabilityZone(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
 	if k.AvailabilityZone != p.AvailabilityZone {
 		p.AvailabilityZone = k.AvailabilityZone
@@ -107,29 +112,9 @@ func MergeCloudhsmV2Hsm_ClusterId(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmPa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloudhsmV2Hsm_Id(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCloudhsmV2Hsm_IpAddress(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
 	if k.IpAddress != p.IpAddress {
 		p.IpAddress = k.IpAddress
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudhsmV2Hsm_SubnetId(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmParameters, md *plugin.MergeDescription) bool {
-	if k.SubnetId != p.SubnetId {
-		p.SubnetId = k.SubnetId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -140,11 +125,6 @@ func MergeCloudhsmV2Hsm_SubnetId(k *CloudhsmV2HsmParameters, p *CloudhsmV2HsmPar
 func MergeCloudhsmV2Hsm_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeCloudhsmV2Hsm_Timeouts_Create(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudhsmV2Hsm_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -155,20 +135,15 @@ func MergeCloudhsmV2Hsm_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescr
 		anyChildUpdated = true
 	}
 
+	updated = MergeCloudhsmV2Hsm_Timeouts_Create(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudhsmV2Hsm_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -185,6 +160,16 @@ func MergeCloudhsmV2Hsm_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.Mer
 func MergeCloudhsmV2Hsm_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	if k.Update != p.Update {
 		p.Update = k.Update
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudhsmV2Hsm_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}

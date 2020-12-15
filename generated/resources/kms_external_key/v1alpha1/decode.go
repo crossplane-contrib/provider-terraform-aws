@@ -39,18 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeKmsExternalKey(prev *KmsExternalKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeKmsExternalKey_KeyMaterialBase64(&new.Spec.ForProvider, valMap)
 	DecodeKmsExternalKey_Policy(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_Tags(&new.Spec.ForProvider, valMap)
+	DecodeKmsExternalKey_ValidTo(&new.Spec.ForProvider, valMap)
 	DecodeKmsExternalKey_DeletionWindowInDays(&new.Spec.ForProvider, valMap)
 	DecodeKmsExternalKey_Description(&new.Spec.ForProvider, valMap)
 	DecodeKmsExternalKey_Enabled(&new.Spec.ForProvider, valMap)
-	DecodeKmsExternalKey_Id(&new.Spec.ForProvider, valMap)
-	DecodeKmsExternalKey_KeyMaterialBase64(&new.Spec.ForProvider, valMap)
-	DecodeKmsExternalKey_Tags(&new.Spec.ForProvider, valMap)
-	DecodeKmsExternalKey_ValidTo(&new.Spec.ForProvider, valMap)
-	DecodeKmsExternalKey_KeyUsage(&new.Status.AtProvider, valMap)
 	DecodeKmsExternalKey_Arn(&new.Status.AtProvider, valMap)
 	DecodeKmsExternalKey_ExpirationModel(&new.Status.AtProvider, valMap)
 	DecodeKmsExternalKey_KeyState(&new.Status.AtProvider, valMap)
+	DecodeKmsExternalKey_KeyUsage(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -59,33 +58,13 @@ func DecodeKmsExternalKey(prev *KmsExternalKey, ctyValue cty.Value) (resource.Ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKmsExternalKey_Policy(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsExternalKey_DeletionWindowInDays(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
-	p.DeletionWindowInDays = ctwhy.ValueAsInt64(vals["deletion_window_in_days"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsExternalKey_Description(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsExternalKey_Enabled(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
-	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsExternalKey_Id(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeKmsExternalKey_KeyMaterialBase64(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
 	p.KeyMaterialBase64 = ctwhy.ValueAsString(vals["key_material_base64"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsExternalKey_Policy(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -105,8 +84,18 @@ func DecodeKmsExternalKey_ValidTo(p *KmsExternalKeyParameters, vals map[string]c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKmsExternalKey_KeyUsage(p *KmsExternalKeyObservation, vals map[string]cty.Value) {
-	p.KeyUsage = ctwhy.ValueAsString(vals["key_usage"])
+func DecodeKmsExternalKey_DeletionWindowInDays(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.DeletionWindowInDays = ctwhy.ValueAsInt64(vals["deletion_window_in_days"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsExternalKey_Description(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsExternalKey_Enabled(p *KmsExternalKeyParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -122,4 +111,9 @@ func DecodeKmsExternalKey_ExpirationModel(p *KmsExternalKeyObservation, vals map
 //primitiveTypeDecodeTemplate
 func DecodeKmsExternalKey_KeyState(p *KmsExternalKeyObservation, vals map[string]cty.Value) {
 	p.KeyState = ctwhy.ValueAsString(vals["key_state"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeKmsExternalKey_KeyUsage(p *KmsExternalKeyObservation, vals map[string]cty.Value) {
+	p.KeyUsage = ctwhy.ValueAsString(vals["key_usage"])
 }

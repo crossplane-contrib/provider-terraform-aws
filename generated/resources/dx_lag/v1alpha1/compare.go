@@ -36,16 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxLag_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxLag_Location(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxLag_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,17 +51,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDxLag_Location(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxLag_JumboFrameCapable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDxLag_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDxLag_HasLogicalRedundancy(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxLag_JumboFrameCapable(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -90,26 +85,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeDxLag_ForceDestroy(k *DxLagParameters, p *DxLagParameters, md *plugin.MergeDescription) bool {
 	if k.ForceDestroy != p.ForceDestroy {
 		p.ForceDestroy = k.ForceDestroy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxLag_Id(k *DxLagParameters, p *DxLagParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxLag_Location(k *DxLagParameters, p *DxLagParameters, md *plugin.MergeDescription) bool {
-	if k.Location != p.Location {
-		p.Location = k.Location
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -138,9 +113,29 @@ func MergeDxLag_ConnectionsBandwidth(k *DxLagParameters, p *DxLagParameters, md 
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDxLag_Tags(k *DxLagParameters, p *DxLagParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxLag_Location(k *DxLagParameters, p *DxLagParameters, md *plugin.MergeDescription) bool {
+	if k.Location != p.Location {
+		p.Location = k.Location
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDxLag_JumboFrameCapable(k *DxLagObservation, p *DxLagObservation, md *plugin.MergeDescription) bool {
+	if k.JumboFrameCapable != p.JumboFrameCapable {
+		k.JumboFrameCapable = p.JumboFrameCapable
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -160,16 +155,6 @@ func MergeDxLag_Arn(k *DxLagObservation, p *DxLagObservation, md *plugin.MergeDe
 func MergeDxLag_HasLogicalRedundancy(k *DxLagObservation, p *DxLagObservation, md *plugin.MergeDescription) bool {
 	if k.HasLogicalRedundancy != p.HasLogicalRedundancy {
 		k.HasLogicalRedundancy = p.HasLogicalRedundancy
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDxLag_JumboFrameCapable(k *DxLagObservation, p *DxLagObservation, md *plugin.MergeDescription) bool {
-	if k.JumboFrameCapable != p.JumboFrameCapable {
-		k.JumboFrameCapable = p.JumboFrameCapable
 		md.StatusUpdated = true
 		return true
 	}

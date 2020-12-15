@@ -52,18 +52,17 @@ type RouteSpec struct {
 
 // A RouteParameters defines the desired state of a Route
 type RouteParameters struct {
-	NatGatewayId             string   `json:"nat_gateway_id"`
 	NetworkInterfaceId       string   `json:"network_interface_id"`
-	RouteTableId             string   `json:"route_table_id"`
-	EgressOnlyGatewayId      string   `json:"egress_only_gateway_id"`
-	LocalGatewayId           string   `json:"local_gateway_id"`
-	TransitGatewayId         string   `json:"transit_gateway_id"`
-	DestinationCidrBlock     string   `json:"destination_cidr_block"`
-	GatewayId                string   `json:"gateway_id"`
 	VpcPeeringConnectionId   string   `json:"vpc_peering_connection_id"`
-	DestinationIpv6CidrBlock string   `json:"destination_ipv6_cidr_block"`
-	Id                       string   `json:"id"`
 	InstanceId               string   `json:"instance_id"`
+	NatGatewayId             string   `json:"nat_gateway_id"`
+	DestinationCidrBlock     string   `json:"destination_cidr_block"`
+	EgressOnlyGatewayId      string   `json:"egress_only_gateway_id"`
+	GatewayId                string   `json:"gateway_id"`
+	RouteTableId             string   `json:"route_table_id"`
+	TransitGatewayId         string   `json:"transit_gateway_id"`
+	DestinationIpv6CidrBlock string   `json:"destination_ipv6_cidr_block"`
+	LocalGatewayId           string   `json:"local_gateway_id"`
 	Timeouts                 Timeouts `json:"timeouts"`
 }
 
@@ -80,8 +79,8 @@ type RouteStatus struct {
 
 // A RouteObservation records the observed state of a Route
 type RouteObservation struct {
-	InstanceOwnerId         string `json:"instance_owner_id"`
-	DestinationPrefixListId string `json:"destination_prefix_list_id"`
-	Origin                  string `json:"origin"`
 	State                   string `json:"state"`
+	Origin                  string `json:"origin"`
+	DestinationPrefixListId string `json:"destination_prefix_list_id"`
+	InstanceOwnerId         string `json:"instance_owner_id"`
 }

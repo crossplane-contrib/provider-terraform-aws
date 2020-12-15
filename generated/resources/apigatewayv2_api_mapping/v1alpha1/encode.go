@@ -39,7 +39,6 @@ func EncodeApigatewayv2ApiMapping(r Apigatewayv2ApiMapping) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeApigatewayv2ApiMapping_ApiMappingKey(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_DomainName(r.Spec.ForProvider, ctyVal)
-	EncodeApigatewayv2ApiMapping_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_Stage(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_ApiId(r.Spec.ForProvider, ctyVal)
 
@@ -59,10 +58,6 @@ func EncodeApigatewayv2ApiMapping_ApiMappingKey(p Apigatewayv2ApiMappingParamete
 
 func EncodeApigatewayv2ApiMapping_DomainName(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
-}
-
-func EncodeApigatewayv2ApiMapping_Id(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApigatewayv2ApiMapping_Stage(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {

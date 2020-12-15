@@ -52,23 +52,22 @@ type ApiGatewayIntegrationSpec struct {
 
 // A ApiGatewayIntegrationParameters defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationParameters struct {
-	ConnectionId          string            `json:"connection_id"`
-	Credentials           string            `json:"credentials"`
-	RequestTemplates      map[string]string `json:"request_templates"`
-	CacheKeyParameters    []string          `json:"cache_key_parameters"`
-	ContentHandling       string            `json:"content_handling"`
-	Id                    string            `json:"id"`
 	IntegrationHttpMethod string            `json:"integration_http_method"`
 	PassthroughBehavior   string            `json:"passthrough_behavior"`
 	RequestParameters     map[string]string `json:"request_parameters"`
-	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
-	Type                  string            `json:"type"`
-	ConnectionType        string            `json:"connection_type"`
 	RestApiId             string            `json:"rest_api_id"`
+	Type                  string            `json:"type"`
 	Uri                   string            `json:"uri"`
-	ResourceId            string            `json:"resource_id"`
-	HttpMethod            string            `json:"http_method"`
 	CacheNamespace        string            `json:"cache_namespace"`
+	ContentHandling       string            `json:"content_handling"`
+	ConnectionId          string            `json:"connection_id"`
+	HttpMethod            string            `json:"http_method"`
+	CacheKeyParameters    []string          `json:"cache_key_parameters"`
+	ConnectionType        string            `json:"connection_type"`
+	Credentials           string            `json:"credentials"`
+	RequestTemplates      map[string]string `json:"request_templates"`
+	ResourceId            string            `json:"resource_id"`
+	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
 }
 
 // A ApiGatewayIntegrationStatus defines the observed state of a ApiGatewayIntegration

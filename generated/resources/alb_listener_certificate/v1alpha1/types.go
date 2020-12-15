@@ -52,9 +52,8 @@ type AlbListenerCertificateSpec struct {
 
 // A AlbListenerCertificateParameters defines the desired state of a AlbListenerCertificate
 type AlbListenerCertificateParameters struct {
-	ListenerArn    string `json:"listener_arn"`
 	CertificateArn string `json:"certificate_arn"`
-	Id             string `json:"id"`
+	ListenerArn    string `json:"listener_arn"`
 }
 
 // A AlbListenerCertificateStatus defines the observed state of a AlbListenerCertificate

@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpnConnectionRoute_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVpnConnectionRoute_VpnConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,16 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeVpnConnectionRoute_DestinationCidrBlock(k *VpnConnectionRouteParameters, p *VpnConnectionRouteParameters, md *plugin.MergeDescription) bool {
 	if k.DestinationCidrBlock != p.DestinationCidrBlock {
 		p.DestinationCidrBlock = k.DestinationCidrBlock
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVpnConnectionRoute_Id(k *VpnConnectionRouteParameters, p *VpnConnectionRouteParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

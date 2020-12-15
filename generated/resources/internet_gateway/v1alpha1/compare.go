@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeInternetGateway_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeInternetGateway_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -68,7 +63,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 
 //mergePrimitiveContainerTemplateSpec
 func MergeInternetGateway_Tags(k *InternetGatewayParameters, p *InternetGatewayParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -80,16 +75,6 @@ func MergeInternetGateway_Tags(k *InternetGatewayParameters, p *InternetGatewayP
 func MergeInternetGateway_VpcId(k *InternetGatewayParameters, p *InternetGatewayParameters, md *plugin.MergeDescription) bool {
 	if k.VpcId != p.VpcId {
 		p.VpcId = k.VpcId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeInternetGateway_Id(k *InternetGatewayParameters, p *InternetGatewayParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

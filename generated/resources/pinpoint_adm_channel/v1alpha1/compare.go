@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergePinpointAdmChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointAdmChannel_ClientId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergePinpointAdmChannel_ClientSecret(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,7 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointAdmChannel_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointAdmChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointAdmChannel_ClientId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -65,26 +60,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointAdmChannel_ApplicationId(k *PinpointAdmChannelParameters, p *PinpointAdmChannelParameters, md *plugin.MergeDescription) bool {
-	if k.ApplicationId != p.ApplicationId {
-		p.ApplicationId = k.ApplicationId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointAdmChannel_ClientId(k *PinpointAdmChannelParameters, p *PinpointAdmChannelParameters, md *plugin.MergeDescription) bool {
-	if k.ClientId != p.ClientId {
-		p.ClientId = k.ClientId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -108,9 +83,19 @@ func MergePinpointAdmChannel_Enabled(k *PinpointAdmChannelParameters, p *Pinpoin
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointAdmChannel_Id(k *PinpointAdmChannelParameters, p *PinpointAdmChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergePinpointAdmChannel_ApplicationId(k *PinpointAdmChannelParameters, p *PinpointAdmChannelParameters, md *plugin.MergeDescription) bool {
+	if k.ApplicationId != p.ApplicationId {
+		p.ApplicationId = k.ApplicationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointAdmChannel_ClientId(k *PinpointAdmChannelParameters, p *PinpointAdmChannelParameters, md *plugin.MergeDescription) bool {
+	if k.ClientId != p.ClientId {
+		p.ClientId = k.ClientId
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -52,11 +52,10 @@ type Ec2TransitGatewayRouteSpec struct {
 
 // A Ec2TransitGatewayRouteParameters defines the desired state of a Ec2TransitGatewayRoute
 type Ec2TransitGatewayRouteParameters struct {
-	Blackhole                  bool   `json:"blackhole"`
 	DestinationCidrBlock       string `json:"destination_cidr_block"`
-	Id                         string `json:"id"`
 	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
 	TransitGatewayRouteTableId string `json:"transit_gateway_route_table_id"`
+	Blackhole                  bool   `json:"blackhole"`
 }
 
 // A Ec2TransitGatewayRouteStatus defines the observed state of a Ec2TransitGatewayRoute

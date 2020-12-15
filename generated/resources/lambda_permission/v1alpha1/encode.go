@@ -37,16 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLambdaPermission(r LambdaPermission) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLambdaPermission_Qualifier(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_StatementId(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_Action(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaPermission_Principal(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_EventSourceToken(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_FunctionName(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_StatementId(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_Qualifier(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaPermission_SourceAccount(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaPermission_SourceArn(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaPermission_StatementIdPrefix(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaPermission_Action(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_EventSourceToken(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaPermission_FunctionName(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -58,28 +57,20 @@ func EncodeLambdaPermission(r LambdaPermission) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLambdaPermission_Qualifier(p LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["qualifier"] = cty.StringVal(p.Qualifier)
-}
-
-func EncodeLambdaPermission_StatementId(p LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["statement_id"] = cty.StringVal(p.StatementId)
+func EncodeLambdaPermission_Action(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["action"] = cty.StringVal(p.Action)
 }
 
 func EncodeLambdaPermission_Principal(p LambdaPermissionParameters, vals map[string]cty.Value) {
 	vals["principal"] = cty.StringVal(p.Principal)
 }
 
-func EncodeLambdaPermission_EventSourceToken(p LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["event_source_token"] = cty.StringVal(p.EventSourceToken)
+func EncodeLambdaPermission_StatementId(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["statement_id"] = cty.StringVal(p.StatementId)
 }
 
-func EncodeLambdaPermission_FunctionName(p LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["function_name"] = cty.StringVal(p.FunctionName)
-}
-
-func EncodeLambdaPermission_Id(p LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeLambdaPermission_Qualifier(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["qualifier"] = cty.StringVal(p.Qualifier)
 }
 
 func EncodeLambdaPermission_SourceAccount(p LambdaPermissionParameters, vals map[string]cty.Value) {
@@ -94,6 +85,10 @@ func EncodeLambdaPermission_StatementIdPrefix(p LambdaPermissionParameters, vals
 	vals["statement_id_prefix"] = cty.StringVal(p.StatementIdPrefix)
 }
 
-func EncodeLambdaPermission_Action(p LambdaPermissionParameters, vals map[string]cty.Value) {
-	vals["action"] = cty.StringVal(p.Action)
+func EncodeLambdaPermission_EventSourceToken(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["event_source_token"] = cty.StringVal(p.EventSourceToken)
+}
+
+func EncodeLambdaPermission_FunctionName(p LambdaPermissionParameters, vals map[string]cty.Value) {
+	vals["function_name"] = cty.StringVal(p.FunctionName)
 }

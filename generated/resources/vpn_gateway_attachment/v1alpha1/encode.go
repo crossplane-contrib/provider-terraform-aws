@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpnGatewayAttachment(r VpnGatewayAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpnGatewayAttachment_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpnGatewayAttachment_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayAttachment_VpnGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGatewayAttachment_VpcId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +50,10 @@ func EncodeVpnGatewayAttachment(r VpnGatewayAttachment) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpnGatewayAttachment_Id(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeVpnGatewayAttachment_VpnGatewayId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
+	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }
 
 func EncodeVpnGatewayAttachment_VpcId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeVpnGatewayAttachment_VpnGatewayId(p VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
-	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }

@@ -37,15 +37,14 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDefaultVpcDhcpOptions(r DefaultVpcDhcpOptions) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDefaultVpcDhcpOptions_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDefaultVpcDhcpOptions_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDefaultVpcDhcpOptions_NetbiosNameServers(r.Spec.ForProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_NetbiosNodeType(r.Spec.ForProvider, ctyVal)
+	EncodeDefaultVpcDhcpOptions_NetbiosNameServers(r.Spec.ForProvider, ctyVal)
+	EncodeDefaultVpcDhcpOptions_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDefaultVpcDhcpOptions_DomainNameServers(r.Status.AtProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_NtpServers(r.Status.AtProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDefaultVpcDhcpOptions_DomainName(r.Status.AtProvider, ctyVal)
-	EncodeDefaultVpcDhcpOptions_DomainNameServers(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -56,8 +55,16 @@ func EncodeDefaultVpcDhcpOptions(r DefaultVpcDhcpOptions) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDefaultVpcDhcpOptions_Id(p DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeDefaultVpcDhcpOptions_NetbiosNodeType(p DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	vals["netbios_node_type"] = cty.StringVal(p.NetbiosNodeType)
+}
+
+func EncodeDefaultVpcDhcpOptions_NetbiosNameServers(p DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.NetbiosNameServers {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["netbios_name_servers"] = cty.ListVal(colVals)
 }
 
 func EncodeDefaultVpcDhcpOptions_Tags(p DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
@@ -72,16 +79,8 @@ func EncodeDefaultVpcDhcpOptions_Tags(p DefaultVpcDhcpOptionsParameters, vals ma
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDefaultVpcDhcpOptions_NetbiosNameServers(p DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.NetbiosNameServers {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["netbios_name_servers"] = cty.ListVal(colVals)
-}
-
-func EncodeDefaultVpcDhcpOptions_NetbiosNodeType(p DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	vals["netbios_node_type"] = cty.StringVal(p.NetbiosNodeType)
+func EncodeDefaultVpcDhcpOptions_DomainNameServers(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	vals["domain_name_servers"] = cty.StringVal(p.DomainNameServers)
 }
 
 func EncodeDefaultVpcDhcpOptions_NtpServers(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
@@ -98,8 +97,4 @@ func EncodeDefaultVpcDhcpOptions_Arn(p DefaultVpcDhcpOptionsObservation, vals ma
 
 func EncodeDefaultVpcDhcpOptions_DomainName(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
-}
-
-func EncodeDefaultVpcDhcpOptions_DomainNameServers(p DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
-	vals["domain_name_servers"] = cty.StringVal(p.DomainNameServers)
 }

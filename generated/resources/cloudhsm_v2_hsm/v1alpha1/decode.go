@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudhsmV2Hsm(prev *CloudhsmV2Hsm, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCloudhsmV2Hsm_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_ClusterId(&new.Spec.ForProvider, valMap)
-	DecodeCloudhsmV2Hsm_Id(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_IpAddress(&new.Spec.ForProvider, valMap)
-	DecodeCloudhsmV2Hsm_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeCloudhsmV2Hsm_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeCloudhsmV2Hsm_HsmEniId(&new.Status.AtProvider, valMap)
 	DecodeCloudhsmV2Hsm_HsmId(&new.Status.AtProvider, valMap)
@@ -53,6 +52,11 @@ func DecodeCloudhsmV2Hsm(prev *CloudhsmV2Hsm, ctyValue cty.Value) (resource.Mana
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudhsmV2Hsm_SubnetId(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -66,31 +70,16 @@ func DecodeCloudhsmV2Hsm_ClusterId(p *CloudhsmV2HsmParameters, vals map[string]c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudhsmV2Hsm_Id(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeCloudhsmV2Hsm_IpAddress(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
 	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudhsmV2Hsm_SubnetId(p *CloudhsmV2HsmParameters, vals map[string]cty.Value) {
-	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }
 
 //containerTypeDecodeTemplate
 func DecodeCloudhsmV2Hsm_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
-	DecodeCloudhsmV2Hsm_Timeouts_Create(p, valMap)
 	DecodeCloudhsmV2Hsm_Timeouts_Delete(p, valMap)
 	DecodeCloudhsmV2Hsm_Timeouts_Update(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudhsmV2Hsm_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	p.Create = ctwhy.ValueAsString(vals["create"])
+	DecodeCloudhsmV2Hsm_Timeouts_Create(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
@@ -101,6 +90,11 @@ func DecodeCloudhsmV2Hsm_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value)
 //primitiveTypeDecodeTemplate
 func DecodeCloudhsmV2Hsm_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
 	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudhsmV2Hsm_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
 //primitiveTypeDecodeTemplate

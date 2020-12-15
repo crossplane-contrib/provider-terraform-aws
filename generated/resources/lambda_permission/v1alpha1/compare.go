@@ -31,12 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLambdaPermission_Qualifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLambdaPermission_StatementId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLambdaPermission_Action(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,17 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaPermission_EventSourceToken(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLambdaPermission_StatementId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaPermission_FunctionName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLambdaPermission_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLambdaPermission_Qualifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,7 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLambdaPermission_Action(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLambdaPermission_EventSourceToken(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLambdaPermission_FunctionName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -93,19 +88,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaPermission_Qualifier(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.Qualifier != p.Qualifier {
-		p.Qualifier = k.Qualifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLambdaPermission_StatementId(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.StatementId != p.StatementId {
-		p.StatementId = k.StatementId
+func MergeLambdaPermission_Action(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
+	if k.Action != p.Action {
+		p.Action = k.Action
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -123,9 +108,9 @@ func MergeLambdaPermission_Principal(k *LambdaPermissionParameters, p *LambdaPer
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaPermission_EventSourceToken(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.EventSourceToken != p.EventSourceToken {
-		p.EventSourceToken = k.EventSourceToken
+func MergeLambdaPermission_StatementId(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
+	if k.StatementId != p.StatementId {
+		p.StatementId = k.StatementId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -133,19 +118,9 @@ func MergeLambdaPermission_EventSourceToken(k *LambdaPermissionParameters, p *La
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaPermission_FunctionName(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.FunctionName != p.FunctionName {
-		p.FunctionName = k.FunctionName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLambdaPermission_Id(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeLambdaPermission_Qualifier(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
+	if k.Qualifier != p.Qualifier {
+		p.Qualifier = k.Qualifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -183,9 +158,19 @@ func MergeLambdaPermission_StatementIdPrefix(k *LambdaPermissionParameters, p *L
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLambdaPermission_Action(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.Action != p.Action {
-		p.Action = k.Action
+func MergeLambdaPermission_EventSourceToken(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
+	if k.EventSourceToken != p.EventSourceToken {
+		p.EventSourceToken = k.EventSourceToken
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLambdaPermission_FunctionName(k *LambdaPermissionParameters, p *LambdaPermissionParameters, md *plugin.MergeDescription) bool {
+	if k.FunctionName != p.FunctionName {
+		p.FunctionName = k.FunctionName
 		md.NeedsProviderUpdate = true
 		return true
 	}

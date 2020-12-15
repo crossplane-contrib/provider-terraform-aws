@@ -41,7 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDatasyncLocationFsxWindowsFileSystem_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,17 +56,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDatasyncLocationFsxWindowsFileSystem_Subdirectory(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDatasyncLocationFsxWindowsFileSystem_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatasyncLocationFsxWindowsFileSystem_Subdirectory(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDatasyncLocationFsxWindowsFileSystem_CreationTime(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,11 +77,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeDatasyncLocationFsxWindowsFileSystem_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatasyncLocationFsxWindowsFileSystem_CreationTime(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -117,9 +112,9 @@ func MergeDatasyncLocationFsxWindowsFileSystem_Domain(k *DatasyncLocationFsxWind
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDatasyncLocationFsxWindowsFileSystem_Id(k *DatasyncLocationFsxWindowsFileSystemParameters, p *DatasyncLocationFsxWindowsFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(k *DatasyncLocationFsxWindowsFileSystemParameters, p *DatasyncLocationFsxWindowsFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.FsxFilesystemArn != p.FsxFilesystemArn {
+		p.FsxFilesystemArn = k.FsxFilesystemArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -138,28 +133,8 @@ func MergeDatasyncLocationFsxWindowsFileSystem_Password(k *DatasyncLocationFsxWi
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(k *DatasyncLocationFsxWindowsFileSystemParameters, p *DatasyncLocationFsxWindowsFileSystemParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SecurityGroupArns, p.SecurityGroupArns) {
+	if !plugin.CompareStringSlices(k.SecurityGroupArns, p.SecurityGroupArns) {
 		p.SecurityGroupArns = k.SecurityGroupArns
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDatasyncLocationFsxWindowsFileSystem_Tags(k *DatasyncLocationFsxWindowsFileSystemParameters, p *DatasyncLocationFsxWindowsFileSystemParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(k *DatasyncLocationFsxWindowsFileSystemParameters, p *DatasyncLocationFsxWindowsFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.FsxFilesystemArn != p.FsxFilesystemArn {
-		p.FsxFilesystemArn = k.FsxFilesystemArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -171,6 +146,26 @@ func MergeDatasyncLocationFsxWindowsFileSystem_Subdirectory(k *DatasyncLocationF
 	if k.Subdirectory != p.Subdirectory {
 		p.Subdirectory = k.Subdirectory
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDatasyncLocationFsxWindowsFileSystem_Tags(k *DatasyncLocationFsxWindowsFileSystemParameters, p *DatasyncLocationFsxWindowsFileSystemParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDatasyncLocationFsxWindowsFileSystem_CreationTime(k *DatasyncLocationFsxWindowsFileSystemObservation, p *DatasyncLocationFsxWindowsFileSystemObservation, md *plugin.MergeDescription) bool {
+	if k.CreationTime != p.CreationTime {
+		k.CreationTime = p.CreationTime
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -190,16 +185,6 @@ func MergeDatasyncLocationFsxWindowsFileSystem_Uri(k *DatasyncLocationFsxWindows
 func MergeDatasyncLocationFsxWindowsFileSystem_Arn(k *DatasyncLocationFsxWindowsFileSystemObservation, p *DatasyncLocationFsxWindowsFileSystemObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDatasyncLocationFsxWindowsFileSystem_CreationTime(k *DatasyncLocationFsxWindowsFileSystemObservation, p *DatasyncLocationFsxWindowsFileSystemObservation, md *plugin.MergeDescription) bool {
-	if k.CreationTime != p.CreationTime {
-		k.CreationTime = p.CreationTime
 		md.StatusUpdated = true
 		return true
 	}

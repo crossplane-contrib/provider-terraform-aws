@@ -31,22 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAccessanalyzerAnalyzer_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAccessanalyzerAnalyzer_AnalyzerName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAccessanalyzerAnalyzer_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAccessanalyzerAnalyzer_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAccessanalyzerAnalyzer_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAccessanalyzerAnalyzer_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -67,16 +62,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAccessanalyzerAnalyzer_Type(k *AccessanalyzerAnalyzerParameters, p *AccessanalyzerAnalyzerParameters, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		p.Type = k.Type
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeAccessanalyzerAnalyzer_AnalyzerName(k *AccessanalyzerAnalyzerParameters, p *AccessanalyzerAnalyzerParameters, md *plugin.MergeDescription) bool {
 	if k.AnalyzerName != p.AnalyzerName {
 		p.AnalyzerName = k.AnalyzerName
@@ -86,20 +71,20 @@ func MergeAccessanalyzerAnalyzer_AnalyzerName(k *AccessanalyzerAnalyzerParameter
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeAccessanalyzerAnalyzer_Id(k *AccessanalyzerAnalyzerParameters, p *AccessanalyzerAnalyzerParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+//mergePrimitiveContainerTemplateSpec
+func MergeAccessanalyzerAnalyzer_Tags(k *AccessanalyzerAnalyzerParameters, p *AccessanalyzerAnalyzerParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeAccessanalyzerAnalyzer_Tags(k *AccessanalyzerAnalyzerParameters, p *AccessanalyzerAnalyzerParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeAccessanalyzerAnalyzer_Type(k *AccessanalyzerAnalyzerParameters, p *AccessanalyzerAnalyzerParameters, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		p.Type = k.Type
 		md.NeedsProviderUpdate = true
 		return true
 	}

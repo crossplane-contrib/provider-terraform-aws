@@ -40,7 +40,6 @@ func DecodeDynamodbTableItem(prev *DynamodbTableItem, ctyValue cty.Value) (resou
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeDynamodbTableItem_HashKey(&new.Spec.ForProvider, valMap)
-	DecodeDynamodbTableItem_Id(&new.Spec.ForProvider, valMap)
 	DecodeDynamodbTableItem_Item(&new.Spec.ForProvider, valMap)
 	DecodeDynamodbTableItem_RangeKey(&new.Spec.ForProvider, valMap)
 	DecodeDynamodbTableItem_TableName(&new.Spec.ForProvider, valMap)
@@ -55,11 +54,6 @@ func DecodeDynamodbTableItem(prev *DynamodbTableItem, ctyValue cty.Value) (resou
 //primitiveTypeDecodeTemplate
 func DecodeDynamodbTableItem_HashKey(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
 	p.HashKey = ctwhy.ValueAsString(vals["hash_key"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDynamodbTableItem_Id(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -42,11 +42,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -72,9 +67,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxHostedTransitVirtualInterfaceAccepter_Id(k *DxHostedTransitVirtualInterfaceAccepterParameters, p *DxHostedTransitVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(k *DxHostedTransitVirtualInterfaceAccepterParameters, p *DxHostedTransitVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.DxGatewayId != p.DxGatewayId {
+		p.DxGatewayId = k.DxGatewayId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -83,7 +78,7 @@ func MergeDxHostedTransitVirtualInterfaceAccepter_Id(k *DxHostedTransitVirtualIn
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDxHostedTransitVirtualInterfaceAccepter_Tags(k *DxHostedTransitVirtualInterfaceAccepterParameters, p *DxHostedTransitVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -101,26 +96,16 @@ func MergeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(k *DxHosted
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(k *DxHostedTransitVirtualInterfaceAccepterParameters, p *DxHostedTransitVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.DxGatewayId != p.DxGatewayId {
-		p.DxGatewayId = k.DxGatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergeStructTemplateSpec
 func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k, p, md)
+	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k, p, md)
+	updated = MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -132,9 +117,9 @@ func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts(k *Timeouts, p *Timeo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
+func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Delete != p.Delete {
+		p.Delete = k.Delete
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -142,9 +127,9 @@ func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k *Timeouts, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Delete != p.Delete {
-		p.Delete = k.Delete
+func MergeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}

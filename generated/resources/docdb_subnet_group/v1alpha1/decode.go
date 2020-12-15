@@ -40,7 +40,6 @@ func DecodeDocdbSubnetGroup(prev *DocdbSubnetGroup, ctyValue cty.Value) (resourc
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeDocdbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
-	DecodeDocdbSubnetGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
@@ -56,11 +55,6 @@ func DecodeDocdbSubnetGroup(prev *DocdbSubnetGroup, ctyValue cty.Value) (resourc
 //primitiveTypeDecodeTemplate
 func DecodeDocdbSubnetGroup_Description(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDocdbSubnetGroup_Id(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

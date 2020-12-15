@@ -41,7 +41,6 @@ func DecodeCloudwatchDashboard(prev *CloudwatchDashboard, ctyValue cty.Value) (r
 	new := prev.DeepCopy()
 	DecodeCloudwatchDashboard_DashboardBody(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchDashboard_DashboardName(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchDashboard_Id(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchDashboard_DashboardArn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,11 +57,6 @@ func DecodeCloudwatchDashboard_DashboardBody(p *CloudwatchDashboardParameters, v
 //primitiveTypeDecodeTemplate
 func DecodeCloudwatchDashboard_DashboardName(p *CloudwatchDashboardParameters, vals map[string]cty.Value) {
 	p.DashboardName = ctwhy.ValueAsString(vals["dashboard_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchDashboard_Id(p *CloudwatchDashboardParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

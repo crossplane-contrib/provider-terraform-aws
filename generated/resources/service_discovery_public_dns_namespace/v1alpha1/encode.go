@@ -38,11 +38,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeServiceDiscoveryPublicDnsNamespace(r ServiceDiscoveryPublicDnsNamespace) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeServiceDiscoveryPublicDnsNamespace_Description(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryPublicDnsNamespace_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(r.Status.AtProvider, ctyVal)
 	EncodeServiceDiscoveryPublicDnsNamespace_Arn(r.Status.AtProvider, ctyVal)
+	EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -55,10 +54,6 @@ func EncodeServiceDiscoveryPublicDnsNamespace(r ServiceDiscoveryPublicDnsNamespa
 
 func EncodeServiceDiscoveryPublicDnsNamespace_Description(p ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeServiceDiscoveryPublicDnsNamespace_Id(p ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeServiceDiscoveryPublicDnsNamespace_Name(p ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
@@ -77,10 +72,10 @@ func EncodeServiceDiscoveryPublicDnsNamespace_Tags(p ServiceDiscoveryPublicDnsNa
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	vals["hosted_zone"] = cty.StringVal(p.HostedZone)
-}
-
 func EncodeServiceDiscoveryPublicDnsNamespace_Arn(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeServiceDiscoveryPublicDnsNamespace_HostedZone(p ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	vals["hosted_zone"] = cty.StringVal(p.HostedZone)
 }

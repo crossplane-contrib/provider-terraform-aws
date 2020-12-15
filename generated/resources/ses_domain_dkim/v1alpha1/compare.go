@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSesDomainDkim_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSesDomainDkim_DkimTokens(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,19 +61,9 @@ func MergeSesDomainDkim_Domain(k *SesDomainDkimParameters, p *SesDomainDkimParam
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeSesDomainDkim_Id(k *SesDomainDkimParameters, p *SesDomainDkimParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateStatus
 func MergeSesDomainDkim_DkimTokens(k *SesDomainDkimObservation, p *SesDomainDkimObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.DkimTokens, p.DkimTokens) {
+	if !plugin.CompareStringSlices(k.DkimTokens, p.DkimTokens) {
 		k.DkimTokens = p.DkimTokens
 		md.StatusUpdated = true
 		return true

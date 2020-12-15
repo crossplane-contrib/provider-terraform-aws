@@ -53,7 +53,6 @@ type VpcDhcpOptionsAssociationSpec struct {
 // A VpcDhcpOptionsAssociationParameters defines the desired state of a VpcDhcpOptionsAssociation
 type VpcDhcpOptionsAssociationParameters struct {
 	DhcpOptionsId string `json:"dhcp_options_id"`
-	Id            string `json:"id"`
 	VpcId         string `json:"vpc_id"`
 }
 

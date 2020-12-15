@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamUserLoginProfile(prev *IamUserLoginProfile, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamUserLoginProfile_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamUserLoginProfile_PasswordLength(&new.Spec.ForProvider, valMap)
 	DecodeIamUserLoginProfile_PasswordResetRequired(&new.Spec.ForProvider, valMap)
 	DecodeIamUserLoginProfile_PgpKey(&new.Spec.ForProvider, valMap)
@@ -51,11 +50,6 @@ func DecodeIamUserLoginProfile(prev *IamUserLoginProfile, ctyValue cty.Value) (r
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamUserLoginProfile_Id(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

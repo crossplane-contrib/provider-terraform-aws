@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeBatchJobQueue(prev *BatchJobQueue, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeBatchJobQueue_Id(&new.Spec.ForProvider, valMap)
+	DecodeBatchJobQueue_ComputeEnvironments(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_Name(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_Priority(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_State(&new.Spec.ForProvider, valMap)
-	DecodeBatchJobQueue_ComputeEnvironments(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,9 +51,13 @@ func DecodeBatchJobQueue(prev *BatchJobQueue, ctyValue cty.Value) (resource.Mana
 	return new, nil
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeBatchJobQueue_Id(p *BatchJobQueueParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+//primitiveCollectionTypeDecodeTemplate
+func DecodeBatchJobQueue_ComputeEnvironments(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["compute_environments"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ComputeEnvironments = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -70,15 +73,6 @@ func DecodeBatchJobQueue_Priority(p *BatchJobQueueParameters, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeBatchJobQueue_State(p *BatchJobQueueParameters, vals map[string]cty.Value) {
 	p.State = ctwhy.ValueAsString(vals["state"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeBatchJobQueue_ComputeEnvironments(p *BatchJobQueueParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["compute_environments"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.ComputeEnvironments = goVals
 }
 
 //primitiveTypeDecodeTemplate

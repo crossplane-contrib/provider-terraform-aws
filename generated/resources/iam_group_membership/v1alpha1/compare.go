@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamGroupMembership_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -74,7 +69,7 @@ func MergeIamGroupMembership_Name(k *IamGroupMembershipParameters, p *IamGroupMe
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamGroupMembership_Users(k *IamGroupMembershipParameters, p *IamGroupMembershipParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Users, p.Users) {
+	if !plugin.CompareStringSlices(k.Users, p.Users) {
 		p.Users = k.Users
 		md.NeedsProviderUpdate = true
 		return true
@@ -86,16 +81,6 @@ func MergeIamGroupMembership_Users(k *IamGroupMembershipParameters, p *IamGroupM
 func MergeIamGroupMembership_Group(k *IamGroupMembershipParameters, p *IamGroupMembershipParameters, md *plugin.MergeDescription) bool {
 	if k.Group != p.Group {
 		p.Group = k.Group
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamGroupMembership_Id(k *IamGroupMembershipParameters, p *IamGroupMembershipParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

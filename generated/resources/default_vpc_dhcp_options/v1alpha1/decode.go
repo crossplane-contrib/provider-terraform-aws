@@ -39,15 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDefaultVpcDhcpOptions(prev *DefaultVpcDhcpOptions, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDefaultVpcDhcpOptions_Id(&new.Spec.ForProvider, valMap)
-	DecodeDefaultVpcDhcpOptions_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDefaultVpcDhcpOptions_NetbiosNameServers(&new.Spec.ForProvider, valMap)
 	DecodeDefaultVpcDhcpOptions_NetbiosNodeType(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_NetbiosNameServers(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDefaultVpcDhcpOptions_DomainNameServers(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpcDhcpOptions_NtpServers(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpcDhcpOptions_OwnerId(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpcDhcpOptions_Arn(&new.Status.AtProvider, valMap)
 	DecodeDefaultVpcDhcpOptions_DomainName(&new.Status.AtProvider, valMap)
-	DecodeDefaultVpcDhcpOptions_DomainNameServers(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -56,8 +55,17 @@ func DecodeDefaultVpcDhcpOptions(prev *DefaultVpcDhcpOptions, ctyValue cty.Value
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDefaultVpcDhcpOptions_Id(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeDefaultVpcDhcpOptions_NetbiosNodeType(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	p.NetbiosNodeType = ctwhy.ValueAsString(vals["netbios_node_type"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeDefaultVpcDhcpOptions_NetbiosNameServers(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["netbios_name_servers"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.NetbiosNameServers = goVals
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -71,18 +79,9 @@ func DecodeDefaultVpcDhcpOptions_Tags(p *DefaultVpcDhcpOptionsParameters, vals m
 	p.Tags = vMap
 }
 
-//primitiveCollectionTypeDecodeTemplate
-func DecodeDefaultVpcDhcpOptions_NetbiosNameServers(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["netbios_name_servers"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.NetbiosNameServers = goVals
-}
-
 //primitiveTypeDecodeTemplate
-func DecodeDefaultVpcDhcpOptions_NetbiosNodeType(p *DefaultVpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	p.NetbiosNodeType = ctwhy.ValueAsString(vals["netbios_node_type"])
+func DecodeDefaultVpcDhcpOptions_DomainNameServers(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	p.DomainNameServers = ctwhy.ValueAsString(vals["domain_name_servers"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -103,9 +102,4 @@ func DecodeDefaultVpcDhcpOptions_Arn(p *DefaultVpcDhcpOptionsObservation, vals m
 //primitiveTypeDecodeTemplate
 func DecodeDefaultVpcDhcpOptions_DomainName(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDefaultVpcDhcpOptions_DomainNameServers(p *DefaultVpcDhcpOptionsObservation, vals map[string]cty.Value) {
-	p.DomainNameServers = ctwhy.ValueAsString(vals["domain_name_servers"])
 }

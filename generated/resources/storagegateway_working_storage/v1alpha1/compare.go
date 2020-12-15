@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeStoragegatewayWorkingStorage_GatewayArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeStoragegatewayWorkingStorage_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeStoragegatewayWorkingStorage_DiskId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeStoragegatewayWorkingStorage_GatewayArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,29 +53,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeStoragegatewayWorkingStorage_GatewayArn(k *StoragegatewayWorkingStorageParameters, p *StoragegatewayWorkingStorageParameters, md *plugin.MergeDescription) bool {
-	if k.GatewayArn != p.GatewayArn {
-		p.GatewayArn = k.GatewayArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeStoragegatewayWorkingStorage_Id(k *StoragegatewayWorkingStorageParameters, p *StoragegatewayWorkingStorageParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeStoragegatewayWorkingStorage_DiskId(k *StoragegatewayWorkingStorageParameters, p *StoragegatewayWorkingStorageParameters, md *plugin.MergeDescription) bool {
 	if k.DiskId != p.DiskId {
 		p.DiskId = k.DiskId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeStoragegatewayWorkingStorage_GatewayArn(k *StoragegatewayWorkingStorageParameters, p *StoragegatewayWorkingStorageParameters, md *plugin.MergeDescription) bool {
+	if k.GatewayArn != p.GatewayArn {
+		p.GatewayArn = k.GatewayArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

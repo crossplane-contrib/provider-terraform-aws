@@ -52,7 +52,6 @@ type MacieMemberAccountAssociationSpec struct {
 
 // A MacieMemberAccountAssociationParameters defines the desired state of a MacieMemberAccountAssociation
 type MacieMemberAccountAssociationParameters struct {
-	Id              string `json:"id"`
 	MemberAccountId string `json:"member_account_id"`
 }
 

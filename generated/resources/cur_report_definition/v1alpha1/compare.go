@@ -31,47 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCurReportDefinition_Format(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_RefreshClosedReports(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_ReportName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_S3Region(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCurReportDefinition_TimeUnit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCurReportDefinition_AdditionalArtifacts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeCurReportDefinition_Compression(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCurReportDefinition_Format(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeCurReportDefinition_S3Bucket(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCurReportDefinition_ReportName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,7 +56,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeCurReportDefinition_Compression(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_RefreshClosedReports(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCurReportDefinition_ReportVersioning(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_S3Bucket(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_S3Region(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCurReportDefinition_TimeUnit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,6 +97,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeCurReportDefinition_AdditionalArtifacts(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.AdditionalArtifacts, p.AdditionalArtifacts) {
+		p.AdditionalArtifacts = k.AdditionalArtifacts
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateSpec
 func MergeCurReportDefinition_Format(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
 	if k.Format != p.Format {
@@ -113,9 +118,39 @@ func MergeCurReportDefinition_Format(k *CurReportDefinitionParameters, p *CurRep
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_Id(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeCurReportDefinition_ReportName(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.ReportName != p.ReportName {
+		p.ReportName = k.ReportName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCurReportDefinition_S3Prefix(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.S3Prefix != p.S3Prefix {
+		p.S3Prefix = k.S3Prefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeCurReportDefinition_AdditionalSchemaElements(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.AdditionalSchemaElements, p.AdditionalSchemaElements) {
+		p.AdditionalSchemaElements = k.AdditionalSchemaElements
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCurReportDefinition_Compression(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.Compression != p.Compression {
+		p.Compression = k.Compression
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -133,9 +168,19 @@ func MergeCurReportDefinition_RefreshClosedReports(k *CurReportDefinitionParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_ReportName(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.ReportName != p.ReportName {
-		p.ReportName = k.ReportName
+func MergeCurReportDefinition_ReportVersioning(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.ReportVersioning != p.ReportVersioning {
+		p.ReportVersioning = k.ReportVersioning
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCurReportDefinition_S3Bucket(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
+	if k.S3Bucket != p.S3Bucket {
+		p.S3Bucket = k.S3Bucket
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -156,66 +201,6 @@ func MergeCurReportDefinition_S3Region(k *CurReportDefinitionParameters, p *CurR
 func MergeCurReportDefinition_TimeUnit(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
 	if k.TimeUnit != p.TimeUnit {
 		p.TimeUnit = k.TimeUnit
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeCurReportDefinition_AdditionalArtifacts(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.AdditionalArtifacts, p.AdditionalArtifacts) {
-		p.AdditionalArtifacts = k.AdditionalArtifacts
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_Compression(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.Compression != p.Compression {
-		p.Compression = k.Compression
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_S3Bucket(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.S3Bucket != p.S3Bucket {
-		p.S3Bucket = k.S3Bucket
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_S3Prefix(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.S3Prefix != p.S3Prefix {
-		p.S3Prefix = k.S3Prefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeCurReportDefinition_AdditionalSchemaElements(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.AdditionalSchemaElements, p.AdditionalSchemaElements) {
-		p.AdditionalSchemaElements = k.AdditionalSchemaElements
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCurReportDefinition_ReportVersioning(k *CurReportDefinitionParameters, p *CurReportDefinitionParameters, md *plugin.MergeDescription) bool {
-	if k.ReportVersioning != p.ReportVersioning {
-		p.ReportVersioning = k.ReportVersioning
 		md.NeedsProviderUpdate = true
 		return true
 	}

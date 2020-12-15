@@ -54,7 +54,6 @@ type Apigatewayv2ApiMappingSpec struct {
 type Apigatewayv2ApiMappingParameters struct {
 	ApiMappingKey string `json:"api_mapping_key"`
 	DomainName    string `json:"domain_name"`
-	Id            string `json:"id"`
 	Stage         string `json:"stage"`
 	ApiId         string `json:"api_id"`
 }

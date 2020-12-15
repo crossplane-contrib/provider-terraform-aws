@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeVpcDhcpOptionsAssociation(r VpcDhcpOptionsAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeVpcDhcpOptionsAssociation_DhcpOptionsId(r.Spec.ForProvider, ctyVal)
-	EncodeVpcDhcpOptionsAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcDhcpOptionsAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -53,10 +52,6 @@ func EncodeVpcDhcpOptionsAssociation(r VpcDhcpOptionsAssociation) cty.Value {
 
 func EncodeVpcDhcpOptionsAssociation_DhcpOptionsId(p VpcDhcpOptionsAssociationParameters, vals map[string]cty.Value) {
 	vals["dhcp_options_id"] = cty.StringVal(p.DhcpOptionsId)
-}
-
-func EncodeVpcDhcpOptionsAssociation_Id(p VpcDhcpOptionsAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVpcDhcpOptionsAssociation_VpcId(p VpcDhcpOptionsAssociationParameters, vals map[string]cty.Value) {

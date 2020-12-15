@@ -53,7 +53,6 @@ type ConfigAggregateAuthorizationSpec struct {
 // A ConfigAggregateAuthorizationParameters defines the desired state of a ConfigAggregateAuthorization
 type ConfigAggregateAuthorizationParameters struct {
 	AccountId string            `json:"account_id"`
-	Id        string            `json:"id"`
 	Region    string            `json:"region"`
 	Tags      map[string]string `json:"tags"`
 }

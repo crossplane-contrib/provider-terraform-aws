@@ -52,7 +52,6 @@ type IamGroupSpec struct {
 
 // A IamGroupParameters defines the desired state of a IamGroup
 type IamGroupParameters struct {
-	Id   string `json:"id"`
 	Name string `json:"name"`
 	Path string `json:"path"`
 }

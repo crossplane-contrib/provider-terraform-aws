@@ -40,7 +40,6 @@ func DecodeSecurityhubActionTarget(prev *SecurityhubActionTarget, ctyValue cty.V
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSecurityhubActionTarget_Description(&new.Spec.ForProvider, valMap)
-	DecodeSecurityhubActionTarget_Id(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Identifier(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Name(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Arn(&new.Status.AtProvider, valMap)
@@ -54,11 +53,6 @@ func DecodeSecurityhubActionTarget(prev *SecurityhubActionTarget, ctyValue cty.V
 //primitiveTypeDecodeTemplate
 func DecodeSecurityhubActionTarget_Description(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSecurityhubActionTarget_Id(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

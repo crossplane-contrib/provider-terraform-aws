@@ -31,37 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergePinpointApnsSandboxChannel_TokenKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsSandboxChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsSandboxChannel_BundleId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergePinpointApnsSandboxChannel_Certificate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsSandboxChannel_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsSandboxChannel_TokenKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,7 +46,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergePinpointApnsSandboxChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsSandboxChannel_BundleId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergePinpointApnsSandboxChannel_TeamId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsSandboxChannel_TokenKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsSandboxChannel_TokenKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -93,69 +88,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_TokenKeyId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TokenKeyId != p.TokenKeyId {
-		p.TokenKeyId = k.TokenKeyId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_ApplicationId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.ApplicationId != p.ApplicationId {
-		p.ApplicationId = k.ApplicationId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_BundleId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.BundleId != p.BundleId {
-		p.BundleId = k.BundleId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergePinpointApnsSandboxChannel_Certificate(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
 	if k.Certificate != p.Certificate {
 		p.Certificate = k.Certificate
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_Id(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_TokenKey(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TokenKey != p.TokenKey {
-		p.TokenKey = k.TokenKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.DefaultAuthenticationMethod != p.DefaultAuthenticationMethod {
-		p.DefaultAuthenticationMethod = k.DefaultAuthenticationMethod
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -183,9 +118,59 @@ func MergePinpointApnsSandboxChannel_PrivateKey(k *PinpointApnsSandboxChannelPar
 }
 
 //mergePrimitiveTemplateSpec
+func MergePinpointApnsSandboxChannel_ApplicationId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.ApplicationId != p.ApplicationId {
+		p.ApplicationId = k.ApplicationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsSandboxChannel_BundleId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.BundleId != p.BundleId {
+		p.BundleId = k.BundleId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsSandboxChannel_DefaultAuthenticationMethod(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.DefaultAuthenticationMethod != p.DefaultAuthenticationMethod {
+		p.DefaultAuthenticationMethod = k.DefaultAuthenticationMethod
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergePinpointApnsSandboxChannel_TeamId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
 	if k.TeamId != p.TeamId {
 		p.TeamId = k.TeamId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsSandboxChannel_TokenKey(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TokenKey != p.TokenKey {
+		p.TokenKey = k.TokenKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsSandboxChannel_TokenKeyId(k *PinpointApnsSandboxChannelParameters, p *PinpointApnsSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TokenKeyId != p.TokenKeyId {
+		p.TokenKeyId = k.TokenKeyId
 		md.NeedsProviderUpdate = true
 		return true
 	}

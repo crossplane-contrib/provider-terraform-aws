@@ -40,7 +40,6 @@ func DecodeConfigAggregateAuthorization(prev *ConfigAggregateAuthorization, ctyV
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeConfigAggregateAuthorization_AccountId(&new.Spec.ForProvider, valMap)
-	DecodeConfigAggregateAuthorization_Id(&new.Spec.ForProvider, valMap)
 	DecodeConfigAggregateAuthorization_Region(&new.Spec.ForProvider, valMap)
 	DecodeConfigAggregateAuthorization_Tags(&new.Spec.ForProvider, valMap)
 	DecodeConfigAggregateAuthorization_Arn(&new.Status.AtProvider, valMap)
@@ -54,11 +53,6 @@ func DecodeConfigAggregateAuthorization(prev *ConfigAggregateAuthorization, ctyV
 //primitiveTypeDecodeTemplate
 func DecodeConfigAggregateAuthorization_AccountId(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
 	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeConfigAggregateAuthorization_Id(p *ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

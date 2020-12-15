@@ -40,7 +40,6 @@ func EncodeGuarddutyPublishingDestination(r GuarddutyPublishingDestination) cty.
 	EncodeGuarddutyPublishingDestination_DestinationArn(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_DestinationType(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_DetectorId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyPublishingDestination_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyPublishingDestination_KmsKeyArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -63,10 +62,6 @@ func EncodeGuarddutyPublishingDestination_DestinationType(p GuarddutyPublishingD
 
 func EncodeGuarddutyPublishingDestination_DetectorId(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
-}
-
-func EncodeGuarddutyPublishingDestination_Id(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGuarddutyPublishingDestination_KmsKeyArn(p GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {

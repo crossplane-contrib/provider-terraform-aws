@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeSecurityhubActionTarget(r SecurityhubActionTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSecurityhubActionTarget_Description(r.Spec.ForProvider, ctyVal)
-	EncodeSecurityhubActionTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubActionTarget_Arn(r.Status.AtProvider, ctyVal)
@@ -54,10 +53,6 @@ func EncodeSecurityhubActionTarget(r SecurityhubActionTarget) cty.Value {
 
 func EncodeSecurityhubActionTarget_Description(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeSecurityhubActionTarget_Id(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSecurityhubActionTarget_Identifier(p SecurityhubActionTargetParameters, vals map[string]cty.Value) {

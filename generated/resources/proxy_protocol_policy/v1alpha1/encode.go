@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeProxyProtocolPolicy(r ProxyProtocolPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeProxyProtocolPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_InstancePorts(r.Spec.ForProvider, ctyVal)
 	EncodeProxyProtocolPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeProxyProtocolPolicy(r ProxyProtocolPolicy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeProxyProtocolPolicy_Id(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeProxyProtocolPolicy_InstancePorts(p ProxyProtocolPolicyParameters, vals map[string]cty.Value) {

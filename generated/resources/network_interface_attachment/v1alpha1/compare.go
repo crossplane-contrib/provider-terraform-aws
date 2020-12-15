@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeNetworkInterfaceAttachment_DeviceIndex(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeNetworkInterfaceAttachment_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,22 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNetworkInterfaceAttachment_DeviceIndex(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNetworkInterfaceAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNetworkInterfaceAttachment_AttachmentId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNetworkInterfaceAttachment_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNetworkInterfaceAttachment_AttachmentId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -69,6 +64,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceAttachment_DeviceIndex(k *NetworkInterfaceAttachmentParameters, p *NetworkInterfaceAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.DeviceIndex != p.DeviceIndex {
+		p.DeviceIndex = k.DeviceIndex
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -91,21 +96,11 @@ func MergeNetworkInterfaceAttachment_NetworkInterfaceId(k *NetworkInterfaceAttac
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeNetworkInterfaceAttachment_DeviceIndex(k *NetworkInterfaceAttachmentParameters, p *NetworkInterfaceAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.DeviceIndex != p.DeviceIndex {
-		p.DeviceIndex = k.DeviceIndex
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNetworkInterfaceAttachment_Id(k *NetworkInterfaceAttachmentParameters, p *NetworkInterfaceAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
+//mergePrimitiveTemplateStatus
+func MergeNetworkInterfaceAttachment_AttachmentId(k *NetworkInterfaceAttachmentObservation, p *NetworkInterfaceAttachmentObservation, md *plugin.MergeDescription) bool {
+	if k.AttachmentId != p.AttachmentId {
+		k.AttachmentId = p.AttachmentId
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -115,16 +110,6 @@ func MergeNetworkInterfaceAttachment_Id(k *NetworkInterfaceAttachmentParameters,
 func MergeNetworkInterfaceAttachment_Status(k *NetworkInterfaceAttachmentObservation, p *NetworkInterfaceAttachmentObservation, md *plugin.MergeDescription) bool {
 	if k.Status != p.Status {
 		k.Status = p.Status
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNetworkInterfaceAttachment_AttachmentId(k *NetworkInterfaceAttachmentObservation, p *NetworkInterfaceAttachmentObservation, md *plugin.MergeDescription) bool {
-	if k.AttachmentId != p.AttachmentId {
-		k.AttachmentId = p.AttachmentId
 		md.StatusUpdated = true
 		return true
 	}

@@ -52,7 +52,6 @@ type LightsailStaticIpAttachmentSpec struct {
 
 // A LightsailStaticIpAttachmentParameters defines the desired state of a LightsailStaticIpAttachment
 type LightsailStaticIpAttachmentParameters struct {
-	Id           string `json:"id"`
 	InstanceName string `json:"instance_name"`
 	StaticIpName string `json:"static_ip_name"`
 }

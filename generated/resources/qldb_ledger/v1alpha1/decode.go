@@ -42,7 +42,6 @@ func DecodeQldbLedger(prev *QldbLedger, ctyValue cty.Value) (resource.Managed, e
 	DecodeQldbLedger_Name(&new.Spec.ForProvider, valMap)
 	DecodeQldbLedger_Tags(&new.Spec.ForProvider, valMap)
 	DecodeQldbLedger_DeletionProtection(&new.Spec.ForProvider, valMap)
-	DecodeQldbLedger_Id(&new.Spec.ForProvider, valMap)
 	DecodeQldbLedger_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -70,11 +69,6 @@ func DecodeQldbLedger_Tags(p *QldbLedgerParameters, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeQldbLedger_DeletionProtection(p *QldbLedgerParameters, vals map[string]cty.Value) {
 	p.DeletionProtection = ctwhy.ValueAsBool(vals["deletion_protection"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeQldbLedger_Id(p *QldbLedgerParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

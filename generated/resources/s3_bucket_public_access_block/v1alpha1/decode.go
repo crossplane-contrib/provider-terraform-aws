@@ -39,28 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeS3BucketPublicAccessBlock(prev *S3BucketPublicAccessBlock, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeS3BucketPublicAccessBlock_Bucket(&new.Spec.ForProvider, valMap)
-	DecodeS3BucketPublicAccessBlock_Id(&new.Spec.ForProvider, valMap)
 	DecodeS3BucketPublicAccessBlock_IgnorePublicAcls(&new.Spec.ForProvider, valMap)
 	DecodeS3BucketPublicAccessBlock_RestrictPublicBuckets(&new.Spec.ForProvider, valMap)
 	DecodeS3BucketPublicAccessBlock_BlockPublicAcls(&new.Spec.ForProvider, valMap)
 	DecodeS3BucketPublicAccessBlock_BlockPublicPolicy(&new.Spec.ForProvider, valMap)
+	DecodeS3BucketPublicAccessBlock_Bucket(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeS3BucketPublicAccessBlock_Bucket(p *S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
-	p.Bucket = ctwhy.ValueAsString(vals["bucket"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeS3BucketPublicAccessBlock_Id(p *S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,4 +70,9 @@ func DecodeS3BucketPublicAccessBlock_BlockPublicAcls(p *S3BucketPublicAccessBloc
 //primitiveTypeDecodeTemplate
 func DecodeS3BucketPublicAccessBlock_BlockPublicPolicy(p *S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
 	p.BlockPublicPolicy = ctwhy.ValueAsBool(vals["block_public_policy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeS3BucketPublicAccessBlock_Bucket(p *S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.Bucket = ctwhy.ValueAsString(vals["bucket"])
 }

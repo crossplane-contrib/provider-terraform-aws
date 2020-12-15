@@ -31,17 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeMskConfiguration_ServerProperties(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeMskConfiguration_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeMskConfiguration_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -52,6 +42,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeMskConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeMskConfiguration_ServerProperties(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,16 +72,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeMskConfiguration_ServerProperties(k *MskConfigurationParameters, p *MskConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.ServerProperties != p.ServerProperties {
-		p.ServerProperties = k.ServerProperties
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeMskConfiguration_Description(k *MskConfigurationParameters, p *MskConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
@@ -96,19 +81,9 @@ func MergeMskConfiguration_Description(k *MskConfigurationParameters, p *MskConf
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeMskConfiguration_Id(k *MskConfigurationParameters, p *MskConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeMskConfiguration_KafkaVersions(k *MskConfigurationParameters, p *MskConfigurationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.KafkaVersions, p.KafkaVersions) {
+	if !plugin.CompareStringSlices(k.KafkaVersions, p.KafkaVersions) {
 		p.KafkaVersions = k.KafkaVersions
 		md.NeedsProviderUpdate = true
 		return true
@@ -120,6 +95,16 @@ func MergeMskConfiguration_KafkaVersions(k *MskConfigurationParameters, p *MskCo
 func MergeMskConfiguration_Name(k *MskConfigurationParameters, p *MskConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeMskConfiguration_ServerProperties(k *MskConfigurationParameters, p *MskConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.ServerProperties != p.ServerProperties {
+		p.ServerProperties = k.ServerProperties
 		md.NeedsProviderUpdate = true
 		return true
 	}

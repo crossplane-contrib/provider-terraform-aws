@@ -40,7 +40,6 @@ func DecodeSesDomainDkim(prev *SesDomainDkim, ctyValue cty.Value) (resource.Mana
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSesDomainDkim_Domain(&new.Spec.ForProvider, valMap)
-	DecodeSesDomainDkim_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainDkim_DkimTokens(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,11 +51,6 @@ func DecodeSesDomainDkim(prev *SesDomainDkim, ctyValue cty.Value) (resource.Mana
 //primitiveTypeDecodeTemplate
 func DecodeSesDomainDkim_Domain(p *SesDomainDkimParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesDomainDkim_Id(p *SesDomainDkimParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate

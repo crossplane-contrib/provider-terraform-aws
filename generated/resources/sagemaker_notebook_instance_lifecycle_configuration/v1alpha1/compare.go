@@ -31,22 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeSagemakerNotebookInstanceLifecycleConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSagemakerNotebookInstanceLifecycleConfiguration_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSagemakerNotebookInstanceLifecycleConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -67,6 +62,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeSagemakerNotebookInstanceLifecycleConfiguration_Name(k *SagemakerNotebookInstanceLifecycleConfigurationParameters, p *SagemakerNotebookInstanceLifecycleConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(k *SagemakerNotebookInstanceLifecycleConfigurationParameters, p *SagemakerNotebookInstanceLifecycleConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.OnCreate != p.OnCreate {
 		p.OnCreate = k.OnCreate
@@ -80,26 +85,6 @@ func MergeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(k *SagemakerN
 func MergeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(k *SagemakerNotebookInstanceLifecycleConfigurationParameters, p *SagemakerNotebookInstanceLifecycleConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.OnStart != p.OnStart {
 		p.OnStart = k.OnStart
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSagemakerNotebookInstanceLifecycleConfiguration_Id(k *SagemakerNotebookInstanceLifecycleConfigurationParameters, p *SagemakerNotebookInstanceLifecycleConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSagemakerNotebookInstanceLifecycleConfiguration_Name(k *SagemakerNotebookInstanceLifecycleConfigurationParameters, p *SagemakerNotebookInstanceLifecycleConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

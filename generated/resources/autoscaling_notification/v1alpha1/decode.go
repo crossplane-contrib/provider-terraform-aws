@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAutoscalingNotification(prev *AutoscalingNotification, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAutoscalingNotification_Id(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingNotification_Notifications(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingNotification_TopicArn(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingNotification_GroupNames(&new.Spec.ForProvider, valMap)
@@ -49,11 +48,6 @@ func DecodeAutoscalingNotification(prev *AutoscalingNotification, ctyValue cty.V
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAutoscalingNotification_Id(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate

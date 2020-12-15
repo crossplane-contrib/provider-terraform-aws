@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSimpledbDomain(r SimpledbDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSimpledbDomain_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSimpledbDomain_Name(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -48,10 +47,6 @@ func EncodeSimpledbDomain(r SimpledbDomain) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSimpledbDomain_Id(p SimpledbDomainParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSimpledbDomain_Name(p SimpledbDomainParameters, vals map[string]cty.Value) {

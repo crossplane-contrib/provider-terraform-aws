@@ -40,7 +40,6 @@ func DecodeRamResourceShare(prev *RamResourceShare, ctyValue cty.Value) (resourc
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeRamResourceShare_AllowExternalPrincipals(&new.Spec.ForProvider, valMap)
-	DecodeRamResourceShare_Id(&new.Spec.ForProvider, valMap)
 	DecodeRamResourceShare_Name(&new.Spec.ForProvider, valMap)
 	DecodeRamResourceShare_Tags(&new.Spec.ForProvider, valMap)
 	DecodeRamResourceShare_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
@@ -55,11 +54,6 @@ func DecodeRamResourceShare(prev *RamResourceShare, ctyValue cty.Value) (resourc
 //primitiveTypeDecodeTemplate
 func DecodeRamResourceShare_AllowExternalPrincipals(p *RamResourceShareParameters, vals map[string]cty.Value) {
 	p.AllowExternalPrincipals = ctwhy.ValueAsBool(vals["allow_external_principals"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRamResourceShare_Id(p *RamResourceShareParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

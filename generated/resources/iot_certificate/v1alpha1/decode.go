@@ -41,7 +41,6 @@ func DecodeIotCertificate(prev *IotCertificate, ctyValue cty.Value) (resource.Ma
 	new := prev.DeepCopy()
 	DecodeIotCertificate_Active(&new.Spec.ForProvider, valMap)
 	DecodeIotCertificate_Csr(&new.Spec.ForProvider, valMap)
-	DecodeIotCertificate_Id(&new.Spec.ForProvider, valMap)
 	DecodeIotCertificate_PrivateKey(&new.Status.AtProvider, valMap)
 	DecodeIotCertificate_PublicKey(&new.Status.AtProvider, valMap)
 	DecodeIotCertificate_Arn(&new.Status.AtProvider, valMap)
@@ -61,11 +60,6 @@ func DecodeIotCertificate_Active(p *IotCertificateParameters, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeIotCertificate_Csr(p *IotCertificateParameters, vals map[string]cty.Value) {
 	p.Csr = ctwhy.ValueAsString(vals["csr"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIotCertificate_Id(p *IotCertificateParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

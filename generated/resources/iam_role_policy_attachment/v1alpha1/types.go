@@ -52,7 +52,6 @@ type IamRolePolicyAttachmentSpec struct {
 
 // A IamRolePolicyAttachmentParameters defines the desired state of a IamRolePolicyAttachment
 type IamRolePolicyAttachmentParameters struct {
-	Id        string `json:"id"`
 	PolicyArn string `json:"policy_arn"`
 	Role      string `json:"role"`
 }

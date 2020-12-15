@@ -39,24 +39,37 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRedshiftEventSubscription(prev *RedshiftEventSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRedshiftEventSubscription_Tags(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftEventSubscription_Id(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftEventSubscription_Severity(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftEventSubscription_SnsTopicArn(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftEventSubscription_SourceIds(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftEventSubscription_Tags(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftEventSubscription_Enabled(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftEventSubscription_EventCategories(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftEventSubscription_Name(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftEventSubscription_SourceType(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftEventSubscription_Severity(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftEventSubscription_SnsTopicArn(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftEventSubscription_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeRedshiftEventSubscription_CustomerAwsId(&new.Status.AtProvider, valMap)
-	DecodeRedshiftEventSubscription_Status(&new.Status.AtProvider, valMap)
 	DecodeRedshiftEventSubscription_Arn(&new.Status.AtProvider, valMap)
+	DecodeRedshiftEventSubscription_Status(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeRedshiftEventSubscription_SourceIds(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["source_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SourceIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftEventSubscription_SourceType(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -68,30 +81,6 @@ func DecodeRedshiftEventSubscription_Tags(p *RedshiftEventSubscriptionParameters
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_Id(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_Severity(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.Severity = ctwhy.ValueAsString(vals["severity"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_SnsTopicArn(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_SourceIds(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["source_ids"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.SourceIds = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -114,16 +103,26 @@ func DecodeRedshiftEventSubscription_Name(p *RedshiftEventSubscriptionParameters
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_SourceType(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
-	p.SourceType = ctwhy.ValueAsString(vals["source_type"])
+func DecodeRedshiftEventSubscription_Severity(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.Severity = ctwhy.ValueAsString(vals["severity"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftEventSubscription_SnsTopicArn(p *RedshiftEventSubscriptionParameters, vals map[string]cty.Value) {
+	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
 }
 
 //containerTypeDecodeTemplate
 func DecodeRedshiftEventSubscription_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
+	DecodeRedshiftEventSubscription_Timeouts_Create(p, valMap)
 	DecodeRedshiftEventSubscription_Timeouts_Delete(p, valMap)
 	DecodeRedshiftEventSubscription_Timeouts_Update(p, valMap)
-	DecodeRedshiftEventSubscription_Timeouts_Create(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftEventSubscription_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -137,21 +136,16 @@ func DecodeRedshiftEventSubscription_Timeouts_Update(p *Timeouts, vals map[strin
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	p.Create = ctwhy.ValueAsString(vals["create"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeRedshiftEventSubscription_CustomerAwsId(p *RedshiftEventSubscriptionObservation, vals map[string]cty.Value) {
 	p.CustomerAwsId = ctwhy.ValueAsString(vals["customer_aws_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_Status(p *RedshiftEventSubscriptionObservation, vals map[string]cty.Value) {
-	p.Status = ctwhy.ValueAsString(vals["status"])
+func DecodeRedshiftEventSubscription_Arn(p *RedshiftEventSubscriptionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRedshiftEventSubscription_Arn(p *RedshiftEventSubscriptionObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeRedshiftEventSubscription_Status(p *RedshiftEventSubscriptionObservation, vals map[string]cty.Value) {
+	p.Status = ctwhy.ValueAsString(vals["status"])
 }

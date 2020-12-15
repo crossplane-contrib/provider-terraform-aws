@@ -39,33 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodePinpointEmailChannel(prev *PinpointEmailChannel, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodePinpointEmailChannel_Id(&new.Spec.ForProvider, valMap)
-	DecodePinpointEmailChannel_Identity(&new.Spec.ForProvider, valMap)
-	DecodePinpointEmailChannel_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodePinpointEmailChannel_ApplicationId(&new.Spec.ForProvider, valMap)
 	DecodePinpointEmailChannel_Enabled(&new.Spec.ForProvider, valMap)
 	DecodePinpointEmailChannel_FromAddress(&new.Spec.ForProvider, valMap)
+	DecodePinpointEmailChannel_Identity(&new.Spec.ForProvider, valMap)
+	DecodePinpointEmailChannel_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodePinpointEmailChannel_MessagesPerSecond(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointEmailChannel_Id(p *PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointEmailChannel_Identity(p *PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	p.Identity = ctwhy.ValueAsString(vals["identity"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointEmailChannel_RoleArn(p *PinpointEmailChannelParameters, vals map[string]cty.Value) {
-	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,6 +65,16 @@ func DecodePinpointEmailChannel_Enabled(p *PinpointEmailChannelParameters, vals 
 //primitiveTypeDecodeTemplate
 func DecodePinpointEmailChannel_FromAddress(p *PinpointEmailChannelParameters, vals map[string]cty.Value) {
 	p.FromAddress = ctwhy.ValueAsString(vals["from_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointEmailChannel_Identity(p *PinpointEmailChannelParameters, vals map[string]cty.Value) {
+	p.Identity = ctwhy.ValueAsString(vals["identity"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointEmailChannel_RoleArn(p *PinpointEmailChannelParameters, vals map[string]cty.Value) {
+	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }
 
 //primitiveTypeDecodeTemplate

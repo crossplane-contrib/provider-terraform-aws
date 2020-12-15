@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeMacieMemberAccountAssociation(r MacieMemberAccountAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeMacieMemberAccountAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMacieMemberAccountAssociation_MemberAccountId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -48,10 +47,6 @@ func EncodeMacieMemberAccountAssociation(r MacieMemberAccountAssociation) cty.Va
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeMacieMemberAccountAssociation_Id(p MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMacieMemberAccountAssociation_MemberAccountId(p MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {

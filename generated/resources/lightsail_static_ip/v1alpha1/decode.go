@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLightsailStaticIp(prev *LightsailStaticIp, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeLightsailStaticIp_Id(&new.Spec.ForProvider, valMap)
 	DecodeLightsailStaticIp_Name(&new.Spec.ForProvider, valMap)
+	DecodeLightsailStaticIp_Arn(&new.Status.AtProvider, valMap)
 	DecodeLightsailStaticIp_IpAddress(&new.Status.AtProvider, valMap)
 	DecodeLightsailStaticIp_SupportCode(&new.Status.AtProvider, valMap)
-	DecodeLightsailStaticIp_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -52,13 +51,13 @@ func DecodeLightsailStaticIp(prev *LightsailStaticIp, ctyValue cty.Value) (resou
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLightsailStaticIp_Id(p *LightsailStaticIpParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeLightsailStaticIp_Name(p *LightsailStaticIpParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLightsailStaticIp_Name(p *LightsailStaticIpParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+func DecodeLightsailStaticIp_Arn(p *LightsailStaticIpObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,9 +68,4 @@ func DecodeLightsailStaticIp_IpAddress(p *LightsailStaticIpObservation, vals map
 //primitiveTypeDecodeTemplate
 func DecodeLightsailStaticIp_SupportCode(p *LightsailStaticIpObservation, vals map[string]cty.Value) {
 	p.SupportCode = ctwhy.ValueAsString(vals["support_code"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLightsailStaticIp_Arn(p *LightsailStaticIpObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

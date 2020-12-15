@@ -31,32 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSsmActivation_RegistrationLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmActivation_IamRole(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmActivation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmActivation_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSsmActivation_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmActivation_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,7 +41,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSsmActivation_Expired(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeSsmActivation_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmActivation_RegistrationLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmActivation_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmActivation_IamRole(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,6 +71,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeSsmActivation_Expired(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -91,10 +86,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeSsmActivation_RegistrationLimit(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
-	if k.RegistrationLimit != p.RegistrationLimit {
-		p.RegistrationLimit = k.RegistrationLimit
+//mergePrimitiveContainerTemplateSpec
+func MergeSsmActivation_Tags(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -102,19 +97,9 @@ func MergeSsmActivation_RegistrationLimit(k *SsmActivationParameters, p *SsmActi
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmActivation_IamRole(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
-	if k.IamRole != p.IamRole {
-		p.IamRole = k.IamRole
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmActivation_Id(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSsmActivation_ExpirationDate(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
+	if k.ExpirationDate != p.ExpirationDate {
+		p.ExpirationDate = k.ExpirationDate
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -131,10 +116,10 @@ func MergeSsmActivation_Name(k *SsmActivationParameters, p *SsmActivationParamet
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeSsmActivation_Tags(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeSsmActivation_RegistrationLimit(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
+	if k.RegistrationLimit != p.RegistrationLimit {
+		p.RegistrationLimit = k.RegistrationLimit
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -152,20 +137,10 @@ func MergeSsmActivation_Description(k *SsmActivationParameters, p *SsmActivation
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmActivation_ExpirationDate(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
-	if k.ExpirationDate != p.ExpirationDate {
-		p.ExpirationDate = k.ExpirationDate
+func MergeSsmActivation_IamRole(k *SsmActivationParameters, p *SsmActivationParameters, md *plugin.MergeDescription) bool {
+	if k.IamRole != p.IamRole {
+		p.IamRole = k.IamRole
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeSsmActivation_Expired(k *SsmActivationObservation, p *SsmActivationObservation, md *plugin.MergeDescription) bool {
-	if k.Expired != p.Expired {
-		k.Expired = p.Expired
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -185,6 +160,16 @@ func MergeSsmActivation_RegistrationCount(k *SsmActivationObservation, p *SsmAct
 func MergeSsmActivation_ActivationCode(k *SsmActivationObservation, p *SsmActivationObservation, md *plugin.MergeDescription) bool {
 	if k.ActivationCode != p.ActivationCode {
 		k.ActivationCode = p.ActivationCode
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeSsmActivation_Expired(k *SsmActivationObservation, p *SsmActivationObservation, md *plugin.MergeDescription) bool {
+	if k.Expired != p.Expired {
+		k.Expired = p.Expired
 		md.StatusUpdated = true
 		return true
 	}

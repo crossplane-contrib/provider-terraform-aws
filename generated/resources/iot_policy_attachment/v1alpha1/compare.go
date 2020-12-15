@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIotPolicyAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIotPolicyAttachment_Target(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeIotPolicyAttachment_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIotPolicyAttachment_Target(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIotPolicyAttachment_Id(k *IotPolicyAttachmentParameters, p *IotPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeIotPolicyAttachment_Target(k *IotPolicyAttachmentParameters, p *IotPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Target != p.Target {
+		p.Target = k.Target
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -71,16 +66,6 @@ func MergeIotPolicyAttachment_Id(k *IotPolicyAttachmentParameters, p *IotPolicyA
 func MergeIotPolicyAttachment_Policy(k *IotPolicyAttachmentParameters, p *IotPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.Policy != p.Policy {
 		p.Policy = k.Policy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIotPolicyAttachment_Target(k *IotPolicyAttachmentParameters, p *IotPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Target != p.Target {
-		p.Target = k.Target
 		md.NeedsProviderUpdate = true
 		return true
 	}

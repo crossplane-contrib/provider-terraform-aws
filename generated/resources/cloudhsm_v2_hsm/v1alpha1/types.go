@@ -52,18 +52,17 @@ type CloudhsmV2HsmSpec struct {
 
 // A CloudhsmV2HsmParameters defines the desired state of a CloudhsmV2Hsm
 type CloudhsmV2HsmParameters struct {
+	SubnetId         string   `json:"subnet_id"`
 	AvailabilityZone string   `json:"availability_zone"`
 	ClusterId        string   `json:"cluster_id"`
-	Id               string   `json:"id"`
 	IpAddress        string   `json:"ip_address"`
-	SubnetId         string   `json:"subnet_id"`
 	Timeouts         Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A CloudhsmV2HsmStatus defines the observed state of a CloudhsmV2Hsm

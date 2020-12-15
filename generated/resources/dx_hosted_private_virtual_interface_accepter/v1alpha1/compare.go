@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxHostedPrivateVirtualInterfaceAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxHostedPrivateVirtualInterfaceAccepter_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -52,6 +42,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,29 +71,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(k *DxHostedPrivateVirtualInterfaceAccepterParameters, p *DxHostedPrivateVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.DxGatewayId != p.DxGatewayId {
-		p.DxGatewayId = k.DxGatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxHostedPrivateVirtualInterfaceAccepter_Id(k *DxHostedPrivateVirtualInterfaceAccepterParameters, p *DxHostedPrivateVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeDxHostedPrivateVirtualInterfaceAccepter_Tags(k *DxHostedPrivateVirtualInterfaceAccepterParameters, p *DxHostedPrivateVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -120,6 +95,16 @@ func MergeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(k *DxHosted
 func MergeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(k *DxHostedPrivateVirtualInterfaceAccepterParameters, p *DxHostedPrivateVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
 	if k.VpnGatewayId != p.VpnGatewayId {
 		p.VpnGatewayId = k.VpnGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(k *DxHostedPrivateVirtualInterfaceAccepterParameters, p *DxHostedPrivateVirtualInterfaceAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.DxGatewayId != p.DxGatewayId {
+		p.DxGatewayId = k.DxGatewayId
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCodeartifactDomainPermissionsPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCodeartifactDomainPermissionsPolicy_PolicyDocument(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -85,16 +80,6 @@ func MergeCodeartifactDomainPermissionsPolicy_Domain(k *CodeartifactDomainPermis
 func MergeCodeartifactDomainPermissionsPolicy_DomainOwner(k *CodeartifactDomainPermissionsPolicyParameters, p *CodeartifactDomainPermissionsPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.DomainOwner != p.DomainOwner {
 		p.DomainOwner = k.DomainOwner
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCodeartifactDomainPermissionsPolicy_Id(k *CodeartifactDomainPermissionsPolicyParameters, p *CodeartifactDomainPermissionsPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -37,15 +37,14 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDbEventSubscription(r DbEventSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbEventSubscription_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDbEventSubscription_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_SnsTopic(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_SourceIds(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_SourceType(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_Id(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDbEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_EventCategories(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeDbEventSubscription_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDbEventSubscription_SourceType(r.Spec.ForProvider, ctyVal)
 	EncodeDbEventSubscription_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDbEventSubscription_Arn(r.Status.AtProvider, ctyVal)
 	EncodeDbEventSubscription_CustomerAwsId(r.Status.AtProvider, ctyVal)
@@ -57,6 +56,14 @@ func EncodeDbEventSubscription(r DbEventSubscription) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDbEventSubscription_Name(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDbEventSubscription_NamePrefix(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
 func EncodeDbEventSubscription_SnsTopic(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
@@ -71,16 +78,16 @@ func EncodeDbEventSubscription_SourceIds(p DbEventSubscriptionParameters, vals m
 	vals["source_ids"] = cty.SetVal(colVals)
 }
 
-func EncodeDbEventSubscription_SourceType(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["source_type"] = cty.StringVal(p.SourceType)
-}
-
-func EncodeDbEventSubscription_Id(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeDbEventSubscription_Name(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
+func EncodeDbEventSubscription_Tags(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeDbEventSubscription_Enabled(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
@@ -95,28 +102,20 @@ func EncodeDbEventSubscription_EventCategories(p DbEventSubscriptionParameters, 
 	vals["event_categories"] = cty.SetVal(colVals)
 }
 
-func EncodeDbEventSubscription_NamePrefix(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeDbEventSubscription_Tags(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+func EncodeDbEventSubscription_SourceType(p DbEventSubscriptionParameters, vals map[string]cty.Value) {
+	vals["source_type"] = cty.StringVal(p.SourceType)
 }
 
 func EncodeDbEventSubscription_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDbEventSubscription_Timeouts_Create(p, ctyVal)
 	EncodeDbEventSubscription_Timeouts_Delete(p, ctyVal)
 	EncodeDbEventSubscription_Timeouts_Update(p, ctyVal)
-	EncodeDbEventSubscription_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
+}
+
+func EncodeDbEventSubscription_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeDbEventSubscription_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
@@ -125,10 +124,6 @@ func EncodeDbEventSubscription_Timeouts_Delete(p Timeouts, vals map[string]cty.V
 
 func EncodeDbEventSubscription_Timeouts_Update(p Timeouts, vals map[string]cty.Value) {
 	vals["update"] = cty.StringVal(p.Update)
-}
-
-func EncodeDbEventSubscription_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeDbEventSubscription_Arn(p DbEventSubscriptionObservation, vals map[string]cty.Value) {

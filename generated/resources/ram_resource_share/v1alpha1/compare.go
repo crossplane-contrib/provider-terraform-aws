@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRamResourceShare_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRamResourceShare_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -82,16 +77,6 @@ func MergeRamResourceShare_AllowExternalPrincipals(k *RamResourceShareParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRamResourceShare_Id(k *RamResourceShareParameters, p *RamResourceShareParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeRamResourceShare_Name(k *RamResourceShareParameters, p *RamResourceShareParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -103,7 +88,7 @@ func MergeRamResourceShare_Name(k *RamResourceShareParameters, p *RamResourceSha
 
 //mergePrimitiveContainerTemplateSpec
 func MergeRamResourceShare_Tags(k *RamResourceShareParameters, p *RamResourceShareParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

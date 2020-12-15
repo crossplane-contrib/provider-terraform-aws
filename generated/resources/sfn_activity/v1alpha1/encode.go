@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSfnActivity(r SfnActivity) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSfnActivity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSfnActivity_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSfnActivity_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSfnActivity_CreationDate(r.Status.AtProvider, ctyVal)
@@ -49,10 +48,6 @@ func EncodeSfnActivity(r SfnActivity) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSfnActivity_Id(p SfnActivityParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSfnActivity_Name(p SfnActivityParameters, vals map[string]cty.Value) {

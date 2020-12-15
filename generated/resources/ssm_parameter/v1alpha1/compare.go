@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSsmParameter_Tier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmParameter_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSsmParameter_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmParameter_Tier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,12 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSsmParameter_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmParameter_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmParameter_AllowedPattern(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,7 +56,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSsmParameter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmParameter_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmParameter_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSsmParameter_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,16 +82,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeSsmParameter_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmParameter_AllowedPattern(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmParameter_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -107,9 +102,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmParameter_Tier(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if k.Tier != p.Tier {
-		p.Tier = k.Tier
+func MergeSsmParameter_Name(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -117,9 +112,9 @@ func MergeSsmParameter_Tier(k *SsmParameterParameters, p *SsmParameterParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmParameter_Type(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		p.Type = k.Type
+func MergeSsmParameter_Tier(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
+	if k.Tier != p.Tier {
+		p.Tier = k.Tier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -137,19 +132,9 @@ func MergeSsmParameter_Value(k *SsmParameterParameters, p *SsmParameterParameter
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmParameter_Description(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmParameter_Name(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeSsmParameter_AllowedPattern(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
+	if k.AllowedPattern != p.AllowedPattern {
+		p.AllowedPattern = k.AllowedPattern
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -167,9 +152,29 @@ func MergeSsmParameter_DataType(k *SsmParameterParameters, p *SsmParameterParame
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmParameter_Id(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSsmParameter_Description(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSsmParameter_Type(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		p.Type = k.Type
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSsmParameter_Arn(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		p.Arn = k.Arn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -198,28 +203,8 @@ func MergeSsmParameter_Overwrite(k *SsmParameterParameters, p *SsmParameterParam
 
 //mergePrimitiveContainerTemplateSpec
 func MergeSsmParameter_Tags(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmParameter_AllowedPattern(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if k.AllowedPattern != p.AllowedPattern {
-		p.AllowedPattern = k.AllowedPattern
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmParameter_Arn(k *SsmParameterParameters, p *SsmParameterParameters, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		p.Arn = k.Arn
 		md.NeedsProviderUpdate = true
 		return true
 	}

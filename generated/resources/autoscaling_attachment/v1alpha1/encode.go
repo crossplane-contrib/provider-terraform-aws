@@ -40,7 +40,6 @@ func EncodeAutoscalingAttachment(r AutoscalingAttachment) cty.Value {
 	EncodeAutoscalingAttachment_AlbTargetGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingAttachment_AutoscalingGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingAttachment_Elb(r.Spec.ForProvider, ctyVal)
-	EncodeAutoscalingAttachment_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -62,8 +61,4 @@ func EncodeAutoscalingAttachment_AutoscalingGroupName(p AutoscalingAttachmentPar
 
 func EncodeAutoscalingAttachment_Elb(p AutoscalingAttachmentParameters, vals map[string]cty.Value) {
 	vals["elb"] = cty.StringVal(p.Elb)
-}
-
-func EncodeAutoscalingAttachment_Id(p AutoscalingAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

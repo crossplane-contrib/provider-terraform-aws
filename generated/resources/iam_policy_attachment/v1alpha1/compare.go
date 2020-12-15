@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamPolicyAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamPolicyAttachment_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -74,18 +69,8 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamPolicyAttachment_Groups(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Groups, p.Groups) {
+	if !plugin.CompareStringSlices(k.Groups, p.Groups) {
 		p.Groups = k.Groups
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamPolicyAttachment_Id(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -114,7 +99,7 @@ func MergeIamPolicyAttachment_PolicyArn(k *IamPolicyAttachmentParameters, p *Iam
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamPolicyAttachment_Roles(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Roles, p.Roles) {
+	if !plugin.CompareStringSlices(k.Roles, p.Roles) {
 		p.Roles = k.Roles
 		md.NeedsProviderUpdate = true
 		return true
@@ -124,7 +109,7 @@ func MergeIamPolicyAttachment_Roles(k *IamPolicyAttachmentParameters, p *IamPoli
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamPolicyAttachment_Users(k *IamPolicyAttachmentParameters, p *IamPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Users, p.Users) {
+	if !plugin.CompareStringSlices(k.Users, p.Users) {
 		p.Users = k.Users
 		md.NeedsProviderUpdate = true
 		return true

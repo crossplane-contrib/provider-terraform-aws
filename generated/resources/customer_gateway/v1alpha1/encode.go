@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeCustomerGateway(r CustomerGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeCustomerGateway_BgpAsn(r.Spec.ForProvider, ctyVal)
-	EncodeCustomerGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Type(r.Spec.ForProvider, ctyVal)
@@ -55,10 +54,6 @@ func EncodeCustomerGateway(r CustomerGateway) cty.Value {
 
 func EncodeCustomerGateway_BgpAsn(p CustomerGatewayParameters, vals map[string]cty.Value) {
 	vals["bgp_asn"] = cty.StringVal(p.BgpAsn)
-}
-
-func EncodeCustomerGateway_Id(p CustomerGatewayParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCustomerGateway_IpAddress(p CustomerGatewayParameters, vals map[string]cty.Value) {

@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncApiKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAppsyncApiKey_Key(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -90,16 +85,6 @@ func MergeAppsyncApiKey_Description(k *AppsyncApiKeyParameters, p *AppsyncApiKey
 func MergeAppsyncApiKey_Expires(k *AppsyncApiKeyParameters, p *AppsyncApiKeyParameters, md *plugin.MergeDescription) bool {
 	if k.Expires != p.Expires {
 		p.Expires = k.Expires
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAppsyncApiKey_Id(k *AppsyncApiKeyParameters, p *AppsyncApiKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

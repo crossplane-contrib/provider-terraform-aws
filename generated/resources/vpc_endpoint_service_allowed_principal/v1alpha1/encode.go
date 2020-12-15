@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpcEndpointServiceAllowedPrincipal(r VpcEndpointServiceAllowedPrincipal) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcEndpointServiceAllowedPrincipal_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeVpcEndpointServiceAllowedPrincipal(r VpcEndpointServiceAllowedPrincip
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcEndpointServiceAllowedPrincipal_Id(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(p VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {

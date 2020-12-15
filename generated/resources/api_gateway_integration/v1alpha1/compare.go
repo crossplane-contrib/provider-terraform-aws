@@ -31,36 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayIntegration_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayIntegration_Credentials(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayIntegration_RequestTemplates(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayIntegration_CacheKeyParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayIntegration_ContentHandling(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayIntegration_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayIntegration_IntegrationHttpMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -76,7 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayIntegration_TimeoutMilliseconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApiGatewayIntegration_RestApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,22 +56,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayIntegration_ConnectionType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayIntegration_RestApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayIntegration_Uri(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayIntegration_ResourceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApiGatewayIntegration_CacheNamespace(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegration_ContentHandling(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegration_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -111,7 +81,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayIntegration_CacheNamespace(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApiGatewayIntegration_CacheKeyParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegration_ConnectionType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegration_Credentials(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegration_RequestTemplates(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegration_ResourceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegration_TimeoutMilliseconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -125,66 +120,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_ConnectionId(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.ConnectionId != p.ConnectionId {
-		p.ConnectionId = k.ConnectionId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_Credentials(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.Credentials != p.Credentials {
-		p.Credentials = k.Credentials
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeApiGatewayIntegration_RequestTemplates(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.RequestTemplates, p.RequestTemplates) {
-		p.RequestTemplates = k.RequestTemplates
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeApiGatewayIntegration_CacheKeyParameters(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.CacheKeyParameters, p.CacheKeyParameters) {
-		p.CacheKeyParameters = k.CacheKeyParameters
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_ContentHandling(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.ContentHandling != p.ContentHandling {
-		p.ContentHandling = k.ContentHandling
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_Id(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -209,38 +144,8 @@ func MergeApiGatewayIntegration_PassthroughBehavior(k *ApiGatewayIntegrationPara
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApiGatewayIntegration_RequestParameters(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.RequestParameters, p.RequestParameters) {
+	if !plugin.CompareMapString(k.RequestParameters, p.RequestParameters) {
 		p.RequestParameters = k.RequestParameters
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_TimeoutMilliseconds(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.TimeoutMilliseconds != p.TimeoutMilliseconds {
-		p.TimeoutMilliseconds = k.TimeoutMilliseconds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_Type(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		p.Type = k.Type
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_ConnectionType(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.ConnectionType != p.ConnectionType {
-		p.ConnectionType = k.ConnectionType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -258,9 +163,99 @@ func MergeApiGatewayIntegration_RestApiId(k *ApiGatewayIntegrationParameters, p 
 }
 
 //mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegration_Type(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		p.Type = k.Type
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeApiGatewayIntegration_Uri(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
 	if k.Uri != p.Uri {
 		p.Uri = k.Uri
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegration_CacheNamespace(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.CacheNamespace != p.CacheNamespace {
+		p.CacheNamespace = k.CacheNamespace
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegration_ContentHandling(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.ContentHandling != p.ContentHandling {
+		p.ContentHandling = k.ContentHandling
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegration_ConnectionId(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.ConnectionId != p.ConnectionId {
+		p.ConnectionId = k.ConnectionId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegration_HttpMethod(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.HttpMethod != p.HttpMethod {
+		p.HttpMethod = k.HttpMethod
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeApiGatewayIntegration_CacheKeyParameters(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.CacheKeyParameters, p.CacheKeyParameters) {
+		p.CacheKeyParameters = k.CacheKeyParameters
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegration_ConnectionType(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.ConnectionType != p.ConnectionType {
+		p.ConnectionType = k.ConnectionType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegration_Credentials(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.Credentials != p.Credentials {
+		p.Credentials = k.Credentials
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeApiGatewayIntegration_RequestTemplates(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.RequestTemplates, p.RequestTemplates) {
+		p.RequestTemplates = k.RequestTemplates
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -278,19 +273,9 @@ func MergeApiGatewayIntegration_ResourceId(k *ApiGatewayIntegrationParameters, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_HttpMethod(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.HttpMethod != p.HttpMethod {
-		p.HttpMethod = k.HttpMethod
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayIntegration_CacheNamespace(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
-	if k.CacheNamespace != p.CacheNamespace {
-		p.CacheNamespace = k.CacheNamespace
+func MergeApiGatewayIntegration_TimeoutMilliseconds(k *ApiGatewayIntegrationParameters, p *ApiGatewayIntegrationParameters, md *plugin.MergeDescription) bool {
+	if k.TimeoutMilliseconds != p.TimeoutMilliseconds {
+		p.TimeoutMilliseconds = k.TimeoutMilliseconds
 		md.NeedsProviderUpdate = true
 		return true
 	}

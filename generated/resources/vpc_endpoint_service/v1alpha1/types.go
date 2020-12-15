@@ -52,11 +52,10 @@ type VpcEndpointServiceSpec struct {
 
 // A VpcEndpointServiceParameters defines the desired state of a VpcEndpointService
 type VpcEndpointServiceParameters struct {
+	Tags                    map[string]string `json:"tags"`
+	AllowedPrincipals       []string          `json:"allowed_principals"`
 	NetworkLoadBalancerArns []string          `json:"network_load_balancer_arns"`
 	AcceptanceRequired      bool              `json:"acceptance_required"`
-	AllowedPrincipals       []string          `json:"allowed_principals"`
-	Id                      string            `json:"id"`
-	Tags                    map[string]string `json:"tags"`
 }
 
 // A VpcEndpointServiceStatus defines the observed state of a VpcEndpointService
@@ -68,11 +67,11 @@ type VpcEndpointServiceStatus struct {
 // A VpcEndpointServiceObservation records the observed state of a VpcEndpointService
 type VpcEndpointServiceObservation struct {
 	Arn                  string   `json:"arn"`
-	BaseEndpointDnsNames []string `json:"base_endpoint_dns_names"`
-	PrivateDnsName       string   `json:"private_dns_name"`
-	ServiceName          string   `json:"service_name"`
-	ServiceType          string   `json:"service_type"`
 	AvailabilityZones    []string `json:"availability_zones"`
 	ManagesVpcEndpoints  bool     `json:"manages_vpc_endpoints"`
+	PrivateDnsName       string   `json:"private_dns_name"`
 	State                string   `json:"state"`
+	BaseEndpointDnsNames []string `json:"base_endpoint_dns_names"`
+	ServiceName          string   `json:"service_name"`
+	ServiceType          string   `json:"service_type"`
 }

@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSagemakerEndpoint_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSagemakerEndpoint_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -77,16 +72,6 @@ func MergeSagemakerEndpoint_EndpointConfigName(k *SagemakerEndpointParameters, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSagemakerEndpoint_Id(k *SagemakerEndpointParameters, p *SagemakerEndpointParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeSagemakerEndpoint_Name(k *SagemakerEndpointParameters, p *SagemakerEndpointParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -98,7 +83,7 @@ func MergeSagemakerEndpoint_Name(k *SagemakerEndpointParameters, p *SagemakerEnd
 
 //mergePrimitiveContainerTemplateSpec
 func MergeSagemakerEndpoint_Tags(k *SagemakerEndpointParameters, p *SagemakerEndpointParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

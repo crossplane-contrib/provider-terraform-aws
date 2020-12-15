@@ -52,7 +52,6 @@ type EgressOnlyInternetGatewaySpec struct {
 
 // A EgressOnlyInternetGatewayParameters defines the desired state of a EgressOnlyInternetGateway
 type EgressOnlyInternetGatewayParameters struct {
-	Id    string            `json:"id"`
 	Tags  map[string]string `json:"tags"`
 	VpcId string            `json:"vpc_id"`
 }

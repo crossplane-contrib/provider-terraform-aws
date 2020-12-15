@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpnGatewayRoutePropagation(r VpnGatewayRoutePropagation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpnGatewayRoutePropagation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpnGatewayRoutePropagation_RouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGatewayRoutePropagation_VpnGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGatewayRoutePropagation_RouteTableId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +50,10 @@ func EncodeVpnGatewayRoutePropagation(r VpnGatewayRoutePropagation) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpnGatewayRoutePropagation_Id(p VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeVpnGatewayRoutePropagation_VpnGatewayId(p VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
+	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }
 
 func EncodeVpnGatewayRoutePropagation_RouteTableId(p VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	vals["route_table_id"] = cty.StringVal(p.RouteTableId)
-}
-
-func EncodeVpnGatewayRoutePropagation_VpnGatewayId(p VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
-	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }

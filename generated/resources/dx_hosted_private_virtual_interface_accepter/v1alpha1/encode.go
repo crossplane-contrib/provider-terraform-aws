@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPrivateVirtualInterfaceAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
-	EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(r.Spec.ForProvider, ctyVal)
+	EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -52,14 +51,6 @@ func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPrivateVirtualInter
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
-}
-
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
@@ -80,6 +71,10 @@ func EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(p DxHosted
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
+}
+
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
 }
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {

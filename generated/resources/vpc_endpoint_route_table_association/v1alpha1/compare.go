@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointRouteTableAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -71,16 +66,6 @@ func MergeVpcEndpointRouteTableAssociation_RouteTableId(k *VpcEndpointRouteTable
 func MergeVpcEndpointRouteTableAssociation_VpcEndpointId(k *VpcEndpointRouteTableAssociationParameters, p *VpcEndpointRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.VpcEndpointId != p.VpcEndpointId {
 		p.VpcEndpointId = k.VpcEndpointId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVpcEndpointRouteTableAssociation_Id(k *VpcEndpointRouteTableAssociationParameters, p *VpcEndpointRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeStoragegatewayUploadBuffer(prev *StoragegatewayUploadBuffer, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeStoragegatewayUploadBuffer_Id(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayUploadBuffer_DiskId(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayUploadBuffer_GatewayArn(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeStoragegatewayUploadBuffer(prev *StoragegatewayUploadBuffer, ctyValue
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeStoragegatewayUploadBuffer_Id(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

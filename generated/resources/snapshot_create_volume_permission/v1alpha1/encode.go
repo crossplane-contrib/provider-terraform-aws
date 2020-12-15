@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeSnapshotCreateVolumePermission(r SnapshotCreateVolumePermission) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSnapshotCreateVolumePermission_AccountId(r.Spec.ForProvider, ctyVal)
-	EncodeSnapshotCreateVolumePermission_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSnapshotCreateVolumePermission_SnapshotId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -53,10 +52,6 @@ func EncodeSnapshotCreateVolumePermission(r SnapshotCreateVolumePermission) cty.
 
 func EncodeSnapshotCreateVolumePermission_AccountId(p SnapshotCreateVolumePermissionParameters, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
-}
-
-func EncodeSnapshotCreateVolumePermission_Id(p SnapshotCreateVolumePermissionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSnapshotCreateVolumePermission_SnapshotId(p SnapshotCreateVolumePermissionParameters, vals map[string]cty.Value) {

@@ -52,7 +52,6 @@ type BackupVaultSpec struct {
 
 // A BackupVaultParameters defines the desired state of a BackupVault
 type BackupVaultParameters struct {
-	Id        string            `json:"id"`
 	KmsKeyArn string            `json:"kms_key_arn"`
 	Name      string            `json:"name"`
 	Tags      map[string]string `json:"tags"`

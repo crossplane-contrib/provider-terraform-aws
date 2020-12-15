@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamSamlProvider(prev *IamSamlProvider, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamSamlProvider_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamSamlProvider_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamSamlProvider_SamlMetadataDocument(&new.Spec.ForProvider, valMap)
 	DecodeIamSamlProvider_Arn(&new.Status.AtProvider, valMap)
@@ -49,11 +48,6 @@ func DecodeIamSamlProvider(prev *IamSamlProvider, ctyValue cty.Value) (resource.
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamSamlProvider_Id(p *IamSamlProviderParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

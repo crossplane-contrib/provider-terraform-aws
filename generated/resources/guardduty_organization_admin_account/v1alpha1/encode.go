@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeGuarddutyOrganizationAdminAccount(r GuarddutyOrganizationAdminAccount) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeGuarddutyOrganizationAdminAccount_AdminAccountId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyOrganizationAdminAccount_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,8 +51,4 @@ func EncodeGuarddutyOrganizationAdminAccount(r GuarddutyOrganizationAdminAccount
 
 func EncodeGuarddutyOrganizationAdminAccount_AdminAccountId(p GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
 	vals["admin_account_id"] = cty.StringVal(p.AdminAccountId)
-}
-
-func EncodeGuarddutyOrganizationAdminAccount_Id(p GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

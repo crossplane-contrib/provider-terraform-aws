@@ -39,59 +39,23 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2TransitGateway(prev *Ec2TransitGateway, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEc2TransitGateway_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGateway_AmazonSideAsn(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGateway_AutoAcceptSharedAttachments(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGateway_DefaultRouteTableAssociation(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGateway_DefaultRouteTablePropagation(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGateway_Description(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGateway_DnsSupport(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGateway_Id(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGateway_AmazonSideAsn(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGateway_VpnEcmpSupport(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGateway_PropagationDefaultRouteTableId(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGateway_DefaultRouteTableAssociation(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGateway_DnsSupport(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGateway_OwnerId(&new.Status.AtProvider, valMap)
-	DecodeEc2TransitGateway_Arn(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGateway_PropagationDefaultRouteTableId(&new.Status.AtProvider, valMap)
 	DecodeEc2TransitGateway_AssociationDefaultRouteTableId(&new.Status.AtProvider, valMap)
+	DecodeEc2TransitGateway_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_AutoAcceptSharedAttachments(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	p.AutoAcceptSharedAttachments = ctwhy.ValueAsString(vals["auto_accept_shared_attachments"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_DefaultRouteTableAssociation(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	p.DefaultRouteTableAssociation = ctwhy.ValueAsString(vals["default_route_table_association"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_DefaultRouteTablePropagation(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	p.DefaultRouteTablePropagation = ctwhy.ValueAsString(vals["default_route_table_propagation"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_Description(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_DnsSupport(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	p.DnsSupport = ctwhy.ValueAsString(vals["dns_support"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_Id(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_AmazonSideAsn(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
-	p.AmazonSideAsn = ctwhy.ValueAsInt64(vals["amazon_side_asn"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -106,13 +70,38 @@ func DecodeEc2TransitGateway_Tags(p *Ec2TransitGatewayParameters, vals map[strin
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeEc2TransitGateway_AmazonSideAsn(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	p.AmazonSideAsn = ctwhy.ValueAsInt64(vals["amazon_side_asn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGateway_AutoAcceptSharedAttachments(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	p.AutoAcceptSharedAttachments = ctwhy.ValueAsString(vals["auto_accept_shared_attachments"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGateway_DefaultRouteTablePropagation(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	p.DefaultRouteTablePropagation = ctwhy.ValueAsString(vals["default_route_table_propagation"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGateway_Description(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGateway_VpnEcmpSupport(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
 	p.VpnEcmpSupport = ctwhy.ValueAsString(vals["vpn_ecmp_support"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_PropagationDefaultRouteTableId(p *Ec2TransitGatewayObservation, vals map[string]cty.Value) {
-	p.PropagationDefaultRouteTableId = ctwhy.ValueAsString(vals["propagation_default_route_table_id"])
+func DecodeEc2TransitGateway_DefaultRouteTableAssociation(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	p.DefaultRouteTableAssociation = ctwhy.ValueAsString(vals["default_route_table_association"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGateway_DnsSupport(p *Ec2TransitGatewayParameters, vals map[string]cty.Value) {
+	p.DnsSupport = ctwhy.ValueAsString(vals["dns_support"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -121,11 +110,16 @@ func DecodeEc2TransitGateway_OwnerId(p *Ec2TransitGatewayObservation, vals map[s
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2TransitGateway_Arn(p *Ec2TransitGatewayObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeEc2TransitGateway_PropagationDefaultRouteTableId(p *Ec2TransitGatewayObservation, vals map[string]cty.Value) {
+	p.PropagationDefaultRouteTableId = ctwhy.ValueAsString(vals["propagation_default_route_table_id"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeEc2TransitGateway_AssociationDefaultRouteTableId(p *Ec2TransitGatewayObservation, vals map[string]cty.Value) {
 	p.AssociationDefaultRouteTableId = ctwhy.ValueAsString(vals["association_default_route_table_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGateway_Arn(p *Ec2TransitGatewayObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

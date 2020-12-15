@@ -39,38 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeS3AccountPublicAccessBlock(prev *S3AccountPublicAccessBlock, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeS3AccountPublicAccessBlock_BlockPublicPolicy(&new.Spec.ForProvider, valMap)
-	DecodeS3AccountPublicAccessBlock_Id(&new.Spec.ForProvider, valMap)
-	DecodeS3AccountPublicAccessBlock_IgnorePublicAcls(&new.Spec.ForProvider, valMap)
-	DecodeS3AccountPublicAccessBlock_RestrictPublicBuckets(&new.Spec.ForProvider, valMap)
 	DecodeS3AccountPublicAccessBlock_AccountId(&new.Spec.ForProvider, valMap)
 	DecodeS3AccountPublicAccessBlock_BlockPublicAcls(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_BlockPublicPolicy(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_IgnorePublicAcls(&new.Spec.ForProvider, valMap)
+	DecodeS3AccountPublicAccessBlock_RestrictPublicBuckets(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeS3AccountPublicAccessBlock_BlockPublicPolicy(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
-	p.BlockPublicPolicy = ctwhy.ValueAsBool(vals["block_public_policy"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeS3AccountPublicAccessBlock_Id(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeS3AccountPublicAccessBlock_IgnorePublicAcls(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
-	p.IgnorePublicAcls = ctwhy.ValueAsBool(vals["ignore_public_acls"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeS3AccountPublicAccessBlock_RestrictPublicBuckets(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
-	p.RestrictPublicBuckets = ctwhy.ValueAsBool(vals["restrict_public_buckets"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,4 +60,19 @@ func DecodeS3AccountPublicAccessBlock_AccountId(p *S3AccountPublicAccessBlockPar
 //primitiveTypeDecodeTemplate
 func DecodeS3AccountPublicAccessBlock_BlockPublicAcls(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
 	p.BlockPublicAcls = ctwhy.ValueAsBool(vals["block_public_acls"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeS3AccountPublicAccessBlock_BlockPublicPolicy(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.BlockPublicPolicy = ctwhy.ValueAsBool(vals["block_public_policy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeS3AccountPublicAccessBlock_IgnorePublicAcls(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.IgnorePublicAcls = ctwhy.ValueAsBool(vals["ignore_public_acls"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeS3AccountPublicAccessBlock_RestrictPublicBuckets(p *S3AccountPublicAccessBlockParameters, vals map[string]cty.Value) {
+	p.RestrictPublicBuckets = ctwhy.ValueAsBool(vals["restrict_public_buckets"])
 }

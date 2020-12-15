@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxBgpPeer_BgpAuthKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxBgpPeer_AmazonAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,22 +46,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxBgpPeer_AmazonAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDxBgpPeer_BgpAsn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxBgpPeer_CustomerAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxBgpPeer_BgpAuthKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxBgpPeer_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxBgpPeer_CustomerAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,9 +92,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxBgpPeer_BgpAuthKey(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
-	if k.BgpAuthKey != p.BgpAuthKey {
-		p.BgpAuthKey = k.BgpAuthKey
+func MergeDxBgpPeer_AmazonAddress(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
+	if k.AmazonAddress != p.AmazonAddress {
+		p.AmazonAddress = k.AmazonAddress
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -127,16 +122,6 @@ func MergeDxBgpPeer_AddressFamily(k *DxBgpPeerParameters, p *DxBgpPeerParameters
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxBgpPeer_AmazonAddress(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
-	if k.AmazonAddress != p.AmazonAddress {
-		p.AmazonAddress = k.AmazonAddress
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDxBgpPeer_BgpAsn(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
 	if k.BgpAsn != p.BgpAsn {
 		p.BgpAsn = k.BgpAsn
@@ -147,9 +132,9 @@ func MergeDxBgpPeer_BgpAsn(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxBgpPeer_CustomerAddress(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
-	if k.CustomerAddress != p.CustomerAddress {
-		p.CustomerAddress = k.CustomerAddress
+func MergeDxBgpPeer_BgpAuthKey(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
+	if k.BgpAuthKey != p.BgpAuthKey {
+		p.BgpAuthKey = k.BgpAuthKey
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -157,9 +142,9 @@ func MergeDxBgpPeer_CustomerAddress(k *DxBgpPeerParameters, p *DxBgpPeerParamete
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxBgpPeer_Id(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeDxBgpPeer_CustomerAddress(k *DxBgpPeerParameters, p *DxBgpPeerParameters, md *plugin.MergeDescription) bool {
+	if k.CustomerAddress != p.CustomerAddress {
+		p.CustomerAddress = k.CustomerAddress
 		md.NeedsProviderUpdate = true
 		return true
 	}

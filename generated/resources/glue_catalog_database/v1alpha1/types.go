@@ -54,7 +54,6 @@ type GlueCatalogDatabaseSpec struct {
 type GlueCatalogDatabaseParameters struct {
 	CatalogId   string            `json:"catalog_id"`
 	Description string            `json:"description"`
-	Id          string            `json:"id"`
 	LocationUri string            `json:"location_uri"`
 	Name        string            `json:"name"`
 	Parameters  map[string]string `json:"parameters"`

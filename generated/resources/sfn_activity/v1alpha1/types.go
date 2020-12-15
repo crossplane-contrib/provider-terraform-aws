@@ -52,7 +52,6 @@ type SfnActivitySpec struct {
 
 // A SfnActivityParameters defines the desired state of a SfnActivity
 type SfnActivityParameters struct {
-	Id   string            `json:"id"`
 	Name string            `json:"name"`
 	Tags map[string]string `json:"tags"`
 }

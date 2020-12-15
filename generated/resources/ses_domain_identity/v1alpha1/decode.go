@@ -40,7 +40,6 @@ func DecodeSesDomainIdentity(prev *SesDomainIdentity, ctyValue cty.Value) (resou
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSesDomainIdentity_Domain(&new.Spec.ForProvider, valMap)
-	DecodeSesDomainIdentity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainIdentity_Arn(&new.Status.AtProvider, valMap)
 	DecodeSesDomainIdentity_VerificationToken(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeSesDomainIdentity(prev *SesDomainIdentity, ctyValue cty.Value) (resou
 //primitiveTypeDecodeTemplate
 func DecodeSesDomainIdentity_Domain(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesDomainIdentity_Id(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

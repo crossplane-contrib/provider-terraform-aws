@@ -40,12 +40,11 @@ func DecodeApiGatewayClientCertificate(prev *ApiGatewayClientCertificate, ctyVal
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeApiGatewayClientCertificate_Description(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayClientCertificate_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayClientCertificate_Tags(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayClientCertificate_Arn(&new.Status.AtProvider, valMap)
 	DecodeApiGatewayClientCertificate_CreatedDate(&new.Status.AtProvider, valMap)
 	DecodeApiGatewayClientCertificate_ExpirationDate(&new.Status.AtProvider, valMap)
 	DecodeApiGatewayClientCertificate_PemEncodedCertificate(&new.Status.AtProvider, valMap)
+	DecodeApiGatewayClientCertificate_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -58,11 +57,6 @@ func DecodeApiGatewayClientCertificate_Description(p *ApiGatewayClientCertificat
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayClientCertificate_Id(p *ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
 //primitiveMapTypeDecodeTemplate
 func DecodeApiGatewayClientCertificate_Tags(p *ApiGatewayClientCertificateParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
@@ -72,11 +66,6 @@ func DecodeApiGatewayClientCertificate_Tags(p *ApiGatewayClientCertificateParame
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayClientCertificate_Arn(p *ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -92,4 +81,9 @@ func DecodeApiGatewayClientCertificate_ExpirationDate(p *ApiGatewayClientCertifi
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayClientCertificate_PemEncodedCertificate(p *ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
 	p.PemEncodedCertificate = ctwhy.ValueAsString(vals["pem_encoded_certificate"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayClientCertificate_Arn(p *ApiGatewayClientCertificateObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

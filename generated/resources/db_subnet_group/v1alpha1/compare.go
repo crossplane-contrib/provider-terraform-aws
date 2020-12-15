@@ -31,17 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDbSubnetGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDbSubnetGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDbSubnetGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,6 +51,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDbSubnetGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDbSubnetGroup_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -76,30 +71,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDbSubnetGroup_Tags(k *DbSubnetGroupParameters, p *DbSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeDbSubnetGroup_Description(k *DbSubnetGroupParameters, p *DbSubnetGroupParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDbSubnetGroup_Id(k *DbSubnetGroupParameters, p *DbSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -128,8 +103,18 @@ func MergeDbSubnetGroup_NamePrefix(k *DbSubnetGroupParameters, p *DbSubnetGroupP
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDbSubnetGroup_SubnetIds(k *DbSubnetGroupParameters, p *DbSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SubnetIds, p.SubnetIds) {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
 		p.SubnetIds = k.SubnetIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDbSubnetGroup_Tags(k *DbSubnetGroupParameters, p *DbSubnetGroupParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

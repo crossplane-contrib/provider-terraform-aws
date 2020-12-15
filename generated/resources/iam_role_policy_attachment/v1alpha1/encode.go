@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamRolePolicyAttachment(r IamRolePolicyAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamRolePolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicyAttachment_Role(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeIamRolePolicyAttachment(r IamRolePolicyAttachment) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamRolePolicyAttachment_Id(p IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamRolePolicyAttachment_PolicyArn(p IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {

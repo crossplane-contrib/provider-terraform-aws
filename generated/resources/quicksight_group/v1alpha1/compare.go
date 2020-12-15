@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeQuicksightGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeQuicksightGroup_Namespace(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -95,16 +90,6 @@ func MergeQuicksightGroup_Description(k *QuicksightGroupParameters, p *Quicksigh
 func MergeQuicksightGroup_GroupName(k *QuicksightGroupParameters, p *QuicksightGroupParameters, md *plugin.MergeDescription) bool {
 	if k.GroupName != p.GroupName {
 		p.GroupName = k.GroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeQuicksightGroup_Id(k *QuicksightGroupParameters, p *QuicksightGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -40,7 +40,6 @@ func DecodeSpotDatafeedSubscription(prev *SpotDatafeedSubscription, ctyValue cty
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSpotDatafeedSubscription_Bucket(&new.Spec.ForProvider, valMap)
-	DecodeSpotDatafeedSubscription_Id(&new.Spec.ForProvider, valMap)
 	DecodeSpotDatafeedSubscription_Prefix(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeSpotDatafeedSubscription(prev *SpotDatafeedSubscription, ctyValue cty
 //primitiveTypeDecodeTemplate
 func DecodeSpotDatafeedSubscription_Bucket(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
 	p.Bucket = ctwhy.ValueAsString(vals["bucket"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSpotDatafeedSubscription_Id(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

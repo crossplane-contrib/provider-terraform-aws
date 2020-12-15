@@ -40,7 +40,6 @@ func EncodeQuicksightGroup(r QuicksightGroup) cty.Value {
 	EncodeQuicksightGroup_AwsAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_GroupName(r.Spec.ForProvider, ctyVal)
-	EncodeQuicksightGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Namespace(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -63,10 +62,6 @@ func EncodeQuicksightGroup_Description(p QuicksightGroupParameters, vals map[str
 
 func EncodeQuicksightGroup_GroupName(p QuicksightGroupParameters, vals map[string]cty.Value) {
 	vals["group_name"] = cty.StringVal(p.GroupName)
-}
-
-func EncodeQuicksightGroup_Id(p QuicksightGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeQuicksightGroup_Namespace(p QuicksightGroupParameters, vals map[string]cty.Value) {

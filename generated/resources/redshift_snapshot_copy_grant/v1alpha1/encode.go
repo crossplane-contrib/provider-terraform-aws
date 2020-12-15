@@ -37,10 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSnapshotCopyGrant(r RedshiftSnapshotCopyGrant) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotCopyGrant_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotCopyGrant_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotCopyGrant_KmsKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotCopyGrant_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,14 +49,6 @@ func EncodeRedshiftSnapshotCopyGrant(r RedshiftSnapshotCopyGrant) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotCopyGrant_Id(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRedshiftSnapshotCopyGrant_KmsKeyId(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
 func EncodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
@@ -74,6 +65,10 @@ func EncodeRedshiftSnapshotCopyGrant_Tags(p RedshiftSnapshotCopyGrantParameters,
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeRedshiftSnapshotCopyGrant_KmsKeyId(p RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
 func EncodeRedshiftSnapshotCopyGrant_Arn(p RedshiftSnapshotCopyGrantObservation, vals map[string]cty.Value) {

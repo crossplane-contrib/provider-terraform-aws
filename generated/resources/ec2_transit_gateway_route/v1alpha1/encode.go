@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayRoute(r Ec2TransitGatewayRoute) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayRoute_Blackhole(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayRoute_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRoute_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRoute_TransitGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayRoute_Blackhole(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,16 +52,8 @@ func EncodeEc2TransitGatewayRoute(r Ec2TransitGatewayRoute) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayRoute_Blackhole(p Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
-	vals["blackhole"] = cty.BoolVal(p.Blackhole)
-}
-
 func EncodeEc2TransitGatewayRoute_DestinationCidrBlock(p Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
 	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
-}
-
-func EncodeEc2TransitGatewayRoute_Id(p Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2TransitGatewayRoute_TransitGatewayAttachmentId(p Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
@@ -71,4 +62,8 @@ func EncodeEc2TransitGatewayRoute_TransitGatewayAttachmentId(p Ec2TransitGateway
 
 func EncodeEc2TransitGatewayRoute_TransitGatewayRouteTableId(p Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_route_table_id"] = cty.StringVal(p.TransitGatewayRouteTableId)
+}
+
+func EncodeEc2TransitGatewayRoute_Blackhole(p Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
+	vals["blackhole"] = cty.BoolVal(p.Blackhole)
 }

@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSqsQueuePolicy_QueueUrl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSqsQueuePolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSqsQueuePolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSqsQueuePolicy_QueueUrl(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,29 +53,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSqsQueuePolicy_QueueUrl(k *SqsQueuePolicyParameters, p *SqsQueuePolicyParameters, md *plugin.MergeDescription) bool {
-	if k.QueueUrl != p.QueueUrl {
-		p.QueueUrl = k.QueueUrl
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSqsQueuePolicy_Id(k *SqsQueuePolicyParameters, p *SqsQueuePolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeSqsQueuePolicy_Policy(k *SqsQueuePolicyParameters, p *SqsQueuePolicyParameters, md *plugin.MergeDescription) bool {
 	if k.Policy != p.Policy {
 		p.Policy = k.Policy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSqsQueuePolicy_QueueUrl(k *SqsQueuePolicyParameters, p *SqsQueuePolicyParameters, md *plugin.MergeDescription) bool {
+	if k.QueueUrl != p.QueueUrl {
+		p.QueueUrl = k.QueueUrl
 		md.NeedsProviderUpdate = true
 		return true
 	}

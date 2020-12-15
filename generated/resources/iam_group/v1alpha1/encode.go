@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamGroup(r IamGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroup_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroup_Arn(r.Status.AtProvider, ctyVal)
@@ -50,10 +49,6 @@ func EncodeIamGroup(r IamGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamGroup_Id(p IamGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamGroup_Name(p IamGroupParameters, vals map[string]cty.Value) {

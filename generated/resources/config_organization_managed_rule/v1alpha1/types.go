@@ -54,22 +54,21 @@ type ConfigOrganizationManagedRuleSpec struct {
 type ConfigOrganizationManagedRuleParameters struct {
 	Name                      string   `json:"name"`
 	ResourceIdScope           string   `json:"resource_id_scope"`
-	ResourceTypesScope        []string `json:"resource_types_scope"`
 	TagKeyScope               string   `json:"tag_key_scope"`
-	TagValueScope             string   `json:"tag_value_scope"`
 	Description               string   `json:"description"`
-	MaximumExecutionFrequency string   `json:"maximum_execution_frequency"`
-	RuleIdentifier            string   `json:"rule_identifier"`
 	ExcludedAccounts          []string `json:"excluded_accounts"`
-	Id                        string   `json:"id"`
+	MaximumExecutionFrequency string   `json:"maximum_execution_frequency"`
+	ResourceTypesScope        []string `json:"resource_types_scope"`
+	RuleIdentifier            string   `json:"rule_identifier"`
+	TagValueScope             string   `json:"tag_value_scope"`
 	InputParameters           string   `json:"input_parameters"`
 	Timeouts                  Timeouts `json:"timeouts"`
 }
 
 type Timeouts struct {
+	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
-	Update string `json:"update"`
 }
 
 // A ConfigOrganizationManagedRuleStatus defines the observed state of a ConfigOrganizationManagedRule

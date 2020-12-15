@@ -55,7 +55,6 @@ type GuarddutyPublishingDestinationParameters struct {
 	DestinationArn  string `json:"destination_arn"`
 	DestinationType string `json:"destination_type"`
 	DetectorId      string `json:"detector_id"`
-	Id              string `json:"id"`
 	KmsKeyArn       string `json:"kms_key_arn"`
 }
 

@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamAccessKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamAccessKey_KeyFingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -105,16 +100,6 @@ func MergeIamAccessKey_Status(k *IamAccessKeyParameters, p *IamAccessKeyParamete
 func MergeIamAccessKey_User(k *IamAccessKeyParameters, p *IamAccessKeyParameters, md *plugin.MergeDescription) bool {
 	if k.User != p.User {
 		p.User = k.User
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamAccessKey_Id(k *IamAccessKeyParameters, p *IamAccessKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -40,7 +40,6 @@ func EncodeGuarddutyMember(r GuarddutyMember) cty.Value {
 	EncodeGuarddutyMember_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_DisableEmailNotification(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Email(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyMember_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_InvitationMessage(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_Invite(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyMember_AccountId(r.Spec.ForProvider, ctyVal)
@@ -66,10 +65,6 @@ func EncodeGuarddutyMember_DisableEmailNotification(p GuarddutyMemberParameters,
 
 func EncodeGuarddutyMember_Email(p GuarddutyMemberParameters, vals map[string]cty.Value) {
 	vals["email"] = cty.StringVal(p.Email)
-}
-
-func EncodeGuarddutyMember_Id(p GuarddutyMemberParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGuarddutyMember_InvitationMessage(p GuarddutyMemberParameters, vals map[string]cty.Value) {

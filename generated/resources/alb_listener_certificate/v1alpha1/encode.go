@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAlbListenerCertificate(r AlbListenerCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbListenerCertificate_ListenerArn(r.Spec.ForProvider, ctyVal)
 	EncodeAlbListenerCertificate_CertificateArn(r.Spec.ForProvider, ctyVal)
-	EncodeAlbListenerCertificate_Id(r.Spec.ForProvider, ctyVal)
+	EncodeAlbListenerCertificate_ListenerArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +50,10 @@ func EncodeAlbListenerCertificate(r AlbListenerCertificate) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeAlbListenerCertificate_ListenerArn(p AlbListenerCertificateParameters, vals map[string]cty.Value) {
-	vals["listener_arn"] = cty.StringVal(p.ListenerArn)
-}
-
 func EncodeAlbListenerCertificate_CertificateArn(p AlbListenerCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_arn"] = cty.StringVal(p.CertificateArn)
 }
 
-func EncodeAlbListenerCertificate_Id(p AlbListenerCertificateParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeAlbListenerCertificate_ListenerArn(p AlbListenerCertificateParameters, vals map[string]cty.Value) {
+	vals["listener_arn"] = cty.StringVal(p.ListenerArn)
 }

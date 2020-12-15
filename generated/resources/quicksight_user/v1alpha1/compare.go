@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeQuicksightUser_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeQuicksightUser_IamArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeQuicksightUser_IdentityType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeQuicksightUser_Namespace(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,12 +61,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeQuicksightUser_IamArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeQuicksightUser_Email(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeQuicksightUser_Email(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeQuicksightUser_Namespace(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,9 +87,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeQuicksightUser_Id(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeQuicksightUser_IamArn(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
+	if k.IamArn != p.IamArn {
+		p.IamArn = k.IamArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -105,16 +100,6 @@ func MergeQuicksightUser_Id(k *QuicksightUserParameters, p *QuicksightUserParame
 func MergeQuicksightUser_IdentityType(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
 	if k.IdentityType != p.IdentityType {
 		p.IdentityType = k.IdentityType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeQuicksightUser_Namespace(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
-	if k.Namespace != p.Namespace {
-		p.Namespace = k.Namespace
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -162,9 +147,9 @@ func MergeQuicksightUser_AwsAccountId(k *QuicksightUserParameters, p *Quicksight
 }
 
 //mergePrimitiveTemplateSpec
-func MergeQuicksightUser_IamArn(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
-	if k.IamArn != p.IamArn {
-		p.IamArn = k.IamArn
+func MergeQuicksightUser_Email(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
+	if k.Email != p.Email {
+		p.Email = k.Email
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -172,9 +157,9 @@ func MergeQuicksightUser_IamArn(k *QuicksightUserParameters, p *QuicksightUserPa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeQuicksightUser_Email(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
-	if k.Email != p.Email {
-		p.Email = k.Email
+func MergeQuicksightUser_Namespace(k *QuicksightUserParameters, p *QuicksightUserParameters, md *plugin.MergeDescription) bool {
+	if k.Namespace != p.Namespace {
+		p.Namespace = k.Namespace
 		md.NeedsProviderUpdate = true
 		return true
 	}

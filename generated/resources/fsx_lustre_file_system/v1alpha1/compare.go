@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeFsxLustreFileSystem_AutoImportPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeFsxLustreFileSystem_DeploymentType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeFsxLustreFileSystem_DriveCacheType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFsxLustreFileSystem_ImportPath(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,7 +46,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFsxLustreFileSystem_StorageCapacity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFsxLustreFileSystem_WeeklyMaintenanceStartTime(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeFsxLustreFileSystem_AutoImportPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeFsxLustreFileSystem_DailyAutomaticBackupStartTime(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeFsxLustreFileSystem_PerUnitStorageThroughput(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeFsxLustreFileSystem_SecurityGroupIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeFsxLustreFileSystem_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,17 +91,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFsxLustreFileSystem_SecurityGroupIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFsxLustreFileSystem_ImportedFileChunkSize(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeFsxLustreFileSystem_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFsxLustreFileSystem_WeeklyMaintenanceStartTime(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFsxLustreFileSystem_StorageCapacity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,37 +106,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFsxLustreFileSystem_DailyAutomaticBackupStartTime(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFsxLustreFileSystem_ImportPath(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFsxLustreFileSystem_ImportedFileChunkSize(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFsxLustreFileSystem_PerUnitStorageThroughput(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFsxLustreFileSystem_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeFsxLustreFileSystem_DriveCacheType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeFsxLustreFileSystem_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeFsxLustreFileSystem_VpcId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -146,6 +136,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeFsxLustreFileSystem_VpcId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeFsxLustreFileSystem_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -162,16 +157,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_AutoImportPolicy(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.AutoImportPolicy != p.AutoImportPolicy {
-		p.AutoImportPolicy = k.AutoImportPolicy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeFsxLustreFileSystem_DeploymentType(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
 	if k.DeploymentType != p.DeploymentType {
 		p.DeploymentType = k.DeploymentType
@@ -182,9 +167,9 @@ func MergeFsxLustreFileSystem_DeploymentType(k *FsxLustreFileSystemParameters, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_DriveCacheType(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.DriveCacheType != p.DriveCacheType {
-		p.DriveCacheType = k.DriveCacheType
+func MergeFsxLustreFileSystem_ImportPath(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.ImportPath != p.ImportPath {
+		p.ImportPath = k.ImportPath
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -202,9 +187,59 @@ func MergeFsxLustreFileSystem_KmsKeyId(k *FsxLustreFileSystemParameters, p *FsxL
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_StorageCapacity(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.StorageCapacity != p.StorageCapacity {
-		p.StorageCapacity = k.StorageCapacity
+func MergeFsxLustreFileSystem_WeeklyMaintenanceStartTime(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.WeeklyMaintenanceStartTime != p.WeeklyMaintenanceStartTime {
+		p.WeeklyMaintenanceStartTime = k.WeeklyMaintenanceStartTime
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeFsxLustreFileSystem_AutoImportPolicy(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.AutoImportPolicy != p.AutoImportPolicy {
+		p.AutoImportPolicy = k.AutoImportPolicy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeFsxLustreFileSystem_DailyAutomaticBackupStartTime(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.DailyAutomaticBackupStartTime != p.DailyAutomaticBackupStartTime {
+		p.DailyAutomaticBackupStartTime = k.DailyAutomaticBackupStartTime
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeFsxLustreFileSystem_PerUnitStorageThroughput(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.PerUnitStorageThroughput != p.PerUnitStorageThroughput {
+		p.PerUnitStorageThroughput = k.PerUnitStorageThroughput
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeFsxLustreFileSystem_SecurityGroupIds(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SecurityGroupIds, p.SecurityGroupIds) {
+		p.SecurityGroupIds = k.SecurityGroupIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeFsxLustreFileSystem_Tags(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -241,66 +276,6 @@ func MergeFsxLustreFileSystem_ExportPath(k *FsxLustreFileSystemParameters, p *Fs
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeFsxLustreFileSystem_SecurityGroupIds(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SecurityGroupIds, p.SecurityGroupIds) {
-		p.SecurityGroupIds = k.SecurityGroupIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeFsxLustreFileSystem_Tags(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_WeeklyMaintenanceStartTime(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.WeeklyMaintenanceStartTime != p.WeeklyMaintenanceStartTime {
-		p.WeeklyMaintenanceStartTime = k.WeeklyMaintenanceStartTime
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeFsxLustreFileSystem_SubnetIds(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SubnetIds, p.SubnetIds) {
-		p.SubnetIds = k.SubnetIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_DailyAutomaticBackupStartTime(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.DailyAutomaticBackupStartTime != p.DailyAutomaticBackupStartTime {
-		p.DailyAutomaticBackupStartTime = k.DailyAutomaticBackupStartTime
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_ImportPath(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.ImportPath != p.ImportPath {
-		p.ImportPath = k.ImportPath
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeFsxLustreFileSystem_ImportedFileChunkSize(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
 	if k.ImportedFileChunkSize != p.ImportedFileChunkSize {
@@ -312,9 +287,19 @@ func MergeFsxLustreFileSystem_ImportedFileChunkSize(k *FsxLustreFileSystemParame
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_PerUnitStorageThroughput(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.PerUnitStorageThroughput != p.PerUnitStorageThroughput {
-		p.PerUnitStorageThroughput = k.PerUnitStorageThroughput
+func MergeFsxLustreFileSystem_StorageCapacity(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.StorageCapacity != p.StorageCapacity {
+		p.StorageCapacity = k.StorageCapacity
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeFsxLustreFileSystem_SubnetIds(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
+		p.SubnetIds = k.SubnetIds
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -322,9 +307,9 @@ func MergeFsxLustreFileSystem_PerUnitStorageThroughput(k *FsxLustreFileSystemPar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeFsxLustreFileSystem_Id(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeFsxLustreFileSystem_DriveCacheType(k *FsxLustreFileSystemParameters, p *FsxLustreFileSystemParameters, md *plugin.MergeDescription) bool {
+	if k.DriveCacheType != p.DriveCacheType {
+		p.DriveCacheType = k.DriveCacheType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -372,16 +357,6 @@ func MergeFsxLustreFileSystem_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plug
 }
 
 //mergePrimitiveTemplateStatus
-func MergeFsxLustreFileSystem_VpcId(k *FsxLustreFileSystemObservation, p *FsxLustreFileSystemObservation, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		k.VpcId = p.VpcId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeFsxLustreFileSystem_Arn(k *FsxLustreFileSystemObservation, p *FsxLustreFileSystemObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
@@ -413,8 +388,18 @@ func MergeFsxLustreFileSystem_MountName(k *FsxLustreFileSystemObservation, p *Fs
 
 //mergePrimitiveContainerTemplateStatus
 func MergeFsxLustreFileSystem_NetworkInterfaceIds(k *FsxLustreFileSystemObservation, p *FsxLustreFileSystemObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.NetworkInterfaceIds, p.NetworkInterfaceIds) {
+	if !plugin.CompareStringSlices(k.NetworkInterfaceIds, p.NetworkInterfaceIds) {
 		k.NetworkInterfaceIds = p.NetworkInterfaceIds
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeFsxLustreFileSystem_VpcId(k *FsxLustreFileSystemObservation, p *FsxLustreFileSystemObservation, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		k.VpcId = p.VpcId
 		md.StatusUpdated = true
 		return true
 	}

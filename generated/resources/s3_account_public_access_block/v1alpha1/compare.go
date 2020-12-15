@@ -31,12 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeS3AccountPublicAccessBlock_BlockPublicPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3AccountPublicAccessBlock_AccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeS3AccountPublicAccessBlock_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeS3AccountPublicAccessBlock_BlockPublicAcls(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeS3AccountPublicAccessBlock_BlockPublicPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -47,16 +52,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeS3AccountPublicAccessBlock_RestrictPublicBuckets(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3AccountPublicAccessBlock_AccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeS3AccountPublicAccessBlock_BlockPublicAcls(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -73,9 +68,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3AccountPublicAccessBlock_BlockPublicPolicy(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
-	if k.BlockPublicPolicy != p.BlockPublicPolicy {
-		p.BlockPublicPolicy = k.BlockPublicPolicy
+func MergeS3AccountPublicAccessBlock_AccountId(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
+	if k.AccountId != p.AccountId {
+		p.AccountId = k.AccountId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -83,9 +78,19 @@ func MergeS3AccountPublicAccessBlock_BlockPublicPolicy(k *S3AccountPublicAccessB
 }
 
 //mergePrimitiveTemplateSpec
-func MergeS3AccountPublicAccessBlock_Id(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeS3AccountPublicAccessBlock_BlockPublicAcls(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
+	if k.BlockPublicAcls != p.BlockPublicAcls {
+		p.BlockPublicAcls = k.BlockPublicAcls
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeS3AccountPublicAccessBlock_BlockPublicPolicy(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
+	if k.BlockPublicPolicy != p.BlockPublicPolicy {
+		p.BlockPublicPolicy = k.BlockPublicPolicy
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -106,26 +111,6 @@ func MergeS3AccountPublicAccessBlock_IgnorePublicAcls(k *S3AccountPublicAccessBl
 func MergeS3AccountPublicAccessBlock_RestrictPublicBuckets(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
 	if k.RestrictPublicBuckets != p.RestrictPublicBuckets {
 		p.RestrictPublicBuckets = k.RestrictPublicBuckets
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3AccountPublicAccessBlock_AccountId(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
-	if k.AccountId != p.AccountId {
-		p.AccountId = k.AccountId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeS3AccountPublicAccessBlock_BlockPublicAcls(k *S3AccountPublicAccessBlockParameters, p *S3AccountPublicAccessBlockParameters, md *plugin.MergeDescription) bool {
-	if k.BlockPublicAcls != p.BlockPublicAcls {
-		p.BlockPublicAcls = k.BlockPublicAcls
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -36,17 +36,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayClientCertificate_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayClientCertificate_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayClientCertificate_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,6 +52,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeApiGatewayClientCertificate_PemEncodedCertificate(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayClientCertificate_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,31 +81,11 @@ func MergeApiGatewayClientCertificate_Description(k *ApiGatewayClientCertificate
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayClientCertificate_Id(k *ApiGatewayClientCertificateParameters, p *ApiGatewayClientCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeApiGatewayClientCertificate_Tags(k *ApiGatewayClientCertificateParameters, p *ApiGatewayClientCertificateParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeApiGatewayClientCertificate_Arn(k *ApiGatewayClientCertificateObservation, p *ApiGatewayClientCertificateObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -140,6 +115,16 @@ func MergeApiGatewayClientCertificate_ExpirationDate(k *ApiGatewayClientCertific
 func MergeApiGatewayClientCertificate_PemEncodedCertificate(k *ApiGatewayClientCertificateObservation, p *ApiGatewayClientCertificateObservation, md *plugin.MergeDescription) bool {
 	if k.PemEncodedCertificate != p.PemEncodedCertificate {
 		k.PemEncodedCertificate = p.PemEncodedCertificate
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeApiGatewayClientCertificate_Arn(k *ApiGatewayClientCertificateObservation, p *ApiGatewayClientCertificateObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

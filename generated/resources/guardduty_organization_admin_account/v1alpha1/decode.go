@@ -40,7 +40,6 @@ func DecodeGuarddutyOrganizationAdminAccount(prev *GuarddutyOrganizationAdminAcc
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeGuarddutyOrganizationAdminAccount_AdminAccountId(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyOrganizationAdminAccount_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,9 +51,4 @@ func DecodeGuarddutyOrganizationAdminAccount(prev *GuarddutyOrganizationAdminAcc
 //primitiveTypeDecodeTemplate
 func DecodeGuarddutyOrganizationAdminAccount_AdminAccountId(p *GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
 	p.AdminAccountId = ctwhy.ValueAsString(vals["admin_account_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGuarddutyOrganizationAdminAccount_Id(p *GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

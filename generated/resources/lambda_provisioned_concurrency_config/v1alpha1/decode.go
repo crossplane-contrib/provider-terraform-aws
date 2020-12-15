@@ -40,7 +40,6 @@ func DecodeLambdaProvisionedConcurrencyConfig(prev *LambdaProvisionedConcurrency
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeLambdaProvisionedConcurrencyConfig_FunctionName(&new.Spec.ForProvider, valMap)
-	DecodeLambdaProvisionedConcurrencyConfig_Id(&new.Spec.ForProvider, valMap)
 	DecodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(&new.Spec.ForProvider, valMap)
 	DecodeLambdaProvisionedConcurrencyConfig_Qualifier(&new.Spec.ForProvider, valMap)
 	DecodeLambdaProvisionedConcurrencyConfig_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
@@ -55,11 +54,6 @@ func DecodeLambdaProvisionedConcurrencyConfig(prev *LambdaProvisionedConcurrency
 //primitiveTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_FunctionName(p *LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	p.FunctionName = ctwhy.ValueAsString(vals["function_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLambdaProvisionedConcurrencyConfig_Id(p *LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

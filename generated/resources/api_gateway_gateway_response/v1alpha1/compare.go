@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayGatewayResponse_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayGatewayResponse_ResponseParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -72,19 +67,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayGatewayResponse_Id(k *ApiGatewayGatewayResponseParameters, p *ApiGatewayGatewayResponseParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeApiGatewayGatewayResponse_ResponseParameters(k *ApiGatewayGatewayResponseParameters, p *ApiGatewayGatewayResponseParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.ResponseParameters, p.ResponseParameters) {
+	if !plugin.CompareMapString(k.ResponseParameters, p.ResponseParameters) {
 		p.ResponseParameters = k.ResponseParameters
 		md.NeedsProviderUpdate = true
 		return true
@@ -94,7 +79,7 @@ func MergeApiGatewayGatewayResponse_ResponseParameters(k *ApiGatewayGatewayRespo
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApiGatewayGatewayResponse_ResponseTemplates(k *ApiGatewayGatewayResponseParameters, p *ApiGatewayGatewayResponseParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.ResponseTemplates, p.ResponseTemplates) {
+	if !plugin.CompareMapString(k.ResponseTemplates, p.ResponseTemplates) {
 		p.ResponseTemplates = k.ResponseTemplates
 		md.NeedsProviderUpdate = true
 		return true

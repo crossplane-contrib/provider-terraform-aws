@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeDocdbSubnetGroup(r DocdbSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeDocdbSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDocdbSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeDocdbSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
@@ -56,10 +55,6 @@ func EncodeDocdbSubnetGroup(r DocdbSubnetGroup) cty.Value {
 
 func EncodeDocdbSubnetGroup_Description(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDocdbSubnetGroup_Id(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDocdbSubnetGroup_Name(p DocdbSubnetGroupParameters, vals map[string]cty.Value) {

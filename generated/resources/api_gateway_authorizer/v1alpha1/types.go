@@ -52,16 +52,15 @@ type ApiGatewayAuthorizerSpec struct {
 
 // A ApiGatewayAuthorizerParameters defines the desired state of a ApiGatewayAuthorizer
 type ApiGatewayAuthorizerParameters struct {
-	AuthorizerCredentials        string   `json:"authorizer_credentials"`
-	Id                           string   `json:"id"`
-	IdentitySource               string   `json:"identity_source"`
 	Name                         string   `json:"name"`
-	RestApiId                    string   `json:"rest_api_id"`
-	AuthorizerResultTtlInSeconds int64    `json:"authorizer_result_ttl_in_seconds"`
-	AuthorizerUri                string   `json:"authorizer_uri"`
+	Type                         string   `json:"type"`
 	IdentityValidationExpression string   `json:"identity_validation_expression"`
 	ProviderArns                 []string `json:"provider_arns"`
-	Type                         string   `json:"type"`
+	RestApiId                    string   `json:"rest_api_id"`
+	AuthorizerCredentials        string   `json:"authorizer_credentials"`
+	AuthorizerResultTtlInSeconds int64    `json:"authorizer_result_ttl_in_seconds"`
+	AuthorizerUri                string   `json:"authorizer_uri"`
+	IdentitySource               string   `json:"identity_source"`
 }
 
 // A ApiGatewayAuthorizerStatus defines the observed state of a ApiGatewayAuthorizer

@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamUserGroupMembership_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamUserGroupMembership_User(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -59,18 +54,8 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamUserGroupMembership_Groups(k *IamUserGroupMembershipParameters, p *IamUserGroupMembershipParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Groups, p.Groups) {
+	if !plugin.CompareStringSlices(k.Groups, p.Groups) {
 		p.Groups = k.Groups
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamUserGroupMembership_Id(k *IamUserGroupMembershipParameters, p *IamUserGroupMembershipParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

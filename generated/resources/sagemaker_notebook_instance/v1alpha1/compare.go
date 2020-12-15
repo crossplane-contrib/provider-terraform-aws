@@ -31,7 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeSagemakerNotebookInstance_LifecycleConfigName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeSagemakerNotebookInstance_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSagemakerNotebookInstance_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,12 +61,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSagemakerNotebookInstance_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSagemakerNotebookInstance_LifecycleConfigName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSagemakerNotebookInstance_DirectInternetAccess(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,17 +76,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSagemakerNotebookInstance_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSagemakerNotebookInstance_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSagemakerNotebookInstance_DirectInternetAccess(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,9 +97,29 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeSagemakerNotebookInstance_LifecycleConfigName(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.LifecycleConfigName != p.LifecycleConfigName {
+		p.LifecycleConfigName = k.LifecycleConfigName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeSagemakerNotebookInstance_Name(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSagemakerNotebookInstance_RoleArn(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.RoleArn != p.RoleArn {
+		p.RoleArn = k.RoleArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -123,7 +138,7 @@ func MergeSagemakerNotebookInstance_RootAccess(k *SagemakerNotebookInstanceParam
 
 //mergePrimitiveContainerTemplateSpec
 func MergeSagemakerNotebookInstance_SecurityGroups(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SecurityGroups, p.SecurityGroups) {
+	if !plugin.CompareStringSlices(k.SecurityGroups, p.SecurityGroups) {
 		p.SecurityGroups = k.SecurityGroups
 		md.NeedsProviderUpdate = true
 		return true
@@ -142,19 +157,9 @@ func MergeSagemakerNotebookInstance_SubnetId(k *SagemakerNotebookInstanceParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSagemakerNotebookInstance_Id(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSagemakerNotebookInstance_LifecycleConfigName(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.LifecycleConfigName != p.LifecycleConfigName {
-		p.LifecycleConfigName = k.LifecycleConfigName
+func MergeSagemakerNotebookInstance_DirectInternetAccess(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.DirectInternetAccess != p.DirectInternetAccess {
+		p.DirectInternetAccess = k.DirectInternetAccess
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -181,30 +186,10 @@ func MergeSagemakerNotebookInstance_KmsKeyId(k *SagemakerNotebookInstanceParamet
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeSagemakerNotebookInstance_RoleArn(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.RoleArn != p.RoleArn {
-		p.RoleArn = k.RoleArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeSagemakerNotebookInstance_Tags(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSagemakerNotebookInstance_DirectInternetAccess(k *SagemakerNotebookInstanceParameters, p *SagemakerNotebookInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.DirectInternetAccess != p.DirectInternetAccess {
-		p.DirectInternetAccess = k.DirectInternetAccess
 		md.NeedsProviderUpdate = true
 		return true
 	}

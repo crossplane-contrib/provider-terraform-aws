@@ -39,17 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCodebuildSourceCredential(prev *CodebuildSourceCredential, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCodebuildSourceCredential_Token(&new.Spec.ForProvider, valMap)
 	DecodeCodebuildSourceCredential_UserName(&new.Spec.ForProvider, valMap)
 	DecodeCodebuildSourceCredential_AuthType(&new.Spec.ForProvider, valMap)
-	DecodeCodebuildSourceCredential_Id(&new.Spec.ForProvider, valMap)
 	DecodeCodebuildSourceCredential_ServerType(&new.Spec.ForProvider, valMap)
-	DecodeCodebuildSourceCredential_Token(&new.Spec.ForProvider, valMap)
 	DecodeCodebuildSourceCredential_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodebuildSourceCredential_Token(p *CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
+	p.Token = ctwhy.ValueAsString(vals["token"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -63,18 +67,8 @@ func DecodeCodebuildSourceCredential_AuthType(p *CodebuildSourceCredentialParame
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCodebuildSourceCredential_Id(p *CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeCodebuildSourceCredential_ServerType(p *CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
 	p.ServerType = ctwhy.ValueAsString(vals["server_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCodebuildSourceCredential_Token(p *CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
-	p.Token = ctwhy.ValueAsString(vals["token"])
 }
 
 //primitiveTypeDecodeTemplate

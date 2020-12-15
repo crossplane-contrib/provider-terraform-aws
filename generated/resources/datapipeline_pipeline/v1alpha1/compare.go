@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDatapipelinePipeline_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDatapipelinePipeline_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -73,16 +68,6 @@ func MergeDatapipelinePipeline_Description(k *DatapipelinePipelineParameters, p 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDatapipelinePipeline_Id(k *DatapipelinePipelineParameters, p *DatapipelinePipelineParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDatapipelinePipeline_Name(k *DatapipelinePipelineParameters, p *DatapipelinePipelineParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -94,7 +79,7 @@ func MergeDatapipelinePipeline_Name(k *DatapipelinePipelineParameters, p *Datapi
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDatapipelinePipeline_Tags(k *DatapipelinePipelineParameters, p *DatapipelinePipelineParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

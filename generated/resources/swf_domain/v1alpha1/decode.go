@@ -39,12 +39,11 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSwfDomain(prev *SwfDomain, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSwfDomain_Id(&new.Spec.ForProvider, valMap)
+	DecodeSwfDomain_Description(&new.Spec.ForProvider, valMap)
 	DecodeSwfDomain_Name(&new.Spec.ForProvider, valMap)
 	DecodeSwfDomain_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeSwfDomain_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(&new.Spec.ForProvider, valMap)
-	DecodeSwfDomain_Description(&new.Spec.ForProvider, valMap)
 	DecodeSwfDomain_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -54,8 +53,8 @@ func DecodeSwfDomain(prev *SwfDomain, ctyValue cty.Value) (resource.Managed, err
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSwfDomain_Id(p *SwfDomainParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeSwfDomain_Description(p *SwfDomainParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -82,11 +81,6 @@ func DecodeSwfDomain_Tags(p *SwfDomainParameters, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p *SwfDomainParameters, vals map[string]cty.Value) {
 	p.WorkflowExecutionRetentionPeriodInDays = ctwhy.ValueAsString(vals["workflow_execution_retention_period_in_days"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSwfDomain_Description(p *SwfDomainParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate

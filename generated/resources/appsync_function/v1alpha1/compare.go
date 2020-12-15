@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAppsyncFunction_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAppsyncFunction_FunctionVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncFunction_RequestMappingTemplate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAppsyncFunction_ResponseMappingTemplate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,22 +51,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncFunction_FunctionVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAppsyncFunction_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncFunction_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAppsyncFunction_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppsyncFunction_ResponseMappingTemplate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAppsyncFunction_RequestMappingTemplate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,9 +87,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_Name(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeAppsyncFunction_FunctionVersion(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
+	if k.FunctionVersion != p.FunctionVersion {
+		p.FunctionVersion = k.FunctionVersion
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -102,9 +97,9 @@ func MergeAppsyncFunction_Name(k *AppsyncFunctionParameters, p *AppsyncFunctionP
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_RequestMappingTemplate(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.RequestMappingTemplate != p.RequestMappingTemplate {
-		p.RequestMappingTemplate = k.RequestMappingTemplate
+func MergeAppsyncFunction_ResponseMappingTemplate(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
+	if k.ResponseMappingTemplate != p.ResponseMappingTemplate {
+		p.ResponseMappingTemplate = k.ResponseMappingTemplate
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -132,16 +127,6 @@ func MergeAppsyncFunction_DataSource(k *AppsyncFunctionParameters, p *AppsyncFun
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_FunctionVersion(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.FunctionVersion != p.FunctionVersion {
-		p.FunctionVersion = k.FunctionVersion
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeAppsyncFunction_Description(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
@@ -152,9 +137,9 @@ func MergeAppsyncFunction_Description(k *AppsyncFunctionParameters, p *AppsyncFu
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_Id(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeAppsyncFunction_Name(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -162,9 +147,9 @@ func MergeAppsyncFunction_Id(k *AppsyncFunctionParameters, p *AppsyncFunctionPar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAppsyncFunction_ResponseMappingTemplate(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
-	if k.ResponseMappingTemplate != p.ResponseMappingTemplate {
-		p.ResponseMappingTemplate = k.ResponseMappingTemplate
+func MergeAppsyncFunction_RequestMappingTemplate(k *AppsyncFunctionParameters, p *AppsyncFunctionParameters, md *plugin.MergeDescription) bool {
+	if k.RequestMappingTemplate != p.RequestMappingTemplate {
+		p.RequestMappingTemplate = k.RequestMappingTemplate
 		md.NeedsProviderUpdate = true
 		return true
 	}

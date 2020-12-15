@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLoadBalancerBackendServerPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLoadBalancerBackendServerPolicy_InstancePort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -63,16 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLoadBalancerBackendServerPolicy_Id(k *LoadBalancerBackendServerPolicyParameters, p *LoadBalancerBackendServerPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeLoadBalancerBackendServerPolicy_InstancePort(k *LoadBalancerBackendServerPolicyParameters, p *LoadBalancerBackendServerPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.InstancePort != p.InstancePort {
 		p.InstancePort = k.InstancePort
@@ -94,7 +79,7 @@ func MergeLoadBalancerBackendServerPolicy_LoadBalancerName(k *LoadBalancerBacken
 
 //mergePrimitiveContainerTemplateSpec
 func MergeLoadBalancerBackendServerPolicy_PolicyNames(k *LoadBalancerBackendServerPolicyParameters, p *LoadBalancerBackendServerPolicyParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.PolicyNames, p.PolicyNames) {
+	if !plugin.CompareStringSlices(k.PolicyNames, p.PolicyNames) {
 		p.PolicyNames = k.PolicyNames
 		md.NeedsProviderUpdate = true
 		return true

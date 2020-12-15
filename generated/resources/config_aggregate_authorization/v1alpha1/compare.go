@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeConfigAggregateAuthorization_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeConfigAggregateAuthorization_Region(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -77,16 +72,6 @@ func MergeConfigAggregateAuthorization_AccountId(k *ConfigAggregateAuthorization
 }
 
 //mergePrimitiveTemplateSpec
-func MergeConfigAggregateAuthorization_Id(k *ConfigAggregateAuthorizationParameters, p *ConfigAggregateAuthorizationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeConfigAggregateAuthorization_Region(k *ConfigAggregateAuthorizationParameters, p *ConfigAggregateAuthorizationParameters, md *plugin.MergeDescription) bool {
 	if k.Region != p.Region {
 		p.Region = k.Region
@@ -98,7 +83,7 @@ func MergeConfigAggregateAuthorization_Region(k *ConfigAggregateAuthorizationPar
 
 //mergePrimitiveContainerTemplateSpec
 func MergeConfigAggregateAuthorization_Tags(k *ConfigAggregateAuthorizationParameters, p *ConfigAggregateAuthorizationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

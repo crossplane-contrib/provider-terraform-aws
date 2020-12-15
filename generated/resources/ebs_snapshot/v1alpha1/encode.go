@@ -37,14 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEbsSnapshot(r EbsSnapshot) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEbsSnapshot_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshot_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshot_Description(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshot_VolumeId(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshot_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeEbsSnapshot_OwnerAlias(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_KmsKeyId(r.Status.AtProvider, ctyVal)
+	EncodeEbsSnapshot_OwnerAlias(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_VolumeSize(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshot_DataEncryptionKeyId(r.Status.AtProvider, ctyVal)
@@ -57,10 +56,6 @@ func EncodeEbsSnapshot(r EbsSnapshot) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEbsSnapshot_Id(p EbsSnapshotParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEbsSnapshot_Tags(p EbsSnapshotParameters, vals map[string]cty.Value) {
@@ -98,16 +93,16 @@ func EncodeEbsSnapshot_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
 }
 
-func EncodeEbsSnapshot_OwnerAlias(p EbsSnapshotObservation, vals map[string]cty.Value) {
-	vals["owner_alias"] = cty.StringVal(p.OwnerAlias)
-}
-
 func EncodeEbsSnapshot_Arn(p EbsSnapshotObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeEbsSnapshot_KmsKeyId(p EbsSnapshotObservation, vals map[string]cty.Value) {
 	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+}
+
+func EncodeEbsSnapshot_OwnerAlias(p EbsSnapshotObservation, vals map[string]cty.Value) {
+	vals["owner_alias"] = cty.StringVal(p.OwnerAlias)
 }
 
 func EncodeEbsSnapshot_OwnerId(p EbsSnapshotObservation, vals map[string]cty.Value) {

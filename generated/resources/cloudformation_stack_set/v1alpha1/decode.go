@@ -39,24 +39,34 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudformationStackSet(prev *CloudformationStackSet, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCloudformationStackSet_Tags(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSet_Capabilities(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSet_Id(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSet_Name(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Description(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSet_Parameters(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSet_TemplateBody(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSet_AdministrationRoleArn(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSet_Description(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSet_ExecutionRoleName(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStackSet_Tags(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSet_TemplateUrl(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_AdministrationRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_ExecutionRoleName(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStackSet_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSet_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeCloudformationStackSet_Arn(&new.Status.AtProvider, valMap)
 	DecodeCloudformationStackSet_StackSetId(&new.Status.AtProvider, valMap)
+	DecodeCloudformationStackSet_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeCloudformationStackSet_Tags(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -69,13 +79,8 @@ func DecodeCloudformationStackSet_Capabilities(p *CloudformationStackSetParamete
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSet_Id(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSet_Name(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+func DecodeCloudformationStackSet_Description(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -95,13 +100,13 @@ func DecodeCloudformationStackSet_TemplateBody(p *CloudformationStackSetParamete
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSet_AdministrationRoleArn(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
-	p.AdministrationRoleArn = ctwhy.ValueAsString(vals["administration_role_arn"])
+func DecodeCloudformationStackSet_TemplateUrl(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.TemplateUrl = ctwhy.ValueAsString(vals["template_url"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSet_Description(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
+func DecodeCloudformationStackSet_AdministrationRoleArn(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.AdministrationRoleArn = ctwhy.ValueAsString(vals["administration_role_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -109,20 +114,9 @@ func DecodeCloudformationStackSet_ExecutionRoleName(p *CloudformationStackSetPar
 	p.ExecutionRoleName = ctwhy.ValueAsString(vals["execution_role_name"])
 }
 
-//primitiveMapTypeDecodeTemplate
-func DecodeCloudformationStackSet_Tags(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
-}
-
 //primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSet_TemplateUrl(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
-	p.TemplateUrl = ctwhy.ValueAsString(vals["template_url"])
+func DecodeCloudformationStackSet_Name(p *CloudformationStackSetParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //containerTypeDecodeTemplate
@@ -137,11 +131,11 @@ func DecodeCloudformationStackSet_Timeouts_Update(p *Timeouts, vals map[string]c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSet_Arn(p *CloudformationStackSetObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeCloudformationStackSet_StackSetId(p *CloudformationStackSetObservation, vals map[string]cty.Value) {
+	p.StackSetId = ctwhy.ValueAsString(vals["stack_set_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudformationStackSet_StackSetId(p *CloudformationStackSetObservation, vals map[string]cty.Value) {
-	p.StackSetId = ctwhy.ValueAsString(vals["stack_set_id"])
+func DecodeCloudformationStackSet_Arn(p *CloudformationStackSetObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

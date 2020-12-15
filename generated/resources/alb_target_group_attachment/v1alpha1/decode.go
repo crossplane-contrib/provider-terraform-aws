@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAlbTargetGroupAttachment(prev *AlbTargetGroupAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAlbTargetGroupAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeAlbTargetGroupAttachment_Port(&new.Spec.ForProvider, valMap)
 	DecodeAlbTargetGroupAttachment_TargetGroupArn(&new.Spec.ForProvider, valMap)
 	DecodeAlbTargetGroupAttachment_TargetId(&new.Spec.ForProvider, valMap)
@@ -50,11 +49,6 @@ func DecodeAlbTargetGroupAttachment(prev *AlbTargetGroupAttachment, ctyValue cty
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAlbTargetGroupAttachment_Id(p *AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

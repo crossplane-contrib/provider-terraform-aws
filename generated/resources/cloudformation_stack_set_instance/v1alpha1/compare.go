@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudformationStackSetInstance_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudformationStackSetInstance_ParameterOverrides(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -91,19 +86,9 @@ func MergeCloudformationStackSetInstance_AccountId(k *CloudformationStackSetInst
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeCloudformationStackSetInstance_Id(k *CloudformationStackSetInstanceParameters, p *CloudformationStackSetInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeCloudformationStackSetInstance_ParameterOverrides(k *CloudformationStackSetInstanceParameters, p *CloudformationStackSetInstanceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.ParameterOverrides, p.ParameterOverrides) {
+	if !plugin.CompareMapString(k.ParameterOverrides, p.ParameterOverrides) {
 		p.ParameterOverrides = k.ParameterOverrides
 		md.NeedsProviderUpdate = true
 		return true

@@ -52,7 +52,6 @@ type ApiGatewayGatewayResponseSpec struct {
 
 // A ApiGatewayGatewayResponseParameters defines the desired state of a ApiGatewayGatewayResponse
 type ApiGatewayGatewayResponseParameters struct {
-	Id                 string            `json:"id"`
 	ResponseParameters map[string]string `json:"response_parameters"`
 	ResponseTemplates  map[string]string `json:"response_templates"`
 	ResponseType       string            `json:"response_type"`

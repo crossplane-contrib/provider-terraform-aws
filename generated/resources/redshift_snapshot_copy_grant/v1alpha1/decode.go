@@ -39,26 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRedshiftSnapshotCopyGrant(prev *RedshiftSnapshotCopyGrant, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRedshiftSnapshotCopyGrant_Id(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftSnapshotCopyGrant_KmsKeyId(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotCopyGrant_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotCopyGrant_KmsKeyId(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotCopyGrant_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRedshiftSnapshotCopyGrant_Id(p *RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRedshiftSnapshotCopyGrant_KmsKeyId(p *RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -75,6 +64,11 @@ func DecodeRedshiftSnapshotCopyGrant_Tags(p *RedshiftSnapshotCopyGrantParameters
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftSnapshotCopyGrant_KmsKeyId(p *RedshiftSnapshotCopyGrantParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
 }
 
 //primitiveTypeDecodeTemplate

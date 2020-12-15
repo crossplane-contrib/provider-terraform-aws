@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeStoragegatewayWorkingStorage(prev *StoragegatewayWorkingStorage, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeStoragegatewayWorkingStorage_GatewayArn(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayWorkingStorage_Id(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayWorkingStorage_DiskId(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayWorkingStorage_GatewayArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeStoragegatewayWorkingStorage(prev *StoragegatewayWorkingStorage, ctyV
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeStoragegatewayWorkingStorage_GatewayArn(p *StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
-	p.GatewayArn = ctwhy.ValueAsString(vals["gateway_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeStoragegatewayWorkingStorage_Id(p *StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayWorkingStorage_DiskId(p *StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
 	p.DiskId = ctwhy.ValueAsString(vals["disk_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayWorkingStorage_GatewayArn(p *StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
+	p.GatewayArn = ctwhy.ValueAsString(vals["gateway_arn"])
 }

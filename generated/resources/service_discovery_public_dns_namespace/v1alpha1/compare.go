@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeServiceDiscoveryPublicDnsNamespace_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeServiceDiscoveryPublicDnsNamespace_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,12 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeServiceDiscoveryPublicDnsNamespace_HostedZone(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServiceDiscoveryPublicDnsNamespace_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeServiceDiscoveryPublicDnsNamespace_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeServiceDiscoveryPublicDnsNamespace_HostedZone(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,16 +77,6 @@ func MergeServiceDiscoveryPublicDnsNamespace_Description(k *ServiceDiscoveryPubl
 }
 
 //mergePrimitiveTemplateSpec
-func MergeServiceDiscoveryPublicDnsNamespace_Id(k *ServiceDiscoveryPublicDnsNamespaceParameters, p *ServiceDiscoveryPublicDnsNamespaceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeServiceDiscoveryPublicDnsNamespace_Name(k *ServiceDiscoveryPublicDnsNamespaceParameters, p *ServiceDiscoveryPublicDnsNamespaceParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -103,19 +88,9 @@ func MergeServiceDiscoveryPublicDnsNamespace_Name(k *ServiceDiscoveryPublicDnsNa
 
 //mergePrimitiveContainerTemplateSpec
 func MergeServiceDiscoveryPublicDnsNamespace_Tags(k *ServiceDiscoveryPublicDnsNamespaceParameters, p *ServiceDiscoveryPublicDnsNamespaceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeServiceDiscoveryPublicDnsNamespace_HostedZone(k *ServiceDiscoveryPublicDnsNamespaceObservation, p *ServiceDiscoveryPublicDnsNamespaceObservation, md *plugin.MergeDescription) bool {
-	if k.HostedZone != p.HostedZone {
-		k.HostedZone = p.HostedZone
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -125,6 +100,16 @@ func MergeServiceDiscoveryPublicDnsNamespace_HostedZone(k *ServiceDiscoveryPubli
 func MergeServiceDiscoveryPublicDnsNamespace_Arn(k *ServiceDiscoveryPublicDnsNamespaceObservation, p *ServiceDiscoveryPublicDnsNamespaceObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeServiceDiscoveryPublicDnsNamespace_HostedZone(k *ServiceDiscoveryPublicDnsNamespaceObservation, p *ServiceDiscoveryPublicDnsNamespaceObservation, md *plugin.MergeDescription) bool {
+	if k.HostedZone != p.HostedZone {
+		k.HostedZone = p.HostedZone
 		md.StatusUpdated = true
 		return true
 	}

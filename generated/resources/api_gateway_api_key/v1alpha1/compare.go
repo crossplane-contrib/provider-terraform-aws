@@ -31,7 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApiGatewayApiKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApiGatewayApiKey_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayApiKey_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -41,22 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayApiKey_Value(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayApiKey_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayApiKey_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApiGatewayApiKey_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApiGatewayApiKey_Value(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -87,9 +82,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApiGatewayApiKey_Id(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeApiGatewayApiKey_Enabled(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayApiKey_Name(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -98,18 +103,8 @@ func MergeApiGatewayApiKey_Id(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKey
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApiGatewayApiKey_Tags(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayApiKey_Value(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Value != p.Value {
-		p.Value = k.Value
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -127,19 +122,9 @@ func MergeApiGatewayApiKey_Description(k *ApiGatewayApiKeyParameters, p *ApiGate
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApiGatewayApiKey_Enabled(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Enabled != p.Enabled {
-		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayApiKey_Name(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeApiGatewayApiKey_Value(k *ApiGatewayApiKeyParameters, p *ApiGatewayApiKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Value != p.Value {
+		p.Value = k.Value
 		md.NeedsProviderUpdate = true
 		return true
 	}

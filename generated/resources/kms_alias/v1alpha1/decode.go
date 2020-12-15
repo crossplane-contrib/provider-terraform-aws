@@ -39,12 +39,11 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeKmsAlias(prev *KmsAlias, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeKmsAlias_Id(&new.Spec.ForProvider, valMap)
+	DecodeKmsAlias_TargetKeyId(&new.Spec.ForProvider, valMap)
 	DecodeKmsAlias_Name(&new.Spec.ForProvider, valMap)
 	DecodeKmsAlias_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeKmsAlias_TargetKeyId(&new.Spec.ForProvider, valMap)
-	DecodeKmsAlias_Arn(&new.Status.AtProvider, valMap)
 	DecodeKmsAlias_TargetKeyArn(&new.Status.AtProvider, valMap)
+	DecodeKmsAlias_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -53,8 +52,8 @@ func DecodeKmsAlias(prev *KmsAlias, ctyValue cty.Value) (resource.Managed, error
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKmsAlias_Id(p *KmsAliasParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeKmsAlias_TargetKeyId(p *KmsAliasParameters, vals map[string]cty.Value) {
+	p.TargetKeyId = ctwhy.ValueAsString(vals["target_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -68,16 +67,11 @@ func DecodeKmsAlias_NamePrefix(p *KmsAliasParameters, vals map[string]cty.Value)
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeKmsAlias_TargetKeyId(p *KmsAliasParameters, vals map[string]cty.Value) {
-	p.TargetKeyId = ctwhy.ValueAsString(vals["target_key_id"])
+func DecodeKmsAlias_TargetKeyArn(p *KmsAliasObservation, vals map[string]cty.Value) {
+	p.TargetKeyArn = ctwhy.ValueAsString(vals["target_key_arn"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeKmsAlias_Arn(p *KmsAliasObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeKmsAlias_TargetKeyArn(p *KmsAliasObservation, vals map[string]cty.Value) {
-	p.TargetKeyArn = ctwhy.ValueAsString(vals["target_key_arn"])
 }

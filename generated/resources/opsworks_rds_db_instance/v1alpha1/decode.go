@@ -39,32 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeOpsworksRdsDbInstance(prev *OpsworksRdsDbInstance, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeOpsworksRdsDbInstance_DbPassword(&new.Spec.ForProvider, valMap)
-	DecodeOpsworksRdsDbInstance_DbUser(&new.Spec.ForProvider, valMap)
-	DecodeOpsworksRdsDbInstance_Id(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksRdsDbInstance_RdsDbInstanceArn(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksRdsDbInstance_StackId(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksRdsDbInstance_DbPassword(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksRdsDbInstance_DbUser(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOpsworksRdsDbInstance_DbPassword(p *OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
-	p.DbPassword = ctwhy.ValueAsString(vals["db_password"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOpsworksRdsDbInstance_DbUser(p *OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
-	p.DbUser = ctwhy.ValueAsString(vals["db_user"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOpsworksRdsDbInstance_Id(p *OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -75,4 +59,14 @@ func DecodeOpsworksRdsDbInstance_RdsDbInstanceArn(p *OpsworksRdsDbInstanceParame
 //primitiveTypeDecodeTemplate
 func DecodeOpsworksRdsDbInstance_StackId(p *OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
 	p.StackId = ctwhy.ValueAsString(vals["stack_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeOpsworksRdsDbInstance_DbPassword(p *OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
+	p.DbPassword = ctwhy.ValueAsString(vals["db_password"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeOpsworksRdsDbInstance_DbUser(p *OpsworksRdsDbInstanceParameters, vals map[string]cty.Value) {
+	p.DbUser = ctwhy.ValueAsString(vals["db_user"])
 }

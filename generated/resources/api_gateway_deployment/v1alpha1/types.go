@@ -52,12 +52,11 @@ type ApiGatewayDeploymentSpec struct {
 
 // A ApiGatewayDeploymentParameters defines the desired state of a ApiGatewayDeployment
 type ApiGatewayDeploymentParameters struct {
-	StageDescription string            `json:"stage_description"`
+	RestApiId        string            `json:"rest_api_id"`
 	Triggers         map[string]string `json:"triggers"`
 	Variables        map[string]string `json:"variables"`
 	Description      string            `json:"description"`
-	Id               string            `json:"id"`
-	RestApiId        string            `json:"rest_api_id"`
+	StageDescription string            `json:"stage_description"`
 	StageName        string            `json:"stage_name"`
 }
 
@@ -69,7 +68,7 @@ type ApiGatewayDeploymentStatus struct {
 
 // A ApiGatewayDeploymentObservation records the observed state of a ApiGatewayDeployment
 type ApiGatewayDeploymentObservation struct {
-	ExecutionArn string `json:"execution_arn"`
 	InvokeUrl    string `json:"invoke_url"`
 	CreatedDate  string `json:"created_date"`
+	ExecutionArn string `json:"execution_arn"`
 }

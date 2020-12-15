@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRoute53ResolverRuleAssociation(prev *Route53ResolverRuleAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRoute53ResolverRuleAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverRuleAssociation_Name(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverRuleAssociation_ResolverRuleId(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverRuleAssociation_VpcId(&new.Spec.ForProvider, valMap)
@@ -50,11 +49,6 @@ func DecodeRoute53ResolverRuleAssociation(prev *Route53ResolverRuleAssociation, 
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53ResolverRuleAssociation_Id(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -36,17 +36,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsVoipSandboxChannel_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsVoipSandboxChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsVoipSandboxChannel_TeamId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePinpointApnsVoipSandboxChannel_TokenKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergePinpointApnsVoipSandboxChannel_TokenKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointApnsVoipSandboxChannel_TeamId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,17 +71,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointApnsVoipSandboxChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergePinpointApnsVoipSandboxChannel_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointApnsVoipSandboxChannel_TokenKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -103,9 +98,9 @@ func MergePinpointApnsVoipSandboxChannel_BundleId(k *PinpointApnsVoipSandboxChan
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipSandboxChannel_Id(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergePinpointApnsVoipSandboxChannel_Enabled(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -113,9 +108,9 @@ func MergePinpointApnsVoipSandboxChannel_Id(k *PinpointApnsVoipSandboxChannelPar
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipSandboxChannel_TeamId(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TeamId != p.TeamId {
-		p.TeamId = k.TeamId
+func MergePinpointApnsVoipSandboxChannel_TokenKey(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TokenKey != p.TokenKey {
+		p.TokenKey = k.TokenKey
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -126,6 +121,16 @@ func MergePinpointApnsVoipSandboxChannel_TeamId(k *PinpointApnsVoipSandboxChanne
 func MergePinpointApnsVoipSandboxChannel_TokenKeyId(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
 	if k.TokenKeyId != p.TokenKeyId {
 		p.TokenKeyId = k.TokenKeyId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointApnsVoipSandboxChannel_TeamId(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
+	if k.TeamId != p.TeamId {
+		p.TeamId = k.TeamId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -163,29 +168,9 @@ func MergePinpointApnsVoipSandboxChannel_DefaultAuthenticationMethod(k *Pinpoint
 }
 
 //mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipSandboxChannel_Enabled(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Enabled != p.Enabled {
-		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergePinpointApnsVoipSandboxChannel_PrivateKey(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
 	if k.PrivateKey != p.PrivateKey {
 		p.PrivateKey = k.PrivateKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointApnsVoipSandboxChannel_TokenKey(k *PinpointApnsVoipSandboxChannelParameters, p *PinpointApnsVoipSandboxChannelParameters, md *plugin.MergeDescription) bool {
-	if k.TokenKey != p.TokenKey {
-		p.TokenKey = k.TokenKey
 		md.NeedsProviderUpdate = true
 		return true
 	}

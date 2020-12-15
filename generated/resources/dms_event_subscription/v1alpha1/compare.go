@@ -36,21 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDmsEventSubscription_EventCategories(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsEventSubscription_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDmsEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDmsEventSubscription_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,7 +51,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDmsEventSubscription_SourceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDmsEventSubscription_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDmsEventSubscription_EventCategories(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,36 +96,6 @@ func MergeDmsEventSubscription_Enabled(k *DmsEventSubscriptionParameters, p *Dms
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDmsEventSubscription_EventCategories(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.EventCategories, p.EventCategories) {
-		p.EventCategories = k.EventCategories
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsEventSubscription_Id(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDmsEventSubscription_SourceType(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.SourceType != p.SourceType {
-		p.SourceType = k.SourceType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeDmsEventSubscription_Name(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
@@ -153,8 +118,18 @@ func MergeDmsEventSubscription_SnsTopicArn(k *DmsEventSubscriptionParameters, p 
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDmsEventSubscription_SourceIds(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SourceIds, p.SourceIds) {
+	if !plugin.CompareStringSlices(k.SourceIds, p.SourceIds) {
 		p.SourceIds = k.SourceIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDmsEventSubscription_SourceType(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.SourceType != p.SourceType {
+		p.SourceType = k.SourceType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -163,8 +138,18 @@ func MergeDmsEventSubscription_SourceIds(k *DmsEventSubscriptionParameters, p *D
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDmsEventSubscription_Tags(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDmsEventSubscription_EventCategories(k *DmsEventSubscriptionParameters, p *DmsEventSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.EventCategories, p.EventCategories) {
+		p.EventCategories = k.EventCategories
 		md.NeedsProviderUpdate = true
 		return true
 	}

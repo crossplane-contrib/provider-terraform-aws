@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamUserPolicyAttachment(prev *IamUserPolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamUserPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamUserPolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 	DecodeIamUserPolicyAttachment_User(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeIamUserPolicyAttachment(prev *IamUserPolicyAttachment, ctyValue cty.V
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamUserPolicyAttachment_Id(p *IamUserPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

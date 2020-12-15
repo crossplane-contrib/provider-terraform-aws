@@ -52,19 +52,18 @@ type DxPrivateVirtualInterfaceSpec struct {
 
 // A DxPrivateVirtualInterfaceParameters defines the desired state of a DxPrivateVirtualInterface
 type DxPrivateVirtualInterfaceParameters struct {
+	Vlan            int64             `json:"vlan"`
+	Mtu             int64             `json:"mtu"`
+	Name            string            `json:"name"`
+	ConnectionId    string            `json:"connection_id"`
+	VpnGatewayId    string            `json:"vpn_gateway_id"`
 	Tags            map[string]string `json:"tags"`
-	BgpAsn          int64             `json:"bgp_asn"`
 	CustomerAddress string            `json:"customer_address"`
 	DxGatewayId     string            `json:"dx_gateway_id"`
-	Id              string            `json:"id"`
-	Mtu             int64             `json:"mtu"`
-	AddressFamily   string            `json:"address_family"`
+	BgpAsn          int64             `json:"bgp_asn"`
 	BgpAuthKey      string            `json:"bgp_auth_key"`
-	VpnGatewayId    string            `json:"vpn_gateway_id"`
+	AddressFamily   string            `json:"address_family"`
 	AmazonAddress   string            `json:"amazon_address"`
-	ConnectionId    string            `json:"connection_id"`
-	Name            string            `json:"name"`
-	Vlan            int64             `json:"vlan"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 

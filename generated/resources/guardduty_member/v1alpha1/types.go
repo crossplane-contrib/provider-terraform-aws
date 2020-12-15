@@ -55,7 +55,6 @@ type GuarddutyMemberParameters struct {
 	DetectorId               string   `json:"detector_id"`
 	DisableEmailNotification bool     `json:"disable_email_notification"`
 	Email                    string   `json:"email"`
-	Id                       string   `json:"id"`
 	InvitationMessage        string   `json:"invitation_message"`
 	Invite                   bool     `json:"invite"`
 	AccountId                string   `json:"account_id"`

@@ -31,22 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCognitoUserPoolDomain_CertificateArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCognitoUserPoolDomain_Domain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeCognitoUserPoolDomain_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCognitoUserPoolDomain_UserPoolId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeCognitoUserPoolDomain_UserPoolId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCognitoUserPoolDomain_CertificateArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCognitoUserPoolDomain_S3Bucket(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,11 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCognitoUserPoolDomain_S3Bucket(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -79,16 +74,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCognitoUserPoolDomain_CertificateArn(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
-	if k.CertificateArn != p.CertificateArn {
-		p.CertificateArn = k.CertificateArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -102,9 +87,9 @@ func MergeCognitoUserPoolDomain_Domain(k *CognitoUserPoolDomainParameters, p *Co
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCognitoUserPoolDomain_Id(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeCognitoUserPoolDomain_UserPoolId(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
+	if k.UserPoolId != p.UserPoolId {
+		p.UserPoolId = k.UserPoolId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -112,10 +97,20 @@ func MergeCognitoUserPoolDomain_Id(k *CognitoUserPoolDomainParameters, p *Cognit
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCognitoUserPoolDomain_UserPoolId(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
-	if k.UserPoolId != p.UserPoolId {
-		p.UserPoolId = k.UserPoolId
+func MergeCognitoUserPoolDomain_CertificateArn(k *CognitoUserPoolDomainParameters, p *CognitoUserPoolDomainParameters, md *plugin.MergeDescription) bool {
+	if k.CertificateArn != p.CertificateArn {
+		p.CertificateArn = k.CertificateArn
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeCognitoUserPoolDomain_S3Bucket(k *CognitoUserPoolDomainObservation, p *CognitoUserPoolDomainObservation, md *plugin.MergeDescription) bool {
+	if k.S3Bucket != p.S3Bucket {
+		k.S3Bucket = p.S3Bucket
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -145,16 +140,6 @@ func MergeCognitoUserPoolDomain_AwsAccountId(k *CognitoUserPoolDomainObservation
 func MergeCognitoUserPoolDomain_CloudfrontDistributionArn(k *CognitoUserPoolDomainObservation, p *CognitoUserPoolDomainObservation, md *plugin.MergeDescription) bool {
 	if k.CloudfrontDistributionArn != p.CloudfrontDistributionArn {
 		k.CloudfrontDistributionArn = p.CloudfrontDistributionArn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeCognitoUserPoolDomain_S3Bucket(k *CognitoUserPoolDomainObservation, p *CognitoUserPoolDomainObservation, md *plugin.MergeDescription) bool {
-	if k.S3Bucket != p.S3Bucket {
-		k.S3Bucket = p.S3Bucket
 		md.StatusUpdated = true
 		return true
 	}

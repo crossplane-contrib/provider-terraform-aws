@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TrafficMirrorFilter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2TrafficMirrorFilter_NetworkServices(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -72,19 +67,9 @@ func MergeEc2TrafficMirrorFilter_Description(k *Ec2TrafficMirrorFilterParameters
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeEc2TrafficMirrorFilter_Id(k *Ec2TrafficMirrorFilterParameters, p *Ec2TrafficMirrorFilterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TrafficMirrorFilter_NetworkServices(k *Ec2TrafficMirrorFilterParameters, p *Ec2TrafficMirrorFilterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.NetworkServices, p.NetworkServices) {
+	if !plugin.CompareStringSlices(k.NetworkServices, p.NetworkServices) {
 		p.NetworkServices = k.NetworkServices
 		md.NeedsProviderUpdate = true
 		return true
@@ -94,7 +79,7 @@ func MergeEc2TrafficMirrorFilter_NetworkServices(k *Ec2TrafficMirrorFilterParame
 
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TrafficMirrorFilter_Tags(k *Ec2TrafficMirrorFilterParameters, p *Ec2TrafficMirrorFilterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

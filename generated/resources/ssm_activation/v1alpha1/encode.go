@@ -37,16 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSsmActivation(r SsmActivation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSsmActivation_RegistrationLimit(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_IamRole(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Description(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_ExpirationDate(r.Spec.ForProvider, ctyVal)
-	EncodeSsmActivation_Expired(r.Status.AtProvider, ctyVal)
+	EncodeSsmActivation_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_RegistrationLimit(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_Description(r.Spec.ForProvider, ctyVal)
+	EncodeSsmActivation_IamRole(r.Spec.ForProvider, ctyVal)
 	EncodeSsmActivation_RegistrationCount(r.Status.AtProvider, ctyVal)
 	EncodeSsmActivation_ActivationCode(r.Status.AtProvider, ctyVal)
+	EncodeSsmActivation_Expired(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -55,22 +54,6 @@ func EncodeSsmActivation(r SsmActivation) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSsmActivation_RegistrationLimit(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["registration_limit"] = cty.NumberIntVal(p.RegistrationLimit)
-}
-
-func EncodeSsmActivation_IamRole(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["iam_role"] = cty.StringVal(p.IamRole)
-}
-
-func EncodeSsmActivation_Id(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSsmActivation_Name(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSsmActivation_Tags(p SsmActivationParameters, vals map[string]cty.Value) {
@@ -85,16 +68,24 @@ func EncodeSsmActivation_Tags(p SsmActivationParameters, vals map[string]cty.Val
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeSsmActivation_Description(p SsmActivationParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
 func EncodeSsmActivation_ExpirationDate(p SsmActivationParameters, vals map[string]cty.Value) {
 	vals["expiration_date"] = cty.StringVal(p.ExpirationDate)
 }
 
-func EncodeSsmActivation_Expired(p SsmActivationObservation, vals map[string]cty.Value) {
-	vals["expired"] = cty.BoolVal(p.Expired)
+func EncodeSsmActivation_Name(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSsmActivation_RegistrationLimit(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["registration_limit"] = cty.NumberIntVal(p.RegistrationLimit)
+}
+
+func EncodeSsmActivation_Description(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeSsmActivation_IamRole(p SsmActivationParameters, vals map[string]cty.Value) {
+	vals["iam_role"] = cty.StringVal(p.IamRole)
 }
 
 func EncodeSsmActivation_RegistrationCount(p SsmActivationObservation, vals map[string]cty.Value) {
@@ -103,4 +94,8 @@ func EncodeSsmActivation_RegistrationCount(p SsmActivationObservation, vals map[
 
 func EncodeSsmActivation_ActivationCode(p SsmActivationObservation, vals map[string]cty.Value) {
 	vals["activation_code"] = cty.StringVal(p.ActivationCode)
+}
+
+func EncodeSsmActivation_Expired(p SsmActivationObservation, vals map[string]cty.Value) {
+	vals["expired"] = cty.BoolVal(p.Expired)
 }

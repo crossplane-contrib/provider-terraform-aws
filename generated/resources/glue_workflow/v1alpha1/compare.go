@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeGlueWorkflow_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeGlueWorkflow_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeGlueWorkflow_DefaultRunProperties(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,22 +51,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGlueWorkflow_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGlueWorkflow_MaxConcurrentRuns(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeGlueWorkflow_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeGlueWorkflow_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,9 +71,29 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveTemplateSpec
+func MergeGlueWorkflow_Name(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeGlueWorkflow_Tags(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeGlueWorkflow_DefaultRunProperties(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.DefaultRunProperties, p.DefaultRunProperties) {
+	if !plugin.CompareMapString(k.DefaultRunProperties, p.DefaultRunProperties) {
 		p.DefaultRunProperties = k.DefaultRunProperties
 		md.NeedsProviderUpdate = true
 		return true
@@ -97,39 +112,9 @@ func MergeGlueWorkflow_Description(k *GlueWorkflowParameters, p *GlueWorkflowPar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeGlueWorkflow_Id(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeGlueWorkflow_MaxConcurrentRuns(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
 	if k.MaxConcurrentRuns != p.MaxConcurrentRuns {
 		p.MaxConcurrentRuns = k.MaxConcurrentRuns
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGlueWorkflow_Name(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeGlueWorkflow_Tags(k *GlueWorkflowParameters, p *GlueWorkflowParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

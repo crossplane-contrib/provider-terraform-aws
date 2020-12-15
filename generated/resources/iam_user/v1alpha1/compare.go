@@ -31,22 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamUser_PermissionsBoundary(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamUser_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamUser_ForceDestroy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamUser_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,12 +46,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamUser_UniqueId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamUser_PermissionsBoundary(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUser_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeIamUser_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUser_UniqueId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,39 +77,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamUser_PermissionsBoundary(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
-	if k.PermissionsBoundary != p.PermissionsBoundary {
-		p.PermissionsBoundary = k.PermissionsBoundary
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeIamUser_Tags(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeIamUser_ForceDestroy(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
 	if k.ForceDestroy != p.ForceDestroy {
 		p.ForceDestroy = k.ForceDestroy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamUser_Id(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -141,11 +106,21 @@ func MergeIamUser_Path(k *IamUserParameters, p *IamUserParameters, md *plugin.Me
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeIamUser_UniqueId(k *IamUserObservation, p *IamUserObservation, md *plugin.MergeDescription) bool {
-	if k.UniqueId != p.UniqueId {
-		k.UniqueId = p.UniqueId
-		md.StatusUpdated = true
+//mergePrimitiveTemplateSpec
+func MergeIamUser_PermissionsBoundary(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if k.PermissionsBoundary != p.PermissionsBoundary {
+		p.PermissionsBoundary = k.PermissionsBoundary
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeIamUser_Tags(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -155,6 +130,16 @@ func MergeIamUser_UniqueId(k *IamUserObservation, p *IamUserObservation, md *plu
 func MergeIamUser_Arn(k *IamUserObservation, p *IamUserObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamUser_UniqueId(k *IamUserObservation, p *IamUserObservation, md *plugin.MergeDescription) bool {
+	if k.UniqueId != p.UniqueId {
+		k.UniqueId = p.UniqueId
 		md.StatusUpdated = true
 		return true
 	}

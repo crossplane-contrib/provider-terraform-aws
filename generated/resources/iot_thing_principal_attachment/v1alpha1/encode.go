@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotThingPrincipalAttachment(r IotThingPrincipalAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIotThingPrincipalAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingPrincipalAttachment_Principal(r.Spec.ForProvider, ctyVal)
 	EncodeIotThingPrincipalAttachment_Thing(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeIotThingPrincipalAttachment(r IotThingPrincipalAttachment) cty.Value 
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIotThingPrincipalAttachment_Id(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIotThingPrincipalAttachment_Principal(p IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {

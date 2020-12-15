@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeNetworkInterfaceSgAttachment(prev *NetworkInterfaceSgAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeNetworkInterfaceSgAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeNetworkInterfaceSgAttachment_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeNetworkInterfaceSgAttachment_SecurityGroupId(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeNetworkInterfaceSgAttachment(prev *NetworkInterfaceSgAttachment, ctyV
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNetworkInterfaceSgAttachment_Id(p *NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

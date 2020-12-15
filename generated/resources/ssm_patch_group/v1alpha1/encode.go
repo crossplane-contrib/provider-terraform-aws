@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSsmPatchGroup(r SsmPatchGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSsmPatchGroup_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSsmPatchGroup_PatchGroup(r.Spec.ForProvider, ctyVal)
 	EncodeSsmPatchGroup_BaselineId(r.Spec.ForProvider, ctyVal)
+	EncodeSsmPatchGroup_PatchGroup(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +50,10 @@ func EncodeSsmPatchGroup(r SsmPatchGroup) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSsmPatchGroup_Id(p SsmPatchGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeSsmPatchGroup_BaselineId(p SsmPatchGroupParameters, vals map[string]cty.Value) {
+	vals["baseline_id"] = cty.StringVal(p.BaselineId)
 }
 
 func EncodeSsmPatchGroup_PatchGroup(p SsmPatchGroupParameters, vals map[string]cty.Value) {
 	vals["patch_group"] = cty.StringVal(p.PatchGroup)
-}
-
-func EncodeSsmPatchGroup_BaselineId(p SsmPatchGroupParameters, vals map[string]cty.Value) {
-	vals["baseline_id"] = cty.StringVal(p.BaselineId)
 }

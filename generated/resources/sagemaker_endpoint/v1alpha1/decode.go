@@ -40,7 +40,6 @@ func DecodeSagemakerEndpoint(prev *SagemakerEndpoint, ctyValue cty.Value) (resou
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSagemakerEndpoint_EndpointConfigName(&new.Spec.ForProvider, valMap)
-	DecodeSagemakerEndpoint_Id(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerEndpoint_Name(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerEndpoint_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerEndpoint_Arn(&new.Status.AtProvider, valMap)
@@ -54,11 +53,6 @@ func DecodeSagemakerEndpoint(prev *SagemakerEndpoint, ctyValue cty.Value) (resou
 //primitiveTypeDecodeTemplate
 func DecodeSagemakerEndpoint_EndpointConfigName(p *SagemakerEndpointParameters, vals map[string]cty.Value) {
 	p.EndpointConfigName = ctwhy.ValueAsString(vals["endpoint_config_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSagemakerEndpoint_Id(p *SagemakerEndpointParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

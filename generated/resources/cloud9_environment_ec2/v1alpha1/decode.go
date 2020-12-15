@@ -39,14 +39,13 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloud9EnvironmentEc2(prev *Cloud9EnvironmentEc2, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloud9EnvironmentEc2_InstanceType(&new.Spec.ForProvider, valMap)
 	DecodeCloud9EnvironmentEc2_OwnerArn(&new.Spec.ForProvider, valMap)
 	DecodeCloud9EnvironmentEc2_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeCloud9EnvironmentEc2_Tags(&new.Spec.ForProvider, valMap)
-	DecodeCloud9EnvironmentEc2_Description(&new.Spec.ForProvider, valMap)
-	DecodeCloud9EnvironmentEc2_Id(&new.Spec.ForProvider, valMap)
-	DecodeCloud9EnvironmentEc2_AutomaticStopTimeMinutes(&new.Spec.ForProvider, valMap)
+	DecodeCloud9EnvironmentEc2_InstanceType(&new.Spec.ForProvider, valMap)
 	DecodeCloud9EnvironmentEc2_Name(&new.Spec.ForProvider, valMap)
+	DecodeCloud9EnvironmentEc2_AutomaticStopTimeMinutes(&new.Spec.ForProvider, valMap)
+	DecodeCloud9EnvironmentEc2_Description(&new.Spec.ForProvider, valMap)
 	DecodeCloud9EnvironmentEc2_Type(&new.Status.AtProvider, valMap)
 	DecodeCloud9EnvironmentEc2_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -54,11 +53,6 @@ func DecodeCloud9EnvironmentEc2(prev *Cloud9EnvironmentEc2, ctyValue cty.Value) 
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloud9EnvironmentEc2_InstanceType(p *Cloud9EnvironmentEc2Parameters, vals map[string]cty.Value) {
-	p.InstanceType = ctwhy.ValueAsString(vals["instance_type"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -83,13 +77,13 @@ func DecodeCloud9EnvironmentEc2_Tags(p *Cloud9EnvironmentEc2Parameters, vals map
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloud9EnvironmentEc2_Description(p *Cloud9EnvironmentEc2Parameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
+func DecodeCloud9EnvironmentEc2_InstanceType(p *Cloud9EnvironmentEc2Parameters, vals map[string]cty.Value) {
+	p.InstanceType = ctwhy.ValueAsString(vals["instance_type"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloud9EnvironmentEc2_Id(p *Cloud9EnvironmentEc2Parameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeCloud9EnvironmentEc2_Name(p *Cloud9EnvironmentEc2Parameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -98,8 +92,8 @@ func DecodeCloud9EnvironmentEc2_AutomaticStopTimeMinutes(p *Cloud9EnvironmentEc2
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloud9EnvironmentEc2_Name(p *Cloud9EnvironmentEc2Parameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+func DecodeCloud9EnvironmentEc2_Description(p *Cloud9EnvironmentEc2Parameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -41,7 +41,6 @@ func DecodeApigatewayv2Deployment(prev *Apigatewayv2Deployment, ctyValue cty.Val
 	new := prev.DeepCopy()
 	DecodeApigatewayv2Deployment_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Deployment_Description(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Deployment_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Deployment_Triggers(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Deployment_AutoDeployed(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -59,11 +58,6 @@ func DecodeApigatewayv2Deployment_ApiId(p *Apigatewayv2DeploymentParameters, val
 //primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Deployment_Description(p *Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2Deployment_Id(p *Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate

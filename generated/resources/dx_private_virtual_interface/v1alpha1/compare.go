@@ -31,12 +31,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDxPrivateVirtualInterface_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxPrivateVirtualInterface_Vlan(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxPrivateVirtualInterface_BgpAsn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxPrivateVirtualInterface_Mtu(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxPrivateVirtualInterface_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxPrivateVirtualInterface_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxPrivateVirtualInterface_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxPrivateVirtualInterface_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,17 +71,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxPrivateVirtualInterface_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxPrivateVirtualInterface_Mtu(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxPrivateVirtualInterface_AddressFamily(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxPrivateVirtualInterface_BgpAsn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,27 +81,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDxPrivateVirtualInterface_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDxPrivateVirtualInterface_AddressFamily(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeDxPrivateVirtualInterface_AmazonAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxPrivateVirtualInterface_ConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxPrivateVirtualInterface_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDxPrivateVirtualInterface_Vlan(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -131,10 +126,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDxPrivateVirtualInterface_Tags(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeDxPrivateVirtualInterface_Vlan(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.Vlan != p.Vlan {
+		p.Vlan = k.Vlan
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -142,9 +137,49 @@ func MergeDxPrivateVirtualInterface_Tags(k *DxPrivateVirtualInterfaceParameters,
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_BgpAsn(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.BgpAsn != p.BgpAsn {
-		p.BgpAsn = k.BgpAsn
+func MergeDxPrivateVirtualInterface_Mtu(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.Mtu != p.Mtu {
+		p.Mtu = k.Mtu
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxPrivateVirtualInterface_Name(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxPrivateVirtualInterface_ConnectionId(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.ConnectionId != p.ConnectionId {
+		p.ConnectionId = k.ConnectionId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxPrivateVirtualInterface_VpnGatewayId(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.VpnGatewayId != p.VpnGatewayId {
+		p.VpnGatewayId = k.VpnGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDxPrivateVirtualInterface_Tags(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -172,29 +207,9 @@ func MergeDxPrivateVirtualInterface_DxGatewayId(k *DxPrivateVirtualInterfacePara
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_Id(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_Mtu(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.Mtu != p.Mtu {
-		p.Mtu = k.Mtu
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_AddressFamily(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.AddressFamily != p.AddressFamily {
-		p.AddressFamily = k.AddressFamily
+func MergeDxPrivateVirtualInterface_BgpAsn(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.BgpAsn != p.BgpAsn {
+		p.BgpAsn = k.BgpAsn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -212,9 +227,9 @@ func MergeDxPrivateVirtualInterface_BgpAuthKey(k *DxPrivateVirtualInterfaceParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_VpnGatewayId(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.VpnGatewayId != p.VpnGatewayId {
-		p.VpnGatewayId = k.VpnGatewayId
+func MergeDxPrivateVirtualInterface_AddressFamily(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
+	if k.AddressFamily != p.AddressFamily {
+		p.AddressFamily = k.AddressFamily
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -225,36 +240,6 @@ func MergeDxPrivateVirtualInterface_VpnGatewayId(k *DxPrivateVirtualInterfacePar
 func MergeDxPrivateVirtualInterface_AmazonAddress(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
 	if k.AmazonAddress != p.AmazonAddress {
 		p.AmazonAddress = k.AmazonAddress
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_ConnectionId(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.ConnectionId != p.ConnectionId {
-		p.ConnectionId = k.ConnectionId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_Name(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDxPrivateVirtualInterface_Vlan(k *DxPrivateVirtualInterfaceParameters, p *DxPrivateVirtualInterfaceParameters, md *plugin.MergeDescription) bool {
-	if k.Vlan != p.Vlan {
-		p.Vlan = k.Vlan
 		md.NeedsProviderUpdate = true
 		return true
 	}

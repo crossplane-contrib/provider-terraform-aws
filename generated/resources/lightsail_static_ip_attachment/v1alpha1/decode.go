@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLightsailStaticIpAttachment(prev *LightsailStaticIpAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeLightsailStaticIpAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeLightsailStaticIpAttachment_InstanceName(&new.Spec.ForProvider, valMap)
 	DecodeLightsailStaticIpAttachment_StaticIpName(&new.Spec.ForProvider, valMap)
 	DecodeLightsailStaticIpAttachment_IpAddress(&new.Status.AtProvider, valMap)
@@ -48,11 +47,6 @@ func DecodeLightsailStaticIpAttachment(prev *LightsailStaticIpAttachment, ctyVal
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLightsailStaticIpAttachment_Id(p *LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

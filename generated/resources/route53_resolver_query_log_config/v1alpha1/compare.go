@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53ResolverQueryLogConfig_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRoute53ResolverQueryLogConfig_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,17 +46,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRoute53ResolverQueryLogConfig_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRoute53ResolverQueryLogConfig_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeRoute53ResolverQueryLogConfig_ShareStatus(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53ResolverQueryLogConfig_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -87,16 +82,6 @@ func MergeRoute53ResolverQueryLogConfig_DestinationArn(k *Route53ResolverQueryLo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53ResolverQueryLogConfig_Id(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeRoute53ResolverQueryLogConfig_Name(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -108,19 +93,9 @@ func MergeRoute53ResolverQueryLogConfig_Name(k *Route53ResolverQueryLogConfigPar
 
 //mergePrimitiveContainerTemplateSpec
 func MergeRoute53ResolverQueryLogConfig_Tags(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeRoute53ResolverQueryLogConfig_Arn(k *Route53ResolverQueryLogConfigObservation, p *Route53ResolverQueryLogConfigObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -140,6 +115,16 @@ func MergeRoute53ResolverQueryLogConfig_OwnerId(k *Route53ResolverQueryLogConfig
 func MergeRoute53ResolverQueryLogConfig_ShareStatus(k *Route53ResolverQueryLogConfigObservation, p *Route53ResolverQueryLogConfigObservation, md *plugin.MergeDescription) bool {
 	if k.ShareStatus != p.ShareStatus {
 		k.ShareStatus = p.ShareStatus
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRoute53ResolverQueryLogConfig_Arn(k *Route53ResolverQueryLogConfigObservation, p *Route53ResolverQueryLogConfigObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

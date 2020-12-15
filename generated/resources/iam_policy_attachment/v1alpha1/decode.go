@@ -40,7 +40,6 @@ func DecodeIamPolicyAttachment(prev *IamPolicyAttachment, ctyValue cty.Value) (r
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeIamPolicyAttachment_Groups(&new.Spec.ForProvider, valMap)
-	DecodeIamPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_Roles(&new.Spec.ForProvider, valMap)
@@ -60,11 +59,6 @@ func DecodeIamPolicyAttachment_Groups(p *IamPolicyAttachmentParameters, vals map
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.Groups = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamPolicyAttachment_Id(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

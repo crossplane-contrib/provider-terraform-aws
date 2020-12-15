@@ -40,7 +40,6 @@ func DecodeEc2LocalGatewayRoute(prev *Ec2LocalGatewayRoute, ctyValue cty.Value) 
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeEc2LocalGatewayRoute_DestinationCidrBlock(&new.Spec.ForProvider, valMap)
-	DecodeEc2LocalGatewayRoute_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(&new.Spec.ForProvider, valMap)
 
@@ -54,11 +53,6 @@ func DecodeEc2LocalGatewayRoute(prev *Ec2LocalGatewayRoute, ctyValue cty.Value) 
 //primitiveTypeDecodeTemplate
 func DecodeEc2LocalGatewayRoute_DestinationCidrBlock(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	p.DestinationCidrBlock = ctwhy.ValueAsString(vals["destination_cidr_block"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2LocalGatewayRoute_Id(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

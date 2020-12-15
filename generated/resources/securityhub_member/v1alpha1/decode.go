@@ -41,10 +41,9 @@ func DecodeSecurityhubMember(prev *SecurityhubMember, ctyValue cty.Value) (resou
 	new := prev.DeepCopy()
 	DecodeSecurityhubMember_AccountId(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubMember_Email(&new.Spec.ForProvider, valMap)
-	DecodeSecurityhubMember_Id(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubMember_Invite(&new.Spec.ForProvider, valMap)
-	DecodeSecurityhubMember_MasterId(&new.Status.AtProvider, valMap)
 	DecodeSecurityhubMember_MemberStatus(&new.Status.AtProvider, valMap)
+	DecodeSecurityhubMember_MasterId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -63,21 +62,16 @@ func DecodeSecurityhubMember_Email(p *SecurityhubMemberParameters, vals map[stri
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSecurityhubMember_Id(p *SecurityhubMemberParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeSecurityhubMember_Invite(p *SecurityhubMemberParameters, vals map[string]cty.Value) {
 	p.Invite = ctwhy.ValueAsBool(vals["invite"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSecurityhubMember_MasterId(p *SecurityhubMemberObservation, vals map[string]cty.Value) {
-	p.MasterId = ctwhy.ValueAsString(vals["master_id"])
+func DecodeSecurityhubMember_MemberStatus(p *SecurityhubMemberObservation, vals map[string]cty.Value) {
+	p.MemberStatus = ctwhy.ValueAsString(vals["member_status"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSecurityhubMember_MemberStatus(p *SecurityhubMemberObservation, vals map[string]cty.Value) {
-	p.MemberStatus = ctwhy.ValueAsString(vals["member_status"])
+func DecodeSecurityhubMember_MasterId(p *SecurityhubMemberObservation, vals map[string]cty.Value) {
+	p.MasterId = ctwhy.ValueAsString(vals["master_id"])
 }

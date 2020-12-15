@@ -39,15 +39,14 @@ func EncodeDatasyncLocationFsxWindowsFileSystem(r DatasyncLocationFsxWindowsFile
 	ctyVal := make(map[string]cty.Value)
 	EncodeDatasyncLocationFsxWindowsFileSystem_User(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Domain(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Password(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(r.Spec.ForProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDatasyncLocationFsxWindowsFileSystem_CreationTime(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Uri(r.Status.AtProvider, ctyVal)
 	EncodeDatasyncLocationFsxWindowsFileSystem_Arn(r.Status.AtProvider, ctyVal)
-	EncodeDatasyncLocationFsxWindowsFileSystem_CreationTime(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -66,8 +65,8 @@ func EncodeDatasyncLocationFsxWindowsFileSystem_Domain(p DatasyncLocationFsxWind
 	vals["domain"] = cty.StringVal(p.Domain)
 }
 
-func EncodeDatasyncLocationFsxWindowsFileSystem_Id(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["fsx_filesystem_arn"] = cty.StringVal(p.FsxFilesystemArn)
 }
 
 func EncodeDatasyncLocationFsxWindowsFileSystem_Password(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
@@ -82,6 +81,10 @@ func EncodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(p DatasyncLoca
 	vals["security_group_arns"] = cty.SetVal(colVals)
 }
 
+func EncodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	vals["subdirectory"] = cty.StringVal(p.Subdirectory)
+}
+
 func EncodeDatasyncLocationFsxWindowsFileSystem_Tags(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
 	if len(p.Tags) == 0 {
 		vals["tags"] = cty.NullVal(cty.Map(cty.String))
@@ -94,12 +97,8 @@ func EncodeDatasyncLocationFsxWindowsFileSystem_Tags(p DatasyncLocationFsxWindow
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["fsx_filesystem_arn"] = cty.StringVal(p.FsxFilesystemArn)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(p DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	vals["subdirectory"] = cty.StringVal(p.Subdirectory)
+func EncodeDatasyncLocationFsxWindowsFileSystem_CreationTime(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
+	vals["creation_time"] = cty.StringVal(p.CreationTime)
 }
 
 func EncodeDatasyncLocationFsxWindowsFileSystem_Uri(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
@@ -108,8 +107,4 @@ func EncodeDatasyncLocationFsxWindowsFileSystem_Uri(p DatasyncLocationFsxWindows
 
 func EncodeDatasyncLocationFsxWindowsFileSystem_Arn(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeDatasyncLocationFsxWindowsFileSystem_CreationTime(p DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
-	vals["creation_time"] = cty.StringVal(p.CreationTime)
 }

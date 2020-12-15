@@ -56,7 +56,6 @@ type ApiGatewayRequestValidatorParameters struct {
 	RestApiId                 string `json:"rest_api_id"`
 	ValidateRequestBody       bool   `json:"validate_request_body"`
 	ValidateRequestParameters bool   `json:"validate_request_parameters"`
-	Id                        string `json:"id"`
 }
 
 // A ApiGatewayRequestValidatorStatus defines the observed state of a ApiGatewayRequestValidator

@@ -40,7 +40,6 @@ func EncodePinpointGcmChannel(r PinpointGcmChannel) cty.Value {
 	EncodePinpointGcmChannel_ApiKey(r.Spec.ForProvider, ctyVal)
 	EncodePinpointGcmChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointGcmChannel_Enabled(r.Spec.ForProvider, ctyVal)
-	EncodePinpointGcmChannel_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -62,8 +61,4 @@ func EncodePinpointGcmChannel_ApplicationId(p PinpointGcmChannelParameters, vals
 
 func EncodePinpointGcmChannel_Enabled(p PinpointGcmChannelParameters, vals map[string]cty.Value) {
 	vals["enabled"] = cty.BoolVal(p.Enabled)
-}
-
-func EncodePinpointGcmChannel_Id(p PinpointGcmChannelParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

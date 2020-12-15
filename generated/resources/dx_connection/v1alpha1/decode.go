@@ -39,15 +39,14 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxConnection(prev *DxConnection, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxConnection_Bandwidth(&new.Spec.ForProvider, valMap)
-	DecodeDxConnection_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDxConnection_Id(&new.Spec.ForProvider, valMap)
 	DecodeDxConnection_Location(&new.Spec.ForProvider, valMap)
 	DecodeDxConnection_Name(&new.Spec.ForProvider, valMap)
+	DecodeDxConnection_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDxConnection_Bandwidth(&new.Spec.ForProvider, valMap)
 	DecodeDxConnection_JumboFrameCapable(&new.Status.AtProvider, valMap)
-	DecodeDxConnection_Arn(&new.Status.AtProvider, valMap)
 	DecodeDxConnection_AwsDevice(&new.Status.AtProvider, valMap)
 	DecodeDxConnection_HasLogicalRedundancy(&new.Status.AtProvider, valMap)
+	DecodeDxConnection_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -56,8 +55,13 @@ func DecodeDxConnection(prev *DxConnection, ctyValue cty.Value) (resource.Manage
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxConnection_Bandwidth(p *DxConnectionParameters, vals map[string]cty.Value) {
-	p.Bandwidth = ctwhy.ValueAsString(vals["bandwidth"])
+func DecodeDxConnection_Location(p *DxConnectionParameters, vals map[string]cty.Value) {
+	p.Location = ctwhy.ValueAsString(vals["location"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxConnection_Name(p *DxConnectionParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -72,28 +76,13 @@ func DecodeDxConnection_Tags(p *DxConnectionParameters, vals map[string]cty.Valu
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxConnection_Id(p *DxConnectionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxConnection_Location(p *DxConnectionParameters, vals map[string]cty.Value) {
-	p.Location = ctwhy.ValueAsString(vals["location"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxConnection_Name(p *DxConnectionParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+func DecodeDxConnection_Bandwidth(p *DxConnectionParameters, vals map[string]cty.Value) {
+	p.Bandwidth = ctwhy.ValueAsString(vals["bandwidth"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDxConnection_JumboFrameCapable(p *DxConnectionObservation, vals map[string]cty.Value) {
 	p.JumboFrameCapable = ctwhy.ValueAsBool(vals["jumbo_frame_capable"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxConnection_Arn(p *DxConnectionObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -104,4 +93,9 @@ func DecodeDxConnection_AwsDevice(p *DxConnectionObservation, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeDxConnection_HasLogicalRedundancy(p *DxConnectionObservation, vals map[string]cty.Value) {
 	p.HasLogicalRedundancy = ctwhy.ValueAsString(vals["has_logical_redundancy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxConnection_Arn(p *DxConnectionObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

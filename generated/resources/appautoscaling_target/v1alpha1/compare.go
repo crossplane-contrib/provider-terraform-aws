@@ -61,11 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAppautoscalingTarget_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -131,16 +126,6 @@ func MergeAppautoscalingTarget_ScalableDimension(k *AppautoscalingTargetParamete
 func MergeAppautoscalingTarget_ServiceNamespace(k *AppautoscalingTargetParameters, p *AppautoscalingTargetParameters, md *plugin.MergeDescription) bool {
 	if k.ServiceNamespace != p.ServiceNamespace {
 		p.ServiceNamespace = k.ServiceNamespace
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAppautoscalingTarget_Id(k *AppautoscalingTargetParameters, p *AppautoscalingTargetParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

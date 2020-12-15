@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeIamOpenidConnectProvider(r IamOpenidConnectProvider) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeIamOpenidConnectProvider_ClientIdList(r.Spec.ForProvider, ctyVal)
-	EncodeIamOpenidConnectProvider_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_ThumbprintList(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Url(r.Spec.ForProvider, ctyVal)
 	EncodeIamOpenidConnectProvider_Arn(r.Status.AtProvider, ctyVal)
@@ -58,10 +57,6 @@ func EncodeIamOpenidConnectProvider_ClientIdList(p IamOpenidConnectProviderParam
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["client_id_list"] = cty.ListVal(colVals)
-}
-
-func EncodeIamOpenidConnectProvider_Id(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamOpenidConnectProvider_ThumbprintList(p IamOpenidConnectProviderParameters, vals map[string]cty.Value) {

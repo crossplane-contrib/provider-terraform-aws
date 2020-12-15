@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudwatchLogDestinationPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -71,16 +66,6 @@ func MergeCloudwatchLogDestinationPolicy_AccessPolicy(k *CloudwatchLogDestinatio
 func MergeCloudwatchLogDestinationPolicy_DestinationName(k *CloudwatchLogDestinationPolicyParameters, p *CloudwatchLogDestinationPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.DestinationName != p.DestinationName {
 		p.DestinationName = k.DestinationName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchLogDestinationPolicy_Id(k *CloudwatchLogDestinationPolicyParameters, p *CloudwatchLogDestinationPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

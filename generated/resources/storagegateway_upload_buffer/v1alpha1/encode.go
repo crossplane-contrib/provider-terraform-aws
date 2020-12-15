@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeStoragegatewayUploadBuffer(r StoragegatewayUploadBuffer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeStoragegatewayUploadBuffer_Id(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayUploadBuffer_DiskId(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayUploadBuffer_GatewayArn(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeStoragegatewayUploadBuffer(r StoragegatewayUploadBuffer) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeStoragegatewayUploadBuffer_Id(p StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeStoragegatewayUploadBuffer_DiskId(p StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {

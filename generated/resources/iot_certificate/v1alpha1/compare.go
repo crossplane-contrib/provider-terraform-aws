@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIotCertificate_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIotCertificate_PrivateKey(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -90,16 +85,6 @@ func MergeIotCertificate_Active(k *IotCertificateParameters, p *IotCertificatePa
 func MergeIotCertificate_Csr(k *IotCertificateParameters, p *IotCertificateParameters, md *plugin.MergeDescription) bool {
 	if k.Csr != p.Csr {
 		p.Csr = k.Csr
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIotCertificate_Id(k *IotCertificateParameters, p *IotCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

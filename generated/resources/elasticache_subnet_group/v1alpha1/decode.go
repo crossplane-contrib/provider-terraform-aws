@@ -39,16 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeElasticacheSubnetGroup(prev *ElasticacheSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeElasticacheSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeElasticacheSubnetGroup_Description(&new.Spec.ForProvider, valMap)
-	DecodeElasticacheSubnetGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeElasticacheSubnetGroup_Name(&new.Spec.ForProvider, valMap)
+	DecodeElasticacheSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeElasticacheSubnetGroup_Description(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeElasticacheSubnetGroup_Name(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -58,19 +67,4 @@ func DecodeElasticacheSubnetGroup_SubnetIds(p *ElasticacheSubnetGroupParameters,
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.SubnetIds = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeElasticacheSubnetGroup_Description(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeElasticacheSubnetGroup_Id(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeElasticacheSubnetGroup_Name(p *ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }

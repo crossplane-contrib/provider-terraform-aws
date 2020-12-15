@@ -41,22 +41,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyDetector_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGuarddutyDetector_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyDetector_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeGuarddutyDetector_AccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyDetector_AccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeGuarddutyDetector_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,31 +86,11 @@ func MergeGuarddutyDetector_FindingPublishingFrequency(k *GuarddutyDetectorParam
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyDetector_Id(k *GuarddutyDetectorParameters, p *GuarddutyDetectorParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeGuarddutyDetector_Tags(k *GuarddutyDetectorParameters, p *GuarddutyDetectorParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeGuarddutyDetector_Arn(k *GuarddutyDetectorObservation, p *GuarddutyDetectorObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -125,6 +100,16 @@ func MergeGuarddutyDetector_Arn(k *GuarddutyDetectorObservation, p *GuarddutyDet
 func MergeGuarddutyDetector_AccountId(k *GuarddutyDetectorObservation, p *GuarddutyDetectorObservation, md *plugin.MergeDescription) bool {
 	if k.AccountId != p.AccountId {
 		k.AccountId = p.AccountId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeGuarddutyDetector_Arn(k *GuarddutyDetectorObservation, p *GuarddutyDetectorObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

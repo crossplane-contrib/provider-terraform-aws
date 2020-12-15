@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeGlacierVaultLock(r GlacierVaultLock) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeGlacierVaultLock_CompleteLock(r.Spec.ForProvider, ctyVal)
-	EncodeGlacierVaultLock_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_IgnoreDeletionError(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeGlacierVaultLock_VaultName(r.Spec.ForProvider, ctyVal)
@@ -55,10 +54,6 @@ func EncodeGlacierVaultLock(r GlacierVaultLock) cty.Value {
 
 func EncodeGlacierVaultLock_CompleteLock(p GlacierVaultLockParameters, vals map[string]cty.Value) {
 	vals["complete_lock"] = cty.BoolVal(p.CompleteLock)
-}
-
-func EncodeGlacierVaultLock_Id(p GlacierVaultLockParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGlacierVaultLock_IgnoreDeletionError(p GlacierVaultLockParameters, vals map[string]cty.Value) {

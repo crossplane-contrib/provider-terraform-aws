@@ -54,7 +54,6 @@ type IotPolicySpec struct {
 type IotPolicyParameters struct {
 	Name   string `json:"name"`
 	Policy string `json:"policy"`
-	Id     string `json:"id"`
 }
 
 // A IotPolicyStatus defines the observed state of a IotPolicy

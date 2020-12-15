@@ -39,16 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRoute53VpcAssociationAuthorization(prev *Route53VpcAssociationAuthorization, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeRoute53VpcAssociationAuthorization_ZoneId(&new.Spec.ForProvider, valMap)
 	DecodeRoute53VpcAssociationAuthorization_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeRoute53VpcAssociationAuthorization_VpcRegion(&new.Spec.ForProvider, valMap)
-	DecodeRoute53VpcAssociationAuthorization_ZoneId(&new.Spec.ForProvider, valMap)
-	DecodeRoute53VpcAssociationAuthorization_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53VpcAssociationAuthorization_ZoneId(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
+	p.ZoneId = ctwhy.ValueAsString(vals["zone_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -59,14 +63,4 @@ func DecodeRoute53VpcAssociationAuthorization_VpcId(p *Route53VpcAssociationAuth
 //primitiveTypeDecodeTemplate
 func DecodeRoute53VpcAssociationAuthorization_VpcRegion(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
 	p.VpcRegion = ctwhy.ValueAsString(vals["vpc_region"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53VpcAssociationAuthorization_ZoneId(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
-	p.ZoneId = ctwhy.ValueAsString(vals["zone_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53VpcAssociationAuthorization_Id(p *Route53VpcAssociationAuthorizationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

@@ -31,17 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCloudwatchEventRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudwatchEventRule_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloudwatchEventRule_EventPattern(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeCloudwatchEventRule_IsEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchEventRule_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchEventRule_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,17 +66,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudwatchEventRule_EventPattern(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudwatchEventRule_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudwatchEventRule_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloudwatchEventRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,19 +87,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloudwatchEventRule_Description(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchEventRule_Id(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeCloudwatchEventRule_EventPattern(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
+	if k.EventPattern != p.EventPattern {
+		p.EventPattern = k.EventPattern
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -115,6 +100,26 @@ func MergeCloudwatchEventRule_Id(k *CloudwatchEventRuleParameters, p *Cloudwatch
 func MergeCloudwatchEventRule_IsEnabled(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
 	if k.IsEnabled != p.IsEnabled {
 		p.IsEnabled = k.IsEnabled
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchEventRule_RoleArn(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
+	if k.RoleArn != p.RoleArn {
+		p.RoleArn = k.RoleArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchEventRule_Name(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -143,7 +148,7 @@ func MergeCloudwatchEventRule_ScheduleExpression(k *CloudwatchEventRuleParameter
 
 //mergePrimitiveContainerTemplateSpec
 func MergeCloudwatchEventRule_Tags(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -152,29 +157,9 @@ func MergeCloudwatchEventRule_Tags(k *CloudwatchEventRuleParameters, p *Cloudwat
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloudwatchEventRule_EventPattern(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
-	if k.EventPattern != p.EventPattern {
-		p.EventPattern = k.EventPattern
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchEventRule_Name(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchEventRule_RoleArn(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
-	if k.RoleArn != p.RoleArn {
-		p.RoleArn = k.RoleArn
+func MergeCloudwatchEventRule_Description(k *CloudwatchEventRuleParameters, p *CloudwatchEventRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}

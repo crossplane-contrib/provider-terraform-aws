@@ -39,7 +39,6 @@ func EncodeCloudwatchLogDestinationPolicy(r CloudwatchLogDestinationPolicy) cty.
 	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchLogDestinationPolicy_AccessPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogDestinationPolicy_DestinationName(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogDestinationPolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,8 +56,4 @@ func EncodeCloudwatchLogDestinationPolicy_AccessPolicy(p CloudwatchLogDestinatio
 
 func EncodeCloudwatchLogDestinationPolicy_DestinationName(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	vals["destination_name"] = cty.StringVal(p.DestinationName)
-}
-
-func EncodeCloudwatchLogDestinationPolicy_Id(p CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

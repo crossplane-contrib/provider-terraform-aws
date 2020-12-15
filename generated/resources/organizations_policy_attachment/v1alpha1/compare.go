@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeOrganizationsPolicyAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -71,16 +66,6 @@ func MergeOrganizationsPolicyAttachment_PolicyId(k *OrganizationsPolicyAttachmen
 func MergeOrganizationsPolicyAttachment_TargetId(k *OrganizationsPolicyAttachmentParameters, p *OrganizationsPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.TargetId != p.TargetId {
 		p.TargetId = k.TargetId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeOrganizationsPolicyAttachment_Id(k *OrganizationsPolicyAttachmentParameters, p *OrganizationsPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

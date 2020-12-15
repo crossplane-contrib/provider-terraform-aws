@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeSfnStateMachine_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeSfnStateMachine_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,16 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeSfnStateMachine_Definition(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSfnStateMachine_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSfnStateMachine_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -82,6 +77,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeSfnStateMachine_Name(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeSfnStateMachine_RoleArn(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
 	if k.RoleArn != p.RoleArn {
 		p.RoleArn = k.RoleArn
@@ -93,7 +98,7 @@ func MergeSfnStateMachine_RoleArn(k *SfnStateMachineParameters, p *SfnStateMachi
 
 //mergePrimitiveContainerTemplateSpec
 func MergeSfnStateMachine_Tags(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -105,26 +110,6 @@ func MergeSfnStateMachine_Tags(k *SfnStateMachineParameters, p *SfnStateMachineP
 func MergeSfnStateMachine_Definition(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
 	if k.Definition != p.Definition {
 		p.Definition = k.Definition
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSfnStateMachine_Id(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSfnStateMachine_Name(k *SfnStateMachineParameters, p *SfnStateMachineParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

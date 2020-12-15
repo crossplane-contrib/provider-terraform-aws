@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRamResourceAssociation(r RamResourceAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRamResourceAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRamResourceAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceAssociation_ResourceShareArn(r.Spec.ForProvider, ctyVal)
+	EncodeRamResourceAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +50,10 @@ func EncodeRamResourceAssociation(r RamResourceAssociation) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRamResourceAssociation_Id(p RamResourceAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeRamResourceAssociation_ResourceShareArn(p RamResourceAssociationParameters, vals map[string]cty.Value) {
+	vals["resource_share_arn"] = cty.StringVal(p.ResourceShareArn)
 }
 
 func EncodeRamResourceAssociation_ResourceArn(p RamResourceAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
-}
-
-func EncodeRamResourceAssociation_ResourceShareArn(p RamResourceAssociationParameters, vals map[string]cty.Value) {
-	vals["resource_share_arn"] = cty.StringVal(p.ResourceShareArn)
 }

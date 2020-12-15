@@ -37,10 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDaxSubnetGroup(r DaxSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDaxSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDaxSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
+	EncodeDaxSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeDaxSubnetGroup_VpcId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,14 +49,6 @@ func EncodeDaxSubnetGroup(r DaxSubnetGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDaxSubnetGroup_Description(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDaxSubnetGroup_Id(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDaxSubnetGroup_Name(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
@@ -70,6 +61,10 @@ func EncodeDaxSubnetGroup_SubnetIds(p DaxSubnetGroupParameters, vals map[string]
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["subnet_ids"] = cty.SetVal(colVals)
+}
+
+func EncodeDaxSubnetGroup_Description(p DaxSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeDaxSubnetGroup_VpcId(p DaxSubnetGroupObservation, vals map[string]cty.Value) {

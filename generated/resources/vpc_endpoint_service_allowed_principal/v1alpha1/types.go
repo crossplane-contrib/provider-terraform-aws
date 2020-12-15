@@ -52,7 +52,6 @@ type VpcEndpointServiceAllowedPrincipalSpec struct {
 
 // A VpcEndpointServiceAllowedPrincipalParameters defines the desired state of a VpcEndpointServiceAllowedPrincipal
 type VpcEndpointServiceAllowedPrincipalParameters struct {
-	Id                   string `json:"id"`
 	PrincipalArn         string `json:"principal_arn"`
 	VpcEndpointServiceId string `json:"vpc_endpoint_service_id"`
 }

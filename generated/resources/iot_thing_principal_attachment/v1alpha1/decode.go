@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIotThingPrincipalAttachment(prev *IotThingPrincipalAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIotThingPrincipalAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeIotThingPrincipalAttachment_Principal(&new.Spec.ForProvider, valMap)
 	DecodeIotThingPrincipalAttachment_Thing(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeIotThingPrincipalAttachment(prev *IotThingPrincipalAttachment, ctyVal
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIotThingPrincipalAttachment_Id(p *IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

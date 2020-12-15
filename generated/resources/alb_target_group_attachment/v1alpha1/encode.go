@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAlbTargetGroupAttachment(r AlbTargetGroupAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbTargetGroupAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_Port(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_TargetGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_TargetId(r.Spec.ForProvider, ctyVal)
@@ -51,10 +50,6 @@ func EncodeAlbTargetGroupAttachment(r AlbTargetGroupAttachment) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAlbTargetGroupAttachment_Id(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAlbTargetGroupAttachment_Port(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {

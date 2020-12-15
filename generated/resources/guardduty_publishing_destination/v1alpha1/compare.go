@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyPublishingDestination_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGuarddutyPublishingDestination_KmsKeyArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -91,16 +86,6 @@ func MergeGuarddutyPublishingDestination_DestinationType(k *GuarddutyPublishingD
 func MergeGuarddutyPublishingDestination_DetectorId(k *GuarddutyPublishingDestinationParameters, p *GuarddutyPublishingDestinationParameters, md *plugin.MergeDescription) bool {
 	if k.DetectorId != p.DetectorId {
 		p.DetectorId = k.DetectorId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyPublishingDestination_Id(k *GuarddutyPublishingDestinationParameters, p *GuarddutyPublishingDestinationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

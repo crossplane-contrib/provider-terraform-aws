@@ -42,7 +42,6 @@ func DecodeAutoscalingAttachment(prev *AutoscalingAttachment, ctyValue cty.Value
 	DecodeAutoscalingAttachment_AlbTargetGroupArn(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingAttachment_AutoscalingGroupName(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingAttachment_Elb(&new.Spec.ForProvider, valMap)
-	DecodeAutoscalingAttachment_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -64,9 +63,4 @@ func DecodeAutoscalingAttachment_AutoscalingGroupName(p *AutoscalingAttachmentPa
 //primitiveTypeDecodeTemplate
 func DecodeAutoscalingAttachment_Elb(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
 	p.Elb = ctwhy.ValueAsString(vals["elb"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAutoscalingAttachment_Id(p *AutoscalingAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

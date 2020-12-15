@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePinpointGcmChannel_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -86,16 +81,6 @@ func MergePinpointGcmChannel_ApplicationId(k *PinpointGcmChannelParameters, p *P
 func MergePinpointGcmChannel_Enabled(k *PinpointGcmChannelParameters, p *PinpointGcmChannelParameters, md *plugin.MergeDescription) bool {
 	if k.Enabled != p.Enabled {
 		p.Enabled = k.Enabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointGcmChannel_Id(k *PinpointGcmChannelParameters, p *PinpointGcmChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

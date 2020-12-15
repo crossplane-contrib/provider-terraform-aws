@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAcmCertificateValidation(prev *AcmCertificateValidation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAcmCertificateValidation_ValidationRecordFqdns(&new.Spec.ForProvider, valMap)
 	DecodeAcmCertificateValidation_CertificateArn(&new.Spec.ForProvider, valMap)
-	DecodeAcmCertificateValidation_Id(&new.Spec.ForProvider, valMap)
+	DecodeAcmCertificateValidation_ValidationRecordFqdns(&new.Spec.ForProvider, valMap)
 	DecodeAcmCertificateValidation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
 	eid := valMap["id"].AsString()
@@ -51,6 +50,11 @@ func DecodeAcmCertificateValidation(prev *AcmCertificateValidation, ctyValue cty
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeAcmCertificateValidation_CertificateArn(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
+	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
+}
+
 //primitiveCollectionTypeDecodeTemplate
 func DecodeAcmCertificateValidation_ValidationRecordFqdns(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
@@ -58,16 +62,6 @@ func DecodeAcmCertificateValidation_ValidationRecordFqdns(p *AcmCertificateValid
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.ValidationRecordFqdns = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAcmCertificateValidation_CertificateArn(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
-	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAcmCertificateValidation_Id(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //containerTypeDecodeTemplate

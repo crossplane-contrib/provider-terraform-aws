@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyOrganizationConfiguration_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -71,16 +66,6 @@ func MergeGuarddutyOrganizationConfiguration_AutoEnable(k *GuarddutyOrganization
 func MergeGuarddutyOrganizationConfiguration_DetectorId(k *GuarddutyOrganizationConfigurationParameters, p *GuarddutyOrganizationConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.DetectorId != p.DetectorId {
 		p.DetectorId = k.DetectorId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyOrganizationConfiguration_Id(k *GuarddutyOrganizationConfigurationParameters, p *GuarddutyOrganizationConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

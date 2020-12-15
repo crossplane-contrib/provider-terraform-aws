@@ -52,22 +52,21 @@ type DmsReplicationInstanceSpec struct {
 
 // A DmsReplicationInstanceParameters defines the desired state of a DmsReplicationInstance
 type DmsReplicationInstanceParameters struct {
-	AllocatedStorage           int64             `json:"allocated_storage"`
-	ApplyImmediately           bool              `json:"apply_immediately"`
-	PubliclyAccessible         bool              `json:"publicly_accessible"`
-	ReplicationSubnetGroupId   string            `json:"replication_subnet_group_id"`
-	AvailabilityZone           string            `json:"availability_zone"`
 	Tags                       map[string]string `json:"tags"`
 	VpcSecurityGroupIds        []string          `json:"vpc_security_group_ids"`
-	AllowMajorVersionUpgrade   bool              `json:"allow_major_version_upgrade"`
 	AutoMinorVersionUpgrade    bool              `json:"auto_minor_version_upgrade"`
-	MultiAz                    bool              `json:"multi_az"`
-	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
-	ReplicationInstanceClass   string            `json:"replication_instance_class"`
-	ReplicationInstanceId      string            `json:"replication_instance_id"`
 	EngineVersion              string            `json:"engine_version"`
-	Id                         string            `json:"id"`
+	MultiAz                    bool              `json:"multi_az"`
+	AvailabilityZone           string            `json:"availability_zone"`
+	PreferredMaintenanceWindow string            `json:"preferred_maintenance_window"`
+	ReplicationSubnetGroupId   string            `json:"replication_subnet_group_id"`
+	AllowMajorVersionUpgrade   bool              `json:"allow_major_version_upgrade"`
+	ApplyImmediately           bool              `json:"apply_immediately"`
 	KmsKeyArn                  string            `json:"kms_key_arn"`
+	PubliclyAccessible         bool              `json:"publicly_accessible"`
+	ReplicationInstanceId      string            `json:"replication_instance_id"`
+	AllocatedStorage           int64             `json:"allocated_storage"`
+	ReplicationInstanceClass   string            `json:"replication_instance_class"`
 	Timeouts                   Timeouts          `json:"timeouts"`
 }
 
@@ -85,7 +84,7 @@ type DmsReplicationInstanceStatus struct {
 
 // A DmsReplicationInstanceObservation records the observed state of a DmsReplicationInstance
 type DmsReplicationInstanceObservation struct {
+	ReplicationInstancePrivateIps []string `json:"replication_instance_private_ips"`
 	ReplicationInstanceArn        string   `json:"replication_instance_arn"`
 	ReplicationInstancePublicIps  []string `json:"replication_instance_public_ips"`
-	ReplicationInstancePrivateIps []string `json:"replication_instance_private_ips"`
 }

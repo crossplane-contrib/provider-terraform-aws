@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeVpnConnectionRoute(r VpnConnectionRoute) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeVpnConnectionRoute_DestinationCidrBlock(r.Spec.ForProvider, ctyVal)
-	EncodeVpnConnectionRoute_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVpnConnectionRoute_VpnConnectionId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -53,10 +52,6 @@ func EncodeVpnConnectionRoute(r VpnConnectionRoute) cty.Value {
 
 func EncodeVpnConnectionRoute_DestinationCidrBlock(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
 	vals["destination_cidr_block"] = cty.StringVal(p.DestinationCidrBlock)
-}
-
-func EncodeVpnConnectionRoute_Id(p VpnConnectionRouteParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVpnConnectionRoute_VpnConnectionId(p VpnConnectionRouteParameters, vals map[string]cty.Value) {

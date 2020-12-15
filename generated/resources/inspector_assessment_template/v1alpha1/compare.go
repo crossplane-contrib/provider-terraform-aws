@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeInspectorAssessmentTemplate_Duration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeInspectorAssessmentTemplate_TargetArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeInspectorAssessmentTemplate_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeInspectorAssessmentTemplate_Duration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -52,11 +52,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeInspectorAssessmentTemplate_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeInspectorAssessmentTemplate_TargetArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,9 +72,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeInspectorAssessmentTemplate_Duration(k *InspectorAssessmentTemplateParameters, p *InspectorAssessmentTemplateParameters, md *plugin.MergeDescription) bool {
-	if k.Duration != p.Duration {
-		p.Duration = k.Duration
+func MergeInspectorAssessmentTemplate_TargetArn(k *InspectorAssessmentTemplateParameters, p *InspectorAssessmentTemplateParameters, md *plugin.MergeDescription) bool {
+	if k.TargetArn != p.TargetArn {
+		p.TargetArn = k.TargetArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -87,9 +82,9 @@ func MergeInspectorAssessmentTemplate_Duration(k *InspectorAssessmentTemplatePar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeInspectorAssessmentTemplate_Id(k *InspectorAssessmentTemplateParameters, p *InspectorAssessmentTemplateParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeInspectorAssessmentTemplate_Duration(k *InspectorAssessmentTemplateParameters, p *InspectorAssessmentTemplateParameters, md *plugin.MergeDescription) bool {
+	if k.Duration != p.Duration {
+		p.Duration = k.Duration
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -108,7 +103,7 @@ func MergeInspectorAssessmentTemplate_Name(k *InspectorAssessmentTemplateParamet
 
 //mergePrimitiveContainerTemplateSpec
 func MergeInspectorAssessmentTemplate_RulesPackageArns(k *InspectorAssessmentTemplateParameters, p *InspectorAssessmentTemplateParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.RulesPackageArns, p.RulesPackageArns) {
+	if !plugin.CompareStringSlices(k.RulesPackageArns, p.RulesPackageArns) {
 		p.RulesPackageArns = k.RulesPackageArns
 		md.NeedsProviderUpdate = true
 		return true
@@ -118,18 +113,8 @@ func MergeInspectorAssessmentTemplate_RulesPackageArns(k *InspectorAssessmentTem
 
 //mergePrimitiveContainerTemplateSpec
 func MergeInspectorAssessmentTemplate_Tags(k *InspectorAssessmentTemplateParameters, p *InspectorAssessmentTemplateParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeInspectorAssessmentTemplate_TargetArn(k *InspectorAssessmentTemplateParameters, p *InspectorAssessmentTemplateParameters, md *plugin.MergeDescription) bool {
-	if k.TargetArn != p.TargetArn {
-		p.TargetArn = k.TargetArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

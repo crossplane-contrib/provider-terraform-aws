@@ -42,7 +42,6 @@ func DecodeApiGatewayUsagePlanKey(prev *ApiGatewayUsagePlanKey, ctyValue cty.Val
 	DecodeApiGatewayUsagePlanKey_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_KeyType(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_UsagePlanId(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayUsagePlanKey_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_Name(&new.Status.AtProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_Value(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -65,11 +64,6 @@ func DecodeApiGatewayUsagePlanKey_KeyType(p *ApiGatewayUsagePlanKeyParameters, v
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayUsagePlanKey_UsagePlanId(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	p.UsagePlanId = ctwhy.ValueAsString(vals["usage_plan_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayUsagePlanKey_Id(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAppCookieStickinessPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeAppCookieStickinessPolicy_LbPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAppCookieStickinessPolicy_LoadBalancer(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,6 +46,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeAppCookieStickinessPolicy_LbPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,26 +60,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAppCookieStickinessPolicy_Id(k *AppCookieStickinessPolicyParameters, p *AppCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAppCookieStickinessPolicy_LbPort(k *AppCookieStickinessPolicyParameters, p *AppCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.LbPort != p.LbPort {
-		p.LbPort = k.LbPort
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -111,6 +86,16 @@ func MergeAppCookieStickinessPolicy_Name(k *AppCookieStickinessPolicyParameters,
 func MergeAppCookieStickinessPolicy_CookieName(k *AppCookieStickinessPolicyParameters, p *AppCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.CookieName != p.CookieName {
 		p.CookieName = k.CookieName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeAppCookieStickinessPolicy_LbPort(k *AppCookieStickinessPolicyParameters, p *AppCookieStickinessPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.LbPort != p.LbPort {
+		p.LbPort = k.LbPort
 		md.NeedsProviderUpdate = true
 		return true
 	}

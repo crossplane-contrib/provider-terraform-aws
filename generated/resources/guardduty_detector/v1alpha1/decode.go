@@ -41,10 +41,9 @@ func DecodeGuarddutyDetector(prev *GuarddutyDetector, ctyValue cty.Value) (resou
 	new := prev.DeepCopy()
 	DecodeGuarddutyDetector_Enable(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyDetector_FindingPublishingFrequency(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyDetector_Id(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyDetector_Tags(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyDetector_Arn(&new.Status.AtProvider, valMap)
 	DecodeGuarddutyDetector_AccountId(&new.Status.AtProvider, valMap)
+	DecodeGuarddutyDetector_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -62,11 +61,6 @@ func DecodeGuarddutyDetector_FindingPublishingFrequency(p *GuarddutyDetectorPara
 	p.FindingPublishingFrequency = ctwhy.ValueAsString(vals["finding_publishing_frequency"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeGuarddutyDetector_Id(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
 //primitiveMapTypeDecodeTemplate
 func DecodeGuarddutyDetector_Tags(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
@@ -79,11 +73,11 @@ func DecodeGuarddutyDetector_Tags(p *GuarddutyDetectorParameters, vals map[strin
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeGuarddutyDetector_Arn(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeGuarddutyDetector_AccountId(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeGuarddutyDetector_AccountId(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
-	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
+func DecodeGuarddutyDetector_Arn(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

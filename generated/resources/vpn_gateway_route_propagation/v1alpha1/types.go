@@ -52,9 +52,8 @@ type VpnGatewayRoutePropagationSpec struct {
 
 // A VpnGatewayRoutePropagationParameters defines the desired state of a VpnGatewayRoutePropagation
 type VpnGatewayRoutePropagationParameters struct {
-	Id           string `json:"id"`
-	RouteTableId string `json:"route_table_id"`
 	VpnGatewayId string `json:"vpn_gateway_id"`
+	RouteTableId string `json:"route_table_id"`
 }
 
 // A VpnGatewayRoutePropagationStatus defines the observed state of a VpnGatewayRoutePropagation

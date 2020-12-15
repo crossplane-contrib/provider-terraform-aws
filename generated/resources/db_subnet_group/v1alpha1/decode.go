@@ -39,12 +39,11 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDbSubnetGroup(prev *DbSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDbSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
-	DecodeDbSubnetGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
+	DecodeDbSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -53,25 +52,9 @@ func DecodeDbSubnetGroup(prev *DbSubnetGroup, ctyValue cty.Value) (resource.Mana
 	return new, nil
 }
 
-//primitiveMapTypeDecodeTemplate
-func DecodeDbSubnetGroup_Tags(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
-}
-
 //primitiveTypeDecodeTemplate
 func DecodeDbSubnetGroup_Description(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDbSubnetGroup_Id(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -91,6 +74,17 @@ func DecodeDbSubnetGroup_SubnetIds(p *DbSubnetGroupParameters, vals map[string]c
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.SubnetIds = goVals
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeDbSubnetGroup_Tags(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate

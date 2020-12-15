@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeXrayEncryptionConfig(r XrayEncryptionConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeXrayEncryptionConfig_Id(r.Spec.ForProvider, ctyVal)
 	EncodeXrayEncryptionConfig_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeXrayEncryptionConfig_Type(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeXrayEncryptionConfig(r XrayEncryptionConfig) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeXrayEncryptionConfig_Id(p XrayEncryptionConfigParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeXrayEncryptionConfig_KeyId(p XrayEncryptionConfigParameters, vals map[string]cty.Value) {

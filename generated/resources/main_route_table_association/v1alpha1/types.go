@@ -52,7 +52,6 @@ type MainRouteTableAssociationSpec struct {
 
 // A MainRouteTableAssociationParameters defines the desired state of a MainRouteTableAssociation
 type MainRouteTableAssociationParameters struct {
-	Id           string `json:"id"`
 	RouteTableId string `json:"route_table_id"`
 	VpcId        string `json:"vpc_id"`
 }

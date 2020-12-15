@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeWafRegexPatternSet(prev *WafRegexPatternSet, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeWafRegexPatternSet_Id(&new.Spec.ForProvider, valMap)
 	DecodeWafRegexPatternSet_Name(&new.Spec.ForProvider, valMap)
 	DecodeWafRegexPatternSet_RegexPatternStrings(&new.Spec.ForProvider, valMap)
 	DecodeWafRegexPatternSet_Arn(&new.Status.AtProvider, valMap)
@@ -48,11 +47,6 @@ func DecodeWafRegexPatternSet(prev *WafRegexPatternSet, ctyValue cty.Value) (res
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeWafRegexPatternSet_Id(p *WafRegexPatternSetParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

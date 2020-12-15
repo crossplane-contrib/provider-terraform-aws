@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2TransitGatewayRouteTableAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -67,9 +62,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayRouteTableAssociation_Id(k *Ec2TransitGatewayRouteTableAssociationParameters, p *Ec2TransitGatewayRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(k *Ec2TransitGatewayRouteTableAssociationParameters, p *Ec2TransitGatewayRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayRouteTableId != p.TransitGatewayRouteTableId {
+		p.TransitGatewayRouteTableId = k.TransitGatewayRouteTableId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -80,16 +75,6 @@ func MergeEc2TransitGatewayRouteTableAssociation_Id(k *Ec2TransitGatewayRouteTab
 func MergeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(k *Ec2TransitGatewayRouteTableAssociationParameters, p *Ec2TransitGatewayRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.TransitGatewayAttachmentId != p.TransitGatewayAttachmentId {
 		p.TransitGatewayAttachmentId = k.TransitGatewayAttachmentId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(k *Ec2TransitGatewayRouteTableAssociationParameters, p *Ec2TransitGatewayRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayRouteTableId != p.TransitGatewayRouteTableId {
-		p.TransitGatewayRouteTableId = k.TransitGatewayRouteTableId
 		md.NeedsProviderUpdate = true
 		return true
 	}

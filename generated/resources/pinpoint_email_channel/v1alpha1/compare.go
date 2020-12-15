@@ -31,21 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergePinpointEmailChannel_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointEmailChannel_Identity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePinpointEmailChannel_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergePinpointEmailChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -57,6 +42,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergePinpointEmailChannel_FromAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointEmailChannel_Identity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointEmailChannel_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -74,36 +69,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointEmailChannel_Id(k *PinpointEmailChannelParameters, p *PinpointEmailChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointEmailChannel_Identity(k *PinpointEmailChannelParameters, p *PinpointEmailChannelParameters, md *plugin.MergeDescription) bool {
-	if k.Identity != p.Identity {
-		p.Identity = k.Identity
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePinpointEmailChannel_RoleArn(k *PinpointEmailChannelParameters, p *PinpointEmailChannelParameters, md *plugin.MergeDescription) bool {
-	if k.RoleArn != p.RoleArn {
-		p.RoleArn = k.RoleArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -130,6 +95,26 @@ func MergePinpointEmailChannel_Enabled(k *PinpointEmailChannelParameters, p *Pin
 func MergePinpointEmailChannel_FromAddress(k *PinpointEmailChannelParameters, p *PinpointEmailChannelParameters, md *plugin.MergeDescription) bool {
 	if k.FromAddress != p.FromAddress {
 		p.FromAddress = k.FromAddress
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointEmailChannel_Identity(k *PinpointEmailChannelParameters, p *PinpointEmailChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Identity != p.Identity {
+		p.Identity = k.Identity
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointEmailChannel_RoleArn(k *PinpointEmailChannelParameters, p *PinpointEmailChannelParameters, md *plugin.MergeDescription) bool {
+	if k.RoleArn != p.RoleArn {
+		p.RoleArn = k.RoleArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

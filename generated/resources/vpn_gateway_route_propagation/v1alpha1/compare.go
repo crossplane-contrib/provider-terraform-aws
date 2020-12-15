@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVpnGatewayRoutePropagation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpnGatewayRoutePropagation_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVpnGatewayRoutePropagation_RouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVpnGatewayRoutePropagation_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpnGatewayRoutePropagation_Id(k *VpnGatewayRoutePropagationParameters, p *VpnGatewayRoutePropagationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeVpnGatewayRoutePropagation_VpnGatewayId(k *VpnGatewayRoutePropagationParameters, p *VpnGatewayRoutePropagationParameters, md *plugin.MergeDescription) bool {
+	if k.VpnGatewayId != p.VpnGatewayId {
+		p.VpnGatewayId = k.VpnGatewayId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -71,16 +66,6 @@ func MergeVpnGatewayRoutePropagation_Id(k *VpnGatewayRoutePropagationParameters,
 func MergeVpnGatewayRoutePropagation_RouteTableId(k *VpnGatewayRoutePropagationParameters, p *VpnGatewayRoutePropagationParameters, md *plugin.MergeDescription) bool {
 	if k.RouteTableId != p.RouteTableId {
 		p.RouteTableId = k.RouteTableId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVpnGatewayRoutePropagation_VpnGatewayId(k *VpnGatewayRoutePropagationParameters, p *VpnGatewayRoutePropagationParameters, md *plugin.MergeDescription) bool {
-	if k.VpnGatewayId != p.VpnGatewayId {
-		p.VpnGatewayId = k.VpnGatewayId
 		md.NeedsProviderUpdate = true
 		return true
 	}

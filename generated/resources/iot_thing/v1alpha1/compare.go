@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIotThing_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIotThing_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -88,18 +83,8 @@ func MergeIotThing_ThingTypeName(k *IotThingParameters, p *IotThingParameters, m
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIotThing_Attributes(k *IotThingParameters, p *IotThingParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Attributes, p.Attributes) {
+	if !plugin.CompareMapString(k.Attributes, p.Attributes) {
 		p.Attributes = k.Attributes
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIotThing_Id(k *IotThingParameters, p *IotThingParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

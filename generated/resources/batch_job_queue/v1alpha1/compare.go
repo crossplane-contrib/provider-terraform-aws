@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeBatchJobQueue_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeBatchJobQueue_ComputeEnvironments(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeBatchJobQueue_ComputeEnvironments(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeBatchJobQueue_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -71,10 +66,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeBatchJobQueue_Id(k *BatchJobQueueParameters, p *BatchJobQueueParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+//mergePrimitiveContainerTemplateSpec
+func MergeBatchJobQueue_ComputeEnvironments(k *BatchJobQueueParameters, p *BatchJobQueueParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ComputeEnvironments, p.ComputeEnvironments) {
+		p.ComputeEnvironments = k.ComputeEnvironments
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -105,16 +100,6 @@ func MergeBatchJobQueue_Priority(k *BatchJobQueueParameters, p *BatchJobQueuePar
 func MergeBatchJobQueue_State(k *BatchJobQueueParameters, p *BatchJobQueueParameters, md *plugin.MergeDescription) bool {
 	if k.State != p.State {
 		p.State = k.State
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeBatchJobQueue_ComputeEnvironments(k *BatchJobQueueParameters, p *BatchJobQueueParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ComputeEnvironments, p.ComputeEnvironments) {
-		p.ComputeEnvironments = k.ComputeEnvironments
 		md.NeedsProviderUpdate = true
 		return true
 	}

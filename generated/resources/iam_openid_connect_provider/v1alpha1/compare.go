@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamOpenidConnectProvider_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamOpenidConnectProvider_ThumbprintList(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -68,18 +63,8 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamOpenidConnectProvider_ClientIdList(k *IamOpenidConnectProviderParameters, p *IamOpenidConnectProviderParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ClientIdList, p.ClientIdList) {
+	if !plugin.CompareStringSlices(k.ClientIdList, p.ClientIdList) {
 		p.ClientIdList = k.ClientIdList
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamOpenidConnectProvider_Id(k *IamOpenidConnectProviderParameters, p *IamOpenidConnectProviderParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -88,7 +73,7 @@ func MergeIamOpenidConnectProvider_Id(k *IamOpenidConnectProviderParameters, p *
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamOpenidConnectProvider_ThumbprintList(k *IamOpenidConnectProviderParameters, p *IamOpenidConnectProviderParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ThumbprintList, p.ThumbprintList) {
+	if !plugin.CompareStringSlices(k.ThumbprintList, p.ThumbprintList) {
 		p.ThumbprintList = k.ThumbprintList
 		md.NeedsProviderUpdate = true
 		return true

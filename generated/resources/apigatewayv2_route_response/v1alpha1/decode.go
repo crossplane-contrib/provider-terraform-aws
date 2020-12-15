@@ -39,28 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApigatewayv2RouteResponse(prev *Apigatewayv2RouteResponse, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApigatewayv2RouteResponse_ApiId(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2RouteResponse_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2RouteResponse_ModelSelectionExpression(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2RouteResponse_ResponseModels(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2RouteResponse_RouteId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2RouteResponse_RouteResponseKey(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2RouteResponse_ApiId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2RouteResponse_ApiId(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
-	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2RouteResponse_Id(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -87,4 +76,9 @@ func DecodeApigatewayv2RouteResponse_RouteId(p *Apigatewayv2RouteResponseParamet
 //primitiveTypeDecodeTemplate
 func DecodeApigatewayv2RouteResponse_RouteResponseKey(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	p.RouteResponseKey = ctwhy.ValueAsString(vals["route_response_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2RouteResponse_ApiId(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
+	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }

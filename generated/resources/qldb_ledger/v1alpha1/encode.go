@@ -40,7 +40,6 @@ func EncodeQldbLedger(r QldbLedger) cty.Value {
 	EncodeQldbLedger_Name(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_DeletionProtection(r.Spec.ForProvider, ctyVal)
-	EncodeQldbLedger_Id(r.Spec.ForProvider, ctyVal)
 	EncodeQldbLedger_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -70,10 +69,6 @@ func EncodeQldbLedger_Tags(p QldbLedgerParameters, vals map[string]cty.Value) {
 
 func EncodeQldbLedger_DeletionProtection(p QldbLedgerParameters, vals map[string]cty.Value) {
 	vals["deletion_protection"] = cty.BoolVal(p.DeletionProtection)
-}
-
-func EncodeQldbLedger_Id(p QldbLedgerParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeQldbLedger_Arn(p QldbLedgerObservation, vals map[string]cty.Value) {

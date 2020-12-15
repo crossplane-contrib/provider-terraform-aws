@@ -40,7 +40,6 @@ func DecodeApiGatewayVpcLink(prev *ApiGatewayVpcLink, ctyValue cty.Value) (resou
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeApiGatewayVpcLink_Description(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayVpcLink_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_Name(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_Tags(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_TargetArns(&new.Spec.ForProvider, valMap)
@@ -55,11 +54,6 @@ func DecodeApiGatewayVpcLink(prev *ApiGatewayVpcLink, ctyValue cty.Value) (resou
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayVpcLink_Description(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayVpcLink_Id(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

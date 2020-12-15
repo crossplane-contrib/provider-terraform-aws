@@ -53,7 +53,6 @@ type SagemakerEndpointSpec struct {
 // A SagemakerEndpointParameters defines the desired state of a SagemakerEndpoint
 type SagemakerEndpointParameters struct {
 	EndpointConfigName string            `json:"endpoint_config_name"`
-	Id                 string            `json:"id"`
 	Name               string            `json:"name"`
 	Tags               map[string]string `json:"tags"`
 }

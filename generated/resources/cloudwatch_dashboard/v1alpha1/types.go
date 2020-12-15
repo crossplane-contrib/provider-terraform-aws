@@ -54,7 +54,6 @@ type CloudwatchDashboardSpec struct {
 type CloudwatchDashboardParameters struct {
 	DashboardBody string `json:"dashboard_body"`
 	DashboardName string `json:"dashboard_name"`
-	Id            string `json:"id"`
 }
 
 // A CloudwatchDashboardStatus defines the observed state of a CloudwatchDashboard

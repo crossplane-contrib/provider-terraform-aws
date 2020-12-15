@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLicensemanagerAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -71,16 +66,6 @@ func MergeLicensemanagerAssociation_LicenseConfigurationArn(k *LicensemanagerAss
 func MergeLicensemanagerAssociation_ResourceArn(k *LicensemanagerAssociationParameters, p *LicensemanagerAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.ResourceArn != p.ResourceArn {
 		p.ResourceArn = k.ResourceArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLicensemanagerAssociation_Id(k *LicensemanagerAssociationParameters, p *LicensemanagerAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLightsailKeyPair_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLightsailKeyPair_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeLightsailKeyPair_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLightsailKeyPair_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,12 +46,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLightsailKeyPair_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLightsailKeyPair_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeLightsailKeyPair_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeLightsailKeyPair_PrivateKey(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLightsailKeyPair_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLightsailKeyPair_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,21 +76,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLightsailKeyPair_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailKeyPair_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLightsailKeyPair_PrivateKey(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -89,36 +84,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLightsailKeyPair_Id(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLightsailKeyPair_Name(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLightsailKeyPair_PgpKey(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
-	if k.PgpKey != p.PgpKey {
-		p.PgpKey = k.PgpKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -141,30 +106,30 @@ func MergeLightsailKeyPair_NamePrefix(k *LightsailKeyPairParameters, p *Lightsai
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeLightsailKeyPair_EncryptedFingerprint(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
-	if k.EncryptedFingerprint != p.EncryptedFingerprint {
-		k.EncryptedFingerprint = p.EncryptedFingerprint
-		md.StatusUpdated = true
+//mergePrimitiveTemplateSpec
+func MergeLightsailKeyPair_PgpKey(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
+	if k.PgpKey != p.PgpKey {
+		p.PgpKey = k.PgpKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLightsailKeyPair_Name(k *LightsailKeyPairParameters, p *LightsailKeyPairParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
 }
 
 //mergePrimitiveTemplateStatus
-func MergeLightsailKeyPair_EncryptedPrivateKey(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
-	if k.EncryptedPrivateKey != p.EncryptedPrivateKey {
-		k.EncryptedPrivateKey = p.EncryptedPrivateKey
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeLightsailKeyPair_Arn(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeLightsailKeyPair_PrivateKey(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
+	if k.PrivateKey != p.PrivateKey {
+		k.PrivateKey = p.PrivateKey
 		md.StatusUpdated = true
 		return true
 	}
@@ -182,9 +147,29 @@ func MergeLightsailKeyPair_Fingerprint(k *LightsailKeyPairObservation, p *Lights
 }
 
 //mergePrimitiveTemplateStatus
-func MergeLightsailKeyPair_PrivateKey(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
-	if k.PrivateKey != p.PrivateKey {
-		k.PrivateKey = p.PrivateKey
+func MergeLightsailKeyPair_Arn(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLightsailKeyPair_EncryptedFingerprint(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
+	if k.EncryptedFingerprint != p.EncryptedFingerprint {
+		k.EncryptedFingerprint = p.EncryptedFingerprint
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLightsailKeyPair_EncryptedPrivateKey(k *LightsailKeyPairObservation, p *LightsailKeyPairObservation, md *plugin.MergeDescription) bool {
+	if k.EncryptedPrivateKey != p.EncryptedPrivateKey {
+		k.EncryptedPrivateKey = p.EncryptedPrivateKey
 		md.StatusUpdated = true
 		return true
 	}

@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeMacieMemberAccountAssociation(prev *MacieMemberAccountAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeMacieMemberAccountAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeMacieMemberAccountAssociation_MemberAccountId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeMacieMemberAccountAssociation(prev *MacieMemberAccountAssociation, ct
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMacieMemberAccountAssociation_Id(p *MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

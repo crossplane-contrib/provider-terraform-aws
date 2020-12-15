@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodebuildSourceCredential(r CodebuildSourceCredential) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodebuildSourceCredential_Token(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildSourceCredential_UserName(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildSourceCredential_AuthType(r.Spec.ForProvider, ctyVal)
-	EncodeCodebuildSourceCredential_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildSourceCredential_ServerType(r.Spec.ForProvider, ctyVal)
-	EncodeCodebuildSourceCredential_Token(r.Spec.ForProvider, ctyVal)
 	EncodeCodebuildSourceCredential_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,6 +52,10 @@ func EncodeCodebuildSourceCredential(r CodebuildSourceCredential) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeCodebuildSourceCredential_Token(p CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
+	vals["token"] = cty.StringVal(p.Token)
+}
+
 func EncodeCodebuildSourceCredential_UserName(p CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
 	vals["user_name"] = cty.StringVal(p.UserName)
 }
@@ -61,16 +64,8 @@ func EncodeCodebuildSourceCredential_AuthType(p CodebuildSourceCredentialParamet
 	vals["auth_type"] = cty.StringVal(p.AuthType)
 }
 
-func EncodeCodebuildSourceCredential_Id(p CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeCodebuildSourceCredential_ServerType(p CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
 	vals["server_type"] = cty.StringVal(p.ServerType)
-}
-
-func EncodeCodebuildSourceCredential_Token(p CodebuildSourceCredentialParameters, vals map[string]cty.Value) {
-	vals["token"] = cty.StringVal(p.Token)
 }
 
 func EncodeCodebuildSourceCredential_Arn(p CodebuildSourceCredentialObservation, vals map[string]cty.Value) {

@@ -52,11 +52,10 @@ type AppCookieStickinessPolicySpec struct {
 
 // A AppCookieStickinessPolicyParameters defines the desired state of a AppCookieStickinessPolicy
 type AppCookieStickinessPolicyParameters struct {
-	Id           string `json:"id"`
-	LbPort       int64  `json:"lb_port"`
 	LoadBalancer string `json:"load_balancer"`
 	Name         string `json:"name"`
 	CookieName   string `json:"cookie_name"`
+	LbPort       int64  `json:"lb_port"`
 }
 
 // A AppCookieStickinessPolicyStatus defines the observed state of a AppCookieStickinessPolicy

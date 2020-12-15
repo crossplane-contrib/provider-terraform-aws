@@ -42,7 +42,6 @@ func DecodeIamAccessKey(prev *IamAccessKey, ctyValue cty.Value) (resource.Manage
 	DecodeIamAccessKey_PgpKey(&new.Spec.ForProvider, valMap)
 	DecodeIamAccessKey_Status(&new.Spec.ForProvider, valMap)
 	DecodeIamAccessKey_User(&new.Spec.ForProvider, valMap)
-	DecodeIamAccessKey_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamAccessKey_KeyFingerprint(&new.Status.AtProvider, valMap)
 	DecodeIamAccessKey_Secret(&new.Status.AtProvider, valMap)
 	DecodeIamAccessKey_SesSmtpPasswordV4(&new.Status.AtProvider, valMap)
@@ -67,11 +66,6 @@ func DecodeIamAccessKey_Status(p *IamAccessKeyParameters, vals map[string]cty.Va
 //primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_User(p *IamAccessKeyParameters, vals map[string]cty.Value) {
 	p.User = ctwhy.ValueAsString(vals["user"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamAccessKey_Id(p *IamAccessKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

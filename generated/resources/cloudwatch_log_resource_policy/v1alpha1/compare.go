@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCloudwatchLogResourcePolicy_PolicyName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudwatchLogResourcePolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudwatchLogResourcePolicy_PolicyDocument(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchLogResourcePolicy_PolicyName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,29 +53,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloudwatchLogResourcePolicy_PolicyName(k *CloudwatchLogResourcePolicyParameters, p *CloudwatchLogResourcePolicyParameters, md *plugin.MergeDescription) bool {
-	if k.PolicyName != p.PolicyName {
-		p.PolicyName = k.PolicyName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchLogResourcePolicy_Id(k *CloudwatchLogResourcePolicyParameters, p *CloudwatchLogResourcePolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCloudwatchLogResourcePolicy_PolicyDocument(k *CloudwatchLogResourcePolicyParameters, p *CloudwatchLogResourcePolicyParameters, md *plugin.MergeDescription) bool {
 	if k.PolicyDocument != p.PolicyDocument {
 		p.PolicyDocument = k.PolicyDocument
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchLogResourcePolicy_PolicyName(k *CloudwatchLogResourcePolicyParameters, p *CloudwatchLogResourcePolicyParameters, md *plugin.MergeDescription) bool {
+	if k.PolicyName != p.PolicyName {
+		p.PolicyName = k.PolicyName
 		md.NeedsProviderUpdate = true
 		return true
 	}

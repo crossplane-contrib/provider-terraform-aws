@@ -53,7 +53,6 @@ type ServiceDiscoveryPublicDnsNamespaceSpec struct {
 // A ServiceDiscoveryPublicDnsNamespaceParameters defines the desired state of a ServiceDiscoveryPublicDnsNamespace
 type ServiceDiscoveryPublicDnsNamespaceParameters struct {
 	Description string            `json:"description"`
-	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 }
@@ -66,6 +65,6 @@ type ServiceDiscoveryPublicDnsNamespaceStatus struct {
 
 // A ServiceDiscoveryPublicDnsNamespaceObservation records the observed state of a ServiceDiscoveryPublicDnsNamespace
 type ServiceDiscoveryPublicDnsNamespaceObservation struct {
-	HostedZone string `json:"hosted_zone"`
 	Arn        string `json:"arn"`
+	HostedZone string `json:"hosted_zone"`
 }

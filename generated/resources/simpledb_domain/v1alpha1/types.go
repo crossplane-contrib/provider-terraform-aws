@@ -52,7 +52,6 @@ type SimpledbDomainSpec struct {
 
 // A SimpledbDomainParameters defines the desired state of a SimpledbDomain
 type SimpledbDomainParameters struct {
-	Id   string `json:"id"`
 	Name string `json:"name"`
 }
 

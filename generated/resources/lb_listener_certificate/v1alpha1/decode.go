@@ -40,7 +40,6 @@ func DecodeLbListenerCertificate(prev *LbListenerCertificate, ctyValue cty.Value
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeLbListenerCertificate_CertificateArn(&new.Spec.ForProvider, valMap)
-	DecodeLbListenerCertificate_Id(&new.Spec.ForProvider, valMap)
 	DecodeLbListenerCertificate_ListenerArn(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeLbListenerCertificate(prev *LbListenerCertificate, ctyValue cty.Value
 //primitiveTypeDecodeTemplate
 func DecodeLbListenerCertificate_CertificateArn(p *LbListenerCertificateParameters, vals map[string]cty.Value) {
 	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLbListenerCertificate_Id(p *LbListenerCertificateParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

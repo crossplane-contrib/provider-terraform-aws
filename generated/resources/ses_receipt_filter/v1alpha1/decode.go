@@ -40,7 +40,6 @@ func DecodeSesReceiptFilter(prev *SesReceiptFilter, ctyValue cty.Value) (resourc
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSesReceiptFilter_Cidr(&new.Spec.ForProvider, valMap)
-	DecodeSesReceiptFilter_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesReceiptFilter_Name(&new.Spec.ForProvider, valMap)
 	DecodeSesReceiptFilter_Policy(&new.Spec.ForProvider, valMap)
 	DecodeSesReceiptFilter_Arn(&new.Status.AtProvider, valMap)
@@ -54,11 +53,6 @@ func DecodeSesReceiptFilter(prev *SesReceiptFilter, ctyValue cty.Value) (resourc
 //primitiveTypeDecodeTemplate
 func DecodeSesReceiptFilter_Cidr(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
 	p.Cidr = ctwhy.ValueAsString(vals["cidr"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesReceiptFilter_Id(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

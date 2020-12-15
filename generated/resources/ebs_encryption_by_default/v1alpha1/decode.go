@@ -40,7 +40,6 @@ func DecodeEbsEncryptionByDefault(prev *EbsEncryptionByDefault, ctyValue cty.Val
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeEbsEncryptionByDefault_Enabled(&new.Spec.ForProvider, valMap)
-	DecodeEbsEncryptionByDefault_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,9 +51,4 @@ func DecodeEbsEncryptionByDefault(prev *EbsEncryptionByDefault, ctyValue cty.Val
 //primitiveTypeDecodeTemplate
 func DecodeEbsEncryptionByDefault_Enabled(p *EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsEncryptionByDefault_Id(p *EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

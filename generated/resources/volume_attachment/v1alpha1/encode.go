@@ -42,7 +42,6 @@ func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
 	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_DeviceName(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_ForceDetach(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -72,8 +71,4 @@ func EncodeVolumeAttachment_DeviceName(p VolumeAttachmentParameters, vals map[st
 
 func EncodeVolumeAttachment_ForceDetach(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["force_detach"] = cty.BoolVal(p.ForceDetach)
-}
-
-func EncodeVolumeAttachment_Id(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

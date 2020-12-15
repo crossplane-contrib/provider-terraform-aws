@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEipAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEipAssociation_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -91,16 +86,6 @@ func MergeEipAssociation_AllocationId(k *EipAssociationParameters, p *EipAssocia
 func MergeEipAssociation_AllowReassociation(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.AllowReassociation != p.AllowReassociation {
 		p.AllowReassociation = k.AllowReassociation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEipAssociation_Id(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

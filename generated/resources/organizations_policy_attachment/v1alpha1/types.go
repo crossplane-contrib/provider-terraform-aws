@@ -54,7 +54,6 @@ type OrganizationsPolicyAttachmentSpec struct {
 type OrganizationsPolicyAttachmentParameters struct {
 	PolicyId string `json:"policy_id"`
 	TargetId string `json:"target_id"`
-	Id       string `json:"id"`
 }
 
 // A OrganizationsPolicyAttachmentStatus defines the observed state of a OrganizationsPolicyAttachment

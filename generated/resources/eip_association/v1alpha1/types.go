@@ -54,7 +54,6 @@ type EipAssociationSpec struct {
 type EipAssociationParameters struct {
 	AllocationId       string `json:"allocation_id"`
 	AllowReassociation bool   `json:"allow_reassociation"`
-	Id                 string `json:"id"`
 	InstanceId         string `json:"instance_id"`
 	NetworkInterfaceId string `json:"network_interface_id"`
 	PrivateIpAddress   string `json:"private_ip_address"`

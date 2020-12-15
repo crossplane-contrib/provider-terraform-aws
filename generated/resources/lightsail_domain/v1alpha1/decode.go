@@ -40,7 +40,6 @@ func DecodeLightsailDomain(prev *LightsailDomain, ctyValue cty.Value) (resource.
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeLightsailDomain_DomainName(&new.Spec.ForProvider, valMap)
-	DecodeLightsailDomain_Id(&new.Spec.ForProvider, valMap)
 	DecodeLightsailDomain_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,11 +51,6 @@ func DecodeLightsailDomain(prev *LightsailDomain, ctyValue cty.Value) (resource.
 //primitiveTypeDecodeTemplate
 func DecodeLightsailDomain_DomainName(p *LightsailDomainParameters, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLightsailDomain_Id(p *LightsailDomainParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

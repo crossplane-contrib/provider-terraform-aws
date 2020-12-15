@@ -52,7 +52,6 @@ type Wafv2WebAclAssociationSpec struct {
 
 // A Wafv2WebAclAssociationParameters defines the desired state of a Wafv2WebAclAssociation
 type Wafv2WebAclAssociationParameters struct {
-	Id          string `json:"id"`
 	ResourceArn string `json:"resource_arn"`
 	WebAclArn   string `json:"web_acl_arn"`
 }

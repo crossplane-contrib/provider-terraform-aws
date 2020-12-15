@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeIamUserSshKey_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeIamUserSshKey_Status(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,22 +51,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamUserSshKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamUserSshKey_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamUserSshKey_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeIamUserSshKey_SshPublicKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamUserSshKey_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -74,6 +69,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserSshKey_PublicKey(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
+	if k.PublicKey != p.PublicKey {
+		p.PublicKey = k.PublicKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -106,21 +111,11 @@ func MergeIamUserSshKey_Encoding(k *IamUserSshKeyParameters, p *IamUserSshKeyPar
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeIamUserSshKey_Id(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamUserSshKey_PublicKey(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
-	if k.PublicKey != p.PublicKey {
-		p.PublicKey = k.PublicKey
-		md.NeedsProviderUpdate = true
+//mergePrimitiveTemplateStatus
+func MergeIamUserSshKey_Fingerprint(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
+	if k.Fingerprint != p.Fingerprint {
+		k.Fingerprint = p.Fingerprint
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -130,16 +125,6 @@ func MergeIamUserSshKey_PublicKey(k *IamUserSshKeyParameters, p *IamUserSshKeyPa
 func MergeIamUserSshKey_SshPublicKeyId(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
 	if k.SshPublicKeyId != p.SshPublicKeyId {
 		k.SshPublicKeyId = p.SshPublicKeyId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeIamUserSshKey_Fingerprint(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
-	if k.Fingerprint != p.Fingerprint {
-		k.Fingerprint = p.Fingerprint
 		md.StatusUpdated = true
 		return true
 	}

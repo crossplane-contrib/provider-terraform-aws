@@ -41,7 +41,6 @@ func DecodeApigatewayv2ApiMapping(prev *Apigatewayv2ApiMapping, ctyValue cty.Val
 	new := prev.DeepCopy()
 	DecodeApigatewayv2ApiMapping_ApiMappingKey(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2ApiMapping_DomainName(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2ApiMapping_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2ApiMapping_Stage(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2ApiMapping_ApiId(&new.Spec.ForProvider, valMap)
 
@@ -60,11 +59,6 @@ func DecodeApigatewayv2ApiMapping_ApiMappingKey(p *Apigatewayv2ApiMappingParamet
 //primitiveTypeDecodeTemplate
 func DecodeApigatewayv2ApiMapping_DomainName(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2ApiMapping_Id(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

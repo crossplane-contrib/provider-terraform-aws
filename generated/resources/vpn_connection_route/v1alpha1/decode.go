@@ -40,7 +40,6 @@ func DecodeVpnConnectionRoute(prev *VpnConnectionRoute, ctyValue cty.Value) (res
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeVpnConnectionRoute_DestinationCidrBlock(&new.Spec.ForProvider, valMap)
-	DecodeVpnConnectionRoute_Id(&new.Spec.ForProvider, valMap)
 	DecodeVpnConnectionRoute_VpnConnectionId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeVpnConnectionRoute(prev *VpnConnectionRoute, ctyValue cty.Value) (res
 //primitiveTypeDecodeTemplate
 func DecodeVpnConnectionRoute_DestinationCidrBlock(p *VpnConnectionRouteParameters, vals map[string]cty.Value) {
 	p.DestinationCidrBlock = ctwhy.ValueAsString(vals["destination_cidr_block"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpnConnectionRoute_Id(p *VpnConnectionRouteParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

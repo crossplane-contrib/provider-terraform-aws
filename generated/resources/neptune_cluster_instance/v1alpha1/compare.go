@@ -31,12 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeNeptuneClusterInstance_NeptuneSubnetGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNeptuneClusterInstance_ApplyImmediately(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterInstance_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNeptuneClusterInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterInstance_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,7 +56,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterInstance_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNeptuneClusterInstance_NeptuneSubnetGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterInstance_PreferredBackupWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterInstance_PromotionTier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterInstance_IdentifierPrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,52 +86,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterInstance_ApplyImmediately(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterInstance_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeNeptuneClusterInstance_Port(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterInstance_PubliclyAccessible(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNeptuneClusterInstance_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterInstance_PromotionTier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterInstance_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterInstance_IdentifierPrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterInstance_PreferredBackupWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNeptuneClusterInstance_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNeptuneClusterInstance_PreferredMaintenanceWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterInstance_PubliclyAccessible(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -126,17 +121,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterInstance_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeNeptuneClusterInstance_Address(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNeptuneClusterInstance_DbiResourceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterInstance_Endpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -151,7 +146,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterInstance_Address(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeNeptuneClusterInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -172,9 +167,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_NeptuneSubnetGroupName(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.NeptuneSubnetGroupName != p.NeptuneSubnetGroupName {
-		p.NeptuneSubnetGroupName = k.NeptuneSubnetGroupName
+func MergeNeptuneClusterInstance_ApplyImmediately(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.ApplyImmediately != p.ApplyImmediately {
+		p.ApplyImmediately = k.ApplyImmediately
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -182,9 +177,19 @@ func MergeNeptuneClusterInstance_NeptuneSubnetGroupName(k *NeptuneClusterInstanc
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_AvailabilityZone(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
+func MergeNeptuneClusterInstance_AutoMinorVersionUpgrade(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
+		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneClusterInstance_ClusterIdentifier(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.ClusterIdentifier != p.ClusterIdentifier {
+		p.ClusterIdentifier = k.ClusterIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -212,9 +217,39 @@ func MergeNeptuneClusterInstance_EngineVersion(k *NeptuneClusterInstanceParamete
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_Identifier(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Identifier != p.Identifier {
-		p.Identifier = k.Identifier
+func MergeNeptuneClusterInstance_NeptuneSubnetGroupName(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.NeptuneSubnetGroupName != p.NeptuneSubnetGroupName {
+		p.NeptuneSubnetGroupName = k.NeptuneSubnetGroupName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneClusterInstance_PreferredBackupWindow(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PreferredBackupWindow != p.PreferredBackupWindow {
+		p.PreferredBackupWindow = k.PreferredBackupWindow
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneClusterInstance_PromotionTier(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PromotionTier != p.PromotionTier {
+		p.PromotionTier = k.PromotionTier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneClusterInstance_IdentifierPrefix(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.IdentifierPrefix != p.IdentifierPrefix {
+		p.IdentifierPrefix = k.IdentifierPrefix
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -242,26 +277,6 @@ func MergeNeptuneClusterInstance_NeptuneParameterGroupName(k *NeptuneClusterInst
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_ApplyImmediately(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.ApplyImmediately != p.ApplyImmediately {
-		p.ApplyImmediately = k.ApplyImmediately
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_ClusterIdentifier(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.ClusterIdentifier != p.ClusterIdentifier {
-		p.ClusterIdentifier = k.ClusterIdentifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeNeptuneClusterInstance_Port(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.Port != p.Port {
 		p.Port = k.Port
@@ -272,9 +287,9 @@ func MergeNeptuneClusterInstance_Port(k *NeptuneClusterInstanceParameters, p *Ne
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_PubliclyAccessible(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PubliclyAccessible != p.PubliclyAccessible {
-		p.PubliclyAccessible = k.PubliclyAccessible
+func MergeNeptuneClusterInstance_AvailabilityZone(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -282,49 +297,9 @@ func MergeNeptuneClusterInstance_PubliclyAccessible(k *NeptuneClusterInstancePar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_PromotionTier(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PromotionTier != p.PromotionTier {
-		p.PromotionTier = k.PromotionTier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_AutoMinorVersionUpgrade(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
-		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_Id(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_IdentifierPrefix(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.IdentifierPrefix != p.IdentifierPrefix {
-		p.IdentifierPrefix = k.IdentifierPrefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneClusterInstance_PreferredBackupWindow(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PreferredBackupWindow != p.PreferredBackupWindow {
-		p.PreferredBackupWindow = k.PreferredBackupWindow
+func MergeNeptuneClusterInstance_Identifier(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.Identifier != p.Identifier {
+		p.Identifier = k.Identifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -341,9 +316,19 @@ func MergeNeptuneClusterInstance_PreferredMaintenanceWindow(k *NeptuneClusterIns
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeNeptuneClusterInstance_PubliclyAccessible(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PubliclyAccessible != p.PubliclyAccessible {
+		p.PubliclyAccessible = k.PubliclyAccessible
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeNeptuneClusterInstance_Tags(k *NeptuneClusterInstanceParameters, p *NeptuneClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -407,19 +392,9 @@ func MergeNeptuneClusterInstance_Timeouts_Update(k *Timeouts, p *Timeouts, md *p
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneClusterInstance_Endpoint(k *NeptuneClusterInstanceObservation, p *NeptuneClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Endpoint != p.Endpoint {
-		k.Endpoint = p.Endpoint
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNeptuneClusterInstance_Arn(k *NeptuneClusterInstanceObservation, p *NeptuneClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeNeptuneClusterInstance_Address(k *NeptuneClusterInstanceObservation, p *NeptuneClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Address != p.Address {
+		k.Address = p.Address
 		md.StatusUpdated = true
 		return true
 	}
@@ -430,6 +405,16 @@ func MergeNeptuneClusterInstance_Arn(k *NeptuneClusterInstanceObservation, p *Ne
 func MergeNeptuneClusterInstance_DbiResourceId(k *NeptuneClusterInstanceObservation, p *NeptuneClusterInstanceObservation, md *plugin.MergeDescription) bool {
 	if k.DbiResourceId != p.DbiResourceId {
 		k.DbiResourceId = p.DbiResourceId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNeptuneClusterInstance_Endpoint(k *NeptuneClusterInstanceObservation, p *NeptuneClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Endpoint != p.Endpoint {
+		k.Endpoint = p.Endpoint
 		md.StatusUpdated = true
 		return true
 	}
@@ -457,9 +442,9 @@ func MergeNeptuneClusterInstance_Writer(k *NeptuneClusterInstanceObservation, p 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneClusterInstance_Address(k *NeptuneClusterInstanceObservation, p *NeptuneClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Address != p.Address {
-		k.Address = p.Address
+func MergeNeptuneClusterInstance_Arn(k *NeptuneClusterInstanceObservation, p *NeptuneClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSsmPatchGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSsmPatchGroup_BaselineId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeSsmPatchGroup_PatchGroup(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSsmPatchGroup_BaselineId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSsmPatchGroup_Id(k *SsmPatchGroupParameters, p *SsmPatchGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSsmPatchGroup_BaselineId(k *SsmPatchGroupParameters, p *SsmPatchGroupParameters, md *plugin.MergeDescription) bool {
+	if k.BaselineId != p.BaselineId {
+		p.BaselineId = k.BaselineId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -71,16 +66,6 @@ func MergeSsmPatchGroup_Id(k *SsmPatchGroupParameters, p *SsmPatchGroupParameter
 func MergeSsmPatchGroup_PatchGroup(k *SsmPatchGroupParameters, p *SsmPatchGroupParameters, md *plugin.MergeDescription) bool {
 	if k.PatchGroup != p.PatchGroup {
 		p.PatchGroup = k.PatchGroup
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSsmPatchGroup_BaselineId(k *SsmPatchGroupParameters, p *SsmPatchGroupParameters, md *plugin.MergeDescription) bool {
-	if k.BaselineId != p.BaselineId {
-		p.BaselineId = k.BaselineId
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -31,7 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSqsQueue_ReceiveWaitTimeSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSqsQueue_DelaySeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSqsQueue_MessageRetentionSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -41,32 +46,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSqsQueue_FifoQueue(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSqsQueue_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSqsQueue_MaxMessageSize(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSqsQueue_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSqsQueue_ReceiveWaitTimeSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSqsQueue_KmsMasterKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSqsQueue_MessageRetentionSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSqsQueue_FifoQueue(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,12 +71,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSqsQueue_DelaySeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSqsQueue_KmsDataKeyReusePeriodSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSqsQueue_KmsDataKeyReusePeriodSeconds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSqsQueue_KmsMasterKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,6 +92,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeSqsQueue_RedrivePolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSqsQueue_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -122,9 +117,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSqsQueue_ReceiveWaitTimeSeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if k.ReceiveWaitTimeSeconds != p.ReceiveWaitTimeSeconds {
-		p.ReceiveWaitTimeSeconds = k.ReceiveWaitTimeSeconds
+func MergeSqsQueue_DelaySeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
+	if k.DelaySeconds != p.DelaySeconds {
+		p.DelaySeconds = k.DelaySeconds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSqsQueue_MessageRetentionSeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
+	if k.MessageRetentionSeconds != p.MessageRetentionSeconds {
+		p.MessageRetentionSeconds = k.MessageRetentionSeconds
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -142,26 +147,6 @@ func MergeSqsQueue_ContentBasedDeduplication(k *SqsQueueParameters, p *SqsQueueP
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSqsQueue_FifoQueue(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if k.FifoQueue != p.FifoQueue {
-		p.FifoQueue = k.FifoQueue
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSqsQueue_Id(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeSqsQueue_MaxMessageSize(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
 	if k.MaxMessageSize != p.MaxMessageSize {
 		p.MaxMessageSize = k.MaxMessageSize
@@ -171,10 +156,10 @@ func MergeSqsQueue_MaxMessageSize(k *SqsQueueParameters, p *SqsQueueParameters, 
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeSqsQueue_Tags(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeSqsQueue_ReceiveWaitTimeSeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
+	if k.ReceiveWaitTimeSeconds != p.ReceiveWaitTimeSeconds {
+		p.ReceiveWaitTimeSeconds = k.ReceiveWaitTimeSeconds
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -182,19 +167,9 @@ func MergeSqsQueue_Tags(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSqsQueue_KmsMasterKeyId(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if k.KmsMasterKeyId != p.KmsMasterKeyId {
-		p.KmsMasterKeyId = k.KmsMasterKeyId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSqsQueue_MessageRetentionSeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if k.MessageRetentionSeconds != p.MessageRetentionSeconds {
-		p.MessageRetentionSeconds = k.MessageRetentionSeconds
+func MergeSqsQueue_FifoQueue(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
+	if k.FifoQueue != p.FifoQueue {
+		p.FifoQueue = k.FifoQueue
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -222,9 +197,9 @@ func MergeSqsQueue_VisibilityTimeoutSeconds(k *SqsQueueParameters, p *SqsQueuePa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSqsQueue_DelaySeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if k.DelaySeconds != p.DelaySeconds {
-		p.DelaySeconds = k.DelaySeconds
+func MergeSqsQueue_KmsDataKeyReusePeriodSeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
+	if k.KmsDataKeyReusePeriodSeconds != p.KmsDataKeyReusePeriodSeconds {
+		p.KmsDataKeyReusePeriodSeconds = k.KmsDataKeyReusePeriodSeconds
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -232,9 +207,9 @@ func MergeSqsQueue_DelaySeconds(k *SqsQueueParameters, p *SqsQueueParameters, md
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSqsQueue_KmsDataKeyReusePeriodSeconds(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
-	if k.KmsDataKeyReusePeriodSeconds != p.KmsDataKeyReusePeriodSeconds {
-		p.KmsDataKeyReusePeriodSeconds = k.KmsDataKeyReusePeriodSeconds
+func MergeSqsQueue_KmsMasterKeyId(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
+	if k.KmsMasterKeyId != p.KmsMasterKeyId {
+		p.KmsMasterKeyId = k.KmsMasterKeyId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -265,6 +240,16 @@ func MergeSqsQueue_Policy(k *SqsQueueParameters, p *SqsQueueParameters, md *plug
 func MergeSqsQueue_RedrivePolicy(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
 	if k.RedrivePolicy != p.RedrivePolicy {
 		p.RedrivePolicy = k.RedrivePolicy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeSqsQueue_Tags(k *SqsQueueParameters, p *SqsQueueParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

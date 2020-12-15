@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayUsagePlanKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayUsagePlanKey_Name(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -95,16 +90,6 @@ func MergeApiGatewayUsagePlanKey_KeyType(k *ApiGatewayUsagePlanKeyParameters, p 
 func MergeApiGatewayUsagePlanKey_UsagePlanId(k *ApiGatewayUsagePlanKeyParameters, p *ApiGatewayUsagePlanKeyParameters, md *plugin.MergeDescription) bool {
 	if k.UsagePlanId != p.UsagePlanId {
 		p.UsagePlanId = k.UsagePlanId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayUsagePlanKey_Id(k *ApiGatewayUsagePlanKeyParameters, p *ApiGatewayUsagePlanKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

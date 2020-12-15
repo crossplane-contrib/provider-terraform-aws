@@ -39,12 +39,11 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeInspectorAssessmentTemplate(prev *InspectorAssessmentTemplate, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeInspectorAssessmentTemplate_TargetArn(&new.Spec.ForProvider, valMap)
 	DecodeInspectorAssessmentTemplate_Duration(&new.Spec.ForProvider, valMap)
-	DecodeInspectorAssessmentTemplate_Id(&new.Spec.ForProvider, valMap)
 	DecodeInspectorAssessmentTemplate_Name(&new.Spec.ForProvider, valMap)
 	DecodeInspectorAssessmentTemplate_RulesPackageArns(&new.Spec.ForProvider, valMap)
 	DecodeInspectorAssessmentTemplate_Tags(&new.Spec.ForProvider, valMap)
-	DecodeInspectorAssessmentTemplate_TargetArn(&new.Spec.ForProvider, valMap)
 	DecodeInspectorAssessmentTemplate_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -54,13 +53,13 @@ func DecodeInspectorAssessmentTemplate(prev *InspectorAssessmentTemplate, ctyVal
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeInspectorAssessmentTemplate_Duration(p *InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	p.Duration = ctwhy.ValueAsInt64(vals["duration"])
+func DecodeInspectorAssessmentTemplate_TargetArn(p *InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	p.TargetArn = ctwhy.ValueAsString(vals["target_arn"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeInspectorAssessmentTemplate_Id(p *InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeInspectorAssessmentTemplate_Duration(p *InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	p.Duration = ctwhy.ValueAsInt64(vals["duration"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -86,11 +85,6 @@ func DecodeInspectorAssessmentTemplate_Tags(p *InspectorAssessmentTemplateParame
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeInspectorAssessmentTemplate_TargetArn(p *InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	p.TargetArn = ctwhy.ValueAsString(vals["target_arn"])
 }
 
 //primitiveTypeDecodeTemplate

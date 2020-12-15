@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeKeyPair(prev *KeyPair, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeKeyPair_Id(&new.Spec.ForProvider, valMap)
+	DecodeKeyPair_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKeyPair_KeyName(&new.Spec.ForProvider, valMap)
 	DecodeKeyPair_KeyNamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeKeyPair_PublicKey(&new.Spec.ForProvider, valMap)
-	DecodeKeyPair_Tags(&new.Spec.ForProvider, valMap)
 	DecodeKeyPair_Arn(&new.Status.AtProvider, valMap)
 	DecodeKeyPair_Fingerprint(&new.Status.AtProvider, valMap)
 	DecodeKeyPair_KeyPairId(&new.Status.AtProvider, valMap)
@@ -54,9 +53,15 @@ func DecodeKeyPair(prev *KeyPair, ctyValue cty.Value) (resource.Managed, error) 
 	return new, nil
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeKeyPair_Id(p *KeyPairParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+//primitiveMapTypeDecodeTemplate
+func DecodeKeyPair_Tags(p *KeyPairParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate
@@ -72,17 +77,6 @@ func DecodeKeyPair_KeyNamePrefix(p *KeyPairParameters, vals map[string]cty.Value
 //primitiveTypeDecodeTemplate
 func DecodeKeyPair_PublicKey(p *KeyPairParameters, vals map[string]cty.Value) {
 	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeKeyPair_Tags(p *KeyPairParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate

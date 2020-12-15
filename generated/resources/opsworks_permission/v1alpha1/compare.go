@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeOpsworksPermission_AllowSudo(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeOpsworksPermission_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeOpsworksPermission_Level(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,6 +51,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeOpsworksPermission_AllowSudo(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,26 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeOpsworksPermission_AllowSudo(k *OpsworksPermissionParameters, p *OpsworksPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.AllowSudo != p.AllowSudo {
-		p.AllowSudo = k.AllowSudo
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeOpsworksPermission_Id(k *OpsworksPermissionParameters, p *OpsworksPermissionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -126,6 +101,16 @@ func MergeOpsworksPermission_UserArn(k *OpsworksPermissionParameters, p *Opswork
 func MergeOpsworksPermission_AllowSsh(k *OpsworksPermissionParameters, p *OpsworksPermissionParameters, md *plugin.MergeDescription) bool {
 	if k.AllowSsh != p.AllowSsh {
 		p.AllowSsh = k.AllowSsh
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeOpsworksPermission_AllowSudo(k *OpsworksPermissionParameters, p *OpsworksPermissionParameters, md *plugin.MergeDescription) bool {
+	if k.AllowSudo != p.AllowSudo {
+		p.AllowSudo = k.AllowSudo
 		md.NeedsProviderUpdate = true
 		return true
 	}

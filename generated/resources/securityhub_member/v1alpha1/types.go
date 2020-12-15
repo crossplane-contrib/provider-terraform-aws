@@ -54,7 +54,6 @@ type SecurityhubMemberSpec struct {
 type SecurityhubMemberParameters struct {
 	AccountId string `json:"account_id"`
 	Email     string `json:"email"`
-	Id        string `json:"id"`
 	Invite    bool   `json:"invite"`
 }
 
@@ -66,6 +65,6 @@ type SecurityhubMemberStatus struct {
 
 // A SecurityhubMemberObservation records the observed state of a SecurityhubMember
 type SecurityhubMemberObservation struct {
-	MasterId     string `json:"master_id"`
 	MemberStatus string `json:"member_status"`
+	MasterId     string `json:"master_id"`
 }

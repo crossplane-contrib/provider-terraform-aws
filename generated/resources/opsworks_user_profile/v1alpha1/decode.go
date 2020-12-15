@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeOpsworksUserProfile(prev *OpsworksUserProfile, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeOpsworksUserProfile_Id(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksUserProfile_AllowSelfManagement(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksUserProfile_SshPublicKey(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksUserProfile_SshUsername(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksUserProfile_UserArn(&new.Spec.ForProvider, valMap)
-	DecodeOpsworksUserProfile_AllowSelfManagement(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -53,8 +52,8 @@ func DecodeOpsworksUserProfile(prev *OpsworksUserProfile, ctyValue cty.Value) (r
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeOpsworksUserProfile_Id(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeOpsworksUserProfile_AllowSelfManagement(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
+	p.AllowSelfManagement = ctwhy.ValueAsBool(vals["allow_self_management"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -70,9 +69,4 @@ func DecodeOpsworksUserProfile_SshUsername(p *OpsworksUserProfileParameters, val
 //primitiveTypeDecodeTemplate
 func DecodeOpsworksUserProfile_UserArn(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
 	p.UserArn = ctwhy.ValueAsString(vals["user_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOpsworksUserProfile_AllowSelfManagement(p *OpsworksUserProfileParameters, vals map[string]cty.Value) {
-	p.AllowSelfManagement = ctwhy.ValueAsBool(vals["allow_self_management"])
 }

@@ -38,16 +38,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeEc2TransitGatewayVpcAttachmentAccepter(r Ec2TransitGatewayVpcAttachmentAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachmentAccepter_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachmentAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTableAssociation(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTablePropagation(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachmentAccepter_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachmentAccepter_VpcOwnerId(r.Status.AtProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(r.Status.AtProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachmentAccepter_Ipv6Support(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachmentAccepter_SubnetIds(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachmentAccepter_VpcId(r.Status.AtProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachmentAccepter_VpcOwnerId(r.Status.AtProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayId(r.Status.AtProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -62,8 +61,12 @@ func EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayAttachmentId(p E
 	vals["transit_gateway_attachment_id"] = cty.StringVal(p.TransitGatewayAttachmentId)
 }
 
-func EncodeEc2TransitGatewayVpcAttachmentAccepter_Id(p Ec2TransitGatewayVpcAttachmentAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTableAssociation(p Ec2TransitGatewayVpcAttachmentAccepterParameters, vals map[string]cty.Value) {
+	vals["transit_gateway_default_route_table_association"] = cty.BoolVal(p.TransitGatewayDefaultRouteTableAssociation)
+}
+
+func EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTablePropagation(p Ec2TransitGatewayVpcAttachmentAccepterParameters, vals map[string]cty.Value) {
+	vals["transit_gateway_default_route_table_propagation"] = cty.BoolVal(p.TransitGatewayDefaultRouteTablePropagation)
 }
 
 func EncodeEc2TransitGatewayVpcAttachmentAccepter_Tags(p Ec2TransitGatewayVpcAttachmentAccepterParameters, vals map[string]cty.Value) {
@@ -78,12 +81,16 @@ func EncodeEc2TransitGatewayVpcAttachmentAccepter_Tags(p Ec2TransitGatewayVpcAtt
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTableAssociation(p Ec2TransitGatewayVpcAttachmentAccepterParameters, vals map[string]cty.Value) {
-	vals["transit_gateway_default_route_table_association"] = cty.BoolVal(p.TransitGatewayDefaultRouteTableAssociation)
+func EncodeEc2TransitGatewayVpcAttachmentAccepter_VpcOwnerId(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
+	vals["vpc_owner_id"] = cty.StringVal(p.VpcOwnerId)
 }
 
-func EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTablePropagation(p Ec2TransitGatewayVpcAttachmentAccepterParameters, vals map[string]cty.Value) {
-	vals["transit_gateway_default_route_table_propagation"] = cty.BoolVal(p.TransitGatewayDefaultRouteTablePropagation)
+func EncodeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
+	vals["dns_support"] = cty.StringVal(p.DnsSupport)
+}
+
+func EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayId(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
+	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }
 
 func EncodeEc2TransitGatewayVpcAttachmentAccepter_Ipv6Support(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
@@ -100,16 +107,4 @@ func EncodeEc2TransitGatewayVpcAttachmentAccepter_SubnetIds(p Ec2TransitGatewayV
 
 func EncodeEc2TransitGatewayVpcAttachmentAccepter_VpcId(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeEc2TransitGatewayVpcAttachmentAccepter_VpcOwnerId(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
-	vals["vpc_owner_id"] = cty.StringVal(p.VpcOwnerId)
-}
-
-func EncodeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayId(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
-	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
-}
-
-func EncodeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(p Ec2TransitGatewayVpcAttachmentAccepterObservation, vals map[string]cty.Value) {
-	vals["dns_support"] = cty.StringVal(p.DnsSupport)
 }

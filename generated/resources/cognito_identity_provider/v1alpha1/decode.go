@@ -39,19 +39,38 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCognitoIdentityProvider(prev *CognitoIdentityProvider, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCognitoIdentityProvider_IdpIdentifiers(&new.Spec.ForProvider, valMap)
+	DecodeCognitoIdentityProvider_ProviderDetails(&new.Spec.ForProvider, valMap)
 	DecodeCognitoIdentityProvider_ProviderName(&new.Spec.ForProvider, valMap)
 	DecodeCognitoIdentityProvider_ProviderType(&new.Spec.ForProvider, valMap)
 	DecodeCognitoIdentityProvider_UserPoolId(&new.Spec.ForProvider, valMap)
 	DecodeCognitoIdentityProvider_AttributeMapping(&new.Spec.ForProvider, valMap)
-	DecodeCognitoIdentityProvider_Id(&new.Spec.ForProvider, valMap)
-	DecodeCognitoIdentityProvider_IdpIdentifiers(&new.Spec.ForProvider, valMap)
-	DecodeCognitoIdentityProvider_ProviderDetails(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeCognitoIdentityProvider_IdpIdentifiers(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["idp_identifiers"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.IdpIdentifiers = goVals
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeCognitoIdentityProvider_ProviderDetails(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["provider_details"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ProviderDetails = vMap
 }
 
 //primitiveTypeDecodeTemplate
@@ -78,29 +97,4 @@ func DecodeCognitoIdentityProvider_AttributeMapping(p *CognitoIdentityProviderPa
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.AttributeMapping = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCognitoIdentityProvider_Id(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeCognitoIdentityProvider_IdpIdentifiers(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["idp_identifiers"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.IdpIdentifiers = goVals
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeCognitoIdentityProvider_ProviderDetails(p *CognitoIdentityProviderParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["provider_details"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.ProviderDetails = vMap
 }

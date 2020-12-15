@@ -52,10 +52,9 @@ type SesIdentityPolicySpec struct {
 
 // A SesIdentityPolicyParameters defines the desired state of a SesIdentityPolicy
 type SesIdentityPolicyParameters struct {
-	Id       string `json:"id"`
+	Policy   string `json:"policy"`
 	Identity string `json:"identity"`
 	Name     string `json:"name"`
-	Policy   string `json:"policy"`
 }
 
 // A SesIdentityPolicyStatus defines the observed state of a SesIdentityPolicy

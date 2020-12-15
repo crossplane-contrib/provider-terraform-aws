@@ -40,7 +40,6 @@ func DecodeS3BucketPolicy(prev *S3BucketPolicy, ctyValue cty.Value) (resource.Ma
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeS3BucketPolicy_Bucket(&new.Spec.ForProvider, valMap)
-	DecodeS3BucketPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeS3BucketPolicy_Policy(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeS3BucketPolicy(prev *S3BucketPolicy, ctyValue cty.Value) (resource.Ma
 //primitiveTypeDecodeTemplate
 func DecodeS3BucketPolicy_Bucket(p *S3BucketPolicyParameters, vals map[string]cty.Value) {
 	p.Bucket = ctwhy.ValueAsString(vals["bucket"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeS3BucketPolicy_Id(p *S3BucketPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

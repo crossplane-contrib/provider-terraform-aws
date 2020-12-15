@@ -39,28 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApigatewayv2Model(prev *Apigatewayv2Model, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApigatewayv2Model_Name(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Model_Schema(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Model_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Model_ContentType(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Model_Description(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Model_Id(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2Model_Name(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2Model_Schema(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2Model_Name(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2Model_Schema(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	p.Schema = ctwhy.ValueAsString(vals["schema"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -79,6 +68,11 @@ func DecodeApigatewayv2Model_Description(p *Apigatewayv2ModelParameters, vals ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApigatewayv2Model_Id(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeApigatewayv2Model_Name(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2Model_Schema(p *Apigatewayv2ModelParameters, vals map[string]cty.Value) {
+	p.Schema = ctwhy.ValueAsString(vals["schema"])
 }

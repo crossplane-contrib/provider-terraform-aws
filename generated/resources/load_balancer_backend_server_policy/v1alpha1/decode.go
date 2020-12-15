@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLoadBalancerBackendServerPolicy(prev *LoadBalancerBackendServerPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeLoadBalancerBackendServerPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerBackendServerPolicy_InstancePort(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerBackendServerPolicy_LoadBalancerName(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerBackendServerPolicy_PolicyNames(&new.Spec.ForProvider, valMap)
@@ -49,11 +48,6 @@ func DecodeLoadBalancerBackendServerPolicy(prev *LoadBalancerBackendServerPolicy
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLoadBalancerBackendServerPolicy_Id(p *LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

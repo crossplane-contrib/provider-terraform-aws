@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeSesDomainIdentity(r SesDomainIdentity) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSesDomainIdentity_Domain(r.Spec.ForProvider, ctyVal)
-	EncodeSesDomainIdentity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentity_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSesDomainIdentity_VerificationToken(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -53,10 +52,6 @@ func EncodeSesDomainIdentity(r SesDomainIdentity) cty.Value {
 
 func EncodeSesDomainIdentity_Domain(p SesDomainIdentityParameters, vals map[string]cty.Value) {
 	vals["domain"] = cty.StringVal(p.Domain)
-}
-
-func EncodeSesDomainIdentity_Id(p SesDomainIdentityParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSesDomainIdentity_Arn(p SesDomainIdentityObservation, vals map[string]cty.Value) {

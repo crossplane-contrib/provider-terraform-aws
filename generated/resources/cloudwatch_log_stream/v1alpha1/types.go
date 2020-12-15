@@ -52,7 +52,6 @@ type CloudwatchLogStreamSpec struct {
 
 // A CloudwatchLogStreamParameters defines the desired state of a CloudwatchLogStream
 type CloudwatchLogStreamParameters struct {
-	Id           string `json:"id"`
 	LogGroupName string `json:"log_group_name"`
 	Name         string `json:"name"`
 }

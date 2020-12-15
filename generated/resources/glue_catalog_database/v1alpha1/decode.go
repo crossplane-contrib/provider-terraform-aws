@@ -41,7 +41,6 @@ func DecodeGlueCatalogDatabase(prev *GlueCatalogDatabase, ctyValue cty.Value) (r
 	new := prev.DeepCopy()
 	DecodeGlueCatalogDatabase_CatalogId(&new.Spec.ForProvider, valMap)
 	DecodeGlueCatalogDatabase_Description(&new.Spec.ForProvider, valMap)
-	DecodeGlueCatalogDatabase_Id(&new.Spec.ForProvider, valMap)
 	DecodeGlueCatalogDatabase_LocationUri(&new.Spec.ForProvider, valMap)
 	DecodeGlueCatalogDatabase_Name(&new.Spec.ForProvider, valMap)
 	DecodeGlueCatalogDatabase_Parameters(&new.Spec.ForProvider, valMap)
@@ -61,11 +60,6 @@ func DecodeGlueCatalogDatabase_CatalogId(p *GlueCatalogDatabaseParameters, vals 
 //primitiveTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_Description(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGlueCatalogDatabase_Id(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

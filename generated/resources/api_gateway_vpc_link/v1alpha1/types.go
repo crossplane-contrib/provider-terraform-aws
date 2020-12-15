@@ -53,7 +53,6 @@ type ApiGatewayVpcLinkSpec struct {
 // A ApiGatewayVpcLinkParameters defines the desired state of a ApiGatewayVpcLink
 type ApiGatewayVpcLinkParameters struct {
 	Description string            `json:"description"`
-	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 	TargetArns  []string          `json:"target_arns"`

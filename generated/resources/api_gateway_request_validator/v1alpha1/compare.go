@@ -51,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayRequestValidator_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -101,16 +96,6 @@ func MergeApiGatewayRequestValidator_ValidateRequestBody(k *ApiGatewayRequestVal
 func MergeApiGatewayRequestValidator_ValidateRequestParameters(k *ApiGatewayRequestValidatorParameters, p *ApiGatewayRequestValidatorParameters, md *plugin.MergeDescription) bool {
 	if k.ValidateRequestParameters != p.ValidateRequestParameters {
 		p.ValidateRequestParameters = k.ValidateRequestParameters
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApiGatewayRequestValidator_Id(k *ApiGatewayRequestValidatorParameters, p *ApiGatewayRequestValidatorParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

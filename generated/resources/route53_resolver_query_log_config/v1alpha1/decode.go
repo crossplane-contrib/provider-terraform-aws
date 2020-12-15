@@ -40,12 +40,11 @@ func DecodeRoute53ResolverQueryLogConfig(prev *Route53ResolverQueryLogConfig, ct
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeRoute53ResolverQueryLogConfig_DestinationArn(&new.Spec.ForProvider, valMap)
-	DecodeRoute53ResolverQueryLogConfig_Id(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_Name(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_Tags(&new.Spec.ForProvider, valMap)
-	DecodeRoute53ResolverQueryLogConfig_Arn(&new.Status.AtProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_OwnerId(&new.Status.AtProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfig_ShareStatus(&new.Status.AtProvider, valMap)
+	DecodeRoute53ResolverQueryLogConfig_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -56,11 +55,6 @@ func DecodeRoute53ResolverQueryLogConfig(prev *Route53ResolverQueryLogConfig, ct
 //primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverQueryLogConfig_DestinationArn(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
 	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53ResolverQueryLogConfig_Id(p *Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -80,11 +74,6 @@ func DecodeRoute53ResolverQueryLogConfig_Tags(p *Route53ResolverQueryLogConfigPa
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeRoute53ResolverQueryLogConfig_Arn(p *Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverQueryLogConfig_OwnerId(p *Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
 	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }
@@ -92,4 +81,9 @@ func DecodeRoute53ResolverQueryLogConfig_OwnerId(p *Route53ResolverQueryLogConfi
 //primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverQueryLogConfig_ShareStatus(p *Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
 	p.ShareStatus = ctwhy.ValueAsString(vals["share_status"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRoute53ResolverQueryLogConfig_Arn(p *Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

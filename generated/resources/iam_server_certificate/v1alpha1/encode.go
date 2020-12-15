@@ -37,14 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamServerCertificate_CertificateChain(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_Name(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeIamServerCertificate_Path(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_PrivateKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_Arn(r.Spec.ForProvider, ctyVal)
 	EncodeIamServerCertificate_CertificateBody(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_CertificateChain(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_Name(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeIamServerCertificate_Path(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -54,26 +53,6 @@ func EncodeIamServerCertificate(r IamServerCertificate) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamServerCertificate_CertificateChain(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["certificate_chain"] = cty.StringVal(p.CertificateChain)
-}
-
-func EncodeIamServerCertificate_Id(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamServerCertificate_Name(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeIamServerCertificate_NamePrefix(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeIamServerCertificate_Path(p IamServerCertificateParameters, vals map[string]cty.Value) {
-	vals["path"] = cty.StringVal(p.Path)
 }
 
 func EncodeIamServerCertificate_PrivateKey(p IamServerCertificateParameters, vals map[string]cty.Value) {
@@ -86,4 +65,20 @@ func EncodeIamServerCertificate_Arn(p IamServerCertificateParameters, vals map[s
 
 func EncodeIamServerCertificate_CertificateBody(p IamServerCertificateParameters, vals map[string]cty.Value) {
 	vals["certificate_body"] = cty.StringVal(p.CertificateBody)
+}
+
+func EncodeIamServerCertificate_CertificateChain(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["certificate_chain"] = cty.StringVal(p.CertificateChain)
+}
+
+func EncodeIamServerCertificate_Name(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeIamServerCertificate_NamePrefix(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeIamServerCertificate_Path(p IamServerCertificateParameters, vals map[string]cty.Value) {
+	vals["path"] = cty.StringVal(p.Path)
 }

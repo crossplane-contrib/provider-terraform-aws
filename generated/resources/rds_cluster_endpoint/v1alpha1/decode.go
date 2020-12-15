@@ -39,13 +39,12 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRdsClusterEndpoint(prev *RdsClusterEndpoint, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeRdsClusterEndpoint_ClusterEndpointIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterEndpoint_ClusterIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterEndpoint_CustomEndpointType(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterEndpoint_ExcludedMembers(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterEndpoint_Id(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterEndpoint_Tags(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterEndpoint_ClusterIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterEndpoint_StaticMembers(&new.Spec.ForProvider, valMap)
-	DecodeRdsClusterEndpoint_ClusterEndpointIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeRdsClusterEndpoint_Tags(&new.Spec.ForProvider, valMap)
 	DecodeRdsClusterEndpoint_Endpoint(&new.Status.AtProvider, valMap)
 	DecodeRdsClusterEndpoint_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -53,6 +52,16 @@ func DecodeRdsClusterEndpoint(prev *RdsClusterEndpoint, ctyValue cty.Value) (res
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterEndpoint_ClusterEndpointIdentifier(p *RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	p.ClusterEndpointIdentifier = ctwhy.ValueAsString(vals["cluster_endpoint_identifier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRdsClusterEndpoint_ClusterIdentifier(p *RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	p.ClusterIdentifier = ctwhy.ValueAsString(vals["cluster_identifier"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,9 +78,13 @@ func DecodeRdsClusterEndpoint_ExcludedMembers(p *RdsClusterEndpointParameters, v
 	p.ExcludedMembers = goVals
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterEndpoint_Id(p *RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+//primitiveCollectionTypeDecodeTemplate
+func DecodeRdsClusterEndpoint_StaticMembers(p *RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["static_members"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.StaticMembers = goVals
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -83,25 +96,6 @@ func DecodeRdsClusterEndpoint_Tags(p *RdsClusterEndpointParameters, vals map[str
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterEndpoint_ClusterIdentifier(p *RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	p.ClusterIdentifier = ctwhy.ValueAsString(vals["cluster_identifier"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeRdsClusterEndpoint_StaticMembers(p *RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["static_members"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.StaticMembers = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRdsClusterEndpoint_ClusterEndpointIdentifier(p *RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	p.ClusterEndpointIdentifier = ctwhy.ValueAsString(vals["cluster_endpoint_identifier"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -36,7 +36,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTableAssociation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTablePropagation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,12 +51,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTableAssociation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_VpcOwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTablePropagation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,21 +81,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_VpcOwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -100,26 +95,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayAttachmentId(k *Ec2TransitGatewayVpcAttachmentAccepterParameters, p *Ec2TransitGatewayVpcAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
 	if k.TransitGatewayAttachmentId != p.TransitGatewayAttachmentId {
 		p.TransitGatewayAttachmentId = k.TransitGatewayAttachmentId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachmentAccepter_Id(k *Ec2TransitGatewayVpcAttachmentAccepterParameters, p *Ec2TransitGatewayVpcAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeEc2TransitGatewayVpcAttachmentAccepter_Tags(k *Ec2TransitGatewayVpcAttachmentAccepterParameters, p *Ec2TransitGatewayVpcAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -146,31 +121,11 @@ func MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayDefaultRouteTable
 	return false
 }
 
-//mergePrimitiveTemplateStatus
-func MergeEc2TransitGatewayVpcAttachmentAccepter_Ipv6Support(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.Ipv6Support != p.Ipv6Support {
-		k.Ipv6Support = p.Ipv6Support
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateStatus
-func MergeEc2TransitGatewayVpcAttachmentAccepter_SubnetIds(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SubnetIds, p.SubnetIds) {
-		k.SubnetIds = p.SubnetIds
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeEc2TransitGatewayVpcAttachmentAccepter_VpcId(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		k.VpcId = p.VpcId
-		md.StatusUpdated = true
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2TransitGatewayVpcAttachmentAccepter_Tags(k *Ec2TransitGatewayVpcAttachmentAccepterParameters, p *Ec2TransitGatewayVpcAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
 		return true
 	}
 	return false
@@ -180,6 +135,16 @@ func MergeEc2TransitGatewayVpcAttachmentAccepter_VpcId(k *Ec2TransitGatewayVpcAt
 func MergeEc2TransitGatewayVpcAttachmentAccepter_VpcOwnerId(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
 	if k.VpcOwnerId != p.VpcOwnerId {
 		k.VpcOwnerId = p.VpcOwnerId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.DnsSupport != p.DnsSupport {
+		k.DnsSupport = p.DnsSupport
 		md.StatusUpdated = true
 		return true
 	}
@@ -197,9 +162,29 @@ func MergeEc2TransitGatewayVpcAttachmentAccepter_TransitGatewayId(k *Ec2TransitG
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEc2TransitGatewayVpcAttachmentAccepter_DnsSupport(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.DnsSupport != p.DnsSupport {
-		k.DnsSupport = p.DnsSupport
+func MergeEc2TransitGatewayVpcAttachmentAccepter_Ipv6Support(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.Ipv6Support != p.Ipv6Support {
+		k.Ipv6Support = p.Ipv6Support
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateStatus
+func MergeEc2TransitGatewayVpcAttachmentAccepter_SubnetIds(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
+		k.SubnetIds = p.SubnetIds
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayVpcAttachmentAccepter_VpcId(k *Ec2TransitGatewayVpcAttachmentAccepterObservation, p *Ec2TransitGatewayVpcAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		k.VpcId = p.VpcId
 		md.StatusUpdated = true
 		return true
 	}

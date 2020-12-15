@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeElbAttachment(r ElbAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeElbAttachment_Elb(r.Spec.ForProvider, ctyVal)
-	EncodeElbAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElbAttachment_Instance(r.Spec.ForProvider, ctyVal)
+	EncodeElbAttachment_Elb(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +50,10 @@ func EncodeElbAttachment(r ElbAttachment) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeElbAttachment_Elb(p ElbAttachmentParameters, vals map[string]cty.Value) {
-	vals["elb"] = cty.StringVal(p.Elb)
-}
-
-func EncodeElbAttachment_Id(p ElbAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeElbAttachment_Instance(p ElbAttachmentParameters, vals map[string]cty.Value) {
 	vals["instance"] = cty.StringVal(p.Instance)
+}
+
+func EncodeElbAttachment_Elb(p ElbAttachmentParameters, vals map[string]cty.Value) {
+	vals["elb"] = cty.StringVal(p.Elb)
 }

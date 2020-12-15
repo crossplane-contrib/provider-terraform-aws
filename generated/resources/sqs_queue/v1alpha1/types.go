@@ -52,21 +52,20 @@ type SqsQueueSpec struct {
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
-	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
-	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
-	FifoQueue                    bool              `json:"fifo_queue"`
-	Id                           string            `json:"id"`
-	MaxMessageSize               int64             `json:"max_message_size"`
-	Tags                         map[string]string `json:"tags"`
-	KmsMasterKeyId               string            `json:"kms_master_key_id"`
+	DelaySeconds                 int64             `json:"delay_seconds"`
 	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
+	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
+	MaxMessageSize               int64             `json:"max_message_size"`
+	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
+	FifoQueue                    bool              `json:"fifo_queue"`
 	Name                         string            `json:"name"`
 	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
-	DelaySeconds                 int64             `json:"delay_seconds"`
 	KmsDataKeyReusePeriodSeconds int64             `json:"kms_data_key_reuse_period_seconds"`
+	KmsMasterKeyId               string            `json:"kms_master_key_id"`
 	NamePrefix                   string            `json:"name_prefix"`
 	Policy                       string            `json:"policy"`
 	RedrivePolicy                string            `json:"redrive_policy"`
+	Tags                         map[string]string `json:"tags"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue

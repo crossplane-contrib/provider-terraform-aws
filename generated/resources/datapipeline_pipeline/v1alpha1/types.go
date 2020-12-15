@@ -53,7 +53,6 @@ type DatapipelinePipelineSpec struct {
 // A DatapipelinePipelineParameters defines the desired state of a DatapipelinePipeline
 type DatapipelinePipelineParameters struct {
 	Description string            `json:"description"`
-	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
 }

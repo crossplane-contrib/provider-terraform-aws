@@ -40,7 +40,6 @@ func DecodeVpcDhcpOptionsAssociation(prev *VpcDhcpOptionsAssociation, ctyValue c
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeVpcDhcpOptionsAssociation_DhcpOptionsId(&new.Spec.ForProvider, valMap)
-	DecodeVpcDhcpOptionsAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeVpcDhcpOptionsAssociation_VpcId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeVpcDhcpOptionsAssociation(prev *VpcDhcpOptionsAssociation, ctyValue c
 //primitiveTypeDecodeTemplate
 func DecodeVpcDhcpOptionsAssociation_DhcpOptionsId(p *VpcDhcpOptionsAssociationParameters, vals map[string]cty.Value) {
 	p.DhcpOptionsId = ctwhy.ValueAsString(vals["dhcp_options_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpcDhcpOptionsAssociation_Id(p *VpcDhcpOptionsAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

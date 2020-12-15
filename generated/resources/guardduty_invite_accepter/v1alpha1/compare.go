@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyInviteAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGuarddutyInviteAccepter_MasterAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,16 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeGuarddutyInviteAccepter_DetectorId(k *GuarddutyInviteAccepterParameters, p *GuarddutyInviteAccepterParameters, md *plugin.MergeDescription) bool {
 	if k.DetectorId != p.DetectorId {
 		p.DetectorId = k.DetectorId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyInviteAccepter_Id(k *GuarddutyInviteAccepterParameters, p *GuarddutyInviteAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

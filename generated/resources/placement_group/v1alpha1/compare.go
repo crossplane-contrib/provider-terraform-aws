@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergePlacementGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergePlacementGroup_Strategy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,22 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergePlacementGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePlacementGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergePlacementGroup_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergePlacementGroup_PlacementGroupId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergePlacementGroup_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -72,6 +67,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergePlacementGroup_Name(k *PlacementGroupParameters, p *PlacementGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergePlacementGroup_Strategy(k *PlacementGroupParameters, p *PlacementGroupParameters, md *plugin.MergeDescription) bool {
 	if k.Strategy != p.Strategy {
 		p.Strategy = k.Strategy
@@ -83,39 +88,9 @@ func MergePlacementGroup_Strategy(k *PlacementGroupParameters, p *PlacementGroup
 
 //mergePrimitiveContainerTemplateSpec
 func MergePlacementGroup_Tags(k *PlacementGroupParameters, p *PlacementGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePlacementGroup_Id(k *PlacementGroupParameters, p *PlacementGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergePlacementGroup_Name(k *PlacementGroupParameters, p *PlacementGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergePlacementGroup_PlacementGroupId(k *PlacementGroupObservation, p *PlacementGroupObservation, md *plugin.MergeDescription) bool {
-	if k.PlacementGroupId != p.PlacementGroupId {
-		k.PlacementGroupId = p.PlacementGroupId
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -125,6 +100,16 @@ func MergePlacementGroup_PlacementGroupId(k *PlacementGroupObservation, p *Place
 func MergePlacementGroup_Arn(k *PlacementGroupObservation, p *PlacementGroupObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergePlacementGroup_PlacementGroupId(k *PlacementGroupObservation, p *PlacementGroupObservation, md *plugin.MergeDescription) bool {
+	if k.PlacementGroupId != p.PlacementGroupId {
+		k.PlacementGroupId = p.PlacementGroupId
 		md.StatusUpdated = true
 		return true
 	}

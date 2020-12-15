@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDocdbClusterSnapshot_DbClusterSnapshotIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterSnapshot_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDocdbClusterSnapshot_DbClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterSnapshot_DbClusterSnapshotIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,22 +46,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDocdbClusterSnapshot_SnapshotType(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterSnapshot_SourceDbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterSnapshot_StorageEncrypted(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterSnapshot_Engine(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDocdbClusterSnapshot_EngineVersion(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterSnapshot_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterSnapshot_VpcId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterSnapshot_DbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,7 +81,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDocdbClusterSnapshot_Engine(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDocdbClusterSnapshot_DbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDocdbClusterSnapshot_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,17 +96,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDocdbClusterSnapshot_SnapshotType(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterSnapshot_StorageEncrypted(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDocdbClusterSnapshot_SourceDbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDocdbClusterSnapshot_VpcId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -117,29 +112,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDocdbClusterSnapshot_DbClusterSnapshotIdentifier(k *DocdbClusterSnapshotParameters, p *DocdbClusterSnapshotParameters, md *plugin.MergeDescription) bool {
-	if k.DbClusterSnapshotIdentifier != p.DbClusterSnapshotIdentifier {
-		p.DbClusterSnapshotIdentifier = k.DbClusterSnapshotIdentifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDocdbClusterSnapshot_Id(k *DocdbClusterSnapshotParameters, p *DocdbClusterSnapshotParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDocdbClusterSnapshot_DbClusterIdentifier(k *DocdbClusterSnapshotParameters, p *DocdbClusterSnapshotParameters, md *plugin.MergeDescription) bool {
 	if k.DbClusterIdentifier != p.DbClusterIdentifier {
 		p.DbClusterIdentifier = k.DbClusterIdentifier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDocdbClusterSnapshot_DbClusterSnapshotIdentifier(k *DocdbClusterSnapshotParameters, p *DocdbClusterSnapshotParameters, md *plugin.MergeDescription) bool {
+	if k.DbClusterSnapshotIdentifier != p.DbClusterSnapshotIdentifier {
+		p.DbClusterSnapshotIdentifier = k.DbClusterSnapshotIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -172,39 +157,49 @@ func MergeDocdbClusterSnapshot_Timeouts_Create(k *Timeouts, p *Timeouts, md *plu
 }
 
 //mergePrimitiveTemplateStatus
+func MergeDocdbClusterSnapshot_SnapshotType(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.SnapshotType != p.SnapshotType {
+		k.SnapshotType = p.SnapshotType
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterSnapshot_SourceDbClusterSnapshotArn(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.SourceDbClusterSnapshotArn != p.SourceDbClusterSnapshotArn {
+		k.SourceDbClusterSnapshotArn = p.SourceDbClusterSnapshotArn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterSnapshot_StorageEncrypted(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.StorageEncrypted != p.StorageEncrypted {
+		k.StorageEncrypted = p.StorageEncrypted
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterSnapshot_Engine(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.Engine != p.Engine {
+		k.Engine = p.Engine
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeDocdbClusterSnapshot_EngineVersion(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
 	if k.EngineVersion != p.EngineVersion {
 		k.EngineVersion = p.EngineVersion
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterSnapshot_KmsKeyId(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.KmsKeyId != p.KmsKeyId {
-		k.KmsKeyId = p.KmsKeyId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterSnapshot_VpcId(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		k.VpcId = p.VpcId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterSnapshot_DbClusterSnapshotArn(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.DbClusterSnapshotArn != p.DbClusterSnapshotArn {
-		k.DbClusterSnapshotArn = p.DbClusterSnapshotArn
 		md.StatusUpdated = true
 		return true
 	}
@@ -223,7 +218,7 @@ func MergeDocdbClusterSnapshot_Status(k *DocdbClusterSnapshotObservation, p *Doc
 
 //mergePrimitiveContainerTemplateStatus
 func MergeDocdbClusterSnapshot_AvailabilityZones(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.AvailabilityZones, p.AvailabilityZones) {
+	if !plugin.CompareStringSlices(k.AvailabilityZones, p.AvailabilityZones) {
 		k.AvailabilityZones = p.AvailabilityZones
 		md.StatusUpdated = true
 		return true
@@ -232,9 +227,19 @@ func MergeDocdbClusterSnapshot_AvailabilityZones(k *DocdbClusterSnapshotObservat
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDocdbClusterSnapshot_Engine(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.Engine != p.Engine {
-		k.Engine = p.Engine
+func MergeDocdbClusterSnapshot_DbClusterSnapshotArn(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.DbClusterSnapshotArn != p.DbClusterSnapshotArn {
+		k.DbClusterSnapshotArn = p.DbClusterSnapshotArn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDocdbClusterSnapshot_KmsKeyId(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.KmsKeyId != p.KmsKeyId {
+		k.KmsKeyId = p.KmsKeyId
 		md.StatusUpdated = true
 		return true
 	}
@@ -252,29 +257,9 @@ func MergeDocdbClusterSnapshot_Port(k *DocdbClusterSnapshotObservation, p *Docdb
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDocdbClusterSnapshot_SnapshotType(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.SnapshotType != p.SnapshotType {
-		k.SnapshotType = p.SnapshotType
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterSnapshot_StorageEncrypted(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.StorageEncrypted != p.StorageEncrypted {
-		k.StorageEncrypted = p.StorageEncrypted
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDocdbClusterSnapshot_SourceDbClusterSnapshotArn(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.SourceDbClusterSnapshotArn != p.SourceDbClusterSnapshotArn {
-		k.SourceDbClusterSnapshotArn = p.SourceDbClusterSnapshotArn
+func MergeDocdbClusterSnapshot_VpcId(k *DocdbClusterSnapshotObservation, p *DocdbClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		k.VpcId = p.VpcId
 		md.StatusUpdated = true
 		return true
 	}

@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeRdsClusterEndpoint_ClusterEndpointIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterEndpoint_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeRdsClusterEndpoint_CustomEndpointType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,27 +51,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterEndpoint_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterEndpoint_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterEndpoint_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRdsClusterEndpoint_StaticMembers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterEndpoint_ClusterEndpointIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRdsClusterEndpoint_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -87,39 +82,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterEndpoint_CustomEndpointType(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
-	if k.CustomEndpointType != p.CustomEndpointType {
-		p.CustomEndpointType = k.CustomEndpointType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeRdsClusterEndpoint_ExcludedMembers(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ExcludedMembers, p.ExcludedMembers) {
-		p.ExcludedMembers = k.ExcludedMembers
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterEndpoint_Id(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeRdsClusterEndpoint_Tags(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeRdsClusterEndpoint_ClusterEndpointIdentifier(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
+	if k.ClusterEndpointIdentifier != p.ClusterEndpointIdentifier {
+		p.ClusterEndpointIdentifier = k.ClusterEndpointIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -136,9 +101,29 @@ func MergeRdsClusterEndpoint_ClusterIdentifier(k *RdsClusterEndpointParameters, 
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterEndpoint_CustomEndpointType(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
+	if k.CustomEndpointType != p.CustomEndpointType {
+		p.CustomEndpointType = k.CustomEndpointType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeRdsClusterEndpoint_ExcludedMembers(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ExcludedMembers, p.ExcludedMembers) {
+		p.ExcludedMembers = k.ExcludedMembers
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeRdsClusterEndpoint_StaticMembers(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.StaticMembers, p.StaticMembers) {
+	if !plugin.CompareStringSlices(k.StaticMembers, p.StaticMembers) {
 		p.StaticMembers = k.StaticMembers
 		md.NeedsProviderUpdate = true
 		return true
@@ -146,10 +131,10 @@ func MergeRdsClusterEndpoint_StaticMembers(k *RdsClusterEndpointParameters, p *R
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterEndpoint_ClusterEndpointIdentifier(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
-	if k.ClusterEndpointIdentifier != p.ClusterEndpointIdentifier {
-		p.ClusterEndpointIdentifier = k.ClusterEndpointIdentifier
+//mergePrimitiveContainerTemplateSpec
+func MergeRdsClusterEndpoint_Tags(k *RdsClusterEndpointParameters, p *RdsClusterEndpointParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

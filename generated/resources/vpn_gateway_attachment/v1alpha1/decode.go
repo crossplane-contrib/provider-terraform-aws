@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpnGatewayAttachment(prev *VpnGatewayAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVpnGatewayAttachment_Id(&new.Spec.ForProvider, valMap)
-	DecodeVpnGatewayAttachment_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeVpnGatewayAttachment_VpnGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeVpnGatewayAttachment_VpcId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeVpnGatewayAttachment(prev *VpnGatewayAttachment, ctyValue cty.Value) 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVpnGatewayAttachment_Id(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeVpnGatewayAttachment_VpnGatewayId(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
+	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeVpnGatewayAttachment_VpcId(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpnGatewayAttachment_VpnGatewayId(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
-	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
 }

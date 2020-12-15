@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeMainRouteTableAssociation(prev *MainRouteTableAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeMainRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeMainRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeMainRouteTableAssociation_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeMainRouteTableAssociation_OriginalRouteTableId(&new.Status.AtProvider, valMap)
@@ -48,11 +47,6 @@ func DecodeMainRouteTableAssociation(prev *MainRouteTableAssociation, ctyValue c
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMainRouteTableAssociation_Id(p *MainRouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

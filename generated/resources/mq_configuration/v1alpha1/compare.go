@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeMqConfiguration_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeMqConfiguration_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -41,7 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeMqConfiguration_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeMqConfiguration_EngineType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,27 +51,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeMqConfiguration_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeMqConfiguration_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeMqConfiguration_EngineType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeMqConfiguration_LatestRevision(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeMqConfiguration_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeMqConfiguration_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeMqConfiguration_LatestRevision(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,10 +81,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeMqConfiguration_Tags(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeMqConfiguration_Description(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -107,9 +102,9 @@ func MergeMqConfiguration_Data(k *MqConfigurationParameters, p *MqConfigurationP
 }
 
 //mergePrimitiveTemplateSpec
-func MergeMqConfiguration_Description(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
+func MergeMqConfiguration_EngineType(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
+	if k.EngineType != p.EngineType {
+		p.EngineType = k.EngineType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -127,16 +122,6 @@ func MergeMqConfiguration_EngineVersion(k *MqConfigurationParameters, p *MqConfi
 }
 
 //mergePrimitiveTemplateSpec
-func MergeMqConfiguration_Id(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeMqConfiguration_Name(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -146,21 +131,11 @@ func MergeMqConfiguration_Name(k *MqConfigurationParameters, p *MqConfigurationP
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeMqConfiguration_EngineType(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
-	if k.EngineType != p.EngineType {
-		p.EngineType = k.EngineType
+//mergePrimitiveContainerTemplateSpec
+func MergeMqConfiguration_Tags(k *MqConfigurationParameters, p *MqConfigurationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeMqConfiguration_LatestRevision(k *MqConfigurationObservation, p *MqConfigurationObservation, md *plugin.MergeDescription) bool {
-	if k.LatestRevision != p.LatestRevision {
-		k.LatestRevision = p.LatestRevision
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -170,6 +145,16 @@ func MergeMqConfiguration_LatestRevision(k *MqConfigurationObservation, p *MqCon
 func MergeMqConfiguration_Arn(k *MqConfigurationObservation, p *MqConfigurationObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
 		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeMqConfiguration_LatestRevision(k *MqConfigurationObservation, p *MqConfigurationObservation, md *plugin.MergeDescription) bool {
+	if k.LatestRevision != p.LatestRevision {
+		k.LatestRevision = p.LatestRevision
 		md.StatusUpdated = true
 		return true
 	}

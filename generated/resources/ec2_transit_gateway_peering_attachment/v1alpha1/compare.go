@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeEc2TransitGatewayPeeringAttachment_TransitGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayPeeringAttachment_PeerAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeEc2TransitGatewayPeeringAttachment_PeerRegion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,21 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayPeeringAttachment_TransitGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayPeeringAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayPeeringAttachment_PeerAccountId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,6 +65,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayPeeringAttachment_TransitGatewayId(k *Ec2TransitGatewayPeeringAttachmentParameters, p *Ec2TransitGatewayPeeringAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayId != p.TransitGatewayId {
+		p.TransitGatewayId = k.TransitGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayPeeringAttachment_PeerAccountId(k *Ec2TransitGatewayPeeringAttachmentParameters, p *Ec2TransitGatewayPeeringAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.PeerAccountId != p.PeerAccountId {
+		p.PeerAccountId = k.PeerAccountId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -94,38 +109,8 @@ func MergeEc2TransitGatewayPeeringAttachment_PeerTransitGatewayId(k *Ec2TransitG
 
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TransitGatewayPeeringAttachment_Tags(k *Ec2TransitGatewayPeeringAttachmentParameters, p *Ec2TransitGatewayPeeringAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayPeeringAttachment_TransitGatewayId(k *Ec2TransitGatewayPeeringAttachmentParameters, p *Ec2TransitGatewayPeeringAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayId != p.TransitGatewayId {
-		p.TransitGatewayId = k.TransitGatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayPeeringAttachment_Id(k *Ec2TransitGatewayPeeringAttachmentParameters, p *Ec2TransitGatewayPeeringAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayPeeringAttachment_PeerAccountId(k *Ec2TransitGatewayPeeringAttachmentParameters, p *Ec2TransitGatewayPeeringAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.PeerAccountId != p.PeerAccountId {
-		p.PeerAccountId = k.PeerAccountId
 		md.NeedsProviderUpdate = true
 		return true
 	}

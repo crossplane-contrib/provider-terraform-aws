@@ -39,10 +39,9 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAccessanalyzerAnalyzer(prev *AccessanalyzerAnalyzer, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAccessanalyzerAnalyzer_Type(&new.Spec.ForProvider, valMap)
 	DecodeAccessanalyzerAnalyzer_AnalyzerName(&new.Spec.ForProvider, valMap)
-	DecodeAccessanalyzerAnalyzer_Id(&new.Spec.ForProvider, valMap)
 	DecodeAccessanalyzerAnalyzer_Tags(&new.Spec.ForProvider, valMap)
+	DecodeAccessanalyzerAnalyzer_Type(&new.Spec.ForProvider, valMap)
 	DecodeAccessanalyzerAnalyzer_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,18 +51,8 @@ func DecodeAccessanalyzerAnalyzer(prev *AccessanalyzerAnalyzer, ctyValue cty.Val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeAccessanalyzerAnalyzer_Type(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeAccessanalyzerAnalyzer_AnalyzerName(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
 	p.AnalyzerName = ctwhy.ValueAsString(vals["analyzer_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAccessanalyzerAnalyzer_Id(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -75,6 +64,11 @@ func DecodeAccessanalyzerAnalyzer_Tags(p *AccessanalyzerAnalyzerParameters, vals
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAccessanalyzerAnalyzer_Type(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
 //primitiveTypeDecodeTemplate

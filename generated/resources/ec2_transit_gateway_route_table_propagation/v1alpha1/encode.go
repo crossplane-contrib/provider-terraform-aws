@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayRouteTablePropagation(r Ec2TransitGatewayRouteTablePropagation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayRouteTablePropagation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTablePropagation_ResourceId(r.Status.AtProvider, ctyVal)
@@ -50,10 +49,6 @@ func EncodeEc2TransitGatewayRouteTablePropagation(r Ec2TransitGatewayRouteTableP
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2TransitGatewayRouteTablePropagation_Id(p Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(p Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {

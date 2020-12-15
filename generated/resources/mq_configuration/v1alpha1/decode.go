@@ -39,20 +39,44 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeMqConfiguration(prev *MqConfiguration, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeMqConfiguration_Tags(&new.Spec.ForProvider, valMap)
-	DecodeMqConfiguration_Data(&new.Spec.ForProvider, valMap)
 	DecodeMqConfiguration_Description(&new.Spec.ForProvider, valMap)
-	DecodeMqConfiguration_EngineVersion(&new.Spec.ForProvider, valMap)
-	DecodeMqConfiguration_Id(&new.Spec.ForProvider, valMap)
-	DecodeMqConfiguration_Name(&new.Spec.ForProvider, valMap)
+	DecodeMqConfiguration_Data(&new.Spec.ForProvider, valMap)
 	DecodeMqConfiguration_EngineType(&new.Spec.ForProvider, valMap)
-	DecodeMqConfiguration_LatestRevision(&new.Status.AtProvider, valMap)
+	DecodeMqConfiguration_EngineVersion(&new.Spec.ForProvider, valMap)
+	DecodeMqConfiguration_Name(&new.Spec.ForProvider, valMap)
+	DecodeMqConfiguration_Tags(&new.Spec.ForProvider, valMap)
 	DecodeMqConfiguration_Arn(&new.Status.AtProvider, valMap)
+	DecodeMqConfiguration_LatestRevision(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMqConfiguration_Description(p *MqConfigurationParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMqConfiguration_Data(p *MqConfigurationParameters, vals map[string]cty.Value) {
+	p.Data = ctwhy.ValueAsString(vals["data"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMqConfiguration_EngineType(p *MqConfigurationParameters, vals map[string]cty.Value) {
+	p.EngineType = ctwhy.ValueAsString(vals["engine_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMqConfiguration_EngineVersion(p *MqConfigurationParameters, vals map[string]cty.Value) {
+	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMqConfiguration_Name(p *MqConfigurationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -67,41 +91,11 @@ func DecodeMqConfiguration_Tags(p *MqConfigurationParameters, vals map[string]ct
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeMqConfiguration_Data(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	p.Data = ctwhy.ValueAsString(vals["data"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMqConfiguration_Description(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMqConfiguration_EngineVersion(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	p.EngineVersion = ctwhy.ValueAsString(vals["engine_version"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMqConfiguration_Id(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMqConfiguration_Name(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMqConfiguration_EngineType(p *MqConfigurationParameters, vals map[string]cty.Value) {
-	p.EngineType = ctwhy.ValueAsString(vals["engine_type"])
+func DecodeMqConfiguration_Arn(p *MqConfigurationObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeMqConfiguration_LatestRevision(p *MqConfigurationObservation, vals map[string]cty.Value) {
 	p.LatestRevision = ctwhy.ValueAsInt64(vals["latest_revision"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMqConfiguration_Arn(p *MqConfigurationObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

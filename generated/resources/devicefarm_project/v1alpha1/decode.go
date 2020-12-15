@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDevicefarmProject(prev *DevicefarmProject, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDevicefarmProject_Id(&new.Spec.ForProvider, valMap)
 	DecodeDevicefarmProject_Name(&new.Spec.ForProvider, valMap)
 	DecodeDevicefarmProject_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeDevicefarmProject(prev *DevicefarmProject, ctyValue cty.Value) (resou
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDevicefarmProject_Id(p *DevicefarmProjectParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

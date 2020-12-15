@@ -41,7 +41,6 @@ func DecodeIotThing(prev *IotThing, ctyValue cty.Value) (resource.Managed, error
 	new := prev.DeepCopy()
 	DecodeIotThing_ThingTypeName(&new.Spec.ForProvider, valMap)
 	DecodeIotThing_Attributes(&new.Spec.ForProvider, valMap)
-	DecodeIotThing_Id(&new.Spec.ForProvider, valMap)
 	DecodeIotThing_Name(&new.Spec.ForProvider, valMap)
 	DecodeIotThing_Version(&new.Status.AtProvider, valMap)
 	DecodeIotThing_Arn(&new.Status.AtProvider, valMap)
@@ -67,11 +66,6 @@ func DecodeIotThing_Attributes(p *IotThingParameters, vals map[string]cty.Value)
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Attributes = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIotThing_Id(p *IotThingParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

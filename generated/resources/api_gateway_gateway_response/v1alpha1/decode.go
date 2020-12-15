@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayGatewayResponse(prev *ApiGatewayGatewayResponse, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApiGatewayGatewayResponse_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_ResponseParameters(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_ResponseTemplates(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_ResponseType(&new.Spec.ForProvider, valMap)
@@ -51,11 +50,6 @@ func DecodeApiGatewayGatewayResponse(prev *ApiGatewayGatewayResponse, ctyValue c
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayGatewayResponse_Id(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate

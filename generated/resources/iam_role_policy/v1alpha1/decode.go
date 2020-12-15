@@ -39,17 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamRolePolicy(prev *IamRolePolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIamRolePolicy_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamRolePolicy_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeIamRolePolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeIamRolePolicy_Role(&new.Spec.ForProvider, valMap)
-	DecodeIamRolePolicy_Id(&new.Spec.ForProvider, valMap)
-	DecodeIamRolePolicy_Name(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamRolePolicy_Name(p *IamRolePolicyParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -65,14 +69,4 @@ func DecodeIamRolePolicy_Policy(p *IamRolePolicyParameters, vals map[string]cty.
 //primitiveTypeDecodeTemplate
 func DecodeIamRolePolicy_Role(p *IamRolePolicyParameters, vals map[string]cty.Value) {
 	p.Role = ctwhy.ValueAsString(vals["role"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamRolePolicy_Id(p *IamRolePolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamRolePolicy_Name(p *IamRolePolicyParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }

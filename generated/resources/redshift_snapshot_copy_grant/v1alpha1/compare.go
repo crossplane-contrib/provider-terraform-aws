@@ -31,22 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRedshiftSnapshotCopyGrant_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRedshiftSnapshotCopyGrant_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeRedshiftSnapshotCopyGrant_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftSnapshotCopyGrant_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -67,26 +62,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRedshiftSnapshotCopyGrant_Id(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRedshiftSnapshotCopyGrant_KmsKeyId(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
-	if k.KmsKeyId != p.KmsKeyId {
-		p.KmsKeyId = k.KmsKeyId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
 	if k.SnapshotCopyGrantName != p.SnapshotCopyGrantName {
 		p.SnapshotCopyGrantName = k.SnapshotCopyGrantName
@@ -98,8 +73,18 @@ func MergeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(k *RedshiftSnapshotCop
 
 //mergePrimitiveContainerTemplateSpec
 func MergeRedshiftSnapshotCopyGrant_Tags(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRedshiftSnapshotCopyGrant_KmsKeyId(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
+	if k.KmsKeyId != p.KmsKeyId {
+		p.KmsKeyId = k.KmsKeyId
 		md.NeedsProviderUpdate = true
 		return true
 	}

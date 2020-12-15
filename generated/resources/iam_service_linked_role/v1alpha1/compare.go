@@ -36,17 +36,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamServiceLinkedRole_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamServiceLinkedRole_AwsServiceName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamServiceLinkedRole_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamServiceLinkedRole_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,12 +51,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamServiceLinkedRole_Name(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamServiceLinkedRole_CreateDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamServiceLinkedRole_CreateDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeIamServiceLinkedRole_Name(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,16 +92,6 @@ func MergeIamServiceLinkedRole_CustomSuffix(k *IamServiceLinkedRoleParameters, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamServiceLinkedRole_Description(k *IamServiceLinkedRoleParameters, p *IamServiceLinkedRoleParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeIamServiceLinkedRole_AwsServiceName(k *IamServiceLinkedRoleParameters, p *IamServiceLinkedRoleParameters, md *plugin.MergeDescription) bool {
 	if k.AwsServiceName != p.AwsServiceName {
 		p.AwsServiceName = k.AwsServiceName
@@ -117,9 +102,9 @@ func MergeIamServiceLinkedRole_AwsServiceName(k *IamServiceLinkedRoleParameters,
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamServiceLinkedRole_Id(k *IamServiceLinkedRoleParameters, p *IamServiceLinkedRoleParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeIamServiceLinkedRole_Description(k *IamServiceLinkedRoleParameters, p *IamServiceLinkedRoleParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -137,9 +122,9 @@ func MergeIamServiceLinkedRole_Arn(k *IamServiceLinkedRoleObservation, p *IamSer
 }
 
 //mergePrimitiveTemplateStatus
-func MergeIamServiceLinkedRole_Name(k *IamServiceLinkedRoleObservation, p *IamServiceLinkedRoleObservation, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		k.Name = p.Name
+func MergeIamServiceLinkedRole_CreateDate(k *IamServiceLinkedRoleObservation, p *IamServiceLinkedRoleObservation, md *plugin.MergeDescription) bool {
+	if k.CreateDate != p.CreateDate {
+		k.CreateDate = p.CreateDate
 		md.StatusUpdated = true
 		return true
 	}
@@ -147,9 +132,9 @@ func MergeIamServiceLinkedRole_Name(k *IamServiceLinkedRoleObservation, p *IamSe
 }
 
 //mergePrimitiveTemplateStatus
-func MergeIamServiceLinkedRole_CreateDate(k *IamServiceLinkedRoleObservation, p *IamServiceLinkedRoleObservation, md *plugin.MergeDescription) bool {
-	if k.CreateDate != p.CreateDate {
-		k.CreateDate = p.CreateDate
+func MergeIamServiceLinkedRole_Name(k *IamServiceLinkedRoleObservation, p *IamServiceLinkedRoleObservation, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		k.Name = p.Name
 		md.StatusUpdated = true
 		return true
 	}

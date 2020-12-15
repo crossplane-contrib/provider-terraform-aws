@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeSesDomainDkim(r SesDomainDkim) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSesDomainDkim_Domain(r.Spec.ForProvider, ctyVal)
-	EncodeSesDomainDkim_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainDkim_DkimTokens(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,10 +51,6 @@ func EncodeSesDomainDkim(r SesDomainDkim) cty.Value {
 
 func EncodeSesDomainDkim_Domain(p SesDomainDkimParameters, vals map[string]cty.Value) {
 	vals["domain"] = cty.StringVal(p.Domain)
-}
-
-func EncodeSesDomainDkim_Id(p SesDomainDkimParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSesDomainDkim_DkimTokens(p SesDomainDkimObservation, vals map[string]cty.Value) {

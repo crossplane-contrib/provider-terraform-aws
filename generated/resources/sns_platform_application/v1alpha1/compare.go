@@ -31,7 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSnsPlatformApplication_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsPlatformApplication_EventDeliveryFailureTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSnsPlatformApplication_EventEndpointUpdatedTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSnsPlatformApplication_FailureFeedbackRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,17 +66,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSnsPlatformApplication_EventEndpointUpdatedTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsPlatformApplication_EventEndpointDeletedTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSnsPlatformApplication_FailureFeedbackRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSnsPlatformApplication_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsPlatformApplication_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,16 +82,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeSnsPlatformApplication_SuccessFeedbackRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSnsPlatformApplication_EventDeliveryFailureTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSnsPlatformApplication_EventEndpointDeletedTopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -107,9 +102,29 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsPlatformApplication_Name(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeSnsPlatformApplication_EventDeliveryFailureTopicArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
+	if k.EventDeliveryFailureTopicArn != p.EventDeliveryFailureTopicArn {
+		p.EventDeliveryFailureTopicArn = k.EventDeliveryFailureTopicArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSnsPlatformApplication_EventEndpointUpdatedTopicArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
+	if k.EventEndpointUpdatedTopicArn != p.EventEndpointUpdatedTopicArn {
+		p.EventEndpointUpdatedTopicArn = k.EventEndpointUpdatedTopicArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSnsPlatformApplication_FailureFeedbackRoleArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
+	if k.FailureFeedbackRoleArn != p.FailureFeedbackRoleArn {
+		p.FailureFeedbackRoleArn = k.FailureFeedbackRoleArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -157,9 +172,9 @@ func MergeSnsPlatformApplication_EventEndpointCreatedTopicArn(k *SnsPlatformAppl
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsPlatformApplication_EventEndpointUpdatedTopicArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
-	if k.EventEndpointUpdatedTopicArn != p.EventEndpointUpdatedTopicArn {
-		p.EventEndpointUpdatedTopicArn = k.EventEndpointUpdatedTopicArn
+func MergeSnsPlatformApplication_EventEndpointDeletedTopicArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
+	if k.EventEndpointDeletedTopicArn != p.EventEndpointDeletedTopicArn {
+		p.EventEndpointDeletedTopicArn = k.EventEndpointDeletedTopicArn
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -167,19 +182,9 @@ func MergeSnsPlatformApplication_EventEndpointUpdatedTopicArn(k *SnsPlatformAppl
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsPlatformApplication_FailureFeedbackRoleArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
-	if k.FailureFeedbackRoleArn != p.FailureFeedbackRoleArn {
-		p.FailureFeedbackRoleArn = k.FailureFeedbackRoleArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsPlatformApplication_Id(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSnsPlatformApplication_Name(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -200,26 +205,6 @@ func MergeSnsPlatformApplication_PlatformPrincipal(k *SnsPlatformApplicationPara
 func MergeSnsPlatformApplication_SuccessFeedbackRoleArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
 	if k.SuccessFeedbackRoleArn != p.SuccessFeedbackRoleArn {
 		p.SuccessFeedbackRoleArn = k.SuccessFeedbackRoleArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsPlatformApplication_EventDeliveryFailureTopicArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
-	if k.EventDeliveryFailureTopicArn != p.EventDeliveryFailureTopicArn {
-		p.EventDeliveryFailureTopicArn = k.EventDeliveryFailureTopicArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsPlatformApplication_EventEndpointDeletedTopicArn(k *SnsPlatformApplicationParameters, p *SnsPlatformApplicationParameters, md *plugin.MergeDescription) bool {
-	if k.EventEndpointDeletedTopicArn != p.EventEndpointDeletedTopicArn {
-		p.EventEndpointDeletedTopicArn = k.EventEndpointDeletedTopicArn
 		md.NeedsProviderUpdate = true
 		return true
 	}

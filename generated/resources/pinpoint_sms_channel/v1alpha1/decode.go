@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodePinpointSmsChannel(prev *PinpointSmsChannel, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodePinpointSmsChannel_ApplicationId(&new.Spec.ForProvider, valMap)
 	DecodePinpointSmsChannel_Enabled(&new.Spec.ForProvider, valMap)
-	DecodePinpointSmsChannel_Id(&new.Spec.ForProvider, valMap)
 	DecodePinpointSmsChannel_SenderId(&new.Spec.ForProvider, valMap)
 	DecodePinpointSmsChannel_ShortCode(&new.Spec.ForProvider, valMap)
+	DecodePinpointSmsChannel_ApplicationId(&new.Spec.ForProvider, valMap)
 	DecodePinpointSmsChannel_PromotionalMessagesPerSecond(&new.Status.AtProvider, valMap)
 	DecodePinpointSmsChannel_TransactionalMessagesPerSecond(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -54,18 +53,8 @@ func DecodePinpointSmsChannel(prev *PinpointSmsChannel, ctyValue cty.Value) (res
 }
 
 //primitiveTypeDecodeTemplate
-func DecodePinpointSmsChannel_ApplicationId(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
-	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodePinpointSmsChannel_Enabled(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointSmsChannel_Id(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -76,6 +65,11 @@ func DecodePinpointSmsChannel_SenderId(p *PinpointSmsChannelParameters, vals map
 //primitiveTypeDecodeTemplate
 func DecodePinpointSmsChannel_ShortCode(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
 	p.ShortCode = ctwhy.ValueAsString(vals["short_code"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointSmsChannel_ApplicationId(p *PinpointSmsChannelParameters, vals map[string]cty.Value) {
+	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
 }
 
 //primitiveTypeDecodeTemplate

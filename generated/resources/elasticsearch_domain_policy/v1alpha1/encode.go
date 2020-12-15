@@ -39,7 +39,6 @@ func EncodeElasticsearchDomainPolicy(r ElasticsearchDomainPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeElasticsearchDomainPolicy_AccessPolicies(r.Spec.ForProvider, ctyVal)
 	EncodeElasticsearchDomainPolicy_DomainName(r.Spec.ForProvider, ctyVal)
-	EncodeElasticsearchDomainPolicy_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,8 +56,4 @@ func EncodeElasticsearchDomainPolicy_AccessPolicies(p ElasticsearchDomainPolicyP
 
 func EncodeElasticsearchDomainPolicy_DomainName(p ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
 	vals["domain_name"] = cty.StringVal(p.DomainName)
-}
-
-func EncodeElasticsearchDomainPolicy_Id(p ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

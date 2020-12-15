@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeWafregionalWebAclAssociation(prev *WafregionalWebAclAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeWafregionalWebAclAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeWafregionalWebAclAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
 	DecodeWafregionalWebAclAssociation_WebAclId(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeWafregionalWebAclAssociation(prev *WafregionalWebAclAssociation, ctyV
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeWafregionalWebAclAssociation_Id(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

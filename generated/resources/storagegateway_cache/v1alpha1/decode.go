@@ -41,7 +41,6 @@ func DecodeStoragegatewayCache(prev *StoragegatewayCache, ctyValue cty.Value) (r
 	new := prev.DeepCopy()
 	DecodeStoragegatewayCache_DiskId(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayCache_GatewayArn(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCache_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,9 +57,4 @@ func DecodeStoragegatewayCache_DiskId(p *StoragegatewayCacheParameters, vals map
 //primitiveTypeDecodeTemplate
 func DecodeStoragegatewayCache_GatewayArn(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	p.GatewayArn = ctwhy.ValueAsString(vals["gateway_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeStoragegatewayCache_Id(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

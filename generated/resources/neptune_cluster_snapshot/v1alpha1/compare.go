@@ -41,27 +41,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterSnapshot_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeNeptuneClusterSnapshot_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
+	updated = MergeNeptuneClusterSnapshot_EngineVersion(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeNeptuneClusterSnapshot_LicenseModel(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterSnapshot_StorageEncrypted(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterSnapshot_DbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,27 +66,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterSnapshot_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeNeptuneClusterSnapshot_AllocatedStorage(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterSnapshot_Engine(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneClusterSnapshot_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -106,12 +76,37 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNeptuneClusterSnapshot_EngineVersion(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeNeptuneClusterSnapshot_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterSnapshot_DbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterSnapshot_StorageEncrypted(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNeptuneClusterSnapshot_VpcId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterSnapshot_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneClusterSnapshot_Engine(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -146,16 +141,6 @@ func MergeNeptuneClusterSnapshot_DbClusterSnapshotIdentifier(k *NeptuneClusterSn
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeNeptuneClusterSnapshot_Id(k *NeptuneClusterSnapshotParameters, p *NeptuneClusterSnapshotParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergeStructTemplateSpec
 func MergeNeptuneClusterSnapshot_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
@@ -182,29 +167,19 @@ func MergeNeptuneClusterSnapshot_Timeouts_Create(k *Timeouts, p *Timeouts, md *p
 }
 
 //mergePrimitiveTemplateStatus
+func MergeNeptuneClusterSnapshot_EngineVersion(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.EngineVersion != p.EngineVersion {
+		k.EngineVersion = p.EngineVersion
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeNeptuneClusterSnapshot_LicenseModel(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
 	if k.LicenseModel != p.LicenseModel {
 		k.LicenseModel = p.LicenseModel
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNeptuneClusterSnapshot_StorageEncrypted(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.StorageEncrypted != p.StorageEncrypted {
-		k.StorageEncrypted = p.StorageEncrypted
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNeptuneClusterSnapshot_DbClusterSnapshotArn(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.DbClusterSnapshotArn != p.DbClusterSnapshotArn {
-		k.DbClusterSnapshotArn = p.DbClusterSnapshotArn
 		md.StatusUpdated = true
 		return true
 	}
@@ -232,9 +207,19 @@ func MergeNeptuneClusterSnapshot_SnapshotType(k *NeptuneClusterSnapshotObservati
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.SourceDbClusterSnapshotArn != p.SourceDbClusterSnapshotArn {
-		k.SourceDbClusterSnapshotArn = p.SourceDbClusterSnapshotArn
+func MergeNeptuneClusterSnapshot_AllocatedStorage(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.AllocatedStorage != p.AllocatedStorage {
+		k.AllocatedStorage = p.AllocatedStorage
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateStatus
+func MergeNeptuneClusterSnapshot_AvailabilityZones(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.AvailabilityZones, p.AvailabilityZones) {
+		k.AvailabilityZones = p.AvailabilityZones
 		md.StatusUpdated = true
 		return true
 	}
@@ -252,9 +237,9 @@ func MergeNeptuneClusterSnapshot_Status(k *NeptuneClusterSnapshotObservation, p 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneClusterSnapshot_AllocatedStorage(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.AllocatedStorage != p.AllocatedStorage {
-		k.AllocatedStorage = p.AllocatedStorage
+func MergeNeptuneClusterSnapshot_DbClusterSnapshotArn(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.DbClusterSnapshotArn != p.DbClusterSnapshotArn {
+		k.DbClusterSnapshotArn = p.DbClusterSnapshotArn
 		md.StatusUpdated = true
 		return true
 	}
@@ -262,9 +247,19 @@ func MergeNeptuneClusterSnapshot_AllocatedStorage(k *NeptuneClusterSnapshotObser
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneClusterSnapshot_Engine(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.Engine != p.Engine {
-		k.Engine = p.Engine
+func MergeNeptuneClusterSnapshot_StorageEncrypted(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.StorageEncrypted != p.StorageEncrypted {
+		k.StorageEncrypted = p.StorageEncrypted
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNeptuneClusterSnapshot_VpcId(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		k.VpcId = p.VpcId
 		md.StatusUpdated = true
 		return true
 	}
@@ -281,10 +276,10 @@ func MergeNeptuneClusterSnapshot_KmsKeyId(k *NeptuneClusterSnapshotObservation, 
 	return false
 }
 
-//mergePrimitiveContainerTemplateStatus
-func MergeNeptuneClusterSnapshot_AvailabilityZones(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.AvailabilityZones, p.AvailabilityZones) {
-		k.AvailabilityZones = p.AvailabilityZones
+//mergePrimitiveTemplateStatus
+func MergeNeptuneClusterSnapshot_SourceDbClusterSnapshotArn(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.SourceDbClusterSnapshotArn != p.SourceDbClusterSnapshotArn {
+		k.SourceDbClusterSnapshotArn = p.SourceDbClusterSnapshotArn
 		md.StatusUpdated = true
 		return true
 	}
@@ -292,19 +287,9 @@ func MergeNeptuneClusterSnapshot_AvailabilityZones(k *NeptuneClusterSnapshotObse
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNeptuneClusterSnapshot_EngineVersion(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.EngineVersion != p.EngineVersion {
-		k.EngineVersion = p.EngineVersion
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNeptuneClusterSnapshot_VpcId(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		k.VpcId = p.VpcId
+func MergeNeptuneClusterSnapshot_Engine(k *NeptuneClusterSnapshotObservation, p *NeptuneClusterSnapshotObservation, md *plugin.MergeDescription) bool {
+	if k.Engine != p.Engine {
+		k.Engine = p.Engine
 		md.StatusUpdated = true
 		return true
 	}

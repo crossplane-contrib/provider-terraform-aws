@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2CapacityReservation_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2CapacityReservation_Tenancy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2CapacityReservation_EndDate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2CapacityReservation_InstanceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,27 +66,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2CapacityReservation_Tenancy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2CapacityReservation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2CapacityReservation_InstanceType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2CapacityReservation_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2CapacityReservation_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEc2CapacityReservation_EbsOptimized(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2CapacityReservation_EndDate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2CapacityReservation_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -107,9 +102,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_AvailabilityZone(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
+func MergeEc2CapacityReservation_Tenancy(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.Tenancy != p.Tenancy {
+		p.Tenancy = k.Tenancy
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -117,9 +112,9 @@ func MergeEc2CapacityReservation_AvailabilityZone(k *Ec2CapacityReservationParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_EndDate(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.EndDate != p.EndDate {
-		p.EndDate = k.EndDate
+func MergeEc2CapacityReservation_InstanceType(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.InstanceType != p.InstanceType {
+		p.InstanceType = k.InstanceType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -177,39 +172,9 @@ func MergeEc2CapacityReservation_InstancePlatform(k *Ec2CapacityReservationParam
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_Tenancy(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.Tenancy != p.Tenancy {
-		p.Tenancy = k.Tenancy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_Id(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2CapacityReservation_InstanceType(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if k.InstanceType != p.InstanceType {
-		p.InstanceType = k.InstanceType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeEc2CapacityReservation_Tags(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeEc2CapacityReservation_AvailabilityZone(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -220,6 +185,26 @@ func MergeEc2CapacityReservation_Tags(k *Ec2CapacityReservationParameters, p *Ec
 func MergeEc2CapacityReservation_EbsOptimized(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
 	if k.EbsOptimized != p.EbsOptimized {
 		p.EbsOptimized = k.EbsOptimized
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2CapacityReservation_EndDate(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if k.EndDate != p.EndDate {
+		p.EndDate = k.EndDate
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2CapacityReservation_Tags(k *Ec2CapacityReservationParameters, p *Ec2CapacityReservationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpnGatewayRoutePropagation(prev *VpnGatewayRoutePropagation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVpnGatewayRoutePropagation_Id(&new.Spec.ForProvider, valMap)
-	DecodeVpnGatewayRoutePropagation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeVpnGatewayRoutePropagation_VpnGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeVpnGatewayRoutePropagation_RouteTableId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeVpnGatewayRoutePropagation(prev *VpnGatewayRoutePropagation, ctyValue
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVpnGatewayRoutePropagation_Id(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeVpnGatewayRoutePropagation_VpnGatewayId(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
+	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeVpnGatewayRoutePropagation_RouteTableId(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpnGatewayRoutePropagation_VpnGatewayId(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
-	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
 }

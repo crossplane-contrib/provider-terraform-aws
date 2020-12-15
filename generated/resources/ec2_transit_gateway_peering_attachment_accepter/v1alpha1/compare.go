@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,9 +72,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayPeeringAttachmentAccepter_Id(k *Ec2TransitGatewayPeeringAttachmentAccepterParameters, p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(k *Ec2TransitGatewayPeeringAttachmentAccepterParameters, p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayAttachmentId != p.TransitGatewayAttachmentId {
+		p.TransitGatewayAttachmentId = k.TransitGatewayAttachmentId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -88,18 +83,8 @@ func MergeEc2TransitGatewayPeeringAttachmentAccepter_Id(k *Ec2TransitGatewayPeer
 
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TransitGatewayPeeringAttachmentAccepter_Tags(k *Ec2TransitGatewayPeeringAttachmentAccepterParameters, p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(k *Ec2TransitGatewayPeeringAttachmentAccepterParameters, p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayAttachmentId != p.TransitGatewayAttachmentId {
-		p.TransitGatewayAttachmentId = k.TransitGatewayAttachmentId
 		md.NeedsProviderUpdate = true
 		return true
 	}

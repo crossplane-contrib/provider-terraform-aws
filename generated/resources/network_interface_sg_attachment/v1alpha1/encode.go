@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeNetworkInterfaceSgAttachment(r NetworkInterfaceSgAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNetworkInterfaceSgAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceSgAttachment_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceSgAttachment_SecurityGroupId(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeNetworkInterfaceSgAttachment(r NetworkInterfaceSgAttachment) cty.Valu
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeNetworkInterfaceSgAttachment_Id(p NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeNetworkInterfaceSgAttachment_NetworkInterfaceId(p NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {

@@ -39,7 +39,6 @@ func EncodeCloudwatchDashboard(r CloudwatchDashboard) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchDashboard_DashboardBody(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchDashboard_DashboardName(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchDashboard_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchDashboard_DashboardArn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,10 +56,6 @@ func EncodeCloudwatchDashboard_DashboardBody(p CloudwatchDashboardParameters, va
 
 func EncodeCloudwatchDashboard_DashboardName(p CloudwatchDashboardParameters, vals map[string]cty.Value) {
 	vals["dashboard_name"] = cty.StringVal(p.DashboardName)
-}
-
-func EncodeCloudwatchDashboard_Id(p CloudwatchDashboardParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchDashboard_DashboardArn(p CloudwatchDashboardObservation, vals map[string]cty.Value) {

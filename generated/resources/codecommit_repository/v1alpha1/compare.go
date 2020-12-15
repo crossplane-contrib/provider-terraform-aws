@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCodecommitRepository_DefaultBranch(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCodecommitRepository_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,22 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCodecommitRepository_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCodecommitRepository_RepositoryName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeCodecommitRepository_DefaultBranch(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCodecommitRepository_RepositoryId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeCodecommitRepository_CloneUrlHttp(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,7 +66,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCodecommitRepository_CloneUrlHttp(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeCodecommitRepository_RepositoryId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,9 +81,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveTemplateSpec
+func MergeCodecommitRepository_DefaultBranch(k *CodecommitRepositoryParameters, p *CodecommitRepositoryParameters, md *plugin.MergeDescription) bool {
+	if k.DefaultBranch != p.DefaultBranch {
+		p.DefaultBranch = k.DefaultBranch
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeCodecommitRepository_Tags(k *CodecommitRepositoryParameters, p *CodecommitRepositoryParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -107,16 +112,6 @@ func MergeCodecommitRepository_Description(k *CodecommitRepositoryParameters, p 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCodecommitRepository_Id(k *CodecommitRepositoryParameters, p *CodecommitRepositoryParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCodecommitRepository_RepositoryName(k *CodecommitRepositoryParameters, p *CodecommitRepositoryParameters, md *plugin.MergeDescription) bool {
 	if k.RepositoryName != p.RepositoryName {
 		p.RepositoryName = k.RepositoryName
@@ -126,20 +121,10 @@ func MergeCodecommitRepository_RepositoryName(k *CodecommitRepositoryParameters,
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeCodecommitRepository_DefaultBranch(k *CodecommitRepositoryParameters, p *CodecommitRepositoryParameters, md *plugin.MergeDescription) bool {
-	if k.DefaultBranch != p.DefaultBranch {
-		p.DefaultBranch = k.DefaultBranch
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateStatus
-func MergeCodecommitRepository_RepositoryId(k *CodecommitRepositoryObservation, p *CodecommitRepositoryObservation, md *plugin.MergeDescription) bool {
-	if k.RepositoryId != p.RepositoryId {
-		k.RepositoryId = p.RepositoryId
+func MergeCodecommitRepository_CloneUrlHttp(k *CodecommitRepositoryObservation, p *CodecommitRepositoryObservation, md *plugin.MergeDescription) bool {
+	if k.CloneUrlHttp != p.CloneUrlHttp {
+		k.CloneUrlHttp = p.CloneUrlHttp
 		md.StatusUpdated = true
 		return true
 	}
@@ -167,9 +152,9 @@ func MergeCodecommitRepository_Arn(k *CodecommitRepositoryObservation, p *Codeco
 }
 
 //mergePrimitiveTemplateStatus
-func MergeCodecommitRepository_CloneUrlHttp(k *CodecommitRepositoryObservation, p *CodecommitRepositoryObservation, md *plugin.MergeDescription) bool {
-	if k.CloneUrlHttp != p.CloneUrlHttp {
-		k.CloneUrlHttp = p.CloneUrlHttp
+func MergeCodecommitRepository_RepositoryId(k *CodecommitRepositoryObservation, p *CodecommitRepositoryObservation, md *plugin.MergeDescription) bool {
+	if k.RepositoryId != p.RepositoryId {
+		k.RepositoryId = p.RepositoryId
 		md.StatusUpdated = true
 		return true
 	}

@@ -39,17 +39,26 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLbCookieStickinessPolicy(prev *LbCookieStickinessPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeLbCookieStickinessPolicy_CookieExpirationPeriod(&new.Spec.ForProvider, valMap)
+	DecodeLbCookieStickinessPolicy_LbPort(&new.Spec.ForProvider, valMap)
 	DecodeLbCookieStickinessPolicy_LoadBalancer(&new.Spec.ForProvider, valMap)
 	DecodeLbCookieStickinessPolicy_Name(&new.Spec.ForProvider, valMap)
-	DecodeLbCookieStickinessPolicy_CookieExpirationPeriod(&new.Spec.ForProvider, valMap)
-	DecodeLbCookieStickinessPolicy_Id(&new.Spec.ForProvider, valMap)
-	DecodeLbCookieStickinessPolicy_LbPort(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLbCookieStickinessPolicy_CookieExpirationPeriod(p *LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.CookieExpirationPeriod = ctwhy.ValueAsInt64(vals["cookie_expiration_period"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLbCookieStickinessPolicy_LbPort(p *LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.LbPort = ctwhy.ValueAsInt64(vals["lb_port"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -60,19 +69,4 @@ func DecodeLbCookieStickinessPolicy_LoadBalancer(p *LbCookieStickinessPolicyPara
 //primitiveTypeDecodeTemplate
 func DecodeLbCookieStickinessPolicy_Name(p *LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLbCookieStickinessPolicy_CookieExpirationPeriod(p *LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	p.CookieExpirationPeriod = ctwhy.ValueAsInt64(vals["cookie_expiration_period"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLbCookieStickinessPolicy_Id(p *LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLbCookieStickinessPolicy_LbPort(p *LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	p.LbPort = ctwhy.ValueAsInt64(vals["lb_port"])
 }

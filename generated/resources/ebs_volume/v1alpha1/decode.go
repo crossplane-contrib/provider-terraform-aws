@@ -39,17 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEbsVolume(prev *EbsVolume, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEbsVolume_Id(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeEbsVolume_OutpostArn(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_Size(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_SnapshotId(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_Tags(&new.Spec.ForProvider, valMap)
-	DecodeEbsVolume_AvailabilityZone(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_OutpostArn(&new.Spec.ForProvider, valMap)
+	DecodeEbsVolume_Type(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_Encrypted(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_Iops(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_MultiAttachEnabled(&new.Spec.ForProvider, valMap)
-	DecodeEbsVolume_Type(&new.Spec.ForProvider, valMap)
 	DecodeEbsVolume_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -59,18 +58,13 @@ func DecodeEbsVolume(prev *EbsVolume, ctyValue cty.Value) (resource.Managed, err
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEbsVolume_Id(p *EbsVolumeParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeEbsVolume_AvailabilityZone(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeEbsVolume_KmsKeyId(p *EbsVolumeParameters, vals map[string]cty.Value) {
 	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsVolume_OutpostArn(p *EbsVolumeParameters, vals map[string]cty.Value) {
-	p.OutpostArn = ctwhy.ValueAsString(vals["outpost_arn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -95,8 +89,13 @@ func DecodeEbsVolume_Tags(p *EbsVolumeParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEbsVolume_AvailabilityZone(p *EbsVolumeParameters, vals map[string]cty.Value) {
-	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+func DecodeEbsVolume_OutpostArn(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.OutpostArn = ctwhy.ValueAsString(vals["outpost_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsVolume_Type(p *EbsVolumeParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -112,11 +111,6 @@ func DecodeEbsVolume_Iops(p *EbsVolumeParameters, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeEbsVolume_MultiAttachEnabled(p *EbsVolumeParameters, vals map[string]cty.Value) {
 	p.MultiAttachEnabled = ctwhy.ValueAsBool(vals["multi_attach_enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsVolume_Type(p *EbsVolumeParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
 //primitiveTypeDecodeTemplate

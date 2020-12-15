@@ -31,12 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamServerCertificate_CertificateChain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamServerCertificate_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamServerCertificate_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeIamServerCertificate_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamServerCertificate_CertificateBody(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamServerCertificate_CertificateChain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,21 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamServerCertificate_PrivateKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamServerCertificate_Arn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamServerCertificate_CertificateBody(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -83,9 +78,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_CertificateChain(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.CertificateChain != p.CertificateChain {
-		p.CertificateChain = k.CertificateChain
+func MergeIamServerCertificate_PrivateKey(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.PrivateKey != p.PrivateKey {
+		p.PrivateKey = k.PrivateKey
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -93,9 +88,29 @@ func MergeIamServerCertificate_CertificateChain(k *IamServerCertificateParameter
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_Id(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeIamServerCertificate_Arn(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		p.Arn = k.Arn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamServerCertificate_CertificateBody(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.CertificateBody != p.CertificateBody {
+		p.CertificateBody = k.CertificateBody
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamServerCertificate_CertificateChain(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
+	if k.CertificateChain != p.CertificateChain {
+		p.CertificateChain = k.CertificateChain
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -126,36 +141,6 @@ func MergeIamServerCertificate_NamePrefix(k *IamServerCertificateParameters, p *
 func MergeIamServerCertificate_Path(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
 	if k.Path != p.Path {
 		p.Path = k.Path
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_PrivateKey(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.PrivateKey != p.PrivateKey {
-		p.PrivateKey = k.PrivateKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_Arn(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		p.Arn = k.Arn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamServerCertificate_CertificateBody(k *IamServerCertificateParameters, p *IamServerCertificateParameters, md *plugin.MergeDescription) bool {
-	if k.CertificateBody != p.CertificateBody {
-		p.CertificateBody = k.CertificateBody
 		md.NeedsProviderUpdate = true
 		return true
 	}

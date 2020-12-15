@@ -41,14 +41,13 @@ func DecodeConfigOrganizationManagedRule(prev *ConfigOrganizationManagedRule, ct
 	new := prev.DeepCopy()
 	DecodeConfigOrganizationManagedRule_Name(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationManagedRule_ResourceIdScope(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationManagedRule_ResourceTypesScope(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationManagedRule_TagKeyScope(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationManagedRule_TagValueScope(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationManagedRule_Description(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationManagedRule_MaximumExecutionFrequency(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationManagedRule_RuleIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationManagedRule_ExcludedAccounts(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationManagedRule_Id(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_MaximumExecutionFrequency(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_ResourceTypesScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_RuleIdentifier(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationManagedRule_TagValueScope(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationManagedRule_InputParameters(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationManagedRule_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeConfigOrganizationManagedRule_Arn(&new.Status.AtProvider, valMap)
@@ -69,38 +68,14 @@ func DecodeConfigOrganizationManagedRule_ResourceIdScope(p *ConfigOrganizationMa
 	p.ResourceIdScope = ctwhy.ValueAsString(vals["resource_id_scope"])
 }
 
-//primitiveCollectionTypeDecodeTemplate
-func DecodeConfigOrganizationManagedRule_ResourceTypesScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["resource_types_scope"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.ResourceTypesScope = goVals
-}
-
 //primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationManagedRule_TagKeyScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
 	p.TagKeyScope = ctwhy.ValueAsString(vals["tag_key_scope"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeConfigOrganizationManagedRule_TagValueScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	p.TagValueScope = ctwhy.ValueAsString(vals["tag_value_scope"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationManagedRule_Description(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeConfigOrganizationManagedRule_MaximumExecutionFrequency(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	p.MaximumExecutionFrequency = ctwhy.ValueAsString(vals["maximum_execution_frequency"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeConfigOrganizationManagedRule_RuleIdentifier(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	p.RuleIdentifier = ctwhy.ValueAsString(vals["rule_identifier"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -113,8 +88,27 @@ func DecodeConfigOrganizationManagedRule_ExcludedAccounts(p *ConfigOrganizationM
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeConfigOrganizationManagedRule_Id(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeConfigOrganizationManagedRule_MaximumExecutionFrequency(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.MaximumExecutionFrequency = ctwhy.ValueAsString(vals["maximum_execution_frequency"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeConfigOrganizationManagedRule_ResourceTypesScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["resource_types_scope"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ResourceTypesScope = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationManagedRule_RuleIdentifier(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.RuleIdentifier = ctwhy.ValueAsString(vals["rule_identifier"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationManagedRule_TagValueScope(p *ConfigOrganizationManagedRuleParameters, vals map[string]cty.Value) {
+	p.TagValueScope = ctwhy.ValueAsString(vals["tag_value_scope"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -125,9 +119,14 @@ func DecodeConfigOrganizationManagedRule_InputParameters(p *ConfigOrganizationMa
 //containerTypeDecodeTemplate
 func DecodeConfigOrganizationManagedRule_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
+	DecodeConfigOrganizationManagedRule_Timeouts_Update(p, valMap)
 	DecodeConfigOrganizationManagedRule_Timeouts_Create(p, valMap)
 	DecodeConfigOrganizationManagedRule_Timeouts_Delete(p, valMap)
-	DecodeConfigOrganizationManagedRule_Timeouts_Update(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationManagedRule_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -138,11 +137,6 @@ func DecodeConfigOrganizationManagedRule_Timeouts_Create(p *Timeouts, vals map[s
 //primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationManagedRule_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeConfigOrganizationManagedRule_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
-	p.Update = ctwhy.ValueAsString(vals["update"])
 }
 
 //primitiveTypeDecodeTemplate

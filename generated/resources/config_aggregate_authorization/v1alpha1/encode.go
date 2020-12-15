@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeConfigAggregateAuthorization(r ConfigAggregateAuthorization) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeConfigAggregateAuthorization_AccountId(r.Spec.ForProvider, ctyVal)
-	EncodeConfigAggregateAuthorization_Id(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Region(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeConfigAggregateAuthorization_Arn(r.Status.AtProvider, ctyVal)
@@ -54,10 +53,6 @@ func EncodeConfigAggregateAuthorization(r ConfigAggregateAuthorization) cty.Valu
 
 func EncodeConfigAggregateAuthorization_AccountId(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
 	vals["account_id"] = cty.StringVal(p.AccountId)
-}
-
-func EncodeConfigAggregateAuthorization_Id(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeConfigAggregateAuthorization_Region(p ConfigAggregateAuthorizationParameters, vals map[string]cty.Value) {

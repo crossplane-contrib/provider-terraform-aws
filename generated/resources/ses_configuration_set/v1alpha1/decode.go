@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesConfigurationSet(prev *SesConfigurationSet, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesConfigurationSet_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesConfigurationSet_Name(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeSesConfigurationSet(prev *SesConfigurationSet, ctyValue cty.Value) (r
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesConfigurationSet_Id(p *SesConfigurationSetParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

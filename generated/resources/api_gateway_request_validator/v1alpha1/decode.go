@@ -43,7 +43,6 @@ func DecodeApiGatewayRequestValidator(prev *ApiGatewayRequestValidator, ctyValue
 	DecodeApiGatewayRequestValidator_RestApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayRequestValidator_ValidateRequestBody(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayRequestValidator_ValidateRequestParameters(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayRequestValidator_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -70,9 +69,4 @@ func DecodeApiGatewayRequestValidator_ValidateRequestBody(p *ApiGatewayRequestVa
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayRequestValidator_ValidateRequestParameters(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
 	p.ValidateRequestParameters = ctwhy.ValueAsBool(vals["validate_request_parameters"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayRequestValidator_Id(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

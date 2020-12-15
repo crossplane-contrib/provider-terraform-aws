@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAthenaNamedQuery_Query(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAthenaNamedQuery_Workgroup(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,12 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeAthenaNamedQuery_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAthenaNamedQuery_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAthenaNamedQuery_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAthenaNamedQuery_Query(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -70,16 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeAthenaNamedQuery_Query(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
-	if k.Query != p.Query {
-		p.Query = k.Query
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -113,9 +98,9 @@ func MergeAthenaNamedQuery_Description(k *AthenaNamedQueryParameters, p *AthenaN
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAthenaNamedQuery_Id(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeAthenaNamedQuery_Name(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -123,9 +108,9 @@ func MergeAthenaNamedQuery_Id(k *AthenaNamedQueryParameters, p *AthenaNamedQuery
 }
 
 //mergePrimitiveTemplateSpec
-func MergeAthenaNamedQuery_Name(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeAthenaNamedQuery_Query(k *AthenaNamedQueryParameters, p *AthenaNamedQueryParameters, md *plugin.MergeDescription) bool {
+	if k.Query != p.Query {
+		p.Query = k.Query
 		md.NeedsProviderUpdate = true
 		return true
 	}

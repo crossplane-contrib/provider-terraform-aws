@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayRouteTable(r Ec2TransitGatewayRouteTable) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayRouteTable_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTable_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTable_TransitGatewayId(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(r.Status.AtProvider, ctyVal)
+	EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -50,10 +49,6 @@ func EncodeEc2TransitGatewayRouteTable(r Ec2TransitGatewayRouteTable) cty.Value 
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEc2TransitGatewayRouteTable_Id(p Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2TransitGatewayRouteTable_Tags(p Ec2TransitGatewayRouteTableParameters, vals map[string]cty.Value) {
@@ -72,10 +67,10 @@ func EncodeEc2TransitGatewayRouteTable_TransitGatewayId(p Ec2TransitGatewayRoute
 	vals["transit_gateway_id"] = cty.StringVal(p.TransitGatewayId)
 }
 
-func EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(p Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
-	vals["default_propagation_route_table"] = cty.BoolVal(p.DefaultPropagationRouteTable)
-}
-
 func EncodeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(p Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
 	vals["default_association_route_table"] = cty.BoolVal(p.DefaultAssociationRouteTable)
+}
+
+func EncodeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(p Ec2TransitGatewayRouteTableObservation, vals map[string]cty.Value) {
+	vals["default_propagation_route_table"] = cty.BoolVal(p.DefaultPropagationRouteTable)
 }

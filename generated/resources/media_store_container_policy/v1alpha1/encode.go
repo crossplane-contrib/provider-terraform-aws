@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeMediaStoreContainerPolicy(r MediaStoreContainerPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeMediaStoreContainerPolicy_ContainerName(r.Spec.ForProvider, ctyVal)
-	EncodeMediaStoreContainerPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeMediaStoreContainerPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -53,10 +52,6 @@ func EncodeMediaStoreContainerPolicy(r MediaStoreContainerPolicy) cty.Value {
 
 func EncodeMediaStoreContainerPolicy_ContainerName(p MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
 	vals["container_name"] = cty.StringVal(p.ContainerName)
-}
-
-func EncodeMediaStoreContainerPolicy_Id(p MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeMediaStoreContainerPolicy_Policy(p MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {

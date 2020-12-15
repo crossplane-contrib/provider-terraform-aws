@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDbProxyTarget_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDbProxyTarget_DbInstanceIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,17 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbProxyTarget_DbInstanceIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDbProxyTarget_DbProxyName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDbProxyTarget_Type(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,6 +61,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDbProxyTarget_RdsResourceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDbProxyTarget_TargetArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -81,7 +76,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDbProxyTarget_RdsResourceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeDbProxyTarget_Type(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,9 +92,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDbProxyTarget_Id(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeDbProxyTarget_DbInstanceIdentifier(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
+	if k.DbInstanceIdentifier != p.DbInstanceIdentifier {
+		p.DbInstanceIdentifier = k.DbInstanceIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -127,30 +122,10 @@ func MergeDbProxyTarget_DbClusterIdentifier(k *DbProxyTargetParameters, p *DbPro
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDbProxyTarget_DbInstanceIdentifier(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
-	if k.DbInstanceIdentifier != p.DbInstanceIdentifier {
-		p.DbInstanceIdentifier = k.DbInstanceIdentifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDbProxyTarget_DbProxyName(k *DbProxyTargetParameters, p *DbProxyTargetParameters, md *plugin.MergeDescription) bool {
 	if k.DbProxyName != p.DbProxyName {
 		p.DbProxyName = k.DbProxyName
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDbProxyTarget_Type(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		k.Type = p.Type
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -170,6 +145,16 @@ func MergeDbProxyTarget_Endpoint(k *DbProxyTargetObservation, p *DbProxyTargetOb
 func MergeDbProxyTarget_Port(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
 	if k.Port != p.Port {
 		k.Port = p.Port
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDbProxyTarget_RdsResourceId(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
+	if k.RdsResourceId != p.RdsResourceId {
+		k.RdsResourceId = p.RdsResourceId
 		md.StatusUpdated = true
 		return true
 	}
@@ -197,9 +182,9 @@ func MergeDbProxyTarget_TrackedClusterId(k *DbProxyTargetObservation, p *DbProxy
 }
 
 //mergePrimitiveTemplateStatus
-func MergeDbProxyTarget_RdsResourceId(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
-	if k.RdsResourceId != p.RdsResourceId {
-		k.RdsResourceId = p.RdsResourceId
+func MergeDbProxyTarget_Type(k *DbProxyTargetObservation, p *DbProxyTargetObservation, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		k.Type = p.Type
 		md.StatusUpdated = true
 		return true
 	}

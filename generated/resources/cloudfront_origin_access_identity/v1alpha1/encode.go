@@ -38,12 +38,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeCloudfrontOriginAccessIdentity(r CloudfrontOriginAccessIdentity) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeCloudfrontOriginAccessIdentity_Comment(r.Spec.ForProvider, ctyVal)
-	EncodeCloudfrontOriginAccessIdentity_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(r.Status.AtProvider, ctyVal)
-	EncodeCloudfrontOriginAccessIdentity_Etag(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_IamArn(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_CallerReference(r.Status.AtProvider, ctyVal)
+	EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(r.Status.AtProvider, ctyVal)
+	EncodeCloudfrontOriginAccessIdentity_Etag(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -58,18 +57,6 @@ func EncodeCloudfrontOriginAccessIdentity_Comment(p CloudfrontOriginAccessIdenti
 	vals["comment"] = cty.StringVal(p.Comment)
 }
 
-func EncodeCloudfrontOriginAccessIdentity_Id(p CloudfrontOriginAccessIdentityParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
-	vals["cloudfront_access_identity_path"] = cty.StringVal(p.CloudfrontAccessIdentityPath)
-}
-
-func EncodeCloudfrontOriginAccessIdentity_Etag(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
-	vals["etag"] = cty.StringVal(p.Etag)
-}
-
 func EncodeCloudfrontOriginAccessIdentity_IamArn(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	vals["iam_arn"] = cty.StringVal(p.IamArn)
 }
@@ -80,4 +67,12 @@ func EncodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(p CloudfrontOriginAc
 
 func EncodeCloudfrontOriginAccessIdentity_CallerReference(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	vals["caller_reference"] = cty.StringVal(p.CallerReference)
+}
+
+func EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
+	vals["cloudfront_access_identity_path"] = cty.StringVal(p.CloudfrontAccessIdentityPath)
+}
+
+func EncodeCloudfrontOriginAccessIdentity_Etag(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
+	vals["etag"] = cty.StringVal(p.Etag)
 }

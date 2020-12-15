@@ -37,12 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeInspectorAssessmentTemplate(r InspectorAssessmentTemplate) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeInspectorAssessmentTemplate_TargetArn(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Duration(r.Spec.ForProvider, ctyVal)
-	EncodeInspectorAssessmentTemplate_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Name(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_RulesPackageArns(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeInspectorAssessmentTemplate_TargetArn(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTemplate_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -54,12 +53,12 @@ func EncodeInspectorAssessmentTemplate(r InspectorAssessmentTemplate) cty.Value 
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeInspectorAssessmentTemplate_Duration(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["duration"] = cty.NumberIntVal(p.Duration)
+func EncodeInspectorAssessmentTemplate_TargetArn(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	vals["target_arn"] = cty.StringVal(p.TargetArn)
 }
 
-func EncodeInspectorAssessmentTemplate_Id(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeInspectorAssessmentTemplate_Duration(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
+	vals["duration"] = cty.NumberIntVal(p.Duration)
 }
 
 func EncodeInspectorAssessmentTemplate_Name(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
@@ -84,10 +83,6 @@ func EncodeInspectorAssessmentTemplate_Tags(p InspectorAssessmentTemplateParamet
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeInspectorAssessmentTemplate_TargetArn(p InspectorAssessmentTemplateParameters, vals map[string]cty.Value) {
-	vals["target_arn"] = cty.StringVal(p.TargetArn)
 }
 
 func EncodeInspectorAssessmentTemplate_Arn(p InspectorAssessmentTemplateObservation, vals map[string]cty.Value) {

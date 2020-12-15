@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeElasticacheSecurityGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeElasticacheSecurityGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -42,11 +42,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeElasticacheSecurityGroup_SecurityGroupNames(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeElasticacheSecurityGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -63,9 +58,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeElasticacheSecurityGroup_Id(k *ElasticacheSecurityGroupParameters, p *ElasticacheSecurityGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeElasticacheSecurityGroup_Description(k *ElasticacheSecurityGroupParameters, p *ElasticacheSecurityGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -84,18 +79,8 @@ func MergeElasticacheSecurityGroup_Name(k *ElasticacheSecurityGroupParameters, p
 
 //mergePrimitiveContainerTemplateSpec
 func MergeElasticacheSecurityGroup_SecurityGroupNames(k *ElasticacheSecurityGroupParameters, p *ElasticacheSecurityGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SecurityGroupNames, p.SecurityGroupNames) {
+	if !plugin.CompareStringSlices(k.SecurityGroupNames, p.SecurityGroupNames) {
 		p.SecurityGroupNames = k.SecurityGroupNames
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeElasticacheSecurityGroup_Description(k *ElasticacheSecurityGroupParameters, p *ElasticacheSecurityGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
 		md.NeedsProviderUpdate = true
 		return true
 	}

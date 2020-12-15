@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAcmCertificateValidation_ValidationRecordFqdns(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAcmCertificateValidation_CertificateArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeAcmCertificateValidation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeAcmCertificateValidation_ValidationRecordFqdns(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -62,16 +57,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeAcmCertificateValidation_ValidationRecordFqdns(k *AcmCertificateValidationParameters, p *AcmCertificateValidationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ValidationRecordFqdns, p.ValidationRecordFqdns) {
-		p.ValidationRecordFqdns = k.ValidationRecordFqdns
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeAcmCertificateValidation_CertificateArn(k *AcmCertificateValidationParameters, p *AcmCertificateValidationParameters, md *plugin.MergeDescription) bool {
 	if k.CertificateArn != p.CertificateArn {
@@ -82,10 +67,10 @@ func MergeAcmCertificateValidation_CertificateArn(k *AcmCertificateValidationPar
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeAcmCertificateValidation_Id(k *AcmCertificateValidationParameters, p *AcmCertificateValidationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+//mergePrimitiveContainerTemplateSpec
+func MergeAcmCertificateValidation_ValidationRecordFqdns(k *AcmCertificateValidationParameters, p *AcmCertificateValidationParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ValidationRecordFqdns, p.ValidationRecordFqdns) {
+		p.ValidationRecordFqdns = k.ValidationRecordFqdns
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -40,7 +40,6 @@ func DecodeIamUserGroupMembership(prev *IamUserGroupMembership, ctyValue cty.Val
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeIamUserGroupMembership_Groups(&new.Spec.ForProvider, valMap)
-	DecodeIamUserGroupMembership_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamUserGroupMembership_User(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -57,11 +56,6 @@ func DecodeIamUserGroupMembership_Groups(p *IamUserGroupMembershipParameters, va
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.Groups = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamUserGroupMembership_Id(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

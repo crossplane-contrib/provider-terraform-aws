@@ -39,18 +39,22 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayModel(prev *ApiGatewayModel, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeApiGatewayModel_Schema(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayModel_ContentType(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayModel_Description(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayModel_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayModel_Name(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayModel_RestApiId(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayModel_Schema(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayModel_Schema(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
+	p.Schema = ctwhy.ValueAsString(vals["schema"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -64,11 +68,6 @@ func DecodeApiGatewayModel_Description(p *ApiGatewayModelParameters, vals map[st
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeApiGatewayModel_Id(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_Name(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
@@ -76,9 +75,4 @@ func DecodeApiGatewayModel_Name(p *ApiGatewayModelParameters, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_RestApiId(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApiGatewayModel_Schema(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
-	p.Schema = ctwhy.ValueAsString(vals["schema"])
 }

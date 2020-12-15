@@ -52,7 +52,6 @@ type LoadBalancerBackendServerPolicySpec struct {
 
 // A LoadBalancerBackendServerPolicyParameters defines the desired state of a LoadBalancerBackendServerPolicy
 type LoadBalancerBackendServerPolicyParameters struct {
-	Id               string   `json:"id"`
 	InstancePort     int64    `json:"instance_port"`
 	LoadBalancerName string   `json:"load_balancer_name"`
 	PolicyNames      []string `json:"policy_names"`

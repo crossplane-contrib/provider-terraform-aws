@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeSesEmailIdentity(r SesEmailIdentity) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeSesEmailIdentity_Email(r.Spec.ForProvider, ctyVal)
-	EncodeSesEmailIdentity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesEmailIdentity_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,10 +51,6 @@ func EncodeSesEmailIdentity(r SesEmailIdentity) cty.Value {
 
 func EncodeSesEmailIdentity_Email(p SesEmailIdentityParameters, vals map[string]cty.Value) {
 	vals["email"] = cty.StringVal(p.Email)
-}
-
-func EncodeSesEmailIdentity_Id(p SesEmailIdentityParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSesEmailIdentity_Arn(p SesEmailIdentityObservation, vals map[string]cty.Value) {

@@ -53,7 +53,6 @@ type GuarddutyInviteAccepterSpec struct {
 // A GuarddutyInviteAccepterParameters defines the desired state of a GuarddutyInviteAccepter
 type GuarddutyInviteAccepterParameters struct {
 	DetectorId      string   `json:"detector_id"`
-	Id              string   `json:"id"`
 	MasterAccountId string   `json:"master_account_id"`
 	Timeouts        Timeouts `json:"timeouts"`
 }

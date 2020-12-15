@@ -31,7 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSnsTopicSubscription_Endpoint(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsTopicSubscription_ConfirmationTimeoutInMinutes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSnsTopicSubscription_DeliveryPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,12 +51,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSnsTopicSubscription_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsTopicSubscription_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeSnsTopicSubscription_Protocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSnsTopicSubscription_Endpoint(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,17 +66,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSnsTopicSubscription_ConfirmationTimeoutInMinutes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSnsTopicSubscription_TopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeSnsTopicSubscription_DeliveryPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,9 +87,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsTopicSubscription_Endpoint(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Endpoint != p.Endpoint {
-		p.Endpoint = k.Endpoint
+func MergeSnsTopicSubscription_ConfirmationTimeoutInMinutes(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.ConfirmationTimeoutInMinutes != p.ConfirmationTimeoutInMinutes {
+		p.ConfirmationTimeoutInMinutes = k.ConfirmationTimeoutInMinutes
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSnsTopicSubscription_DeliveryPolicy(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.DeliveryPolicy != p.DeliveryPolicy {
+		p.DeliveryPolicy = k.DeliveryPolicy
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -122,9 +127,9 @@ func MergeSnsTopicSubscription_FilterPolicy(k *SnsTopicSubscriptionParameters, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsTopicSubscription_Id(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSnsTopicSubscription_Protocol(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Protocol != p.Protocol {
+		p.Protocol = k.Protocol
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -132,9 +137,9 @@ func MergeSnsTopicSubscription_Id(k *SnsTopicSubscriptionParameters, p *SnsTopic
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsTopicSubscription_Protocol(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Protocol != p.Protocol {
-		p.Protocol = k.Protocol
+func MergeSnsTopicSubscription_Endpoint(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Endpoint != p.Endpoint {
+		p.Endpoint = k.Endpoint
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -152,29 +157,9 @@ func MergeSnsTopicSubscription_RawMessageDelivery(k *SnsTopicSubscriptionParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSnsTopicSubscription_ConfirmationTimeoutInMinutes(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.ConfirmationTimeoutInMinutes != p.ConfirmationTimeoutInMinutes {
-		p.ConfirmationTimeoutInMinutes = k.ConfirmationTimeoutInMinutes
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeSnsTopicSubscription_TopicArn(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if k.TopicArn != p.TopicArn {
 		p.TopicArn = k.TopicArn
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSnsTopicSubscription_DeliveryPolicy(k *SnsTopicSubscriptionParameters, p *SnsTopicSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.DeliveryPolicy != p.DeliveryPolicy {
-		p.DeliveryPolicy = k.DeliveryPolicy
 		md.NeedsProviderUpdate = true
 		return true
 	}

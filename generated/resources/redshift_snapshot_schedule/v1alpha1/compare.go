@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRedshiftSnapshotSchedule_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRedshiftSnapshotSchedule_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -82,16 +77,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRedshiftSnapshotSchedule_Id(k *RedshiftSnapshotScheduleParameters, p *RedshiftSnapshotScheduleParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeRedshiftSnapshotSchedule_Identifier(k *RedshiftSnapshotScheduleParameters, p *RedshiftSnapshotScheduleParameters, md *plugin.MergeDescription) bool {
 	if k.Identifier != p.Identifier {
 		p.Identifier = k.Identifier
@@ -113,7 +98,7 @@ func MergeRedshiftSnapshotSchedule_IdentifierPrefix(k *RedshiftSnapshotScheduleP
 
 //mergePrimitiveContainerTemplateSpec
 func MergeRedshiftSnapshotSchedule_Tags(k *RedshiftSnapshotScheduleParameters, p *RedshiftSnapshotScheduleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -123,7 +108,7 @@ func MergeRedshiftSnapshotSchedule_Tags(k *RedshiftSnapshotScheduleParameters, p
 
 //mergePrimitiveContainerTemplateSpec
 func MergeRedshiftSnapshotSchedule_Definitions(k *RedshiftSnapshotScheduleParameters, p *RedshiftSnapshotScheduleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Definitions, p.Definitions) {
+	if !plugin.CompareStringSlices(k.Definitions, p.Definitions) {
 		p.Definitions = k.Definitions
 		md.NeedsProviderUpdate = true
 		return true

@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxHostedPublicVirtualInterfaceAccepter(r DxHostedPublicVirtualInterfaceAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxHostedPublicVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPublicVirtualInterfaceAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPublicVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPublicVirtualInterfaceAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
@@ -50,10 +49,6 @@ func EncodeDxHostedPublicVirtualInterfaceAccepter(r DxHostedPublicVirtualInterfa
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxHostedPublicVirtualInterfaceAccepter_Id(p DxHostedPublicVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDxHostedPublicVirtualInterfaceAccepter_Tags(p DxHostedPublicVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {

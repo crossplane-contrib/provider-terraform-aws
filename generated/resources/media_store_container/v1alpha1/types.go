@@ -52,7 +52,6 @@ type MediaStoreContainerSpec struct {
 
 // A MediaStoreContainerParameters defines the desired state of a MediaStoreContainer
 type MediaStoreContainerParameters struct {
-	Id   string            `json:"id"`
 	Name string            `json:"name"`
 	Tags map[string]string `json:"tags"`
 }
@@ -65,6 +64,6 @@ type MediaStoreContainerStatus struct {
 
 // A MediaStoreContainerObservation records the observed state of a MediaStoreContainer
 type MediaStoreContainerObservation struct {
-	Arn      string `json:"arn"`
 	Endpoint string `json:"endpoint"`
+	Arn      string `json:"arn"`
 }

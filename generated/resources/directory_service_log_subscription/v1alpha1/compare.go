@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDirectoryServiceLogSubscription_LogGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeDirectoryServiceLogSubscription_DirectoryId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDirectoryServiceLogSubscription_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDirectoryServiceLogSubscription_LogGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +53,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDirectoryServiceLogSubscription_LogGroupName(k *DirectoryServiceLogSubscriptionParameters, p *DirectoryServiceLogSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.LogGroupName != p.LogGroupName {
-		p.LogGroupName = k.LogGroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeDirectoryServiceLogSubscription_DirectoryId(k *DirectoryServiceLogSubscriptionParameters, p *DirectoryServiceLogSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if k.DirectoryId != p.DirectoryId {
 		p.DirectoryId = k.DirectoryId
@@ -78,9 +63,9 @@ func MergeDirectoryServiceLogSubscription_DirectoryId(k *DirectoryServiceLogSubs
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDirectoryServiceLogSubscription_Id(k *DirectoryServiceLogSubscriptionParameters, p *DirectoryServiceLogSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeDirectoryServiceLogSubscription_LogGroupName(k *DirectoryServiceLogSubscriptionParameters, p *DirectoryServiceLogSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.LogGroupName != p.LogGroupName {
+		p.LogGroupName = k.LogGroupName
 		md.NeedsProviderUpdate = true
 		return true
 	}

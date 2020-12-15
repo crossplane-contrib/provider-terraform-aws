@@ -39,7 +39,6 @@ func EncodeIamGroupPolicyAttachment(r IamGroupPolicyAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeIamGroupPolicyAttachment_PolicyArn(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupPolicyAttachment_Group(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroupPolicyAttachment_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,8 +56,4 @@ func EncodeIamGroupPolicyAttachment_PolicyArn(p IamGroupPolicyAttachmentParamete
 
 func EncodeIamGroupPolicyAttachment_Group(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
 	vals["group"] = cty.StringVal(p.Group)
-}
-
-func EncodeIamGroupPolicyAttachment_Id(p IamGroupPolicyAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

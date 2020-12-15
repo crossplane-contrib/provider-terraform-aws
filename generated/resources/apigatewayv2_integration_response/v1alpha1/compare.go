@@ -31,12 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApigatewayv2IntegrationResponse_ContentHandlingStrategy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApigatewayv2IntegrationResponse_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeApigatewayv2IntegrationResponse_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApigatewayv2IntegrationResponse_ContentHandlingStrategy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,11 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApigatewayv2IntegrationResponse_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -78,9 +73,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApigatewayv2IntegrationResponse_ContentHandlingStrategy(k *Apigatewayv2IntegrationResponseParameters, p *Apigatewayv2IntegrationResponseParameters, md *plugin.MergeDescription) bool {
-	if k.ContentHandlingStrategy != p.ContentHandlingStrategy {
-		p.ContentHandlingStrategy = k.ContentHandlingStrategy
+func MergeApigatewayv2IntegrationResponse_ApiId(k *Apigatewayv2IntegrationResponseParameters, p *Apigatewayv2IntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.ApiId != p.ApiId {
+		p.ApiId = k.ApiId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -88,9 +83,9 @@ func MergeApigatewayv2IntegrationResponse_ContentHandlingStrategy(k *Apigatewayv
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApigatewayv2IntegrationResponse_Id(k *Apigatewayv2IntegrationResponseParameters, p *Apigatewayv2IntegrationResponseParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeApigatewayv2IntegrationResponse_ContentHandlingStrategy(k *Apigatewayv2IntegrationResponseParameters, p *Apigatewayv2IntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.ContentHandlingStrategy != p.ContentHandlingStrategy {
+		p.ContentHandlingStrategy = k.ContentHandlingStrategy
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -119,7 +114,7 @@ func MergeApigatewayv2IntegrationResponse_IntegrationResponseKey(k *Apigatewayv2
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApigatewayv2IntegrationResponse_ResponseTemplates(k *Apigatewayv2IntegrationResponseParameters, p *Apigatewayv2IntegrationResponseParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.ResponseTemplates, p.ResponseTemplates) {
+	if !plugin.CompareMapString(k.ResponseTemplates, p.ResponseTemplates) {
 		p.ResponseTemplates = k.ResponseTemplates
 		md.NeedsProviderUpdate = true
 		return true
@@ -131,16 +126,6 @@ func MergeApigatewayv2IntegrationResponse_ResponseTemplates(k *Apigatewayv2Integ
 func MergeApigatewayv2IntegrationResponse_TemplateSelectionExpression(k *Apigatewayv2IntegrationResponseParameters, p *Apigatewayv2IntegrationResponseParameters, md *plugin.MergeDescription) bool {
 	if k.TemplateSelectionExpression != p.TemplateSelectionExpression {
 		p.TemplateSelectionExpression = k.TemplateSelectionExpression
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2IntegrationResponse_ApiId(k *Apigatewayv2IntegrationResponseParameters, p *Apigatewayv2IntegrationResponseParameters, md *plugin.MergeDescription) bool {
-	if k.ApiId != p.ApiId {
-		p.ApiId = k.ApiId
 		md.NeedsProviderUpdate = true
 		return true
 	}

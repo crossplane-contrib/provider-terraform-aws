@@ -54,7 +54,6 @@ type ElasticsearchDomainPolicySpec struct {
 type ElasticsearchDomainPolicyParameters struct {
 	AccessPolicies string `json:"access_policies"`
 	DomainName     string `json:"domain_name"`
-	Id             string `json:"id"`
 }
 
 // A ElasticsearchDomainPolicyStatus defines the observed state of a ElasticsearchDomainPolicy

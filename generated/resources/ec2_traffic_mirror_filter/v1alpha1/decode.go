@@ -40,7 +40,6 @@ func DecodeEc2TrafficMirrorFilter(prev *Ec2TrafficMirrorFilter, ctyValue cty.Val
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeEc2TrafficMirrorFilter_Description(&new.Spec.ForProvider, valMap)
-	DecodeEc2TrafficMirrorFilter_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2TrafficMirrorFilter_NetworkServices(&new.Spec.ForProvider, valMap)
 	DecodeEc2TrafficMirrorFilter_Tags(&new.Spec.ForProvider, valMap)
 
@@ -54,11 +53,6 @@ func DecodeEc2TrafficMirrorFilter(prev *Ec2TrafficMirrorFilter, ctyValue cty.Val
 //primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorFilter_Description(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2TrafficMirrorFilter_Id(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate

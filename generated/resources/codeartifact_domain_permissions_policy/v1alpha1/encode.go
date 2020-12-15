@@ -39,7 +39,6 @@ func EncodeCodeartifactDomainPermissionsPolicy(r CodeartifactDomainPermissionsPo
 	ctyVal := make(map[string]cty.Value)
 	EncodeCodeartifactDomainPermissionsPolicy_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_DomainOwner(r.Spec.ForProvider, ctyVal)
-	EncodeCodeartifactDomainPermissionsPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_PolicyRevision(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomainPermissionsPolicy_ResourceArn(r.Status.AtProvider, ctyVal)
@@ -59,10 +58,6 @@ func EncodeCodeartifactDomainPermissionsPolicy_Domain(p CodeartifactDomainPermis
 
 func EncodeCodeartifactDomainPermissionsPolicy_DomainOwner(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	vals["domain_owner"] = cty.StringVal(p.DomainOwner)
-}
-
-func EncodeCodeartifactDomainPermissionsPolicy_Id(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCodeartifactDomainPermissionsPolicy_PolicyDocument(p CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {

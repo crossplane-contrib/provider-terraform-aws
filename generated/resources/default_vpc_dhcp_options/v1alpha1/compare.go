@@ -31,12 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeDefaultVpcDhcpOptions_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDefaultVpcDhcpOptions_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDefaultVpcDhcpOptions_NetbiosNodeType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,7 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultVpcDhcpOptions_NetbiosNodeType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDefaultVpcDhcpOptions_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDefaultVpcDhcpOptions_DomainNameServers(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,11 +71,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDefaultVpcDhcpOptions_DomainNameServers(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -87,19 +82,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDefaultVpcDhcpOptions_Id(k *DefaultVpcDhcpOptionsParameters, p *DefaultVpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDefaultVpcDhcpOptions_Tags(k *DefaultVpcDhcpOptionsParameters, p *DefaultVpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeDefaultVpcDhcpOptions_NetbiosNodeType(k *DefaultVpcDhcpOptionsParameters, p *DefaultVpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
+	if k.NetbiosNodeType != p.NetbiosNodeType {
+		p.NetbiosNodeType = k.NetbiosNodeType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -108,7 +93,7 @@ func MergeDefaultVpcDhcpOptions_Tags(k *DefaultVpcDhcpOptionsParameters, p *Defa
 
 //mergePrimitiveContainerTemplateSpec
 func MergeDefaultVpcDhcpOptions_NetbiosNameServers(k *DefaultVpcDhcpOptionsParameters, p *DefaultVpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.NetbiosNameServers, p.NetbiosNameServers) {
+	if !plugin.CompareStringSlices(k.NetbiosNameServers, p.NetbiosNameServers) {
 		p.NetbiosNameServers = k.NetbiosNameServers
 		md.NeedsProviderUpdate = true
 		return true
@@ -116,11 +101,21 @@ func MergeDefaultVpcDhcpOptions_NetbiosNameServers(k *DefaultVpcDhcpOptionsParam
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDefaultVpcDhcpOptions_NetbiosNodeType(k *DefaultVpcDhcpOptionsParameters, p *DefaultVpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
-	if k.NetbiosNodeType != p.NetbiosNodeType {
-		p.NetbiosNodeType = k.NetbiosNodeType
+//mergePrimitiveContainerTemplateSpec
+func MergeDefaultVpcDhcpOptions_Tags(k *DefaultVpcDhcpOptionsParameters, p *DefaultVpcDhcpOptionsParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDefaultVpcDhcpOptions_DomainNameServers(k *DefaultVpcDhcpOptionsObservation, p *DefaultVpcDhcpOptionsObservation, md *plugin.MergeDescription) bool {
+	if k.DomainNameServers != p.DomainNameServers {
+		k.DomainNameServers = p.DomainNameServers
+		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -160,16 +155,6 @@ func MergeDefaultVpcDhcpOptions_Arn(k *DefaultVpcDhcpOptionsObservation, p *Defa
 func MergeDefaultVpcDhcpOptions_DomainName(k *DefaultVpcDhcpOptionsObservation, p *DefaultVpcDhcpOptionsObservation, md *plugin.MergeDescription) bool {
 	if k.DomainName != p.DomainName {
 		k.DomainName = p.DomainName
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeDefaultVpcDhcpOptions_DomainNameServers(k *DefaultVpcDhcpOptionsObservation, p *DefaultVpcDhcpOptionsObservation, md *plugin.MergeDescription) bool {
-	if k.DomainNameServers != p.DomainNameServers {
-		k.DomainNameServers = p.DomainNameServers
 		md.StatusUpdated = true
 		return true
 	}

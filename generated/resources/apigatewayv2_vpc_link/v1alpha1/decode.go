@@ -43,7 +43,6 @@ func DecodeApigatewayv2VpcLink(prev *Apigatewayv2VpcLink, ctyValue cty.Value) (r
 	DecodeApigatewayv2VpcLink_SecurityGroupIds(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_Tags(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2VpcLink_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -84,11 +83,6 @@ func DecodeApigatewayv2VpcLink_Tags(p *Apigatewayv2VpcLinkParameters, vals map[s
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.Tags = vMap
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeApigatewayv2VpcLink_Id(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

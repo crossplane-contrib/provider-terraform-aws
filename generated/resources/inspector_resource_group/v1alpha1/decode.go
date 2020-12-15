@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeInspectorResourceGroup(prev *InspectorResourceGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeInspectorResourceGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeInspectorResourceGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeInspectorResourceGroup_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeInspectorResourceGroup(prev *InspectorResourceGroup, ctyValue cty.Val
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeInspectorResourceGroup_Id(p *InspectorResourceGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate

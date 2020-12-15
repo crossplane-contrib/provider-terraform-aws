@@ -42,7 +42,6 @@ func DecodeGuarddutyMember(prev *GuarddutyMember, ctyValue cty.Value) (resource.
 	DecodeGuarddutyMember_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_DisableEmailNotification(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_Email(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyMember_Id(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_InvitationMessage(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_Invite(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyMember_AccountId(&new.Spec.ForProvider, valMap)
@@ -68,11 +67,6 @@ func DecodeGuarddutyMember_DisableEmailNotification(p *GuarddutyMemberParameters
 //primitiveTypeDecodeTemplate
 func DecodeGuarddutyMember_Email(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
 	p.Email = ctwhy.ValueAsString(vals["email"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGuarddutyMember_Id(p *GuarddutyMemberParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

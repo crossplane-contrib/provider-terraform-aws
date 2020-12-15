@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotSchedule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_IdentifierPrefix(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
@@ -53,10 +52,6 @@ func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotSchedule_Id(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRedshiftSnapshotSchedule_Identifier(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {

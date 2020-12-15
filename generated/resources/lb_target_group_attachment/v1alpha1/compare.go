@@ -31,17 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLbTargetGroupAttachment_TargetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLbTargetGroupAttachment_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLbTargetGroupAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -52,6 +42,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeLbTargetGroupAttachment_TargetGroupArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLbTargetGroupAttachment_TargetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -68,29 +63,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeLbTargetGroupAttachment_TargetId(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.TargetId != p.TargetId {
-		p.TargetId = k.TargetId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeLbTargetGroupAttachment_AvailabilityZone(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.AvailabilityZone != p.AvailabilityZone {
 		p.AvailabilityZone = k.AvailabilityZone
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLbTargetGroupAttachment_Id(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -111,6 +86,16 @@ func MergeLbTargetGroupAttachment_Port(k *LbTargetGroupAttachmentParameters, p *
 func MergeLbTargetGroupAttachment_TargetGroupArn(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.TargetGroupArn != p.TargetGroupArn {
 		p.TargetGroupArn = k.TargetGroupArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbTargetGroupAttachment_TargetId(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TargetId != p.TargetId {
+		p.TargetId = k.TargetId
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayRouteTableAssociation(r Ec2TransitGatewayRouteTableAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayRouteTableAssociation_ResourceType(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -52,16 +51,12 @@ func EncodeEc2TransitGatewayRouteTableAssociation(r Ec2TransitGatewayRouteTableA
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayRouteTableAssociation_Id(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
+	vals["transit_gateway_route_table_id"] = cty.StringVal(p.TransitGatewayRouteTableId)
 }
 
 func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["transit_gateway_attachment_id"] = cty.StringVal(p.TransitGatewayAttachmentId)
-}
-
-func EncodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["transit_gateway_route_table_id"] = cty.StringVal(p.TransitGatewayRouteTableId)
 }
 
 func EncodeEc2TransitGatewayRouteTableAssociation_ResourceId(p Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {

@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesIdentityNotificationTopic(prev *SesIdentityNotificationTopic, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesIdentityNotificationTopic_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityNotificationTopic_Identity(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityNotificationTopic_IncludeOriginalHeaders(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityNotificationTopic_NotificationType(&new.Spec.ForProvider, valMap)
@@ -50,11 +49,6 @@ func DecodeSesIdentityNotificationTopic(prev *SesIdentityNotificationTopic, ctyV
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesIdentityNotificationTopic_Id(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

@@ -41,7 +41,6 @@ func DecodeOrganizationsPolicyAttachment(prev *OrganizationsPolicyAttachment, ct
 	new := prev.DeepCopy()
 	DecodeOrganizationsPolicyAttachment_PolicyId(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicyAttachment_TargetId(&new.Spec.ForProvider, valMap)
-	DecodeOrganizationsPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,9 +57,4 @@ func DecodeOrganizationsPolicyAttachment_PolicyId(p *OrganizationsPolicyAttachme
 //primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicyAttachment_TargetId(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOrganizationsPolicyAttachment_Id(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

@@ -40,7 +40,6 @@ func DecodeIamOpenidConnectProvider(prev *IamOpenidConnectProvider, ctyValue cty
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeIamOpenidConnectProvider_ClientIdList(&new.Spec.ForProvider, valMap)
-	DecodeIamOpenidConnectProvider_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamOpenidConnectProvider_ThumbprintList(&new.Spec.ForProvider, valMap)
 	DecodeIamOpenidConnectProvider_Url(&new.Spec.ForProvider, valMap)
 	DecodeIamOpenidConnectProvider_Arn(&new.Status.AtProvider, valMap)
@@ -58,11 +57,6 @@ func DecodeIamOpenidConnectProvider_ClientIdList(p *IamOpenidConnectProviderPara
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.ClientIdList = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamOpenidConnectProvider_Id(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate

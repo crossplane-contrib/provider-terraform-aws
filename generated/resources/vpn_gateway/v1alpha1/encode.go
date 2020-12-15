@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpnGateway(r VpnGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpnGateway_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpnGateway_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeVpnGateway_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_AmazonSideAsn(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_AvailabilityZone(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGateway_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeVpnGateway_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeVpnGateway_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,8 +52,12 @@ func EncodeVpnGateway(r VpnGateway) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVpnGateway_Id(p VpnGatewayParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeVpnGateway_AmazonSideAsn(p VpnGatewayParameters, vals map[string]cty.Value) {
+	vals["amazon_side_asn"] = cty.StringVal(p.AmazonSideAsn)
+}
+
+func EncodeVpnGateway_AvailabilityZone(p VpnGatewayParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeVpnGateway_Tags(p VpnGatewayParameters, vals map[string]cty.Value) {
@@ -71,14 +74,6 @@ func EncodeVpnGateway_Tags(p VpnGatewayParameters, vals map[string]cty.Value) {
 
 func EncodeVpnGateway_VpcId(p VpnGatewayParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeVpnGateway_AmazonSideAsn(p VpnGatewayParameters, vals map[string]cty.Value) {
-	vals["amazon_side_asn"] = cty.StringVal(p.AmazonSideAsn)
-}
-
-func EncodeVpnGateway_AvailabilityZone(p VpnGatewayParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeVpnGateway_Arn(p VpnGatewayObservation, vals map[string]cty.Value) {

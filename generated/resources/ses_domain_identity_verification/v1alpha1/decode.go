@@ -40,7 +40,6 @@ func DecodeSesDomainIdentityVerification(prev *SesDomainIdentityVerification, ct
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSesDomainIdentityVerification_Domain(&new.Spec.ForProvider, valMap)
-	DecodeSesDomainIdentityVerification_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainIdentityVerification_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeSesDomainIdentityVerification_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeSesDomainIdentityVerification(prev *SesDomainIdentityVerification, ct
 //primitiveTypeDecodeTemplate
 func DecodeSesDomainIdentityVerification_Domain(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesDomainIdentityVerification_Id(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //containerTypeDecodeTemplate

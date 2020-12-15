@@ -31,22 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeLoadBalancerListenerPolicy_PolicyNames(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeLoadBalancerListenerPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLoadBalancerListenerPolicy_LoadBalancerName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeLoadBalancerListenerPolicy_LoadBalancerPort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLoadBalancerListenerPolicy_PolicyNames(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -60,26 +55,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeLoadBalancerListenerPolicy_PolicyNames(k *LoadBalancerListenerPolicyParameters, p *LoadBalancerListenerPolicyParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.PolicyNames, p.PolicyNames) {
-		p.PolicyNames = k.PolicyNames
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeLoadBalancerListenerPolicy_Id(k *LoadBalancerListenerPolicyParameters, p *LoadBalancerListenerPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -96,6 +71,16 @@ func MergeLoadBalancerListenerPolicy_LoadBalancerName(k *LoadBalancerListenerPol
 func MergeLoadBalancerListenerPolicy_LoadBalancerPort(k *LoadBalancerListenerPolicyParameters, p *LoadBalancerListenerPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.LoadBalancerPort != p.LoadBalancerPort {
 		p.LoadBalancerPort = k.LoadBalancerPort
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeLoadBalancerListenerPolicy_PolicyNames(k *LoadBalancerListenerPolicyParameters, p *LoadBalancerListenerPolicyParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.PolicyNames, p.PolicyNames) {
+		p.PolicyNames = k.PolicyNames
 		md.NeedsProviderUpdate = true
 		return true
 	}

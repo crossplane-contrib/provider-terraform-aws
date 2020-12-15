@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDevicefarmProject(r DevicefarmProject) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDevicefarmProject_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDevicefarmProject_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDevicefarmProject_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -48,10 +47,6 @@ func EncodeDevicefarmProject(r DevicefarmProject) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDevicefarmProject_Id(p DevicefarmProjectParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDevicefarmProject_Name(p DevicefarmProjectParameters, vals map[string]cty.Value) {

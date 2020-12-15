@@ -52,11 +52,10 @@ type ServicecatalogPortfolioSpec struct {
 
 // A ServicecatalogPortfolioParameters defines the desired state of a ServicecatalogPortfolio
 type ServicecatalogPortfolioParameters struct {
-	Description  string            `json:"description"`
-	Id           string            `json:"id"`
 	Name         string            `json:"name"`
 	ProviderName string            `json:"provider_name"`
 	Tags         map[string]string `json:"tags"`
+	Description  string            `json:"description"`
 	Timeouts     Timeouts          `json:"timeouts"`
 }
 
@@ -74,6 +73,6 @@ type ServicecatalogPortfolioStatus struct {
 
 // A ServicecatalogPortfolioObservation records the observed state of a ServicecatalogPortfolio
 type ServicecatalogPortfolioObservation struct {
-	CreatedTime string `json:"created_time"`
 	Arn         string `json:"arn"`
+	CreatedTime string `json:"created_time"`
 }

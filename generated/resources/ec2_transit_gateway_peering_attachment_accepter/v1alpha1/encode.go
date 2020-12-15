@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayPeeringAttachmentAccepter(r Ec2TransitGatewayPeeringAttachmentAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayPeeringAttachmentAccepter_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_PeerAccountId(r.Status.AtProvider, ctyVal)
 	EncodeEc2TransitGatewayPeeringAttachmentAccepter_PeerRegion(r.Status.AtProvider, ctyVal)
@@ -54,8 +53,8 @@ func EncodeEc2TransitGatewayPeeringAttachmentAccepter(r Ec2TransitGatewayPeering
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayPeeringAttachmentAccepter_Id(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
+	vals["transit_gateway_attachment_id"] = cty.StringVal(p.TransitGatewayAttachmentId)
 }
 
 func EncodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
@@ -68,10 +67,6 @@ func EncodeEc2TransitGatewayPeeringAttachmentAccepter_Tags(p Ec2TransitGatewayPe
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(p Ec2TransitGatewayPeeringAttachmentAccepterParameters, vals map[string]cty.Value) {
-	vals["transit_gateway_attachment_id"] = cty.StringVal(p.TransitGatewayAttachmentId)
 }
 
 func EncodeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayId(p Ec2TransitGatewayPeeringAttachmentAccepterObservation, vals map[string]cty.Value) {

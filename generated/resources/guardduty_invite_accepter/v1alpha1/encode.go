@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeGuarddutyInviteAccepter(r GuarddutyInviteAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeGuarddutyInviteAccepter_DetectorId(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyInviteAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_MasterAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyInviteAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 
@@ -54,10 +53,6 @@ func EncodeGuarddutyInviteAccepter(r GuarddutyInviteAccepter) cty.Value {
 
 func EncodeGuarddutyInviteAccepter_DetectorId(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	vals["detector_id"] = cty.StringVal(p.DetectorId)
-}
-
-func EncodeGuarddutyInviteAccepter_Id(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeGuarddutyInviteAccepter_MasterAccountId(p GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {

@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpcEndpointConnectionNotification(prev *VpcEndpointConnectionNotification, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVpcEndpointConnectionNotification_VpcEndpointServiceId(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointConnectionNotification_ConnectionEvents(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointConnectionNotification_ConnectionNotificationArn(&new.Spec.ForProvider, valMap)
-	DecodeVpcEndpointConnectionNotification_Id(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointConnectionNotification_VpcEndpointId(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointConnectionNotification_VpcEndpointServiceId(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointConnectionNotification_NotificationType(&new.Status.AtProvider, valMap)
 	DecodeVpcEndpointConnectionNotification_State(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -51,11 +50,6 @@ func DecodeVpcEndpointConnectionNotification(prev *VpcEndpointConnectionNotifica
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
-	p.VpcEndpointServiceId = ctwhy.ValueAsString(vals["vpc_endpoint_service_id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -73,13 +67,13 @@ func DecodeVpcEndpointConnectionNotification_ConnectionNotificationArn(p *VpcEnd
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVpcEndpointConnectionNotification_Id(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeVpcEndpointConnectionNotification_VpcEndpointId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVpcEndpointConnectionNotification_VpcEndpointId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
-	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
+func DecodeVpcEndpointConnectionNotification_VpcEndpointServiceId(p *VpcEndpointConnectionNotificationParameters, vals map[string]cty.Value) {
+	p.VpcEndpointServiceId = ctwhy.ValueAsString(vals["vpc_endpoint_service_id"])
 }
 
 //primitiveTypeDecodeTemplate

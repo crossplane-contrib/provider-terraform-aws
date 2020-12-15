@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeNeptuneSubnetGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNeptuneSubnetGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeNeptuneSubnetGroup_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -42,21 +52,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeNeptuneSubnetGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneSubnetGroup_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneSubnetGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNeptuneSubnetGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,6 +72,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeNeptuneSubnetGroup_Description(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNeptuneSubnetGroup_Name(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeNeptuneSubnetGroup_NamePrefix(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
 	if k.NamePrefix != p.NamePrefix {
 		p.NamePrefix = k.NamePrefix
@@ -88,7 +103,7 @@ func MergeNeptuneSubnetGroup_NamePrefix(k *NeptuneSubnetGroupParameters, p *Nept
 
 //mergePrimitiveContainerTemplateSpec
 func MergeNeptuneSubnetGroup_SubnetIds(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SubnetIds, p.SubnetIds) {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
 		p.SubnetIds = k.SubnetIds
 		md.NeedsProviderUpdate = true
 		return true
@@ -98,38 +113,8 @@ func MergeNeptuneSubnetGroup_SubnetIds(k *NeptuneSubnetGroupParameters, p *Neptu
 
 //mergePrimitiveContainerTemplateSpec
 func MergeNeptuneSubnetGroup_Tags(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneSubnetGroup_Description(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneSubnetGroup_Id(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNeptuneSubnetGroup_Name(k *NeptuneSubnetGroupParameters, p *NeptuneSubnetGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}

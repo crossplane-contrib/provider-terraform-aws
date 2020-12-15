@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesIdentityNotificationTopic(r SesIdentityNotificationTopic) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesIdentityNotificationTopic_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityNotificationTopic_Identity(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityNotificationTopic_IncludeOriginalHeaders(r.Spec.ForProvider, ctyVal)
 	EncodeSesIdentityNotificationTopic_NotificationType(r.Spec.ForProvider, ctyVal)
@@ -51,10 +50,6 @@ func EncodeSesIdentityNotificationTopic(r SesIdentityNotificationTopic) cty.Valu
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSesIdentityNotificationTopic_Id(p SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSesIdentityNotificationTopic_Identity(p SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {

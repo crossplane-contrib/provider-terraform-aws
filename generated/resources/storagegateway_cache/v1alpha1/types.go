@@ -54,7 +54,6 @@ type StoragegatewayCacheSpec struct {
 type StoragegatewayCacheParameters struct {
 	DiskId     string `json:"disk_id"`
 	GatewayArn string `json:"gateway_arn"`
-	Id         string `json:"id"`
 }
 
 // A StoragegatewayCacheStatus defines the observed state of a StoragegatewayCache

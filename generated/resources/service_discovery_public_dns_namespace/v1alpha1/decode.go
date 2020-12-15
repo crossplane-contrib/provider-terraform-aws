@@ -40,11 +40,10 @@ func DecodeServiceDiscoveryPublicDnsNamespace(prev *ServiceDiscoveryPublicDnsNam
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeServiceDiscoveryPublicDnsNamespace_Description(&new.Spec.ForProvider, valMap)
-	DecodeServiceDiscoveryPublicDnsNamespace_Id(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Name(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Tags(&new.Spec.ForProvider, valMap)
-	DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(&new.Status.AtProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Arn(&new.Status.AtProvider, valMap)
+	DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -55,11 +54,6 @@ func DecodeServiceDiscoveryPublicDnsNamespace(prev *ServiceDiscoveryPublicDnsNam
 //primitiveTypeDecodeTemplate
 func DecodeServiceDiscoveryPublicDnsNamespace_Description(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeServiceDiscoveryPublicDnsNamespace_Id(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -79,11 +73,11 @@ func DecodeServiceDiscoveryPublicDnsNamespace_Tags(p *ServiceDiscoveryPublicDnsN
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	p.HostedZone = ctwhy.ValueAsString(vals["hosted_zone"])
+func DecodeServiceDiscoveryPublicDnsNamespace_Arn(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeServiceDiscoveryPublicDnsNamespace_Arn(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+func DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	p.HostedZone = ctwhy.ValueAsString(vals["hosted_zone"])
 }

@@ -31,32 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEbsSnapshotCopy_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEbsSnapshotCopy_Encrypted(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEbsSnapshotCopy_SourceRegion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEbsSnapshotCopy_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEbsSnapshotCopy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEbsSnapshotCopy_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,17 +41,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEbsSnapshotCopy_VolumeId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEbsSnapshotCopy_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEbsSnapshotCopy_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEbsSnapshotCopy_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEbsSnapshotCopy_OwnerAlias(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEbsSnapshotCopy_Encrypted(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEbsSnapshotCopy_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,12 +66,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEbsSnapshotCopy_VolumeSize(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEbsSnapshotCopy_OwnerAlias(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEbsSnapshotCopy_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeEbsSnapshotCopy_DataEncryptionKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEbsSnapshotCopy_VolumeId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEbsSnapshotCopy_VolumeSize(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -106,30 +101,30 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeEbsSnapshotCopy_Tags(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEbsSnapshotCopy_Encrypted(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
-	if k.Encrypted != p.Encrypted {
-		p.Encrypted = k.Encrypted
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
 func MergeEbsSnapshotCopy_SourceRegion(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
 	if k.SourceRegion != p.SourceRegion {
 		p.SourceRegion = k.SourceRegion
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEbsSnapshotCopy_SourceSnapshotId(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
+	if k.SourceSnapshotId != p.SourceSnapshotId {
+		p.SourceSnapshotId = k.SourceSnapshotId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEbsSnapshotCopy_Tags(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -147,9 +142,9 @@ func MergeEbsSnapshotCopy_Description(k *EbsSnapshotCopyParameters, p *EbsSnapsh
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEbsSnapshotCopy_Id(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeEbsSnapshotCopy_Encrypted(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
+	if k.Encrypted != p.Encrypted {
+		p.Encrypted = k.Encrypted
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -166,30 +161,10 @@ func MergeEbsSnapshotCopy_KmsKeyId(k *EbsSnapshotCopyParameters, p *EbsSnapshotC
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeEbsSnapshotCopy_SourceSnapshotId(k *EbsSnapshotCopyParameters, p *EbsSnapshotCopyParameters, md *plugin.MergeDescription) bool {
-	if k.SourceSnapshotId != p.SourceSnapshotId {
-		p.SourceSnapshotId = k.SourceSnapshotId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateStatus
-func MergeEbsSnapshotCopy_VolumeId(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
-	if k.VolumeId != p.VolumeId {
-		k.VolumeId = p.VolumeId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeEbsSnapshotCopy_Arn(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeEbsSnapshotCopy_OwnerId(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
+	if k.OwnerId != p.OwnerId {
+		k.OwnerId = p.OwnerId
 		md.StatusUpdated = true
 		return true
 	}
@@ -207,19 +182,9 @@ func MergeEbsSnapshotCopy_OwnerAlias(k *EbsSnapshotCopyObservation, p *EbsSnapsh
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEbsSnapshotCopy_OwnerId(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
-	if k.OwnerId != p.OwnerId {
-		k.OwnerId = p.OwnerId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeEbsSnapshotCopy_VolumeSize(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
-	if k.VolumeSize != p.VolumeSize {
-		k.VolumeSize = p.VolumeSize
+func MergeEbsSnapshotCopy_Arn(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}
@@ -230,6 +195,26 @@ func MergeEbsSnapshotCopy_VolumeSize(k *EbsSnapshotCopyObservation, p *EbsSnapsh
 func MergeEbsSnapshotCopy_DataEncryptionKeyId(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
 	if k.DataEncryptionKeyId != p.DataEncryptionKeyId {
 		k.DataEncryptionKeyId = p.DataEncryptionKeyId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEbsSnapshotCopy_VolumeId(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
+	if k.VolumeId != p.VolumeId {
+		k.VolumeId = p.VolumeId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEbsSnapshotCopy_VolumeSize(k *EbsSnapshotCopyObservation, p *EbsSnapshotCopyObservation, md *plugin.MergeDescription) bool {
+	if k.VolumeSize != p.VolumeSize {
+		k.VolumeSize = p.VolumeSize
 		md.StatusUpdated = true
 		return true
 	}

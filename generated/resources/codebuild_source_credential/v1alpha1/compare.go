@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCodebuildSourceCredential_Token(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCodebuildSourceCredential_UserName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,17 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCodebuildSourceCredential_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCodebuildSourceCredential_ServerType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCodebuildSourceCredential_Token(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -69,6 +64,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCodebuildSourceCredential_Token(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
+	if k.Token != p.Token {
+		p.Token = k.Token
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -92,29 +97,9 @@ func MergeCodebuildSourceCredential_AuthType(k *CodebuildSourceCredentialParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCodebuildSourceCredential_Id(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCodebuildSourceCredential_ServerType(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
 	if k.ServerType != p.ServerType {
 		p.ServerType = k.ServerType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCodebuildSourceCredential_Token(k *CodebuildSourceCredentialParameters, p *CodebuildSourceCredentialParameters, md *plugin.MergeDescription) bool {
-	if k.Token != p.Token {
-		p.Token = k.Token
 		md.NeedsProviderUpdate = true
 		return true
 	}

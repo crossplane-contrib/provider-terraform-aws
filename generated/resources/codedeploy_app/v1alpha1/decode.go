@@ -40,7 +40,6 @@ func DecodeCodedeployApp(prev *CodedeployApp, ctyValue cty.Value) (resource.Mana
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeCodedeployApp_ComputePlatform(&new.Spec.ForProvider, valMap)
-	DecodeCodedeployApp_Id(&new.Spec.ForProvider, valMap)
 	DecodeCodedeployApp_Name(&new.Spec.ForProvider, valMap)
 	DecodeCodedeployApp_UniqueId(&new.Spec.ForProvider, valMap)
 
@@ -54,11 +53,6 @@ func DecodeCodedeployApp(prev *CodedeployApp, ctyValue cty.Value) (resource.Mana
 //primitiveTypeDecodeTemplate
 func DecodeCodedeployApp_ComputePlatform(p *CodedeployAppParameters, vals map[string]cty.Value) {
 	p.ComputePlatform = ctwhy.ValueAsString(vals["compute_platform"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCodedeployApp_Id(p *CodedeployAppParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

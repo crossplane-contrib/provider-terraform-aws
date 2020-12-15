@@ -41,12 +41,11 @@ func DecodeCodeartifactDomain(prev *CodeartifactDomain, ctyValue cty.Value) (res
 	new := prev.DeepCopy()
 	DecodeCodeartifactDomain_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomain_EncryptionKey(&new.Spec.ForProvider, valMap)
-	DecodeCodeartifactDomain_Id(&new.Spec.ForProvider, valMap)
-	DecodeCodeartifactDomain_Owner(&new.Status.AtProvider, valMap)
-	DecodeCodeartifactDomain_RepositoryCount(&new.Status.AtProvider, valMap)
 	DecodeCodeartifactDomain_Arn(&new.Status.AtProvider, valMap)
 	DecodeCodeartifactDomain_AssetSizeBytes(&new.Status.AtProvider, valMap)
 	DecodeCodeartifactDomain_CreatedTime(&new.Status.AtProvider, valMap)
+	DecodeCodeartifactDomain_Owner(&new.Status.AtProvider, valMap)
+	DecodeCodeartifactDomain_RepositoryCount(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -65,21 +64,6 @@ func DecodeCodeartifactDomain_EncryptionKey(p *CodeartifactDomainParameters, val
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCodeartifactDomain_Id(p *CodeartifactDomainParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCodeartifactDomain_Owner(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
-	p.Owner = ctwhy.ValueAsString(vals["owner"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCodeartifactDomain_RepositoryCount(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
-	p.RepositoryCount = ctwhy.ValueAsInt64(vals["repository_count"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_Arn(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
@@ -92,4 +76,14 @@ func DecodeCodeartifactDomain_AssetSizeBytes(p *CodeartifactDomainObservation, v
 //primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_CreatedTime(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
 	p.CreatedTime = ctwhy.ValueAsString(vals["created_time"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodeartifactDomain_Owner(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
+	p.Owner = ctwhy.ValueAsString(vals["owner"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodeartifactDomain_RepositoryCount(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
+	p.RepositoryCount = ctwhy.ValueAsInt64(vals["repository_count"])
 }

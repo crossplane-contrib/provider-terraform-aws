@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeMskConfiguration(prev *MskConfiguration, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeMskConfiguration_ServerProperties(&new.Spec.ForProvider, valMap)
 	DecodeMskConfiguration_Description(&new.Spec.ForProvider, valMap)
-	DecodeMskConfiguration_Id(&new.Spec.ForProvider, valMap)
 	DecodeMskConfiguration_KafkaVersions(&new.Spec.ForProvider, valMap)
 	DecodeMskConfiguration_Name(&new.Spec.ForProvider, valMap)
+	DecodeMskConfiguration_ServerProperties(&new.Spec.ForProvider, valMap)
 	DecodeMskConfiguration_Arn(&new.Status.AtProvider, valMap)
 	DecodeMskConfiguration_LatestRevision(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -54,18 +53,8 @@ func DecodeMskConfiguration(prev *MskConfiguration, ctyValue cty.Value) (resourc
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeMskConfiguration_ServerProperties(p *MskConfigurationParameters, vals map[string]cty.Value) {
-	p.ServerProperties = ctwhy.ValueAsString(vals["server_properties"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeMskConfiguration_Description(p *MskConfigurationParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeMskConfiguration_Id(p *MskConfigurationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -80,6 +69,11 @@ func DecodeMskConfiguration_KafkaVersions(p *MskConfigurationParameters, vals ma
 //primitiveTypeDecodeTemplate
 func DecodeMskConfiguration_Name(p *MskConfigurationParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMskConfiguration_ServerProperties(p *MskConfigurationParameters, vals map[string]cty.Value) {
+	p.ServerProperties = ctwhy.ValueAsString(vals["server_properties"])
 }
 
 //primitiveTypeDecodeTemplate

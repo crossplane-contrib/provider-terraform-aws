@@ -40,7 +40,6 @@ func DecodeDatapipelinePipeline(prev *DatapipelinePipeline, ctyValue cty.Value) 
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeDatapipelinePipeline_Description(&new.Spec.ForProvider, valMap)
-	DecodeDatapipelinePipeline_Id(&new.Spec.ForProvider, valMap)
 	DecodeDatapipelinePipeline_Name(&new.Spec.ForProvider, valMap)
 	DecodeDatapipelinePipeline_Tags(&new.Spec.ForProvider, valMap)
 
@@ -54,11 +53,6 @@ func DecodeDatapipelinePipeline(prev *DatapipelinePipeline, ctyValue cty.Value) 
 //primitiveTypeDecodeTemplate
 func DecodeDatapipelinePipeline_Description(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDatapipelinePipeline_Id(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

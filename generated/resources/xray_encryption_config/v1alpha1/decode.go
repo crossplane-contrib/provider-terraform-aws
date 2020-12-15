@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeXrayEncryptionConfig(prev *XrayEncryptionConfig, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeXrayEncryptionConfig_Id(&new.Spec.ForProvider, valMap)
 	DecodeXrayEncryptionConfig_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeXrayEncryptionConfig_Type(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeXrayEncryptionConfig(prev *XrayEncryptionConfig, ctyValue cty.Value) 
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeXrayEncryptionConfig_Id(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

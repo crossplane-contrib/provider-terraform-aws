@@ -31,47 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeConfigOrganizationCustomRule_ExcludedAccounts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationCustomRule_LambdaFunctionArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeConfigOrganizationCustomRule_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeConfigOrganizationCustomRule_ResourceIdScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationCustomRule_TagValueScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationCustomRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationCustomRule_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationCustomRule_InputParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationCustomRule_MaximumExecutionFrequency(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeConfigOrganizationCustomRule_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,7 +51,37 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeConfigOrganizationCustomRule_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationCustomRule_ExcludedAccounts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationCustomRule_LambdaFunctionArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeConfigOrganizationCustomRule_TriggerTypes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationCustomRule_InputParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationCustomRule_MaximumExecutionFrequency(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeConfigOrganizationCustomRule_TagValueScope(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -111,9 +106,59 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationCustomRule_Name(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationCustomRule_ResourceIdScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceIdScope != p.ResourceIdScope {
+		p.ResourceIdScope = k.ResourceIdScope
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeConfigOrganizationCustomRule_ResourceTypesScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ResourceTypesScope, p.ResourceTypesScope) {
+		p.ResourceTypesScope = k.ResourceTypesScope
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationCustomRule_TagKeyScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
+	if k.TagKeyScope != p.TagKeyScope {
+		p.TagKeyScope = k.TagKeyScope
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeConfigOrganizationCustomRule_Description(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeConfigOrganizationCustomRule_ExcludedAccounts(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ExcludedAccounts, p.ExcludedAccounts) {
+	if !plugin.CompareStringSlices(k.ExcludedAccounts, p.ExcludedAccounts) {
 		p.ExcludedAccounts = k.ExcludedAccounts
 		md.NeedsProviderUpdate = true
 		return true
@@ -131,40 +176,10 @@ func MergeConfigOrganizationCustomRule_LambdaFunctionArn(k *ConfigOrganizationCu
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationCustomRule_ResourceIdScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if k.ResourceIdScope != p.ResourceIdScope {
-		p.ResourceIdScope = k.ResourceIdScope
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationCustomRule_TagValueScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if k.TagValueScope != p.TagValueScope {
-		p.TagValueScope = k.TagValueScope
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationCustomRule_Description(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationCustomRule_Id(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+//mergePrimitiveContainerTemplateSpec
+func MergeConfigOrganizationCustomRule_TriggerTypes(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.TriggerTypes, p.TriggerTypes) {
+		p.TriggerTypes = k.TriggerTypes
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -192,39 +207,9 @@ func MergeConfigOrganizationCustomRule_MaximumExecutionFrequency(k *ConfigOrgani
 }
 
 //mergePrimitiveTemplateSpec
-func MergeConfigOrganizationCustomRule_Name(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeConfigOrganizationCustomRule_ResourceTypesScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.ResourceTypesScope, p.ResourceTypesScope) {
-		p.ResourceTypesScope = k.ResourceTypesScope
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeConfigOrganizationCustomRule_TagKeyScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if k.TagKeyScope != p.TagKeyScope {
-		p.TagKeyScope = k.TagKeyScope
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeConfigOrganizationCustomRule_TriggerTypes(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.TriggerTypes, p.TriggerTypes) {
-		p.TriggerTypes = k.TriggerTypes
+func MergeConfigOrganizationCustomRule_TagValueScope(k *ConfigOrganizationCustomRuleParameters, p *ConfigOrganizationCustomRuleParameters, md *plugin.MergeDescription) bool {
+	if k.TagValueScope != p.TagValueScope {
+		p.TagValueScope = k.TagValueScope
 		md.NeedsProviderUpdate = true
 		return true
 	}

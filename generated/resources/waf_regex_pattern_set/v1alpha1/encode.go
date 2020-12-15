@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeWafRegexPatternSet(r WafRegexPatternSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeWafRegexPatternSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Name(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_RegexPatternStrings(r.Spec.ForProvider, ctyVal)
 	EncodeWafRegexPatternSet_Arn(r.Status.AtProvider, ctyVal)
@@ -49,10 +48,6 @@ func EncodeWafRegexPatternSet(r WafRegexPatternSet) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeWafRegexPatternSet_Id(p WafRegexPatternSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeWafRegexPatternSet_Name(p WafRegexPatternSetParameters, vals map[string]cty.Value) {

@@ -52,11 +52,10 @@ type VpcEndpointConnectionNotificationSpec struct {
 
 // A VpcEndpointConnectionNotificationParameters defines the desired state of a VpcEndpointConnectionNotification
 type VpcEndpointConnectionNotificationParameters struct {
-	VpcEndpointServiceId      string   `json:"vpc_endpoint_service_id"`
 	ConnectionEvents          []string `json:"connection_events"`
 	ConnectionNotificationArn string   `json:"connection_notification_arn"`
-	Id                        string   `json:"id"`
 	VpcEndpointId             string   `json:"vpc_endpoint_id"`
+	VpcEndpointServiceId      string   `json:"vpc_endpoint_service_id"`
 }
 
 // A VpcEndpointConnectionNotificationStatus defines the observed state of a VpcEndpointConnectionNotification

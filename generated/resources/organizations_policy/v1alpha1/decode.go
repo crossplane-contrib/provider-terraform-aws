@@ -41,7 +41,6 @@ func DecodeOrganizationsPolicy(prev *OrganizationsPolicy, ctyValue cty.Value) (r
 	new := prev.DeepCopy()
 	DecodeOrganizationsPolicy_Content(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicy_Description(&new.Spec.ForProvider, valMap)
-	DecodeOrganizationsPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicy_Name(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicy_Tags(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicy_Type(&new.Spec.ForProvider, valMap)
@@ -61,11 +60,6 @@ func DecodeOrganizationsPolicy_Content(p *OrganizationsPolicyParameters, vals ma
 //primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Description(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOrganizationsPolicy_Id(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

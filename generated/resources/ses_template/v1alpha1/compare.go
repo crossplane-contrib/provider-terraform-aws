@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSesTemplate_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSesTemplate_Html(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSesTemplate_Html(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -68,9 +63,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSesTemplate_Id(k *SesTemplateParameters, p *SesTemplateParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSesTemplate_Html(k *SesTemplateParameters, p *SesTemplateParameters, md *plugin.MergeDescription) bool {
+	if k.Html != p.Html {
+		p.Html = k.Html
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -101,16 +96,6 @@ func MergeSesTemplate_Subject(k *SesTemplateParameters, p *SesTemplateParameters
 func MergeSesTemplate_Text(k *SesTemplateParameters, p *SesTemplateParameters, md *plugin.MergeDescription) bool {
 	if k.Text != p.Text {
 		p.Text = k.Text
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSesTemplate_Html(k *SesTemplateParameters, p *SesTemplateParameters, md *plugin.MergeDescription) bool {
-	if k.Html != p.Html {
-		p.Html = k.Html
 		md.NeedsProviderUpdate = true
 		return true
 	}

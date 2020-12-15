@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRoute53ZoneAssociation(prev *Route53ZoneAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRoute53ZoneAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ZoneAssociation_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ZoneAssociation_VpcRegion(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ZoneAssociation_ZoneId(&new.Spec.ForProvider, valMap)
@@ -49,11 +48,6 @@ func DecodeRoute53ZoneAssociation(prev *Route53ZoneAssociation, ctyValue cty.Val
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53ZoneAssociation_Id(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

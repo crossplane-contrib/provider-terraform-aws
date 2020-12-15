@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSecurityhubProductSubscription(prev *SecurityhubProductSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSecurityhubProductSubscription_Id(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubProductSubscription_ProductArn(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubProductSubscription_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeSecurityhubProductSubscription(prev *SecurityhubProductSubscription, 
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSecurityhubProductSubscription_Id(p *SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

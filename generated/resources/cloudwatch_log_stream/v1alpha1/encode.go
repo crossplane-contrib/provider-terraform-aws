@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudwatchLogStream(r CloudwatchLogStream) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCloudwatchLogStream_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_LogGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogStream_Arn(r.Status.AtProvider, ctyVal)
@@ -49,10 +48,6 @@ func EncodeCloudwatchLogStream(r CloudwatchLogStream) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCloudwatchLogStream_Id(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogStream_LogGroupName(p CloudwatchLogStreamParameters, vals map[string]cty.Value) {

@@ -31,17 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamPolicy_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -57,6 +47,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeIamPolicy_Path(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,29 +72,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeIamPolicy_Policy(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Policy != p.Policy {
-		p.Policy = k.Policy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeIamPolicy_Description(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.Description != p.Description {
 		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamPolicy_Id(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -130,6 +105,16 @@ func MergeIamPolicy_NamePrefix(k *IamPolicyParameters, p *IamPolicyParameters, m
 func MergeIamPolicy_Path(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.Path != p.Path {
 		p.Path = k.Path
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamPolicy_Policy(k *IamPolicyParameters, p *IamPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Policy != p.Policy {
+		p.Policy = k.Policy
 		md.NeedsProviderUpdate = true
 		return true
 	}

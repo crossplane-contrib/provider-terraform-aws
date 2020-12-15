@@ -45,7 +45,6 @@ func DecodeAppautoscalingTarget(prev *AppautoscalingTarget, ctyValue cty.Value) 
 	DecodeAppautoscalingTarget_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeAppautoscalingTarget_ScalableDimension(&new.Spec.ForProvider, valMap)
 	DecodeAppautoscalingTarget_ServiceNamespace(&new.Spec.ForProvider, valMap)
-	DecodeAppautoscalingTarget_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -82,9 +81,4 @@ func DecodeAppautoscalingTarget_ScalableDimension(p *AppautoscalingTargetParamet
 //primitiveTypeDecodeTemplate
 func DecodeAppautoscalingTarget_ServiceNamespace(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	p.ServiceNamespace = ctwhy.ValueAsString(vals["service_namespace"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAppautoscalingTarget_Id(p *AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

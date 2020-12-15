@@ -51,9 +51,7 @@ type SecurityhubAccountSpec struct {
 }
 
 // A SecurityhubAccountParameters defines the desired state of a SecurityhubAccount
-type SecurityhubAccountParameters struct {
-	Id string `json:"id"`
-}
+type SecurityhubAccountParameters struct{}
 
 // A SecurityhubAccountStatus defines the observed state of a SecurityhubAccount
 type SecurityhubAccountStatus struct {

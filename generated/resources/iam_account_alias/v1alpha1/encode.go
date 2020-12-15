@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeIamAccountAlias(r IamAccountAlias) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeIamAccountAlias_AccountAlias(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccountAlias_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,8 +51,4 @@ func EncodeIamAccountAlias(r IamAccountAlias) cty.Value {
 
 func EncodeIamAccountAlias_AccountAlias(p IamAccountAliasParameters, vals map[string]cty.Value) {
 	vals["account_alias"] = cty.StringVal(p.AccountAlias)
-}
-
-func EncodeIamAccountAlias_Id(p IamAccountAliasParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

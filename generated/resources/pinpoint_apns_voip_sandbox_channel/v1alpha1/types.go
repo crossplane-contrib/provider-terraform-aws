@@ -53,15 +53,14 @@ type PinpointApnsVoipSandboxChannelSpec struct {
 // A PinpointApnsVoipSandboxChannelParameters defines the desired state of a PinpointApnsVoipSandboxChannel
 type PinpointApnsVoipSandboxChannelParameters struct {
 	BundleId                    string `json:"bundle_id"`
-	Id                          string `json:"id"`
-	TeamId                      string `json:"team_id"`
+	Enabled                     bool   `json:"enabled"`
+	TokenKey                    string `json:"token_key"`
 	TokenKeyId                  string `json:"token_key_id"`
+	TeamId                      string `json:"team_id"`
 	ApplicationId               string `json:"application_id"`
 	Certificate                 string `json:"certificate"`
 	DefaultAuthenticationMethod string `json:"default_authentication_method"`
-	Enabled                     bool   `json:"enabled"`
 	PrivateKey                  string `json:"private_key"`
-	TokenKey                    string `json:"token_key"`
 }
 
 // A PinpointApnsVoipSandboxChannelStatus defines the observed state of a PinpointApnsVoipSandboxChannel

@@ -41,7 +41,6 @@ func DecodeXrayGroup(prev *XrayGroup, ctyValue cty.Value) (resource.Managed, err
 	new := prev.DeepCopy()
 	DecodeXrayGroup_FilterExpression(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_GroupName(&new.Spec.ForProvider, valMap)
-	DecodeXrayGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -59,11 +58,6 @@ func DecodeXrayGroup_FilterExpression(p *XrayGroupParameters, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeXrayGroup_GroupName(p *XrayGroupParameters, vals map[string]cty.Value) {
 	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeXrayGroup_Id(p *XrayGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate

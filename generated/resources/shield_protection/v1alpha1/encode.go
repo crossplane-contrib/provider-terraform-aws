@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeShieldProtection(r ShieldProtection) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeShieldProtection_Id(r.Spec.ForProvider, ctyVal)
 	EncodeShieldProtection_Name(r.Spec.ForProvider, ctyVal)
 	EncodeShieldProtection_ResourceArn(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeShieldProtection(r ShieldProtection) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeShieldProtection_Id(p ShieldProtectionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeShieldProtection_Name(p ShieldProtectionParameters, vals map[string]cty.Value) {

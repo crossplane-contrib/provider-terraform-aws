@@ -53,7 +53,6 @@ type CustomerGatewaySpec struct {
 // A CustomerGatewayParameters defines the desired state of a CustomerGateway
 type CustomerGatewayParameters struct {
 	BgpAsn    string            `json:"bgp_asn"`
-	Id        string            `json:"id"`
 	IpAddress string            `json:"ip_address"`
 	Tags      map[string]string `json:"tags"`
 	Type      string            `json:"type"`

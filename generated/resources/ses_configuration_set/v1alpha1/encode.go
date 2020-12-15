@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesConfigurationSet(r SesConfigurationSet) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesConfigurationSet_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesConfigurationSet_Name(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -48,10 +47,6 @@ func EncodeSesConfigurationSet(r SesConfigurationSet) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSesConfigurationSet_Id(p SesConfigurationSetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSesConfigurationSet_Name(p SesConfigurationSetParameters, vals map[string]cty.Value) {

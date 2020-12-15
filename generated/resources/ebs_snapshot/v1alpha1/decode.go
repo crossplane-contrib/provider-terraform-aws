@@ -39,14 +39,13 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEbsSnapshot(prev *EbsSnapshot, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEbsSnapshot_Id(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshot_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshot_Description(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshot_VolumeId(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshot_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeEbsSnapshot_OwnerAlias(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshot_Arn(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshot_KmsKeyId(&new.Status.AtProvider, valMap)
+	DecodeEbsSnapshot_OwnerAlias(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshot_OwnerId(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshot_VolumeSize(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshot_DataEncryptionKeyId(&new.Status.AtProvider, valMap)
@@ -56,11 +55,6 @@ func DecodeEbsSnapshot(prev *EbsSnapshot, ctyValue cty.Value) (resource.Managed,
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEbsSnapshot_Id(p *EbsSnapshotParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -102,11 +96,6 @@ func DecodeEbsSnapshot_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEbsSnapshot_OwnerAlias(p *EbsSnapshotObservation, vals map[string]cty.Value) {
-	p.OwnerAlias = ctwhy.ValueAsString(vals["owner_alias"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeEbsSnapshot_Arn(p *EbsSnapshotObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
@@ -114,6 +103,11 @@ func DecodeEbsSnapshot_Arn(p *EbsSnapshotObservation, vals map[string]cty.Value)
 //primitiveTypeDecodeTemplate
 func DecodeEbsSnapshot_KmsKeyId(p *EbsSnapshotObservation, vals map[string]cty.Value) {
 	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshot_OwnerAlias(p *EbsSnapshotObservation, vals map[string]cty.Value) {
+	p.OwnerAlias = ctwhy.ValueAsString(vals["owner_alias"])
 }
 
 //primitiveTypeDecodeTemplate

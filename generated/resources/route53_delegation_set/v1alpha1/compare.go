@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRoute53DelegationSet_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRoute53DelegationSet_ReferenceName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -57,16 +52,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRoute53DelegationSet_Id(k *Route53DelegationSetParameters, p *Route53DelegationSetParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeRoute53DelegationSet_ReferenceName(k *Route53DelegationSetParameters, p *Route53DelegationSetParameters, md *plugin.MergeDescription) bool {
 	if k.ReferenceName != p.ReferenceName {
 		p.ReferenceName = k.ReferenceName
@@ -78,7 +63,7 @@ func MergeRoute53DelegationSet_ReferenceName(k *Route53DelegationSetParameters, 
 
 //mergePrimitiveContainerTemplateStatus
 func MergeRoute53DelegationSet_NameServers(k *Route53DelegationSetObservation, p *Route53DelegationSetObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.NameServers, p.NameServers) {
+	if !plugin.CompareStringSlices(k.NameServers, p.NameServers) {
 		k.NameServers = p.NameServers
 		md.StatusUpdated = true
 		return true

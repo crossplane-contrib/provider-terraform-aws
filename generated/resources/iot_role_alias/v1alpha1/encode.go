@@ -37,10 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotRoleAlias(r IotRoleAlias) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIotRoleAlias_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeIotRoleAlias_Alias(r.Spec.ForProvider, ctyVal)
 	EncodeIotRoleAlias_CredentialDuration(r.Spec.ForProvider, ctyVal)
-	EncodeIotRoleAlias_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIotRoleAlias_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeIotRoleAlias_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,20 +51,16 @@ func EncodeIotRoleAlias(r IotRoleAlias) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeIotRoleAlias_RoleArn(p IotRoleAliasParameters, vals map[string]cty.Value) {
+	vals["role_arn"] = cty.StringVal(p.RoleArn)
+}
+
 func EncodeIotRoleAlias_Alias(p IotRoleAliasParameters, vals map[string]cty.Value) {
 	vals["alias"] = cty.StringVal(p.Alias)
 }
 
 func EncodeIotRoleAlias_CredentialDuration(p IotRoleAliasParameters, vals map[string]cty.Value) {
 	vals["credential_duration"] = cty.NumberIntVal(p.CredentialDuration)
-}
-
-func EncodeIotRoleAlias_Id(p IotRoleAliasParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIotRoleAlias_RoleArn(p IotRoleAliasParameters, vals map[string]cty.Value) {
-	vals["role_arn"] = cty.StringVal(p.RoleArn)
 }
 
 func EncodeIotRoleAlias_Arn(p IotRoleAliasObservation, vals map[string]cty.Value) {

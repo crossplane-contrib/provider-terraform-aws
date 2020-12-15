@@ -37,9 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeStoragegatewayWorkingStorage(r StoragegatewayWorkingStorage) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeStoragegatewayWorkingStorage_GatewayArn(r.Spec.ForProvider, ctyVal)
-	EncodeStoragegatewayWorkingStorage_Id(r.Spec.ForProvider, ctyVal)
 	EncodeStoragegatewayWorkingStorage_DiskId(r.Spec.ForProvider, ctyVal)
+	EncodeStoragegatewayWorkingStorage_GatewayArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +50,10 @@ func EncodeStoragegatewayWorkingStorage(r StoragegatewayWorkingStorage) cty.Valu
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeStoragegatewayWorkingStorage_GatewayArn(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
-	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
-}
-
-func EncodeStoragegatewayWorkingStorage_Id(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeStoragegatewayWorkingStorage_DiskId(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
 	vals["disk_id"] = cty.StringVal(p.DiskId)
+}
+
+func EncodeStoragegatewayWorkingStorage_GatewayArn(p StoragegatewayWorkingStorageParameters, vals map[string]cty.Value) {
+	vals["gateway_arn"] = cty.StringVal(p.GatewayArn)
 }

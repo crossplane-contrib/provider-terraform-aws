@@ -42,7 +42,6 @@ func DecodeAppsyncApiKey(prev *AppsyncApiKey, ctyValue cty.Value) (resource.Mana
 	DecodeAppsyncApiKey_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncApiKey_Description(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncApiKey_Expires(&new.Spec.ForProvider, valMap)
-	DecodeAppsyncApiKey_Id(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncApiKey_Key(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -64,11 +63,6 @@ func DecodeAppsyncApiKey_Description(p *AppsyncApiKeyParameters, vals map[string
 //primitiveTypeDecodeTemplate
 func DecodeAppsyncApiKey_Expires(p *AppsyncApiKeyParameters, vals map[string]cty.Value) {
 	p.Expires = ctwhy.ValueAsString(vals["expires"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAppsyncApiKey_Id(p *AppsyncApiKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

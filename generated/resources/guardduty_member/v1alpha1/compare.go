@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGuarddutyMember_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGuarddutyMember_InvitationMessage(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -110,16 +105,6 @@ func MergeGuarddutyMember_DisableEmailNotification(k *GuarddutyMemberParameters,
 func MergeGuarddutyMember_Email(k *GuarddutyMemberParameters, p *GuarddutyMemberParameters, md *plugin.MergeDescription) bool {
 	if k.Email != p.Email {
 		p.Email = k.Email
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyMember_Id(k *GuarddutyMemberParameters, p *GuarddutyMemberParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

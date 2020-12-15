@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRedshiftSnapshotScheduleAssociation(prev *RedshiftSnapshotScheduleAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRedshiftSnapshotScheduleAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotScheduleAssociation_ScheduleIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotScheduleAssociation_ClusterIdentifier(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeRedshiftSnapshotScheduleAssociation(prev *RedshiftSnapshotScheduleAss
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRedshiftSnapshotScheduleAssociation_Id(p *RedshiftSnapshotScheduleAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

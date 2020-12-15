@@ -39,11 +39,10 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2ClientVpnRoute(prev *Ec2ClientVpnRoute, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2ClientVpnRoute_TargetVpcSubnetId(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnRoute_ClientVpnEndpointId(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnRoute_Description(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnRoute_DestinationCidrBlock(&new.Spec.ForProvider, valMap)
-	DecodeEc2ClientVpnRoute_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2ClientVpnRoute_TargetVpcSubnetId(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnRoute_Origin(&new.Status.AtProvider, valMap)
 	DecodeEc2ClientVpnRoute_Type(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -51,11 +50,6 @@ func DecodeEc2ClientVpnRoute(prev *Ec2ClientVpnRoute, ctyValue cty.Value) (resou
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeEc2ClientVpnRoute_TargetVpcSubnetId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
-	p.TargetVpcSubnetId = ctwhy.ValueAsString(vals["target_vpc_subnet_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -74,8 +68,8 @@ func DecodeEc2ClientVpnRoute_DestinationCidrBlock(p *Ec2ClientVpnRouteParameters
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeEc2ClientVpnRoute_Id(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeEc2ClientVpnRoute_TargetVpcSubnetId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
+	p.TargetVpcSubnetId = ctwhy.ValueAsString(vals["target_vpc_subnet_id"])
 }
 
 //primitiveTypeDecodeTemplate

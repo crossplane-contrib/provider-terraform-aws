@@ -31,37 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRamResourceShareAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeRamResourceShareAccepter_ShareArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeRamResourceShareAccepter_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRamResourceShareAccepter_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRamResourceShareAccepter_Resources(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRamResourceShareAccepter_ShareId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRamResourceShareAccepter_ShareName(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,6 +56,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeRamResourceShareAccepter_ShareId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRamResourceShareAccepter_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRamResourceShareAccepter_Resources(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRamResourceShareAccepter_ShareName(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -89,16 +84,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRamResourceShareAccepter_Id(k *RamResourceShareAccepterParameters, p *RamResourceShareAccepterParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -152,46 +137,6 @@ func MergeRamResourceShareAccepter_Timeouts_Delete(k *Timeouts, p *Timeouts, md 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRamResourceShareAccepter_Status(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.Status != p.Status {
-		k.Status = p.Status
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateStatus
-func MergeRamResourceShareAccepter_Resources(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Resources, p.Resources) {
-		k.Resources = p.Resources
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeRamResourceShareAccepter_ShareId(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.ShareId != p.ShareId {
-		k.ShareId = p.ShareId
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeRamResourceShareAccepter_ShareName(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
-	if k.ShareName != p.ShareName {
-		k.ShareName = p.ShareName
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeRamResourceShareAccepter_InvitationArn(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
 	if k.InvitationArn != p.InvitationArn {
 		k.InvitationArn = p.InvitationArn
@@ -215,6 +160,46 @@ func MergeRamResourceShareAccepter_ReceiverAccountId(k *RamResourceShareAccepter
 func MergeRamResourceShareAccepter_SenderAccountId(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
 	if k.SenderAccountId != p.SenderAccountId {
 		k.SenderAccountId = p.SenderAccountId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRamResourceShareAccepter_ShareId(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.ShareId != p.ShareId {
+		k.ShareId = p.ShareId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRamResourceShareAccepter_Status(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.Status != p.Status {
+		k.Status = p.Status
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateStatus
+func MergeRamResourceShareAccepter_Resources(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Resources, p.Resources) {
+		k.Resources = p.Resources
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRamResourceShareAccepter_ShareName(k *RamResourceShareAccepterObservation, p *RamResourceShareAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.ShareName != p.ShareName {
+		k.ShareName = p.ShareName
 		md.StatusUpdated = true
 		return true
 	}

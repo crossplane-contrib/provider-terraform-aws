@@ -31,26 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeGuarddutyThreatintelset_Activate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeGuarddutyThreatintelset_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeGuarddutyThreatintelset_Format(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeGuarddutyThreatintelset_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGuarddutyThreatintelset_Location(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -62,6 +42,21 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeGuarddutyThreatintelset_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeGuarddutyThreatintelset_Activate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeGuarddutyThreatintelset_DetectorId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeGuarddutyThreatintelset_Format(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -79,6 +74,36 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeGuarddutyThreatintelset_Location(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
+	if k.Location != p.Location {
+		p.Location = k.Location
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeGuarddutyThreatintelset_Name(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeGuarddutyThreatintelset_Tags(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -105,46 +130,6 @@ func MergeGuarddutyThreatintelset_DetectorId(k *GuarddutyThreatintelsetParameter
 func MergeGuarddutyThreatintelset_Format(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
 	if k.Format != p.Format {
 		p.Format = k.Format
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyThreatintelset_Id(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyThreatintelset_Location(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
-	if k.Location != p.Location {
-		p.Location = k.Location
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeGuarddutyThreatintelset_Name(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeGuarddutyThreatintelset_Tags(k *GuarddutyThreatintelsetParameters, p *GuarddutyThreatintelsetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

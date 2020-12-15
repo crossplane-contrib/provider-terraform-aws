@@ -31,22 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEfsMountTarget_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEfsMountTarget_FileSystemId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEfsMountTarget_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEfsMountTarget_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEfsMountTarget_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,7 +46,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEfsMountTarget_NetworkInterfaceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEfsMountTarget_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEfsMountTarget_MountTargetDnsName(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,7 +61,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEfsMountTarget_AvailabilityZoneId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEfsMountTarget_FileSystemArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,17 +71,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEfsMountTarget_FileSystemArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEfsMountTarget_DnsName(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEfsMountTarget_MountTargetDnsName(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeEfsMountTarget_NetworkInterfaceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEfsMountTarget_AvailabilityZoneId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,16 +97,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEfsMountTarget_IpAddress(k *EfsMountTargetParameters, p *EfsMountTargetParameters, md *plugin.MergeDescription) bool {
-	if k.IpAddress != p.IpAddress {
-		p.IpAddress = k.IpAddress
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEfsMountTarget_FileSystemId(k *EfsMountTargetParameters, p *EfsMountTargetParameters, md *plugin.MergeDescription) bool {
 	if k.FileSystemId != p.FileSystemId {
 		p.FileSystemId = k.FileSystemId
@@ -122,9 +107,19 @@ func MergeEfsMountTarget_FileSystemId(k *EfsMountTargetParameters, p *EfsMountTa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEfsMountTarget_Id(k *EfsMountTargetParameters, p *EfsMountTargetParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeEfsMountTarget_IpAddress(k *EfsMountTargetParameters, p *EfsMountTargetParameters, md *plugin.MergeDescription) bool {
+	if k.IpAddress != p.IpAddress {
+		p.IpAddress = k.IpAddress
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEfsMountTarget_SecurityGroups(k *EfsMountTargetParameters, p *EfsMountTargetParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.SecurityGroups, p.SecurityGroups) {
+		p.SecurityGroups = k.SecurityGroups
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -141,20 +136,10 @@ func MergeEfsMountTarget_SubnetId(k *EfsMountTargetParameters, p *EfsMountTarget
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeEfsMountTarget_SecurityGroups(k *EfsMountTargetParameters, p *EfsMountTargetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SecurityGroups, p.SecurityGroups) {
-		p.SecurityGroups = k.SecurityGroups
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateStatus
-func MergeEfsMountTarget_NetworkInterfaceId(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
-	if k.NetworkInterfaceId != p.NetworkInterfaceId {
-		k.NetworkInterfaceId = p.NetworkInterfaceId
+func MergeEfsMountTarget_MountTargetDnsName(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
+	if k.MountTargetDnsName != p.MountTargetDnsName {
+		k.MountTargetDnsName = p.MountTargetDnsName
 		md.StatusUpdated = true
 		return true
 	}
@@ -172,9 +157,9 @@ func MergeEfsMountTarget_OwnerId(k *EfsMountTargetObservation, p *EfsMountTarget
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEfsMountTarget_AvailabilityZoneId(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZoneId != p.AvailabilityZoneId {
-		k.AvailabilityZoneId = p.AvailabilityZoneId
+func MergeEfsMountTarget_FileSystemArn(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
+	if k.FileSystemArn != p.FileSystemArn {
+		k.FileSystemArn = p.FileSystemArn
 		md.StatusUpdated = true
 		return true
 	}
@@ -192,16 +177,6 @@ func MergeEfsMountTarget_AvailabilityZoneName(k *EfsMountTargetObservation, p *E
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEfsMountTarget_FileSystemArn(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
-	if k.FileSystemArn != p.FileSystemArn {
-		k.FileSystemArn = p.FileSystemArn
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeEfsMountTarget_DnsName(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
 	if k.DnsName != p.DnsName {
 		k.DnsName = p.DnsName
@@ -212,9 +187,19 @@ func MergeEfsMountTarget_DnsName(k *EfsMountTargetObservation, p *EfsMountTarget
 }
 
 //mergePrimitiveTemplateStatus
-func MergeEfsMountTarget_MountTargetDnsName(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
-	if k.MountTargetDnsName != p.MountTargetDnsName {
-		k.MountTargetDnsName = p.MountTargetDnsName
+func MergeEfsMountTarget_NetworkInterfaceId(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		k.NetworkInterfaceId = p.NetworkInterfaceId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEfsMountTarget_AvailabilityZoneId(k *EfsMountTargetObservation, p *EfsMountTargetObservation, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZoneId != p.AvailabilityZoneId {
+		k.AvailabilityZoneId = p.AvailabilityZoneId
 		md.StatusUpdated = true
 		return true
 	}

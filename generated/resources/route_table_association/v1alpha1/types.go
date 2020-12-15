@@ -53,7 +53,6 @@ type RouteTableAssociationSpec struct {
 // A RouteTableAssociationParameters defines the desired state of a RouteTableAssociation
 type RouteTableAssociationParameters struct {
 	GatewayId    string `json:"gateway_id"`
-	Id           string `json:"id"`
 	RouteTableId string `json:"route_table_id"`
 	SubnetId     string `json:"subnet_id"`
 }

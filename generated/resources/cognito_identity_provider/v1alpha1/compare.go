@@ -31,6 +31,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeCognitoIdentityProvider_IdpIdentifiers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCognitoIdentityProvider_ProviderDetails(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeCognitoIdentityProvider_ProviderName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,21 +61,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCognitoIdentityProvider_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCognitoIdentityProvider_IdpIdentifiers(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCognitoIdentityProvider_ProviderDetails(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -75,6 +70,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeCognitoIdentityProvider_IdpIdentifiers(k *CognitoIdentityProviderParameters, p *CognitoIdentityProviderParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.IdpIdentifiers, p.IdpIdentifiers) {
+		p.IdpIdentifiers = k.IdpIdentifiers
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeCognitoIdentityProvider_ProviderDetails(k *CognitoIdentityProviderParameters, p *CognitoIdentityProviderParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.ProviderDetails, p.ProviderDetails) {
+		p.ProviderDetails = k.ProviderDetails
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -109,38 +124,8 @@ func MergeCognitoIdentityProvider_UserPoolId(k *CognitoIdentityProviderParameter
 
 //mergePrimitiveContainerTemplateSpec
 func MergeCognitoIdentityProvider_AttributeMapping(k *CognitoIdentityProviderParameters, p *CognitoIdentityProviderParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.AttributeMapping, p.AttributeMapping) {
+	if !plugin.CompareMapString(k.AttributeMapping, p.AttributeMapping) {
 		p.AttributeMapping = k.AttributeMapping
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCognitoIdentityProvider_Id(k *CognitoIdentityProviderParameters, p *CognitoIdentityProviderParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeCognitoIdentityProvider_IdpIdentifiers(k *CognitoIdentityProviderParameters, p *CognitoIdentityProviderParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.IdpIdentifiers, p.IdpIdentifiers) {
-		p.IdpIdentifiers = k.IdpIdentifiers
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeCognitoIdentityProvider_ProviderDetails(k *CognitoIdentityProviderParameters, p *CognitoIdentityProviderParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.ProviderDetails, p.ProviderDetails) {
-		p.ProviderDetails = k.ProviderDetails
 		md.NeedsProviderUpdate = true
 		return true
 	}

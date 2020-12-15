@@ -54,7 +54,6 @@ type CodeartifactDomainPermissionsPolicySpec struct {
 type CodeartifactDomainPermissionsPolicyParameters struct {
 	Domain         string `json:"domain"`
 	DomainOwner    string `json:"domain_owner"`
-	Id             string `json:"id"`
 	PolicyDocument string `json:"policy_document"`
 	PolicyRevision string `json:"policy_revision"`
 }

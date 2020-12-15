@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApiGatewayVpcLink_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApiGatewayVpcLink_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -82,16 +77,6 @@ func MergeApiGatewayVpcLink_Description(k *ApiGatewayVpcLinkParameters, p *ApiGa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApiGatewayVpcLink_Id(k *ApiGatewayVpcLinkParameters, p *ApiGatewayVpcLinkParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeApiGatewayVpcLink_Name(k *ApiGatewayVpcLinkParameters, p *ApiGatewayVpcLinkParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -103,7 +88,7 @@ func MergeApiGatewayVpcLink_Name(k *ApiGatewayVpcLinkParameters, p *ApiGatewayVp
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApiGatewayVpcLink_Tags(k *ApiGatewayVpcLinkParameters, p *ApiGatewayVpcLinkParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -113,7 +98,7 @@ func MergeApiGatewayVpcLink_Tags(k *ApiGatewayVpcLinkParameters, p *ApiGatewayVp
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApiGatewayVpcLink_TargetArns(k *ApiGatewayVpcLinkParameters, p *ApiGatewayVpcLinkParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.TargetArns, p.TargetArns) {
+	if !plugin.CompareStringSlices(k.TargetArns, p.TargetArns) {
 		p.TargetArns = k.TargetArns
 		md.NeedsProviderUpdate = true
 		return true

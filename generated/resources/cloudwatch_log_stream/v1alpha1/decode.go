@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudwatchLogStream(prev *CloudwatchLogStream, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloudwatchLogStream_Id(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogStream_LogGroupName(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogStream_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogStream_Arn(&new.Status.AtProvider, valMap)
@@ -48,11 +47,6 @@ func DecodeCloudwatchLogStream(prev *CloudwatchLogStream, ctyValue cty.Value) (r
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogStream_Id(p *CloudwatchLogStreamParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

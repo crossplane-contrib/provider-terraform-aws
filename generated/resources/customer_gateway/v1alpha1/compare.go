@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCustomerGateway_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCustomerGateway_IpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -82,16 +77,6 @@ func MergeCustomerGateway_BgpAsn(k *CustomerGatewayParameters, p *CustomerGatewa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCustomerGateway_Id(k *CustomerGatewayParameters, p *CustomerGatewayParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeCustomerGateway_IpAddress(k *CustomerGatewayParameters, p *CustomerGatewayParameters, md *plugin.MergeDescription) bool {
 	if k.IpAddress != p.IpAddress {
 		p.IpAddress = k.IpAddress
@@ -103,7 +88,7 @@ func MergeCustomerGateway_IpAddress(k *CustomerGatewayParameters, p *CustomerGat
 
 //mergePrimitiveContainerTemplateSpec
 func MergeCustomerGateway_Tags(k *CustomerGatewayParameters, p *CustomerGatewayParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true

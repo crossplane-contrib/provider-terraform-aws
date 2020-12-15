@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLoadBalancerBackendServerPolicy(r LoadBalancerBackendServerPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLoadBalancerBackendServerPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_InstancePort(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_LoadBalancerName(r.Spec.ForProvider, ctyVal)
 	EncodeLoadBalancerBackendServerPolicy_PolicyNames(r.Spec.ForProvider, ctyVal)
@@ -50,10 +49,6 @@ func EncodeLoadBalancerBackendServerPolicy(r LoadBalancerBackendServerPolicy) ct
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLoadBalancerBackendServerPolicy_Id(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLoadBalancerBackendServerPolicy_InstancePort(p LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {

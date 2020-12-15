@@ -37,13 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRdsClusterEndpoint(r RdsClusterEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_CustomEndpointType(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_ExcludedMembers(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_StaticMembers(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Endpoint(r.Status.AtProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -54,6 +53,14 @@ func EncodeRdsClusterEndpoint(r RdsClusterEndpoint) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	vals["cluster_endpoint_identifier"] = cty.StringVal(p.ClusterEndpointIdentifier)
+}
+
+func EncodeRdsClusterEndpoint_ClusterIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
 }
 
 func EncodeRdsClusterEndpoint_CustomEndpointType(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
@@ -68,8 +75,12 @@ func EncodeRdsClusterEndpoint_ExcludedMembers(p RdsClusterEndpointParameters, va
 	vals["excluded_members"] = cty.SetVal(colVals)
 }
 
-func EncodeRdsClusterEndpoint_Id(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeRdsClusterEndpoint_StaticMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.StaticMembers {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["static_members"] = cty.SetVal(colVals)
 }
 
 func EncodeRdsClusterEndpoint_Tags(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
@@ -82,22 +93,6 @@ func EncodeRdsClusterEndpoint_Tags(p RdsClusterEndpointParameters, vals map[stri
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeRdsClusterEndpoint_ClusterIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
-}
-
-func EncodeRdsClusterEndpoint_StaticMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.StaticMembers {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["static_members"] = cty.SetVal(colVals)
-}
-
-func EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["cluster_endpoint_identifier"] = cty.StringVal(p.ClusterEndpointIdentifier)
 }
 
 func EncodeRdsClusterEndpoint_Endpoint(p RdsClusterEndpointObservation, vals map[string]cty.Value) {

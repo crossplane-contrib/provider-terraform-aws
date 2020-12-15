@@ -52,11 +52,10 @@ type IamUserSshKeySpec struct {
 
 // A IamUserSshKeyParameters defines the desired state of a IamUserSshKey
 type IamUserSshKeyParameters struct {
+	PublicKey string `json:"public_key"`
 	Status    string `json:"status"`
 	Username  string `json:"username"`
 	Encoding  string `json:"encoding"`
-	Id        string `json:"id"`
-	PublicKey string `json:"public_key"`
 }
 
 // A IamUserSshKeyStatus defines the observed state of a IamUserSshKey
@@ -67,6 +66,6 @@ type IamUserSshKeyStatus struct {
 
 // A IamUserSshKeyObservation records the observed state of a IamUserSshKey
 type IamUserSshKeyObservation struct {
-	SshPublicKeyId string `json:"ssh_public_key_id"`
 	Fingerprint    string `json:"fingerprint"`
+	SshPublicKeyId string `json:"ssh_public_key_id"`
 }

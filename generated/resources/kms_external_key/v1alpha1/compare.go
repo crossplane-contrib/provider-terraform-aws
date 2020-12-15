@@ -31,7 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeKmsExternalKey_KeyMaterialBase64(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeKmsExternalKey_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeKmsExternalKey_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeKmsExternalKey_ValidTo(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,31 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeKmsExternalKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKmsExternalKey_KeyMaterialBase64(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKmsExternalKey_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKmsExternalKey_ValidTo(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKmsExternalKey_KeyUsage(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeKmsExternalKey_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -91,6 +81,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeKmsExternalKey_KeyUsage(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
@@ -102,9 +97,39 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeKmsExternalKey_KeyMaterialBase64(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
+	if k.KeyMaterialBase64 != p.KeyMaterialBase64 {
+		p.KeyMaterialBase64 = k.KeyMaterialBase64
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeKmsExternalKey_Policy(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
 	if k.Policy != p.Policy {
 		p.Policy = k.Policy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeKmsExternalKey_Tags(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeKmsExternalKey_ValidTo(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
+	if k.ValidTo != p.ValidTo {
+		p.ValidTo = k.ValidTo
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -141,56 +166,6 @@ func MergeKmsExternalKey_Enabled(k *KmsExternalKeyParameters, p *KmsExternalKeyP
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeKmsExternalKey_Id(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeKmsExternalKey_KeyMaterialBase64(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
-	if k.KeyMaterialBase64 != p.KeyMaterialBase64 {
-		p.KeyMaterialBase64 = k.KeyMaterialBase64
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeKmsExternalKey_Tags(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeKmsExternalKey_ValidTo(k *KmsExternalKeyParameters, p *KmsExternalKeyParameters, md *plugin.MergeDescription) bool {
-	if k.ValidTo != p.ValidTo {
-		p.ValidTo = k.ValidTo
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeKmsExternalKey_KeyUsage(k *KmsExternalKeyObservation, p *KmsExternalKeyObservation, md *plugin.MergeDescription) bool {
-	if k.KeyUsage != p.KeyUsage {
-		k.KeyUsage = p.KeyUsage
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateStatus
 func MergeKmsExternalKey_Arn(k *KmsExternalKeyObservation, p *KmsExternalKeyObservation, md *plugin.MergeDescription) bool {
 	if k.Arn != p.Arn {
@@ -215,6 +190,16 @@ func MergeKmsExternalKey_ExpirationModel(k *KmsExternalKeyObservation, p *KmsExt
 func MergeKmsExternalKey_KeyState(k *KmsExternalKeyObservation, p *KmsExternalKeyObservation, md *plugin.MergeDescription) bool {
 	if k.KeyState != p.KeyState {
 		k.KeyState = p.KeyState
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeKmsExternalKey_KeyUsage(k *KmsExternalKeyObservation, p *KmsExternalKeyObservation, md *plugin.MergeDescription) bool {
+	if k.KeyUsage != p.KeyUsage {
+		k.KeyUsage = p.KeyUsage
 		md.StatusUpdated = true
 		return true
 	}

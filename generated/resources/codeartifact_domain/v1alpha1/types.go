@@ -54,7 +54,6 @@ type CodeartifactDomainSpec struct {
 type CodeartifactDomainParameters struct {
 	Domain        string `json:"domain"`
 	EncryptionKey string `json:"encryption_key"`
-	Id            string `json:"id"`
 }
 
 // A CodeartifactDomainStatus defines the observed state of a CodeartifactDomain
@@ -65,9 +64,9 @@ type CodeartifactDomainStatus struct {
 
 // A CodeartifactDomainObservation records the observed state of a CodeartifactDomain
 type CodeartifactDomainObservation struct {
-	Owner           string `json:"owner"`
-	RepositoryCount int64  `json:"repository_count"`
 	Arn             string `json:"arn"`
 	AssetSizeBytes  int64  `json:"asset_size_bytes"`
 	CreatedTime     string `json:"created_time"`
+	Owner           string `json:"owner"`
+	RepositoryCount int64  `json:"repository_count"`
 }

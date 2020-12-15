@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEgressOnlyInternetGateway(r EgressOnlyInternetGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEgressOnlyInternetGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEgressOnlyInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEgressOnlyInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
 
@@ -49,10 +48,6 @@ func EncodeEgressOnlyInternetGateway(r EgressOnlyInternetGateway) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEgressOnlyInternetGateway_Id(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEgressOnlyInternetGateway_Tags(p EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {

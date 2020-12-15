@@ -52,7 +52,6 @@ type CloudwatchLogDestinationSpec struct {
 
 // A CloudwatchLogDestinationParameters defines the desired state of a CloudwatchLogDestination
 type CloudwatchLogDestinationParameters struct {
-	Id        string `json:"id"`
 	Name      string `json:"name"`
 	RoleArn   string `json:"role_arn"`
 	TargetArn string `json:"target_arn"`

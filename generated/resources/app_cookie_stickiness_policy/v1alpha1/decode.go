@@ -39,27 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAppCookieStickinessPolicy(prev *AppCookieStickinessPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAppCookieStickinessPolicy_Id(&new.Spec.ForProvider, valMap)
-	DecodeAppCookieStickinessPolicy_LbPort(&new.Spec.ForProvider, valMap)
 	DecodeAppCookieStickinessPolicy_LoadBalancer(&new.Spec.ForProvider, valMap)
 	DecodeAppCookieStickinessPolicy_Name(&new.Spec.ForProvider, valMap)
 	DecodeAppCookieStickinessPolicy_CookieName(&new.Spec.ForProvider, valMap)
+	DecodeAppCookieStickinessPolicy_LbPort(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAppCookieStickinessPolicy_Id(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAppCookieStickinessPolicy_LbPort(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	p.LbPort = ctwhy.ValueAsInt64(vals["lb_port"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -75,4 +64,9 @@ func DecodeAppCookieStickinessPolicy_Name(p *AppCookieStickinessPolicyParameters
 //primitiveTypeDecodeTemplate
 func DecodeAppCookieStickinessPolicy_CookieName(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	p.CookieName = ctwhy.ValueAsString(vals["cookie_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeAppCookieStickinessPolicy_LbPort(p *AppCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	p.LbPort = ctwhy.ValueAsInt64(vals["lb_port"])
 }

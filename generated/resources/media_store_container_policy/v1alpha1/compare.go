@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeMediaStoreContainerPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeMediaStoreContainerPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,16 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeMediaStoreContainerPolicy_ContainerName(k *MediaStoreContainerPolicyParameters, p *MediaStoreContainerPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.ContainerName != p.ContainerName {
 		p.ContainerName = k.ContainerName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeMediaStoreContainerPolicy_Id(k *MediaStoreContainerPolicyParameters, p *MediaStoreContainerPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

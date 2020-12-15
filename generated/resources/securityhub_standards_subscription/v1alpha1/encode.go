@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSecurityhubStandardsSubscription(r SecurityhubStandardsSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecurityhubStandardsSubscription_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubStandardsSubscription_StandardsArn(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -48,10 +47,6 @@ func EncodeSecurityhubStandardsSubscription(r SecurityhubStandardsSubscription) 
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSecurityhubStandardsSubscription_Id(p SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSecurityhubStandardsSubscription_StandardsArn(p SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {

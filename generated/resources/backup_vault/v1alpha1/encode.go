@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeBackupVault(r BackupVault) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeBackupVault_Id(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVault_KmsKeyArn(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVault_Name(r.Spec.ForProvider, ctyVal)
 	EncodeBackupVault_Tags(r.Spec.ForProvider, ctyVal)
@@ -51,10 +50,6 @@ func EncodeBackupVault(r BackupVault) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeBackupVault_Id(p BackupVaultParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeBackupVault_KmsKeyArn(p BackupVaultParameters, vals map[string]cty.Value) {

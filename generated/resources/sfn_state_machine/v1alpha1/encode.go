@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeSfnStateMachine_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Definition(r.Spec.ForProvider, ctyVal)
-	EncodeSfnStateMachine_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSfnStateMachine_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSfnStateMachine_Status(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_Arn(r.Status.AtProvider, ctyVal)
 	EncodeSfnStateMachine_CreationDate(r.Status.AtProvider, ctyVal)
@@ -53,6 +52,10 @@ func EncodeSfnStateMachine(r SfnStateMachine) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeSfnStateMachine_Name(p SfnStateMachineParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSfnStateMachine_RoleArn(p SfnStateMachineParameters, vals map[string]cty.Value) {
@@ -73,14 +76,6 @@ func EncodeSfnStateMachine_Tags(p SfnStateMachineParameters, vals map[string]cty
 
 func EncodeSfnStateMachine_Definition(p SfnStateMachineParameters, vals map[string]cty.Value) {
 	vals["definition"] = cty.StringVal(p.Definition)
-}
-
-func EncodeSfnStateMachine_Id(p SfnStateMachineParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSfnStateMachine_Name(p SfnStateMachineParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSfnStateMachine_Status(p SfnStateMachineObservation, vals map[string]cty.Value) {

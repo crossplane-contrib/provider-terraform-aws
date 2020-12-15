@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeElbAttachment_Elb(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeElbAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeElbAttachment_Instance(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeElbAttachment_Elb(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,29 +53,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeElbAttachment_Elb(k *ElbAttachmentParameters, p *ElbAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Elb != p.Elb {
-		p.Elb = k.Elb
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeElbAttachment_Id(k *ElbAttachmentParameters, p *ElbAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeElbAttachment_Instance(k *ElbAttachmentParameters, p *ElbAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.Instance != p.Instance {
 		p.Instance = k.Instance
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeElbAttachment_Elb(k *ElbAttachmentParameters, p *ElbAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Elb != p.Elb {
+		p.Elb = k.Elb
 		md.NeedsProviderUpdate = true
 		return true
 	}

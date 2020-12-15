@@ -52,7 +52,6 @@ type Ec2TransitGatewayRouteTablePropagationSpec struct {
 
 // A Ec2TransitGatewayRouteTablePropagationParameters defines the desired state of a Ec2TransitGatewayRouteTablePropagation
 type Ec2TransitGatewayRouteTablePropagationParameters struct {
-	Id                         string `json:"id"`
 	TransitGatewayAttachmentId string `json:"transit_gateway_attachment_id"`
 	TransitGatewayRouteTableId string `json:"transit_gateway_route_table_id"`
 }

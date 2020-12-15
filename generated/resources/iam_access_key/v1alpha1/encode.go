@@ -40,7 +40,6 @@ func EncodeIamAccessKey(r IamAccessKey) cty.Value {
 	EncodeIamAccessKey_PgpKey(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_Status(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_User(r.Spec.ForProvider, ctyVal)
-	EncodeIamAccessKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamAccessKey_KeyFingerprint(r.Status.AtProvider, ctyVal)
 	EncodeIamAccessKey_Secret(r.Status.AtProvider, ctyVal)
 	EncodeIamAccessKey_SesSmtpPasswordV4(r.Status.AtProvider, ctyVal)
@@ -65,10 +64,6 @@ func EncodeIamAccessKey_Status(p IamAccessKeyParameters, vals map[string]cty.Val
 
 func EncodeIamAccessKey_User(p IamAccessKeyParameters, vals map[string]cty.Value) {
 	vals["user"] = cty.StringVal(p.User)
-}
-
-func EncodeIamAccessKey_Id(p IamAccessKeyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamAccessKey_KeyFingerprint(p IamAccessKeyObservation, vals map[string]cty.Value) {

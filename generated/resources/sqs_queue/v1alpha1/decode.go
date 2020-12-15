@@ -39,21 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSqsQueue(prev *SqsQueue, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSqsQueue_ReceiveWaitTimeSeconds(&new.Spec.ForProvider, valMap)
-	DecodeSqsQueue_ContentBasedDeduplication(&new.Spec.ForProvider, valMap)
-	DecodeSqsQueue_FifoQueue(&new.Spec.ForProvider, valMap)
-	DecodeSqsQueue_Id(&new.Spec.ForProvider, valMap)
-	DecodeSqsQueue_MaxMessageSize(&new.Spec.ForProvider, valMap)
-	DecodeSqsQueue_Tags(&new.Spec.ForProvider, valMap)
-	DecodeSqsQueue_KmsMasterKeyId(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueue_DelaySeconds(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_MessageRetentionSeconds(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueue_ContentBasedDeduplication(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueue_MaxMessageSize(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueue_ReceiveWaitTimeSeconds(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueue_FifoQueue(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_Name(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_VisibilityTimeoutSeconds(&new.Spec.ForProvider, valMap)
-	DecodeSqsQueue_DelaySeconds(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_KmsDataKeyReusePeriodSeconds(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueue_KmsMasterKeyId(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_Policy(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_RedrivePolicy(&new.Spec.ForProvider, valMap)
+	DecodeSqsQueue_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSqsQueue_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -63,8 +62,13 @@ func DecodeSqsQueue(prev *SqsQueue, ctyValue cty.Value) (resource.Managed, error
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSqsQueue_ReceiveWaitTimeSeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
-	p.ReceiveWaitTimeSeconds = ctwhy.ValueAsInt64(vals["receive_wait_time_seconds"])
+func DecodeSqsQueue_DelaySeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
+	p.DelaySeconds = ctwhy.ValueAsInt64(vals["delay_seconds"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSqsQueue_MessageRetentionSeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
+	p.MessageRetentionSeconds = ctwhy.ValueAsInt64(vals["message_retention_seconds"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -73,39 +77,18 @@ func DecodeSqsQueue_ContentBasedDeduplication(p *SqsQueueParameters, vals map[st
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSqsQueue_FifoQueue(p *SqsQueueParameters, vals map[string]cty.Value) {
-	p.FifoQueue = ctwhy.ValueAsBool(vals["fifo_queue"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSqsQueue_Id(p *SqsQueueParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeSqsQueue_MaxMessageSize(p *SqsQueueParameters, vals map[string]cty.Value) {
 	p.MaxMessageSize = ctwhy.ValueAsInt64(vals["max_message_size"])
 }
 
-//primitiveMapTypeDecodeTemplate
-func DecodeSqsQueue_Tags(p *SqsQueueParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
+//primitiveTypeDecodeTemplate
+func DecodeSqsQueue_ReceiveWaitTimeSeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
+	p.ReceiveWaitTimeSeconds = ctwhy.ValueAsInt64(vals["receive_wait_time_seconds"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSqsQueue_KmsMasterKeyId(p *SqsQueueParameters, vals map[string]cty.Value) {
-	p.KmsMasterKeyId = ctwhy.ValueAsString(vals["kms_master_key_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSqsQueue_MessageRetentionSeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
-	p.MessageRetentionSeconds = ctwhy.ValueAsInt64(vals["message_retention_seconds"])
+func DecodeSqsQueue_FifoQueue(p *SqsQueueParameters, vals map[string]cty.Value) {
+	p.FifoQueue = ctwhy.ValueAsBool(vals["fifo_queue"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -119,13 +102,13 @@ func DecodeSqsQueue_VisibilityTimeoutSeconds(p *SqsQueueParameters, vals map[str
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSqsQueue_DelaySeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
-	p.DelaySeconds = ctwhy.ValueAsInt64(vals["delay_seconds"])
+func DecodeSqsQueue_KmsDataKeyReusePeriodSeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
+	p.KmsDataKeyReusePeriodSeconds = ctwhy.ValueAsInt64(vals["kms_data_key_reuse_period_seconds"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeSqsQueue_KmsDataKeyReusePeriodSeconds(p *SqsQueueParameters, vals map[string]cty.Value) {
-	p.KmsDataKeyReusePeriodSeconds = ctwhy.ValueAsInt64(vals["kms_data_key_reuse_period_seconds"])
+func DecodeSqsQueue_KmsMasterKeyId(p *SqsQueueParameters, vals map[string]cty.Value) {
+	p.KmsMasterKeyId = ctwhy.ValueAsString(vals["kms_master_key_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -141,6 +124,17 @@ func DecodeSqsQueue_Policy(p *SqsQueueParameters, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeSqsQueue_RedrivePolicy(p *SqsQueueParameters, vals map[string]cty.Value) {
 	p.RedrivePolicy = ctwhy.ValueAsString(vals["redrive_policy"])
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeSqsQueue_Tags(p *SqsQueueParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate

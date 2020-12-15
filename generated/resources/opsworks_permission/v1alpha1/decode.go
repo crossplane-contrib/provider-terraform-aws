@@ -39,28 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeOpsworksPermission(prev *OpsworksPermission, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeOpsworksPermission_AllowSudo(&new.Spec.ForProvider, valMap)
-	DecodeOpsworksPermission_Id(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksPermission_Level(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksPermission_StackId(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksPermission_UserArn(&new.Spec.ForProvider, valMap)
 	DecodeOpsworksPermission_AllowSsh(&new.Spec.ForProvider, valMap)
+	DecodeOpsworksPermission_AllowSudo(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOpsworksPermission_AllowSudo(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
-	p.AllowSudo = ctwhy.ValueAsBool(vals["allow_sudo"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeOpsworksPermission_Id(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,4 +70,9 @@ func DecodeOpsworksPermission_UserArn(p *OpsworksPermissionParameters, vals map[
 //primitiveTypeDecodeTemplate
 func DecodeOpsworksPermission_AllowSsh(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
 	p.AllowSsh = ctwhy.ValueAsBool(vals["allow_ssh"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeOpsworksPermission_AllowSudo(p *OpsworksPermissionParameters, vals map[string]cty.Value) {
+	p.AllowSudo = ctwhy.ValueAsBool(vals["allow_sudo"])
 }

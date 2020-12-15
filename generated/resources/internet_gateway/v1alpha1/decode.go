@@ -41,7 +41,6 @@ func DecodeInternetGateway(prev *InternetGateway, ctyValue cty.Value) (resource.
 	new := prev.DeepCopy()
 	DecodeInternetGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeInternetGateway_VpcId(&new.Spec.ForProvider, valMap)
-	DecodeInternetGateway_Id(&new.Spec.ForProvider, valMap)
 	DecodeInternetGateway_Arn(&new.Status.AtProvider, valMap)
 	DecodeInternetGateway_OwnerId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -65,11 +64,6 @@ func DecodeInternetGateway_Tags(p *InternetGatewayParameters, vals map[string]ct
 //primitiveTypeDecodeTemplate
 func DecodeInternetGateway_VpcId(p *InternetGatewayParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeInternetGateway_Id(p *InternetGatewayParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

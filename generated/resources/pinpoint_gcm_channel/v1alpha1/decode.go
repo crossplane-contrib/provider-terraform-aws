@@ -42,7 +42,6 @@ func DecodePinpointGcmChannel(prev *PinpointGcmChannel, ctyValue cty.Value) (res
 	DecodePinpointGcmChannel_ApiKey(&new.Spec.ForProvider, valMap)
 	DecodePinpointGcmChannel_ApplicationId(&new.Spec.ForProvider, valMap)
 	DecodePinpointGcmChannel_Enabled(&new.Spec.ForProvider, valMap)
-	DecodePinpointGcmChannel_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -64,9 +63,4 @@ func DecodePinpointGcmChannel_ApplicationId(p *PinpointGcmChannelParameters, val
 //primitiveTypeDecodeTemplate
 func DecodePinpointGcmChannel_Enabled(p *PinpointGcmChannelParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodePinpointGcmChannel_Id(p *PinpointGcmChannelParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

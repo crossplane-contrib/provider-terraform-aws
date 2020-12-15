@@ -40,7 +40,6 @@ func DecodeAmiLaunchPermission(prev *AmiLaunchPermission, ctyValue cty.Value) (r
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeAmiLaunchPermission_AccountId(&new.Spec.ForProvider, valMap)
-	DecodeAmiLaunchPermission_Id(&new.Spec.ForProvider, valMap)
 	DecodeAmiLaunchPermission_ImageId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
@@ -53,11 +52,6 @@ func DecodeAmiLaunchPermission(prev *AmiLaunchPermission, ctyValue cty.Value) (r
 //primitiveTypeDecodeTemplate
 func DecodeAmiLaunchPermission_AccountId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
 	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeAmiLaunchPermission_Id(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

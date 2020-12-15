@@ -52,10 +52,9 @@ type Ec2ClientVpnNetworkAssociationSpec struct {
 
 // A Ec2ClientVpnNetworkAssociationParameters defines the desired state of a Ec2ClientVpnNetworkAssociation
 type Ec2ClientVpnNetworkAssociationParameters struct {
-	ClientVpnEndpointId string   `json:"client_vpn_endpoint_id"`
-	Id                  string   `json:"id"`
 	SecurityGroups      []string `json:"security_groups"`
 	SubnetId            string   `json:"subnet_id"`
+	ClientVpnEndpointId string   `json:"client_vpn_endpoint_id"`
 }
 
 // A Ec2ClientVpnNetworkAssociationStatus defines the observed state of a Ec2ClientVpnNetworkAssociation
@@ -66,7 +65,7 @@ type Ec2ClientVpnNetworkAssociationStatus struct {
 
 // A Ec2ClientVpnNetworkAssociationObservation records the observed state of a Ec2ClientVpnNetworkAssociation
 type Ec2ClientVpnNetworkAssociationObservation struct {
-	AssociationId string `json:"association_id"`
 	Status        string `json:"status"`
 	VpcId         string `json:"vpc_id"`
+	AssociationId string `json:"association_id"`
 }

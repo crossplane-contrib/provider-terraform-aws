@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSpotDatafeedSubscription_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSpotDatafeedSubscription_Prefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,16 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeSpotDatafeedSubscription_Bucket(k *SpotDatafeedSubscriptionParameters, p *SpotDatafeedSubscriptionParameters, md *plugin.MergeDescription) bool {
 	if k.Bucket != p.Bucket {
 		p.Bucket = k.Bucket
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSpotDatafeedSubscription_Id(k *SpotDatafeedSubscriptionParameters, p *SpotDatafeedSubscriptionParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

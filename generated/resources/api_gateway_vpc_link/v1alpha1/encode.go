@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeApiGatewayVpcLink(r ApiGatewayVpcLink) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeApiGatewayVpcLink_Description(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayVpcLink_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_TargetArns(r.Spec.ForProvider, ctyVal)
@@ -55,10 +54,6 @@ func EncodeApiGatewayVpcLink(r ApiGatewayVpcLink) cty.Value {
 
 func EncodeApiGatewayVpcLink_Description(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeApiGatewayVpcLink_Id(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApiGatewayVpcLink_Name(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {

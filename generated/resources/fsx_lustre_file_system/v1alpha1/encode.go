@@ -37,29 +37,28 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeFsxLustreFileSystem(r FsxLustreFileSystem) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeFsxLustreFileSystem_AutoImportPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeFsxLustreFileSystem_DeploymentType(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_DriveCacheType(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_ImportPath(r.Spec.ForProvider, ctyVal)
 	EncodeFsxLustreFileSystem_KmsKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_StorageCapacity(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_AutoImportPolicy(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_PerUnitStorageThroughput(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeFsxLustreFileSystem_StorageType(r.Spec.ForProvider, ctyVal)
 	EncodeFsxLustreFileSystem_AutomaticBackupRetentionDays(r.Spec.ForProvider, ctyVal)
 	EncodeFsxLustreFileSystem_ExportPath(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_SubnetIds(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_ImportPath(r.Spec.ForProvider, ctyVal)
 	EncodeFsxLustreFileSystem_ImportedFileChunkSize(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_PerUnitStorageThroughput(r.Spec.ForProvider, ctyVal)
-	EncodeFsxLustreFileSystem_Id(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_StorageCapacity(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_SubnetIds(r.Spec.ForProvider, ctyVal)
+	EncodeFsxLustreFileSystem_DriveCacheType(r.Spec.ForProvider, ctyVal)
 	EncodeFsxLustreFileSystem_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
-	EncodeFsxLustreFileSystem_VpcId(r.Status.AtProvider, ctyVal)
 	EncodeFsxLustreFileSystem_Arn(r.Status.AtProvider, ctyVal)
 	EncodeFsxLustreFileSystem_DnsName(r.Status.AtProvider, ctyVal)
 	EncodeFsxLustreFileSystem_MountName(r.Status.AtProvider, ctyVal)
 	EncodeFsxLustreFileSystem_NetworkInterfaceIds(r.Status.AtProvider, ctyVal)
+	EncodeFsxLustreFileSystem_VpcId(r.Status.AtProvider, ctyVal)
 	EncodeFsxLustreFileSystem_OwnerId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -71,36 +70,32 @@ func EncodeFsxLustreFileSystem(r FsxLustreFileSystem) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeFsxLustreFileSystem_AutoImportPolicy(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["auto_import_policy"] = cty.StringVal(p.AutoImportPolicy)
-}
-
 func EncodeFsxLustreFileSystem_DeploymentType(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
 	vals["deployment_type"] = cty.StringVal(p.DeploymentType)
 }
 
-func EncodeFsxLustreFileSystem_DriveCacheType(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["drive_cache_type"] = cty.StringVal(p.DriveCacheType)
+func EncodeFsxLustreFileSystem_ImportPath(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["import_path"] = cty.StringVal(p.ImportPath)
 }
 
 func EncodeFsxLustreFileSystem_KmsKeyId(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
 	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
 }
 
-func EncodeFsxLustreFileSystem_StorageCapacity(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["storage_capacity"] = cty.NumberIntVal(p.StorageCapacity)
+func EncodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["weekly_maintenance_start_time"] = cty.StringVal(p.WeeklyMaintenanceStartTime)
 }
 
-func EncodeFsxLustreFileSystem_StorageType(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["storage_type"] = cty.StringVal(p.StorageType)
+func EncodeFsxLustreFileSystem_AutoImportPolicy(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["auto_import_policy"] = cty.StringVal(p.AutoImportPolicy)
 }
 
-func EncodeFsxLustreFileSystem_AutomaticBackupRetentionDays(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["automatic_backup_retention_days"] = cty.NumberIntVal(p.AutomaticBackupRetentionDays)
+func EncodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["daily_automatic_backup_start_time"] = cty.StringVal(p.DailyAutomaticBackupStartTime)
 }
 
-func EncodeFsxLustreFileSystem_ExportPath(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["export_path"] = cty.StringVal(p.ExportPath)
+func EncodeFsxLustreFileSystem_PerUnitStorageThroughput(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["per_unit_storage_throughput"] = cty.NumberIntVal(p.PerUnitStorageThroughput)
 }
 
 func EncodeFsxLustreFileSystem_SecurityGroupIds(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
@@ -123,8 +118,24 @@ func EncodeFsxLustreFileSystem_Tags(p FsxLustreFileSystemParameters, vals map[st
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["weekly_maintenance_start_time"] = cty.StringVal(p.WeeklyMaintenanceStartTime)
+func EncodeFsxLustreFileSystem_StorageType(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["storage_type"] = cty.StringVal(p.StorageType)
+}
+
+func EncodeFsxLustreFileSystem_AutomaticBackupRetentionDays(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["automatic_backup_retention_days"] = cty.NumberIntVal(p.AutomaticBackupRetentionDays)
+}
+
+func EncodeFsxLustreFileSystem_ExportPath(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["export_path"] = cty.StringVal(p.ExportPath)
+}
+
+func EncodeFsxLustreFileSystem_ImportedFileChunkSize(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["imported_file_chunk_size"] = cty.NumberIntVal(p.ImportedFileChunkSize)
+}
+
+func EncodeFsxLustreFileSystem_StorageCapacity(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["storage_capacity"] = cty.NumberIntVal(p.StorageCapacity)
 }
 
 func EncodeFsxLustreFileSystem_SubnetIds(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
@@ -135,24 +146,8 @@ func EncodeFsxLustreFileSystem_SubnetIds(p FsxLustreFileSystemParameters, vals m
 	vals["subnet_ids"] = cty.ListVal(colVals)
 }
 
-func EncodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["daily_automatic_backup_start_time"] = cty.StringVal(p.DailyAutomaticBackupStartTime)
-}
-
-func EncodeFsxLustreFileSystem_ImportPath(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["import_path"] = cty.StringVal(p.ImportPath)
-}
-
-func EncodeFsxLustreFileSystem_ImportedFileChunkSize(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["imported_file_chunk_size"] = cty.NumberIntVal(p.ImportedFileChunkSize)
-}
-
-func EncodeFsxLustreFileSystem_PerUnitStorageThroughput(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["per_unit_storage_throughput"] = cty.NumberIntVal(p.PerUnitStorageThroughput)
-}
-
-func EncodeFsxLustreFileSystem_Id(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeFsxLustreFileSystem_DriveCacheType(p FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	vals["drive_cache_type"] = cty.StringVal(p.DriveCacheType)
 }
 
 func EncodeFsxLustreFileSystem_Timeouts(p Timeouts, vals map[string]cty.Value) {
@@ -168,10 +163,6 @@ func EncodeFsxLustreFileSystem_Timeouts_Create(p Timeouts, vals map[string]cty.V
 
 func EncodeFsxLustreFileSystem_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
-}
-
-func EncodeFsxLustreFileSystem_VpcId(p FsxLustreFileSystemObservation, vals map[string]cty.Value) {
-	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeFsxLustreFileSystem_Arn(p FsxLustreFileSystemObservation, vals map[string]cty.Value) {
@@ -192,6 +183,10 @@ func EncodeFsxLustreFileSystem_NetworkInterfaceIds(p FsxLustreFileSystemObservat
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["network_interface_ids"] = cty.ListVal(colVals)
+}
+
+func EncodeFsxLustreFileSystem_VpcId(p FsxLustreFileSystemObservation, vals map[string]cty.Value) {
+	vals["vpc_id"] = cty.StringVal(p.VpcId)
 }
 
 func EncodeFsxLustreFileSystem_OwnerId(p FsxLustreFileSystemObservation, vals map[string]cty.Value) {

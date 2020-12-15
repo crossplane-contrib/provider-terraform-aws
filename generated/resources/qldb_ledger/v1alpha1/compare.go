@@ -46,11 +46,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeQldbLedger_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeQldbLedger_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -78,7 +73,7 @@ func MergeQldbLedger_Name(k *QldbLedgerParameters, p *QldbLedgerParameters, md *
 
 //mergePrimitiveContainerTemplateSpec
 func MergeQldbLedger_Tags(k *QldbLedgerParameters, p *QldbLedgerParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -90,16 +85,6 @@ func MergeQldbLedger_Tags(k *QldbLedgerParameters, p *QldbLedgerParameters, md *
 func MergeQldbLedger_DeletionProtection(k *QldbLedgerParameters, p *QldbLedgerParameters, md *plugin.MergeDescription) bool {
 	if k.DeletionProtection != p.DeletionProtection {
 		p.DeletionProtection = k.DeletionProtection
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeQldbLedger_Id(k *QldbLedgerParameters, p *QldbLedgerParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

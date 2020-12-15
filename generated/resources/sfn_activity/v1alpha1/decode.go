@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSfnActivity(prev *SfnActivity, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSfnActivity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSfnActivity_Name(&new.Spec.ForProvider, valMap)
 	DecodeSfnActivity_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSfnActivity_CreationDate(&new.Status.AtProvider, valMap)
@@ -48,11 +47,6 @@ func DecodeSfnActivity(prev *SfnActivity, ctyValue cty.Value) (resource.Managed,
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSfnActivity_Id(p *SfnActivityParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

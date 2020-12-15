@@ -40,7 +40,6 @@ func DecodeGuarddutyInviteAccepter(prev *GuarddutyInviteAccepter, ctyValue cty.V
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeGuarddutyInviteAccepter_DetectorId(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyInviteAccepter_Id(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyInviteAccepter_MasterAccountId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyInviteAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
@@ -54,11 +53,6 @@ func DecodeGuarddutyInviteAccepter(prev *GuarddutyInviteAccepter, ctyValue cty.V
 //primitiveTypeDecodeTemplate
 func DecodeGuarddutyInviteAccepter_DetectorId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGuarddutyInviteAccepter_Id(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

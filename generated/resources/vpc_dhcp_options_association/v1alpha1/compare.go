@@ -36,11 +36,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcDhcpOptionsAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVpcDhcpOptionsAssociation_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,16 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 func MergeVpcDhcpOptionsAssociation_DhcpOptionsId(k *VpcDhcpOptionsAssociationParameters, p *VpcDhcpOptionsAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.DhcpOptionsId != p.DhcpOptionsId {
 		p.DhcpOptionsId = k.DhcpOptionsId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVpcDhcpOptionsAssociation_Id(k *VpcDhcpOptionsAssociationParameters, p *VpcDhcpOptionsAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -39,19 +39,18 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxPrivateVirtualInterface(prev *DxPrivateVirtualInterface, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDxPrivateVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Mtu(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_Name(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_VpnGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxPrivateVirtualInterface_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeDxPrivateVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
 	DecodeDxPrivateVirtualInterface_DxGatewayId(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_Id(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_Mtu(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_AddressFamily(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeDxPrivateVirtualInterface_BgpAuthKey(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_VpnGatewayId(&new.Spec.ForProvider, valMap)
+	DecodeDxPrivateVirtualInterface_AddressFamily(&new.Spec.ForProvider, valMap)
 	DecodeDxPrivateVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_Name(&new.Spec.ForProvider, valMap)
-	DecodeDxPrivateVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
 	DecodeDxPrivateVirtualInterface_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDxPrivateVirtualInterface_AmazonSideAsn(&new.Status.AtProvider, valMap)
 	DecodeDxPrivateVirtualInterface_AwsDevice(&new.Status.AtProvider, valMap)
@@ -62,6 +61,31 @@ func DecodeDxPrivateVirtualInterface(prev *DxPrivateVirtualInterface, ctyValue c
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPrivateVirtualInterface_Vlan(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPrivateVirtualInterface_Mtu(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPrivateVirtualInterface_Name(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPrivateVirtualInterface_ConnectionId(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPrivateVirtualInterface_VpnGatewayId(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -76,11 +100,6 @@ func DecodeDxPrivateVirtualInterface_Tags(p *DxPrivateVirtualInterfaceParameters
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_BgpAsn(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDxPrivateVirtualInterface_CustomerAddress(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
 	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
 }
@@ -91,18 +110,8 @@ func DecodeDxPrivateVirtualInterface_DxGatewayId(p *DxPrivateVirtualInterfacePar
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_Id(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_Mtu(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_AddressFamily(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.AddressFamily = ctwhy.ValueAsString(vals["address_family"])
+func DecodeDxPrivateVirtualInterface_BgpAsn(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -111,28 +120,13 @@ func DecodeDxPrivateVirtualInterface_BgpAuthKey(p *DxPrivateVirtualInterfacePara
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_VpnGatewayId(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
+func DecodeDxPrivateVirtualInterface_AddressFamily(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AddressFamily = ctwhy.ValueAsString(vals["address_family"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDxPrivateVirtualInterface_AmazonAddress(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
 	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_ConnectionId(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_Name(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDxPrivateVirtualInterface_Vlan(p *DxPrivateVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
 }
 
 //containerTypeDecodeTemplate

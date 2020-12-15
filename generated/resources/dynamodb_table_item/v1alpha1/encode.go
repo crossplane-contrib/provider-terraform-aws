@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeDynamodbTableItem(r DynamodbTableItem) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeDynamodbTableItem_HashKey(r.Spec.ForProvider, ctyVal)
-	EncodeDynamodbTableItem_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_Item(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_RangeKey(r.Spec.ForProvider, ctyVal)
 	EncodeDynamodbTableItem_TableName(r.Spec.ForProvider, ctyVal)
@@ -55,10 +54,6 @@ func EncodeDynamodbTableItem(r DynamodbTableItem) cty.Value {
 
 func EncodeDynamodbTableItem_HashKey(p DynamodbTableItemParameters, vals map[string]cty.Value) {
 	vals["hash_key"] = cty.StringVal(p.HashKey)
-}
-
-func EncodeDynamodbTableItem_Id(p DynamodbTableItemParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDynamodbTableItem_Item(p DynamodbTableItemParameters, vals map[string]cty.Value) {

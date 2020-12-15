@@ -39,18 +39,33 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeGlueWorkflow(prev *GlueWorkflow, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeGlueWorkflow_DefaultRunProperties(&new.Spec.ForProvider, valMap)
-	DecodeGlueWorkflow_Description(&new.Spec.ForProvider, valMap)
-	DecodeGlueWorkflow_Id(&new.Spec.ForProvider, valMap)
-	DecodeGlueWorkflow_MaxConcurrentRuns(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_Name(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_Tags(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_DefaultRunProperties(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_Description(&new.Spec.ForProvider, valMap)
+	DecodeGlueWorkflow_MaxConcurrentRuns(&new.Spec.ForProvider, valMap)
 	DecodeGlueWorkflow_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeGlueWorkflow_Name(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeGlueWorkflow_Tags(p *GlueWorkflowParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -70,29 +85,8 @@ func DecodeGlueWorkflow_Description(p *GlueWorkflowParameters, vals map[string]c
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeGlueWorkflow_Id(p *GlueWorkflowParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeGlueWorkflow_MaxConcurrentRuns(p *GlueWorkflowParameters, vals map[string]cty.Value) {
 	p.MaxConcurrentRuns = ctwhy.ValueAsInt64(vals["max_concurrent_runs"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeGlueWorkflow_Name(p *GlueWorkflowParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveMapTypeDecodeTemplate
-func DecodeGlueWorkflow_Tags(p *GlueWorkflowParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
 }
 
 //primitiveTypeDecodeTemplate

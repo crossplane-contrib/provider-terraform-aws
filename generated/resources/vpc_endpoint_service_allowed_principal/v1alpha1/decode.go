@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpcEndpointServiceAllowedPrincipal(prev *VpcEndpointServiceAllowedPrincipal, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVpcEndpointServiceAllowedPrincipal_Id(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeVpcEndpointServiceAllowedPrincipal(prev *VpcEndpointServiceAllowedPri
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpcEndpointServiceAllowedPrincipal_Id(p *VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

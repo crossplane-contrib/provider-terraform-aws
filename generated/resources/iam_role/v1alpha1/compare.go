@@ -31,17 +31,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeIamRole_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamRole_MaxSessionDuration(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeIamRole_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamRole_ForceDetachPolicies(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamRole_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamRole_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,32 +76,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIamRole_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamRole_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamRole_ForceDetachPolicies(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeIamRole_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIamRole_UniqueId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeIamRole_CreateDate(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamRole_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -104,16 +99,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamRole_Description(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.Description != p.Description {
-		p.Description = k.Description
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -130,6 +115,36 @@ func MergeIamRole_MaxSessionDuration(k *IamRoleParameters, p *IamRoleParameters,
 func MergeIamRole_NamePrefix(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
 	if k.NamePrefix != p.NamePrefix {
 		p.NamePrefix = k.NamePrefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamRole_ForceDetachPolicies(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
+	if k.ForceDetachPolicies != p.ForceDetachPolicies {
+		p.ForceDetachPolicies = k.ForceDetachPolicies
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamRole_Description(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
+	if k.Description != p.Description {
+		p.Description = k.Description
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamRole_Name(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -158,7 +173,7 @@ func MergeIamRole_PermissionsBoundary(k *IamRoleParameters, p *IamRoleParameters
 
 //mergePrimitiveContainerTemplateSpec
 func MergeIamRole_Tags(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -171,46 +186,6 @@ func MergeIamRole_AssumeRolePolicy(k *IamRoleParameters, p *IamRoleParameters, m
 	if k.AssumeRolePolicy != p.AssumeRolePolicy {
 		p.AssumeRolePolicy = k.AssumeRolePolicy
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamRole_Id(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamRole_Name(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIamRole_ForceDetachPolicies(k *IamRoleParameters, p *IamRoleParameters, md *plugin.MergeDescription) bool {
-	if k.ForceDetachPolicies != p.ForceDetachPolicies {
-		p.ForceDetachPolicies = k.ForceDetachPolicies
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeIamRole_Arn(k *IamRoleObservation, p *IamRoleObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -230,6 +205,16 @@ func MergeIamRole_UniqueId(k *IamRoleObservation, p *IamRoleObservation, md *plu
 func MergeIamRole_CreateDate(k *IamRoleObservation, p *IamRoleObservation, md *plugin.MergeDescription) bool {
 	if k.CreateDate != p.CreateDate {
 		k.CreateDate = p.CreateDate
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamRole_Arn(k *IamRoleObservation, p *IamRoleObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

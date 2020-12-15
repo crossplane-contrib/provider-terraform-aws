@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApigatewayv2RouteResponse_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApigatewayv2RouteResponse_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApigatewayv2RouteResponse_ModelSelectionExpression(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,6 +51,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeApigatewayv2RouteResponse_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,26 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2RouteResponse_ApiId(k *Apigatewayv2RouteResponseParameters, p *Apigatewayv2RouteResponseParameters, md *plugin.MergeDescription) bool {
-	if k.ApiId != p.ApiId {
-		p.ApiId = k.ApiId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2RouteResponse_Id(k *Apigatewayv2RouteResponseParameters, p *Apigatewayv2RouteResponseParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -104,7 +79,7 @@ func MergeApigatewayv2RouteResponse_ModelSelectionExpression(k *Apigatewayv2Rout
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApigatewayv2RouteResponse_ResponseModels(k *Apigatewayv2RouteResponseParameters, p *Apigatewayv2RouteResponseParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.ResponseModels, p.ResponseModels) {
+	if !plugin.CompareMapString(k.ResponseModels, p.ResponseModels) {
 		p.ResponseModels = k.ResponseModels
 		md.NeedsProviderUpdate = true
 		return true
@@ -126,6 +101,16 @@ func MergeApigatewayv2RouteResponse_RouteId(k *Apigatewayv2RouteResponseParamete
 func MergeApigatewayv2RouteResponse_RouteResponseKey(k *Apigatewayv2RouteResponseParameters, p *Apigatewayv2RouteResponseParameters, md *plugin.MergeDescription) bool {
 	if k.RouteResponseKey != p.RouteResponseKey {
 		p.RouteResponseKey = k.RouteResponseKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApigatewayv2RouteResponse_ApiId(k *Apigatewayv2RouteResponseParameters, p *Apigatewayv2RouteResponseParameters, md *plugin.MergeDescription) bool {
+	if k.ApiId != p.ApiId {
+		p.ApiId = k.ApiId
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeIamUserGroupMembership(r IamUserGroupMembership) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeIamUserGroupMembership_Groups(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserGroupMembership_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserGroupMembership_User(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
@@ -57,10 +56,6 @@ func EncodeIamUserGroupMembership_Groups(p IamUserGroupMembershipParameters, val
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["groups"] = cty.SetVal(colVals)
-}
-
-func EncodeIamUserGroupMembership_Id(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeIamUserGroupMembership_User(p IamUserGroupMembershipParameters, vals map[string]cty.Value) {

@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeSesDomainMailFrom_MailFromDomain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeSesDomainMailFrom_BehaviorOnMxFailure(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,7 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeSesDomainMailFrom_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeSesDomainMailFrom_MailFromDomain(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -60,16 +55,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeSesDomainMailFrom_MailFromDomain(k *SesDomainMailFromParameters, p *SesDomainMailFromParameters, md *plugin.MergeDescription) bool {
-	if k.MailFromDomain != p.MailFromDomain {
-		p.MailFromDomain = k.MailFromDomain
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -93,9 +78,9 @@ func MergeSesDomainMailFrom_Domain(k *SesDomainMailFromParameters, p *SesDomainM
 }
 
 //mergePrimitiveTemplateSpec
-func MergeSesDomainMailFrom_Id(k *SesDomainMailFromParameters, p *SesDomainMailFromParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeSesDomainMailFrom_MailFromDomain(k *SesDomainMailFromParameters, p *SesDomainMailFromParameters, md *plugin.MergeDescription) bool {
+	if k.MailFromDomain != p.MailFromDomain {
+		p.MailFromDomain = k.MailFromDomain
 		md.NeedsProviderUpdate = true
 		return true
 	}

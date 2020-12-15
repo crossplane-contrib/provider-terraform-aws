@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeKeyPair_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeKeyPair_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -47,11 +47,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeKeyPair_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeKeyPair_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,10 +76,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeKeyPair_Id(k *KeyPairParameters, p *KeyPairParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+//mergePrimitiveContainerTemplateSpec
+func MergeKeyPair_Tags(k *KeyPairParameters, p *KeyPairParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -115,16 +110,6 @@ func MergeKeyPair_KeyNamePrefix(k *KeyPairParameters, p *KeyPairParameters, md *
 func MergeKeyPair_PublicKey(k *KeyPairParameters, p *KeyPairParameters, md *plugin.MergeDescription) bool {
 	if k.PublicKey != p.PublicKey {
 		p.PublicKey = k.PublicKey
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeKeyPair_Tags(k *KeyPairParameters, p *KeyPairParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

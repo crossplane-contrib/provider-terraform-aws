@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVpnGatewayAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVpnGatewayAttachment_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVpnGatewayAttachment_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVpnGatewayAttachment_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,9 +53,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpnGatewayAttachment_Id(k *VpnGatewayAttachmentParameters, p *VpnGatewayAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeVpnGatewayAttachment_VpnGatewayId(k *VpnGatewayAttachmentParameters, p *VpnGatewayAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.VpnGatewayId != p.VpnGatewayId {
+		p.VpnGatewayId = k.VpnGatewayId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -71,16 +66,6 @@ func MergeVpnGatewayAttachment_Id(k *VpnGatewayAttachmentParameters, p *VpnGatew
 func MergeVpnGatewayAttachment_VpcId(k *VpnGatewayAttachmentParameters, p *VpnGatewayAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.VpcId != p.VpcId {
 		p.VpcId = k.VpcId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVpnGatewayAttachment_VpnGatewayId(k *VpnGatewayAttachmentParameters, p *VpnGatewayAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.VpnGatewayId != p.VpnGatewayId {
-		p.VpnGatewayId = k.VpnGatewayId
 		md.NeedsProviderUpdate = true
 		return true
 	}

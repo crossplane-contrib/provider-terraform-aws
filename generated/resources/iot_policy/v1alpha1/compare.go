@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeIotPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeIotPolicy_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -80,16 +75,6 @@ func MergeIotPolicy_Name(k *IotPolicyParameters, p *IotPolicyParameters, md *plu
 func MergeIotPolicy_Policy(k *IotPolicyParameters, p *IotPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.Policy != p.Policy {
 		p.Policy = k.Policy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeIotPolicy_Id(k *IotPolicyParameters, p *IotPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

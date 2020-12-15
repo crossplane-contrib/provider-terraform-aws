@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeCloudwatchDashboard_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeCloudwatchDashboard_DashboardArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -75,16 +70,6 @@ func MergeCloudwatchDashboard_DashboardBody(k *CloudwatchDashboardParameters, p 
 func MergeCloudwatchDashboard_DashboardName(k *CloudwatchDashboardParameters, p *CloudwatchDashboardParameters, md *plugin.MergeDescription) bool {
 	if k.DashboardName != p.DashboardName {
 		p.DashboardName = k.DashboardName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchDashboard_Id(k *CloudwatchDashboardParameters, p *CloudwatchDashboardParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

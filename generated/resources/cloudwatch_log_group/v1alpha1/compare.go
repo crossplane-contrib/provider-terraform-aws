@@ -31,7 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeCloudwatchLogGroup_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeCloudwatchLogGroup_RetentionInDays(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchLogGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -47,16 +52,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeCloudwatchLogGroup_NamePrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudwatchLogGroup_RetentionInDays(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeCloudwatchLogGroup_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -77,9 +72,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeCloudwatchLogGroup_Id(k *CloudwatchLogGroupParameters, p *CloudwatchLogGroupParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeCloudwatchLogGroup_RetentionInDays(k *CloudwatchLogGroupParameters, p *CloudwatchLogGroupParameters, md *plugin.MergeDescription) bool {
+	if k.RetentionInDays != p.RetentionInDays {
+		p.RetentionInDays = k.RetentionInDays
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeCloudwatchLogGroup_Tags(k *CloudwatchLogGroupParameters, p *CloudwatchLogGroupParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -110,26 +115,6 @@ func MergeCloudwatchLogGroup_Name(k *CloudwatchLogGroupParameters, p *Cloudwatch
 func MergeCloudwatchLogGroup_NamePrefix(k *CloudwatchLogGroupParameters, p *CloudwatchLogGroupParameters, md *plugin.MergeDescription) bool {
 	if k.NamePrefix != p.NamePrefix {
 		p.NamePrefix = k.NamePrefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeCloudwatchLogGroup_RetentionInDays(k *CloudwatchLogGroupParameters, p *CloudwatchLogGroupParameters, md *plugin.MergeDescription) bool {
-	if k.RetentionInDays != p.RetentionInDays {
-		p.RetentionInDays = k.RetentionInDays
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeCloudwatchLogGroup_Tags(k *CloudwatchLogGroupParameters, p *CloudwatchLogGroupParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
-		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

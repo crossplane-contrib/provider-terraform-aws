@@ -31,27 +31,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeOpsworksRdsDbInstance_DbPassword(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeOpsworksRdsDbInstance_DbUser(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeOpsworksRdsDbInstance_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeOpsworksRdsDbInstance_RdsDbInstanceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeOpsworksRdsDbInstance_StackId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeOpsworksRdsDbInstance_DbPassword(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeOpsworksRdsDbInstance_DbUser(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -68,36 +63,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeOpsworksRdsDbInstance_DbPassword(k *OpsworksRdsDbInstanceParameters, p *OpsworksRdsDbInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.DbPassword != p.DbPassword {
-		p.DbPassword = k.DbPassword
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeOpsworksRdsDbInstance_DbUser(k *OpsworksRdsDbInstanceParameters, p *OpsworksRdsDbInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.DbUser != p.DbUser {
-		p.DbUser = k.DbUser
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeOpsworksRdsDbInstance_Id(k *OpsworksRdsDbInstanceParameters, p *OpsworksRdsDbInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeOpsworksRdsDbInstance_RdsDbInstanceArn(k *OpsworksRdsDbInstanceParameters, p *OpsworksRdsDbInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.RdsDbInstanceArn != p.RdsDbInstanceArn {
 		p.RdsDbInstanceArn = k.RdsDbInstanceArn
@@ -111,6 +76,26 @@ func MergeOpsworksRdsDbInstance_RdsDbInstanceArn(k *OpsworksRdsDbInstanceParamet
 func MergeOpsworksRdsDbInstance_StackId(k *OpsworksRdsDbInstanceParameters, p *OpsworksRdsDbInstanceParameters, md *plugin.MergeDescription) bool {
 	if k.StackId != p.StackId {
 		p.StackId = k.StackId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeOpsworksRdsDbInstance_DbPassword(k *OpsworksRdsDbInstanceParameters, p *OpsworksRdsDbInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.DbPassword != p.DbPassword {
+		p.DbPassword = k.DbPassword
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeOpsworksRdsDbInstance_DbUser(k *OpsworksRdsDbInstanceParameters, p *OpsworksRdsDbInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.DbUser != p.DbUser {
+		p.DbUser = k.DbUser
 		md.NeedsProviderUpdate = true
 		return true
 	}

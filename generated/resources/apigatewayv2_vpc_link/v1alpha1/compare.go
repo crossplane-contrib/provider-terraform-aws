@@ -51,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApigatewayv2VpcLink_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApigatewayv2VpcLink_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -83,7 +78,7 @@ func MergeApigatewayv2VpcLink_Name(k *Apigatewayv2VpcLinkParameters, p *Apigatew
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApigatewayv2VpcLink_SecurityGroupIds(k *Apigatewayv2VpcLinkParameters, p *Apigatewayv2VpcLinkParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SecurityGroupIds, p.SecurityGroupIds) {
+	if !plugin.CompareStringSlices(k.SecurityGroupIds, p.SecurityGroupIds) {
 		p.SecurityGroupIds = k.SecurityGroupIds
 		md.NeedsProviderUpdate = true
 		return true
@@ -93,7 +88,7 @@ func MergeApigatewayv2VpcLink_SecurityGroupIds(k *Apigatewayv2VpcLinkParameters,
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApigatewayv2VpcLink_SubnetIds(k *Apigatewayv2VpcLinkParameters, p *Apigatewayv2VpcLinkParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SubnetIds, p.SubnetIds) {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
 		p.SubnetIds = k.SubnetIds
 		md.NeedsProviderUpdate = true
 		return true
@@ -103,18 +98,8 @@ func MergeApigatewayv2VpcLink_SubnetIds(k *Apigatewayv2VpcLinkParameters, p *Api
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApigatewayv2VpcLink_Tags(k *Apigatewayv2VpcLinkParameters, p *Apigatewayv2VpcLinkParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2VpcLink_Id(k *Apigatewayv2VpcLinkParameters, p *Apigatewayv2VpcLinkParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

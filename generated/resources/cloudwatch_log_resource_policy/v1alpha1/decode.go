@@ -39,9 +39,8 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudwatchLogResourcePolicy(prev *CloudwatchLogResourcePolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloudwatchLogResourcePolicy_PolicyName(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchLogResourcePolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogResourcePolicy_PolicyDocument(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogResourcePolicy_PolicyName(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -51,16 +50,11 @@ func DecodeCloudwatchLogResourcePolicy(prev *CloudwatchLogResourcePolicy, ctyVal
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogResourcePolicy_PolicyName(p *CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
-	p.PolicyName = ctwhy.ValueAsString(vals["policy_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogResourcePolicy_Id(p *CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogResourcePolicy_PolicyDocument(p *CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
 	p.PolicyDocument = ctwhy.ValueAsString(vals["policy_document"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchLogResourcePolicy_PolicyName(p *CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
+	p.PolicyName = ctwhy.ValueAsString(vals["policy_name"])
 }

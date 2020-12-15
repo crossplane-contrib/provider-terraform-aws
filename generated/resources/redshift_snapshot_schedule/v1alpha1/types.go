@@ -52,7 +52,6 @@ type RedshiftSnapshotScheduleSpec struct {
 
 // A RedshiftSnapshotScheduleParameters defines the desired state of a RedshiftSnapshotSchedule
 type RedshiftSnapshotScheduleParameters struct {
-	Id               string            `json:"id"`
 	Identifier       string            `json:"identifier"`
 	IdentifierPrefix string            `json:"identifier_prefix"`
 	Tags             map[string]string `json:"tags"`

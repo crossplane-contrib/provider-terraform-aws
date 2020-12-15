@@ -52,7 +52,6 @@ type WafRegexPatternSetSpec struct {
 
 // A WafRegexPatternSetParameters defines the desired state of a WafRegexPatternSet
 type WafRegexPatternSetParameters struct {
-	Id                  string   `json:"id"`
 	Name                string   `json:"name"`
 	RegexPatternStrings []string `json:"regex_pattern_strings"`
 }

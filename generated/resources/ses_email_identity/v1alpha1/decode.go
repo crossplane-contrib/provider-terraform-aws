@@ -40,7 +40,6 @@ func DecodeSesEmailIdentity(prev *SesEmailIdentity, ctyValue cty.Value) (resourc
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSesEmailIdentity_Email(&new.Spec.ForProvider, valMap)
-	DecodeSesEmailIdentity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesEmailIdentity_Arn(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,11 +51,6 @@ func DecodeSesEmailIdentity(prev *SesEmailIdentity, ctyValue cty.Value) (resourc
 //primitiveTypeDecodeTemplate
 func DecodeSesEmailIdentity_Email(p *SesEmailIdentityParameters, vals map[string]cty.Value) {
 	p.Email = ctwhy.ValueAsString(vals["email"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeSesEmailIdentity_Id(p *SesEmailIdentityParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

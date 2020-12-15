@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeGlueCatalogDatabase_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeGlueCatalogDatabase_LocationUri(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -97,16 +92,6 @@ func MergeGlueCatalogDatabase_Description(k *GlueCatalogDatabaseParameters, p *G
 }
 
 //mergePrimitiveTemplateSpec
-func MergeGlueCatalogDatabase_Id(k *GlueCatalogDatabaseParameters, p *GlueCatalogDatabaseParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeGlueCatalogDatabase_LocationUri(k *GlueCatalogDatabaseParameters, p *GlueCatalogDatabaseParameters, md *plugin.MergeDescription) bool {
 	if k.LocationUri != p.LocationUri {
 		p.LocationUri = k.LocationUri
@@ -128,7 +113,7 @@ func MergeGlueCatalogDatabase_Name(k *GlueCatalogDatabaseParameters, p *GlueCata
 
 //mergePrimitiveContainerTemplateSpec
 func MergeGlueCatalogDatabase_Parameters(k *GlueCatalogDatabaseParameters, p *GlueCatalogDatabaseParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Parameters, p.Parameters) {
+	if !plugin.CompareMapString(k.Parameters, p.Parameters) {
 		p.Parameters = k.Parameters
 		md.NeedsProviderUpdate = true
 		return true

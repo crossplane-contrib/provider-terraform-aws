@@ -56,7 +56,6 @@ type Apigatewayv2VpcLinkParameters struct {
 	SecurityGroupIds []string          `json:"security_group_ids"`
 	SubnetIds        []string          `json:"subnet_ids"`
 	Tags             map[string]string `json:"tags"`
-	Id               string            `json:"id"`
 }
 
 // A Apigatewayv2VpcLinkStatus defines the observed state of a Apigatewayv2VpcLink

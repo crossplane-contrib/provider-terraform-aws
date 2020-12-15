@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeProxyProtocolPolicy(prev *ProxyProtocolPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeProxyProtocolPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeProxyProtocolPolicy_InstancePorts(&new.Spec.ForProvider, valMap)
 	DecodeProxyProtocolPolicy_LoadBalancer(&new.Spec.ForProvider, valMap)
 
@@ -48,11 +47,6 @@ func DecodeProxyProtocolPolicy(prev *ProxyProtocolPolicy, ctyValue cty.Value) (r
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeProxyProtocolPolicy_Id(p *ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate

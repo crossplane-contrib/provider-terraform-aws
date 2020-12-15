@@ -56,11 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVolumeAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -116,16 +111,6 @@ func MergeVolumeAttachment_DeviceName(k *VolumeAttachmentParameters, p *VolumeAt
 func MergeVolumeAttachment_ForceDetach(k *VolumeAttachmentParameters, p *VolumeAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.ForceDetach != p.ForceDetach {
 		p.ForceDetach = k.ForceDetach
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVolumeAttachment_Id(k *VolumeAttachmentParameters, p *VolumeAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
 		md.NeedsProviderUpdate = true
 		return true
 	}

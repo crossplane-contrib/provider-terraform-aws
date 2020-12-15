@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeRamResourceShare(r RamResourceShare) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeRamResourceShare_AllowExternalPrincipals(r.Spec.ForProvider, ctyVal)
-	EncodeRamResourceShare_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRamResourceShare_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
@@ -55,10 +54,6 @@ func EncodeRamResourceShare(r RamResourceShare) cty.Value {
 
 func EncodeRamResourceShare_AllowExternalPrincipals(p RamResourceShareParameters, vals map[string]cty.Value) {
 	vals["allow_external_principals"] = cty.BoolVal(p.AllowExternalPrincipals)
-}
-
-func EncodeRamResourceShare_Id(p RamResourceShareParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRamResourceShare_Name(p RamResourceShareParameters, vals map[string]cty.Value) {

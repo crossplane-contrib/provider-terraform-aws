@@ -46,22 +46,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNatGateway_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNatGateway_NetworkInterfaceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeNatGateway_PrivateIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNatGateway_PublicIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNatGateway_NetworkInterfaceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -88,7 +83,7 @@ func MergeNatGateway_SubnetId(k *NatGatewayParameters, p *NatGatewayParameters, 
 
 //mergePrimitiveContainerTemplateSpec
 func MergeNatGateway_Tags(k *NatGatewayParameters, p *NatGatewayParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -101,26 +96,6 @@ func MergeNatGateway_AllocationId(k *NatGatewayParameters, p *NatGatewayParamete
 	if k.AllocationId != p.AllocationId {
 		p.AllocationId = k.AllocationId
 		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNatGateway_Id(k *NatGatewayParameters, p *NatGatewayParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNatGateway_NetworkInterfaceId(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
-	if k.NetworkInterfaceId != p.NetworkInterfaceId {
-		k.NetworkInterfaceId = p.NetworkInterfaceId
-		md.StatusUpdated = true
 		return true
 	}
 	return false
@@ -140,6 +115,16 @@ func MergeNatGateway_PrivateIp(k *NatGatewayObservation, p *NatGatewayObservatio
 func MergeNatGateway_PublicIp(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
 	if k.PublicIp != p.PublicIp {
 		k.PublicIp = p.PublicIp
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNatGateway_NetworkInterfaceId(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		k.NetworkInterfaceId = p.NetworkInterfaceId
 		md.StatusUpdated = true
 		return true
 	}

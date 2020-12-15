@@ -40,7 +40,6 @@ func DecodeIamAccountAlias(prev *IamAccountAlias, ctyValue cty.Value) (resource.
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeIamAccountAlias_AccountAlias(&new.Spec.ForProvider, valMap)
-	DecodeIamAccountAlias_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -52,9 +51,4 @@ func DecodeIamAccountAlias(prev *IamAccountAlias, ctyValue cty.Value) (resource.
 //primitiveTypeDecodeTemplate
 func DecodeIamAccountAlias_AccountAlias(p *IamAccountAliasParameters, vals map[string]cty.Value) {
 	p.AccountAlias = ctwhy.ValueAsString(vals["account_alias"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeIamAccountAlias_Id(p *IamAccountAliasParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

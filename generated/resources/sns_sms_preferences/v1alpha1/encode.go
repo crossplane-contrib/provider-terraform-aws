@@ -37,13 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSnsSmsPreferences(r SnsSmsPreferences) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(r.Spec.ForProvider, ctyVal)
-	EncodeSnsSmsPreferences_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_MonthlySpendLimit(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_UsageReportS3Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DefaultSenderId(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DefaultSmsType(r.Spec.ForProvider, ctyVal)
 	EncodeSnsSmsPreferences_DeliveryStatusIamRoleArn(r.Spec.ForProvider, ctyVal)
+	EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,14 +52,6 @@ func EncodeSnsSmsPreferences(r SnsSmsPreferences) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	vals["delivery_status_success_sampling_rate"] = cty.StringVal(p.DeliveryStatusSuccessSamplingRate)
-}
-
-func EncodeSnsSmsPreferences_Id(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSnsSmsPreferences_MonthlySpendLimit(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
@@ -81,4 +72,8 @@ func EncodeSnsSmsPreferences_DefaultSmsType(p SnsSmsPreferencesParameters, vals 
 
 func EncodeSnsSmsPreferences_DeliveryStatusIamRoleArn(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	vals["delivery_status_iam_role_arn"] = cty.StringVal(p.DeliveryStatusIamRoleArn)
+}
+
+func EncodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(p SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	vals["delivery_status_success_sampling_rate"] = cty.StringVal(p.DeliveryStatusSuccessSamplingRate)
 }

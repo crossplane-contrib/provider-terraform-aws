@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeWafregionalRegexPatternSet_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeWafregionalRegexPatternSet_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -58,16 +53,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeWafregionalRegexPatternSet_Id(k *WafregionalRegexPatternSetParameters, p *WafregionalRegexPatternSetParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeWafregionalRegexPatternSet_Name(k *WafregionalRegexPatternSetParameters, p *WafregionalRegexPatternSetParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -79,7 +64,7 @@ func MergeWafregionalRegexPatternSet_Name(k *WafregionalRegexPatternSetParameter
 
 //mergePrimitiveContainerTemplateSpec
 func MergeWafregionalRegexPatternSet_RegexPatternStrings(k *WafregionalRegexPatternSetParameters, p *WafregionalRegexPatternSetParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.RegexPatternStrings, p.RegexPatternStrings) {
+	if !plugin.CompareStringSlices(k.RegexPatternStrings, p.RegexPatternStrings) {
 		p.RegexPatternStrings = k.RegexPatternStrings
 		md.NeedsProviderUpdate = true
 		return true

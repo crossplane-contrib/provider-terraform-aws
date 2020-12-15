@@ -31,42 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeApigatewayv2Route_OperationName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApigatewayv2Route_RequestModels(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeApigatewayv2Route_RouteKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeApigatewayv2Route_RouteResponseSelectionExpression(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApigatewayv2Route_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApigatewayv2Route_ApiKeyRequired(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApigatewayv2Route_AuthorizerId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeApigatewayv2Route_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApigatewayv2Route_Target(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,7 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeApigatewayv2Route_Target(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeApigatewayv2Route_ApiKeyRequired(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -87,6 +57,31 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeApigatewayv2Route_AuthorizationType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApigatewayv2Route_AuthorizerId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApigatewayv2Route_OperationName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApigatewayv2Route_RequestModels(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApigatewayv2Route_ApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApigatewayv2Route_RouteResponseSelectionExpression(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -103,26 +98,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApigatewayv2Route_OperationName(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if k.OperationName != p.OperationName {
-		p.OperationName = k.OperationName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeApigatewayv2Route_RequestModels(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.RequestModels, p.RequestModels) {
-		p.RequestModels = k.RequestModels
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeApigatewayv2Route_RouteKey(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
 	if k.RouteKey != p.RouteKey {
 		p.RouteKey = k.RouteKey
@@ -133,49 +108,9 @@ func MergeApigatewayv2Route_RouteKey(k *Apigatewayv2RouteParameters, p *Apigatew
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApigatewayv2Route_RouteResponseSelectionExpression(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if k.RouteResponseSelectionExpression != p.RouteResponseSelectionExpression {
-		p.RouteResponseSelectionExpression = k.RouteResponseSelectionExpression
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2Route_ApiId(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if k.ApiId != p.ApiId {
-		p.ApiId = k.ApiId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2Route_ApiKeyRequired(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if k.ApiKeyRequired != p.ApiKeyRequired {
-		p.ApiKeyRequired = k.ApiKeyRequired
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2Route_AuthorizerId(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if k.AuthorizerId != p.AuthorizerId {
-		p.AuthorizerId = k.AuthorizerId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeApigatewayv2Route_Id(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeApigatewayv2Route_Target(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
+	if k.Target != p.Target {
+		p.Target = k.Target
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -193,9 +128,9 @@ func MergeApigatewayv2Route_ModelSelectionExpression(k *Apigatewayv2RouteParamet
 }
 
 //mergePrimitiveTemplateSpec
-func MergeApigatewayv2Route_Target(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if k.Target != p.Target {
-		p.Target = k.Target
+func MergeApigatewayv2Route_ApiKeyRequired(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
+	if k.ApiKeyRequired != p.ApiKeyRequired {
+		p.ApiKeyRequired = k.ApiKeyRequired
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -204,7 +139,7 @@ func MergeApigatewayv2Route_Target(k *Apigatewayv2RouteParameters, p *Apigateway
 
 //mergePrimitiveContainerTemplateSpec
 func MergeApigatewayv2Route_AuthorizationScopes(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.AuthorizationScopes, p.AuthorizationScopes) {
+	if !plugin.CompareStringSlices(k.AuthorizationScopes, p.AuthorizationScopes) {
 		p.AuthorizationScopes = k.AuthorizationScopes
 		md.NeedsProviderUpdate = true
 		return true
@@ -216,6 +151,56 @@ func MergeApigatewayv2Route_AuthorizationScopes(k *Apigatewayv2RouteParameters, 
 func MergeApigatewayv2Route_AuthorizationType(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
 	if k.AuthorizationType != p.AuthorizationType {
 		p.AuthorizationType = k.AuthorizationType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApigatewayv2Route_AuthorizerId(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
+	if k.AuthorizerId != p.AuthorizerId {
+		p.AuthorizerId = k.AuthorizerId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApigatewayv2Route_OperationName(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
+	if k.OperationName != p.OperationName {
+		p.OperationName = k.OperationName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeApigatewayv2Route_RequestModels(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.RequestModels, p.RequestModels) {
+		p.RequestModels = k.RequestModels
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApigatewayv2Route_ApiId(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
+	if k.ApiId != p.ApiId {
+		p.ApiId = k.ApiId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApigatewayv2Route_RouteResponseSelectionExpression(k *Apigatewayv2RouteParameters, p *Apigatewayv2RouteParameters, md *plugin.MergeDescription) bool {
+	if k.RouteResponseSelectionExpression != p.RouteResponseSelectionExpression {
+		p.RouteResponseSelectionExpression = k.RouteResponseSelectionExpression
 		md.NeedsProviderUpdate = true
 		return true
 	}

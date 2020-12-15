@@ -31,7 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeOrganizationsAccount_ParentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeOrganizationsAccount_Email(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeOrganizationsAccount_IamUserAccessToBilling(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -46,32 +56,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeOrganizationsAccount_ParentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeOrganizationsAccount_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeOrganizationsAccount_IamUserAccessToBilling(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeOrganizationsAccount_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeOrganizationsAccount_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeOrganizationsAccount_JoinedMethod(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,7 +66,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeOrganizationsAccount_JoinedMethod(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeOrganizationsAccount_JoinedTimestamp(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeOrganizationsAccount_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -97,9 +92,29 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeOrganizationsAccount_ParentId(k *OrganizationsAccountParameters, p *OrganizationsAccountParameters, md *plugin.MergeDescription) bool {
+	if k.ParentId != p.ParentId {
+		p.ParentId = k.ParentId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeOrganizationsAccount_Email(k *OrganizationsAccountParameters, p *OrganizationsAccountParameters, md *plugin.MergeDescription) bool {
 	if k.Email != p.Email {
 		p.Email = k.Email
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeOrganizationsAccount_IamUserAccessToBilling(k *OrganizationsAccountParameters, p *OrganizationsAccountParameters, md *plugin.MergeDescription) bool {
+	if k.IamUserAccessToBilling != p.IamUserAccessToBilling {
+		p.IamUserAccessToBilling = k.IamUserAccessToBilling
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -126,19 +141,9 @@ func MergeOrganizationsAccount_RoleName(k *OrganizationsAccountParameters, p *Or
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeOrganizationsAccount_ParentId(k *OrganizationsAccountParameters, p *OrganizationsAccountParameters, md *plugin.MergeDescription) bool {
-	if k.ParentId != p.ParentId {
-		p.ParentId = k.ParentId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeOrganizationsAccount_Tags(k *OrganizationsAccountParameters, p *OrganizationsAccountParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
@@ -146,30 +151,10 @@ func MergeOrganizationsAccount_Tags(k *OrganizationsAccountParameters, p *Organi
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeOrganizationsAccount_IamUserAccessToBilling(k *OrganizationsAccountParameters, p *OrganizationsAccountParameters, md *plugin.MergeDescription) bool {
-	if k.IamUserAccessToBilling != p.IamUserAccessToBilling {
-		p.IamUserAccessToBilling = k.IamUserAccessToBilling
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeOrganizationsAccount_Id(k *OrganizationsAccountParameters, p *OrganizationsAccountParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateStatus
-func MergeOrganizationsAccount_Status(k *OrganizationsAccountObservation, p *OrganizationsAccountObservation, md *plugin.MergeDescription) bool {
-	if k.Status != p.Status {
-		k.Status = p.Status
+func MergeOrganizationsAccount_Arn(k *OrganizationsAccountObservation, p *OrganizationsAccountObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}
@@ -187,9 +172,9 @@ func MergeOrganizationsAccount_JoinedMethod(k *OrganizationsAccountObservation, 
 }
 
 //mergePrimitiveTemplateStatus
-func MergeOrganizationsAccount_Arn(k *OrganizationsAccountObservation, p *OrganizationsAccountObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeOrganizationsAccount_JoinedTimestamp(k *OrganizationsAccountObservation, p *OrganizationsAccountObservation, md *plugin.MergeDescription) bool {
+	if k.JoinedTimestamp != p.JoinedTimestamp {
+		k.JoinedTimestamp = p.JoinedTimestamp
 		md.StatusUpdated = true
 		return true
 	}
@@ -197,9 +182,9 @@ func MergeOrganizationsAccount_Arn(k *OrganizationsAccountObservation, p *Organi
 }
 
 //mergePrimitiveTemplateStatus
-func MergeOrganizationsAccount_JoinedTimestamp(k *OrganizationsAccountObservation, p *OrganizationsAccountObservation, md *plugin.MergeDescription) bool {
-	if k.JoinedTimestamp != p.JoinedTimestamp {
-		k.JoinedTimestamp = p.JoinedTimestamp
+func MergeOrganizationsAccount_Status(k *OrganizationsAccountObservation, p *OrganizationsAccountObservation, md *plugin.MergeDescription) bool {
+	if k.Status != p.Status {
+		k.Status = p.Status
 		md.StatusUpdated = true
 		return true
 	}

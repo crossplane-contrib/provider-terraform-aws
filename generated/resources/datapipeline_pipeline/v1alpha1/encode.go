@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeDatapipelinePipeline(r DatapipelinePipeline) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeDatapipelinePipeline_Description(r.Spec.ForProvider, ctyVal)
-	EncodeDatapipelinePipeline_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Name(r.Spec.ForProvider, ctyVal)
 	EncodeDatapipelinePipeline_Tags(r.Spec.ForProvider, ctyVal)
 
@@ -54,10 +53,6 @@ func EncodeDatapipelinePipeline(r DatapipelinePipeline) cty.Value {
 
 func EncodeDatapipelinePipeline_Description(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeDatapipelinePipeline_Id(p DatapipelinePipelineParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeDatapipelinePipeline_Name(p DatapipelinePipelineParameters, vals map[string]cty.Value) {

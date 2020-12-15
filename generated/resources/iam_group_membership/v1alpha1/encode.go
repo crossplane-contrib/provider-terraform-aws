@@ -40,7 +40,6 @@ func EncodeIamGroupMembership(r IamGroupMembership) cty.Value {
 	EncodeIamGroupMembership_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Users(r.Spec.ForProvider, ctyVal)
 	EncodeIamGroupMembership_Group(r.Spec.ForProvider, ctyVal)
-	EncodeIamGroupMembership_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -66,8 +65,4 @@ func EncodeIamGroupMembership_Users(p IamGroupMembershipParameters, vals map[str
 
 func EncodeIamGroupMembership_Group(p IamGroupMembershipParameters, vals map[string]cty.Value) {
 	vals["group"] = cty.StringVal(p.Group)
-}
-
-func EncodeIamGroupMembership_Id(p IamGroupMembershipParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

@@ -31,7 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeRdsClusterInstance_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRdsClusterInstance_IdentifierPrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -41,27 +41,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_DbParameterGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_EngineVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_MonitoringInterval(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_PubliclyAccessible(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRdsClusterInstance_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -71,7 +51,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterInstance_CaCertIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRdsClusterInstance_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,57 +61,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterInstance_DbSubnetGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_MonitoringRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_PreferredBackupWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_IdentifierPrefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_ClusterIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_ApplyImmediately(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_Engine(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_InstanceClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeRdsClusterInstance_PerformanceInsightsKmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeRdsClusterInstance_DbParameterGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -141,7 +71,72 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeRdsClusterInstance_PubliclyAccessible(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_ApplyImmediately(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_DbSubnetGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_PerformanceInsightsKmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_AutoMinorVersionUpgrade(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_MonitoringRoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_InstanceClass(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_PreferredBackupWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeRdsClusterInstance_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_EngineVersion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_Identifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_CaCertIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_Engine(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRdsClusterInstance_MonitoringInterval(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -151,7 +146,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRdsClusterInstance_Port(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -161,12 +156,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterInstance_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRdsClusterInstance_StorageEncrypted(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterInstance_Port(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRdsClusterInstance_KmsKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -181,7 +176,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeRdsClusterInstance_StorageEncrypted(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeRdsClusterInstance_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -197,9 +192,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_AvailabilityZone(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AvailabilityZone != p.AvailabilityZone {
-		p.AvailabilityZone = k.AvailabilityZone
+func MergeRdsClusterInstance_IdentifierPrefix(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.IdentifierPrefix != p.IdentifierPrefix {
+		p.IdentifierPrefix = k.IdentifierPrefix
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -217,49 +212,9 @@ func MergeRdsClusterInstance_PerformanceInsightsEnabled(k *RdsClusterInstancePar
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_AutoMinorVersionUpgrade(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
-		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_DbParameterGroupName(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.DbParameterGroupName != p.DbParameterGroupName {
-		p.DbParameterGroupName = k.DbParameterGroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_EngineVersion(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.EngineVersion != p.EngineVersion {
-		p.EngineVersion = k.EngineVersion
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_MonitoringInterval(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.MonitoringInterval != p.MonitoringInterval {
-		p.MonitoringInterval = k.MonitoringInterval
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_PubliclyAccessible(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PubliclyAccessible != p.PubliclyAccessible {
-		p.PubliclyAccessible = k.PubliclyAccessible
+func MergeRdsClusterInstance_ClusterIdentifier(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.ClusterIdentifier != p.ClusterIdentifier {
+		p.ClusterIdentifier = k.ClusterIdentifier
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -277,9 +232,9 @@ func MergeRdsClusterInstance_PromotionTier(k *RdsClusterInstanceParameters, p *R
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_CaCertIdentifier(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.CaCertIdentifier != p.CaCertIdentifier {
-		p.CaCertIdentifier = k.CaCertIdentifier
+func MergeRdsClusterInstance_AvailabilityZone(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -297,9 +252,9 @@ func MergeRdsClusterInstance_CopyTagsToSnapshot(k *RdsClusterInstanceParameters,
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_DbSubnetGroupName(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.DbSubnetGroupName != p.DbSubnetGroupName {
-		p.DbSubnetGroupName = k.DbSubnetGroupName
+func MergeRdsClusterInstance_DbParameterGroupName(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.DbParameterGroupName != p.DbParameterGroupName {
+		p.DbParameterGroupName = k.DbParameterGroupName
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -307,9 +262,9 @@ func MergeRdsClusterInstance_DbSubnetGroupName(k *RdsClusterInstanceParameters, 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_MonitoringRoleArn(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.MonitoringRoleArn != p.MonitoringRoleArn {
-		p.MonitoringRoleArn = k.MonitoringRoleArn
+func MergeRdsClusterInstance_PreferredMaintenanceWindow(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PreferredMaintenanceWindow != p.PreferredMaintenanceWindow {
+		p.PreferredMaintenanceWindow = k.PreferredMaintenanceWindow
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -317,39 +272,9 @@ func MergeRdsClusterInstance_MonitoringRoleArn(k *RdsClusterInstanceParameters, 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_PreferredBackupWindow(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PreferredBackupWindow != p.PreferredBackupWindow {
-		p.PreferredBackupWindow = k.PreferredBackupWindow
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_IdentifierPrefix(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.IdentifierPrefix != p.IdentifierPrefix {
-		p.IdentifierPrefix = k.IdentifierPrefix
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_ClusterIdentifier(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.ClusterIdentifier != p.ClusterIdentifier {
-		p.ClusterIdentifier = k.ClusterIdentifier
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_Identifier(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Identifier != p.Identifier {
-		p.Identifier = k.Identifier
+func MergeRdsClusterInstance_PubliclyAccessible(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PubliclyAccessible != p.PubliclyAccessible {
+		p.PubliclyAccessible = k.PubliclyAccessible
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -367,29 +292,9 @@ func MergeRdsClusterInstance_ApplyImmediately(k *RdsClusterInstanceParameters, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_Engine(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Engine != p.Engine {
-		p.Engine = k.Engine
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_Id(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_InstanceClass(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.InstanceClass != p.InstanceClass {
-		p.InstanceClass = k.InstanceClass
+func MergeRdsClusterInstance_DbSubnetGroupName(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.DbSubnetGroupName != p.DbSubnetGroupName {
+		p.DbSubnetGroupName = k.DbSubnetGroupName
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -407,9 +312,39 @@ func MergeRdsClusterInstance_PerformanceInsightsKmsKeyId(k *RdsClusterInstancePa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeRdsClusterInstance_PreferredMaintenanceWindow(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if k.PreferredMaintenanceWindow != p.PreferredMaintenanceWindow {
-		p.PreferredMaintenanceWindow = k.PreferredMaintenanceWindow
+func MergeRdsClusterInstance_AutoMinorVersionUpgrade(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.AutoMinorVersionUpgrade != p.AutoMinorVersionUpgrade {
+		p.AutoMinorVersionUpgrade = k.AutoMinorVersionUpgrade
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_MonitoringRoleArn(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.MonitoringRoleArn != p.MonitoringRoleArn {
+		p.MonitoringRoleArn = k.MonitoringRoleArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_InstanceClass(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.InstanceClass != p.InstanceClass {
+		p.InstanceClass = k.InstanceClass
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_PreferredBackupWindow(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.PreferredBackupWindow != p.PreferredBackupWindow {
+		p.PreferredBackupWindow = k.PreferredBackupWindow
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -418,8 +353,58 @@ func MergeRdsClusterInstance_PreferredMaintenanceWindow(k *RdsClusterInstancePar
 
 //mergePrimitiveContainerTemplateSpec
 func MergeRdsClusterInstance_Tags(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_EngineVersion(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.EngineVersion != p.EngineVersion {
+		p.EngineVersion = k.EngineVersion
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_Identifier(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.Identifier != p.Identifier {
+		p.Identifier = k.Identifier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_CaCertIdentifier(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.CaCertIdentifier != p.CaCertIdentifier {
+		p.CaCertIdentifier = k.CaCertIdentifier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_Engine(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.Engine != p.Engine {
+		p.Engine = k.Engine
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRdsClusterInstance_MonitoringInterval(k *RdsClusterInstanceParameters, p *RdsClusterInstanceParameters, md *plugin.MergeDescription) bool {
+	if k.MonitoringInterval != p.MonitoringInterval {
+		p.MonitoringInterval = k.MonitoringInterval
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -482,9 +467,9 @@ func MergeRdsClusterInstance_Timeouts_Update(k *Timeouts, p *Timeouts, md *plugi
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRdsClusterInstance_Arn(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Arn != p.Arn {
-		k.Arn = p.Arn
+func MergeRdsClusterInstance_Port(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Port != p.Port {
+		k.Port = p.Port
 		md.StatusUpdated = true
 		return true
 	}
@@ -502,9 +487,9 @@ func MergeRdsClusterInstance_Endpoint(k *RdsClusterInstanceObservation, p *RdsCl
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRdsClusterInstance_KmsKeyId(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.KmsKeyId != p.KmsKeyId {
-		k.KmsKeyId = p.KmsKeyId
+func MergeRdsClusterInstance_StorageEncrypted(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.StorageEncrypted != p.StorageEncrypted {
+		k.StorageEncrypted = p.StorageEncrypted
 		md.StatusUpdated = true
 		return true
 	}
@@ -512,9 +497,9 @@ func MergeRdsClusterInstance_KmsKeyId(k *RdsClusterInstanceObservation, p *RdsCl
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRdsClusterInstance_Port(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.Port != p.Port {
-		k.Port = p.Port
+func MergeRdsClusterInstance_KmsKeyId(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.KmsKeyId != p.KmsKeyId {
+		k.KmsKeyId = p.KmsKeyId
 		md.StatusUpdated = true
 		return true
 	}
@@ -542,9 +527,9 @@ func MergeRdsClusterInstance_DbiResourceId(k *RdsClusterInstanceObservation, p *
 }
 
 //mergePrimitiveTemplateStatus
-func MergeRdsClusterInstance_StorageEncrypted(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
-	if k.StorageEncrypted != p.StorageEncrypted {
-		k.StorageEncrypted = p.StorageEncrypted
+func MergeRdsClusterInstance_Arn(k *RdsClusterInstanceObservation, p *RdsClusterInstanceObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
 		md.StatusUpdated = true
 		return true
 	}

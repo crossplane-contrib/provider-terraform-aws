@@ -52,31 +52,30 @@ type DocdbClusterSpec struct {
 
 // A DocdbClusterParameters defines the desired state of a DocdbCluster
 type DocdbClusterParameters struct {
+	FinalSnapshotIdentifier      string            `json:"final_snapshot_identifier"`
+	MasterUsername               string            `json:"master_username"`
+	SnapshotIdentifier           string            `json:"snapshot_identifier"`
+	Port                         int64             `json:"port"`
+	AvailabilityZones            []string          `json:"availability_zones"`
+	ClusterMembers               []string          `json:"cluster_members"`
+	DbClusterParameterGroupName  string            `json:"db_cluster_parameter_group_name"`
+	DbSubnetGroupName            string            `json:"db_subnet_group_name"`
+	EngineVersion                string            `json:"engine_version"`
+	Tags                         map[string]string `json:"tags"`
+	VpcSecurityGroupIds          []string          `json:"vpc_security_group_ids"`
+	ClusterIdentifierPrefix      string            `json:"cluster_identifier_prefix"`
+	KmsKeyId                     string            `json:"kms_key_id"`
+	PreferredBackupWindow        string            `json:"preferred_backup_window"`
+	PreferredMaintenanceWindow   string            `json:"preferred_maintenance_window"`
+	StorageEncrypted             bool              `json:"storage_encrypted"`
+	EnabledCloudwatchLogsExports []string          `json:"enabled_cloudwatch_logs_exports"`
+	MasterPassword               string            `json:"master_password"`
+	SkipFinalSnapshot            bool              `json:"skip_final_snapshot"`
+	ApplyImmediately             bool              `json:"apply_immediately"`
 	DeletionProtection           bool              `json:"deletion_protection"`
 	ClusterIdentifier            string            `json:"cluster_identifier"`
-	KmsKeyId                     string            `json:"kms_key_id"`
-	SkipFinalSnapshot            bool              `json:"skip_final_snapshot"`
-	FinalSnapshotIdentifier      string            `json:"final_snapshot_identifier"`
-	DbClusterParameterGroupName  string            `json:"db_cluster_parameter_group_name"`
-	SnapshotIdentifier           string            `json:"snapshot_identifier"`
-	VpcSecurityGroupIds          []string          `json:"vpc_security_group_ids"`
-	ApplyImmediately             bool              `json:"apply_immediately"`
-	ClusterMembers               []string          `json:"cluster_members"`
-	DbSubnetGroupName            string            `json:"db_subnet_group_name"`
-	MasterUsername               string            `json:"master_username"`
-	ClusterIdentifierPrefix      string            `json:"cluster_identifier_prefix"`
-	PreferredBackupWindow        string            `json:"preferred_backup_window"`
-	Port                         int64             `json:"port"`
-	Id                           string            `json:"id"`
-	EngineVersion                string            `json:"engine_version"`
-	StorageEncrypted             bool              `json:"storage_encrypted"`
-	PreferredMaintenanceWindow   string            `json:"preferred_maintenance_window"`
-	AvailabilityZones            []string          `json:"availability_zones"`
-	BackupRetentionPeriod        int64             `json:"backup_retention_period"`
-	EnabledCloudwatchLogsExports []string          `json:"enabled_cloudwatch_logs_exports"`
 	Engine                       string            `json:"engine"`
-	MasterPassword               string            `json:"master_password"`
-	Tags                         map[string]string `json:"tags"`
+	BackupRetentionPeriod        int64             `json:"backup_retention_period"`
 	Timeouts                     Timeouts          `json:"timeouts"`
 }
 
@@ -96,7 +95,7 @@ type DocdbClusterStatus struct {
 type DocdbClusterObservation struct {
 	ClusterResourceId string `json:"cluster_resource_id"`
 	Endpoint          string `json:"endpoint"`
+	Arn               string `json:"arn"`
 	HostedZoneId      string `json:"hosted_zone_id"`
 	ReaderEndpoint    string `json:"reader_endpoint"`
-	Arn               string `json:"arn"`
 }

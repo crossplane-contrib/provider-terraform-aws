@@ -54,7 +54,6 @@ type Apigatewayv2DeploymentSpec struct {
 type Apigatewayv2DeploymentParameters struct {
 	ApiId       string            `json:"api_id"`
 	Description string            `json:"description"`
-	Id          string            `json:"id"`
 	Triggers    map[string]string `json:"triggers"`
 }
 

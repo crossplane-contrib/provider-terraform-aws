@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeEc2TransitGatewayVpcAttachment_Ipv6Support(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeEc2TransitGatewayVpcAttachment_SubnetIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -41,17 +46,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayVpcAttachment_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -61,17 +56,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeEc2TransitGatewayVpcAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeEc2TransitGatewayVpcAttachment_Ipv6Support(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEc2TransitGatewayVpcAttachment_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayVpcAttachment_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -91,9 +86,19 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayVpcAttachment_Ipv6Support(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Ipv6Support != p.Ipv6Support {
+		p.Ipv6Support = k.Ipv6Support
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TransitGatewayVpcAttachment_SubnetIds(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.SubnetIds, p.SubnetIds) {
+	if !plugin.CompareStringSlices(k.SubnetIds, p.SubnetIds) {
 		p.SubnetIds = k.SubnetIds
 		md.NeedsProviderUpdate = true
 		return true
@@ -112,29 +117,9 @@ func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociat
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.TransitGatewayDefaultRouteTablePropagation != p.TransitGatewayDefaultRouteTablePropagation {
-		p.TransitGatewayDefaultRouteTablePropagation = k.TransitGatewayDefaultRouteTablePropagation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEc2TransitGatewayVpcAttachment_TransitGatewayId(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
 	if k.TransitGatewayId != p.TransitGatewayId {
 		p.TransitGatewayId = k.TransitGatewayId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_VpcId(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.VpcId != p.VpcId {
-		p.VpcId = k.VpcId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -151,30 +136,30 @@ func MergeEc2TransitGatewayVpcAttachment_DnsSupport(k *Ec2TransitGatewayVpcAttac
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_Id(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeEc2TransitGatewayVpcAttachment_Ipv6Support(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if k.Ipv6Support != p.Ipv6Support {
-		p.Ipv6Support = k.Ipv6Support
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeEc2TransitGatewayVpcAttachment_Tags(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(p.Tags, p.Tags) {
+	if !plugin.CompareMapString(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayDefaultRouteTablePropagation != p.TransitGatewayDefaultRouteTablePropagation {
+		p.TransitGatewayDefaultRouteTablePropagation = k.TransitGatewayDefaultRouteTablePropagation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayVpcAttachment_VpcId(k *Ec2TransitGatewayVpcAttachmentParameters, p *Ec2TransitGatewayVpcAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
 		md.NeedsProviderUpdate = true
 		return true
 	}

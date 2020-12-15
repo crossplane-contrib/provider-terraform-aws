@@ -41,7 +41,6 @@ func DecodeVpcEndpointRouteTableAssociation(prev *VpcEndpointRouteTableAssociati
 	new := prev.DeepCopy()
 	DecodeVpcEndpointRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointRouteTableAssociation_VpcEndpointId(&new.Spec.ForProvider, valMap)
-	DecodeVpcEndpointRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,9 +57,4 @@ func DecodeVpcEndpointRouteTableAssociation_RouteTableId(p *VpcEndpointRouteTabl
 //primitiveTypeDecodeTemplate
 func DecodeVpcEndpointRouteTableAssociation_VpcEndpointId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVpcEndpointRouteTableAssociation_Id(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

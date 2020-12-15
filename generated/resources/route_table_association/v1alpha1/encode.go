@@ -38,7 +38,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeRouteTableAssociation(r RouteTableAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeRouteTableAssociation_GatewayId(r.Spec.ForProvider, ctyVal)
-	EncodeRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_RouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeRouteTableAssociation_SubnetId(r.Spec.ForProvider, ctyVal)
 
@@ -54,10 +53,6 @@ func EncodeRouteTableAssociation(r RouteTableAssociation) cty.Value {
 
 func EncodeRouteTableAssociation_GatewayId(p RouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["gateway_id"] = cty.StringVal(p.GatewayId)
-}
-
-func EncodeRouteTableAssociation_Id(p RouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRouteTableAssociation_RouteTableId(p RouteTableAssociationParameters, vals map[string]cty.Value) {

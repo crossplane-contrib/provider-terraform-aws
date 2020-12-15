@@ -37,12 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeKmsAlias(r KmsAlias) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeKmsAlias_Id(r.Spec.ForProvider, ctyVal)
+	EncodeKmsAlias_TargetKeyId(r.Spec.ForProvider, ctyVal)
 	EncodeKmsAlias_Name(r.Spec.ForProvider, ctyVal)
 	EncodeKmsAlias_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeKmsAlias_TargetKeyId(r.Spec.ForProvider, ctyVal)
-	EncodeKmsAlias_Arn(r.Status.AtProvider, ctyVal)
 	EncodeKmsAlias_TargetKeyArn(r.Status.AtProvider, ctyVal)
+	EncodeKmsAlias_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -53,8 +52,8 @@ func EncodeKmsAlias(r KmsAlias) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeKmsAlias_Id(p KmsAliasParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeKmsAlias_TargetKeyId(p KmsAliasParameters, vals map[string]cty.Value) {
+	vals["target_key_id"] = cty.StringVal(p.TargetKeyId)
 }
 
 func EncodeKmsAlias_Name(p KmsAliasParameters, vals map[string]cty.Value) {
@@ -65,14 +64,10 @@ func EncodeKmsAlias_NamePrefix(p KmsAliasParameters, vals map[string]cty.Value) 
 	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
 }
 
-func EncodeKmsAlias_TargetKeyId(p KmsAliasParameters, vals map[string]cty.Value) {
-	vals["target_key_id"] = cty.StringVal(p.TargetKeyId)
+func EncodeKmsAlias_TargetKeyArn(p KmsAliasObservation, vals map[string]cty.Value) {
+	vals["target_key_arn"] = cty.StringVal(p.TargetKeyArn)
 }
 
 func EncodeKmsAlias_Arn(p KmsAliasObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
-}
-
-func EncodeKmsAlias_TargetKeyArn(p KmsAliasObservation, vals map[string]cty.Value) {
-	vals["target_key_arn"] = cty.StringVal(p.TargetKeyArn)
 }

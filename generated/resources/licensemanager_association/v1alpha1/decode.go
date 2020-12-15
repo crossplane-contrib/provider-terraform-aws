@@ -41,7 +41,6 @@ func DecodeLicensemanagerAssociation(prev *LicensemanagerAssociation, ctyValue c
 	new := prev.DeepCopy()
 	DecodeLicensemanagerAssociation_LicenseConfigurationArn(&new.Spec.ForProvider, valMap)
 	DecodeLicensemanagerAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
-	DecodeLicensemanagerAssociation_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,9 +57,4 @@ func DecodeLicensemanagerAssociation_LicenseConfigurationArn(p *LicensemanagerAs
 //primitiveTypeDecodeTemplate
 func DecodeLicensemanagerAssociation_ResourceArn(p *LicensemanagerAssociationParameters, vals map[string]cty.Value) {
 	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeLicensemanagerAssociation_Id(p *LicensemanagerAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

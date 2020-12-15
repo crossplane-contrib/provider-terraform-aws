@@ -37,11 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLightsailStaticIp(r LightsailStaticIp) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLightsailStaticIp_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIp_Name(r.Spec.ForProvider, ctyVal)
+	EncodeLightsailStaticIp_Arn(r.Status.AtProvider, ctyVal)
 	EncodeLightsailStaticIp_IpAddress(r.Status.AtProvider, ctyVal)
 	EncodeLightsailStaticIp_SupportCode(r.Status.AtProvider, ctyVal)
-	EncodeLightsailStaticIp_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -52,12 +51,12 @@ func EncodeLightsailStaticIp(r LightsailStaticIp) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLightsailStaticIp_Id(p LightsailStaticIpParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeLightsailStaticIp_Name(p LightsailStaticIpParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeLightsailStaticIp_Arn(p LightsailStaticIpObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeLightsailStaticIp_IpAddress(p LightsailStaticIpObservation, vals map[string]cty.Value) {
@@ -66,8 +65,4 @@ func EncodeLightsailStaticIp_IpAddress(p LightsailStaticIpObservation, vals map[
 
 func EncodeLightsailStaticIp_SupportCode(p LightsailStaticIpObservation, vals map[string]cty.Value) {
 	vals["support_code"] = cty.StringVal(p.SupportCode)
-}
-
-func EncodeLightsailStaticIp_Arn(p LightsailStaticIpObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

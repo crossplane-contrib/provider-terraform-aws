@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRoute53ZoneAssociation(r Route53ZoneAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53ZoneAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_VpcRegion(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ZoneAssociation_ZoneId(r.Spec.ForProvider, ctyVal)
@@ -50,10 +49,6 @@ func EncodeRoute53ZoneAssociation(r Route53ZoneAssociation) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53ZoneAssociation_Id(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRoute53ZoneAssociation_VpcId(p Route53ZoneAssociationParameters, vals map[string]cty.Value) {

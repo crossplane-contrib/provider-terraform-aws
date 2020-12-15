@@ -41,7 +41,6 @@ func EncodeApiGatewayRequestValidator(r ApiGatewayRequestValidator) cty.Value {
 	EncodeApiGatewayRequestValidator_RestApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRequestValidator_ValidateRequestBody(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayRequestValidator_ValidateRequestParameters(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayRequestValidator_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -67,8 +66,4 @@ func EncodeApiGatewayRequestValidator_ValidateRequestBody(p ApiGatewayRequestVal
 
 func EncodeApiGatewayRequestValidator_ValidateRequestParameters(p ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
 	vals["validate_request_parameters"] = cty.BoolVal(p.ValidateRequestParameters)
-}
-
-func EncodeApiGatewayRequestValidator_Id(p ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }

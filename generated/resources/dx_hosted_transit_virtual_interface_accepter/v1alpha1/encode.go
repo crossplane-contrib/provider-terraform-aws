@@ -37,10 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxHostedTransitVirtualInterfaceAccepter(r DxHostedTransitVirtualInterfaceAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxHostedTransitVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
+	EncodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
-	EncodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -53,8 +52,8 @@ func EncodeDxHostedTransitVirtualInterfaceAccepter(r DxHostedTransitVirtualInter
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeDxHostedTransitVirtualInterfaceAccepter_Id(p DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(p DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
 }
 
 func EncodeDxHostedTransitVirtualInterfaceAccepter_Tags(p DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
@@ -73,23 +72,19 @@ func EncodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(p DxHosted
 	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
 }
 
-func EncodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(p DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["dx_gateway_id"] = cty.StringVal(p.DxGatewayId)
-}
-
 func EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(p, ctyVal)
 	EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(p, ctyVal)
+	EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
+}
+
+func EncodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeDxHostedTransitVirtualInterfaceAccepter_Arn(p DxHostedTransitVirtualInterfaceAccepterObservation, vals map[string]cty.Value) {

@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeInspectorAssessmentTarget(r InspectorAssessmentTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeInspectorAssessmentTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_Name(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_ResourceGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorAssessmentTarget_Arn(r.Status.AtProvider, ctyVal)
@@ -49,10 +48,6 @@ func EncodeInspectorAssessmentTarget(r InspectorAssessmentTarget) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeInspectorAssessmentTarget_Id(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorAssessmentTarget_Name(p InspectorAssessmentTargetParameters, vals map[string]cty.Value) {

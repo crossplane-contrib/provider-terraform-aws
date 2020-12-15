@@ -55,7 +55,6 @@ type IamGroupMembershipParameters struct {
 	Name  string   `json:"name"`
 	Users []string `json:"users"`
 	Group string   `json:"group"`
-	Id    string   `json:"id"`
 }
 
 // A IamGroupMembershipStatus defines the observed state of a IamGroupMembership

@@ -41,7 +41,6 @@ func DecodeElasticsearchDomainPolicy(prev *ElasticsearchDomainPolicy, ctyValue c
 	new := prev.DeepCopy()
 	DecodeElasticsearchDomainPolicy_AccessPolicies(&new.Spec.ForProvider, valMap)
 	DecodeElasticsearchDomainPolicy_DomainName(&new.Spec.ForProvider, valMap)
-	DecodeElasticsearchDomainPolicy_Id(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -58,9 +57,4 @@ func DecodeElasticsearchDomainPolicy_AccessPolicies(p *ElasticsearchDomainPolicy
 //primitiveTypeDecodeTemplate
 func DecodeElasticsearchDomainPolicy_DomainName(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeElasticsearchDomainPolicy_Id(p *ElasticsearchDomainPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

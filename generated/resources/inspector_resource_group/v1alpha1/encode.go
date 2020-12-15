@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeInspectorResourceGroup(r InspectorResourceGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeInspectorResourceGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInspectorResourceGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -48,10 +47,6 @@ func EncodeInspectorResourceGroup(r InspectorResourceGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeInspectorResourceGroup_Id(p InspectorResourceGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInspectorResourceGroup_Tags(p InspectorResourceGroupParameters, vals map[string]cty.Value) {

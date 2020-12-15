@@ -54,7 +54,6 @@ type XrayGroupSpec struct {
 type XrayGroupParameters struct {
 	FilterExpression string            `json:"filter_expression"`
 	GroupName        string            `json:"group_name"`
-	Id               string            `json:"id"`
 	Tags             map[string]string `json:"tags"`
 }
 

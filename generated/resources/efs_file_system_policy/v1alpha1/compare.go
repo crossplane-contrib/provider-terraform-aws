@@ -31,17 +31,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeEfsFileSystemPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeEfsFileSystemPolicy_FileSystemId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeEfsFileSystemPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeEfsFileSystemPolicy_Policy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,16 +53,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEfsFileSystemPolicy_Policy(k *EfsFileSystemPolicyParameters, p *EfsFileSystemPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Policy != p.Policy {
-		p.Policy = k.Policy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeEfsFileSystemPolicy_FileSystemId(k *EfsFileSystemPolicyParameters, p *EfsFileSystemPolicyParameters, md *plugin.MergeDescription) bool {
 	if k.FileSystemId != p.FileSystemId {
 		p.FileSystemId = k.FileSystemId
@@ -78,9 +63,9 @@ func MergeEfsFileSystemPolicy_FileSystemId(k *EfsFileSystemPolicyParameters, p *
 }
 
 //mergePrimitiveTemplateSpec
-func MergeEfsFileSystemPolicy_Id(k *EfsFileSystemPolicyParameters, p *EfsFileSystemPolicyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
+func MergeEfsFileSystemPolicy_Policy(k *EfsFileSystemPolicyParameters, p *EfsFileSystemPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Policy != p.Policy {
+		p.Policy = k.Policy
 		md.NeedsProviderUpdate = true
 		return true
 	}

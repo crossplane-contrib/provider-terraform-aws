@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLightsailStaticIpAttachment(r LightsailStaticIpAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLightsailStaticIpAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_InstanceName(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_StaticIpName(r.Spec.ForProvider, ctyVal)
 	EncodeLightsailStaticIpAttachment_IpAddress(r.Status.AtProvider, ctyVal)
@@ -49,10 +48,6 @@ func EncodeLightsailStaticIpAttachment(r LightsailStaticIpAttachment) cty.Value 
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLightsailStaticIpAttachment_Id(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeLightsailStaticIpAttachment_InstanceName(p LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {

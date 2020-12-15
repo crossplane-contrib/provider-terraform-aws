@@ -39,7 +39,6 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRoute53DelegationSet(prev *Route53DelegationSet, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRoute53DelegationSet_Id(&new.Spec.ForProvider, valMap)
 	DecodeRoute53DelegationSet_ReferenceName(&new.Spec.ForProvider, valMap)
 	DecodeRoute53DelegationSet_NameServers(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
@@ -47,11 +46,6 @@ func DecodeRoute53DelegationSet(prev *Route53DelegationSet, ctyValue cty.Value) 
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeRoute53DelegationSet_Id(p *Route53DelegationSetParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate

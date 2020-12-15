@@ -39,13 +39,12 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxBgpPeer(prev *DxBgpPeer, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxBgpPeer_BgpAuthKey(&new.Spec.ForProvider, valMap)
+	DecodeDxBgpPeer_AmazonAddress(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_AddressFamily(&new.Spec.ForProvider, valMap)
-	DecodeDxBgpPeer_AmazonAddress(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_BgpAsn(&new.Spec.ForProvider, valMap)
+	DecodeDxBgpPeer_BgpAuthKey(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_CustomerAddress(&new.Spec.ForProvider, valMap)
-	DecodeDxBgpPeer_Id(&new.Spec.ForProvider, valMap)
 	DecodeDxBgpPeer_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDxBgpPeer_BgpStatus(&new.Status.AtProvider, valMap)
 	DecodeDxBgpPeer_AwsDevice(&new.Status.AtProvider, valMap)
@@ -58,8 +57,8 @@ func DecodeDxBgpPeer(prev *DxBgpPeer, ctyValue cty.Value) (resource.Managed, err
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_BgpAuthKey(p *DxBgpPeerParameters, vals map[string]cty.Value) {
-	p.BgpAuthKey = ctwhy.ValueAsString(vals["bgp_auth_key"])
+func DecodeDxBgpPeer_AmazonAddress(p *DxBgpPeerParameters, vals map[string]cty.Value) {
+	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -73,23 +72,18 @@ func DecodeDxBgpPeer_AddressFamily(p *DxBgpPeerParameters, vals map[string]cty.V
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_AmazonAddress(p *DxBgpPeerParameters, vals map[string]cty.Value) {
-	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeDxBgpPeer_BgpAsn(p *DxBgpPeerParameters, vals map[string]cty.Value) {
 	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_CustomerAddress(p *DxBgpPeerParameters, vals map[string]cty.Value) {
-	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
+func DecodeDxBgpPeer_BgpAuthKey(p *DxBgpPeerParameters, vals map[string]cty.Value) {
+	p.BgpAuthKey = ctwhy.ValueAsString(vals["bgp_auth_key"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeDxBgpPeer_Id(p *DxBgpPeerParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeDxBgpPeer_CustomerAddress(p *DxBgpPeerParameters, vals map[string]cty.Value) {
+	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
 }
 
 //containerTypeDecodeTemplate

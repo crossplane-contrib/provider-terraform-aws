@@ -31,22 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeTransferSshKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeTransferSshKey_ServerId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeTransferSshKey_UserName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeTransferSshKey_Body(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeTransferSshKey_ServerId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -63,26 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeTransferSshKey_Id(k *TransferSshKeyParameters, p *TransferSshKeyParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeTransferSshKey_ServerId(k *TransferSshKeyParameters, p *TransferSshKeyParameters, md *plugin.MergeDescription) bool {
-	if k.ServerId != p.ServerId {
-		p.ServerId = k.ServerId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeTransferSshKey_UserName(k *TransferSshKeyParameters, p *TransferSshKeyParameters, md *plugin.MergeDescription) bool {
 	if k.UserName != p.UserName {
 		p.UserName = k.UserName
@@ -96,6 +71,16 @@ func MergeTransferSshKey_UserName(k *TransferSshKeyParameters, p *TransferSshKey
 func MergeTransferSshKey_Body(k *TransferSshKeyParameters, p *TransferSshKeyParameters, md *plugin.MergeDescription) bool {
 	if k.Body != p.Body {
 		p.Body = k.Body
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeTransferSshKey_ServerId(k *TransferSshKeyParameters, p *TransferSshKeyParameters, md *plugin.MergeDescription) bool {
+	if k.ServerId != p.ServerId {
+		p.ServerId = k.ServerId
 		md.NeedsProviderUpdate = true
 		return true
 	}

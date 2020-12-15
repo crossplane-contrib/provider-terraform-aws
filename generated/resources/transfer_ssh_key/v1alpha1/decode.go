@@ -39,26 +39,15 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeTransferSshKey(prev *TransferSshKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeTransferSshKey_Id(&new.Spec.ForProvider, valMap)
-	DecodeTransferSshKey_ServerId(&new.Spec.ForProvider, valMap)
 	DecodeTransferSshKey_UserName(&new.Spec.ForProvider, valMap)
 	DecodeTransferSshKey_Body(&new.Spec.ForProvider, valMap)
+	DecodeTransferSshKey_ServerId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeTransferSshKey_Id(p *TransferSshKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeTransferSshKey_ServerId(p *TransferSshKeyParameters, vals map[string]cty.Value) {
-	p.ServerId = ctwhy.ValueAsString(vals["server_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -69,4 +58,9 @@ func DecodeTransferSshKey_UserName(p *TransferSshKeyParameters, vals map[string]
 //primitiveTypeDecodeTemplate
 func DecodeTransferSshKey_Body(p *TransferSshKeyParameters, vals map[string]cty.Value) {
 	p.Body = ctwhy.ValueAsString(vals["body"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeTransferSshKey_ServerId(p *TransferSshKeyParameters, vals map[string]cty.Value) {
+	p.ServerId = ctwhy.ValueAsString(vals["server_id"])
 }

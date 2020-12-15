@@ -37,7 +37,6 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAutoscalingNotification(r AutoscalingNotification) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAutoscalingNotification_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_Notifications(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_TopicArn(r.Spec.ForProvider, ctyVal)
 	EncodeAutoscalingNotification_GroupNames(r.Spec.ForProvider, ctyVal)
@@ -50,10 +49,6 @@ func EncodeAutoscalingNotification(r AutoscalingNotification) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAutoscalingNotification_Id(p AutoscalingNotificationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAutoscalingNotification_Notifications(p AutoscalingNotificationParameters, vals map[string]cty.Value) {

@@ -52,12 +52,11 @@ type Apigatewayv2RouteResponseSpec struct {
 
 // A Apigatewayv2RouteResponseParameters defines the desired state of a Apigatewayv2RouteResponse
 type Apigatewayv2RouteResponseParameters struct {
-	ApiId                    string            `json:"api_id"`
-	Id                       string            `json:"id"`
 	ModelSelectionExpression string            `json:"model_selection_expression"`
 	ResponseModels           map[string]string `json:"response_models"`
 	RouteId                  string            `json:"route_id"`
 	RouteResponseKey         string            `json:"route_response_key"`
+	ApiId                    string            `json:"api_id"`
 }
 
 // A Apigatewayv2RouteResponseStatus defines the observed state of a Apigatewayv2RouteResponse

@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeAutoscalingNotification_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeAutoscalingNotification_Notifications(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -62,19 +57,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveTemplateSpec
-func MergeAutoscalingNotification_Id(k *AutoscalingNotificationParameters, p *AutoscalingNotificationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
 func MergeAutoscalingNotification_Notifications(k *AutoscalingNotificationParameters, p *AutoscalingNotificationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.Notifications, p.Notifications) {
+	if !plugin.CompareStringSlices(k.Notifications, p.Notifications) {
 		p.Notifications = k.Notifications
 		md.NeedsProviderUpdate = true
 		return true
@@ -94,7 +79,7 @@ func MergeAutoscalingNotification_TopicArn(k *AutoscalingNotificationParameters,
 
 //mergePrimitiveContainerTemplateSpec
 func MergeAutoscalingNotification_GroupNames(k *AutoscalingNotificationParameters, p *AutoscalingNotificationParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(p.GroupNames, p.GroupNames) {
+	if !plugin.CompareStringSlices(k.GroupNames, p.GroupNames) {
 		p.GroupNames = k.GroupNames
 		md.NeedsProviderUpdate = true
 		return true

@@ -39,39 +39,18 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudwatchLogSubscriptionFilter(prev *CloudwatchLogSubscriptionFilter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloudwatchLogSubscriptionFilter_DestinationArn(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchLogSubscriptionFilter_Distribution(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchLogSubscriptionFilter_FilterPattern(&new.Spec.ForProvider, valMap)
-	DecodeCloudwatchLogSubscriptionFilter_Id(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogSubscriptionFilter_LogGroupName(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogSubscriptionFilter_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogSubscriptionFilter_RoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_DestinationArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_Distribution(&new.Spec.ForProvider, valMap)
+	DecodeCloudwatchLogSubscriptionFilter_FilterPattern(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogSubscriptionFilter_DestinationArn(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogSubscriptionFilter_Distribution(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	p.Distribution = ctwhy.ValueAsString(vals["distribution"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogSubscriptionFilter_FilterPattern(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	p.FilterPattern = ctwhy.ValueAsString(vals["filter_pattern"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeCloudwatchLogSubscriptionFilter_Id(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -87,4 +66,19 @@ func DecodeCloudwatchLogSubscriptionFilter_Name(p *CloudwatchLogSubscriptionFilt
 //primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogSubscriptionFilter_RoleArn(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
 	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchLogSubscriptionFilter_DestinationArn(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchLogSubscriptionFilter_Distribution(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.Distribution = ctwhy.ValueAsString(vals["distribution"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudwatchLogSubscriptionFilter_FilterPattern(p *CloudwatchLogSubscriptionFilterParameters, vals map[string]cty.Value) {
+	p.FilterPattern = ctwhy.ValueAsString(vals["filter_pattern"])
 }

@@ -39,29 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeFsxLustreFileSystem(prev *FsxLustreFileSystem, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeFsxLustreFileSystem_AutoImportPolicy(&new.Spec.ForProvider, valMap)
 	DecodeFsxLustreFileSystem_DeploymentType(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_DriveCacheType(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_ImportPath(&new.Spec.ForProvider, valMap)
 	DecodeFsxLustreFileSystem_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_StorageCapacity(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_AutoImportPolicy(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_PerUnitStorageThroughput(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_SecurityGroupIds(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_Tags(&new.Spec.ForProvider, valMap)
 	DecodeFsxLustreFileSystem_StorageType(&new.Spec.ForProvider, valMap)
 	DecodeFsxLustreFileSystem_AutomaticBackupRetentionDays(&new.Spec.ForProvider, valMap)
 	DecodeFsxLustreFileSystem_ExportPath(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_SecurityGroupIds(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_Tags(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_SubnetIds(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_ImportPath(&new.Spec.ForProvider, valMap)
 	DecodeFsxLustreFileSystem_ImportedFileChunkSize(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_PerUnitStorageThroughput(&new.Spec.ForProvider, valMap)
-	DecodeFsxLustreFileSystem_Id(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_StorageCapacity(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_SubnetIds(&new.Spec.ForProvider, valMap)
+	DecodeFsxLustreFileSystem_DriveCacheType(&new.Spec.ForProvider, valMap)
 	DecodeFsxLustreFileSystem_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeFsxLustreFileSystem_VpcId(&new.Status.AtProvider, valMap)
 	DecodeFsxLustreFileSystem_Arn(&new.Status.AtProvider, valMap)
 	DecodeFsxLustreFileSystem_DnsName(&new.Status.AtProvider, valMap)
 	DecodeFsxLustreFileSystem_MountName(&new.Status.AtProvider, valMap)
 	DecodeFsxLustreFileSystem_NetworkInterfaceIds(&new.Status.AtProvider, valMap)
+	DecodeFsxLustreFileSystem_VpcId(&new.Status.AtProvider, valMap)
 	DecodeFsxLustreFileSystem_OwnerId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -71,18 +70,13 @@ func DecodeFsxLustreFileSystem(prev *FsxLustreFileSystem, ctyValue cty.Value) (r
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_AutoImportPolicy(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.AutoImportPolicy = ctwhy.ValueAsString(vals["auto_import_policy"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeFsxLustreFileSystem_DeploymentType(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
 	p.DeploymentType = ctwhy.ValueAsString(vals["deployment_type"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_DriveCacheType(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.DriveCacheType = ctwhy.ValueAsString(vals["drive_cache_type"])
+func DecodeFsxLustreFileSystem_ImportPath(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.ImportPath = ctwhy.ValueAsString(vals["import_path"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -91,23 +85,23 @@ func DecodeFsxLustreFileSystem_KmsKeyId(p *FsxLustreFileSystemParameters, vals m
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_StorageCapacity(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.StorageCapacity = ctwhy.ValueAsInt64(vals["storage_capacity"])
+func DecodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.WeeklyMaintenanceStartTime = ctwhy.ValueAsString(vals["weekly_maintenance_start_time"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_StorageType(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.StorageType = ctwhy.ValueAsString(vals["storage_type"])
+func DecodeFsxLustreFileSystem_AutoImportPolicy(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.AutoImportPolicy = ctwhy.ValueAsString(vals["auto_import_policy"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_AutomaticBackupRetentionDays(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.AutomaticBackupRetentionDays = ctwhy.ValueAsInt64(vals["automatic_backup_retention_days"])
+func DecodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.DailyAutomaticBackupStartTime = ctwhy.ValueAsString(vals["daily_automatic_backup_start_time"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_ExportPath(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.ExportPath = ctwhy.ValueAsString(vals["export_path"])
+func DecodeFsxLustreFileSystem_PerUnitStorageThroughput(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.PerUnitStorageThroughput = ctwhy.ValueAsInt64(vals["per_unit_storage_throughput"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -131,8 +125,28 @@ func DecodeFsxLustreFileSystem_Tags(p *FsxLustreFileSystemParameters, vals map[s
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_WeeklyMaintenanceStartTime(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.WeeklyMaintenanceStartTime = ctwhy.ValueAsString(vals["weekly_maintenance_start_time"])
+func DecodeFsxLustreFileSystem_StorageType(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.StorageType = ctwhy.ValueAsString(vals["storage_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFsxLustreFileSystem_AutomaticBackupRetentionDays(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.AutomaticBackupRetentionDays = ctwhy.ValueAsInt64(vals["automatic_backup_retention_days"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFsxLustreFileSystem_ExportPath(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.ExportPath = ctwhy.ValueAsString(vals["export_path"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFsxLustreFileSystem_ImportedFileChunkSize(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.ImportedFileChunkSize = ctwhy.ValueAsInt64(vals["imported_file_chunk_size"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFsxLustreFileSystem_StorageCapacity(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.StorageCapacity = ctwhy.ValueAsInt64(vals["storage_capacity"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -145,28 +159,8 @@ func DecodeFsxLustreFileSystem_SubnetIds(p *FsxLustreFileSystemParameters, vals 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_DailyAutomaticBackupStartTime(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.DailyAutomaticBackupStartTime = ctwhy.ValueAsString(vals["daily_automatic_backup_start_time"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_ImportPath(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.ImportPath = ctwhy.ValueAsString(vals["import_path"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_ImportedFileChunkSize(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.ImportedFileChunkSize = ctwhy.ValueAsInt64(vals["imported_file_chunk_size"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_PerUnitStorageThroughput(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.PerUnitStorageThroughput = ctwhy.ValueAsInt64(vals["per_unit_storage_throughput"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_Id(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
+func DecodeFsxLustreFileSystem_DriveCacheType(p *FsxLustreFileSystemParameters, vals map[string]cty.Value) {
+	p.DriveCacheType = ctwhy.ValueAsString(vals["drive_cache_type"])
 }
 
 //containerTypeDecodeTemplate
@@ -184,11 +178,6 @@ func DecodeFsxLustreFileSystem_Timeouts_Create(p *Timeouts, vals map[string]cty.
 //primitiveTypeDecodeTemplate
 func DecodeFsxLustreFileSystem_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFsxLustreFileSystem_VpcId(p *FsxLustreFileSystemObservation, vals map[string]cty.Value) {
-	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -213,6 +202,11 @@ func DecodeFsxLustreFileSystem_NetworkInterfaceIds(p *FsxLustreFileSystemObserva
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.NetworkInterfaceIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFsxLustreFileSystem_VpcId(p *FsxLustreFileSystemObservation, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
 //primitiveTypeDecodeTemplate

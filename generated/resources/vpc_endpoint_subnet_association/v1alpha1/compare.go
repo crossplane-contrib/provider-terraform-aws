@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVpcEndpointSubnetAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVpcEndpointSubnetAssociation_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -63,16 +58,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpcEndpointSubnetAssociation_Id(k *VpcEndpointSubnetAssociationParameters, p *VpcEndpointSubnetAssociationParameters, md *plugin.MergeDescription) bool {
-	if k.Id != p.Id {
-		p.Id = k.Id
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeVpcEndpointSubnetAssociation_SubnetId(k *VpcEndpointSubnetAssociationParameters, p *VpcEndpointSubnetAssociationParameters, md *plugin.MergeDescription) bool {
 	if k.SubnetId != p.SubnetId {
 		p.SubnetId = k.SubnetId
@@ -96,12 +81,12 @@ func MergeVpcEndpointSubnetAssociation_VpcEndpointId(k *VpcEndpointSubnetAssocia
 func MergeVpcEndpointSubnetAssociation_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeVpcEndpointSubnetAssociation_Timeouts_Create(k, p, md)
+	updated = MergeVpcEndpointSubnetAssociation_Timeouts_Delete(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeVpcEndpointSubnetAssociation_Timeouts_Delete(k, p, md)
+	updated = MergeVpcEndpointSubnetAssociation_Timeouts_Create(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -113,9 +98,9 @@ func MergeVpcEndpointSubnetAssociation_Timeouts(k *Timeouts, p *Timeouts, md *pl
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpcEndpointSubnetAssociation_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Create != p.Create {
-		p.Create = k.Create
+func MergeVpcEndpointSubnetAssociation_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Delete != p.Delete {
+		p.Delete = k.Delete
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -123,9 +108,9 @@ func MergeVpcEndpointSubnetAssociation_Timeouts_Create(k *Timeouts, p *Timeouts,
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVpcEndpointSubnetAssociation_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
-	if k.Delete != p.Delete {
-		p.Delete = k.Delete
+func MergeVpcEndpointSubnetAssociation_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
 		md.NeedsProviderUpdate = true
 		return true
 	}
