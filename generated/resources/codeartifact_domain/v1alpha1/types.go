@@ -52,9 +52,9 @@ type CodeartifactDomainSpec struct {
 
 // A CodeartifactDomainParameters defines the desired state of a CodeartifactDomain
 type CodeartifactDomainParameters struct {
+	Domain        string `json:"domain"`
 	EncryptionKey string `json:"encryption_key"`
 	Id            string `json:"id"`
-	Domain        string `json:"domain"`
 }
 
 // A CodeartifactDomainStatus defines the observed state of a CodeartifactDomain

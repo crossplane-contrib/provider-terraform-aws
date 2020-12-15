@@ -37,8 +37,8 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSecurityhubProductSubscription(r SecurityhubProductSubscription) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSecurityhubProductSubscription_ProductArn(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubProductSubscription_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSecurityhubProductSubscription_ProductArn(r.Spec.ForProvider, ctyVal)
 	EncodeSecurityhubProductSubscription_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,12 +50,12 @@ func EncodeSecurityhubProductSubscription(r SecurityhubProductSubscription) cty.
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSecurityhubProductSubscription_ProductArn(p SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
-	vals["product_arn"] = cty.StringVal(p.ProductArn)
-}
-
 func EncodeSecurityhubProductSubscription_Id(p SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSecurityhubProductSubscription_ProductArn(p SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
+	vals["product_arn"] = cty.StringVal(p.ProductArn)
 }
 
 func EncodeSecurityhubProductSubscription_Arn(p SecurityhubProductSubscriptionObservation, vals map[string]cty.Value) {

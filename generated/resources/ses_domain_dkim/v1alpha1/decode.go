@@ -42,18 +42,24 @@ func DecodeSesDomainDkim(prev *SesDomainDkim, ctyValue cty.Value) (resource.Mana
 	DecodeSesDomainDkim_Domain(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainDkim_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainDkim_DkimTokens(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainDkim_Domain(p *SesDomainDkimParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainDkim_Id(p *SesDomainDkimParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeSesDomainDkim_DkimTokens(p *SesDomainDkimObservation, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["dkim_tokens"]) {

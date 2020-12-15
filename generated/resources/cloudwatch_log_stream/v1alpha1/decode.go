@@ -43,22 +43,29 @@ func DecodeCloudwatchLogStream(prev *CloudwatchLogStream, ctyValue cty.Value) (r
 	DecodeCloudwatchLogStream_LogGroupName(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogStream_Name(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogStream_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogStream_Id(p *CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogStream_LogGroupName(p *CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogStream_Name(p *CloudwatchLogStreamParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogStream_Arn(p *CloudwatchLogStreamObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

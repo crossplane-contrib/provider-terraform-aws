@@ -39,27 +39,27 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEbsSnapshotCopy(prev *EbsSnapshotCopy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEbsSnapshotCopy_SourceSnapshotId(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_Tags(&new.Spec.ForProvider, valMap)
-	DecodeEbsSnapshotCopy_Id(&new.Spec.ForProvider, valMap)
-	DecodeEbsSnapshotCopy_KmsKeyId(&new.Spec.ForProvider, valMap)
+	DecodeEbsSnapshotCopy_Encrypted(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_SourceRegion(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_Description(&new.Spec.ForProvider, valMap)
-	DecodeEbsSnapshotCopy_Encrypted(&new.Spec.ForProvider, valMap)
+	DecodeEbsSnapshotCopy_Id(&new.Spec.ForProvider, valMap)
+	DecodeEbsSnapshotCopy_KmsKeyId(&new.Spec.ForProvider, valMap)
+	DecodeEbsSnapshotCopy_SourceSnapshotId(&new.Spec.ForProvider, valMap)
 	DecodeEbsSnapshotCopy_VolumeId(&new.Status.AtProvider, valMap)
-	DecodeEbsSnapshotCopy_VolumeSize(&new.Status.AtProvider, valMap)
+	DecodeEbsSnapshotCopy_Arn(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshotCopy_OwnerAlias(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshotCopy_OwnerId(&new.Status.AtProvider, valMap)
-	DecodeEbsSnapshotCopy_Arn(&new.Status.AtProvider, valMap)
+	DecodeEbsSnapshotCopy_VolumeSize(&new.Status.AtProvider, valMap)
 	DecodeEbsSnapshotCopy_DataEncryptionKeyId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeEbsSnapshotCopy_SourceSnapshotId(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	p.SourceSnapshotId = ctwhy.ValueAsString(vals["source_snapshot_id"])
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeEbsSnapshotCopy_Tags(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -70,46 +70,62 @@ func DecodeEbsSnapshotCopy_Tags(p *EbsSnapshotCopyParameters, vals map[string]ct
 	p.Tags = vMap
 }
 
-func DecodeEbsSnapshotCopy_Id(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeEbsSnapshotCopy_KmsKeyId(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
-}
-
-func DecodeEbsSnapshotCopy_SourceRegion(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	p.SourceRegion = ctwhy.ValueAsString(vals["source_region"])
-}
-
-func DecodeEbsSnapshotCopy_Description(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEbsSnapshotCopy_Encrypted(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
 	p.Encrypted = ctwhy.ValueAsBool(vals["encrypted"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_SourceRegion(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	p.SourceRegion = ctwhy.ValueAsString(vals["source_region"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_Description(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_Id(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_KmsKeyId(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_SourceSnapshotId(p *EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	p.SourceSnapshotId = ctwhy.ValueAsString(vals["source_snapshot_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEbsSnapshotCopy_VolumeId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
 	p.VolumeId = ctwhy.ValueAsString(vals["volume_id"])
 }
 
-func DecodeEbsSnapshotCopy_VolumeSize(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	p.VolumeSize = ctwhy.ValueAsInt64(vals["volume_size"])
-}
-
-func DecodeEbsSnapshotCopy_OwnerAlias(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	p.OwnerAlias = ctwhy.ValueAsString(vals["owner_alias"])
-}
-
-func DecodeEbsSnapshotCopy_OwnerId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEbsSnapshotCopy_Arn(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_OwnerAlias(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	p.OwnerAlias = ctwhy.ValueAsString(vals["owner_alias"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_OwnerId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsSnapshotCopy_VolumeSize(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	p.VolumeSize = ctwhy.ValueAsInt64(vals["volume_size"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEbsSnapshotCopy_DataEncryptionKeyId(p *EbsSnapshotCopyObservation, vals map[string]cty.Value) {
 	p.DataEncryptionKeyId = ctwhy.ValueAsString(vals["data_encryption_key_id"])
 }

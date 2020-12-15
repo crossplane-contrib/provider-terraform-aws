@@ -39,26 +39,33 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesDomainIdentity(prev *SesDomainIdentity, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesDomainIdentity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainIdentity_Domain(&new.Spec.ForProvider, valMap)
-	DecodeSesDomainIdentity_VerificationToken(&new.Status.AtProvider, valMap)
+	DecodeSesDomainIdentity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainIdentity_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeSesDomainIdentity_VerificationToken(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSesDomainIdentity_Id(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainIdentity_Domain(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
-func DecodeSesDomainIdentity_VerificationToken(p *SesDomainIdentityObservation, vals map[string]cty.Value) {
-	p.VerificationToken = ctwhy.ValueAsString(vals["verification_token"])
+//primitiveTypeDecodeTemplate
+func DecodeSesDomainIdentity_Id(p *SesDomainIdentityParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainIdentity_Arn(p *SesDomainIdentityObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSesDomainIdentity_VerificationToken(p *SesDomainIdentityObservation, vals map[string]cty.Value) {
+	p.VerificationToken = ctwhy.ValueAsString(vals["verification_token"])
 }

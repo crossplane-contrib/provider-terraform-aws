@@ -17,13 +17,131 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*DxGateway)
+	p := prov.(*DxGateway)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeDxGateway_AmazonSideAsn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxGateway_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxGateway_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxGateway_Timeouts(&k.Spec.ForProvider.Timeouts, &p.Spec.ForProvider.Timeouts, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxGateway_OwnerAccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxGateway_AmazonSideAsn(k *DxGatewayParameters, p *DxGatewayParameters, md *plugin.MergeDescription) bool {
+	if k.AmazonSideAsn != p.AmazonSideAsn {
+		p.AmazonSideAsn = k.AmazonSideAsn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxGateway_Id(k *DxGatewayParameters, p *DxGatewayParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxGateway_Name(k *DxGatewayParameters, p *DxGatewayParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergeStructTemplateSpec
+func MergeDxGateway_Timeouts(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	updated := false
+	anyChildUpdated := false
+	updated = MergeDxGateway_Timeouts_Create(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDxGateway_Timeouts_Delete(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	if anyChildUpdated {
+		md.NeedsProviderUpdate = true
+	}
+	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxGateway_Timeouts_Create(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Create != p.Create {
+		p.Create = k.Create
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDxGateway_Timeouts_Delete(k *Timeouts, p *Timeouts, md *plugin.MergeDescription) bool {
+	if k.Delete != p.Delete {
+		p.Delete = k.Delete
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeDxGateway_OwnerAccountId(k *DxGatewayObservation, p *DxGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.OwnerAccountId != p.OwnerAccountId {
+		k.OwnerAccountId = p.OwnerAccountId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

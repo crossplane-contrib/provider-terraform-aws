@@ -39,19 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpcDhcpOptions(prev *VpcDhcpOptions, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeVpcDhcpOptions_DomainName(&new.Spec.ForProvider, valMap)
 	DecodeVpcDhcpOptions_DomainNameServers(&new.Spec.ForProvider, valMap)
 	DecodeVpcDhcpOptions_Id(&new.Spec.ForProvider, valMap)
+	DecodeVpcDhcpOptions_NetbiosNameServers(&new.Spec.ForProvider, valMap)
 	DecodeVpcDhcpOptions_NetbiosNodeType(&new.Spec.ForProvider, valMap)
 	DecodeVpcDhcpOptions_NtpServers(&new.Spec.ForProvider, valMap)
-	DecodeVpcDhcpOptions_DomainName(&new.Spec.ForProvider, valMap)
-	DecodeVpcDhcpOptions_NetbiosNameServers(&new.Spec.ForProvider, valMap)
 	DecodeVpcDhcpOptions_Tags(&new.Spec.ForProvider, valMap)
-	DecodeVpcDhcpOptions_OwnerId(&new.Status.AtProvider, valMap)
 	DecodeVpcDhcpOptions_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeVpcDhcpOptions_OwnerId(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeVpcDhcpOptions_DomainName(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
 func DecodeVpcDhcpOptions_DomainNameServers(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["domain_name_servers"]) {
@@ -60,26 +69,12 @@ func DecodeVpcDhcpOptions_DomainNameServers(p *VpcDhcpOptionsParameters, vals ma
 	p.DomainNameServers = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcDhcpOptions_Id(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
-func DecodeVpcDhcpOptions_NetbiosNodeType(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	p.NetbiosNodeType = ctwhy.ValueAsString(vals["netbios_node_type"])
-}
-
-func DecodeVpcDhcpOptions_NtpServers(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["ntp_servers"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.NtpServers = goVals
-}
-
-func DecodeVpcDhcpOptions_DomainName(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
-	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
-}
-
+//primitiveCollectionTypeDecodeTemplate
 func DecodeVpcDhcpOptions_NetbiosNameServers(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["netbios_name_servers"]) {
@@ -88,6 +83,21 @@ func DecodeVpcDhcpOptions_NetbiosNameServers(p *VpcDhcpOptionsParameters, vals m
 	p.NetbiosNameServers = goVals
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeVpcDhcpOptions_NetbiosNodeType(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	p.NetbiosNodeType = ctwhy.ValueAsString(vals["netbios_node_type"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeVpcDhcpOptions_NtpServers(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["ntp_servers"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.NtpServers = goVals
+}
+
+//primitiveMapTypeDecodeTemplate
 func DecodeVpcDhcpOptions_Tags(p *VpcDhcpOptionsParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -98,10 +108,12 @@ func DecodeVpcDhcpOptions_Tags(p *VpcDhcpOptionsParameters, vals map[string]cty.
 	p.Tags = vMap
 }
 
-func DecodeVpcDhcpOptions_OwnerId(p *VpcDhcpOptionsObservation, vals map[string]cty.Value) {
-	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeVpcDhcpOptions_Arn(p *VpcDhcpOptionsObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVpcDhcpOptions_OwnerId(p *VpcDhcpOptionsObservation, vals map[string]cty.Value) {
+	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }

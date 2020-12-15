@@ -53,12 +53,12 @@ type CloudwatchEventRuleSpec struct {
 // A CloudwatchEventRuleParameters defines the desired state of a CloudwatchEventRule
 type CloudwatchEventRuleParameters struct {
 	Description        string            `json:"description"`
-	EventPattern       string            `json:"event_pattern"`
+	Id                 string            `json:"id"`
+	IsEnabled          bool              `json:"is_enabled"`
 	NamePrefix         string            `json:"name_prefix"`
 	ScheduleExpression string            `json:"schedule_expression"`
 	Tags               map[string]string `json:"tags"`
-	Id                 string            `json:"id"`
-	IsEnabled          bool              `json:"is_enabled"`
+	EventPattern       string            `json:"event_pattern"`
 	Name               string            `json:"name"`
 	RoleArn            string            `json:"role_arn"`
 }

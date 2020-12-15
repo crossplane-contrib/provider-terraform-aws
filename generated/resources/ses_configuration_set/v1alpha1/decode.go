@@ -42,14 +42,19 @@ func DecodeSesConfigurationSet(prev *SesConfigurationSet, ctyValue cty.Value) (r
 	DecodeSesConfigurationSet_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesConfigurationSet_Name(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesConfigurationSet_Id(p *SesConfigurationSetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesConfigurationSet_Name(p *SesConfigurationSetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }

@@ -39,31 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAppsyncApiKey(prev *AppsyncApiKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAppsyncApiKey_Id(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncApiKey_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncApiKey_Description(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncApiKey_Expires(&new.Spec.ForProvider, valMap)
+	DecodeAppsyncApiKey_Id(&new.Spec.ForProvider, valMap)
 	DecodeAppsyncApiKey_Key(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeAppsyncApiKey_Id(p *AppsyncApiKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeAppsyncApiKey_ApiId(p *AppsyncApiKeyParameters, vals map[string]cty.Value) {
 	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAppsyncApiKey_Description(p *AppsyncApiKeyParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAppsyncApiKey_Expires(p *AppsyncApiKeyParameters, vals map[string]cty.Value) {
 	p.Expires = ctwhy.ValueAsString(vals["expires"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeAppsyncApiKey_Id(p *AppsyncApiKeyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeAppsyncApiKey_Key(p *AppsyncApiKeyObservation, vals map[string]cty.Value) {
 	p.Key = ctwhy.ValueAsString(vals["key"])
 }

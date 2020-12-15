@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2TransitGatewayVpcAttachment(r Ec2TransitGatewayVpcAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEc2TransitGatewayVpcAttachment_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachment_Ipv6Support(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachment_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachment_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachment_TransitGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachment_VpcId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachment_DnsSupport(r.Spec.ForProvider, ctyVal)
-	EncodeEc2TransitGatewayVpcAttachment_SubnetIds(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachment_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachment_Ipv6Support(r.Spec.ForProvider, ctyVal)
+	EncodeEc2TransitGatewayVpcAttachment_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2TransitGatewayVpcAttachment_VpcOwnerId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,24 +57,12 @@ func EncodeEc2TransitGatewayVpcAttachment(r Ec2TransitGatewayVpcAttachment) cty.
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeEc2TransitGatewayVpcAttachment_Id(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEc2TransitGatewayVpcAttachment_Ipv6Support(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	vals["ipv6_support"] = cty.StringVal(p.Ipv6Support)
-}
-
-func EncodeEc2TransitGatewayVpcAttachment_Tags(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
+func EncodeEc2TransitGatewayVpcAttachment_SubnetIds(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SubnetIds {
+		colVals = append(colVals, cty.StringVal(value))
 	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
+	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
@@ -97,12 +85,24 @@ func EncodeEc2TransitGatewayVpcAttachment_DnsSupport(p Ec2TransitGatewayVpcAttac
 	vals["dns_support"] = cty.StringVal(p.DnsSupport)
 }
 
-func EncodeEc2TransitGatewayVpcAttachment_SubnetIds(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SubnetIds {
-		colVals = append(colVals, cty.StringVal(value))
+func EncodeEc2TransitGatewayVpcAttachment_Id(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEc2TransitGatewayVpcAttachment_Ipv6Support(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	vals["ipv6_support"] = cty.StringVal(p.Ipv6Support)
+}
+
+func EncodeEc2TransitGatewayVpcAttachment_Tags(p Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
 	}
-	vals["subnet_ids"] = cty.SetVal(colVals)
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeEc2TransitGatewayVpcAttachment_VpcOwnerId(p Ec2TransitGatewayVpcAttachmentObservation, vals map[string]cty.Value) {

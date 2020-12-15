@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*ElbAttachment)
+	p := prov.(*ElbAttachment)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeElbAttachment_Elb(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeElbAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeElbAttachment_Instance(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeElbAttachment_Elb(k *ElbAttachmentParameters, p *ElbAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Elb != p.Elb {
+		p.Elb = k.Elb
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeElbAttachment_Id(k *ElbAttachmentParameters, p *ElbAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeElbAttachment_Instance(k *ElbAttachmentParameters, p *ElbAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Instance != p.Instance {
+		p.Instance = k.Instance
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

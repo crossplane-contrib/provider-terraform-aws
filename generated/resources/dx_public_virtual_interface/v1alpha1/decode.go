@@ -39,61 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxPublicVirtualInterface(prev *DxPublicVirtualInterface, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxPublicVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
-	DecodeDxPublicVirtualInterface_RouteFilterPrefixes(&new.Spec.ForProvider, valMap)
+	DecodeDxPublicVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxPublicVirtualInterface_Name(&new.Spec.ForProvider, valMap)
+	DecodeDxPublicVirtualInterface_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDxPublicVirtualInterface_Vlan(&new.Spec.ForProvider, valMap)
+	DecodeDxPublicVirtualInterface_Id(&new.Spec.ForProvider, valMap)
+	DecodeDxPublicVirtualInterface_RouteFilterPrefixes(&new.Spec.ForProvider, valMap)
+	DecodeDxPublicVirtualInterface_AmazonAddress(&new.Spec.ForProvider, valMap)
+	DecodeDxPublicVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeDxPublicVirtualInterface_ConnectionId(&new.Spec.ForProvider, valMap)
 	DecodeDxPublicVirtualInterface_AddressFamily(&new.Spec.ForProvider, valMap)
-	DecodeDxPublicVirtualInterface_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeDxPublicVirtualInterface_BgpAuthKey(&new.Spec.ForProvider, valMap)
-	DecodeDxPublicVirtualInterface_CustomerAddress(&new.Spec.ForProvider, valMap)
-	DecodeDxPublicVirtualInterface_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDxPublicVirtualInterface_Id(&new.Spec.ForProvider, valMap)
-	DecodeDxPublicVirtualInterface_Name(&new.Spec.ForProvider, valMap)
 	DecodeDxPublicVirtualInterface_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDxPublicVirtualInterface_AwsDevice(&new.Status.AtProvider, valMap)
 	DecodeDxPublicVirtualInterface_AmazonSideAsn(&new.Status.AtProvider, valMap)
 	DecodeDxPublicVirtualInterface_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeDxPublicVirtualInterface_AmazonAddress(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
-}
-
-func DecodeDxPublicVirtualInterface_RouteFilterPrefixes(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["route_filter_prefixes"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.RouteFilterPrefixes = goVals
-}
-
-func DecodeDxPublicVirtualInterface_Vlan(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
-}
-
-func DecodeDxPublicVirtualInterface_ConnectionId(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
-}
-
-func DecodeDxPublicVirtualInterface_AddressFamily(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.AddressFamily = ctwhy.ValueAsString(vals["address_family"])
-}
-
-func DecodeDxPublicVirtualInterface_BgpAsn(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
-}
-
-func DecodeDxPublicVirtualInterface_BgpAuthKey(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.BgpAuthKey = ctwhy.ValueAsString(vals["bgp_auth_key"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_CustomerAddress(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
 	p.CustomerAddress = ctwhy.ValueAsString(vals["customer_address"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_Name(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveMapTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_Tags(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -104,36 +82,78 @@ func DecodeDxPublicVirtualInterface_Tags(p *DxPublicVirtualInterfaceParameters, 
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_Vlan(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.Vlan = ctwhy.ValueAsInt64(vals["vlan"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_Id(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
-func DecodeDxPublicVirtualInterface_Name(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+//primitiveCollectionTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_RouteFilterPrefixes(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["route_filter_prefixes"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.RouteFilterPrefixes = goVals
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_AmazonAddress(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AmazonAddress = ctwhy.ValueAsString(vals["amazon_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_BgpAsn(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAsn = ctwhy.ValueAsInt64(vals["bgp_asn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_ConnectionId(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_AddressFamily(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.AddressFamily = ctwhy.ValueAsString(vals["address_family"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxPublicVirtualInterface_BgpAuthKey(p *DxPublicVirtualInterfaceParameters, vals map[string]cty.Value) {
+	p.BgpAuthKey = ctwhy.ValueAsString(vals["bgp_auth_key"])
+}
+
+//containerTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeDxPublicVirtualInterface_Timeouts_Create(p, valMap)
 	DecodeDxPublicVirtualInterface_Timeouts_Delete(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_AwsDevice(p *DxPublicVirtualInterfaceObservation, vals map[string]cty.Value) {
 	p.AwsDevice = ctwhy.ValueAsString(vals["aws_device"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_AmazonSideAsn(p *DxPublicVirtualInterfaceObservation, vals map[string]cty.Value) {
 	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxPublicVirtualInterface_Arn(p *DxPublicVirtualInterfaceObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

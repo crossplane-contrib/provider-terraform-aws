@@ -44,26 +44,34 @@ func DecodeRoute53ZoneAssociation(prev *Route53ZoneAssociation, ctyValue cty.Val
 	DecodeRoute53ZoneAssociation_VpcRegion(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ZoneAssociation_ZoneId(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ZoneAssociation_OwningAccount(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ZoneAssociation_Id(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ZoneAssociation_VpcId(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ZoneAssociation_VpcRegion(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
 	p.VpcRegion = ctwhy.ValueAsString(vals["vpc_region"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ZoneAssociation_ZoneId(p *Route53ZoneAssociationParameters, vals map[string]cty.Value) {
 	p.ZoneId = ctwhy.ValueAsString(vals["zone_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ZoneAssociation_OwningAccount(p *Route53ZoneAssociationObservation, vals map[string]cty.Value) {
 	p.OwningAccount = ctwhy.ValueAsString(vals["owning_account"])
 }

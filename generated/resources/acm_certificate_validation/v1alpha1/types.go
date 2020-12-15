@@ -52,9 +52,9 @@ type AcmCertificateValidationSpec struct {
 
 // A AcmCertificateValidationParameters defines the desired state of a AcmCertificateValidation
 type AcmCertificateValidationParameters struct {
-	Id                    string   `json:"id"`
 	ValidationRecordFqdns []string `json:"validation_record_fqdns"`
 	CertificateArn        string   `json:"certificate_arn"`
+	Id                    string   `json:"id"`
 	Timeouts              Timeouts `json:"timeouts"`
 }
 

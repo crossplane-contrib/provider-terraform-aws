@@ -43,14 +43,19 @@ func DecodeEgressOnlyInternetGateway(prev *EgressOnlyInternetGateway, ctyValue c
 	DecodeEgressOnlyInternetGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEgressOnlyInternetGateway_VpcId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEgressOnlyInternetGateway_Id(p *EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeEgressOnlyInternetGateway_Tags(p *EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -61,6 +66,7 @@ func DecodeEgressOnlyInternetGateway_Tags(p *EgressOnlyInternetGatewayParameters
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEgressOnlyInternetGateway_VpcId(p *EgressOnlyInternetGatewayParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }

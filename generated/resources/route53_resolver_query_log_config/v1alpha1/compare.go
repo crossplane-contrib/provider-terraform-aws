@@ -17,13 +17,131 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*Route53ResolverQueryLogConfig)
+	p := prov.(*Route53ResolverQueryLogConfig)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeRoute53ResolverQueryLogConfig_DestinationArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53ResolverQueryLogConfig_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53ResolverQueryLogConfig_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53ResolverQueryLogConfig_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53ResolverQueryLogConfig_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53ResolverQueryLogConfig_OwnerId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53ResolverQueryLogConfig_ShareStatus(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53ResolverQueryLogConfig_DestinationArn(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
+	if k.DestinationArn != p.DestinationArn {
+		p.DestinationArn = k.DestinationArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53ResolverQueryLogConfig_Id(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53ResolverQueryLogConfig_Name(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeRoute53ResolverQueryLogConfig_Tags(k *Route53ResolverQueryLogConfigParameters, p *Route53ResolverQueryLogConfigParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRoute53ResolverQueryLogConfig_Arn(k *Route53ResolverQueryLogConfigObservation, p *Route53ResolverQueryLogConfigObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRoute53ResolverQueryLogConfig_OwnerId(k *Route53ResolverQueryLogConfigObservation, p *Route53ResolverQueryLogConfigObservation, md *plugin.MergeDescription) bool {
+	if k.OwnerId != p.OwnerId {
+		k.OwnerId = p.OwnerId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRoute53ResolverQueryLogConfig_ShareStatus(k *Route53ResolverQueryLogConfigObservation, p *Route53ResolverQueryLogConfigObservation, md *plugin.MergeDescription) bool {
+	if k.ShareStatus != p.ShareStatus {
+		k.ShareStatus = p.ShareStatus
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

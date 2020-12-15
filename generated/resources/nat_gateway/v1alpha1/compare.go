@@ -17,13 +17,131 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*NatGateway)
+	p := prov.(*NatGateway)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeNatGateway_SubnetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNatGateway_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNatGateway_AllocationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNatGateway_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNatGateway_NetworkInterfaceId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNatGateway_PrivateIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNatGateway_PublicIp(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNatGateway_SubnetId(k *NatGatewayParameters, p *NatGatewayParameters, md *plugin.MergeDescription) bool {
+	if k.SubnetId != p.SubnetId {
+		p.SubnetId = k.SubnetId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeNatGateway_Tags(k *NatGatewayParameters, p *NatGatewayParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNatGateway_AllocationId(k *NatGatewayParameters, p *NatGatewayParameters, md *plugin.MergeDescription) bool {
+	if k.AllocationId != p.AllocationId {
+		p.AllocationId = k.AllocationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNatGateway_Id(k *NatGatewayParameters, p *NatGatewayParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNatGateway_NetworkInterfaceId(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		k.NetworkInterfaceId = p.NetworkInterfaceId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNatGateway_PrivateIp(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.PrivateIp != p.PrivateIp {
+		k.PrivateIp = p.PrivateIp
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNatGateway_PublicIp(k *NatGatewayObservation, p *NatGatewayObservation, md *plugin.MergeDescription) bool {
+	if k.PublicIp != p.PublicIp {
+		k.PublicIp = p.PublicIp
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

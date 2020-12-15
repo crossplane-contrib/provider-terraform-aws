@@ -39,38 +39,52 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeGuarddutyThreatintelset(prev *GuarddutyThreatintelset, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeGuarddutyThreatintelset_Activate(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyThreatintelset_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyThreatintelset_Format(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyThreatintelset_Id(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyThreatintelset_Location(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyThreatintelset_Name(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyThreatintelset_Tags(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyThreatintelset_Activate(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyThreatintelset_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeGuarddutyThreatintelset_Activate(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	p.Activate = ctwhy.ValueAsBool(vals["activate"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyThreatintelset_DetectorId(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyThreatintelset_Format(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	p.Format = ctwhy.ValueAsString(vals["format"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyThreatintelset_Id(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyThreatintelset_Location(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	p.Location = ctwhy.ValueAsString(vals["location"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyThreatintelset_Name(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeGuarddutyThreatintelset_Tags(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -81,10 +95,7 @@ func DecodeGuarddutyThreatintelset_Tags(p *GuarddutyThreatintelsetParameters, va
 	p.Tags = vMap
 }
 
-func DecodeGuarddutyThreatintelset_Activate(p *GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
-	p.Activate = ctwhy.ValueAsBool(vals["activate"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyThreatintelset_Arn(p *GuarddutyThreatintelsetObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

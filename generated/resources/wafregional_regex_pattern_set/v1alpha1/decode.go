@@ -43,18 +43,24 @@ func DecodeWafregionalRegexPatternSet(prev *WafregionalRegexPatternSet, ctyValue
 	DecodeWafregionalRegexPatternSet_Name(&new.Spec.ForProvider, valMap)
 	DecodeWafregionalRegexPatternSet_RegexPatternStrings(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafregionalRegexPatternSet_Id(p *WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafregionalRegexPatternSet_Name(p *WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeWafregionalRegexPatternSet_RegexPatternStrings(p *WafregionalRegexPatternSetParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["regex_pattern_strings"]) {

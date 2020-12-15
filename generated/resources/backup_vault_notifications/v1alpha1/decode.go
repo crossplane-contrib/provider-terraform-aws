@@ -39,23 +39,19 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeBackupVaultNotifications(prev *BackupVaultNotifications, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeBackupVaultNotifications_Id(&new.Spec.ForProvider, valMap)
-	DecodeBackupVaultNotifications_SnsTopicArn(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_BackupVaultEvents(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_BackupVaultName(&new.Spec.ForProvider, valMap)
+	DecodeBackupVaultNotifications_Id(&new.Spec.ForProvider, valMap)
+	DecodeBackupVaultNotifications_SnsTopicArn(&new.Spec.ForProvider, valMap)
 	DecodeBackupVaultNotifications_BackupVaultArn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeBackupVaultNotifications_Id(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeBackupVaultNotifications_SnsTopicArn(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
-	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
-}
-
+//primitiveCollectionTypeDecodeTemplate
 func DecodeBackupVaultNotifications_BackupVaultEvents(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["backup_vault_events"]) {
@@ -64,10 +60,22 @@ func DecodeBackupVaultNotifications_BackupVaultEvents(p *BackupVaultNotification
 	p.BackupVaultEvents = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeBackupVaultNotifications_BackupVaultName(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
 	p.BackupVaultName = ctwhy.ValueAsString(vals["backup_vault_name"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeBackupVaultNotifications_Id(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeBackupVaultNotifications_SnsTopicArn(p *BackupVaultNotificationsParameters, vals map[string]cty.Value) {
+	p.SnsTopicArn = ctwhy.ValueAsString(vals["sns_topic_arn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeBackupVaultNotifications_BackupVaultArn(p *BackupVaultNotificationsObservation, vals map[string]cty.Value) {
 	p.BackupVaultArn = ctwhy.ValueAsString(vals["backup_vault_arn"])
 }

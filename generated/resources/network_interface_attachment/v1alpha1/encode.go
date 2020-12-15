@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeNetworkInterfaceAttachment(r NetworkInterfaceAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNetworkInterfaceAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceAttachment_NetworkInterfaceId(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceAttachment_DeviceIndex(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkInterfaceAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkInterfaceAttachment_Status(r.Status.AtProvider, ctyVal)
 	EncodeNetworkInterfaceAttachment_AttachmentId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -53,10 +53,6 @@ func EncodeNetworkInterfaceAttachment(r NetworkInterfaceAttachment) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNetworkInterfaceAttachment_Id(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeNetworkInterfaceAttachment_InstanceId(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
 	vals["instance_id"] = cty.StringVal(p.InstanceId)
 }
@@ -67,6 +63,10 @@ func EncodeNetworkInterfaceAttachment_NetworkInterfaceId(p NetworkInterfaceAttac
 
 func EncodeNetworkInterfaceAttachment_DeviceIndex(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
 	vals["device_index"] = cty.NumberIntVal(p.DeviceIndex)
+}
+
+func EncodeNetworkInterfaceAttachment_Id(p NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeNetworkInterfaceAttachment_Status(p NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {

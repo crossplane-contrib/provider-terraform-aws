@@ -39,27 +39,34 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesDomainMailFrom(prev *SesDomainMailFrom, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesDomainMailFrom_Domain(&new.Spec.ForProvider, valMap)
-	DecodeSesDomainMailFrom_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainMailFrom_MailFromDomain(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainMailFrom_BehaviorOnMxFailure(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainMailFrom_Domain(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainMailFrom_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSesDomainMailFrom_Domain(p *SesDomainMailFromParameters, vals map[string]cty.Value) {
-	p.Domain = ctwhy.ValueAsString(vals["domain"])
-}
-
-func DecodeSesDomainMailFrom_Id(p *SesDomainMailFromParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainMailFrom_MailFromDomain(p *SesDomainMailFromParameters, vals map[string]cty.Value) {
 	p.MailFromDomain = ctwhy.ValueAsString(vals["mail_from_domain"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainMailFrom_BehaviorOnMxFailure(p *SesDomainMailFromParameters, vals map[string]cty.Value) {
 	p.BehaviorOnMxFailure = ctwhy.ValueAsString(vals["behavior_on_mx_failure"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSesDomainMailFrom_Domain(p *SesDomainMailFromParameters, vals map[string]cty.Value) {
+	p.Domain = ctwhy.ValueAsString(vals["domain"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSesDomainMailFrom_Id(p *SesDomainMailFromParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

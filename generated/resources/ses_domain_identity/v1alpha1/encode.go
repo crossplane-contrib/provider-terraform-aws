@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesDomainIdentity(r SesDomainIdentity) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesDomainIdentity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentity_Domain(r.Spec.ForProvider, ctyVal)
-	EncodeSesDomainIdentity_VerificationToken(r.Status.AtProvider, ctyVal)
+	EncodeSesDomainIdentity_Id(r.Spec.ForProvider, ctyVal)
 	EncodeSesDomainIdentity_Arn(r.Status.AtProvider, ctyVal)
+	EncodeSesDomainIdentity_VerificationToken(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -51,18 +51,18 @@ func EncodeSesDomainIdentity(r SesDomainIdentity) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesDomainIdentity_Id(p SesDomainIdentityParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeSesDomainIdentity_Domain(p SesDomainIdentityParameters, vals map[string]cty.Value) {
 	vals["domain"] = cty.StringVal(p.Domain)
 }
 
-func EncodeSesDomainIdentity_VerificationToken(p SesDomainIdentityObservation, vals map[string]cty.Value) {
-	vals["verification_token"] = cty.StringVal(p.VerificationToken)
+func EncodeSesDomainIdentity_Id(p SesDomainIdentityParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeSesDomainIdentity_Arn(p SesDomainIdentityObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeSesDomainIdentity_VerificationToken(p SesDomainIdentityObservation, vals map[string]cty.Value) {
+	vals["verification_token"] = cty.StringVal(p.VerificationToken)
 }

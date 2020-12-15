@@ -43,18 +43,24 @@ func DecodeVpnGatewayRoutePropagation(prev *VpnGatewayRoutePropagation, ctyValue
 	DecodeVpnGatewayRoutePropagation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeVpnGatewayRoutePropagation_VpnGatewayId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpnGatewayRoutePropagation_Id(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpnGatewayRoutePropagation_RouteTableId(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpnGatewayRoutePropagation_VpnGatewayId(p *VpnGatewayRoutePropagationParameters, vals map[string]cty.Value) {
 	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
 }

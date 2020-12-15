@@ -39,21 +39,27 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSecurityhubProductSubscription(prev *SecurityhubProductSubscription, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSecurityhubProductSubscription_ProductArn(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubProductSubscription_Id(&new.Spec.ForProvider, valMap)
+	DecodeSecurityhubProductSubscription_ProductArn(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubProductSubscription_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSecurityhubProductSubscription_ProductArn(p *SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
-	p.ProductArn = ctwhy.ValueAsString(vals["product_arn"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubProductSubscription_Id(p *SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSecurityhubProductSubscription_ProductArn(p *SecurityhubProductSubscriptionParameters, vals map[string]cty.Value) {
+	p.ProductArn = ctwhy.ValueAsString(vals["product_arn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubProductSubscription_Arn(p *SecurityhubProductSubscriptionObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

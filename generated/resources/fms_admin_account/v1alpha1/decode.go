@@ -42,14 +42,19 @@ func DecodeFmsAdminAccount(prev *FmsAdminAccount, ctyValue cty.Value) (resource.
 	DecodeFmsAdminAccount_AccountId(&new.Spec.ForProvider, valMap)
 	DecodeFmsAdminAccount_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeFmsAdminAccount_AccountId(p *FmsAdminAccountParameters, vals map[string]cty.Value) {
 	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeFmsAdminAccount_Id(p *FmsAdminAccountParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

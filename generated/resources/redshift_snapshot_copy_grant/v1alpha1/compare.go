@@ -17,13 +17,101 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*RedshiftSnapshotCopyGrant)
+	p := prov.(*RedshiftSnapshotCopyGrant)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeRedshiftSnapshotCopyGrant_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftSnapshotCopyGrant_KmsKeyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftSnapshotCopyGrant_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRedshiftSnapshotCopyGrant_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRedshiftSnapshotCopyGrant_Id(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRedshiftSnapshotCopyGrant_KmsKeyId(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
+	if k.KmsKeyId != p.KmsKeyId {
+		p.KmsKeyId = k.KmsKeyId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRedshiftSnapshotCopyGrant_SnapshotCopyGrantName(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
+	if k.SnapshotCopyGrantName != p.SnapshotCopyGrantName {
+		p.SnapshotCopyGrantName = k.SnapshotCopyGrantName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeRedshiftSnapshotCopyGrant_Tags(k *RedshiftSnapshotCopyGrantParameters, p *RedshiftSnapshotCopyGrantParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeRedshiftSnapshotCopyGrant_Arn(k *RedshiftSnapshotCopyGrantObservation, p *RedshiftSnapshotCopyGrantObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

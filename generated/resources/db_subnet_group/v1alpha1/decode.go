@@ -39,29 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDbSubnetGroup(prev *DbSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDbSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeDbSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Name(&new.Spec.ForProvider, valMap)
+	DecodeDbSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeDbSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeDbSubnetGroup_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeDbSubnetGroup_NamePrefix(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
-func DecodeDbSubnetGroup_SubnetIds(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.SubnetIds = goVals
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeDbSubnetGroup_Tags(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -72,18 +64,36 @@ func DecodeDbSubnetGroup_Tags(p *DbSubnetGroupParameters, vals map[string]cty.Va
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDbSubnetGroup_Description(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDbSubnetGroup_Id(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDbSubnetGroup_Name(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDbSubnetGroup_NamePrefix(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeDbSubnetGroup_SubnetIds(p *DbSubnetGroupParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SubnetIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDbSubnetGroup_Arn(p *DbSubnetGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

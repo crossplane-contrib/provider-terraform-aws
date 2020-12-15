@@ -41,8 +41,8 @@ func EncodeGuarddutyDetector(r GuarddutyDetector) cty.Value {
 	EncodeGuarddutyDetector_FindingPublishingFrequency(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyDetector_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyDetector_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyDetector_AccountId(r.Status.AtProvider, ctyVal)
 	EncodeGuarddutyDetector_Arn(r.Status.AtProvider, ctyVal)
+	EncodeGuarddutyDetector_AccountId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -77,10 +77,10 @@ func EncodeGuarddutyDetector_Tags(p GuarddutyDetectorParameters, vals map[string
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeGuarddutyDetector_AccountId(p GuarddutyDetectorObservation, vals map[string]cty.Value) {
-	vals["account_id"] = cty.StringVal(p.AccountId)
-}
-
 func EncodeGuarddutyDetector_Arn(p GuarddutyDetectorObservation, vals map[string]cty.Value) {
 	vals["arn"] = cty.StringVal(p.Arn)
+}
+
+func EncodeGuarddutyDetector_AccountId(p GuarddutyDetectorObservation, vals map[string]cty.Value) {
+	vals["account_id"] = cty.StringVal(p.AccountId)
 }

@@ -44,22 +44,29 @@ func DecodeDaxSubnetGroup(prev *DaxSubnetGroup, ctyValue cty.Value) (resource.Ma
 	DecodeDaxSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeDaxSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeDaxSubnetGroup_VpcId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDaxSubnetGroup_Description(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDaxSubnetGroup_Id(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDaxSubnetGroup_Name(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeDaxSubnetGroup_SubnetIds(p *DaxSubnetGroupParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
@@ -68,6 +75,7 @@ func DecodeDaxSubnetGroup_SubnetIds(p *DaxSubnetGroupParameters, vals map[string
 	p.SubnetIds = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDaxSubnetGroup_VpcId(p *DaxSubnetGroupObservation, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }

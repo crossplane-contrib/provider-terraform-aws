@@ -17,13 +17,71 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*Route53DelegationSet)
+	p := prov.(*Route53DelegationSet)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeRoute53DelegationSet_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53DelegationSet_ReferenceName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53DelegationSet_NameServers(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53DelegationSet_Id(k *Route53DelegationSetParameters, p *Route53DelegationSetParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53DelegationSet_ReferenceName(k *Route53DelegationSetParameters, p *Route53DelegationSetParameters, md *plugin.MergeDescription) bool {
+	if k.ReferenceName != p.ReferenceName {
+		p.ReferenceName = k.ReferenceName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateStatus
+func MergeRoute53DelegationSet_NameServers(k *Route53DelegationSetObservation, p *Route53DelegationSetObservation, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(p.NameServers, p.NameServers) {
+		k.NameServers = p.NameServers
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAppautoscalingTarget_ServiceNamespace(r.Spec.ForProvider, ctyVal)
-	EncodeAppautoscalingTarget_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_MaxCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_MinCapacity(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ResourceId(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeAppautoscalingTarget_ScalableDimension(r.Spec.ForProvider, ctyVal)
+	EncodeAppautoscalingTarget_ServiceNamespace(r.Spec.ForProvider, ctyVal)
+	EncodeAppautoscalingTarget_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,14 +53,6 @@ func EncodeAppautoscalingTarget(r AppautoscalingTarget) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAppautoscalingTarget_ServiceNamespace(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["service_namespace"] = cty.StringVal(p.ServiceNamespace)
-}
-
-func EncodeAppautoscalingTarget_Id(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeAppautoscalingTarget_MaxCapacity(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
@@ -81,4 +73,12 @@ func EncodeAppautoscalingTarget_RoleArn(p AppautoscalingTargetParameters, vals m
 
 func EncodeAppautoscalingTarget_ScalableDimension(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
 	vals["scalable_dimension"] = cty.StringVal(p.ScalableDimension)
+}
+
+func EncodeAppautoscalingTarget_ServiceNamespace(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
+	vals["service_namespace"] = cty.StringVal(p.ServiceNamespace)
+}
+
+func EncodeAppautoscalingTarget_Id(p AppautoscalingTargetParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

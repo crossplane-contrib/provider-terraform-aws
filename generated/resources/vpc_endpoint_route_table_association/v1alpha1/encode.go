@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVpcEndpointRouteTableAssociation(r VpcEndpointRouteTableAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeVpcEndpointRouteTableAssociation_RouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointRouteTableAssociation_VpcEndpointId(r.Spec.ForProvider, ctyVal)
 	EncodeVpcEndpointRouteTableAssociation_Id(r.Spec.ForProvider, ctyVal)
-	EncodeVpcEndpointRouteTableAssociation_RouteTableId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +51,14 @@ func EncodeVpcEndpointRouteTableAssociation(r VpcEndpointRouteTableAssociation) 
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeVpcEndpointRouteTableAssociation_RouteTableId(p VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+	vals["route_table_id"] = cty.StringVal(p.RouteTableId)
+}
+
 func EncodeVpcEndpointRouteTableAssociation_VpcEndpointId(p VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_endpoint_id"] = cty.StringVal(p.VpcEndpointId)
 }
 
 func EncodeVpcEndpointRouteTableAssociation_Id(p VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeVpcEndpointRouteTableAssociation_RouteTableId(p VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
-	vals["route_table_id"] = cty.StringVal(p.RouteTableId)
 }

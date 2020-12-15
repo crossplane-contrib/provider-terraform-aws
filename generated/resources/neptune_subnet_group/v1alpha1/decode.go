@@ -46,14 +46,19 @@ func DecodeNeptuneSubnetGroup(prev *NeptuneSubnetGroup, ctyValue cty.Value) (res
 	DecodeNeptuneSubnetGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeNeptuneSubnetGroup_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNeptuneSubnetGroup_NamePrefix(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeNeptuneSubnetGroup_SubnetIds(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
@@ -62,6 +67,7 @@ func DecodeNeptuneSubnetGroup_SubnetIds(p *NeptuneSubnetGroupParameters, vals ma
 	p.SubnetIds = goVals
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeNeptuneSubnetGroup_Tags(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -72,18 +78,22 @@ func DecodeNeptuneSubnetGroup_Tags(p *NeptuneSubnetGroupParameters, vals map[str
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNeptuneSubnetGroup_Description(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNeptuneSubnetGroup_Id(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNeptuneSubnetGroup_Name(p *NeptuneSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNeptuneSubnetGroup_Arn(p *NeptuneSubnetGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

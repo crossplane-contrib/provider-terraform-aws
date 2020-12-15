@@ -46,22 +46,29 @@ func DecodeApigatewayv2RouteResponse(prev *Apigatewayv2RouteResponse, ctyValue c
 	DecodeApigatewayv2RouteResponse_RouteId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2RouteResponse_RouteResponseKey(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2RouteResponse_ApiId(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2RouteResponse_Id(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2RouteResponse_ModelSelectionExpression(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	p.ModelSelectionExpression = ctwhy.ValueAsString(vals["model_selection_expression"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeApigatewayv2RouteResponse_ResponseModels(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -72,10 +79,12 @@ func DecodeApigatewayv2RouteResponse_ResponseModels(p *Apigatewayv2RouteResponse
 	p.ResponseModels = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2RouteResponse_RouteId(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	p.RouteId = ctwhy.ValueAsString(vals["route_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2RouteResponse_RouteResponseKey(p *Apigatewayv2RouteResponseParameters, vals map[string]cty.Value) {
 	p.RouteResponseKey = ctwhy.ValueAsString(vals["route_response_key"])
 }

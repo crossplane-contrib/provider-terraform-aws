@@ -43,42 +43,53 @@ func DecodeCognitoUserPoolDomain(prev *CognitoUserPoolDomain, ctyValue cty.Value
 	DecodeCognitoUserPoolDomain_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCognitoUserPoolDomain_Id(&new.Spec.ForProvider, valMap)
 	DecodeCognitoUserPoolDomain_UserPoolId(&new.Spec.ForProvider, valMap)
-	DecodeCognitoUserPoolDomain_CloudfrontDistributionArn(&new.Status.AtProvider, valMap)
-	DecodeCognitoUserPoolDomain_S3Bucket(&new.Status.AtProvider, valMap)
 	DecodeCognitoUserPoolDomain_Version(&new.Status.AtProvider, valMap)
 	DecodeCognitoUserPoolDomain_AwsAccountId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeCognitoUserPoolDomain_CloudfrontDistributionArn(&new.Status.AtProvider, valMap)
+	DecodeCognitoUserPoolDomain_S3Bucket(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_CertificateArn(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
 	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_Domain(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_Id(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_UserPoolId(p *CognitoUserPoolDomainParameters, vals map[string]cty.Value) {
 	p.UserPoolId = ctwhy.ValueAsString(vals["user_pool_id"])
 }
 
-func DecodeCognitoUserPoolDomain_CloudfrontDistributionArn(p *CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
-	p.CloudfrontDistributionArn = ctwhy.ValueAsString(vals["cloudfront_distribution_arn"])
-}
-
-func DecodeCognitoUserPoolDomain_S3Bucket(p *CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
-	p.S3Bucket = ctwhy.ValueAsString(vals["s3_bucket"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_Version(p *CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
 	p.Version = ctwhy.ValueAsString(vals["version"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCognitoUserPoolDomain_AwsAccountId(p *CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
 	p.AwsAccountId = ctwhy.ValueAsString(vals["aws_account_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCognitoUserPoolDomain_CloudfrontDistributionArn(p *CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
+	p.CloudfrontDistributionArn = ctwhy.ValueAsString(vals["cloudfront_distribution_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCognitoUserPoolDomain_S3Bucket(p *CognitoUserPoolDomainObservation, vals map[string]cty.Value) {
+	p.S3Bucket = ctwhy.ValueAsString(vals["s3_bucket"])
 }

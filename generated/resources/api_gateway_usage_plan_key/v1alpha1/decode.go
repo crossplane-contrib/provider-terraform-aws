@@ -39,36 +39,45 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayUsagePlanKey(prev *ApiGatewayUsagePlanKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeApiGatewayUsagePlanKey_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_KeyType(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_UsagePlanId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_Id(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayUsagePlanKey_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_Name(&new.Status.AtProvider, valMap)
 	DecodeApiGatewayUsagePlanKey_Value(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeApiGatewayUsagePlanKey_KeyType(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	p.KeyType = ctwhy.ValueAsString(vals["key_type"])
-}
-
-func DecodeApiGatewayUsagePlanKey_UsagePlanId(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	p.UsagePlanId = ctwhy.ValueAsString(vals["usage_plan_id"])
-}
-
-func DecodeApiGatewayUsagePlanKey_Id(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayUsagePlanKey_KeyId(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayUsagePlanKey_KeyType(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	p.KeyType = ctwhy.ValueAsString(vals["key_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayUsagePlanKey_UsagePlanId(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	p.UsagePlanId = ctwhy.ValueAsString(vals["usage_plan_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayUsagePlanKey_Id(p *ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayUsagePlanKey_Name(p *ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayUsagePlanKey_Value(p *ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {
 	p.Value = ctwhy.ValueAsString(vals["value"])
 }

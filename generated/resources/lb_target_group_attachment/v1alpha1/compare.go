@@ -17,13 +17,102 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*LbTargetGroupAttachment)
+	p := prov.(*LbTargetGroupAttachment)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeLbTargetGroupAttachment_TargetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLbTargetGroupAttachment_AvailabilityZone(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLbTargetGroupAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLbTargetGroupAttachment_Port(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLbTargetGroupAttachment_TargetGroupArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbTargetGroupAttachment_TargetId(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TargetId != p.TargetId {
+		p.TargetId = k.TargetId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbTargetGroupAttachment_AvailabilityZone(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.AvailabilityZone != p.AvailabilityZone {
+		p.AvailabilityZone = k.AvailabilityZone
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbTargetGroupAttachment_Id(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbTargetGroupAttachment_Port(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Port != p.Port {
+		p.Port = k.Port
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLbTargetGroupAttachment_TargetGroupArn(k *LbTargetGroupAttachmentParameters, p *LbTargetGroupAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TargetGroupArn != p.TargetGroupArn {
+		p.TargetGroupArn = k.TargetGroupArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

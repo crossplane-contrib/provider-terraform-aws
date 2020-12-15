@@ -53,14 +53,14 @@ type SagemakerNotebookInstanceSpec struct {
 // A SagemakerNotebookInstanceParameters defines the desired state of a SagemakerNotebookInstance
 type SagemakerNotebookInstanceParameters struct {
 	Name                 string            `json:"name"`
+	RootAccess           string            `json:"root_access"`
 	SecurityGroups       []string          `json:"security_groups"`
 	SubnetId             string            `json:"subnet_id"`
 	Id                   string            `json:"id"`
+	LifecycleConfigName  string            `json:"lifecycle_config_name"`
 	InstanceType         string            `json:"instance_type"`
 	KmsKeyId             string            `json:"kms_key_id"`
-	LifecycleConfigName  string            `json:"lifecycle_config_name"`
 	RoleArn              string            `json:"role_arn"`
-	RootAccess           string            `json:"root_access"`
 	Tags                 map[string]string `json:"tags"`
 	DirectInternetAccess string            `json:"direct_internet_access"`
 }

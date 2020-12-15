@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*OrganizationsPolicyAttachment)
+	p := prov.(*OrganizationsPolicyAttachment)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeOrganizationsPolicyAttachment_PolicyId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeOrganizationsPolicyAttachment_TargetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeOrganizationsPolicyAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeOrganizationsPolicyAttachment_PolicyId(k *OrganizationsPolicyAttachmentParameters, p *OrganizationsPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.PolicyId != p.PolicyId {
+		p.PolicyId = k.PolicyId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeOrganizationsPolicyAttachment_TargetId(k *OrganizationsPolicyAttachmentParameters, p *OrganizationsPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.TargetId != p.TargetId {
+		p.TargetId = k.TargetId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeOrganizationsPolicyAttachment_Id(k *OrganizationsPolicyAttachmentParameters, p *OrganizationsPolicyAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

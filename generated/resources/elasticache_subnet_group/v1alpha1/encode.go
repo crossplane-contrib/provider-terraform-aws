@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeElasticacheSubnetGroup(r ElasticacheSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeElasticacheSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
-	EncodeElasticacheSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,6 +50,14 @@ func EncodeElasticacheSubnetGroup(r ElasticacheSubnetGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeElasticacheSubnetGroup_SubnetIds(p ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SubnetIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeElasticacheSubnetGroup_Description(p ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
@@ -62,12 +70,4 @@ func EncodeElasticacheSubnetGroup_Id(p ElasticacheSubnetGroupParameters, vals ma
 
 func EncodeElasticacheSubnetGroup_Name(p ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeElasticacheSubnetGroup_SubnetIds(p ElasticacheSubnetGroupParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SubnetIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["subnet_ids"] = cty.SetVal(colVals)
 }

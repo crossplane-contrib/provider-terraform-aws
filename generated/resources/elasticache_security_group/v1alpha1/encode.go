@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeElasticacheSecurityGroup(r ElasticacheSecurityGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeElasticacheSecurityGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSecurityGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSecurityGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeElasticacheSecurityGroup_SecurityGroupNames(r.Spec.ForProvider, ctyVal)
+	EncodeElasticacheSecurityGroup_Description(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,10 +50,6 @@ func EncodeElasticacheSecurityGroup(r ElasticacheSecurityGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeElasticacheSecurityGroup_Description(p ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeElasticacheSecurityGroup_Id(p ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
@@ -70,4 +66,8 @@ func EncodeElasticacheSecurityGroup_SecurityGroupNames(p ElasticacheSecurityGrou
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["security_group_names"] = cty.SetVal(colVals)
+}
+
+func EncodeElasticacheSecurityGroup_Description(p ElasticacheSecurityGroupParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }

@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPrivateVirtualInterfaceAccepter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
-	EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Id(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(r.Spec.ForProvider, ctyVal)
+	EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(r.Spec.ForProvider, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeDxHostedPrivateVirtualInterfaceAccepter_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -52,14 +52,6 @@ func EncodeDxHostedPrivateVirtualInterfaceAccepter(r DxHostedPrivateVirtualInter
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
-}
-
-func EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_DxGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
@@ -80,6 +72,14 @@ func EncodeDxHostedPrivateVirtualInterfaceAccepter_Tags(p DxHostedPrivateVirtual
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_VirtualInterfaceId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	vals["virtual_interface_id"] = cty.StringVal(p.VirtualInterfaceId)
+}
+
+func EncodeDxHostedPrivateVirtualInterfaceAccepter_VpnGatewayId(p DxHostedPrivateVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	vals["vpn_gateway_id"] = cty.StringVal(p.VpnGatewayId)
 }
 
 func EncodeDxHostedPrivateVirtualInterfaceAccepter_Timeouts(p Timeouts, vals map[string]cty.Value) {

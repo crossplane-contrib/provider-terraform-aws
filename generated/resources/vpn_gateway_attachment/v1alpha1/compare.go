@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*VpnGatewayAttachment)
+	p := prov.(*VpnGatewayAttachment)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeVpnGatewayAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpnGatewayAttachment_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpnGatewayAttachment_VpnGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpnGatewayAttachment_Id(k *VpnGatewayAttachmentParameters, p *VpnGatewayAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpnGatewayAttachment_VpcId(k *VpnGatewayAttachmentParameters, p *VpnGatewayAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpnGatewayAttachment_VpnGatewayId(k *VpnGatewayAttachmentParameters, p *VpnGatewayAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.VpnGatewayId != p.VpnGatewayId {
+		p.VpnGatewayId = k.VpnGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

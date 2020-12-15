@@ -66,8 +66,8 @@ type CognitoUserPoolDomainStatus struct {
 
 // A CognitoUserPoolDomainObservation records the observed state of a CognitoUserPoolDomain
 type CognitoUserPoolDomainObservation struct {
-	CloudfrontDistributionArn string `json:"cloudfront_distribution_arn"`
-	S3Bucket                  string `json:"s3_bucket"`
 	Version                   string `json:"version"`
 	AwsAccountId              string `json:"aws_account_id"`
+	CloudfrontDistributionArn string `json:"cloudfront_distribution_arn"`
+	S3Bucket                  string `json:"s3_bucket"`
 }

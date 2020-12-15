@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotSchedule_Description(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSnapshotSchedule_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Identifier(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_IdentifierPrefix(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_Definitions(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_Description(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSnapshotSchedule_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSnapshotSchedule_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,22 +53,6 @@ func EncodeRedshiftSnapshotSchedule(r RedshiftSnapshotSchedule) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSnapshotSchedule_Definitions(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Definitions {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["definitions"] = cty.SetVal(colVals)
-}
-
-func EncodeRedshiftSnapshotSchedule_Description(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeRedshiftSnapshotSchedule_ForceDestroy(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeRedshiftSnapshotSchedule_Id(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
@@ -93,6 +77,22 @@ func EncodeRedshiftSnapshotSchedule_Tags(p RedshiftSnapshotScheduleParameters, v
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeRedshiftSnapshotSchedule_Definitions(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Definitions {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["definitions"] = cty.SetVal(colVals)
+}
+
+func EncodeRedshiftSnapshotSchedule_Description(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeRedshiftSnapshotSchedule_ForceDestroy(p RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	vals["force_destroy"] = cty.BoolVal(p.ForceDestroy)
 }
 
 func EncodeRedshiftSnapshotSchedule_Arn(p RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {

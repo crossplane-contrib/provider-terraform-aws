@@ -39,61 +39,75 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeServicequotasServiceQuota(prev *ServicequotasServiceQuota, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeServicequotasServiceQuota_Value(&new.Spec.ForProvider, valMap)
 	DecodeServicequotasServiceQuota_Id(&new.Spec.ForProvider, valMap)
 	DecodeServicequotasServiceQuota_QuotaCode(&new.Spec.ForProvider, valMap)
 	DecodeServicequotasServiceQuota_ServiceCode(&new.Spec.ForProvider, valMap)
-	DecodeServicequotasServiceQuota_Value(&new.Spec.ForProvider, valMap)
-	DecodeServicequotasServiceQuota_RequestStatus(&new.Status.AtProvider, valMap)
-	DecodeServicequotasServiceQuota_ServiceName(&new.Status.AtProvider, valMap)
+	DecodeServicequotasServiceQuota_RequestId(&new.Status.AtProvider, valMap)
 	DecodeServicequotasServiceQuota_Adjustable(&new.Status.AtProvider, valMap)
 	DecodeServicequotasServiceQuota_Arn(&new.Status.AtProvider, valMap)
 	DecodeServicequotasServiceQuota_DefaultValue(&new.Status.AtProvider, valMap)
+	DecodeServicequotasServiceQuota_ServiceName(&new.Status.AtProvider, valMap)
 	DecodeServicequotasServiceQuota_QuotaName(&new.Status.AtProvider, valMap)
-	DecodeServicequotasServiceQuota_RequestId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeServicequotasServiceQuota_RequestStatus(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeServicequotasServiceQuota_Id(p *ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeServicequotasServiceQuota_QuotaCode(p *ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
-	p.QuotaCode = ctwhy.ValueAsString(vals["quota_code"])
-}
-
-func DecodeServicequotasServiceQuota_ServiceCode(p *ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
-	p.ServiceCode = ctwhy.ValueAsString(vals["service_code"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeServicequotasServiceQuota_Value(p *ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
 	p.Value = ctwhy.ValueAsInt64(vals["value"])
 }
 
-func DecodeServicequotasServiceQuota_RequestStatus(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	p.RequestStatus = ctwhy.ValueAsString(vals["request_status"])
+//primitiveTypeDecodeTemplate
+func DecodeServicequotasServiceQuota_Id(p *ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
-func DecodeServicequotasServiceQuota_ServiceName(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	p.ServiceName = ctwhy.ValueAsString(vals["service_name"])
+//primitiveTypeDecodeTemplate
+func DecodeServicequotasServiceQuota_QuotaCode(p *ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
+	p.QuotaCode = ctwhy.ValueAsString(vals["quota_code"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeServicequotasServiceQuota_ServiceCode(p *ServicequotasServiceQuotaParameters, vals map[string]cty.Value) {
+	p.ServiceCode = ctwhy.ValueAsString(vals["service_code"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeServicequotasServiceQuota_RequestId(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	p.RequestId = ctwhy.ValueAsString(vals["request_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeServicequotasServiceQuota_Adjustable(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
 	p.Adjustable = ctwhy.ValueAsBool(vals["adjustable"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeServicequotasServiceQuota_Arn(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeServicequotasServiceQuota_DefaultValue(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
 	p.DefaultValue = ctwhy.ValueAsInt64(vals["default_value"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeServicequotasServiceQuota_ServiceName(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	p.ServiceName = ctwhy.ValueAsString(vals["service_name"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeServicequotasServiceQuota_QuotaName(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
 	p.QuotaName = ctwhy.ValueAsString(vals["quota_name"])
 }
 
-func DecodeServicequotasServiceQuota_RequestId(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
-	p.RequestId = ctwhy.ValueAsString(vals["request_id"])
+//primitiveTypeDecodeTemplate
+func DecodeServicequotasServiceQuota_RequestStatus(p *ServicequotasServiceQuotaObservation, vals map[string]cty.Value) {
+	p.RequestStatus = ctwhy.ValueAsString(vals["request_status"])
 }

@@ -52,12 +52,12 @@ type DefaultVpcSpec struct {
 
 // A DefaultVpcParameters defines the desired state of a DefaultVpc
 type DefaultVpcParameters struct {
-	EnableDnsSupport            bool              `json:"enable_dns_support"`
-	EnableClassiclink           bool              `json:"enable_classiclink"`
-	Id                          string            `json:"id"`
-	EnableClassiclinkDnsSupport bool              `json:"enable_classiclink_dns_support"`
-	EnableDnsHostnames          bool              `json:"enable_dns_hostnames"`
 	Tags                        map[string]string `json:"tags"`
+	EnableDnsHostnames          bool              `json:"enable_dns_hostnames"`
+	Id                          string            `json:"id"`
+	EnableClassiclink           bool              `json:"enable_classiclink"`
+	EnableClassiclinkDnsSupport bool              `json:"enable_classiclink_dns_support"`
+	EnableDnsSupport            bool              `json:"enable_dns_support"`
 }
 
 // A DefaultVpcStatus defines the observed state of a DefaultVpc
@@ -68,16 +68,16 @@ type DefaultVpcStatus struct {
 
 // A DefaultVpcObservation records the observed state of a DefaultVpc
 type DefaultVpcObservation struct {
-	CidrBlock                    string `json:"cidr_block"`
-	DefaultSecurityGroupId       string `json:"default_security_group_id"`
-	DefaultRouteTableId          string `json:"default_route_table_id"`
-	DhcpOptionsId                string `json:"dhcp_options_id"`
-	InstanceTenancy              string `json:"instance_tenancy"`
-	Ipv6CidrBlock                string `json:"ipv6_cidr_block"`
-	OwnerId                      string `json:"owner_id"`
 	Arn                          string `json:"arn"`
+	MainRouteTableId             string `json:"main_route_table_id"`
 	AssignGeneratedIpv6CidrBlock bool   `json:"assign_generated_ipv6_cidr_block"`
 	DefaultNetworkAclId          string `json:"default_network_acl_id"`
+	DhcpOptionsId                string `json:"dhcp_options_id"`
+	InstanceTenancy              string `json:"instance_tenancy"`
 	Ipv6AssociationId            string `json:"ipv6_association_id"`
-	MainRouteTableId             string `json:"main_route_table_id"`
+	CidrBlock                    string `json:"cidr_block"`
+	DefaultRouteTableId          string `json:"default_route_table_id"`
+	DefaultSecurityGroupId       string `json:"default_security_group_id"`
+	Ipv6CidrBlock                string `json:"ipv6_cidr_block"`
+	OwnerId                      string `json:"owner_id"`
 }

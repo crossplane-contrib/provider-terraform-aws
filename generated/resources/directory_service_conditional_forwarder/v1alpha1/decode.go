@@ -39,31 +39,38 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDirectoryServiceConditionalForwarder(prev *DirectoryServiceConditionalForwarder, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDirectoryServiceConditionalForwarder_Id(&new.Spec.ForProvider, valMap)
 	DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(&new.Spec.ForProvider, valMap)
 	DecodeDirectoryServiceConditionalForwarder_DirectoryId(&new.Spec.ForProvider, valMap)
 	DecodeDirectoryServiceConditionalForwarder_DnsIps(&new.Spec.ForProvider, valMap)
-	DecodeDirectoryServiceConditionalForwarder_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDirectoryServiceConditionalForwarder_Id(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDirectoryServiceConditionalForwarder_RemoteDomainName(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
 	p.RemoteDomainName = ctwhy.ValueAsString(vals["remote_domain_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDirectoryServiceConditionalForwarder_DirectoryId(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
 	p.DirectoryId = ctwhy.ValueAsString(vals["directory_id"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeDirectoryServiceConditionalForwarder_DnsIps(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["dns_ips"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.DnsIps = goVals
-}
-
-func DecodeDirectoryServiceConditionalForwarder_Id(p *DirectoryServiceConditionalForwarderParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

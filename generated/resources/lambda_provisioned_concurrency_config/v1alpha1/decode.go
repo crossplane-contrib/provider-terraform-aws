@@ -45,36 +45,46 @@ func DecodeLambdaProvisionedConcurrencyConfig(prev *LambdaProvisionedConcurrency
 	DecodeLambdaProvisionedConcurrencyConfig_Qualifier(&new.Spec.ForProvider, valMap)
 	DecodeLambdaProvisionedConcurrencyConfig_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_FunctionName(p *LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	p.FunctionName = ctwhy.ValueAsString(vals["function_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_Id(p *LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_ProvisionedConcurrentExecutions(p *LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	p.ProvisionedConcurrentExecutions = ctwhy.ValueAsInt64(vals["provisioned_concurrent_executions"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_Qualifier(p *LambdaProvisionedConcurrencyConfigParameters, vals map[string]cty.Value) {
 	p.Qualifier = ctwhy.ValueAsString(vals["qualifier"])
 }
 
+//containerTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeLambdaProvisionedConcurrencyConfig_Timeouts_Create(p, valMap)
 	DecodeLambdaProvisionedConcurrencyConfig_Timeouts_Update(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLambdaProvisionedConcurrencyConfig_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
 	p.Update = ctwhy.ValueAsString(vals["update"])
 }

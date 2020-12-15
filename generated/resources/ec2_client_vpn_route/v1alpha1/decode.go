@@ -46,34 +46,44 @@ func DecodeEc2ClientVpnRoute(prev *Ec2ClientVpnRoute, ctyValue cty.Value) (resou
 	DecodeEc2ClientVpnRoute_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2ClientVpnRoute_Origin(&new.Status.AtProvider, valMap)
 	DecodeEc2ClientVpnRoute_Type(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnRoute_TargetVpcSubnetId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	p.TargetVpcSubnetId = ctwhy.ValueAsString(vals["target_vpc_subnet_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnRoute_ClientVpnEndpointId(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	p.ClientVpnEndpointId = ctwhy.ValueAsString(vals["client_vpn_endpoint_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnRoute_Description(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnRoute_DestinationCidrBlock(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	p.DestinationCidrBlock = ctwhy.ValueAsString(vals["destination_cidr_block"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnRoute_Id(p *Ec2ClientVpnRouteParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnRoute_Origin(p *Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
 	p.Origin = ctwhy.ValueAsString(vals["origin"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2ClientVpnRoute_Type(p *Ec2ClientVpnRouteObservation, vals map[string]cty.Value) {
 	p.Type = ctwhy.ValueAsString(vals["type"])
 }

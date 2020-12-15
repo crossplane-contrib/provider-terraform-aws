@@ -39,27 +39,34 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2LocalGatewayRoute(prev *Ec2LocalGatewayRoute, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRoute_DestinationCidrBlock(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRoute_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(&new.Spec.ForProvider, valMap)
+	DecodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
-	p.LocalGatewayVirtualInterfaceGroupId = ctwhy.ValueAsString(vals["local_gateway_virtual_interface_group_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEc2LocalGatewayRoute_DestinationCidrBlock(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	p.DestinationCidrBlock = ctwhy.ValueAsString(vals["destination_cidr_block"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2LocalGatewayRoute_Id(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2LocalGatewayRoute_LocalGatewayRouteTableId(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
 	p.LocalGatewayRouteTableId = ctwhy.ValueAsString(vals["local_gateway_route_table_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2LocalGatewayRoute_LocalGatewayVirtualInterfaceGroupId(p *Ec2LocalGatewayRouteParameters, vals map[string]cty.Value) {
+	p.LocalGatewayVirtualInterfaceGroupId = ctwhy.ValueAsString(vals["local_gateway_virtual_interface_group_id"])
 }

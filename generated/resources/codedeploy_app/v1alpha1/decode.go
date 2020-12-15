@@ -44,22 +44,29 @@ func DecodeCodedeployApp(prev *CodedeployApp, ctyValue cty.Value) (resource.Mana
 	DecodeCodedeployApp_Name(&new.Spec.ForProvider, valMap)
 	DecodeCodedeployApp_UniqueId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodedeployApp_ComputePlatform(p *CodedeployAppParameters, vals map[string]cty.Value) {
 	p.ComputePlatform = ctwhy.ValueAsString(vals["compute_platform"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodedeployApp_Id(p *CodedeployAppParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodedeployApp_Name(p *CodedeployAppParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodedeployApp_UniqueId(p *CodedeployAppParameters, vals map[string]cty.Value) {
 	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
 }

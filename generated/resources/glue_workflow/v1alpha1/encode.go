@@ -37,12 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGlueWorkflow(r GlueWorkflow) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGlueWorkflow_DefaultRunProperties(r.Spec.ForProvider, ctyVal)
+	EncodeGlueWorkflow_Description(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_MaxConcurrentRuns(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGlueWorkflow_DefaultRunProperties(r.Spec.ForProvider, ctyVal)
-	EncodeGlueWorkflow_Description(r.Spec.ForProvider, ctyVal)
 	EncodeGlueWorkflow_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,6 +52,22 @@ func EncodeGlueWorkflow(r GlueWorkflow) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGlueWorkflow_DefaultRunProperties(p GlueWorkflowParameters, vals map[string]cty.Value) {
+	if len(p.DefaultRunProperties) == 0 {
+		vals["default_run_properties"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.DefaultRunProperties {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["default_run_properties"] = cty.MapVal(mVals)
+}
+
+func EncodeGlueWorkflow_Description(p GlueWorkflowParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeGlueWorkflow_Id(p GlueWorkflowParameters, vals map[string]cty.Value) {
@@ -76,22 +92,6 @@ func EncodeGlueWorkflow_Tags(p GlueWorkflowParameters, vals map[string]cty.Value
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeGlueWorkflow_DefaultRunProperties(p GlueWorkflowParameters, vals map[string]cty.Value) {
-	if len(p.DefaultRunProperties) == 0 {
-		vals["default_run_properties"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.DefaultRunProperties {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["default_run_properties"] = cty.MapVal(mVals)
-}
-
-func EncodeGlueWorkflow_Description(p GlueWorkflowParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeGlueWorkflow_Arn(p GlueWorkflowObservation, vals map[string]cty.Value) {

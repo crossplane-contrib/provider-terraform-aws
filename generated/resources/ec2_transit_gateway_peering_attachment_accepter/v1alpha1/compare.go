@@ -17,13 +17,131 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*Ec2TransitGatewayPeeringAttachmentAccepter)
+	p := prov.(*Ec2TransitGatewayPeeringAttachmentAccepter)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_PeerAccountId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_PeerRegion(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayPeeringAttachmentAccepter_PeerTransitGatewayId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_Id(k *Ec2TransitGatewayPeeringAttachmentAccepterParameters, p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_Tags(k *Ec2TransitGatewayPeeringAttachmentAccepterParameters, p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayAttachmentId(k *Ec2TransitGatewayPeeringAttachmentAccepterParameters, p *Ec2TransitGatewayPeeringAttachmentAccepterParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayAttachmentId != p.TransitGatewayAttachmentId {
+		p.TransitGatewayAttachmentId = k.TransitGatewayAttachmentId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_TransitGatewayId(k *Ec2TransitGatewayPeeringAttachmentAccepterObservation, p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayId != p.TransitGatewayId {
+		k.TransitGatewayId = p.TransitGatewayId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_PeerAccountId(k *Ec2TransitGatewayPeeringAttachmentAccepterObservation, p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.PeerAccountId != p.PeerAccountId {
+		k.PeerAccountId = p.PeerAccountId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_PeerRegion(k *Ec2TransitGatewayPeeringAttachmentAccepterObservation, p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.PeerRegion != p.PeerRegion {
+		k.PeerRegion = p.PeerRegion
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayPeeringAttachmentAccepter_PeerTransitGatewayId(k *Ec2TransitGatewayPeeringAttachmentAccepterObservation, p *Ec2TransitGatewayPeeringAttachmentAccepterObservation, md *plugin.MergeDescription) bool {
+	if k.PeerTransitGatewayId != p.PeerTransitGatewayId {
+		k.PeerTransitGatewayId = p.PeerTransitGatewayId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

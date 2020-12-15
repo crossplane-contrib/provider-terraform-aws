@@ -52,18 +52,18 @@ type SnsPlatformApplicationSpec struct {
 
 // A SnsPlatformApplicationParameters defines the desired state of a SnsPlatformApplication
 type SnsPlatformApplicationParameters struct {
-	EventDeliveryFailureTopicArn string `json:"event_delivery_failure_topic_arn"`
-	EventEndpointDeletedTopicArn string `json:"event_endpoint_deleted_topic_arn"`
-	EventEndpointUpdatedTopicArn string `json:"event_endpoint_updated_topic_arn"`
-	FailureFeedbackRoleArn       string `json:"failure_feedback_role_arn"`
-	EventEndpointCreatedTopicArn string `json:"event_endpoint_created_topic_arn"`
-	Id                           string `json:"id"`
 	Name                         string `json:"name"`
 	Platform                     string `json:"platform"`
 	PlatformCredential           string `json:"platform_credential"`
+	SuccessFeedbackSampleRate    string `json:"success_feedback_sample_rate"`
+	EventEndpointCreatedTopicArn string `json:"event_endpoint_created_topic_arn"`
+	EventEndpointUpdatedTopicArn string `json:"event_endpoint_updated_topic_arn"`
+	FailureFeedbackRoleArn       string `json:"failure_feedback_role_arn"`
+	Id                           string `json:"id"`
 	PlatformPrincipal            string `json:"platform_principal"`
 	SuccessFeedbackRoleArn       string `json:"success_feedback_role_arn"`
-	SuccessFeedbackSampleRate    string `json:"success_feedback_sample_rate"`
+	EventDeliveryFailureTopicArn string `json:"event_delivery_failure_topic_arn"`
+	EventEndpointDeletedTopicArn string `json:"event_endpoint_deleted_topic_arn"`
 }
 
 // A SnsPlatformApplicationStatus defines the observed state of a SnsPlatformApplication

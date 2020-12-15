@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*Wafv2WebAclAssociation)
+	p := prov.(*Wafv2WebAclAssociation)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeWafv2WebAclAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeWafv2WebAclAssociation_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeWafv2WebAclAssociation_WebAclArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeWafv2WebAclAssociation_Id(k *Wafv2WebAclAssociationParameters, p *Wafv2WebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeWafv2WebAclAssociation_ResourceArn(k *Wafv2WebAclAssociationParameters, p *Wafv2WebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceArn != p.ResourceArn {
+		p.ResourceArn = k.ResourceArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeWafv2WebAclAssociation_WebAclArn(k *Wafv2WebAclAssociationParameters, p *Wafv2WebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.WebAclArn != p.WebAclArn {
+		p.WebAclArn = k.WebAclArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

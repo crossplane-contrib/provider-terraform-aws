@@ -52,9 +52,9 @@ type LicensemanagerAssociationSpec struct {
 
 // A LicensemanagerAssociationParameters defines the desired state of a LicensemanagerAssociation
 type LicensemanagerAssociationParameters struct {
-	Id                      string `json:"id"`
 	LicenseConfigurationArn string `json:"license_configuration_arn"`
 	ResourceArn             string `json:"resource_arn"`
+	Id                      string `json:"id"`
 }
 
 // A LicensemanagerAssociationStatus defines the observed state of a LicensemanagerAssociation

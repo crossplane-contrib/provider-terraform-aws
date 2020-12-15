@@ -52,23 +52,23 @@ type ApiGatewayIntegrationSpec struct {
 
 // A ApiGatewayIntegrationParameters defines the desired state of a ApiGatewayIntegration
 type ApiGatewayIntegrationParameters struct {
-	PassthroughBehavior   string            `json:"passthrough_behavior"`
-	RequestParameters     map[string]string `json:"request_parameters"`
+	ConnectionId          string            `json:"connection_id"`
+	Credentials           string            `json:"credentials"`
 	RequestTemplates      map[string]string `json:"request_templates"`
 	CacheKeyParameters    []string          `json:"cache_key_parameters"`
-	ConnectionId          string            `json:"connection_id"`
-	RestApiId             string            `json:"rest_api_id"`
-	Type                  string            `json:"type"`
-	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
-	Uri                   string            `json:"uri"`
-	CacheNamespace        string            `json:"cache_namespace"`
-	Credentials           string            `json:"credentials"`
-	HttpMethod            string            `json:"http_method"`
+	ContentHandling       string            `json:"content_handling"`
 	Id                    string            `json:"id"`
 	IntegrationHttpMethod string            `json:"integration_http_method"`
-	ResourceId            string            `json:"resource_id"`
+	PassthroughBehavior   string            `json:"passthrough_behavior"`
+	RequestParameters     map[string]string `json:"request_parameters"`
+	TimeoutMilliseconds   int64             `json:"timeout_milliseconds"`
+	Type                  string            `json:"type"`
 	ConnectionType        string            `json:"connection_type"`
-	ContentHandling       string            `json:"content_handling"`
+	RestApiId             string            `json:"rest_api_id"`
+	Uri                   string            `json:"uri"`
+	ResourceId            string            `json:"resource_id"`
+	HttpMethod            string            `json:"http_method"`
+	CacheNamespace        string            `json:"cache_namespace"`
 }
 
 // A ApiGatewayIntegrationStatus defines the observed state of a ApiGatewayIntegration

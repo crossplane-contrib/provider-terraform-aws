@@ -39,59 +39,52 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamRole(prev *IamRole, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamRole_Name(&new.Spec.ForProvider, valMap)
-	DecodeIamRole_AssumeRolePolicy(&new.Spec.ForProvider, valMap)
 	DecodeIamRole_Description(&new.Spec.ForProvider, valMap)
-	DecodeIamRole_ForceDetachPolicies(&new.Spec.ForProvider, valMap)
-	DecodeIamRole_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamRole_MaxSessionDuration(&new.Spec.ForProvider, valMap)
 	DecodeIamRole_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeIamRole_Path(&new.Spec.ForProvider, valMap)
 	DecodeIamRole_PermissionsBoundary(&new.Spec.ForProvider, valMap)
 	DecodeIamRole_Tags(&new.Spec.ForProvider, valMap)
+	DecodeIamRole_AssumeRolePolicy(&new.Spec.ForProvider, valMap)
+	DecodeIamRole_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamRole_Name(&new.Spec.ForProvider, valMap)
+	DecodeIamRole_ForceDetachPolicies(&new.Spec.ForProvider, valMap)
 	DecodeIamRole_Arn(&new.Status.AtProvider, valMap)
-	DecodeIamRole_CreateDate(&new.Status.AtProvider, valMap)
 	DecodeIamRole_UniqueId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeIamRole_CreateDate(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeIamRole_Name(p *IamRoleParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-func DecodeIamRole_AssumeRolePolicy(p *IamRoleParameters, vals map[string]cty.Value) {
-	p.AssumeRolePolicy = ctwhy.ValueAsString(vals["assume_role_policy"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamRole_Description(p *IamRoleParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
-func DecodeIamRole_ForceDetachPolicies(p *IamRoleParameters, vals map[string]cty.Value) {
-	p.ForceDetachPolicies = ctwhy.ValueAsBool(vals["force_detach_policies"])
-}
-
-func DecodeIamRole_Id(p *IamRoleParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamRole_MaxSessionDuration(p *IamRoleParameters, vals map[string]cty.Value) {
 	p.MaxSessionDuration = ctwhy.ValueAsInt64(vals["max_session_duration"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamRole_NamePrefix(p *IamRoleParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamRole_Path(p *IamRoleParameters, vals map[string]cty.Value) {
 	p.Path = ctwhy.ValueAsString(vals["path"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamRole_PermissionsBoundary(p *IamRoleParameters, vals map[string]cty.Value) {
 	p.PermissionsBoundary = ctwhy.ValueAsString(vals["permissions_boundary"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeIamRole_Tags(p *IamRoleParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -102,14 +95,37 @@ func DecodeIamRole_Tags(p *IamRoleParameters, vals map[string]cty.Value) {
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeIamRole_AssumeRolePolicy(p *IamRoleParameters, vals map[string]cty.Value) {
+	p.AssumeRolePolicy = ctwhy.ValueAsString(vals["assume_role_policy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamRole_Id(p *IamRoleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamRole_Name(p *IamRoleParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamRole_ForceDetachPolicies(p *IamRoleParameters, vals map[string]cty.Value) {
+	p.ForceDetachPolicies = ctwhy.ValueAsBool(vals["force_detach_policies"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeIamRole_Arn(p *IamRoleObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
-func DecodeIamRole_CreateDate(p *IamRoleObservation, vals map[string]cty.Value) {
-	p.CreateDate = ctwhy.ValueAsString(vals["create_date"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamRole_UniqueId(p *IamRoleObservation, vals map[string]cty.Value) {
 	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamRole_CreateDate(p *IamRoleObservation, vals map[string]cty.Value) {
+	p.CreateDate = ctwhy.ValueAsString(vals["create_date"])
 }

@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayVpcLink(r ApiGatewayVpcLink) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayVpcLink_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_TargetArns(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayVpcLink_Description(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayVpcLink_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,6 +51,10 @@ func EncodeApiGatewayVpcLink(r ApiGatewayVpcLink) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeApiGatewayVpcLink_Description(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayVpcLink_Id(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
@@ -79,10 +83,6 @@ func EncodeApiGatewayVpcLink_TargetArns(p ApiGatewayVpcLinkParameters, vals map[
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["target_arns"] = cty.ListVal(colVals)
-}
-
-func EncodeApiGatewayVpcLink_Description(p ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeApiGatewayVpcLink_Arn(p ApiGatewayVpcLinkObservation, vals map[string]cty.Value) {

@@ -44,22 +44,29 @@ func DecodePinpointGcmChannel(prev *PinpointGcmChannel, ctyValue cty.Value) (res
 	DecodePinpointGcmChannel_Enabled(&new.Spec.ForProvider, valMap)
 	DecodePinpointGcmChannel_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointGcmChannel_ApiKey(p *PinpointGcmChannelParameters, vals map[string]cty.Value) {
 	p.ApiKey = ctwhy.ValueAsString(vals["api_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointGcmChannel_ApplicationId(p *PinpointGcmChannelParameters, vals map[string]cty.Value) {
 	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointGcmChannel_Enabled(p *PinpointGcmChannelParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointGcmChannel_Id(p *PinpointGcmChannelParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

@@ -46,22 +46,29 @@ func DecodeSecretsmanagerSecretVersion(prev *SecretsmanagerSecretVersion, ctyVal
 	DecodeSecretsmanagerSecretVersion_Id(&new.Spec.ForProvider, valMap)
 	DecodeSecretsmanagerSecretVersion_VersionId(&new.Status.AtProvider, valMap)
 	DecodeSecretsmanagerSecretVersion_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecretsmanagerSecretVersion_SecretBinary(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	p.SecretBinary = ctwhy.ValueAsString(vals["secret_binary"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecretsmanagerSecretVersion_SecretId(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	p.SecretId = ctwhy.ValueAsString(vals["secret_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecretsmanagerSecretVersion_SecretString(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	p.SecretString = ctwhy.ValueAsString(vals["secret_string"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeSecretsmanagerSecretVersion_VersionStages(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["version_stages"]) {
@@ -70,14 +77,17 @@ func DecodeSecretsmanagerSecretVersion_VersionStages(p *SecretsmanagerSecretVers
 	p.VersionStages = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecretsmanagerSecretVersion_Id(p *SecretsmanagerSecretVersionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecretsmanagerSecretVersion_VersionId(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
 	p.VersionId = ctwhy.ValueAsString(vals["version_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecretsmanagerSecretVersion_Arn(p *SecretsmanagerSecretVersionObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

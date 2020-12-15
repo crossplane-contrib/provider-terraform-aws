@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApigatewayv2VpcLink(r Apigatewayv2VpcLink) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2VpcLink_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Name(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SecurityGroupIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_SubnetIds(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2VpcLink_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2VpcLink_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeApigatewayv2VpcLink(r Apigatewayv2VpcLink) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApigatewayv2VpcLink_Id(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApigatewayv2VpcLink_Name(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
@@ -87,6 +83,10 @@ func EncodeApigatewayv2VpcLink_Tags(p Apigatewayv2VpcLinkParameters, vals map[st
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeApigatewayv2VpcLink_Id(p Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeApigatewayv2VpcLink_Arn(p Apigatewayv2VpcLinkObservation, vals map[string]cty.Value) {

@@ -17,13 +17,131 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*IamUserLoginProfile)
+	p := prov.(*IamUserLoginProfile)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeIamUserLoginProfile_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserLoginProfile_PasswordLength(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserLoginProfile_PasswordResetRequired(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserLoginProfile_PgpKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserLoginProfile_User(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserLoginProfile_EncryptedPassword(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserLoginProfile_KeyFingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserLoginProfile_Id(k *IamUserLoginProfileParameters, p *IamUserLoginProfileParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserLoginProfile_PasswordLength(k *IamUserLoginProfileParameters, p *IamUserLoginProfileParameters, md *plugin.MergeDescription) bool {
+	if k.PasswordLength != p.PasswordLength {
+		p.PasswordLength = k.PasswordLength
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserLoginProfile_PasswordResetRequired(k *IamUserLoginProfileParameters, p *IamUserLoginProfileParameters, md *plugin.MergeDescription) bool {
+	if k.PasswordResetRequired != p.PasswordResetRequired {
+		p.PasswordResetRequired = k.PasswordResetRequired
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserLoginProfile_PgpKey(k *IamUserLoginProfileParameters, p *IamUserLoginProfileParameters, md *plugin.MergeDescription) bool {
+	if k.PgpKey != p.PgpKey {
+		p.PgpKey = k.PgpKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserLoginProfile_User(k *IamUserLoginProfileParameters, p *IamUserLoginProfileParameters, md *plugin.MergeDescription) bool {
+	if k.User != p.User {
+		p.User = k.User
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamUserLoginProfile_EncryptedPassword(k *IamUserLoginProfileObservation, p *IamUserLoginProfileObservation, md *plugin.MergeDescription) bool {
+	if k.EncryptedPassword != p.EncryptedPassword {
+		k.EncryptedPassword = p.EncryptedPassword
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamUserLoginProfile_KeyFingerprint(k *IamUserLoginProfileObservation, p *IamUserLoginProfileObservation, md *plugin.MergeDescription) bool {
+	if k.KeyFingerprint != p.KeyFingerprint {
+		k.KeyFingerprint = p.KeyFingerprint
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

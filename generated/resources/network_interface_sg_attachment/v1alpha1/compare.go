@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*NetworkInterfaceSgAttachment)
+	p := prov.(*NetworkInterfaceSgAttachment)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeNetworkInterfaceSgAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkInterfaceSgAttachment_NetworkInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkInterfaceSgAttachment_SecurityGroupId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceSgAttachment_Id(k *NetworkInterfaceSgAttachmentParameters, p *NetworkInterfaceSgAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceSgAttachment_NetworkInterfaceId(k *NetworkInterfaceSgAttachmentParameters, p *NetworkInterfaceSgAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		p.NetworkInterfaceId = k.NetworkInterfaceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceSgAttachment_SecurityGroupId(k *NetworkInterfaceSgAttachmentParameters, p *NetworkInterfaceSgAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.SecurityGroupId != p.SecurityGroupId {
+		p.SecurityGroupId = k.SecurityGroupId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

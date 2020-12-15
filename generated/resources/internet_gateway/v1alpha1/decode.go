@@ -39,19 +39,19 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeInternetGateway(prev *InternetGateway, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeInternetGateway_Id(&new.Spec.ForProvider, valMap)
 	DecodeInternetGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeInternetGateway_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeInternetGateway_Id(&new.Spec.ForProvider, valMap)
 	DecodeInternetGateway_Arn(&new.Status.AtProvider, valMap)
 	DecodeInternetGateway_OwnerId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeInternetGateway_Id(p *InternetGatewayParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeInternetGateway_Tags(p *InternetGatewayParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -62,14 +62,22 @@ func DecodeInternetGateway_Tags(p *InternetGatewayParameters, vals map[string]ct
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInternetGateway_VpcId(p *InternetGatewayParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeInternetGateway_Id(p *InternetGatewayParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeInternetGateway_Arn(p *InternetGatewayObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInternetGateway_OwnerId(p *InternetGatewayObservation, vals map[string]cty.Value) {
 	p.OwnerId = ctwhy.ValueAsString(vals["owner_id"])
 }

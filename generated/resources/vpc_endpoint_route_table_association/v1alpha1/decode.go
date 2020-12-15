@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpcEndpointRouteTableAssociation(prev *VpcEndpointRouteTableAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeVpcEndpointRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointRouteTableAssociation_VpcEndpointId(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
-	DecodeVpcEndpointRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeVpcEndpointRouteTableAssociation_RouteTableId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointRouteTableAssociation_VpcEndpointId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointRouteTableAssociation_Id(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeVpcEndpointRouteTableAssociation_RouteTableId(p *VpcEndpointRouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
 }

@@ -52,21 +52,21 @@ type SqsQueueSpec struct {
 
 // A SqsQueueParameters defines the desired state of a SqsQueue
 type SqsQueueParameters struct {
-	KmsMasterKeyId               string            `json:"kms_master_key_id"`
-	MaxMessageSize               int64             `json:"max_message_size"`
-	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
-	Tags                         map[string]string `json:"tags"`
-	DelaySeconds                 int64             `json:"delay_seconds"`
-	Id                           string            `json:"id"`
-	Name                         string            `json:"name"`
 	ReceiveWaitTimeSeconds       int64             `json:"receive_wait_time_seconds"`
-	RedrivePolicy                string            `json:"redrive_policy"`
 	ContentBasedDeduplication    bool              `json:"content_based_deduplication"`
 	FifoQueue                    bool              `json:"fifo_queue"`
+	Id                           string            `json:"id"`
+	MaxMessageSize               int64             `json:"max_message_size"`
+	Tags                         map[string]string `json:"tags"`
+	KmsMasterKeyId               string            `json:"kms_master_key_id"`
+	MessageRetentionSeconds      int64             `json:"message_retention_seconds"`
+	Name                         string            `json:"name"`
+	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
+	DelaySeconds                 int64             `json:"delay_seconds"`
 	KmsDataKeyReusePeriodSeconds int64             `json:"kms_data_key_reuse_period_seconds"`
 	NamePrefix                   string            `json:"name_prefix"`
 	Policy                       string            `json:"policy"`
-	VisibilityTimeoutSeconds     int64             `json:"visibility_timeout_seconds"`
+	RedrivePolicy                string            `json:"redrive_policy"`
 }
 
 // A SqsQueueStatus defines the observed state of a SqsQueue

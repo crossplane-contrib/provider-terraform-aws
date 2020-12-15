@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodePinpointBaiduChannel(r PinpointBaiduChannel) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodePinpointBaiduChannel_ApiKey(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_ApplicationId(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_Id(r.Spec.ForProvider, ctyVal)
 	EncodePinpointBaiduChannel_SecretKey(r.Spec.ForProvider, ctyVal)
-	EncodePinpointBaiduChannel_ApiKey(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,6 +51,10 @@ func EncodePinpointBaiduChannel(r PinpointBaiduChannel) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodePinpointBaiduChannel_ApiKey(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
+	vals["api_key"] = cty.StringVal(p.ApiKey)
 }
 
 func EncodePinpointBaiduChannel_ApplicationId(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
@@ -67,8 +71,4 @@ func EncodePinpointBaiduChannel_Id(p PinpointBaiduChannelParameters, vals map[st
 
 func EncodePinpointBaiduChannel_SecretKey(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
 	vals["secret_key"] = cty.StringVal(p.SecretKey)
-}
-
-func EncodePinpointBaiduChannel_ApiKey(p PinpointBaiduChannelParameters, vals map[string]cty.Value) {
-	vals["api_key"] = cty.StringVal(p.ApiKey)
 }

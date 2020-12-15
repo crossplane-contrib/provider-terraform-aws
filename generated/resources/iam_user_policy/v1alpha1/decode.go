@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamUserPolicy(prev *IamUserPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIamUserPolicy_NamePrefix(&new.Spec.ForProvider, valMap)
+	DecodeIamUserPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeIamUserPolicy_User(&new.Spec.ForProvider, valMap)
 	DecodeIamUserPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamUserPolicy_Name(&new.Spec.ForProvider, valMap)
-	DecodeIamUserPolicy_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeIamUserPolicy_Policy(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeIamUserPolicy_User(p *IamUserPolicyParameters, vals map[string]cty.Value) {
-	p.User = ctwhy.ValueAsString(vals["user"])
-}
-
-func DecodeIamUserPolicy_Id(p *IamUserPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeIamUserPolicy_Name(p *IamUserPolicyParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamUserPolicy_NamePrefix(p *IamUserPolicyParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserPolicy_Policy(p *IamUserPolicyParameters, vals map[string]cty.Value) {
 	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamUserPolicy_User(p *IamUserPolicyParameters, vals map[string]cty.Value) {
+	p.User = ctwhy.ValueAsString(vals["user"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamUserPolicy_Id(p *IamUserPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamUserPolicy_Name(p *IamUserPolicyParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }

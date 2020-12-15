@@ -17,13 +17,87 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*Route53VpcAssociationAuthorization)
+	p := prov.(*Route53VpcAssociationAuthorization)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeRoute53VpcAssociationAuthorization_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53VpcAssociationAuthorization_VpcRegion(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53VpcAssociationAuthorization_ZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53VpcAssociationAuthorization_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53VpcAssociationAuthorization_VpcId(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53VpcAssociationAuthorization_VpcRegion(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
+	if k.VpcRegion != p.VpcRegion {
+		p.VpcRegion = k.VpcRegion
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53VpcAssociationAuthorization_ZoneId(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
+	if k.ZoneId != p.ZoneId {
+		p.ZoneId = k.ZoneId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53VpcAssociationAuthorization_Id(k *Route53VpcAssociationAuthorizationParameters, p *Route53VpcAssociationAuthorizationParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

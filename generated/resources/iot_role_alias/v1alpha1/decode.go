@@ -44,26 +44,34 @@ func DecodeIotRoleAlias(prev *IotRoleAlias, ctyValue cty.Value) (resource.Manage
 	DecodeIotRoleAlias_Id(&new.Spec.ForProvider, valMap)
 	DecodeIotRoleAlias_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeIotRoleAlias_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotRoleAlias_Alias(p *IotRoleAliasParameters, vals map[string]cty.Value) {
 	p.Alias = ctwhy.ValueAsString(vals["alias"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotRoleAlias_CredentialDuration(p *IotRoleAliasParameters, vals map[string]cty.Value) {
 	p.CredentialDuration = ctwhy.ValueAsInt64(vals["credential_duration"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotRoleAlias_Id(p *IotRoleAliasParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotRoleAlias_RoleArn(p *IotRoleAliasParameters, vals map[string]cty.Value) {
 	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotRoleAlias_Arn(p *IotRoleAliasObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

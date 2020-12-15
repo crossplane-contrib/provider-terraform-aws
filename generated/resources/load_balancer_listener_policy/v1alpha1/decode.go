@@ -39,31 +39,38 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLoadBalancerListenerPolicy(prev *LoadBalancerListenerPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeLoadBalancerListenerPolicy_PolicyNames(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerListenerPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerListenerPolicy_LoadBalancerName(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerListenerPolicy_LoadBalancerPort(&new.Spec.ForProvider, valMap)
-	DecodeLoadBalancerListenerPolicy_PolicyNames(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeLoadBalancerListenerPolicy_Id(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeLoadBalancerListenerPolicy_LoadBalancerName(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
-	p.LoadBalancerName = ctwhy.ValueAsString(vals["load_balancer_name"])
-}
-
-func DecodeLoadBalancerListenerPolicy_LoadBalancerPort(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
-	p.LoadBalancerPort = ctwhy.ValueAsInt64(vals["load_balancer_port"])
-}
-
+//primitiveCollectionTypeDecodeTemplate
 func DecodeLoadBalancerListenerPolicy_PolicyNames(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["policy_names"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.PolicyNames = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLoadBalancerListenerPolicy_Id(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLoadBalancerListenerPolicy_LoadBalancerName(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
+	p.LoadBalancerName = ctwhy.ValueAsString(vals["load_balancer_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLoadBalancerListenerPolicy_LoadBalancerPort(p *LoadBalancerListenerPolicyParameters, vals map[string]cty.Value) {
+	p.LoadBalancerPort = ctwhy.ValueAsInt64(vals["load_balancer_port"])
 }

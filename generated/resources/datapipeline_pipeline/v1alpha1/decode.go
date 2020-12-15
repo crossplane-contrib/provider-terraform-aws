@@ -44,22 +44,29 @@ func DecodeDatapipelinePipeline(prev *DatapipelinePipeline, ctyValue cty.Value) 
 	DecodeDatapipelinePipeline_Name(&new.Spec.ForProvider, valMap)
 	DecodeDatapipelinePipeline_Tags(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDatapipelinePipeline_Description(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDatapipelinePipeline_Id(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDatapipelinePipeline_Name(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeDatapipelinePipeline_Tags(p *DatapipelinePipelineParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)

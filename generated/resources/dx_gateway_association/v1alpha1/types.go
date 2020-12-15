@@ -62,9 +62,9 @@ type DxGatewayAssociationParameters struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
 	Update string `json:"update"`
+	Create string `json:"create"`
 }
 
 // A DxGatewayAssociationStatus defines the observed state of a DxGatewayAssociation
@@ -75,7 +75,7 @@ type DxGatewayAssociationStatus struct {
 
 // A DxGatewayAssociationObservation records the observed state of a DxGatewayAssociation
 type DxGatewayAssociationObservation struct {
+	DxGatewayAssociationId  string `json:"dx_gateway_association_id"`
 	DxGatewayOwnerAccountId string `json:"dx_gateway_owner_account_id"`
 	AssociatedGatewayType   string `json:"associated_gateway_type"`
-	DxGatewayAssociationId  string `json:"dx_gateway_association_id"`
 }

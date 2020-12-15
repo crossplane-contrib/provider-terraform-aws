@@ -42,18 +42,24 @@ func DecodeLightsailDomain(prev *LightsailDomain, ctyValue cty.Value) (resource.
 	DecodeLightsailDomain_DomainName(&new.Spec.ForProvider, valMap)
 	DecodeLightsailDomain_Id(&new.Spec.ForProvider, valMap)
 	DecodeLightsailDomain_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailDomain_DomainName(p *LightsailDomainParameters, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailDomain_Id(p *LightsailDomainParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailDomain_Arn(p *LightsailDomainObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

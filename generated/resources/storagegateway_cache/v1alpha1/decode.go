@@ -43,18 +43,24 @@ func DecodeStoragegatewayCache(prev *StoragegatewayCache, ctyValue cty.Value) (r
 	DecodeStoragegatewayCache_GatewayArn(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayCache_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayCache_DiskId(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	p.DiskId = ctwhy.ValueAsString(vals["disk_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayCache_GatewayArn(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	p.GatewayArn = ctwhy.ValueAsString(vals["gateway_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayCache_Id(p *StoragegatewayCacheParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

@@ -46,34 +46,44 @@ func DecodeIotCertificate(prev *IotCertificate, ctyValue cty.Value) (resource.Ma
 	DecodeIotCertificate_PublicKey(&new.Status.AtProvider, valMap)
 	DecodeIotCertificate_Arn(&new.Status.AtProvider, valMap)
 	DecodeIotCertificate_CertificatePem(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotCertificate_Active(p *IotCertificateParameters, vals map[string]cty.Value) {
 	p.Active = ctwhy.ValueAsBool(vals["active"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotCertificate_Csr(p *IotCertificateParameters, vals map[string]cty.Value) {
 	p.Csr = ctwhy.ValueAsString(vals["csr"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotCertificate_Id(p *IotCertificateParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotCertificate_PrivateKey(p *IotCertificateObservation, vals map[string]cty.Value) {
 	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotCertificate_PublicKey(p *IotCertificateObservation, vals map[string]cty.Value) {
 	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotCertificate_Arn(p *IotCertificateObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotCertificate_CertificatePem(p *IotCertificateObservation, vals map[string]cty.Value) {
 	p.CertificatePem = ctwhy.ValueAsString(vals["certificate_pem"])
 }

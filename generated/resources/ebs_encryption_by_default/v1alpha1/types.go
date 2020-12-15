@@ -52,8 +52,8 @@ type EbsEncryptionByDefaultSpec struct {
 
 // A EbsEncryptionByDefaultParameters defines the desired state of a EbsEncryptionByDefault
 type EbsEncryptionByDefaultParameters struct {
-	Id      string `json:"id"`
 	Enabled bool   `json:"enabled"`
+	Id      string `json:"id"`
 }
 
 // A EbsEncryptionByDefaultStatus defines the observed state of a EbsEncryptionByDefault

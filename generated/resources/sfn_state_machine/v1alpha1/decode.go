@@ -47,14 +47,19 @@ func DecodeSfnStateMachine(prev *SfnStateMachine, ctyValue cty.Value) (resource.
 	DecodeSfnStateMachine_Status(&new.Status.AtProvider, valMap)
 	DecodeSfnStateMachine_Arn(&new.Status.AtProvider, valMap)
 	DecodeSfnStateMachine_CreationDate(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_RoleArn(p *SfnStateMachineParameters, vals map[string]cty.Value) {
 	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeSfnStateMachine_Tags(p *SfnStateMachineParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -65,26 +70,32 @@ func DecodeSfnStateMachine_Tags(p *SfnStateMachineParameters, vals map[string]ct
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_Definition(p *SfnStateMachineParameters, vals map[string]cty.Value) {
 	p.Definition = ctwhy.ValueAsString(vals["definition"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_Id(p *SfnStateMachineParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_Name(p *SfnStateMachineParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_Status(p *SfnStateMachineObservation, vals map[string]cty.Value) {
 	p.Status = ctwhy.ValueAsString(vals["status"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_Arn(p *SfnStateMachineObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSfnStateMachine_CreationDate(p *SfnStateMachineObservation, vals map[string]cty.Value) {
 	p.CreationDate = ctwhy.ValueAsString(vals["creation_date"])
 }

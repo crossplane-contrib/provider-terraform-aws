@@ -42,14 +42,19 @@ func DecodeMacieMemberAccountAssociation(prev *MacieMemberAccountAssociation, ct
 	DecodeMacieMemberAccountAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeMacieMemberAccountAssociation_MemberAccountId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeMacieMemberAccountAssociation_Id(p *MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeMacieMemberAccountAssociation_MemberAccountId(p *MacieMemberAccountAssociationParameters, vals map[string]cty.Value) {
 	p.MemberAccountId = ctwhy.ValueAsString(vals["member_account_id"])
 }

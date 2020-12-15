@@ -43,18 +43,24 @@ func DecodeVpcEndpointServiceAllowedPrincipal(prev *VpcEndpointServiceAllowedPri
 	DecodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointServiceAllowedPrincipal_Id(p *VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointServiceAllowedPrincipal_PrincipalArn(p *VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
 	p.PrincipalArn = ctwhy.ValueAsString(vals["principal_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointServiceAllowedPrincipal_VpcEndpointServiceId(p *VpcEndpointServiceAllowedPrincipalParameters, vals map[string]cty.Value) {
 	p.VpcEndpointServiceId = ctwhy.ValueAsString(vals["vpc_endpoint_service_id"])
 }

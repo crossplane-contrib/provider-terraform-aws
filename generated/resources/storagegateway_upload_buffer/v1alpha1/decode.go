@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeStoragegatewayUploadBuffer(prev *StoragegatewayUploadBuffer, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeStoragegatewayUploadBuffer_Id(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayUploadBuffer_DiskId(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayUploadBuffer_GatewayArn(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayUploadBuffer_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayUploadBuffer_Id(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayUploadBuffer_DiskId(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
 	p.DiskId = ctwhy.ValueAsString(vals["disk_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayUploadBuffer_GatewayArn(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
 	p.GatewayArn = ctwhy.ValueAsString(vals["gateway_arn"])
-}
-
-func DecodeStoragegatewayUploadBuffer_Id(p *StoragegatewayUploadBufferParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

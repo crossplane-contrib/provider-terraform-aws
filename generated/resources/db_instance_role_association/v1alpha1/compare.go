@@ -17,13 +17,87 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*DbInstanceRoleAssociation)
+	p := prov.(*DbInstanceRoleAssociation)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeDbInstanceRoleAssociation_DbInstanceIdentifier(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbInstanceRoleAssociation_FeatureName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbInstanceRoleAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDbInstanceRoleAssociation_RoleArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbInstanceRoleAssociation_DbInstanceIdentifier(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.DbInstanceIdentifier != p.DbInstanceIdentifier {
+		p.DbInstanceIdentifier = k.DbInstanceIdentifier
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbInstanceRoleAssociation_FeatureName(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.FeatureName != p.FeatureName {
+		p.FeatureName = k.FeatureName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbInstanceRoleAssociation_Id(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDbInstanceRoleAssociation_RoleArn(k *DbInstanceRoleAssociationParameters, p *DbInstanceRoleAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.RoleArn != p.RoleArn {
+		p.RoleArn = k.RoleArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

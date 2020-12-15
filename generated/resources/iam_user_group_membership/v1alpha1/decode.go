@@ -43,10 +43,14 @@ func DecodeIamUserGroupMembership(prev *IamUserGroupMembership, ctyValue cty.Val
 	DecodeIamUserGroupMembership_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamUserGroupMembership_User(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeIamUserGroupMembership_Groups(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["groups"]) {
@@ -55,10 +59,12 @@ func DecodeIamUserGroupMembership_Groups(p *IamUserGroupMembershipParameters, va
 	p.Groups = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserGroupMembership_Id(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserGroupMembership_User(p *IamUserGroupMembershipParameters, vals map[string]cty.Value) {
 	p.User = ctwhy.ValueAsString(vals["user"])
 }

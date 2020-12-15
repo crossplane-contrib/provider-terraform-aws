@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeMediaStoreContainerPolicy(prev *MediaStoreContainerPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeMediaStoreContainerPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeMediaStoreContainerPolicy_ContainerName(&new.Spec.ForProvider, valMap)
 	DecodeMediaStoreContainerPolicy_Id(&new.Spec.ForProvider, valMap)
+	DecodeMediaStoreContainerPolicy_Policy(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeMediaStoreContainerPolicy_Policy(p *MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeMediaStoreContainerPolicy_ContainerName(p *MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
 	p.ContainerName = ctwhy.ValueAsString(vals["container_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeMediaStoreContainerPolicy_Id(p *MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMediaStoreContainerPolicy_Policy(p *MediaStoreContainerPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }

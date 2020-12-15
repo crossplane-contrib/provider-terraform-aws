@@ -37,12 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeS3BucketPublicAccessBlock(r S3BucketPublicAccessBlock) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeS3BucketPublicAccessBlock_Bucket(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_Id(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_IgnorePublicAcls(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_RestrictPublicBuckets(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_BlockPublicAcls(r.Spec.ForProvider, ctyVal)
 	EncodeS3BucketPublicAccessBlock_BlockPublicPolicy(r.Spec.ForProvider, ctyVal)
-	EncodeS3BucketPublicAccessBlock_Bucket(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,6 +52,10 @@ func EncodeS3BucketPublicAccessBlock(r S3BucketPublicAccessBlock) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeS3BucketPublicAccessBlock_Bucket(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
+	vals["bucket"] = cty.StringVal(p.Bucket)
 }
 
 func EncodeS3BucketPublicAccessBlock_Id(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
@@ -72,8 +76,4 @@ func EncodeS3BucketPublicAccessBlock_BlockPublicAcls(p S3BucketPublicAccessBlock
 
 func EncodeS3BucketPublicAccessBlock_BlockPublicPolicy(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
 	vals["block_public_policy"] = cty.BoolVal(p.BlockPublicPolicy)
-}
-
-func EncodeS3BucketPublicAccessBlock_Bucket(p S3BucketPublicAccessBlockParameters, vals map[string]cty.Value) {
-	vals["bucket"] = cty.StringVal(p.Bucket)
 }

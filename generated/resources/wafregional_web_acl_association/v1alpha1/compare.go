@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*WafregionalWebAclAssociation)
+	p := prov.(*WafregionalWebAclAssociation)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeWafregionalWebAclAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeWafregionalWebAclAssociation_ResourceArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeWafregionalWebAclAssociation_WebAclId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeWafregionalWebAclAssociation_Id(k *WafregionalWebAclAssociationParameters, p *WafregionalWebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeWafregionalWebAclAssociation_ResourceArn(k *WafregionalWebAclAssociationParameters, p *WafregionalWebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceArn != p.ResourceArn {
+		p.ResourceArn = k.ResourceArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeWafregionalWebAclAssociation_WebAclId(k *WafregionalWebAclAssociationParameters, p *WafregionalWebAclAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.WebAclId != p.WebAclId {
+		p.WebAclId = k.WebAclId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

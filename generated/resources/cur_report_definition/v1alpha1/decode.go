@@ -39,67 +39,57 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCurReportDefinition(prev *CurReportDefinition, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCurReportDefinition_Format(&new.Spec.ForProvider, valMap)
 	DecodeCurReportDefinition_Id(&new.Spec.ForProvider, valMap)
-	DecodeCurReportDefinition_ReportVersioning(&new.Spec.ForProvider, valMap)
-	DecodeCurReportDefinition_S3Bucket(&new.Spec.ForProvider, valMap)
-	DecodeCurReportDefinition_S3Prefix(&new.Spec.ForProvider, valMap)
-	DecodeCurReportDefinition_TimeUnit(&new.Spec.ForProvider, valMap)
-	DecodeCurReportDefinition_AdditionalSchemaElements(&new.Spec.ForProvider, valMap)
-	DecodeCurReportDefinition_Compression(&new.Spec.ForProvider, valMap)
 	DecodeCurReportDefinition_RefreshClosedReports(&new.Spec.ForProvider, valMap)
 	DecodeCurReportDefinition_ReportName(&new.Spec.ForProvider, valMap)
 	DecodeCurReportDefinition_S3Region(&new.Spec.ForProvider, valMap)
+	DecodeCurReportDefinition_TimeUnit(&new.Spec.ForProvider, valMap)
 	DecodeCurReportDefinition_AdditionalArtifacts(&new.Spec.ForProvider, valMap)
-	DecodeCurReportDefinition_Format(&new.Spec.ForProvider, valMap)
+	DecodeCurReportDefinition_Compression(&new.Spec.ForProvider, valMap)
+	DecodeCurReportDefinition_S3Bucket(&new.Spec.ForProvider, valMap)
+	DecodeCurReportDefinition_S3Prefix(&new.Spec.ForProvider, valMap)
+	DecodeCurReportDefinition_AdditionalSchemaElements(&new.Spec.ForProvider, valMap)
+	DecodeCurReportDefinition_ReportVersioning(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCurReportDefinition_Format(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
+	p.Format = ctwhy.ValueAsString(vals["format"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeCurReportDefinition_Id(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
-func DecodeCurReportDefinition_ReportVersioning(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
-	p.ReportVersioning = ctwhy.ValueAsString(vals["report_versioning"])
-}
-
-func DecodeCurReportDefinition_S3Bucket(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
-	p.S3Bucket = ctwhy.ValueAsString(vals["s3_bucket"])
-}
-
-func DecodeCurReportDefinition_S3Prefix(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
-	p.S3Prefix = ctwhy.ValueAsString(vals["s3_prefix"])
-}
-
-func DecodeCurReportDefinition_TimeUnit(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
-	p.TimeUnit = ctwhy.ValueAsString(vals["time_unit"])
-}
-
-func DecodeCurReportDefinition_AdditionalSchemaElements(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["additional_schema_elements"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.AdditionalSchemaElements = goVals
-}
-
-func DecodeCurReportDefinition_Compression(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
-	p.Compression = ctwhy.ValueAsString(vals["compression"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeCurReportDefinition_RefreshClosedReports(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
 	p.RefreshClosedReports = ctwhy.ValueAsBool(vals["refresh_closed_reports"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCurReportDefinition_ReportName(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
 	p.ReportName = ctwhy.ValueAsString(vals["report_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCurReportDefinition_S3Region(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
 	p.S3Region = ctwhy.ValueAsString(vals["s3_region"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCurReportDefinition_TimeUnit(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
+	p.TimeUnit = ctwhy.ValueAsString(vals["time_unit"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
 func DecodeCurReportDefinition_AdditionalArtifacts(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["additional_artifacts"]) {
@@ -108,6 +98,31 @@ func DecodeCurReportDefinition_AdditionalArtifacts(p *CurReportDefinitionParamet
 	p.AdditionalArtifacts = goVals
 }
 
-func DecodeCurReportDefinition_Format(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
-	p.Format = ctwhy.ValueAsString(vals["format"])
+//primitiveTypeDecodeTemplate
+func DecodeCurReportDefinition_Compression(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
+	p.Compression = ctwhy.ValueAsString(vals["compression"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCurReportDefinition_S3Bucket(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
+	p.S3Bucket = ctwhy.ValueAsString(vals["s3_bucket"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCurReportDefinition_S3Prefix(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
+	p.S3Prefix = ctwhy.ValueAsString(vals["s3_prefix"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeCurReportDefinition_AdditionalSchemaElements(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["additional_schema_elements"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AdditionalSchemaElements = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCurReportDefinition_ReportVersioning(p *CurReportDefinitionParameters, vals map[string]cty.Value) {
+	p.ReportVersioning = ctwhy.ValueAsString(vals["report_versioning"])
 }

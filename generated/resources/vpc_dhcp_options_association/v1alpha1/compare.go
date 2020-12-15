@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*VpcDhcpOptionsAssociation)
+	p := prov.(*VpcDhcpOptionsAssociation)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeVpcDhcpOptionsAssociation_DhcpOptionsId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpcDhcpOptionsAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpcDhcpOptionsAssociation_VpcId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpcDhcpOptionsAssociation_DhcpOptionsId(k *VpcDhcpOptionsAssociationParameters, p *VpcDhcpOptionsAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.DhcpOptionsId != p.DhcpOptionsId {
+		p.DhcpOptionsId = k.DhcpOptionsId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpcDhcpOptionsAssociation_Id(k *VpcDhcpOptionsAssociationParameters, p *VpcDhcpOptionsAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpcDhcpOptionsAssociation_VpcId(k *VpcDhcpOptionsAssociationParameters, p *VpcDhcpOptionsAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.VpcId != p.VpcId {
+		p.VpcId = k.VpcId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

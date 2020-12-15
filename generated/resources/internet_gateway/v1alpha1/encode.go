@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeInternetGateway(r InternetGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeInternetGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInternetGateway_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeInternetGateway_VpcId(r.Spec.ForProvider, ctyVal)
+	EncodeInternetGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeInternetGateway_Arn(r.Status.AtProvider, ctyVal)
 	EncodeInternetGateway_OwnerId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -50,10 +50,6 @@ func EncodeInternetGateway(r InternetGateway) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeInternetGateway_Id(p InternetGatewayParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInternetGateway_Tags(p InternetGatewayParameters, vals map[string]cty.Value) {
@@ -70,6 +66,10 @@ func EncodeInternetGateway_Tags(p InternetGatewayParameters, vals map[string]cty
 
 func EncodeInternetGateway_VpcId(p InternetGatewayParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
+}
+
+func EncodeInternetGateway_Id(p InternetGatewayParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeInternetGateway_Arn(p InternetGatewayObservation, vals map[string]cty.Value) {

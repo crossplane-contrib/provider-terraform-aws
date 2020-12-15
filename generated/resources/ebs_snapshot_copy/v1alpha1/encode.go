@@ -37,18 +37,18 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEbsSnapshotCopy(r EbsSnapshotCopy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeEbsSnapshotCopy_SourceSnapshotId(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshotCopy_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeEbsSnapshotCopy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEbsSnapshotCopy_KmsKeyId(r.Spec.ForProvider, ctyVal)
+	EncodeEbsSnapshotCopy_Encrypted(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshotCopy_SourceRegion(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshotCopy_Description(r.Spec.ForProvider, ctyVal)
-	EncodeEbsSnapshotCopy_Encrypted(r.Spec.ForProvider, ctyVal)
+	EncodeEbsSnapshotCopy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeEbsSnapshotCopy_KmsKeyId(r.Spec.ForProvider, ctyVal)
+	EncodeEbsSnapshotCopy_SourceSnapshotId(r.Spec.ForProvider, ctyVal)
 	EncodeEbsSnapshotCopy_VolumeId(r.Status.AtProvider, ctyVal)
-	EncodeEbsSnapshotCopy_VolumeSize(r.Status.AtProvider, ctyVal)
+	EncodeEbsSnapshotCopy_Arn(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshotCopy_OwnerAlias(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshotCopy_OwnerId(r.Status.AtProvider, ctyVal)
-	EncodeEbsSnapshotCopy_Arn(r.Status.AtProvider, ctyVal)
+	EncodeEbsSnapshotCopy_VolumeSize(r.Status.AtProvider, ctyVal)
 	EncodeEbsSnapshotCopy_DataEncryptionKeyId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -58,10 +58,6 @@ func EncodeEbsSnapshotCopy(r EbsSnapshotCopy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeEbsSnapshotCopy_SourceSnapshotId(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	vals["source_snapshot_id"] = cty.StringVal(p.SourceSnapshotId)
 }
 
 func EncodeEbsSnapshotCopy_Tags(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
@@ -76,12 +72,8 @@ func EncodeEbsSnapshotCopy_Tags(p EbsSnapshotCopyParameters, vals map[string]cty
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeEbsSnapshotCopy_Id(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEbsSnapshotCopy_KmsKeyId(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+func EncodeEbsSnapshotCopy_Encrypted(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	vals["encrypted"] = cty.BoolVal(p.Encrypted)
 }
 
 func EncodeEbsSnapshotCopy_SourceRegion(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
@@ -92,16 +84,24 @@ func EncodeEbsSnapshotCopy_Description(p EbsSnapshotCopyParameters, vals map[str
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeEbsSnapshotCopy_Encrypted(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
-	vals["encrypted"] = cty.BoolVal(p.Encrypted)
+func EncodeEbsSnapshotCopy_Id(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeEbsSnapshotCopy_KmsKeyId(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	vals["kms_key_id"] = cty.StringVal(p.KmsKeyId)
+}
+
+func EncodeEbsSnapshotCopy_SourceSnapshotId(p EbsSnapshotCopyParameters, vals map[string]cty.Value) {
+	vals["source_snapshot_id"] = cty.StringVal(p.SourceSnapshotId)
 }
 
 func EncodeEbsSnapshotCopy_VolumeId(p EbsSnapshotCopyObservation, vals map[string]cty.Value) {
 	vals["volume_id"] = cty.StringVal(p.VolumeId)
 }
 
-func EncodeEbsSnapshotCopy_VolumeSize(p EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	vals["volume_size"] = cty.NumberIntVal(p.VolumeSize)
+func EncodeEbsSnapshotCopy_Arn(p EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }
 
 func EncodeEbsSnapshotCopy_OwnerAlias(p EbsSnapshotCopyObservation, vals map[string]cty.Value) {
@@ -112,8 +112,8 @@ func EncodeEbsSnapshotCopy_OwnerId(p EbsSnapshotCopyObservation, vals map[string
 	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }
 
-func EncodeEbsSnapshotCopy_Arn(p EbsSnapshotCopyObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeEbsSnapshotCopy_VolumeSize(p EbsSnapshotCopyObservation, vals map[string]cty.Value) {
+	vals["volume_size"] = cty.NumberIntVal(p.VolumeSize)
 }
 
 func EncodeEbsSnapshotCopy_DataEncryptionKeyId(p EbsSnapshotCopyObservation, vals map[string]cty.Value) {

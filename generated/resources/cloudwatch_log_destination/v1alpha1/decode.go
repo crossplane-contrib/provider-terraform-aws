@@ -44,26 +44,34 @@ func DecodeCloudwatchLogDestination(prev *CloudwatchLogDestination, ctyValue cty
 	DecodeCloudwatchLogDestination_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogDestination_TargetArn(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogDestination_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestination_Id(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestination_Name(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestination_RoleArn(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
 	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestination_TargetArn(p *CloudwatchLogDestinationParameters, vals map[string]cty.Value) {
 	p.TargetArn = ctwhy.ValueAsString(vals["target_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestination_Arn(p *CloudwatchLogDestinationObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

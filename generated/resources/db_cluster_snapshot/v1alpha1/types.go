@@ -54,8 +54,8 @@ type DbClusterSnapshotSpec struct {
 type DbClusterSnapshotParameters struct {
 	DbClusterSnapshotIdentifier string            `json:"db_cluster_snapshot_identifier"`
 	Tags                        map[string]string `json:"tags"`
-	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
 	Id                          string            `json:"id"`
+	DbClusterIdentifier         string            `json:"db_cluster_identifier"`
 	Timeouts                    Timeouts          `json:"timeouts"`
 }
 
@@ -71,17 +71,17 @@ type DbClusterSnapshotStatus struct {
 
 // A DbClusterSnapshotObservation records the observed state of a DbClusterSnapshot
 type DbClusterSnapshotObservation struct {
-	EngineVersion              string   `json:"engine_version"`
-	LicenseModel               string   `json:"license_model"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
 	AvailabilityZones          []string `json:"availability_zones"`
+	VpcId                      string   `json:"vpc_id"`
 	Engine                     string   `json:"engine"`
 	KmsKeyId                   string   `json:"kms_key_id"`
 	Status                     string   `json:"status"`
+	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
+	EngineVersion              string   `json:"engine_version"`
+	SnapshotType               string   `json:"snapshot_type"`
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
 	StorageEncrypted           bool     `json:"storage_encrypted"`
 	AllocatedStorage           int64    `json:"allocated_storage"`
+	LicenseModel               string   `json:"license_model"`
 	Port                       int64    `json:"port"`
-	SnapshotType               string   `json:"snapshot_type"`
-	VpcId                      string   `json:"vpc_id"`
 }

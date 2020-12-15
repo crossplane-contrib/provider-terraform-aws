@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayRequestValidator(prev *ApiGatewayRequestValidator, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApiGatewayRequestValidator_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayRequestValidator_Name(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayRequestValidator_RestApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayRequestValidator_ValidateRequestBody(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayRequestValidator_ValidateRequestParameters(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayRequestValidator_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeApiGatewayRequestValidator_Id(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayRequestValidator_Name(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayRequestValidator_RestApiId(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
 	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayRequestValidator_ValidateRequestBody(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
 	p.ValidateRequestBody = ctwhy.ValueAsBool(vals["validate_request_body"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayRequestValidator_ValidateRequestParameters(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
 	p.ValidateRequestParameters = ctwhy.ValueAsBool(vals["validate_request_parameters"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayRequestValidator_Id(p *ApiGatewayRequestValidatorParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

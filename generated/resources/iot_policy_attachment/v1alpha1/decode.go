@@ -43,18 +43,24 @@ func DecodeIotPolicyAttachment(prev *IotPolicyAttachment, ctyValue cty.Value) (r
 	DecodeIotPolicyAttachment_Policy(&new.Spec.ForProvider, valMap)
 	DecodeIotPolicyAttachment_Target(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotPolicyAttachment_Id(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotPolicyAttachment_Policy(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotPolicyAttachment_Target(p *IotPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.Target = ctwhy.ValueAsString(vals["target"])
 }

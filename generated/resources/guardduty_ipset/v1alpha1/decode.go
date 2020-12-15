@@ -39,22 +39,47 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeGuarddutyIpset(prev *GuarddutyIpset, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeGuarddutyIpset_Name(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyIpset_Tags(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyIpset_Activate(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyIpset_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyIpset_Format(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyIpset_Id(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyIpset_Location(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Name(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Tags(&new.Spec.ForProvider, valMap)
+	DecodeGuarddutyIpset_Activate(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyIpset_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeGuarddutyIpset_DetectorId(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeGuarddutyIpset_Format(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Format = ctwhy.ValueAsString(vals["format"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeGuarddutyIpset_Id(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeGuarddutyIpset_Location(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
+	p.Location = ctwhy.ValueAsString(vals["location"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyIpset_Name(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeGuarddutyIpset_Tags(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -65,26 +90,12 @@ func DecodeGuarddutyIpset_Tags(p *GuarddutyIpsetParameters, vals map[string]cty.
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyIpset_Activate(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
 	p.Activate = ctwhy.ValueAsBool(vals["activate"])
 }
 
-func DecodeGuarddutyIpset_DetectorId(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
-	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
-}
-
-func DecodeGuarddutyIpset_Format(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
-	p.Format = ctwhy.ValueAsString(vals["format"])
-}
-
-func DecodeGuarddutyIpset_Id(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeGuarddutyIpset_Location(p *GuarddutyIpsetParameters, vals map[string]cty.Value) {
-	p.Location = ctwhy.ValueAsString(vals["location"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyIpset_Arn(p *GuarddutyIpsetObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

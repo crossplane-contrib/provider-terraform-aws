@@ -39,19 +39,34 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeXrayGroup(prev *XrayGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeXrayGroup_Id(&new.Spec.ForProvider, valMap)
-	DecodeXrayGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_FilterExpression(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_GroupName(&new.Spec.ForProvider, valMap)
+	DecodeXrayGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodeXrayGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeXrayGroup_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeXrayGroup_FilterExpression(p *XrayGroupParameters, vals map[string]cty.Value) {
+	p.FilterExpression = ctwhy.ValueAsString(vals["filter_expression"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeXrayGroup_GroupName(p *XrayGroupParameters, vals map[string]cty.Value) {
+	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeXrayGroup_Id(p *XrayGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeXrayGroup_Tags(p *XrayGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -62,14 +77,7 @@ func DecodeXrayGroup_Tags(p *XrayGroupParameters, vals map[string]cty.Value) {
 	p.Tags = vMap
 }
 
-func DecodeXrayGroup_FilterExpression(p *XrayGroupParameters, vals map[string]cty.Value) {
-	p.FilterExpression = ctwhy.ValueAsString(vals["filter_expression"])
-}
-
-func DecodeXrayGroup_GroupName(p *XrayGroupParameters, vals map[string]cty.Value) {
-	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeXrayGroup_Arn(p *XrayGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

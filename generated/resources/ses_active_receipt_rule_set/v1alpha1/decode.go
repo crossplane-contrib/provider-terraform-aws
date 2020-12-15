@@ -42,14 +42,19 @@ func DecodeSesActiveReceiptRuleSet(prev *SesActiveReceiptRuleSet, ctyValue cty.V
 	DecodeSesActiveReceiptRuleSet_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesActiveReceiptRuleSet_RuleSetName(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesActiveReceiptRuleSet_Id(p *SesActiveReceiptRuleSetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesActiveReceiptRuleSet_RuleSetName(p *SesActiveReceiptRuleSetParameters, vals map[string]cty.Value) {
 	p.RuleSetName = ctwhy.ValueAsString(vals["rule_set_name"])
 }

@@ -52,9 +52,9 @@ type IamUserPolicyAttachmentSpec struct {
 
 // A IamUserPolicyAttachmentParameters defines the desired state of a IamUserPolicyAttachment
 type IamUserPolicyAttachmentParameters struct {
+	Id        string `json:"id"`
 	PolicyArn string `json:"policy_arn"`
 	User      string `json:"user"`
-	Id        string `json:"id"`
 }
 
 // A IamUserPolicyAttachmentStatus defines the observed state of a IamUserPolicyAttachment

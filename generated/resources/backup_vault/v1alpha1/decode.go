@@ -39,20 +39,35 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeBackupVault(prev *BackupVault, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeBackupVault_Name(&new.Spec.ForProvider, valMap)
-	DecodeBackupVault_Tags(&new.Spec.ForProvider, valMap)
 	DecodeBackupVault_Id(&new.Spec.ForProvider, valMap)
 	DecodeBackupVault_KmsKeyArn(&new.Spec.ForProvider, valMap)
-	DecodeBackupVault_RecoveryPoints(&new.Status.AtProvider, valMap)
+	DecodeBackupVault_Name(&new.Spec.ForProvider, valMap)
+	DecodeBackupVault_Tags(&new.Spec.ForProvider, valMap)
 	DecodeBackupVault_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeBackupVault_RecoveryPoints(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeBackupVault_Id(p *BackupVaultParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeBackupVault_KmsKeyArn(p *BackupVaultParameters, vals map[string]cty.Value) {
+	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeBackupVault_Name(p *BackupVaultParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeBackupVault_Tags(p *BackupVaultParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -63,18 +78,12 @@ func DecodeBackupVault_Tags(p *BackupVaultParameters, vals map[string]cty.Value)
 	p.Tags = vMap
 }
 
-func DecodeBackupVault_Id(p *BackupVaultParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeBackupVault_KmsKeyArn(p *BackupVaultParameters, vals map[string]cty.Value) {
-	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
-}
-
-func DecodeBackupVault_RecoveryPoints(p *BackupVaultObservation, vals map[string]cty.Value) {
-	p.RecoveryPoints = ctwhy.ValueAsInt64(vals["recovery_points"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeBackupVault_Arn(p *BackupVaultObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeBackupVault_RecoveryPoints(p *BackupVaultObservation, vals map[string]cty.Value) {
+	p.RecoveryPoints = ctwhy.ValueAsInt64(vals["recovery_points"])
 }

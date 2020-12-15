@@ -43,22 +43,29 @@ func DecodeLightsailStaticIpAttachment(prev *LightsailStaticIpAttachment, ctyVal
 	DecodeLightsailStaticIpAttachment_InstanceName(&new.Spec.ForProvider, valMap)
 	DecodeLightsailStaticIpAttachment_StaticIpName(&new.Spec.ForProvider, valMap)
 	DecodeLightsailStaticIpAttachment_IpAddress(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailStaticIpAttachment_Id(p *LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailStaticIpAttachment_InstanceName(p *LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
 	p.InstanceName = ctwhy.ValueAsString(vals["instance_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailStaticIpAttachment_StaticIpName(p *LightsailStaticIpAttachmentParameters, vals map[string]cty.Value) {
 	p.StaticIpName = ctwhy.ValueAsString(vals["static_ip_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailStaticIpAttachment_IpAddress(p *LightsailStaticIpAttachmentObservation, vals map[string]cty.Value) {
 	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
 }

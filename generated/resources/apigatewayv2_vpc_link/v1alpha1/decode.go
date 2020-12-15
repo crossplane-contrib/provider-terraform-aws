@@ -39,24 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApigatewayv2VpcLink(prev *Apigatewayv2VpcLink, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApigatewayv2VpcLink_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_Name(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_SecurityGroupIds(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_Tags(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2VpcLink_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2VpcLink_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeApigatewayv2VpcLink_Id(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2VpcLink_Name(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeApigatewayv2VpcLink_SecurityGroupIds(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["security_group_ids"]) {
@@ -65,6 +66,7 @@ func DecodeApigatewayv2VpcLink_SecurityGroupIds(p *Apigatewayv2VpcLinkParameters
 	p.SecurityGroupIds = goVals
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeApigatewayv2VpcLink_SubnetIds(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
@@ -73,6 +75,7 @@ func DecodeApigatewayv2VpcLink_SubnetIds(p *Apigatewayv2VpcLinkParameters, vals 
 	p.SubnetIds = goVals
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeApigatewayv2VpcLink_Tags(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -83,6 +86,12 @@ func DecodeApigatewayv2VpcLink_Tags(p *Apigatewayv2VpcLinkParameters, vals map[s
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2VpcLink_Id(p *Apigatewayv2VpcLinkParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2VpcLink_Arn(p *Apigatewayv2VpcLinkObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

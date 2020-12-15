@@ -39,25 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamPolicyAttachment(prev *IamPolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamPolicyAttachment_Users(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_Groups(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 	DecodeIamPolicyAttachment_Roles(&new.Spec.ForProvider, valMap)
+	DecodeIamPolicyAttachment_Users(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeIamPolicyAttachment_Users(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["users"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Users = goVals
-}
-
+//primitiveCollectionTypeDecodeTemplate
 func DecodeIamPolicyAttachment_Groups(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["groups"]) {
@@ -66,22 +62,35 @@ func DecodeIamPolicyAttachment_Groups(p *IamPolicyAttachmentParameters, vals map
 	p.Groups = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamPolicyAttachment_Id(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamPolicyAttachment_Name(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamPolicyAttachment_PolicyArn(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.PolicyArn = ctwhy.ValueAsString(vals["policy_arn"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeIamPolicyAttachment_Roles(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["roles"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.Roles = goVals
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeIamPolicyAttachment_Users(p *IamPolicyAttachmentParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["users"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Users = goVals
 }

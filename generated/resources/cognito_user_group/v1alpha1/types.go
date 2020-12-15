@@ -52,12 +52,12 @@ type CognitoUserGroupSpec struct {
 
 // A CognitoUserGroupParameters defines the desired state of a CognitoUserGroup
 type CognitoUserGroupParameters struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
 	Precedence  int64  `json:"precedence"`
 	RoleArn     string `json:"role_arn"`
 	UserPoolId  string `json:"user_pool_id"`
 	Description string `json:"description"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
 }
 
 // A CognitoUserGroupStatus defines the observed state of a CognitoUserGroup

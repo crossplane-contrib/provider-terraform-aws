@@ -39,17 +39,22 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEbsEncryptionByDefault(prev *EbsEncryptionByDefault, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEbsEncryptionByDefault_Id(&new.Spec.ForProvider, valMap)
 	DecodeEbsEncryptionByDefault_Enabled(&new.Spec.ForProvider, valMap)
+	DecodeEbsEncryptionByDefault_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeEbsEncryptionByDefault_Id(p *EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEbsEncryptionByDefault_Enabled(p *EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEbsEncryptionByDefault_Id(p *EbsEncryptionByDefaultParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

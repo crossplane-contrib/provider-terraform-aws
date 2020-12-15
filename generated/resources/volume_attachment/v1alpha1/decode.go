@@ -39,37 +39,46 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVolumeAttachment(prev *VolumeAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVolumeAttachment_DeviceName(&new.Spec.ForProvider, valMap)
-	DecodeVolumeAttachment_ForceDetach(&new.Spec.ForProvider, valMap)
-	DecodeVolumeAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeVolumeAttachment_InstanceId(&new.Spec.ForProvider, valMap)
 	DecodeVolumeAttachment_SkipDestroy(&new.Spec.ForProvider, valMap)
 	DecodeVolumeAttachment_VolumeId(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_DeviceName(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_ForceDetach(&new.Spec.ForProvider, valMap)
+	DecodeVolumeAttachment_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeVolumeAttachment_DeviceName(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
-	p.DeviceName = ctwhy.ValueAsString(vals["device_name"])
-}
-
-func DecodeVolumeAttachment_ForceDetach(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
-	p.ForceDetach = ctwhy.ValueAsBool(vals["force_detach"])
-}
-
-func DecodeVolumeAttachment_Id(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeVolumeAttachment_InstanceId(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
 	p.InstanceId = ctwhy.ValueAsString(vals["instance_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVolumeAttachment_SkipDestroy(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
 	p.SkipDestroy = ctwhy.ValueAsBool(vals["skip_destroy"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVolumeAttachment_VolumeId(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
 	p.VolumeId = ctwhy.ValueAsString(vals["volume_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVolumeAttachment_DeviceName(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.DeviceName = ctwhy.ValueAsString(vals["device_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVolumeAttachment_ForceDetach(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.ForceDetach = ctwhy.ValueAsBool(vals["force_detach"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVolumeAttachment_Id(p *VolumeAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

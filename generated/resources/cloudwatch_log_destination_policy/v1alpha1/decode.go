@@ -43,18 +43,24 @@ func DecodeCloudwatchLogDestinationPolicy(prev *CloudwatchLogDestinationPolicy, 
 	DecodeCloudwatchLogDestinationPolicy_DestinationName(&new.Spec.ForProvider, valMap)
 	DecodeCloudwatchLogDestinationPolicy_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestinationPolicy_AccessPolicy(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	p.AccessPolicy = ctwhy.ValueAsString(vals["access_policy"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestinationPolicy_DestinationName(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	p.DestinationName = ctwhy.ValueAsString(vals["destination_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudwatchLogDestinationPolicy_Id(p *CloudwatchLogDestinationPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

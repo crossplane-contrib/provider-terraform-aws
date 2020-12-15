@@ -39,17 +39,26 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxGatewayAssociationProposal(prev *DxGatewayAssociationProposal, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDxGatewayAssociationProposal_Id(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_AllowedPrefixes(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_AssociatedGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_DxGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(&new.Spec.ForProvider, valMap)
-	DecodeDxGatewayAssociationProposal_Id(&new.Spec.ForProvider, valMap)
 	DecodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(&new.Status.AtProvider, valMap)
 	DecodeDxGatewayAssociationProposal_AssociatedGatewayType(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDxGatewayAssociationProposal_Id(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
 func DecodeDxGatewayAssociationProposal_AllowedPrefixes(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["allowed_prefixes"]) {
@@ -58,26 +67,27 @@ func DecodeDxGatewayAssociationProposal_AllowedPrefixes(p *DxGatewayAssociationP
 	p.AllowedPrefixes = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGatewayAssociationProposal_AssociatedGatewayId(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
 	p.AssociatedGatewayId = ctwhy.ValueAsString(vals["associated_gateway_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGatewayAssociationProposal_DxGatewayId(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
 	p.DxGatewayId = ctwhy.ValueAsString(vals["dx_gateway_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGatewayAssociationProposal_DxGatewayOwnerAccountId(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
 	p.DxGatewayOwnerAccountId = ctwhy.ValueAsString(vals["dx_gateway_owner_account_id"])
 }
 
-func DecodeDxGatewayAssociationProposal_Id(p *DxGatewayAssociationProposalParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDxGatewayAssociationProposal_AssociatedGatewayOwnerAccountId(p *DxGatewayAssociationProposalObservation, vals map[string]cty.Value) {
 	p.AssociatedGatewayOwnerAccountId = ctwhy.ValueAsString(vals["associated_gateway_owner_account_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGatewayAssociationProposal_AssociatedGatewayType(p *DxGatewayAssociationProposalObservation, vals map[string]cty.Value) {
 	p.AssociatedGatewayType = ctwhy.ValueAsString(vals["associated_gateway_type"])
 }

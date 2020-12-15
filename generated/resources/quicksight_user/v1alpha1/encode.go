@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeQuicksightUser(r QuicksightUser) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeQuicksightUser_UserRole(r.Spec.ForProvider, ctyVal)
-	EncodeQuicksightUser_AwsAccountId(r.Spec.ForProvider, ctyVal)
-	EncodeQuicksightUser_Namespace(r.Spec.ForProvider, ctyVal)
-	EncodeQuicksightUser_SessionName(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightUser_Id(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightUser_IdentityType(r.Spec.ForProvider, ctyVal)
+	EncodeQuicksightUser_Namespace(r.Spec.ForProvider, ctyVal)
+	EncodeQuicksightUser_SessionName(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightUser_UserName(r.Spec.ForProvider, ctyVal)
-	EncodeQuicksightUser_Email(r.Spec.ForProvider, ctyVal)
+	EncodeQuicksightUser_UserRole(r.Spec.ForProvider, ctyVal)
+	EncodeQuicksightUser_AwsAccountId(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightUser_IamArn(r.Spec.ForProvider, ctyVal)
+	EncodeQuicksightUser_Email(r.Spec.ForProvider, ctyVal)
 	EncodeQuicksightUser_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -57,12 +57,12 @@ func EncodeQuicksightUser(r QuicksightUser) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeQuicksightUser_UserRole(p QuicksightUserParameters, vals map[string]cty.Value) {
-	vals["user_role"] = cty.StringVal(p.UserRole)
+func EncodeQuicksightUser_Id(p QuicksightUserParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeQuicksightUser_AwsAccountId(p QuicksightUserParameters, vals map[string]cty.Value) {
-	vals["aws_account_id"] = cty.StringVal(p.AwsAccountId)
+func EncodeQuicksightUser_IdentityType(p QuicksightUserParameters, vals map[string]cty.Value) {
+	vals["identity_type"] = cty.StringVal(p.IdentityType)
 }
 
 func EncodeQuicksightUser_Namespace(p QuicksightUserParameters, vals map[string]cty.Value) {
@@ -73,24 +73,24 @@ func EncodeQuicksightUser_SessionName(p QuicksightUserParameters, vals map[strin
 	vals["session_name"] = cty.StringVal(p.SessionName)
 }
 
-func EncodeQuicksightUser_Id(p QuicksightUserParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeQuicksightUser_IdentityType(p QuicksightUserParameters, vals map[string]cty.Value) {
-	vals["identity_type"] = cty.StringVal(p.IdentityType)
-}
-
 func EncodeQuicksightUser_UserName(p QuicksightUserParameters, vals map[string]cty.Value) {
 	vals["user_name"] = cty.StringVal(p.UserName)
 }
 
-func EncodeQuicksightUser_Email(p QuicksightUserParameters, vals map[string]cty.Value) {
-	vals["email"] = cty.StringVal(p.Email)
+func EncodeQuicksightUser_UserRole(p QuicksightUserParameters, vals map[string]cty.Value) {
+	vals["user_role"] = cty.StringVal(p.UserRole)
+}
+
+func EncodeQuicksightUser_AwsAccountId(p QuicksightUserParameters, vals map[string]cty.Value) {
+	vals["aws_account_id"] = cty.StringVal(p.AwsAccountId)
 }
 
 func EncodeQuicksightUser_IamArn(p QuicksightUserParameters, vals map[string]cty.Value) {
 	vals["iam_arn"] = cty.StringVal(p.IamArn)
+}
+
+func EncodeQuicksightUser_Email(p QuicksightUserParameters, vals map[string]cty.Value) {
+	vals["email"] = cty.StringVal(p.Email)
 }
 
 func EncodeQuicksightUser_Arn(p QuicksightUserObservation, vals map[string]cty.Value) {

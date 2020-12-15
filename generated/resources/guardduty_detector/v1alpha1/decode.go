@@ -43,24 +43,31 @@ func DecodeGuarddutyDetector(prev *GuarddutyDetector, ctyValue cty.Value) (resou
 	DecodeGuarddutyDetector_FindingPublishingFrequency(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyDetector_Id(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyDetector_Tags(&new.Spec.ForProvider, valMap)
-	DecodeGuarddutyDetector_AccountId(&new.Status.AtProvider, valMap)
 	DecodeGuarddutyDetector_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeGuarddutyDetector_AccountId(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyDetector_Enable(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	p.Enable = ctwhy.ValueAsBool(vals["enable"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyDetector_FindingPublishingFrequency(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	p.FindingPublishingFrequency = ctwhy.ValueAsString(vals["finding_publishing_frequency"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyDetector_Id(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeGuarddutyDetector_Tags(p *GuarddutyDetectorParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -71,10 +78,12 @@ func DecodeGuarddutyDetector_Tags(p *GuarddutyDetectorParameters, vals map[strin
 	p.Tags = vMap
 }
 
-func DecodeGuarddutyDetector_AccountId(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
-	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyDetector_Arn(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeGuarddutyDetector_AccountId(p *GuarddutyDetectorObservation, vals map[string]cty.Value) {
+	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }

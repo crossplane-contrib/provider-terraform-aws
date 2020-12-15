@@ -43,18 +43,24 @@ func DecodeSnapshotCreateVolumePermission(prev *SnapshotCreateVolumePermission, 
 	DecodeSnapshotCreateVolumePermission_Id(&new.Spec.ForProvider, valMap)
 	DecodeSnapshotCreateVolumePermission_SnapshotId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnapshotCreateVolumePermission_AccountId(p *SnapshotCreateVolumePermissionParameters, vals map[string]cty.Value) {
 	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnapshotCreateVolumePermission_Id(p *SnapshotCreateVolumePermissionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnapshotCreateVolumePermission_SnapshotId(p *SnapshotCreateVolumePermissionParameters, vals map[string]cty.Value) {
 	p.SnapshotId = ctwhy.ValueAsString(vals["snapshot_id"])
 }

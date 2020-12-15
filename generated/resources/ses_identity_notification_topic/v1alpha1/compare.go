@@ -17,13 +17,102 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*SesIdentityNotificationTopic)
+	p := prov.(*SesIdentityNotificationTopic)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeSesIdentityNotificationTopic_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSesIdentityNotificationTopic_Identity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSesIdentityNotificationTopic_IncludeOriginalHeaders(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSesIdentityNotificationTopic_NotificationType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSesIdentityNotificationTopic_TopicArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSesIdentityNotificationTopic_Id(k *SesIdentityNotificationTopicParameters, p *SesIdentityNotificationTopicParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSesIdentityNotificationTopic_Identity(k *SesIdentityNotificationTopicParameters, p *SesIdentityNotificationTopicParameters, md *plugin.MergeDescription) bool {
+	if k.Identity != p.Identity {
+		p.Identity = k.Identity
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSesIdentityNotificationTopic_IncludeOriginalHeaders(k *SesIdentityNotificationTopicParameters, p *SesIdentityNotificationTopicParameters, md *plugin.MergeDescription) bool {
+	if k.IncludeOriginalHeaders != p.IncludeOriginalHeaders {
+		p.IncludeOriginalHeaders = k.IncludeOriginalHeaders
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSesIdentityNotificationTopic_NotificationType(k *SesIdentityNotificationTopicParameters, p *SesIdentityNotificationTopicParameters, md *plugin.MergeDescription) bool {
+	if k.NotificationType != p.NotificationType {
+		p.NotificationType = k.NotificationType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSesIdentityNotificationTopic_TopicArn(k *SesIdentityNotificationTopicParameters, p *SesIdentityNotificationTopicParameters, md *plugin.MergeDescription) bool {
+	if k.TopicArn != p.TopicArn {
+		p.TopicArn = k.TopicArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

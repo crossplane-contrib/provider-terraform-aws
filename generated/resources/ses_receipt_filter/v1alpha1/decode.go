@@ -39,31 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesReceiptFilter(prev *SesReceiptFilter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesReceiptFilter_Name(&new.Spec.ForProvider, valMap)
-	DecodeSesReceiptFilter_Policy(&new.Spec.ForProvider, valMap)
 	DecodeSesReceiptFilter_Cidr(&new.Spec.ForProvider, valMap)
 	DecodeSesReceiptFilter_Id(&new.Spec.ForProvider, valMap)
+	DecodeSesReceiptFilter_Name(&new.Spec.ForProvider, valMap)
+	DecodeSesReceiptFilter_Policy(&new.Spec.ForProvider, valMap)
 	DecodeSesReceiptFilter_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSesReceiptFilter_Name(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-func DecodeSesReceiptFilter_Policy(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSesReceiptFilter_Cidr(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
 	p.Cidr = ctwhy.ValueAsString(vals["cidr"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesReceiptFilter_Id(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSesReceiptFilter_Name(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSesReceiptFilter_Policy(p *SesReceiptFilterParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSesReceiptFilter_Arn(p *SesReceiptFilterObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -46,34 +46,44 @@ func DecodeIamUserLoginProfile(prev *IamUserLoginProfile, ctyValue cty.Value) (r
 	DecodeIamUserLoginProfile_User(&new.Spec.ForProvider, valMap)
 	DecodeIamUserLoginProfile_EncryptedPassword(&new.Status.AtProvider, valMap)
 	DecodeIamUserLoginProfile_KeyFingerprint(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserLoginProfile_Id(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserLoginProfile_PasswordLength(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	p.PasswordLength = ctwhy.ValueAsInt64(vals["password_length"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserLoginProfile_PasswordResetRequired(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	p.PasswordResetRequired = ctwhy.ValueAsBool(vals["password_reset_required"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserLoginProfile_PgpKey(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	p.PgpKey = ctwhy.ValueAsString(vals["pgp_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserLoginProfile_User(p *IamUserLoginProfileParameters, vals map[string]cty.Value) {
 	p.User = ctwhy.ValueAsString(vals["user"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserLoginProfile_EncryptedPassword(p *IamUserLoginProfileObservation, vals map[string]cty.Value) {
 	p.EncryptedPassword = ctwhy.ValueAsString(vals["encrypted_password"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserLoginProfile_KeyFingerprint(p *IamUserLoginProfileObservation, vals map[string]cty.Value) {
 	p.KeyFingerprint = ctwhy.ValueAsString(vals["key_fingerprint"])
 }

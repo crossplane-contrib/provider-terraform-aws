@@ -39,17 +39,37 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayGatewayResponse(prev *ApiGatewayGatewayResponse, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeApiGatewayGatewayResponse_Id(&new.Spec.ForProvider, valMap)
+	DecodeApiGatewayGatewayResponse_ResponseParameters(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_ResponseTemplates(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_ResponseType(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_RestApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayGatewayResponse_StatusCode(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayGatewayResponse_Id(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayGatewayResponse_ResponseParameters(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayGatewayResponse_Id(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeApiGatewayGatewayResponse_ResponseParameters(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["response_parameters"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.ResponseParameters = vMap
+}
+
+//primitiveMapTypeDecodeTemplate
 func DecodeApiGatewayGatewayResponse_ResponseTemplates(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -60,28 +80,17 @@ func DecodeApiGatewayGatewayResponse_ResponseTemplates(p *ApiGatewayGatewayRespo
 	p.ResponseTemplates = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayGatewayResponse_ResponseType(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	p.ResponseType = ctwhy.ValueAsString(vals["response_type"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayGatewayResponse_RestApiId(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayGatewayResponse_StatusCode(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
 	p.StatusCode = ctwhy.ValueAsString(vals["status_code"])
-}
-
-func DecodeApiGatewayGatewayResponse_Id(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeApiGatewayGatewayResponse_ResponseParameters(p *ApiGatewayGatewayResponseParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["response_parameters"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.ResponseParameters = vMap
 }

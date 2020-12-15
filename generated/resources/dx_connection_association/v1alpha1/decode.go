@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxConnectionAssociation(prev *DxConnectionAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxConnectionAssociation_LagId(&new.Spec.ForProvider, valMap)
 	DecodeDxConnectionAssociation_ConnectionId(&new.Spec.ForProvider, valMap)
 	DecodeDxConnectionAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeDxConnectionAssociation_LagId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeDxConnectionAssociation_LagId(p *DxConnectionAssociationParameters, vals map[string]cty.Value) {
-	p.LagId = ctwhy.ValueAsString(vals["lag_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDxConnectionAssociation_ConnectionId(p *DxConnectionAssociationParameters, vals map[string]cty.Value) {
 	p.ConnectionId = ctwhy.ValueAsString(vals["connection_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxConnectionAssociation_Id(p *DxConnectionAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxConnectionAssociation_LagId(p *DxConnectionAssociationParameters, vals map[string]cty.Value) {
+	p.LagId = ctwhy.ValueAsString(vals["lag_id"])
 }

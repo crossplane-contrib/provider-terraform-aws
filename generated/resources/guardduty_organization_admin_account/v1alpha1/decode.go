@@ -42,14 +42,19 @@ func DecodeGuarddutyOrganizationAdminAccount(prev *GuarddutyOrganizationAdminAcc
 	DecodeGuarddutyOrganizationAdminAccount_AdminAccountId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyOrganizationAdminAccount_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyOrganizationAdminAccount_AdminAccountId(p *GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
 	p.AdminAccountId = ctwhy.ValueAsString(vals["admin_account_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyOrganizationAdminAccount_Id(p *GuarddutyOrganizationAdminAccountParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

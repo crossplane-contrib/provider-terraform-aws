@@ -43,18 +43,24 @@ func DecodeXrayEncryptionConfig(prev *XrayEncryptionConfig, ctyValue cty.Value) 
 	DecodeXrayEncryptionConfig_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeXrayEncryptionConfig_Type(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeXrayEncryptionConfig_Id(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeXrayEncryptionConfig_KeyId(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
 	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeXrayEncryptionConfig_Type(p *XrayEncryptionConfigParameters, vals map[string]cty.Value) {
 	p.Type = ctwhy.ValueAsString(vals["type"])
 }

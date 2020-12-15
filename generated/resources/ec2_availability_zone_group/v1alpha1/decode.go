@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2AvailabilityZoneGroup(prev *Ec2AvailabilityZoneGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEc2AvailabilityZoneGroup_OptInStatus(&new.Spec.ForProvider, valMap)
 	DecodeEc2AvailabilityZoneGroup_GroupName(&new.Spec.ForProvider, valMap)
 	DecodeEc2AvailabilityZoneGroup_Id(&new.Spec.ForProvider, valMap)
-	DecodeEc2AvailabilityZoneGroup_OptInStatus(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEc2AvailabilityZoneGroup_OptInStatus(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
+	p.OptInStatus = ctwhy.ValueAsString(vals["opt_in_status"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEc2AvailabilityZoneGroup_GroupName(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
 	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2AvailabilityZoneGroup_Id(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeEc2AvailabilityZoneGroup_OptInStatus(p *Ec2AvailabilityZoneGroupParameters, vals map[string]cty.Value) {
-	p.OptInStatus = ctwhy.ValueAsString(vals["opt_in_status"])
 }

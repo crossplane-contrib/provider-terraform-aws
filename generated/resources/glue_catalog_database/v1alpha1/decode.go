@@ -46,30 +46,39 @@ func DecodeGlueCatalogDatabase(prev *GlueCatalogDatabase, ctyValue cty.Value) (r
 	DecodeGlueCatalogDatabase_Name(&new.Spec.ForProvider, valMap)
 	DecodeGlueCatalogDatabase_Parameters(&new.Spec.ForProvider, valMap)
 	DecodeGlueCatalogDatabase_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_CatalogId(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	p.CatalogId = ctwhy.ValueAsString(vals["catalog_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_Description(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_Id(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_LocationUri(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	p.LocationUri = ctwhy.ValueAsString(vals["location_uri"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_Name(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_Parameters(p *GlueCatalogDatabaseParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -80,6 +89,7 @@ func DecodeGlueCatalogDatabase_Parameters(p *GlueCatalogDatabaseParameters, vals
 	p.Parameters = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlueCatalogDatabase_Arn(p *GlueCatalogDatabaseObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

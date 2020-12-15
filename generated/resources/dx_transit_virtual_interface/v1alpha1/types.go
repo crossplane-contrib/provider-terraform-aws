@@ -52,25 +52,25 @@ type DxTransitVirtualInterfaceSpec struct {
 
 // A DxTransitVirtualInterfaceParameters defines the desired state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceParameters struct {
-	AddressFamily   string            `json:"address_family"`
-	BgpAsn          int64             `json:"bgp_asn"`
-	CustomerAddress string            `json:"customer_address"`
 	Mtu             int64             `json:"mtu"`
-	Id              string            `json:"id"`
-	BgpAuthKey      string            `json:"bgp_auth_key"`
-	Name            string            `json:"name"`
-	Tags            map[string]string `json:"tags"`
 	Vlan            int64             `json:"vlan"`
+	Id              string            `json:"id"`
+	Tags            map[string]string `json:"tags"`
 	AmazonAddress   string            `json:"amazon_address"`
-	ConnectionId    string            `json:"connection_id"`
+	CustomerAddress string            `json:"customer_address"`
 	DxGatewayId     string            `json:"dx_gateway_id"`
+	BgpAsn          int64             `json:"bgp_asn"`
+	ConnectionId    string            `json:"connection_id"`
+	Name            string            `json:"name"`
+	AddressFamily   string            `json:"address_family"`
+	BgpAuthKey      string            `json:"bgp_auth_key"`
 	Timeouts        Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Update string `json:"update"`
 	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Update string `json:"update"`
 }
 
 // A DxTransitVirtualInterfaceStatus defines the observed state of a DxTransitVirtualInterface
@@ -81,8 +81,8 @@ type DxTransitVirtualInterfaceStatus struct {
 
 // A DxTransitVirtualInterfaceObservation records the observed state of a DxTransitVirtualInterface
 type DxTransitVirtualInterfaceObservation struct {
+	AmazonSideAsn     string `json:"amazon_side_asn"`
 	Arn               string `json:"arn"`
 	JumboFrameCapable bool   `json:"jumbo_frame_capable"`
-	AmazonSideAsn     string `json:"amazon_side_asn"`
 	AwsDevice         string `json:"aws_device"`
 }

@@ -39,41 +39,51 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamUserSshKey(prev *IamUserSshKey, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamUserSshKey_Id(&new.Spec.ForProvider, valMap)
-	DecodeIamUserSshKey_PublicKey(&new.Spec.ForProvider, valMap)
 	DecodeIamUserSshKey_Status(&new.Spec.ForProvider, valMap)
 	DecodeIamUserSshKey_Username(&new.Spec.ForProvider, valMap)
 	DecodeIamUserSshKey_Encoding(&new.Spec.ForProvider, valMap)
-	DecodeIamUserSshKey_Fingerprint(&new.Status.AtProvider, valMap)
+	DecodeIamUserSshKey_Id(&new.Spec.ForProvider, valMap)
+	DecodeIamUserSshKey_PublicKey(&new.Spec.ForProvider, valMap)
 	DecodeIamUserSshKey_SshPublicKeyId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeIamUserSshKey_Fingerprint(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeIamUserSshKey_Id(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeIamUserSshKey_PublicKey(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
-	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamUserSshKey_Status(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
 	p.Status = ctwhy.ValueAsString(vals["status"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserSshKey_Username(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
 	p.Username = ctwhy.ValueAsString(vals["username"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUserSshKey_Encoding(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
 	p.Encoding = ctwhy.ValueAsString(vals["encoding"])
 }
 
-func DecodeIamUserSshKey_Fingerprint(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
-	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
+//primitiveTypeDecodeTemplate
+func DecodeIamUserSshKey_Id(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeIamUserSshKey_PublicKey(p *IamUserSshKeyParameters, vals map[string]cty.Value) {
+	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeIamUserSshKey_SshPublicKeyId(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
 	p.SshPublicKeyId = ctwhy.ValueAsString(vals["ssh_public_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamUserSshKey_Fingerprint(p *IamUserSshKeyObservation, vals map[string]cty.Value) {
+	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
 }

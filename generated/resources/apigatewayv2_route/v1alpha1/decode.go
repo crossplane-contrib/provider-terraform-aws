@@ -39,59 +39,32 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApigatewayv2Route(prev *Apigatewayv2Route, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeApigatewayv2Route_OperationName(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2Route_RequestModels(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2Route_RouteKey(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2Route_RouteResponseSelectionExpression(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2Route_ApiId(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2Route_ApiKeyRequired(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Route_AuthorizerId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Route_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Route_ModelSelectionExpression(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Route_OperationName(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Route_RouteResponseSelectionExpression(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Route_Target(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Route_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Route_AuthorizationScopes(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Route_RequestModels(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Route_RouteKey(&new.Spec.ForProvider, valMap)
-	DecodeApigatewayv2Route_ApiKeyRequired(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Route_AuthorizationType(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeApigatewayv2Route_AuthorizerId(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	p.AuthorizerId = ctwhy.ValueAsString(vals["authorizer_id"])
-}
-
-func DecodeApigatewayv2Route_Id(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeApigatewayv2Route_ModelSelectionExpression(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	p.ModelSelectionExpression = ctwhy.ValueAsString(vals["model_selection_expression"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Route_OperationName(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	p.OperationName = ctwhy.ValueAsString(vals["operation_name"])
 }
 
-func DecodeApigatewayv2Route_RouteResponseSelectionExpression(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	p.RouteResponseSelectionExpression = ctwhy.ValueAsString(vals["route_response_selection_expression"])
-}
-
-func DecodeApigatewayv2Route_Target(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	p.Target = ctwhy.ValueAsString(vals["target"])
-}
-
-func DecodeApigatewayv2Route_ApiId(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
-}
-
-func DecodeApigatewayv2Route_AuthorizationScopes(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["authorization_scopes"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.AuthorizationScopes = goVals
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeApigatewayv2Route_RequestModels(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -102,14 +75,56 @@ func DecodeApigatewayv2Route_RequestModels(p *Apigatewayv2RouteParameters, vals 
 	p.RequestModels = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Route_RouteKey(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	p.RouteKey = ctwhy.ValueAsString(vals["route_key"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2Route_RouteResponseSelectionExpression(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	p.RouteResponseSelectionExpression = ctwhy.ValueAsString(vals["route_response_selection_expression"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2Route_ApiId(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Route_ApiKeyRequired(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	p.ApiKeyRequired = ctwhy.ValueAsBool(vals["api_key_required"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2Route_AuthorizerId(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	p.AuthorizerId = ctwhy.ValueAsString(vals["authorizer_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2Route_Id(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2Route_ModelSelectionExpression(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	p.ModelSelectionExpression = ctwhy.ValueAsString(vals["model_selection_expression"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2Route_Target(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	p.Target = ctwhy.ValueAsString(vals["target"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeApigatewayv2Route_AuthorizationScopes(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["authorization_scopes"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AuthorizationScopes = goVals
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Route_AuthorizationType(p *Apigatewayv2RouteParameters, vals map[string]cty.Value) {
 	p.AuthorizationType = ctwhy.ValueAsString(vals["authorization_type"])
 }

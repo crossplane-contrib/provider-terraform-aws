@@ -39,27 +39,24 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeQldbLedger(prev *QldbLedger, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeQldbLedger_DeletionProtection(&new.Spec.ForProvider, valMap)
-	DecodeQldbLedger_Id(&new.Spec.ForProvider, valMap)
 	DecodeQldbLedger_Name(&new.Spec.ForProvider, valMap)
 	DecodeQldbLedger_Tags(&new.Spec.ForProvider, valMap)
+	DecodeQldbLedger_DeletionProtection(&new.Spec.ForProvider, valMap)
+	DecodeQldbLedger_Id(&new.Spec.ForProvider, valMap)
 	DecodeQldbLedger_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeQldbLedger_DeletionProtection(p *QldbLedgerParameters, vals map[string]cty.Value) {
-	p.DeletionProtection = ctwhy.ValueAsBool(vals["deletion_protection"])
-}
-
-func DecodeQldbLedger_Id(p *QldbLedgerParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeQldbLedger_Name(p *QldbLedgerParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeQldbLedger_Tags(p *QldbLedgerParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -70,6 +67,17 @@ func DecodeQldbLedger_Tags(p *QldbLedgerParameters, vals map[string]cty.Value) {
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeQldbLedger_DeletionProtection(p *QldbLedgerParameters, vals map[string]cty.Value) {
+	p.DeletionProtection = ctwhy.ValueAsBool(vals["deletion_protection"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeQldbLedger_Id(p *QldbLedgerParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeQldbLedger_Arn(p *QldbLedgerObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

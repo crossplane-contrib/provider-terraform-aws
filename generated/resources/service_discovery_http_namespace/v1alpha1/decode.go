@@ -39,23 +39,24 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeServiceDiscoveryHttpNamespace(prev *ServiceDiscoveryHttpNamespace, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeServiceDiscoveryHttpNamespace_Id(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryHttpNamespace_Name(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryHttpNamespace_Tags(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryHttpNamespace_Description(&new.Spec.ForProvider, valMap)
+	DecodeServiceDiscoveryHttpNamespace_Id(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryHttpNamespace_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeServiceDiscoveryHttpNamespace_Id(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeServiceDiscoveryHttpNamespace_Name(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeServiceDiscoveryHttpNamespace_Tags(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -66,10 +67,17 @@ func DecodeServiceDiscoveryHttpNamespace_Tags(p *ServiceDiscoveryHttpNamespacePa
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeServiceDiscoveryHttpNamespace_Description(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeServiceDiscoveryHttpNamespace_Id(p *ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeServiceDiscoveryHttpNamespace_Arn(p *ServiceDiscoveryHttpNamespaceObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

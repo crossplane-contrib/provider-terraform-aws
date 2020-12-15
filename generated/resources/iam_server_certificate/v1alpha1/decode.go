@@ -48,38 +48,49 @@ func DecodeIamServerCertificate(prev *IamServerCertificate, ctyValue cty.Value) 
 	DecodeIamServerCertificate_Arn(&new.Spec.ForProvider, valMap)
 	DecodeIamServerCertificate_CertificateBody(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_CertificateChain(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.CertificateChain = ctwhy.ValueAsString(vals["certificate_chain"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_Id(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_Name(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_NamePrefix(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_Path(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.Path = ctwhy.ValueAsString(vals["path"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_PrivateKey(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_Arn(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamServerCertificate_CertificateBody(p *IamServerCertificateParameters, vals map[string]cty.Value) {
 	p.CertificateBody = ctwhy.ValueAsString(vals["certificate_body"])
 }

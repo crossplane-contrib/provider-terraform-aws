@@ -46,34 +46,44 @@ func DecodeCloudfrontPublicKey(prev *CloudfrontPublicKey, ctyValue cty.Value) (r
 	DecodeCloudfrontPublicKey_EncodedKey(&new.Spec.ForProvider, valMap)
 	DecodeCloudfrontPublicKey_CallerReference(&new.Status.AtProvider, valMap)
 	DecodeCloudfrontPublicKey_Etag(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_Id(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_Name(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_NamePrefix(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_Comment(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	p.Comment = ctwhy.ValueAsString(vals["comment"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_EncodedKey(p *CloudfrontPublicKeyParameters, vals map[string]cty.Value) {
 	p.EncodedKey = ctwhy.ValueAsString(vals["encoded_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_CallerReference(p *CloudfrontPublicKeyObservation, vals map[string]cty.Value) {
 	p.CallerReference = ctwhy.ValueAsString(vals["caller_reference"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontPublicKey_Etag(p *CloudfrontPublicKeyObservation, vals map[string]cty.Value) {
 	p.Etag = ctwhy.ValueAsString(vals["etag"])
 }

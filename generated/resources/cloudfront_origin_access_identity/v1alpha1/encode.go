@@ -39,11 +39,11 @@ func EncodeCloudfrontOriginAccessIdentity(r CloudfrontOriginAccessIdentity) cty.
 	ctyVal := make(map[string]cty.Value)
 	EncodeCloudfrontOriginAccessIdentity_Comment(r.Spec.ForProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudfrontOriginAccessIdentity_CallerReference(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_Etag(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_IamArn(r.Status.AtProvider, ctyVal)
 	EncodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(r.Status.AtProvider, ctyVal)
+	EncodeCloudfrontOriginAccessIdentity_CallerReference(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -62,10 +62,6 @@ func EncodeCloudfrontOriginAccessIdentity_Id(p CloudfrontOriginAccessIdentityPar
 	vals["id"] = cty.StringVal(p.Id)
 }
 
-func EncodeCloudfrontOriginAccessIdentity_CallerReference(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
-	vals["caller_reference"] = cty.StringVal(p.CallerReference)
-}
-
 func EncodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	vals["cloudfront_access_identity_path"] = cty.StringVal(p.CloudfrontAccessIdentityPath)
 }
@@ -80,4 +76,8 @@ func EncodeCloudfrontOriginAccessIdentity_IamArn(p CloudfrontOriginAccessIdentit
 
 func EncodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	vals["s3_canonical_user_id"] = cty.StringVal(p.S3CanonicalUserId)
+}
+
+func EncodeCloudfrontOriginAccessIdentity_CallerReference(p CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
+	vals["caller_reference"] = cty.StringVal(p.CallerReference)
 }

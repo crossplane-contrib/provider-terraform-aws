@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudhsmV2Hsm(r CloudhsmV2Hsm) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudhsmV2Hsm_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_ClusterId(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_SubnetId(r.Spec.ForProvider, ctyVal)
-	EncodeCloudhsmV2Hsm_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_Timeouts(r.Spec.ForProvider.Timeouts, ctyVal)
 	EncodeCloudhsmV2Hsm_HsmEniId(r.Status.AtProvider, ctyVal)
 	EncodeCloudhsmV2Hsm_HsmId(r.Status.AtProvider, ctyVal)
@@ -54,6 +54,10 @@ func EncodeCloudhsmV2Hsm(r CloudhsmV2Hsm) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeCloudhsmV2Hsm_AvailabilityZone(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeCloudhsmV2Hsm_ClusterId(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
@@ -70,10 +74,6 @@ func EncodeCloudhsmV2Hsm_IpAddress(p CloudhsmV2HsmParameters, vals map[string]ct
 
 func EncodeCloudhsmV2Hsm_SubnetId(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
 	vals["subnet_id"] = cty.StringVal(p.SubnetId)
-}
-
-func EncodeCloudhsmV2Hsm_AvailabilityZone(p CloudhsmV2HsmParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeCloudhsmV2Hsm_Timeouts(p Timeouts, vals map[string]cty.Value) {

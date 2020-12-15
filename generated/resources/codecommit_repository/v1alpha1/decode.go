@@ -39,35 +39,23 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCodecommitRepository(prev *CodecommitRepository, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCodecommitRepository_Tags(&new.Spec.ForProvider, valMap)
 	DecodeCodecommitRepository_Description(&new.Spec.ForProvider, valMap)
-	DecodeCodecommitRepository_DefaultBranch(&new.Spec.ForProvider, valMap)
 	DecodeCodecommitRepository_Id(&new.Spec.ForProvider, valMap)
 	DecodeCodecommitRepository_RepositoryName(&new.Spec.ForProvider, valMap)
-	DecodeCodecommitRepository_Tags(&new.Spec.ForProvider, valMap)
-	DecodeCodecommitRepository_CloneUrlHttp(&new.Status.AtProvider, valMap)
+	DecodeCodecommitRepository_DefaultBranch(&new.Spec.ForProvider, valMap)
+	DecodeCodecommitRepository_RepositoryId(&new.Status.AtProvider, valMap)
 	DecodeCodecommitRepository_CloneUrlSsh(&new.Status.AtProvider, valMap)
 	DecodeCodecommitRepository_Arn(&new.Status.AtProvider, valMap)
-	DecodeCodecommitRepository_RepositoryId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeCodecommitRepository_CloneUrlHttp(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeCodecommitRepository_Description(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-func DecodeCodecommitRepository_DefaultBranch(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	p.DefaultBranch = ctwhy.ValueAsString(vals["default_branch"])
-}
-
-func DecodeCodecommitRepository_Id(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeCodecommitRepository_RepositoryName(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
-	p.RepositoryName = ctwhy.ValueAsString(vals["repository_name"])
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeCodecommitRepository_Tags(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -78,18 +66,42 @@ func DecodeCodecommitRepository_Tags(p *CodecommitRepositoryParameters, vals map
 	p.Tags = vMap
 }
 
-func DecodeCodecommitRepository_CloneUrlHttp(p *CodecommitRepositoryObservation, vals map[string]cty.Value) {
-	p.CloneUrlHttp = ctwhy.ValueAsString(vals["clone_url_http"])
+//primitiveTypeDecodeTemplate
+func DecodeCodecommitRepository_Description(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCodecommitRepository_Id(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodecommitRepository_RepositoryName(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	p.RepositoryName = ctwhy.ValueAsString(vals["repository_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodecommitRepository_DefaultBranch(p *CodecommitRepositoryParameters, vals map[string]cty.Value) {
+	p.DefaultBranch = ctwhy.ValueAsString(vals["default_branch"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodecommitRepository_RepositoryId(p *CodecommitRepositoryObservation, vals map[string]cty.Value) {
+	p.RepositoryId = ctwhy.ValueAsString(vals["repository_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeCodecommitRepository_CloneUrlSsh(p *CodecommitRepositoryObservation, vals map[string]cty.Value) {
 	p.CloneUrlSsh = ctwhy.ValueAsString(vals["clone_url_ssh"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodecommitRepository_Arn(p *CodecommitRepositoryObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
-func DecodeCodecommitRepository_RepositoryId(p *CodecommitRepositoryObservation, vals map[string]cty.Value) {
-	p.RepositoryId = ctwhy.ValueAsString(vals["repository_id"])
+//primitiveTypeDecodeTemplate
+func DecodeCodecommitRepository_CloneUrlHttp(p *CodecommitRepositoryObservation, vals map[string]cty.Value) {
+	p.CloneUrlHttp = ctwhy.ValueAsString(vals["clone_url_http"])
 }

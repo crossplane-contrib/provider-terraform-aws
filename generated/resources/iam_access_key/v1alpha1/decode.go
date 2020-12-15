@@ -47,38 +47,49 @@ func DecodeIamAccessKey(prev *IamAccessKey, ctyValue cty.Value) (resource.Manage
 	DecodeIamAccessKey_Secret(&new.Status.AtProvider, valMap)
 	DecodeIamAccessKey_SesSmtpPasswordV4(&new.Status.AtProvider, valMap)
 	DecodeIamAccessKey_EncryptedSecret(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_PgpKey(p *IamAccessKeyParameters, vals map[string]cty.Value) {
 	p.PgpKey = ctwhy.ValueAsString(vals["pgp_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_Status(p *IamAccessKeyParameters, vals map[string]cty.Value) {
 	p.Status = ctwhy.ValueAsString(vals["status"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_User(p *IamAccessKeyParameters, vals map[string]cty.Value) {
 	p.User = ctwhy.ValueAsString(vals["user"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_Id(p *IamAccessKeyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_KeyFingerprint(p *IamAccessKeyObservation, vals map[string]cty.Value) {
 	p.KeyFingerprint = ctwhy.ValueAsString(vals["key_fingerprint"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_Secret(p *IamAccessKeyObservation, vals map[string]cty.Value) {
 	p.Secret = ctwhy.ValueAsString(vals["secret"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_SesSmtpPasswordV4(p *IamAccessKeyObservation, vals map[string]cty.Value) {
 	p.SesSmtpPasswordV4 = ctwhy.ValueAsString(vals["ses_smtp_password_v4"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccessKey_EncryptedSecret(p *IamAccessKeyObservation, vals map[string]cty.Value) {
 	p.EncryptedSecret = ctwhy.ValueAsString(vals["encrypted_secret"])
 }

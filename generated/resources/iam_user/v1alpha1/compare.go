@@ -13,34 +13,150 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
+
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
 	k := kube.(*IamUser)
 	p := prov.(*IamUser)
-	md := plugin.MergeDescription{}
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
 
-	if k.Status.AtProvider.Arn != p.Status.AtProvider.Arn {
-		k.Status.AtProvider.Arn = p.Status.AtProvider.Arn
-		md.StatusUpdated = true
+	updated = MergeIamUser_PermissionsBoundary(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
 	}
-	if k.Status.AtProvider.UniqueId != p.Status.AtProvider.UniqueId {
-		k.Status.AtProvider.UniqueId = p.Status.AtProvider.UniqueId
-		md.StatusUpdated = true
+
+	updated = MergeIamUser_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
 	}
+
+	updated = MergeIamUser_ForceDestroy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUser_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUser_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUser_Path(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUser_UniqueId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUser_Arn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
 			k.Annotations[key] = v
 			md.AnnotationsUpdated = true
 		}
 	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
 
-	return md
+//mergePrimitiveTemplateSpec
+func MergeIamUser_PermissionsBoundary(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if k.PermissionsBoundary != p.PermissionsBoundary {
+		p.PermissionsBoundary = k.PermissionsBoundary
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeIamUser_Tags(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUser_ForceDestroy(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if k.ForceDestroy != p.ForceDestroy {
+		p.ForceDestroy = k.ForceDestroy
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUser_Id(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUser_Name(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUser_Path(k *IamUserParameters, p *IamUserParameters, md *plugin.MergeDescription) bool {
+	if k.Path != p.Path {
+		p.Path = k.Path
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamUser_UniqueId(k *IamUserObservation, p *IamUserObservation, md *plugin.MergeDescription) bool {
+	if k.UniqueId != p.UniqueId {
+		k.UniqueId = p.UniqueId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamUser_Arn(k *IamUserObservation, p *IamUserObservation, md *plugin.MergeDescription) bool {
+	if k.Arn != p.Arn {
+		k.Arn = p.Arn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

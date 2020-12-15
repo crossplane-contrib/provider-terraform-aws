@@ -41,54 +41,67 @@ func DecodeLightsailKeyPair(prev *LightsailKeyPair, ctyValue cty.Value) (resourc
 	new := prev.DeepCopy()
 	DecodeLightsailKeyPair_Id(&new.Spec.ForProvider, valMap)
 	DecodeLightsailKeyPair_Name(&new.Spec.ForProvider, valMap)
-	DecodeLightsailKeyPair_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeLightsailKeyPair_PgpKey(&new.Spec.ForProvider, valMap)
 	DecodeLightsailKeyPair_PublicKey(&new.Spec.ForProvider, valMap)
-	DecodeLightsailKeyPair_EncryptedPrivateKey(&new.Status.AtProvider, valMap)
-	DecodeLightsailKeyPair_PrivateKey(&new.Status.AtProvider, valMap)
-	DecodeLightsailKeyPair_Arn(&new.Status.AtProvider, valMap)
+	DecodeLightsailKeyPair_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeLightsailKeyPair_EncryptedFingerprint(&new.Status.AtProvider, valMap)
+	DecodeLightsailKeyPair_EncryptedPrivateKey(&new.Status.AtProvider, valMap)
+	DecodeLightsailKeyPair_Arn(&new.Status.AtProvider, valMap)
 	DecodeLightsailKeyPair_Fingerprint(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeLightsailKeyPair_PrivateKey(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailKeyPair_Id(p *LightsailKeyPairParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailKeyPair_Name(p *LightsailKeyPairParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
-func DecodeLightsailKeyPair_NamePrefix(p *LightsailKeyPairParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeLightsailKeyPair_PgpKey(p *LightsailKeyPairParameters, vals map[string]cty.Value) {
 	p.PgpKey = ctwhy.ValueAsString(vals["pgp_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLightsailKeyPair_PublicKey(p *LightsailKeyPairParameters, vals map[string]cty.Value) {
 	p.PublicKey = ctwhy.ValueAsString(vals["public_key"])
 }
 
-func DecodeLightsailKeyPair_EncryptedPrivateKey(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
-	p.EncryptedPrivateKey = ctwhy.ValueAsString(vals["encrypted_private_key"])
+//primitiveTypeDecodeTemplate
+func DecodeLightsailKeyPair_NamePrefix(p *LightsailKeyPairParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
-func DecodeLightsailKeyPair_PrivateKey(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
-	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
-}
-
-func DecodeLightsailKeyPair_Arn(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeLightsailKeyPair_EncryptedFingerprint(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
 	p.EncryptedFingerprint = ctwhy.ValueAsString(vals["encrypted_fingerprint"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeLightsailKeyPair_EncryptedPrivateKey(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
+	p.EncryptedPrivateKey = ctwhy.ValueAsString(vals["encrypted_private_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLightsailKeyPair_Arn(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeLightsailKeyPair_Fingerprint(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
 	p.Fingerprint = ctwhy.ValueAsString(vals["fingerprint"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLightsailKeyPair_PrivateKey(p *LightsailKeyPairObservation, vals map[string]cty.Value) {
+	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
 }

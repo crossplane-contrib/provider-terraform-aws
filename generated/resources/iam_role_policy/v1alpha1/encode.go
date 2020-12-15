@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamRolePolicy(r IamRolePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeIamRolePolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamRolePolicy_Role(r.Spec.ForProvider, ctyVal)
+	EncodeIamRolePolicy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeIamRolePolicy_Name(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +51,6 @@ func EncodeIamRolePolicy(r IamRolePolicy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeIamRolePolicy_Name(p IamRolePolicyParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeIamRolePolicy_NamePrefix(p IamRolePolicyParameters, vals map[string]cty.Value) {
@@ -71,4 +63,12 @@ func EncodeIamRolePolicy_Policy(p IamRolePolicyParameters, vals map[string]cty.V
 
 func EncodeIamRolePolicy_Role(p IamRolePolicyParameters, vals map[string]cty.Value) {
 	vals["role"] = cty.StringVal(p.Role)
+}
+
+func EncodeIamRolePolicy_Id(p IamRolePolicyParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeIamRolePolicy_Name(p IamRolePolicyParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }

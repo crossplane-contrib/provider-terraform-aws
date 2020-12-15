@@ -39,32 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRedshiftSubnetGroup(prev *RedshiftSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeRedshiftSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSubnetGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSubnetGroup_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeRedshiftSubnetGroup_Id(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeRedshiftSubnetGroup_Name(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-func DecodeRedshiftSubnetGroup_SubnetIds(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.SubnetIds = goVals
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeRedshiftSubnetGroup_Tags(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -75,10 +63,31 @@ func DecodeRedshiftSubnetGroup_Tags(p *RedshiftSubnetGroupParameters, vals map[s
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRedshiftSubnetGroup_Description(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftSubnetGroup_Id(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftSubnetGroup_Name(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeRedshiftSubnetGroup_SubnetIds(p *RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SubnetIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeRedshiftSubnetGroup_Arn(p *RedshiftSubnetGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

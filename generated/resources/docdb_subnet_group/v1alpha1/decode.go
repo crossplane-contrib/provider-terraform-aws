@@ -39,29 +39,41 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDocdbSubnetGroup(prev *DocdbSubnetGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDocdbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_NamePrefix(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Tags(&new.Spec.ForProvider, valMap)
-	DecodeDocdbSubnetGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeDocdbSubnetGroup_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDocdbSubnetGroup_Description(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDocdbSubnetGroup_Id(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDocdbSubnetGroup_Name(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDocdbSubnetGroup_NamePrefix(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeDocdbSubnetGroup_SubnetIds(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
@@ -70,6 +82,7 @@ func DecodeDocdbSubnetGroup_SubnetIds(p *DocdbSubnetGroupParameters, vals map[st
 	p.SubnetIds = goVals
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeDocdbSubnetGroup_Tags(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -80,10 +93,7 @@ func DecodeDocdbSubnetGroup_Tags(p *DocdbSubnetGroupParameters, vals map[string]
 	p.Tags = vMap
 }
 
-func DecodeDocdbSubnetGroup_Description(p *DocdbSubnetGroupParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDocdbSubnetGroup_Arn(p *DocdbSubnetGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -44,26 +44,34 @@ func DecodeIamGroup(prev *IamGroup, ctyValue cty.Value) (resource.Managed, error
 	DecodeIamGroup_Path(&new.Spec.ForProvider, valMap)
 	DecodeIamGroup_Arn(&new.Status.AtProvider, valMap)
 	DecodeIamGroup_UniqueId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamGroup_Id(p *IamGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamGroup_Name(p *IamGroupParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamGroup_Path(p *IamGroupParameters, vals map[string]cty.Value) {
 	p.Path = ctwhy.ValueAsString(vals["path"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamGroup_Arn(p *IamGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamGroup_UniqueId(p *IamGroupObservation, vals map[string]cty.Value) {
 	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
 }

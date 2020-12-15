@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeGuarddutyThreatintelset(r GuarddutyThreatintelset) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeGuarddutyThreatintelset_Activate(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_DetectorId(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Format(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Id(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Location(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Name(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeGuarddutyThreatintelset_Activate(r.Spec.ForProvider, ctyVal)
 	EncodeGuarddutyThreatintelset_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -53,6 +53,10 @@ func EncodeGuarddutyThreatintelset(r GuarddutyThreatintelset) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeGuarddutyThreatintelset_Activate(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
+	vals["activate"] = cty.BoolVal(p.Activate)
 }
 
 func EncodeGuarddutyThreatintelset_DetectorId(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
@@ -85,10 +89,6 @@ func EncodeGuarddutyThreatintelset_Tags(p GuarddutyThreatintelsetParameters, val
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeGuarddutyThreatintelset_Activate(p GuarddutyThreatintelsetParameters, vals map[string]cty.Value) {
-	vals["activate"] = cty.BoolVal(p.Activate)
 }
 
 func EncodeGuarddutyThreatintelset_Arn(p GuarddutyThreatintelsetObservation, vals map[string]cty.Value) {

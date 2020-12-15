@@ -37,12 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVolumeAttachment_DeviceName(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_ForceDetach(r.Spec.ForProvider, ctyVal)
-	EncodeVolumeAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_InstanceId(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_SkipDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeVolumeAttachment_VolumeId(r.Spec.ForProvider, ctyVal)
+	EncodeVolumeAttachment_DeviceName(r.Spec.ForProvider, ctyVal)
+	EncodeVolumeAttachment_ForceDetach(r.Spec.ForProvider, ctyVal)
+	EncodeVolumeAttachment_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,18 +52,6 @@ func EncodeVolumeAttachment(r VolumeAttachment) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVolumeAttachment_DeviceName(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["device_name"] = cty.StringVal(p.DeviceName)
-}
-
-func EncodeVolumeAttachment_ForceDetach(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["force_detach"] = cty.BoolVal(p.ForceDetach)
-}
-
-func EncodeVolumeAttachment_Id(p VolumeAttachmentParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeVolumeAttachment_InstanceId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
@@ -76,4 +64,16 @@ func EncodeVolumeAttachment_SkipDestroy(p VolumeAttachmentParameters, vals map[s
 
 func EncodeVolumeAttachment_VolumeId(p VolumeAttachmentParameters, vals map[string]cty.Value) {
 	vals["volume_id"] = cty.StringVal(p.VolumeId)
+}
+
+func EncodeVolumeAttachment_DeviceName(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["device_name"] = cty.StringVal(p.DeviceName)
+}
+
+func EncodeVolumeAttachment_ForceDetach(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["force_detach"] = cty.BoolVal(p.ForceDetach)
+}
+
+func EncodeVolumeAttachment_Id(p VolumeAttachmentParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

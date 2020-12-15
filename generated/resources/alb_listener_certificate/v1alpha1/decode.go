@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAlbListenerCertificate(prev *AlbListenerCertificate, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeAlbListenerCertificate_ListenerArn(&new.Spec.ForProvider, valMap)
 	DecodeAlbListenerCertificate_CertificateArn(&new.Spec.ForProvider, valMap)
 	DecodeAlbListenerCertificate_Id(&new.Spec.ForProvider, valMap)
-	DecodeAlbListenerCertificate_ListenerArn(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeAlbListenerCertificate_ListenerArn(p *AlbListenerCertificateParameters, vals map[string]cty.Value) {
+	p.ListenerArn = ctwhy.ValueAsString(vals["listener_arn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeAlbListenerCertificate_CertificateArn(p *AlbListenerCertificateParameters, vals map[string]cty.Value) {
 	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAlbListenerCertificate_Id(p *AlbListenerCertificateParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeAlbListenerCertificate_ListenerArn(p *AlbListenerCertificateParameters, vals map[string]cty.Value) {
-	p.ListenerArn = ctwhy.ValueAsString(vals["listener_arn"])
 }

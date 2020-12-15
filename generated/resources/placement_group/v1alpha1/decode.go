@@ -39,28 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodePlacementGroup(prev *PlacementGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodePlacementGroup_Id(&new.Spec.ForProvider, valMap)
-	DecodePlacementGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodePlacementGroup_Strategy(&new.Spec.ForProvider, valMap)
 	DecodePlacementGroup_Tags(&new.Spec.ForProvider, valMap)
-	DecodePlacementGroup_Arn(&new.Status.AtProvider, valMap)
+	DecodePlacementGroup_Id(&new.Spec.ForProvider, valMap)
+	DecodePlacementGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodePlacementGroup_PlacementGroupId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodePlacementGroup_Arn(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodePlacementGroup_Id(p *PlacementGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodePlacementGroup_Name(p *PlacementGroupParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodePlacementGroup_Strategy(p *PlacementGroupParameters, vals map[string]cty.Value) {
 	p.Strategy = ctwhy.ValueAsString(vals["strategy"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodePlacementGroup_Tags(p *PlacementGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -71,10 +68,22 @@ func DecodePlacementGroup_Tags(p *PlacementGroupParameters, vals map[string]cty.
 	p.Tags = vMap
 }
 
-func DecodePlacementGroup_Arn(p *PlacementGroupObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+//primitiveTypeDecodeTemplate
+func DecodePlacementGroup_Id(p *PlacementGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodePlacementGroup_Name(p *PlacementGroupParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodePlacementGroup_PlacementGroupId(p *PlacementGroupObservation, vals map[string]cty.Value) {
 	p.PlacementGroupId = ctwhy.ValueAsString(vals["placement_group_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePlacementGroup_Arn(p *PlacementGroupObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

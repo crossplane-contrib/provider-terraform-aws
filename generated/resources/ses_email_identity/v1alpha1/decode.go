@@ -42,18 +42,24 @@ func DecodeSesEmailIdentity(prev *SesEmailIdentity, ctyValue cty.Value) (resourc
 	DecodeSesEmailIdentity_Email(&new.Spec.ForProvider, valMap)
 	DecodeSesEmailIdentity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesEmailIdentity_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesEmailIdentity_Email(p *SesEmailIdentityParameters, vals map[string]cty.Value) {
 	p.Email = ctwhy.ValueAsString(vals["email"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesEmailIdentity_Id(p *SesEmailIdentityParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesEmailIdentity_Arn(p *SesEmailIdentityObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

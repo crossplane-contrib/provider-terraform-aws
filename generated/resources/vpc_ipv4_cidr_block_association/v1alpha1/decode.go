@@ -44,32 +44,41 @@ func DecodeVpcIpv4CidrBlockAssociation(prev *VpcIpv4CidrBlockAssociation, ctyVal
 	DecodeVpcIpv4CidrBlockAssociation_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeVpcIpv4CidrBlockAssociation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcIpv4CidrBlockAssociation_CidrBlock(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
 	p.CidrBlock = ctwhy.ValueAsString(vals["cidr_block"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcIpv4CidrBlockAssociation_Id(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcIpv4CidrBlockAssociation_VpcId(p *VpcIpv4CidrBlockAssociationParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
+//containerTypeDecodeTemplate
 func DecodeVpcIpv4CidrBlockAssociation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
-	DecodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p, valMap)
 	DecodeVpcIpv4CidrBlockAssociation_Timeouts_Delete(p, valMap)
+	DecodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p, valMap)
 }
 
-func DecodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	p.Create = ctwhy.ValueAsString(vals["create"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeVpcIpv4CidrBlockAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
 }

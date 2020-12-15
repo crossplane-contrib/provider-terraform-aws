@@ -45,26 +45,34 @@ func DecodePinpointAdmChannel(prev *PinpointAdmChannel, ctyValue cty.Value) (res
 	DecodePinpointAdmChannel_Enabled(&new.Spec.ForProvider, valMap)
 	DecodePinpointAdmChannel_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointAdmChannel_ApplicationId(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointAdmChannel_ClientId(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	p.ClientId = ctwhy.ValueAsString(vals["client_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointAdmChannel_ClientSecret(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	p.ClientSecret = ctwhy.ValueAsString(vals["client_secret"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointAdmChannel_Enabled(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointAdmChannel_Id(p *PinpointAdmChannelParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

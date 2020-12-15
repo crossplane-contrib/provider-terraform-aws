@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApigatewayv2ApiMapping(r Apigatewayv2ApiMapping) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeApigatewayv2ApiMapping_ApiId(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_ApiMappingKey(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_DomainName(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_Id(r.Spec.ForProvider, ctyVal)
 	EncodeApigatewayv2ApiMapping_Stage(r.Spec.ForProvider, ctyVal)
+	EncodeApigatewayv2ApiMapping_ApiId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeApigatewayv2ApiMapping(r Apigatewayv2ApiMapping) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeApigatewayv2ApiMapping_ApiId(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
-	vals["api_id"] = cty.StringVal(p.ApiId)
 }
 
 func EncodeApigatewayv2ApiMapping_ApiMappingKey(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
@@ -71,4 +67,8 @@ func EncodeApigatewayv2ApiMapping_Id(p Apigatewayv2ApiMappingParameters, vals ma
 
 func EncodeApigatewayv2ApiMapping_Stage(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	vals["stage"] = cty.StringVal(p.Stage)
+}
+
+func EncodeApigatewayv2ApiMapping_ApiId(p Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
+	vals["api_id"] = cty.StringVal(p.ApiId)
 }

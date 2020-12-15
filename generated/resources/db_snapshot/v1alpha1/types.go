@@ -52,9 +52,9 @@ type DbSnapshotSpec struct {
 
 // A DbSnapshotParameters defines the desired state of a DbSnapshot
 type DbSnapshotParameters struct {
+	DbInstanceIdentifier string            `json:"db_instance_identifier"`
 	DbSnapshotIdentifier string            `json:"db_snapshot_identifier"`
 	Id                   string            `json:"id"`
-	DbInstanceIdentifier string            `json:"db_instance_identifier"`
 	Tags                 map[string]string `json:"tags"`
 	Timeouts             Timeouts          `json:"timeouts"`
 }
@@ -71,21 +71,21 @@ type DbSnapshotStatus struct {
 
 // A DbSnapshotObservation records the observed state of a DbSnapshot
 type DbSnapshotObservation struct {
-	EngineVersion              string `json:"engine_version"`
 	LicenseModel               string `json:"license_model"`
 	OptionGroupName            string `json:"option_group_name"`
 	Port                       int64  `json:"port"`
+	SnapshotType               string `json:"snapshot_type"`
+	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
+	Engine                     string `json:"engine"`
+	EngineVersion              string `json:"engine_version"`
+	Iops                       int64  `json:"iops"`
+	KmsKeyId                   string `json:"kms_key_id"`
+	Status                     string `json:"status"`
+	StorageType                string `json:"storage_type"`
 	AllocatedStorage           int64  `json:"allocated_storage"`
 	AvailabilityZone           string `json:"availability_zone"`
 	DbSnapshotArn              string `json:"db_snapshot_arn"`
-	Engine                     string `json:"engine"`
-	Iops                       int64  `json:"iops"`
-	KmsKeyId                   string `json:"kms_key_id"`
-	SnapshotType               string `json:"snapshot_type"`
-	VpcId                      string `json:"vpc_id"`
 	Encrypted                  bool   `json:"encrypted"`
-	SourceDbSnapshotIdentifier string `json:"source_db_snapshot_identifier"`
 	SourceRegion               string `json:"source_region"`
-	Status                     string `json:"status"`
-	StorageType                string `json:"storage_type"`
+	VpcId                      string `json:"vpc_id"`
 }

@@ -17,13 +17,162 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*ApiGatewayIntegrationResponse)
+	p := prov.(*ApiGatewayIntegrationResponse)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeApiGatewayIntegrationResponse_ResourceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_RestApiId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_StatusCode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_ContentHandling(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_HttpMethod(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_ResponseTemplates(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_SelectionPattern(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeApiGatewayIntegrationResponse_ResponseParameters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegrationResponse_ResourceId(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.ResourceId != p.ResourceId {
+		p.ResourceId = k.ResourceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegrationResponse_RestApiId(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.RestApiId != p.RestApiId {
+		p.RestApiId = k.RestApiId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegrationResponse_StatusCode(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.StatusCode != p.StatusCode {
+		p.StatusCode = k.StatusCode
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegrationResponse_ContentHandling(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.ContentHandling != p.ContentHandling {
+		p.ContentHandling = k.ContentHandling
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegrationResponse_HttpMethod(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.HttpMethod != p.HttpMethod {
+		p.HttpMethod = k.HttpMethod
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeApiGatewayIntegrationResponse_ResponseTemplates(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.ResponseTemplates, p.ResponseTemplates) {
+		p.ResponseTemplates = k.ResponseTemplates
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegrationResponse_SelectionPattern(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.SelectionPattern != p.SelectionPattern {
+		p.SelectionPattern = k.SelectionPattern
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeApiGatewayIntegrationResponse_Id(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeApiGatewayIntegrationResponse_ResponseParameters(k *ApiGatewayIntegrationResponseParameters, p *ApiGatewayIntegrationResponseParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.ResponseParameters, p.ResponseParameters) {
+		p.ResponseParameters = k.ResponseParameters
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

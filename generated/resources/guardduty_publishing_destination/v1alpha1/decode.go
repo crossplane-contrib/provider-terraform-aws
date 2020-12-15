@@ -45,26 +45,34 @@ func DecodeGuarddutyPublishingDestination(prev *GuarddutyPublishingDestination, 
 	DecodeGuarddutyPublishingDestination_Id(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyPublishingDestination_KmsKeyArn(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyPublishingDestination_DestinationArn(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	p.DestinationArn = ctwhy.ValueAsString(vals["destination_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyPublishingDestination_DestinationType(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	p.DestinationType = ctwhy.ValueAsString(vals["destination_type"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyPublishingDestination_DetectorId(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyPublishingDestination_Id(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyPublishingDestination_KmsKeyArn(p *GuarddutyPublishingDestinationParameters, vals map[string]cty.Value) {
 	p.KmsKeyArn = ctwhy.ValueAsString(vals["kms_key_arn"])
 }

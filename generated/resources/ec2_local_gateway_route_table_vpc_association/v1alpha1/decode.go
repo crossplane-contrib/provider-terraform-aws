@@ -39,19 +39,29 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2LocalGatewayRouteTableVpcAssociation(prev *Ec2LocalGatewayRouteTableVpcAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEc2LocalGatewayRouteTableVpcAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayRouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRouteTableVpcAssociation_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRouteTableVpcAssociation_VpcId(&new.Spec.ForProvider, valMap)
-	DecodeEc2LocalGatewayRouteTableVpcAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEc2LocalGatewayRouteTableVpcAssociation_Id(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayRouteTableId(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
 	p.LocalGatewayRouteTableId = ctwhy.ValueAsString(vals["local_gateway_route_table_id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeEc2LocalGatewayRouteTableVpcAssociation_Tags(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -62,14 +72,12 @@ func DecodeEc2LocalGatewayRouteTableVpcAssociation_Tags(p *Ec2LocalGatewayRouteT
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2LocalGatewayRouteTableVpcAssociation_VpcId(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
-func DecodeEc2LocalGatewayRouteTableVpcAssociation_Id(p *Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayId(p *Ec2LocalGatewayRouteTableVpcAssociationObservation, vals map[string]cty.Value) {
 	p.LocalGatewayId = ctwhy.ValueAsString(vals["local_gateway_id"])
 }

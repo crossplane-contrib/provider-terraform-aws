@@ -53,8 +53,8 @@ type NeptuneClusterSnapshotSpec struct {
 // A NeptuneClusterSnapshotParameters defines the desired state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotParameters struct {
 	DbClusterIdentifier         string   `json:"db_cluster_identifier"`
-	Id                          string   `json:"id"`
 	DbClusterSnapshotIdentifier string   `json:"db_cluster_snapshot_identifier"`
+	Id                          string   `json:"id"`
 	Timeouts                    Timeouts `json:"timeouts"`
 }
 
@@ -70,17 +70,17 @@ type NeptuneClusterSnapshotStatus struct {
 
 // A NeptuneClusterSnapshotObservation records the observed state of a NeptuneClusterSnapshot
 type NeptuneClusterSnapshotObservation struct {
-	AllocatedStorage           int64    `json:"allocated_storage"`
-	Port                       int64    `json:"port"`
-	StorageEncrypted           bool     `json:"storage_encrypted"`
-	Engine                     string   `json:"engine"`
-	EngineVersion              string   `json:"engine_version"`
 	LicenseModel               string   `json:"license_model"`
-	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
-	AvailabilityZones          []string `json:"availability_zones"`
-	Status                     string   `json:"status"`
+	StorageEncrypted           bool     `json:"storage_encrypted"`
 	DbClusterSnapshotArn       string   `json:"db_cluster_snapshot_arn"`
-	KmsKeyId                   string   `json:"kms_key_id"`
+	Port                       int64    `json:"port"`
 	SnapshotType               string   `json:"snapshot_type"`
+	SourceDbClusterSnapshotArn string   `json:"source_db_cluster_snapshot_arn"`
+	Status                     string   `json:"status"`
+	AllocatedStorage           int64    `json:"allocated_storage"`
+	Engine                     string   `json:"engine"`
+	KmsKeyId                   string   `json:"kms_key_id"`
+	AvailabilityZones          []string `json:"availability_zones"`
+	EngineVersion              string   `json:"engine_version"`
 	VpcId                      string   `json:"vpc_id"`
 }

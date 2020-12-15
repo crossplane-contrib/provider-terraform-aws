@@ -45,26 +45,34 @@ func DecodeEc2TransitGatewayRoute(prev *Ec2TransitGatewayRoute, ctyValue cty.Val
 	DecodeEc2TransitGatewayRoute_TransitGatewayAttachmentId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRoute_TransitGatewayRouteTableId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRoute_Blackhole(p *Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
 	p.Blackhole = ctwhy.ValueAsBool(vals["blackhole"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRoute_DestinationCidrBlock(p *Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
 	p.DestinationCidrBlock = ctwhy.ValueAsString(vals["destination_cidr_block"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRoute_Id(p *Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRoute_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
 	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRoute_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteParameters, vals map[string]cty.Value) {
 	p.TransitGatewayRouteTableId = ctwhy.ValueAsString(vals["transit_gateway_route_table_id"])
 }

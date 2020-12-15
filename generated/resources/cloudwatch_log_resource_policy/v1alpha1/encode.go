@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCloudwatchLogResourcePolicy(r CloudwatchLogResourcePolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCloudwatchLogResourcePolicy_PolicyName(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogResourcePolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchLogResourcePolicy_PolicyDocument(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchLogResourcePolicy_PolicyName(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +51,14 @@ func EncodeCloudwatchLogResourcePolicy(r CloudwatchLogResourcePolicy) cty.Value 
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeCloudwatchLogResourcePolicy_PolicyName(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
+	vals["policy_name"] = cty.StringVal(p.PolicyName)
+}
+
 func EncodeCloudwatchLogResourcePolicy_Id(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeCloudwatchLogResourcePolicy_PolicyDocument(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
 	vals["policy_document"] = cty.StringVal(p.PolicyDocument)
-}
-
-func EncodeCloudwatchLogResourcePolicy_PolicyName(p CloudwatchLogResourcePolicyParameters, vals map[string]cty.Value) {
-	vals["policy_name"] = cty.StringVal(p.PolicyName)
 }

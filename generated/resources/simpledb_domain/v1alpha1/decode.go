@@ -42,14 +42,19 @@ func DecodeSimpledbDomain(prev *SimpledbDomain, ctyValue cty.Value) (resource.Ma
 	DecodeSimpledbDomain_Id(&new.Spec.ForProvider, valMap)
 	DecodeSimpledbDomain_Name(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSimpledbDomain_Id(p *SimpledbDomainParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSimpledbDomain_Name(p *SimpledbDomainParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }

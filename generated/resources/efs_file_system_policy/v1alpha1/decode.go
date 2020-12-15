@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEfsFileSystemPolicy(prev *EfsFileSystemPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEfsFileSystemPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeEfsFileSystemPolicy_FileSystemId(&new.Spec.ForProvider, valMap)
 	DecodeEfsFileSystemPolicy_Id(&new.Spec.ForProvider, valMap)
-	DecodeEfsFileSystemPolicy_Policy(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEfsFileSystemPolicy_Policy(p *EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEfsFileSystemPolicy_FileSystemId(p *EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
 	p.FileSystemId = ctwhy.ValueAsString(vals["file_system_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEfsFileSystemPolicy_Id(p *EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeEfsFileSystemPolicy_Policy(p *EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }

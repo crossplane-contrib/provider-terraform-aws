@@ -46,14 +46,19 @@ func DecodeDmsReplicationSubnetGroup(prev *DmsReplicationSubnetGroup, ctyValue c
 	DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(&new.Spec.ForProvider, valMap)
 	DecodeDmsReplicationSubnetGroup_VpcId(&new.Status.AtProvider, valMap)
 	DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupArn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupId(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
 	p.ReplicationSubnetGroupId = ctwhy.ValueAsString(vals["replication_subnet_group_id"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeDmsReplicationSubnetGroup_SubnetIds(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
@@ -62,6 +67,7 @@ func DecodeDmsReplicationSubnetGroup_SubnetIds(p *DmsReplicationSubnetGroupParam
 	p.SubnetIds = goVals
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeDmsReplicationSubnetGroup_Tags(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -72,18 +78,22 @@ func DecodeDmsReplicationSubnetGroup_Tags(p *DmsReplicationSubnetGroupParameters
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsReplicationSubnetGroup_Id(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupDescription(p *DmsReplicationSubnetGroupParameters, vals map[string]cty.Value) {
 	p.ReplicationSubnetGroupDescription = ctwhy.ValueAsString(vals["replication_subnet_group_description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsReplicationSubnetGroup_VpcId(p *DmsReplicationSubnetGroupObservation, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsReplicationSubnetGroup_ReplicationSubnetGroupArn(p *DmsReplicationSubnetGroupObservation, vals map[string]cty.Value) {
 	p.ReplicationSubnetGroupArn = ctwhy.ValueAsString(vals["replication_subnet_group_arn"])
 }

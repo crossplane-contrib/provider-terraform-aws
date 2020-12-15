@@ -44,10 +44,14 @@ func DecodeIamOpenidConnectProvider(prev *IamOpenidConnectProvider, ctyValue cty
 	DecodeIamOpenidConnectProvider_ThumbprintList(&new.Spec.ForProvider, valMap)
 	DecodeIamOpenidConnectProvider_Url(&new.Spec.ForProvider, valMap)
 	DecodeIamOpenidConnectProvider_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeIamOpenidConnectProvider_ClientIdList(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["client_id_list"]) {
@@ -56,10 +60,12 @@ func DecodeIamOpenidConnectProvider_ClientIdList(p *IamOpenidConnectProviderPara
 	p.ClientIdList = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamOpenidConnectProvider_Id(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeIamOpenidConnectProvider_ThumbprintList(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["thumbprint_list"]) {
@@ -68,10 +74,12 @@ func DecodeIamOpenidConnectProvider_ThumbprintList(p *IamOpenidConnectProviderPa
 	p.ThumbprintList = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamOpenidConnectProvider_Url(p *IamOpenidConnectProviderParameters, vals map[string]cty.Value) {
 	p.Url = ctwhy.ValueAsString(vals["url"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamOpenidConnectProvider_Arn(p *IamOpenidConnectProviderObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

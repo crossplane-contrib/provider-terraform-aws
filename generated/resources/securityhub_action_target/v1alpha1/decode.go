@@ -44,26 +44,34 @@ func DecodeSecurityhubActionTarget(prev *SecurityhubActionTarget, ctyValue cty.V
 	DecodeSecurityhubActionTarget_Identifier(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Name(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubActionTarget_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubActionTarget_Description(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubActionTarget_Id(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubActionTarget_Identifier(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	p.Identifier = ctwhy.ValueAsString(vals["identifier"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubActionTarget_Name(p *SecurityhubActionTargetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubActionTarget_Arn(p *SecurityhubActionTargetObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

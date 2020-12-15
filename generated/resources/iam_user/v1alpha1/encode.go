@@ -37,12 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamUser(r IamUser) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamUser_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_ForceDestroy(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Name(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_Path(r.Spec.ForProvider, ctyVal)
-	EncodeIamUser_PermissionsBoundary(r.Spec.ForProvider, ctyVal)
 	EncodeIamUser_UniqueId(r.Status.AtProvider, ctyVal)
 	EncodeIamUser_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -53,6 +53,10 @@ func EncodeIamUser(r IamUser) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamUser_PermissionsBoundary(p IamUserParameters, vals map[string]cty.Value) {
+	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
 }
 
 func EncodeIamUser_Tags(p IamUserParameters, vals map[string]cty.Value) {
@@ -81,10 +85,6 @@ func EncodeIamUser_Name(p IamUserParameters, vals map[string]cty.Value) {
 
 func EncodeIamUser_Path(p IamUserParameters, vals map[string]cty.Value) {
 	vals["path"] = cty.StringVal(p.Path)
-}
-
-func EncodeIamUser_PermissionsBoundary(p IamUserParameters, vals map[string]cty.Value) {
-	vals["permissions_boundary"] = cty.StringVal(p.PermissionsBoundary)
 }
 
 func EncodeIamUser_UniqueId(p IamUserObservation, vals map[string]cty.Value) {

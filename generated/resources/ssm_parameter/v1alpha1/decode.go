@@ -39,43 +39,72 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSsmParameter(prev *SsmParameter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSsmParameter_DataType(&new.Spec.ForProvider, valMap)
+	DecodeSsmParameter_Tier(&new.Spec.ForProvider, valMap)
+	DecodeSsmParameter_Type(&new.Spec.ForProvider, valMap)
+	DecodeSsmParameter_Value(&new.Spec.ForProvider, valMap)
 	DecodeSsmParameter_Description(&new.Spec.ForProvider, valMap)
-	DecodeSsmParameter_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeSsmParameter_Name(&new.Spec.ForProvider, valMap)
+	DecodeSsmParameter_DataType(&new.Spec.ForProvider, valMap)
+	DecodeSsmParameter_Id(&new.Spec.ForProvider, valMap)
+	DecodeSsmParameter_KeyId(&new.Spec.ForProvider, valMap)
 	DecodeSsmParameter_Overwrite(&new.Spec.ForProvider, valMap)
 	DecodeSsmParameter_Tags(&new.Spec.ForProvider, valMap)
-	DecodeSsmParameter_Tier(&new.Spec.ForProvider, valMap)
-	DecodeSsmParameter_Arn(&new.Spec.ForProvider, valMap)
-	DecodeSsmParameter_Type(&new.Spec.ForProvider, valMap)
-	DecodeSsmParameter_Id(&new.Spec.ForProvider, valMap)
-	DecodeSsmParameter_Value(&new.Spec.ForProvider, valMap)
 	DecodeSsmParameter_AllowedPattern(&new.Spec.ForProvider, valMap)
+	DecodeSsmParameter_Arn(&new.Spec.ForProvider, valMap)
 	DecodeSsmParameter_Version(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSsmParameter_DataType(p *SsmParameterParameters, vals map[string]cty.Value) {
-	p.DataType = ctwhy.ValueAsString(vals["data_type"])
+//primitiveTypeDecodeTemplate
+func DecodeSsmParameter_Tier(p *SsmParameterParameters, vals map[string]cty.Value) {
+	p.Tier = ctwhy.ValueAsString(vals["tier"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSsmParameter_Type(p *SsmParameterParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmParameter_Value(p *SsmParameterParameters, vals map[string]cty.Value) {
+	p.Value = ctwhy.ValueAsString(vals["value"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSsmParameter_Description(p *SsmParameterParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
-func DecodeSsmParameter_KeyId(p *SsmParameterParameters, vals map[string]cty.Value) {
-	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSsmParameter_Name(p *SsmParameterParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSsmParameter_DataType(p *SsmParameterParameters, vals map[string]cty.Value) {
+	p.DataType = ctwhy.ValueAsString(vals["data_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmParameter_Id(p *SsmParameterParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSsmParameter_KeyId(p *SsmParameterParameters, vals map[string]cty.Value) {
+	p.KeyId = ctwhy.ValueAsString(vals["key_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSsmParameter_Overwrite(p *SsmParameterParameters, vals map[string]cty.Value) {
 	p.Overwrite = ctwhy.ValueAsBool(vals["overwrite"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeSsmParameter_Tags(p *SsmParameterParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -86,30 +115,17 @@ func DecodeSsmParameter_Tags(p *SsmParameterParameters, vals map[string]cty.Valu
 	p.Tags = vMap
 }
 
-func DecodeSsmParameter_Tier(p *SsmParameterParameters, vals map[string]cty.Value) {
-	p.Tier = ctwhy.ValueAsString(vals["tier"])
-}
-
-func DecodeSsmParameter_Arn(p *SsmParameterParameters, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
-func DecodeSsmParameter_Type(p *SsmParameterParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
-}
-
-func DecodeSsmParameter_Id(p *SsmParameterParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeSsmParameter_Value(p *SsmParameterParameters, vals map[string]cty.Value) {
-	p.Value = ctwhy.ValueAsString(vals["value"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSsmParameter_AllowedPattern(p *SsmParameterParameters, vals map[string]cty.Value) {
 	p.AllowedPattern = ctwhy.ValueAsString(vals["allowed_pattern"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSsmParameter_Arn(p *SsmParameterParameters, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSsmParameter_Version(p *SsmParameterObservation, vals map[string]cty.Value) {
 	p.Version = ctwhy.ValueAsInt64(vals["version"])
 }

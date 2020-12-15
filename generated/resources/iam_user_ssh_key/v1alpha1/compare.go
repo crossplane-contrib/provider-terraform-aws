@@ -17,13 +17,131 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*IamUserSshKey)
+	p := prov.(*IamUserSshKey)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeIamUserSshKey_Status(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserSshKey_Username(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserSshKey_Encoding(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserSshKey_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserSshKey_PublicKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserSshKey_SshPublicKeyId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeIamUserSshKey_Fingerprint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserSshKey_Status(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Status != p.Status {
+		p.Status = k.Status
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserSshKey_Username(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Username != p.Username {
+		p.Username = k.Username
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserSshKey_Encoding(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Encoding != p.Encoding {
+		p.Encoding = k.Encoding
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserSshKey_Id(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeIamUserSshKey_PublicKey(k *IamUserSshKeyParameters, p *IamUserSshKeyParameters, md *plugin.MergeDescription) bool {
+	if k.PublicKey != p.PublicKey {
+		p.PublicKey = k.PublicKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamUserSshKey_SshPublicKeyId(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
+	if k.SshPublicKeyId != p.SshPublicKeyId {
+		k.SshPublicKeyId = p.SshPublicKeyId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeIamUserSshKey_Fingerprint(k *IamUserSshKeyObservation, p *IamUserSshKeyObservation, md *plugin.MergeDescription) bool {
+	if k.Fingerprint != p.Fingerprint {
+		k.Fingerprint = p.Fingerprint
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

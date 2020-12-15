@@ -38,12 +38,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 func EncodeCloudwatchEventRule(r CloudwatchEventRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeCloudwatchEventRule_Description(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_EventPattern(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_Id(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_IsEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_NamePrefix(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_ScheduleExpression(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCloudwatchEventRule_IsEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeCloudwatchEventRule_EventPattern(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_RoleArn(r.Spec.ForProvider, ctyVal)
 	EncodeCloudwatchEventRule_Arn(r.Status.AtProvider, ctyVal)
@@ -61,8 +61,12 @@ func EncodeCloudwatchEventRule_Description(p CloudwatchEventRuleParameters, vals
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeCloudwatchEventRule_EventPattern(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["event_pattern"] = cty.StringVal(p.EventPattern)
+func EncodeCloudwatchEventRule_Id(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeCloudwatchEventRule_IsEnabled(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["is_enabled"] = cty.BoolVal(p.IsEnabled)
 }
 
 func EncodeCloudwatchEventRule_NamePrefix(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
@@ -85,12 +89,8 @@ func EncodeCloudwatchEventRule_Tags(p CloudwatchEventRuleParameters, vals map[st
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeCloudwatchEventRule_Id(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCloudwatchEventRule_IsEnabled(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
-	vals["is_enabled"] = cty.BoolVal(p.IsEnabled)
+func EncodeCloudwatchEventRule_EventPattern(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {
+	vals["event_pattern"] = cty.StringVal(p.EventPattern)
 }
 
 func EncodeCloudwatchEventRule_Name(p CloudwatchEventRuleParameters, vals map[string]cty.Value) {

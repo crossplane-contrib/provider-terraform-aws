@@ -43,18 +43,24 @@ func DecodeRoute53QueryLog(prev *Route53QueryLog, ctyValue cty.Value) (resource.
 	DecodeRoute53QueryLog_Id(&new.Spec.ForProvider, valMap)
 	DecodeRoute53QueryLog_ZoneId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53QueryLog_CloudwatchLogGroupArn(p *Route53QueryLogParameters, vals map[string]cty.Value) {
 	p.CloudwatchLogGroupArn = ctwhy.ValueAsString(vals["cloudwatch_log_group_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53QueryLog_Id(p *Route53QueryLogParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53QueryLog_ZoneId(p *Route53QueryLogParameters, vals map[string]cty.Value) {
 	p.ZoneId = ctwhy.ValueAsString(vals["zone_id"])
 }

@@ -39,31 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeWorklinkWebsiteCertificateAuthorityAssociation(prev *WorklinkWebsiteCertificateAuthorityAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(&new.Spec.ForProvider, valMap)
-	DecodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(&new.Spec.ForProvider, valMap)
 	DecodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(&new.Spec.ForProvider, valMap)
 	DecodeWorklinkWebsiteCertificateAuthorityAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(&new.Spec.ForProvider, valMap)
+	DecodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(&new.Spec.ForProvider, valMap)
 	DecodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
-	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
-}
-
-func DecodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
-	p.DisplayName = ctwhy.ValueAsString(vals["display_name"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeWorklinkWebsiteCertificateAuthorityAssociation_FleetArn(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
 	p.FleetArn = ctwhy.ValueAsString(vals["fleet_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWorklinkWebsiteCertificateAuthorityAssociation_Id(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation_Certificate(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeWorklinkWebsiteCertificateAuthorityAssociation_DisplayName(p *WorklinkWebsiteCertificateAuthorityAssociationParameters, vals map[string]cty.Value) {
+	p.DisplayName = ctwhy.ValueAsString(vals["display_name"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeWorklinkWebsiteCertificateAuthorityAssociation_WebsiteCaId(p *WorklinkWebsiteCertificateAuthorityAssociationObservation, vals map[string]cty.Value) {
 	p.WebsiteCaId = ctwhy.ValueAsString(vals["website_ca_id"])
 }

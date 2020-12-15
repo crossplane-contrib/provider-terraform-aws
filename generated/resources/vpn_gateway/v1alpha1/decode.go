@@ -39,28 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpnGateway(prev *VpnGateway, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVpnGateway_AmazonSideAsn(&new.Spec.ForProvider, valMap)
-	DecodeVpnGateway_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeVpnGateway_Id(&new.Spec.ForProvider, valMap)
 	DecodeVpnGateway_Tags(&new.Spec.ForProvider, valMap)
 	DecodeVpnGateway_VpcId(&new.Spec.ForProvider, valMap)
+	DecodeVpnGateway_AmazonSideAsn(&new.Spec.ForProvider, valMap)
+	DecodeVpnGateway_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeVpnGateway_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeVpnGateway_AmazonSideAsn(p *VpnGatewayParameters, vals map[string]cty.Value) {
-	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
-}
-
-func DecodeVpnGateway_AvailabilityZone(p *VpnGatewayParameters, vals map[string]cty.Value) {
-	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeVpnGateway_Id(p *VpnGatewayParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeVpnGateway_Tags(p *VpnGatewayParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -71,10 +68,22 @@ func DecodeVpnGateway_Tags(p *VpnGatewayParameters, vals map[string]cty.Value) {
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpnGateway_VpcId(p *VpnGatewayParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeVpnGateway_AmazonSideAsn(p *VpnGatewayParameters, vals map[string]cty.Value) {
+	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVpnGateway_AvailabilityZone(p *VpnGatewayParameters, vals map[string]cty.Value) {
+	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeVpnGateway_Arn(p *VpnGatewayObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

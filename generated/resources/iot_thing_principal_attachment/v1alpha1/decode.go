@@ -43,18 +43,24 @@ func DecodeIotThingPrincipalAttachment(prev *IotThingPrincipalAttachment, ctyVal
 	DecodeIotThingPrincipalAttachment_Principal(&new.Spec.ForProvider, valMap)
 	DecodeIotThingPrincipalAttachment_Thing(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotThingPrincipalAttachment_Id(p *IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotThingPrincipalAttachment_Principal(p *IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
 	p.Principal = ctwhy.ValueAsString(vals["principal"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotThingPrincipalAttachment_Thing(p *IotThingPrincipalAttachmentParameters, vals map[string]cty.Value) {
 	p.Thing = ctwhy.ValueAsString(vals["thing"])
 }

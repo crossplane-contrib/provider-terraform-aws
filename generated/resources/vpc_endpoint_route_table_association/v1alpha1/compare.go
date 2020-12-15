@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*VpcEndpointRouteTableAssociation)
+	p := prov.(*VpcEndpointRouteTableAssociation)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeVpcEndpointRouteTableAssociation_RouteTableId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpcEndpointRouteTableAssociation_VpcEndpointId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpcEndpointRouteTableAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpcEndpointRouteTableAssociation_RouteTableId(k *VpcEndpointRouteTableAssociationParameters, p *VpcEndpointRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.RouteTableId != p.RouteTableId {
+		p.RouteTableId = k.RouteTableId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpcEndpointRouteTableAssociation_VpcEndpointId(k *VpcEndpointRouteTableAssociationParameters, p *VpcEndpointRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.VpcEndpointId != p.VpcEndpointId {
+		p.VpcEndpointId = k.VpcEndpointId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpcEndpointRouteTableAssociation_Id(k *VpcEndpointRouteTableAssociationParameters, p *VpcEndpointRouteTableAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

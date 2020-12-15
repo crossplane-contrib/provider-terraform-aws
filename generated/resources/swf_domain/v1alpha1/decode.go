@@ -46,22 +46,29 @@ func DecodeSwfDomain(prev *SwfDomain, ctyValue cty.Value) (resource.Managed, err
 	DecodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(&new.Spec.ForProvider, valMap)
 	DecodeSwfDomain_Description(&new.Spec.ForProvider, valMap)
 	DecodeSwfDomain_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSwfDomain_Id(p *SwfDomainParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSwfDomain_Name(p *SwfDomainParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSwfDomain_NamePrefix(p *SwfDomainParameters, vals map[string]cty.Value) {
 	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeSwfDomain_Tags(p *SwfDomainParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -72,14 +79,17 @@ func DecodeSwfDomain_Tags(p *SwfDomainParameters, vals map[string]cty.Value) {
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSwfDomain_WorkflowExecutionRetentionPeriodInDays(p *SwfDomainParameters, vals map[string]cty.Value) {
 	p.WorkflowExecutionRetentionPeriodInDays = ctwhy.ValueAsString(vals["workflow_execution_retention_period_in_days"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSwfDomain_Description(p *SwfDomainParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSwfDomain_Arn(p *SwfDomainObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

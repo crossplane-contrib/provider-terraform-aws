@@ -44,22 +44,29 @@ func DecodeAccessanalyzerAnalyzer(prev *AccessanalyzerAnalyzer, ctyValue cty.Val
 	DecodeAccessanalyzerAnalyzer_Id(&new.Spec.ForProvider, valMap)
 	DecodeAccessanalyzerAnalyzer_Tags(&new.Spec.ForProvider, valMap)
 	DecodeAccessanalyzerAnalyzer_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAccessanalyzerAnalyzer_Type(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
 	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAccessanalyzerAnalyzer_AnalyzerName(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
 	p.AnalyzerName = ctwhy.ValueAsString(vals["analyzer_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAccessanalyzerAnalyzer_Id(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeAccessanalyzerAnalyzer_Tags(p *AccessanalyzerAnalyzerParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -70,6 +77,7 @@ func DecodeAccessanalyzerAnalyzer_Tags(p *AccessanalyzerAnalyzerParameters, vals
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAccessanalyzerAnalyzer_Arn(p *AccessanalyzerAnalyzerObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -39,31 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesDomainIdentityVerification(prev *SesDomainIdentityVerification, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesDomainIdentityVerification_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainIdentityVerification_Domain(&new.Spec.ForProvider, valMap)
+	DecodeSesDomainIdentityVerification_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesDomainIdentityVerification_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeSesDomainIdentityVerification_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSesDomainIdentityVerification_Id(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainIdentityVerification_Domain(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSesDomainIdentityVerification_Id(p *SesDomainIdentityVerificationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//containerTypeDecodeTemplate
 func DecodeSesDomainIdentityVerification_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeSesDomainIdentityVerification_Timeouts_Create(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainIdentityVerification_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesDomainIdentityVerification_Arn(p *SesDomainIdentityVerificationObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

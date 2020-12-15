@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeNetworkAclRule(r NetworkAclRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeNetworkAclRule_IcmpType(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_IcmpCode(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_Ipv6CidrBlock(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_NetworkAclId(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_ToPort(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_FromPort(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_Egress(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_IcmpCode(r.Spec.ForProvider, ctyVal)
-	EncodeNetworkAclRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_Protocol(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_ToPort(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_Egress(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_FromPort(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_IcmpType(r.Spec.ForProvider, ctyVal)
+	EncodeNetworkAclRule_Id(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_RuleAction(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_RuleNumber(r.Spec.ForProvider, ctyVal)
 	EncodeNetworkAclRule_CidrBlock(r.Spec.ForProvider, ctyVal)
@@ -60,8 +60,8 @@ func EncodeNetworkAclRule(r NetworkAclRule) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeNetworkAclRule_IcmpType(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["icmp_type"] = cty.StringVal(p.IcmpType)
+func EncodeNetworkAclRule_IcmpCode(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["icmp_code"] = cty.StringVal(p.IcmpCode)
 }
 
 func EncodeNetworkAclRule_Ipv6CidrBlock(p NetworkAclRuleParameters, vals map[string]cty.Value) {
@@ -72,28 +72,28 @@ func EncodeNetworkAclRule_NetworkAclId(p NetworkAclRuleParameters, vals map[stri
 	vals["network_acl_id"] = cty.StringVal(p.NetworkAclId)
 }
 
-func EncodeNetworkAclRule_ToPort(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["to_port"] = cty.NumberIntVal(p.ToPort)
+func EncodeNetworkAclRule_Protocol(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["protocol"] = cty.StringVal(p.Protocol)
 }
 
-func EncodeNetworkAclRule_FromPort(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["from_port"] = cty.NumberIntVal(p.FromPort)
+func EncodeNetworkAclRule_ToPort(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["to_port"] = cty.NumberIntVal(p.ToPort)
 }
 
 func EncodeNetworkAclRule_Egress(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["egress"] = cty.BoolVal(p.Egress)
 }
 
-func EncodeNetworkAclRule_IcmpCode(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["icmp_code"] = cty.StringVal(p.IcmpCode)
+func EncodeNetworkAclRule_FromPort(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["from_port"] = cty.NumberIntVal(p.FromPort)
+}
+
+func EncodeNetworkAclRule_IcmpType(p NetworkAclRuleParameters, vals map[string]cty.Value) {
+	vals["icmp_type"] = cty.StringVal(p.IcmpType)
 }
 
 func EncodeNetworkAclRule_Id(p NetworkAclRuleParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeNetworkAclRule_Protocol(p NetworkAclRuleParameters, vals map[string]cty.Value) {
-	vals["protocol"] = cty.StringVal(p.Protocol)
 }
 
 func EncodeNetworkAclRule_RuleAction(p NetworkAclRuleParameters, vals map[string]cty.Value) {

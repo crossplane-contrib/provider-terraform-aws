@@ -43,18 +43,24 @@ func DecodeShieldProtection(prev *ShieldProtection, ctyValue cty.Value) (resourc
 	DecodeShieldProtection_Name(&new.Spec.ForProvider, valMap)
 	DecodeShieldProtection_ResourceArn(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeShieldProtection_Id(p *ShieldProtectionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeShieldProtection_Name(p *ShieldProtectionParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeShieldProtection_ResourceArn(p *ShieldProtectionParameters, vals map[string]cty.Value) {
 	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
 }

@@ -39,18 +39,42 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeServicecatalogPortfolio(prev *ServicecatalogPortfolio, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeServicecatalogPortfolio_Tags(&new.Spec.ForProvider, valMap)
 	DecodeServicecatalogPortfolio_Description(&new.Spec.ForProvider, valMap)
 	DecodeServicecatalogPortfolio_Id(&new.Spec.ForProvider, valMap)
 	DecodeServicecatalogPortfolio_Name(&new.Spec.ForProvider, valMap)
 	DecodeServicecatalogPortfolio_ProviderName(&new.Spec.ForProvider, valMap)
+	DecodeServicecatalogPortfolio_Tags(&new.Spec.ForProvider, valMap)
 	DecodeServicecatalogPortfolio_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
-	DecodeServicecatalogPortfolio_Arn(&new.Status.AtProvider, valMap)
 	DecodeServicecatalogPortfolio_CreatedTime(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeServicecatalogPortfolio_Arn(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeServicecatalogPortfolio_Description(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeServicecatalogPortfolio_Id(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeServicecatalogPortfolio_Name(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeServicecatalogPortfolio_ProviderName(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
+	p.ProviderName = ctwhy.ValueAsString(vals["provider_name"])
+}
+
+//primitiveMapTypeDecodeTemplate
 func DecodeServicecatalogPortfolio_Tags(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -61,45 +85,35 @@ func DecodeServicecatalogPortfolio_Tags(p *ServicecatalogPortfolioParameters, va
 	p.Tags = vMap
 }
 
-func DecodeServicecatalogPortfolio_Description(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-func DecodeServicecatalogPortfolio_Id(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeServicecatalogPortfolio_Name(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-func DecodeServicecatalogPortfolio_ProviderName(p *ServicecatalogPortfolioParameters, vals map[string]cty.Value) {
-	p.ProviderName = ctwhy.ValueAsString(vals["provider_name"])
-}
-
+//containerTypeDecodeTemplate
 func DecodeServicecatalogPortfolio_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
-	DecodeServicecatalogPortfolio_Timeouts_Create(p, valMap)
 	DecodeServicecatalogPortfolio_Timeouts_Delete(p, valMap)
 	DecodeServicecatalogPortfolio_Timeouts_Update(p, valMap)
+	DecodeServicecatalogPortfolio_Timeouts_Create(p, valMap)
 }
 
-func DecodeServicecatalogPortfolio_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
-	p.Create = ctwhy.ValueAsString(vals["create"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeServicecatalogPortfolio_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeServicecatalogPortfolio_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
 	p.Update = ctwhy.ValueAsString(vals["update"])
 }
 
-func DecodeServicecatalogPortfolio_Arn(p *ServicecatalogPortfolioObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+//primitiveTypeDecodeTemplate
+func DecodeServicecatalogPortfolio_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
+	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeServicecatalogPortfolio_CreatedTime(p *ServicecatalogPortfolioObservation, vals map[string]cty.Value) {
 	p.CreatedTime = ctwhy.ValueAsString(vals["created_time"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeServicecatalogPortfolio_Arn(p *ServicecatalogPortfolioObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

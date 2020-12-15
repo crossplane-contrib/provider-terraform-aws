@@ -43,18 +43,24 @@ func DecodeRamResourceAssociation(prev *RamResourceAssociation, ctyValue cty.Val
 	DecodeRamResourceAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
 	DecodeRamResourceAssociation_ResourceShareArn(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceAssociation_Id(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceAssociation_ResourceArn(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
 	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceAssociation_ResourceShareArn(p *RamResourceAssociationParameters, vals map[string]cty.Value) {
 	p.ResourceShareArn = ctwhy.ValueAsString(vals["resource_share_arn"])
 }

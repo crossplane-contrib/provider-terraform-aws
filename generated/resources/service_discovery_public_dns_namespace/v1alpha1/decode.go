@@ -39,24 +39,35 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeServiceDiscoveryPublicDnsNamespace(prev *ServiceDiscoveryPublicDnsNamespace, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeServiceDiscoveryPublicDnsNamespace_Description(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Id(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Name(&new.Spec.ForProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_Tags(&new.Spec.ForProvider, valMap)
-	DecodeServiceDiscoveryPublicDnsNamespace_Description(&new.Spec.ForProvider, valMap)
-	DecodeServiceDiscoveryPublicDnsNamespace_Arn(&new.Status.AtProvider, valMap)
 	DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeServiceDiscoveryPublicDnsNamespace_Arn(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeServiceDiscoveryPublicDnsNamespace_Description(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeServiceDiscoveryPublicDnsNamespace_Id(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeServiceDiscoveryPublicDnsNamespace_Name(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeServiceDiscoveryPublicDnsNamespace_Tags(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -67,14 +78,12 @@ func DecodeServiceDiscoveryPublicDnsNamespace_Tags(p *ServiceDiscoveryPublicDnsN
 	p.Tags = vMap
 }
 
-func DecodeServiceDiscoveryPublicDnsNamespace_Description(p *ServiceDiscoveryPublicDnsNamespaceParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-func DecodeServiceDiscoveryPublicDnsNamespace_Arn(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeServiceDiscoveryPublicDnsNamespace_HostedZone(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
 	p.HostedZone = ctwhy.ValueAsString(vals["hosted_zone"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeServiceDiscoveryPublicDnsNamespace_Arn(p *ServiceDiscoveryPublicDnsNamespaceObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

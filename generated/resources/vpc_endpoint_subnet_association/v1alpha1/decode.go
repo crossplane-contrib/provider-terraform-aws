@@ -39,37 +39,46 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVpcEndpointSubnetAssociation(prev *VpcEndpointSubnetAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVpcEndpointSubnetAssociation_VpcEndpointId(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointSubnetAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointSubnetAssociation_SubnetId(&new.Spec.ForProvider, valMap)
+	DecodeVpcEndpointSubnetAssociation_VpcEndpointId(&new.Spec.ForProvider, valMap)
 	DecodeVpcEndpointSubnetAssociation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeVpcEndpointSubnetAssociation_VpcEndpointId(p *VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
-	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointSubnetAssociation_Id(p *VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointSubnetAssociation_SubnetId(p *VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
 	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeVpcEndpointSubnetAssociation_VpcEndpointId(p *VpcEndpointSubnetAssociationParameters, vals map[string]cty.Value) {
+	p.VpcEndpointId = ctwhy.ValueAsString(vals["vpc_endpoint_id"])
+}
+
+//containerTypeDecodeTemplate
 func DecodeVpcEndpointSubnetAssociation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeVpcEndpointSubnetAssociation_Timeouts_Create(p, valMap)
 	DecodeVpcEndpointSubnetAssociation_Timeouts_Delete(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointSubnetAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpcEndpointSubnetAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }

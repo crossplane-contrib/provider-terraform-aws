@@ -39,18 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSfnActivity(prev *SfnActivity, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeSfnActivity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSfnActivity_Name(&new.Spec.ForProvider, valMap)
 	DecodeSfnActivity_Tags(&new.Spec.ForProvider, valMap)
-	DecodeSfnActivity_Id(&new.Spec.ForProvider, valMap)
 	DecodeSfnActivity_CreationDate(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSfnActivity_Id(p *SfnActivityParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSfnActivity_Name(p *SfnActivityParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeSfnActivity_Tags(p *SfnActivityParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -61,10 +71,7 @@ func DecodeSfnActivity_Tags(p *SfnActivityParameters, vals map[string]cty.Value)
 	p.Tags = vMap
 }
 
-func DecodeSfnActivity_Id(p *SfnActivityParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSfnActivity_CreationDate(p *SfnActivityObservation, vals map[string]cty.Value) {
 	p.CreationDate = ctwhy.ValueAsString(vals["creation_date"])
 }

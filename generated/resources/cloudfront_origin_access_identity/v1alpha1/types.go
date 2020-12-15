@@ -64,9 +64,9 @@ type CloudfrontOriginAccessIdentityStatus struct {
 
 // A CloudfrontOriginAccessIdentityObservation records the observed state of a CloudfrontOriginAccessIdentity
 type CloudfrontOriginAccessIdentityObservation struct {
-	CallerReference              string `json:"caller_reference"`
 	CloudfrontAccessIdentityPath string `json:"cloudfront_access_identity_path"`
 	Etag                         string `json:"etag"`
 	IamArn                       string `json:"iam_arn"`
 	S3CanonicalUserId            string `json:"s3_canonical_user_id"`
+	CallerReference              string `json:"caller_reference"`
 }

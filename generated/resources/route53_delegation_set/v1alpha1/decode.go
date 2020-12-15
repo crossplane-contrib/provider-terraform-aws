@@ -39,21 +39,27 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRoute53DelegationSet(prev *Route53DelegationSet, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRoute53DelegationSet_ReferenceName(&new.Spec.ForProvider, valMap)
 	DecodeRoute53DelegationSet_Id(&new.Spec.ForProvider, valMap)
+	DecodeRoute53DelegationSet_ReferenceName(&new.Spec.ForProvider, valMap)
 	DecodeRoute53DelegationSet_NameServers(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeRoute53DelegationSet_ReferenceName(p *Route53DelegationSetParameters, vals map[string]cty.Value) {
-	p.ReferenceName = ctwhy.ValueAsString(vals["reference_name"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeRoute53DelegationSet_Id(p *Route53DelegationSetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeRoute53DelegationSet_ReferenceName(p *Route53DelegationSetParameters, vals map[string]cty.Value) {
+	p.ReferenceName = ctwhy.ValueAsString(vals["reference_name"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
 func DecodeRoute53DelegationSet_NameServers(p *Route53DelegationSetObservation, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["name_servers"]) {

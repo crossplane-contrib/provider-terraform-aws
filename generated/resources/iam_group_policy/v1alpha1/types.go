@@ -52,11 +52,11 @@ type IamGroupPolicySpec struct {
 
 // A IamGroupPolicyParameters defines the desired state of a IamGroupPolicy
 type IamGroupPolicyParameters struct {
-	Group      string `json:"group"`
 	Id         string `json:"id"`
 	Name       string `json:"name"`
 	NamePrefix string `json:"name_prefix"`
 	Policy     string `json:"policy"`
+	Group      string `json:"group"`
 }
 
 // A IamGroupPolicyStatus defines the observed state of a IamGroupPolicy

@@ -41,10 +41,14 @@ func DecodeSecurityhubAccount(prev *SecurityhubAccount, ctyValue cty.Value) (res
 	new := prev.DeepCopy()
 	DecodeSecurityhubAccount_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubAccount_Id(p *SecurityhubAccountParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

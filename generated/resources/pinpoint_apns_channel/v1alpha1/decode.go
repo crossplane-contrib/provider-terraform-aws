@@ -39,57 +39,70 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodePinpointApnsChannel(prev *PinpointApnsChannel, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodePinpointApnsChannel_ApplicationId(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsChannel_BundleId(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsChannel_DefaultAuthenticationMethod(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsChannel_Enabled(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsChannel_PrivateKey(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsChannel_Certificate(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsChannel_Id(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsChannel_TeamId(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsChannel_TokenKey(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsChannel_TokenKeyId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsChannel_Enabled(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsChannel_Id(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsChannel_Certificate(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsChannel_DefaultAuthenticationMethod(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsChannel_ApplicationId(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsChannel_BundleId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodePinpointApnsChannel_ApplicationId(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
-}
-
-func DecodePinpointApnsChannel_BundleId(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
-}
-
-func DecodePinpointApnsChannel_DefaultAuthenticationMethod(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	p.DefaultAuthenticationMethod = ctwhy.ValueAsString(vals["default_authentication_method"])
-}
-
-func DecodePinpointApnsChannel_Enabled(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsChannel_PrivateKey(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
 	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
 }
 
-func DecodePinpointApnsChannel_Certificate(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
-}
-
-func DecodePinpointApnsChannel_Id(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsChannel_TeamId(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
 	p.TeamId = ctwhy.ValueAsString(vals["team_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsChannel_TokenKey(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
 	p.TokenKey = ctwhy.ValueAsString(vals["token_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsChannel_TokenKeyId(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
 	p.TokenKeyId = ctwhy.ValueAsString(vals["token_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsChannel_Enabled(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsChannel_Id(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsChannel_Certificate(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsChannel_DefaultAuthenticationMethod(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	p.DefaultAuthenticationMethod = ctwhy.ValueAsString(vals["default_authentication_method"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsChannel_ApplicationId(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsChannel_BundleId(p *PinpointApnsChannelParameters, vals map[string]cty.Value) {
+	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
 }

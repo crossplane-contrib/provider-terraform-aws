@@ -39,31 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIotPolicy(prev *IotPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIotPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeIotPolicy_Name(&new.Spec.ForProvider, valMap)
 	DecodeIotPolicy_Policy(&new.Spec.ForProvider, valMap)
-	DecodeIotPolicy_DefaultVersionId(&new.Status.AtProvider, valMap)
+	DecodeIotPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeIotPolicy_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeIotPolicy_DefaultVersionId(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeIotPolicy_Id(p *IotPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIotPolicy_Name(p *IotPolicyParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotPolicy_Policy(p *IotPolicyParameters, vals map[string]cty.Value) {
 	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
-func DecodeIotPolicy_DefaultVersionId(p *IotPolicyObservation, vals map[string]cty.Value) {
-	p.DefaultVersionId = ctwhy.ValueAsString(vals["default_version_id"])
+//primitiveTypeDecodeTemplate
+func DecodeIotPolicy_Id(p *IotPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIotPolicy_Arn(p *IotPolicyObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIotPolicy_DefaultVersionId(p *IotPolicyObservation, vals map[string]cty.Value) {
+	p.DefaultVersionId = ctwhy.ValueAsString(vals["default_version_id"])
 }

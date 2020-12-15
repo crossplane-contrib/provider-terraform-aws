@@ -44,26 +44,34 @@ func DecodeEc2TransitGatewayRouteTableAssociation(prev *Ec2TransitGatewayRouteTa
 	DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTableAssociation_ResourceId(&new.Status.AtProvider, valMap)
 	DecodeEc2TransitGatewayRouteTableAssociation_ResourceType(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTableAssociation_Id(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTableAssociation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.TransitGatewayRouteTableId = ctwhy.ValueAsString(vals["transit_gateway_route_table_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTableAssociation_ResourceId(p *Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
 	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTableAssociation_ResourceType(p *Ec2TransitGatewayRouteTableAssociationObservation, vals map[string]cty.Value) {
 	p.ResourceType = ctwhy.ValueAsString(vals["resource_type"])
 }

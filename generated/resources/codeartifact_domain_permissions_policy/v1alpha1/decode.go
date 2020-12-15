@@ -45,30 +45,39 @@ func DecodeCodeartifactDomainPermissionsPolicy(prev *CodeartifactDomainPermissio
 	DecodeCodeartifactDomainPermissionsPolicy_PolicyDocument(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_PolicyRevision(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomainPermissionsPolicy_ResourceArn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_Domain(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_DomainOwner(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	p.DomainOwner = ctwhy.ValueAsString(vals["domain_owner"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_Id(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_PolicyDocument(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	p.PolicyDocument = ctwhy.ValueAsString(vals["policy_document"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_PolicyRevision(p *CodeartifactDomainPermissionsPolicyParameters, vals map[string]cty.Value) {
 	p.PolicyRevision = ctwhy.ValueAsString(vals["policy_revision"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomainPermissionsPolicy_ResourceArn(p *CodeartifactDomainPermissionsPolicyObservation, vals map[string]cty.Value) {
 	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
 }

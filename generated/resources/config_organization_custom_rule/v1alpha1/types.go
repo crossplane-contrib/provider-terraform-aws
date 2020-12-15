@@ -52,17 +52,17 @@ type ConfigOrganizationCustomRuleSpec struct {
 
 // A ConfigOrganizationCustomRuleParameters defines the desired state of a ConfigOrganizationCustomRule
 type ConfigOrganizationCustomRuleParameters struct {
-	ResourceTypesScope        []string `json:"resource_types_scope"`
-	TagKeyScope               string   `json:"tag_key_scope"`
-	TagValueScope             string   `json:"tag_value_scope"`
-	Id                        string   `json:"id"`
-	LambdaFunctionArn         string   `json:"lambda_function_arn"`
-	Name                      string   `json:"name"`
-	ResourceIdScope           string   `json:"resource_id_scope"`
-	Description               string   `json:"description"`
 	ExcludedAccounts          []string `json:"excluded_accounts"`
+	LambdaFunctionArn         string   `json:"lambda_function_arn"`
+	ResourceIdScope           string   `json:"resource_id_scope"`
+	TagValueScope             string   `json:"tag_value_scope"`
+	Description               string   `json:"description"`
+	Id                        string   `json:"id"`
 	InputParameters           string   `json:"input_parameters"`
 	MaximumExecutionFrequency string   `json:"maximum_execution_frequency"`
+	Name                      string   `json:"name"`
+	ResourceTypesScope        []string `json:"resource_types_scope"`
+	TagKeyScope               string   `json:"tag_key_scope"`
 	TriggerTypes              []string `json:"trigger_types"`
 	Timeouts                  Timeouts `json:"timeouts"`
 }

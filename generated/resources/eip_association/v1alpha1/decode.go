@@ -39,42 +39,52 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEipAssociation(prev *EipAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEipAssociation_AllocationId(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_AllowReassociation(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_InstanceId(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_PrivateIpAddress(&new.Spec.ForProvider, valMap)
 	DecodeEipAssociation_PublicIp(&new.Spec.ForProvider, valMap)
-	DecodeEipAssociation_AllocationId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEipAssociation_AllocationId(p *EipAssociationParameters, vals map[string]cty.Value) {
+	p.AllocationId = ctwhy.ValueAsString(vals["allocation_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEipAssociation_AllowReassociation(p *EipAssociationParameters, vals map[string]cty.Value) {
 	p.AllowReassociation = ctwhy.ValueAsBool(vals["allow_reassociation"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEipAssociation_Id(p *EipAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEipAssociation_InstanceId(p *EipAssociationParameters, vals map[string]cty.Value) {
 	p.InstanceId = ctwhy.ValueAsString(vals["instance_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEipAssociation_NetworkInterfaceId(p *EipAssociationParameters, vals map[string]cty.Value) {
 	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEipAssociation_PrivateIpAddress(p *EipAssociationParameters, vals map[string]cty.Value) {
 	p.PrivateIpAddress = ctwhy.ValueAsString(vals["private_ip_address"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEipAssociation_PublicIp(p *EipAssociationParameters, vals map[string]cty.Value) {
 	p.PublicIp = ctwhy.ValueAsString(vals["public_ip"])
-}
-
-func DecodeEipAssociation_AllocationId(p *EipAssociationParameters, vals map[string]cty.Value) {
-	p.AllocationId = ctwhy.ValueAsString(vals["allocation_id"])
 }

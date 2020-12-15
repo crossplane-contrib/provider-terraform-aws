@@ -44,22 +44,29 @@ func DecodeApiGatewayDocumentationVersion(prev *ApiGatewayDocumentationVersion, 
 	DecodeApiGatewayDocumentationVersion_RestApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayDocumentationVersion_Version(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayDocumentationVersion_Description(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayDocumentationVersion_Id(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayDocumentationVersion_RestApiId(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
 	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayDocumentationVersion_Version(p *ApiGatewayDocumentationVersionParameters, vals map[string]cty.Value) {
 	p.Version = ctwhy.ValueAsString(vals["version"])
 }

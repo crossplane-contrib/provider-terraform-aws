@@ -17,13 +17,101 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*Ec2TransitGatewayRouteTable)
+	p := prov.(*Ec2TransitGatewayRouteTable)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeEc2TransitGatewayRouteTable_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayRouteTable_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayRouteTable_TransitGatewayId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayRouteTable_Id(k *Ec2TransitGatewayRouteTableParameters, p *Ec2TransitGatewayRouteTableParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeEc2TransitGatewayRouteTable_Tags(k *Ec2TransitGatewayRouteTableParameters, p *Ec2TransitGatewayRouteTableParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(p.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEc2TransitGatewayRouteTable_TransitGatewayId(k *Ec2TransitGatewayRouteTableParameters, p *Ec2TransitGatewayRouteTableParameters, md *plugin.MergeDescription) bool {
+	if k.TransitGatewayId != p.TransitGatewayId {
+		p.TransitGatewayId = k.TransitGatewayId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayRouteTable_DefaultPropagationRouteTable(k *Ec2TransitGatewayRouteTableObservation, p *Ec2TransitGatewayRouteTableObservation, md *plugin.MergeDescription) bool {
+	if k.DefaultPropagationRouteTable != p.DefaultPropagationRouteTable {
+		k.DefaultPropagationRouteTable = p.DefaultPropagationRouteTable
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeEc2TransitGatewayRouteTable_DefaultAssociationRouteTable(k *Ec2TransitGatewayRouteTableObservation, p *Ec2TransitGatewayRouteTableObservation, md *plugin.MergeDescription) bool {
+	if k.DefaultAssociationRouteTable != p.DefaultAssociationRouteTable {
+		k.DefaultAssociationRouteTable = p.DefaultAssociationRouteTable
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

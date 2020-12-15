@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLbCookieStickinessPolicy(r LbCookieStickinessPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLbCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_LoadBalancer(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_Name(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(r.Spec.ForProvider, ctyVal)
 	EncodeLbCookieStickinessPolicy_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLbCookieStickinessPolicy_LbPort(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeLbCookieStickinessPolicy(r LbCookieStickinessPolicy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeLbCookieStickinessPolicy_LbPort(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
-	vals["lb_port"] = cty.NumberIntVal(p.LbPort)
 }
 
 func EncodeLbCookieStickinessPolicy_LoadBalancer(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
@@ -71,4 +67,8 @@ func EncodeLbCookieStickinessPolicy_CookieExpirationPeriod(p LbCookieStickinessP
 
 func EncodeLbCookieStickinessPolicy_Id(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLbCookieStickinessPolicy_LbPort(p LbCookieStickinessPolicyParameters, vals map[string]cty.Value) {
+	vals["lb_port"] = cty.NumberIntVal(p.LbPort)
 }

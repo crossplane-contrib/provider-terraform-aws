@@ -39,31 +39,38 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLoadBalancerBackendServerPolicy(prev *LoadBalancerBackendServerPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeLoadBalancerBackendServerPolicy_LoadBalancerName(&new.Spec.ForProvider, valMap)
-	DecodeLoadBalancerBackendServerPolicy_PolicyNames(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerBackendServerPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeLoadBalancerBackendServerPolicy_InstancePort(&new.Spec.ForProvider, valMap)
+	DecodeLoadBalancerBackendServerPolicy_LoadBalancerName(&new.Spec.ForProvider, valMap)
+	DecodeLoadBalancerBackendServerPolicy_PolicyNames(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeLoadBalancerBackendServerPolicy_Id(p *LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLoadBalancerBackendServerPolicy_InstancePort(p *LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
+	p.InstancePort = ctwhy.ValueAsInt64(vals["instance_port"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeLoadBalancerBackendServerPolicy_LoadBalancerName(p *LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
 	p.LoadBalancerName = ctwhy.ValueAsString(vals["load_balancer_name"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeLoadBalancerBackendServerPolicy_PolicyNames(p *LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["policy_names"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.PolicyNames = goVals
-}
-
-func DecodeLoadBalancerBackendServerPolicy_Id(p *LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeLoadBalancerBackendServerPolicy_InstancePort(p *LoadBalancerBackendServerPolicyParameters, vals map[string]cty.Value) {
-	p.InstancePort = ctwhy.ValueAsInt64(vals["instance_port"])
 }

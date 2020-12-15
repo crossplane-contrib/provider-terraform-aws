@@ -52,10 +52,10 @@ type DirectoryServiceConditionalForwarderSpec struct {
 
 // A DirectoryServiceConditionalForwarderParameters defines the desired state of a DirectoryServiceConditionalForwarder
 type DirectoryServiceConditionalForwarderParameters struct {
+	Id               string   `json:"id"`
 	RemoteDomainName string   `json:"remote_domain_name"`
 	DirectoryId      string   `json:"directory_id"`
 	DnsIps           []string `json:"dns_ips"`
-	Id               string   `json:"id"`
 }
 
 // A DirectoryServiceConditionalForwarderStatus defines the observed state of a DirectoryServiceConditionalForwarder

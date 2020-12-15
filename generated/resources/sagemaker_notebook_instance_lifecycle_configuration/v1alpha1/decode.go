@@ -39,31 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSagemakerNotebookInstanceLifecycleConfiguration(prev *SagemakerNotebookInstanceLifecycleConfiguration, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSagemakerNotebookInstanceLifecycleConfiguration_Id(&new.Spec.ForProvider, valMap)
-	DecodeSagemakerNotebookInstanceLifecycleConfiguration_Name(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstanceLifecycleConfiguration_Id(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstanceLifecycleConfiguration_Name(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstanceLifecycleConfiguration_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSagemakerNotebookInstanceLifecycleConfiguration_Id(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeSagemakerNotebookInstanceLifecycleConfiguration_Name(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	p.OnCreate = ctwhy.ValueAsString(vals["on_create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	p.OnStart = ctwhy.ValueAsString(vals["on_start"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerNotebookInstanceLifecycleConfiguration_Id(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerNotebookInstanceLifecycleConfiguration_Name(p *SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstanceLifecycleConfiguration_Arn(p *SagemakerNotebookInstanceLifecycleConfigurationObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

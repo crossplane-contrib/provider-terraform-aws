@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeLbTargetGroupAttachment(prev *LbTargetGroupAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeLbTargetGroupAttachment_TargetId(&new.Spec.ForProvider, valMap)
 	DecodeLbTargetGroupAttachment_AvailabilityZone(&new.Spec.ForProvider, valMap)
 	DecodeLbTargetGroupAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeLbTargetGroupAttachment_Port(&new.Spec.ForProvider, valMap)
 	DecodeLbTargetGroupAttachment_TargetGroupArn(&new.Spec.ForProvider, valMap)
-	DecodeLbTargetGroupAttachment_TargetId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeLbTargetGroupAttachment_TargetId(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeLbTargetGroupAttachment_AvailabilityZone(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	p.AvailabilityZone = ctwhy.ValueAsString(vals["availability_zone"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLbTargetGroupAttachment_Id(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLbTargetGroupAttachment_Port(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	p.Port = ctwhy.ValueAsInt64(vals["port"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeLbTargetGroupAttachment_TargetGroupArn(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	p.TargetGroupArn = ctwhy.ValueAsString(vals["target_group_arn"])
-}
-
-func DecodeLbTargetGroupAttachment_TargetId(p *LbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
 }

@@ -44,26 +44,34 @@ func DecodeDmsCertificate(prev *DmsCertificate, ctyValue cty.Value) (resource.Ma
 	DecodeDmsCertificate_CertificateWallet(&new.Spec.ForProvider, valMap)
 	DecodeDmsCertificate_Id(&new.Spec.ForProvider, valMap)
 	DecodeDmsCertificate_CertificateArn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsCertificate_CertificateId(p *DmsCertificateParameters, vals map[string]cty.Value) {
 	p.CertificateId = ctwhy.ValueAsString(vals["certificate_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsCertificate_CertificatePem(p *DmsCertificateParameters, vals map[string]cty.Value) {
 	p.CertificatePem = ctwhy.ValueAsString(vals["certificate_pem"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsCertificate_CertificateWallet(p *DmsCertificateParameters, vals map[string]cty.Value) {
 	p.CertificateWallet = ctwhy.ValueAsString(vals["certificate_wallet"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsCertificate_Id(p *DmsCertificateParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDmsCertificate_CertificateArn(p *DmsCertificateObservation, vals map[string]cty.Value) {
 	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
 }

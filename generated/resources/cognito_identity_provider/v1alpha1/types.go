@@ -52,13 +52,13 @@ type CognitoIdentityProviderSpec struct {
 
 // A CognitoIdentityProviderParameters defines the desired state of a CognitoIdentityProvider
 type CognitoIdentityProviderParameters struct {
-	IdpIdentifiers   []string          `json:"idp_identifiers"`
-	ProviderDetails  map[string]string `json:"provider_details"`
 	ProviderName     string            `json:"provider_name"`
 	ProviderType     string            `json:"provider_type"`
 	UserPoolId       string            `json:"user_pool_id"`
 	AttributeMapping map[string]string `json:"attribute_mapping"`
 	Id               string            `json:"id"`
+	IdpIdentifiers   []string          `json:"idp_identifiers"`
+	ProviderDetails  map[string]string `json:"provider_details"`
 }
 
 // A CognitoIdentityProviderStatus defines the observed state of a CognitoIdentityProvider

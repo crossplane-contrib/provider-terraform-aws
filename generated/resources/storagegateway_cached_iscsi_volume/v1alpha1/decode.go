@@ -39,55 +39,31 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeStoragegatewayCachedIscsiVolume(prev *StoragegatewayCachedIscsiVolume, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeStoragegatewayCachedIscsiVolume_Tags(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_KmsEncrypted(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_Id(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_SnapshotId(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_TargetName(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_GatewayArn(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_KmsKey(&new.Spec.ForProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayCachedIscsiVolume_SourceVolumeArn(&new.Spec.ForProvider, valMap)
 	DecodeStoragegatewayCachedIscsiVolume_VolumeSizeInBytes(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_GatewayArn(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_KmsEncrypted(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_TargetName(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_Id(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_Tags(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_KmsKey(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_SnapshotId(&new.Spec.ForProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_Arn(&new.Status.AtProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_ChapEnabled(&new.Status.AtProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_LunNumber(&new.Status.AtProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_VolumeArn(&new.Status.AtProvider, valMap)
 	DecodeStoragegatewayCachedIscsiVolume_VolumeId(&new.Status.AtProvider, valMap)
 	DecodeStoragegatewayCachedIscsiVolume_NetworkInterfacePort(&new.Status.AtProvider, valMap)
-	DecodeStoragegatewayCachedIscsiVolume_VolumeArn(&new.Status.AtProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_LunNumber(&new.Status.AtProvider, valMap)
 	DecodeStoragegatewayCachedIscsiVolume_TargetArn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeStoragegatewayCachedIscsiVolume_Arn(&new.Status.AtProvider, valMap)
+	DecodeStoragegatewayCachedIscsiVolume_ChapEnabled(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeStoragegatewayCachedIscsiVolume_SourceVolumeArn(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.SourceVolumeArn = ctwhy.ValueAsString(vals["source_volume_arn"])
-}
-
-func DecodeStoragegatewayCachedIscsiVolume_VolumeSizeInBytes(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.VolumeSizeInBytes = ctwhy.ValueAsInt64(vals["volume_size_in_bytes"])
-}
-
-func DecodeStoragegatewayCachedIscsiVolume_GatewayArn(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.GatewayArn = ctwhy.ValueAsString(vals["gateway_arn"])
-}
-
-func DecodeStoragegatewayCachedIscsiVolume_KmsEncrypted(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.KmsEncrypted = ctwhy.ValueAsBool(vals["kms_encrypted"])
-}
-
-func DecodeStoragegatewayCachedIscsiVolume_TargetName(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.TargetName = ctwhy.ValueAsString(vals["target_name"])
-}
-
-func DecodeStoragegatewayCachedIscsiVolume_Id(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeStoragegatewayCachedIscsiVolume_NetworkInterfaceId(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeStoragegatewayCachedIscsiVolume_Tags(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -98,38 +74,82 @@ func DecodeStoragegatewayCachedIscsiVolume_Tags(p *StoragegatewayCachedIscsiVolu
 	p.Tags = vMap
 }
 
-func DecodeStoragegatewayCachedIscsiVolume_KmsKey(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
-	p.KmsKey = ctwhy.ValueAsString(vals["kms_key"])
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_KmsEncrypted(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.KmsEncrypted = ctwhy.ValueAsBool(vals["kms_encrypted"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_Id(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayCachedIscsiVolume_SnapshotId(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
 	p.SnapshotId = ctwhy.ValueAsString(vals["snapshot_id"])
 }
 
-func DecodeStoragegatewayCachedIscsiVolume_Arn(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	p.Arn = ctwhy.ValueAsString(vals["arn"])
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_TargetName(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.TargetName = ctwhy.ValueAsString(vals["target_name"])
 }
 
-func DecodeStoragegatewayCachedIscsiVolume_ChapEnabled(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	p.ChapEnabled = ctwhy.ValueAsBool(vals["chap_enabled"])
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_GatewayArn(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.GatewayArn = ctwhy.ValueAsString(vals["gateway_arn"])
 }
 
-func DecodeStoragegatewayCachedIscsiVolume_LunNumber(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	p.LunNumber = ctwhy.ValueAsInt64(vals["lun_number"])
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_KmsKey(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.KmsKey = ctwhy.ValueAsString(vals["kms_key"])
 }
 
-func DecodeStoragegatewayCachedIscsiVolume_VolumeId(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	p.VolumeId = ctwhy.ValueAsString(vals["volume_id"])
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_NetworkInterfaceId(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
 }
 
-func DecodeStoragegatewayCachedIscsiVolume_NetworkInterfacePort(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
-	p.NetworkInterfacePort = ctwhy.ValueAsInt64(vals["network_interface_port"])
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_SourceVolumeArn(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.SourceVolumeArn = ctwhy.ValueAsString(vals["source_volume_arn"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_VolumeSizeInBytes(p *StoragegatewayCachedIscsiVolumeParameters, vals map[string]cty.Value) {
+	p.VolumeSizeInBytes = ctwhy.ValueAsInt64(vals["volume_size_in_bytes"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayCachedIscsiVolume_VolumeArn(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
 	p.VolumeArn = ctwhy.ValueAsString(vals["volume_arn"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_VolumeId(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	p.VolumeId = ctwhy.ValueAsString(vals["volume_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_NetworkInterfacePort(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	p.NetworkInterfacePort = ctwhy.ValueAsInt64(vals["network_interface_port"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_LunNumber(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	p.LunNumber = ctwhy.ValueAsInt64(vals["lun_number"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeStoragegatewayCachedIscsiVolume_TargetArn(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
 	p.TargetArn = ctwhy.ValueAsString(vals["target_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_Arn(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeStoragegatewayCachedIscsiVolume_ChapEnabled(p *StoragegatewayCachedIscsiVolumeObservation, vals map[string]cty.Value) {
+	p.ChapEnabled = ctwhy.ValueAsBool(vals["chap_enabled"])
 }

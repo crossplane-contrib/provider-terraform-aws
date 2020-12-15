@@ -17,13 +17,86 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*CloudwatchDashboard)
+	p := prov.(*CloudwatchDashboard)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeCloudwatchDashboard_DashboardBody(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchDashboard_DashboardName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchDashboard_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchDashboard_DashboardArn(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchDashboard_DashboardBody(k *CloudwatchDashboardParameters, p *CloudwatchDashboardParameters, md *plugin.MergeDescription) bool {
+	if k.DashboardBody != p.DashboardBody {
+		p.DashboardBody = k.DashboardBody
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchDashboard_DashboardName(k *CloudwatchDashboardParameters, p *CloudwatchDashboardParameters, md *plugin.MergeDescription) bool {
+	if k.DashboardName != p.DashboardName {
+		p.DashboardName = k.DashboardName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchDashboard_Id(k *CloudwatchDashboardParameters, p *CloudwatchDashboardParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeCloudwatchDashboard_DashboardArn(k *CloudwatchDashboardObservation, p *CloudwatchDashboardObservation, md *plugin.MergeDescription) bool {
+	if k.DashboardArn != p.DashboardArn {
+		k.DashboardArn = p.DashboardArn
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

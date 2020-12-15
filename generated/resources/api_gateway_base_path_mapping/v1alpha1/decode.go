@@ -45,26 +45,34 @@ func DecodeApiGatewayBasePathMapping(prev *ApiGatewayBasePathMapping, ctyValue c
 	DecodeApiGatewayBasePathMapping_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayBasePathMapping_StageName(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayBasePathMapping_ApiId(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayBasePathMapping_BasePath(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	p.BasePath = ctwhy.ValueAsString(vals["base_path"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayBasePathMapping_DomainName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayBasePathMapping_Id(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayBasePathMapping_StageName(p *ApiGatewayBasePathMappingParameters, vals map[string]cty.Value) {
 	p.StageName = ctwhy.ValueAsString(vals["stage_name"])
 }

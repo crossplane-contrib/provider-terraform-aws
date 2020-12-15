@@ -39,36 +39,45 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeQuicksightGroup(prev *QuicksightGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeQuicksightGroup_AwsAccountId(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightGroup_Description(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightGroup_GroupName(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightGroup_Namespace(&new.Spec.ForProvider, valMap)
-	DecodeQuicksightGroup_AwsAccountId(&new.Spec.ForProvider, valMap)
 	DecodeQuicksightGroup_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeQuicksightGroup_Description(p *QuicksightGroupParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-func DecodeQuicksightGroup_GroupName(p *QuicksightGroupParameters, vals map[string]cty.Value) {
-	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
-}
-
-func DecodeQuicksightGroup_Id(p *QuicksightGroupParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeQuicksightGroup_Namespace(p *QuicksightGroupParameters, vals map[string]cty.Value) {
-	p.Namespace = ctwhy.ValueAsString(vals["namespace"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeQuicksightGroup_AwsAccountId(p *QuicksightGroupParameters, vals map[string]cty.Value) {
 	p.AwsAccountId = ctwhy.ValueAsString(vals["aws_account_id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeQuicksightGroup_Description(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeQuicksightGroup_GroupName(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+	p.GroupName = ctwhy.ValueAsString(vals["group_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeQuicksightGroup_Id(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeQuicksightGroup_Namespace(p *QuicksightGroupParameters, vals map[string]cty.Value) {
+	p.Namespace = ctwhy.ValueAsString(vals["namespace"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeQuicksightGroup_Arn(p *QuicksightGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

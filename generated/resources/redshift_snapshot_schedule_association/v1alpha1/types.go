@@ -52,9 +52,9 @@ type RedshiftSnapshotScheduleAssociationSpec struct {
 
 // A RedshiftSnapshotScheduleAssociationParameters defines the desired state of a RedshiftSnapshotScheduleAssociation
 type RedshiftSnapshotScheduleAssociationParameters struct {
-	ClusterIdentifier  string `json:"cluster_identifier"`
 	Id                 string `json:"id"`
 	ScheduleIdentifier string `json:"schedule_identifier"`
+	ClusterIdentifier  string `json:"cluster_identifier"`
 }
 
 // A RedshiftSnapshotScheduleAssociationStatus defines the observed state of a RedshiftSnapshotScheduleAssociation

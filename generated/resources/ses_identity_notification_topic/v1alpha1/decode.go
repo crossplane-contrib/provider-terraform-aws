@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesIdentityNotificationTopic(prev *SesIdentityNotificationTopic, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeSesIdentityNotificationTopic_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityNotificationTopic_Identity(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityNotificationTopic_IncludeOriginalHeaders(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityNotificationTopic_NotificationType(&new.Spec.ForProvider, valMap)
 	DecodeSesIdentityNotificationTopic_TopicArn(&new.Spec.ForProvider, valMap)
-	DecodeSesIdentityNotificationTopic_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSesIdentityNotificationTopic_Id(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSesIdentityNotificationTopic_Identity(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
 	p.Identity = ctwhy.ValueAsString(vals["identity"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesIdentityNotificationTopic_IncludeOriginalHeaders(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
 	p.IncludeOriginalHeaders = ctwhy.ValueAsBool(vals["include_original_headers"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesIdentityNotificationTopic_NotificationType(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
 	p.NotificationType = ctwhy.ValueAsString(vals["notification_type"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesIdentityNotificationTopic_TopicArn(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
 	p.TopicArn = ctwhy.ValueAsString(vals["topic_arn"])
-}
-
-func DecodeSesIdentityNotificationTopic_Id(p *SesIdentityNotificationTopicParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
 }

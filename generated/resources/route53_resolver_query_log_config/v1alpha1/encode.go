@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRoute53ResolverQueryLogConfig(r Route53ResolverQueryLogConfig) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRoute53ResolverQueryLogConfig_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_DestinationArn(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_Name(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverQueryLogConfig_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRoute53ResolverQueryLogConfig_Arn(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_OwnerId(r.Status.AtProvider, ctyVal)
 	EncodeRoute53ResolverQueryLogConfig_ShareStatus(r.Status.AtProvider, ctyVal)
-	EncodeRoute53ResolverQueryLogConfig_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -52,18 +52,6 @@ func EncodeRoute53ResolverQueryLogConfig(r Route53ResolverQueryLogConfig) cty.Va
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRoute53ResolverQueryLogConfig_Tags(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
 }
 
 func EncodeRoute53ResolverQueryLogConfig_DestinationArn(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
@@ -78,14 +66,26 @@ func EncodeRoute53ResolverQueryLogConfig_Name(p Route53ResolverQueryLogConfigPar
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeRoute53ResolverQueryLogConfig_Tags(p Route53ResolverQueryLogConfigParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeRoute53ResolverQueryLogConfig_Arn(p Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
+}
+
 func EncodeRoute53ResolverQueryLogConfig_OwnerId(p Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
 	vals["owner_id"] = cty.StringVal(p.OwnerId)
 }
 
 func EncodeRoute53ResolverQueryLogConfig_ShareStatus(p Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
 	vals["share_status"] = cty.StringVal(p.ShareStatus)
-}
-
-func EncodeRoute53ResolverQueryLogConfig_Arn(p Route53ResolverQueryLogConfigObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
 }

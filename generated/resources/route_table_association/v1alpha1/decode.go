@@ -44,22 +44,29 @@ func DecodeRouteTableAssociation(prev *RouteTableAssociation, ctyValue cty.Value
 	DecodeRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeRouteTableAssociation_SubnetId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRouteTableAssociation_GatewayId(p *RouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.GatewayId = ctwhy.ValueAsString(vals["gateway_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRouteTableAssociation_Id(p *RouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRouteTableAssociation_RouteTableId(p *RouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRouteTableAssociation_SubnetId(p *RouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }

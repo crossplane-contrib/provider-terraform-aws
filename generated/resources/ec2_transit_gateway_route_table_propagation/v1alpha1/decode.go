@@ -39,31 +39,39 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2TransitGatewayRouteTablePropagation(prev *Ec2TransitGatewayRouteTablePropagation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEc2TransitGatewayRouteTablePropagation_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTablePropagation_TransitGatewayRouteTableId(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGatewayRouteTablePropagation_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayRouteTablePropagation_ResourceId(&new.Status.AtProvider, valMap)
 	DecodeEc2TransitGatewayRouteTablePropagation_ResourceType(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
-	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
-}
-
-func DecodeEc2TransitGatewayRouteTablePropagation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
-	p.TransitGatewayRouteTableId = ctwhy.ValueAsString(vals["transit_gateway_route_table_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTablePropagation_Id(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayRouteTablePropagation_TransitGatewayAttachmentId(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
+	p.TransitGatewayAttachmentId = ctwhy.ValueAsString(vals["transit_gateway_attachment_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayRouteTablePropagation_TransitGatewayRouteTableId(p *Ec2TransitGatewayRouteTablePropagationParameters, vals map[string]cty.Value) {
+	p.TransitGatewayRouteTableId = ctwhy.ValueAsString(vals["transit_gateway_route_table_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTablePropagation_ResourceId(p *Ec2TransitGatewayRouteTablePropagationObservation, vals map[string]cty.Value) {
 	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayRouteTablePropagation_ResourceType(p *Ec2TransitGatewayRouteTablePropagationObservation, vals map[string]cty.Value) {
 	p.ResourceType = ctwhy.ValueAsString(vals["resource_type"])
 }

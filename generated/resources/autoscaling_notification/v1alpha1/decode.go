@@ -39,27 +39,24 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAutoscalingNotification(prev *AutoscalingNotification, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAutoscalingNotification_GroupNames(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingNotification_Id(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingNotification_Notifications(&new.Spec.ForProvider, valMap)
 	DecodeAutoscalingNotification_TopicArn(&new.Spec.ForProvider, valMap)
+	DecodeAutoscalingNotification_GroupNames(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeAutoscalingNotification_GroupNames(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["group_names"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.GroupNames = goVals
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeAutoscalingNotification_Id(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeAutoscalingNotification_Notifications(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["notifications"]) {
@@ -68,6 +65,16 @@ func DecodeAutoscalingNotification_Notifications(p *AutoscalingNotificationParam
 	p.Notifications = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAutoscalingNotification_TopicArn(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
 	p.TopicArn = ctwhy.ValueAsString(vals["topic_arn"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeAutoscalingNotification_GroupNames(p *AutoscalingNotificationParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["group_names"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.GroupNames = goVals
 }

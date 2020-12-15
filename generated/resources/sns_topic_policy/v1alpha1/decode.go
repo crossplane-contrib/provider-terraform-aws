@@ -43,18 +43,24 @@ func DecodeSnsTopicPolicy(prev *SnsTopicPolicy, ctyValue cty.Value) (resource.Ma
 	DecodeSnsTopicPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeSnsTopicPolicy_Policy(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnsTopicPolicy_Arn(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnsTopicPolicy_Id(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnsTopicPolicy_Policy(p *SnsTopicPolicyParameters, vals map[string]cty.Value) {
 	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }

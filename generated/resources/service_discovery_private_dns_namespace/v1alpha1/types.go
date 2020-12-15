@@ -52,11 +52,11 @@ type ServiceDiscoveryPrivateDnsNamespaceSpec struct {
 
 // A ServiceDiscoveryPrivateDnsNamespaceParameters defines the desired state of a ServiceDiscoveryPrivateDnsNamespace
 type ServiceDiscoveryPrivateDnsNamespaceParameters struct {
-	Vpc         string            `json:"vpc"`
 	Description string            `json:"description"`
 	Id          string            `json:"id"`
 	Name        string            `json:"name"`
 	Tags        map[string]string `json:"tags"`
+	Vpc         string            `json:"vpc"`
 }
 
 // A ServiceDiscoveryPrivateDnsNamespaceStatus defines the observed state of a ServiceDiscoveryPrivateDnsNamespace

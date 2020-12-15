@@ -39,36 +39,45 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeNetworkInterfaceAttachment(prev *NetworkInterfaceAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeNetworkInterfaceAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeNetworkInterfaceAttachment_InstanceId(&new.Spec.ForProvider, valMap)
 	DecodeNetworkInterfaceAttachment_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeNetworkInterfaceAttachment_DeviceIndex(&new.Spec.ForProvider, valMap)
+	DecodeNetworkInterfaceAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeNetworkInterfaceAttachment_Status(&new.Status.AtProvider, valMap)
 	DecodeNetworkInterfaceAttachment_AttachmentId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeNetworkInterfaceAttachment_Id(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceAttachment_InstanceId(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
 	p.InstanceId = ctwhy.ValueAsString(vals["instance_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceAttachment_NetworkInterfaceId(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
 	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceAttachment_DeviceIndex(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
 	p.DeviceIndex = ctwhy.ValueAsInt64(vals["device_index"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeNetworkInterfaceAttachment_Id(p *NetworkInterfaceAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceAttachment_Status(p *NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
 	p.Status = ctwhy.ValueAsString(vals["status"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceAttachment_AttachmentId(p *NetworkInterfaceAttachmentObservation, vals map[string]cty.Value) {
 	p.AttachmentId = ctwhy.ValueAsString(vals["attachment_id"])
 }

@@ -43,18 +43,24 @@ func DecodeIamRolePolicyAttachment(prev *IamRolePolicyAttachment, ctyValue cty.V
 	DecodeIamRolePolicyAttachment_PolicyArn(&new.Spec.ForProvider, valMap)
 	DecodeIamRolePolicyAttachment_Role(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamRolePolicyAttachment_Id(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamRolePolicyAttachment_PolicyArn(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.PolicyArn = ctwhy.ValueAsString(vals["policy_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamRolePolicyAttachment_Role(p *IamRolePolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.Role = ctwhy.ValueAsString(vals["role"])
 }

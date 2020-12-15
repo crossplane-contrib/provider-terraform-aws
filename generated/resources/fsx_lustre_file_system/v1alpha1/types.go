@@ -52,29 +52,29 @@ type FsxLustreFileSystemSpec struct {
 
 // A FsxLustreFileSystemParameters defines the desired state of a FsxLustreFileSystem
 type FsxLustreFileSystemParameters struct {
+	AutoImportPolicy              string            `json:"auto_import_policy"`
 	DeploymentType                string            `json:"deployment_type"`
+	DriveCacheType                string            `json:"drive_cache_type"`
 	KmsKeyId                      string            `json:"kms_key_id"`
 	StorageCapacity               int64             `json:"storage_capacity"`
-	Tags                          map[string]string `json:"tags"`
-	DailyAutomaticBackupStartTime string            `json:"daily_automatic_backup_start_time"`
-	DriveCacheType                string            `json:"drive_cache_type"`
-	ImportedFileChunkSize         int64             `json:"imported_file_chunk_size"`
 	StorageType                   string            `json:"storage_type"`
-	SubnetIds                     []string          `json:"subnet_ids"`
-	AutoImportPolicy              string            `json:"auto_import_policy"`
-	ExportPath                    string            `json:"export_path"`
-	Id                            string            `json:"id"`
-	SecurityGroupIds              []string          `json:"security_group_ids"`
-	ImportPath                    string            `json:"import_path"`
-	PerUnitStorageThroughput      int64             `json:"per_unit_storage_throughput"`
-	WeeklyMaintenanceStartTime    string            `json:"weekly_maintenance_start_time"`
 	AutomaticBackupRetentionDays  int64             `json:"automatic_backup_retention_days"`
+	ExportPath                    string            `json:"export_path"`
+	SecurityGroupIds              []string          `json:"security_group_ids"`
+	Tags                          map[string]string `json:"tags"`
+	WeeklyMaintenanceStartTime    string            `json:"weekly_maintenance_start_time"`
+	SubnetIds                     []string          `json:"subnet_ids"`
+	DailyAutomaticBackupStartTime string            `json:"daily_automatic_backup_start_time"`
+	ImportPath                    string            `json:"import_path"`
+	ImportedFileChunkSize         int64             `json:"imported_file_chunk_size"`
+	PerUnitStorageThroughput      int64             `json:"per_unit_storage_throughput"`
+	Id                            string            `json:"id"`
 	Timeouts                      Timeouts          `json:"timeouts"`
 }
 
 type Timeouts struct {
-	Delete string `json:"delete"`
 	Create string `json:"create"`
+	Delete string `json:"delete"`
 }
 
 // A FsxLustreFileSystemStatus defines the observed state of a FsxLustreFileSystem
@@ -85,10 +85,10 @@ type FsxLustreFileSystemStatus struct {
 
 // A FsxLustreFileSystemObservation records the observed state of a FsxLustreFileSystem
 type FsxLustreFileSystemObservation struct {
-	OwnerId             string   `json:"owner_id"`
 	VpcId               string   `json:"vpc_id"`
-	NetworkInterfaceIds []string `json:"network_interface_ids"`
-	DnsName             string   `json:"dns_name"`
 	Arn                 string   `json:"arn"`
+	DnsName             string   `json:"dns_name"`
 	MountName           string   `json:"mount_name"`
+	NetworkInterfaceIds []string `json:"network_interface_ids"`
+	OwnerId             string   `json:"owner_id"`
 }

@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEfsFileSystemPolicy(r EfsFileSystemPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEfsFileSystemPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystemPolicy_FileSystemId(r.Spec.ForProvider, ctyVal)
 	EncodeEfsFileSystemPolicy_Id(r.Spec.ForProvider, ctyVal)
-	EncodeEfsFileSystemPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +51,14 @@ func EncodeEfsFileSystemPolicy(r EfsFileSystemPolicy) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeEfsFileSystemPolicy_Policy(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
+}
+
 func EncodeEfsFileSystemPolicy_FileSystemId(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
 	vals["file_system_id"] = cty.StringVal(p.FileSystemId)
 }
 
 func EncodeEfsFileSystemPolicy_Id(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeEfsFileSystemPolicy_Policy(p EfsFileSystemPolicyParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
 }

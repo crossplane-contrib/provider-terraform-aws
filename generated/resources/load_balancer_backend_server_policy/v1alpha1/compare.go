@@ -17,13 +17,87 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*LoadBalancerBackendServerPolicy)
+	p := prov.(*LoadBalancerBackendServerPolicy)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeLoadBalancerBackendServerPolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLoadBalancerBackendServerPolicy_InstancePort(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLoadBalancerBackendServerPolicy_LoadBalancerName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLoadBalancerBackendServerPolicy_PolicyNames(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLoadBalancerBackendServerPolicy_Id(k *LoadBalancerBackendServerPolicyParameters, p *LoadBalancerBackendServerPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLoadBalancerBackendServerPolicy_InstancePort(k *LoadBalancerBackendServerPolicyParameters, p *LoadBalancerBackendServerPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.InstancePort != p.InstancePort {
+		p.InstancePort = k.InstancePort
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeLoadBalancerBackendServerPolicy_LoadBalancerName(k *LoadBalancerBackendServerPolicyParameters, p *LoadBalancerBackendServerPolicyParameters, md *plugin.MergeDescription) bool {
+	if k.LoadBalancerName != p.LoadBalancerName {
+		p.LoadBalancerName = k.LoadBalancerName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeLoadBalancerBackendServerPolicy_PolicyNames(k *LoadBalancerBackendServerPolicyParameters, p *LoadBalancerBackendServerPolicyParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(p.PolicyNames, p.PolicyNames) {
+		p.PolicyNames = k.PolicyNames
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeServiceDiscoveryHttpNamespace(r ServiceDiscoveryHttpNamespace) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeServiceDiscoveryHttpNamespace_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Name(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Description(r.Spec.ForProvider, ctyVal)
+	EncodeServiceDiscoveryHttpNamespace_Id(r.Spec.ForProvider, ctyVal)
 	EncodeServiceDiscoveryHttpNamespace_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,10 +50,6 @@ func EncodeServiceDiscoveryHttpNamespace(r ServiceDiscoveryHttpNamespace) cty.Va
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeServiceDiscoveryHttpNamespace_Id(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeServiceDiscoveryHttpNamespace_Name(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
@@ -74,6 +70,10 @@ func EncodeServiceDiscoveryHttpNamespace_Tags(p ServiceDiscoveryHttpNamespacePar
 
 func EncodeServiceDiscoveryHttpNamespace_Description(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeServiceDiscoveryHttpNamespace_Id(p ServiceDiscoveryHttpNamespaceParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeServiceDiscoveryHttpNamespace_Arn(p ServiceDiscoveryHttpNamespaceObservation, vals map[string]cty.Value) {

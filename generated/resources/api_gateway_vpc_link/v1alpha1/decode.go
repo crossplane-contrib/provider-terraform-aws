@@ -39,24 +39,35 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApiGatewayVpcLink(prev *ApiGatewayVpcLink, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeApiGatewayVpcLink_Description(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_Id(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_Name(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_Tags(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_TargetArns(&new.Spec.ForProvider, valMap)
-	DecodeApiGatewayVpcLink_Description(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayVpcLink_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeApiGatewayVpcLink_Description(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayVpcLink_Id(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayVpcLink_Name(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeApiGatewayVpcLink_Tags(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -67,6 +78,7 @@ func DecodeApiGatewayVpcLink_Tags(p *ApiGatewayVpcLinkParameters, vals map[strin
 	p.Tags = vMap
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeApiGatewayVpcLink_TargetArns(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["target_arns"]) {
@@ -75,10 +87,7 @@ func DecodeApiGatewayVpcLink_TargetArns(p *ApiGatewayVpcLinkParameters, vals map
 	p.TargetArns = goVals
 }
 
-func DecodeApiGatewayVpcLink_Description(p *ApiGatewayVpcLinkParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayVpcLink_Arn(p *ApiGatewayVpcLinkObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

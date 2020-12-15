@@ -44,22 +44,29 @@ func DecodeApigatewayv2Deployment(prev *Apigatewayv2Deployment, ctyValue cty.Val
 	DecodeApigatewayv2Deployment_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Deployment_Triggers(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2Deployment_AutoDeployed(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Deployment_ApiId(p *Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
 	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Deployment_Description(p *Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Deployment_Id(p *Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeApigatewayv2Deployment_Triggers(p *Apigatewayv2DeploymentParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -70,6 +77,7 @@ func DecodeApigatewayv2Deployment_Triggers(p *Apigatewayv2DeploymentParameters, 
 	p.Triggers = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2Deployment_AutoDeployed(p *Apigatewayv2DeploymentObservation, vals map[string]cty.Value) {
 	p.AutoDeployed = ctwhy.ValueAsBool(vals["auto_deployed"])
 }

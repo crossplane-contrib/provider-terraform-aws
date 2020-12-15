@@ -43,18 +43,24 @@ func DecodeSsmPatchGroup(prev *SsmPatchGroup, ctyValue cty.Value) (resource.Mana
 	DecodeSsmPatchGroup_PatchGroup(&new.Spec.ForProvider, valMap)
 	DecodeSsmPatchGroup_BaselineId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSsmPatchGroup_Id(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSsmPatchGroup_PatchGroup(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
 	p.PatchGroup = ctwhy.ValueAsString(vals["patch_group"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSsmPatchGroup_BaselineId(p *SsmPatchGroupParameters, vals map[string]cty.Value) {
 	p.BaselineId = ctwhy.ValueAsString(vals["baseline_id"])
 }

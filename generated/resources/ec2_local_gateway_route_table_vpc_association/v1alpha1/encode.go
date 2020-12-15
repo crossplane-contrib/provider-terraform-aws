@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeEc2LocalGatewayRouteTableVpcAssociation(r Ec2LocalGatewayRouteTableVpcAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayRouteTableId(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_VpcId(r.Spec.ForProvider, ctyVal)
-	EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,6 +50,10 @@ func EncodeEc2LocalGatewayRouteTableVpcAssociation(r Ec2LocalGatewayRouteTableVp
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayRouteTableId(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
@@ -70,10 +74,6 @@ func EncodeEc2LocalGatewayRouteTableVpcAssociation_Tags(p Ec2LocalGatewayRouteTa
 
 func EncodeEc2LocalGatewayRouteTableVpcAssociation_VpcId(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
 	vals["vpc_id"] = cty.StringVal(p.VpcId)
-}
-
-func EncodeEc2LocalGatewayRouteTableVpcAssociation_Id(p Ec2LocalGatewayRouteTableVpcAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeEc2LocalGatewayRouteTableVpcAssociation_LocalGatewayId(p Ec2LocalGatewayRouteTableVpcAssociationObservation, vals map[string]cty.Value) {

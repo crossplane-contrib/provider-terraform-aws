@@ -45,26 +45,34 @@ func DecodeGlacierVaultLock(prev *GlacierVaultLock, ctyValue cty.Value) (resourc
 	DecodeGlacierVaultLock_Policy(&new.Spec.ForProvider, valMap)
 	DecodeGlacierVaultLock_VaultName(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlacierVaultLock_CompleteLock(p *GlacierVaultLockParameters, vals map[string]cty.Value) {
 	p.CompleteLock = ctwhy.ValueAsBool(vals["complete_lock"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlacierVaultLock_Id(p *GlacierVaultLockParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlacierVaultLock_IgnoreDeletionError(p *GlacierVaultLockParameters, vals map[string]cty.Value) {
 	p.IgnoreDeletionError = ctwhy.ValueAsBool(vals["ignore_deletion_error"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlacierVaultLock_Policy(p *GlacierVaultLockParameters, vals map[string]cty.Value) {
 	p.Policy = ctwhy.ValueAsString(vals["policy"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGlacierVaultLock_VaultName(p *GlacierVaultLockParameters, vals map[string]cty.Value) {
 	p.VaultName = ctwhy.ValueAsString(vals["vault_name"])
 }

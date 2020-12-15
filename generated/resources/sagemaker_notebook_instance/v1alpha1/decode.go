@@ -40,25 +40,35 @@ func DecodeSagemakerNotebookInstance(prev *SagemakerNotebookInstance, ctyValue c
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodeSagemakerNotebookInstance_Name(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstance_RootAccess(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_SecurityGroups(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_SubnetId(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_Id(&new.Spec.ForProvider, valMap)
+	DecodeSagemakerNotebookInstance_LifecycleConfigName(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_InstanceType(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_KmsKeyId(&new.Spec.ForProvider, valMap)
-	DecodeSagemakerNotebookInstance_LifecycleConfigName(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_RoleArn(&new.Spec.ForProvider, valMap)
-	DecodeSagemakerNotebookInstance_RootAccess(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_Tags(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_DirectInternetAccess(&new.Spec.ForProvider, valMap)
 	DecodeSagemakerNotebookInstance_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_Name(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerNotebookInstance_RootAccess(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	p.RootAccess = ctwhy.ValueAsString(vals["root_access"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_SecurityGroups(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["security_groups"]) {
@@ -67,34 +77,37 @@ func DecodeSagemakerNotebookInstance_SecurityGroups(p *SagemakerNotebookInstance
 	p.SecurityGroups = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_SubnetId(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	p.SubnetId = ctwhy.ValueAsString(vals["subnet_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_Id(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
-func DecodeSagemakerNotebookInstance_InstanceType(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	p.InstanceType = ctwhy.ValueAsString(vals["instance_type"])
-}
-
-func DecodeSagemakerNotebookInstance_KmsKeyId(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_LifecycleConfigName(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	p.LifecycleConfigName = ctwhy.ValueAsString(vals["lifecycle_config_name"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerNotebookInstance_InstanceType(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	p.InstanceType = ctwhy.ValueAsString(vals["instance_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSagemakerNotebookInstance_KmsKeyId(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
+	p.KmsKeyId = ctwhy.ValueAsString(vals["kms_key_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_RoleArn(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }
 
-func DecodeSagemakerNotebookInstance_RootAccess(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
-	p.RootAccess = ctwhy.ValueAsString(vals["root_access"])
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_Tags(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -105,10 +118,12 @@ func DecodeSagemakerNotebookInstance_Tags(p *SagemakerNotebookInstanceParameters
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_DirectInternetAccess(p *SagemakerNotebookInstanceParameters, vals map[string]cty.Value) {
 	p.DirectInternetAccess = ctwhy.ValueAsString(vals["direct_internet_access"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSagemakerNotebookInstance_Arn(p *SagemakerNotebookInstanceObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

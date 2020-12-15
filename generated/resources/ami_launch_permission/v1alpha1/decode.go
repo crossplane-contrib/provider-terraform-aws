@@ -43,18 +43,24 @@ func DecodeAmiLaunchPermission(prev *AmiLaunchPermission, ctyValue cty.Value) (r
 	DecodeAmiLaunchPermission_Id(&new.Spec.ForProvider, valMap)
 	DecodeAmiLaunchPermission_ImageId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAmiLaunchPermission_AccountId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
 	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAmiLaunchPermission_Id(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAmiLaunchPermission_ImageId(p *AmiLaunchPermissionParameters, vals map[string]cty.Value) {
 	p.ImageId = ctwhy.ValueAsString(vals["image_id"])
 }

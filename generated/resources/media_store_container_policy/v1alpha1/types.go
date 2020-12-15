@@ -52,9 +52,9 @@ type MediaStoreContainerPolicySpec struct {
 
 // A MediaStoreContainerPolicyParameters defines the desired state of a MediaStoreContainerPolicy
 type MediaStoreContainerPolicyParameters struct {
-	Policy        string `json:"policy"`
 	ContainerName string `json:"container_name"`
 	Id            string `json:"id"`
+	Policy        string `json:"policy"`
 }
 
 // A MediaStoreContainerPolicyStatus defines the observed state of a MediaStoreContainerPolicy

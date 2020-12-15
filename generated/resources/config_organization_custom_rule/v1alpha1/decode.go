@@ -39,60 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeConfigOrganizationCustomRule(prev *ConfigOrganizationCustomRule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeConfigOrganizationCustomRule_ResourceTypesScope(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationCustomRule_TagKeyScope(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationCustomRule_TagValueScope(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationCustomRule_Id(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationCustomRule_LambdaFunctionArn(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationCustomRule_Name(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationCustomRule_ResourceIdScope(&new.Spec.ForProvider, valMap)
-	DecodeConfigOrganizationCustomRule_Description(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationCustomRule_ExcludedAccounts(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_LambdaFunctionArn(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_ResourceIdScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_TagValueScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_Description(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_Id(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationCustomRule_InputParameters(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationCustomRule_MaximumExecutionFrequency(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_Name(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_ResourceTypesScope(&new.Spec.ForProvider, valMap)
+	DecodeConfigOrganizationCustomRule_TagKeyScope(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationCustomRule_TriggerTypes(&new.Spec.ForProvider, valMap)
 	DecodeConfigOrganizationCustomRule_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeConfigOrganizationCustomRule_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeConfigOrganizationCustomRule_ResourceTypesScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["resource_types_scope"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.ResourceTypesScope = goVals
-}
-
-func DecodeConfigOrganizationCustomRule_TagKeyScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	p.TagKeyScope = ctwhy.ValueAsString(vals["tag_key_scope"])
-}
-
-func DecodeConfigOrganizationCustomRule_TagValueScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	p.TagValueScope = ctwhy.ValueAsString(vals["tag_value_scope"])
-}
-
-func DecodeConfigOrganizationCustomRule_Id(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeConfigOrganizationCustomRule_LambdaFunctionArn(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	p.LambdaFunctionArn = ctwhy.ValueAsString(vals["lambda_function_arn"])
-}
-
-func DecodeConfigOrganizationCustomRule_Name(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-func DecodeConfigOrganizationCustomRule_ResourceIdScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	p.ResourceIdScope = ctwhy.ValueAsString(vals["resource_id_scope"])
-}
-
-func DecodeConfigOrganizationCustomRule_Description(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
+//primitiveCollectionTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_ExcludedAccounts(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["excluded_accounts"]) {
@@ -101,14 +69,61 @@ func DecodeConfigOrganizationCustomRule_ExcludedAccounts(p *ConfigOrganizationCu
 	p.ExcludedAccounts = goVals
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_LambdaFunctionArn(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	p.LambdaFunctionArn = ctwhy.ValueAsString(vals["lambda_function_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_ResourceIdScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	p.ResourceIdScope = ctwhy.ValueAsString(vals["resource_id_scope"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_TagValueScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	p.TagValueScope = ctwhy.ValueAsString(vals["tag_value_scope"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_Description(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_Id(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_InputParameters(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
 	p.InputParameters = ctwhy.ValueAsString(vals["input_parameters"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_MaximumExecutionFrequency(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
 	p.MaximumExecutionFrequency = ctwhy.ValueAsString(vals["maximum_execution_frequency"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_Name(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_ResourceTypesScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["resource_types_scope"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ResourceTypesScope = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeConfigOrganizationCustomRule_TagKeyScope(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
+	p.TagKeyScope = ctwhy.ValueAsString(vals["tag_key_scope"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_TriggerTypes(p *ConfigOrganizationCustomRuleParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["trigger_types"]) {
@@ -117,6 +132,7 @@ func DecodeConfigOrganizationCustomRule_TriggerTypes(p *ConfigOrganizationCustom
 	p.TriggerTypes = goVals
 }
 
+//containerTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeConfigOrganizationCustomRule_Timeouts_Create(p, valMap)
@@ -124,18 +140,22 @@ func DecodeConfigOrganizationCustomRule_Timeouts(p *Timeouts, vals map[string]ct
 	DecodeConfigOrganizationCustomRule_Timeouts_Update(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
 	p.Update = ctwhy.ValueAsString(vals["update"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeConfigOrganizationCustomRule_Arn(p *ConfigOrganizationCustomRuleObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -39,46 +39,37 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRedshiftSnapshotSchedule(prev *RedshiftSnapshotSchedule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeRedshiftSnapshotSchedule_Definitions(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftSnapshotSchedule_Description(&new.Spec.ForProvider, valMap)
-	DecodeRedshiftSnapshotSchedule_ForceDestroy(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Id(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Identifier(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_IdentifierPrefix(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Tags(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_Definitions(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_Description(&new.Spec.ForProvider, valMap)
+	DecodeRedshiftSnapshotSchedule_ForceDestroy(&new.Spec.ForProvider, valMap)
 	DecodeRedshiftSnapshotSchedule_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeRedshiftSnapshotSchedule_Definitions(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["definitions"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Definitions = goVals
-}
-
-func DecodeRedshiftSnapshotSchedule_Description(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	p.Description = ctwhy.ValueAsString(vals["description"])
-}
-
-func DecodeRedshiftSnapshotSchedule_ForceDestroy(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
-	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeRedshiftSnapshotSchedule_Id(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRedshiftSnapshotSchedule_Identifier(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	p.Identifier = ctwhy.ValueAsString(vals["identifier"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRedshiftSnapshotSchedule_IdentifierPrefix(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	p.IdentifierPrefix = ctwhy.ValueAsString(vals["identifier_prefix"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeRedshiftSnapshotSchedule_Tags(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -89,6 +80,26 @@ func DecodeRedshiftSnapshotSchedule_Tags(p *RedshiftSnapshotScheduleParameters, 
 	p.Tags = vMap
 }
 
+//primitiveCollectionTypeDecodeTemplate
+func DecodeRedshiftSnapshotSchedule_Definitions(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["definitions"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Definitions = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftSnapshotSchedule_Description(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.Description = ctwhy.ValueAsString(vals["description"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeRedshiftSnapshotSchedule_ForceDestroy(p *RedshiftSnapshotScheduleParameters, vals map[string]cty.Value) {
+	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeRedshiftSnapshotSchedule_Arn(p *RedshiftSnapshotScheduleObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

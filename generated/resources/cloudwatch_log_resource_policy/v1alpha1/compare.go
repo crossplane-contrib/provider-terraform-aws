@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*CloudwatchLogResourcePolicy)
+	p := prov.(*CloudwatchLogResourcePolicy)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeCloudwatchLogResourcePolicy_PolicyName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchLogResourcePolicy_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeCloudwatchLogResourcePolicy_PolicyDocument(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchLogResourcePolicy_PolicyName(k *CloudwatchLogResourcePolicyParameters, p *CloudwatchLogResourcePolicyParameters, md *plugin.MergeDescription) bool {
+	if k.PolicyName != p.PolicyName {
+		p.PolicyName = k.PolicyName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchLogResourcePolicy_Id(k *CloudwatchLogResourcePolicyParameters, p *CloudwatchLogResourcePolicyParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeCloudwatchLogResourcePolicy_PolicyDocument(k *CloudwatchLogResourcePolicyParameters, p *CloudwatchLogResourcePolicyParameters, md *plugin.MergeDescription) bool {
+	if k.PolicyDocument != p.PolicyDocument {
+		p.PolicyDocument = k.PolicyDocument
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

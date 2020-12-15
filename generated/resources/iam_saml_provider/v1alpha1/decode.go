@@ -44,26 +44,34 @@ func DecodeIamSamlProvider(prev *IamSamlProvider, ctyValue cty.Value) (resource.
 	DecodeIamSamlProvider_SamlMetadataDocument(&new.Spec.ForProvider, valMap)
 	DecodeIamSamlProvider_Arn(&new.Status.AtProvider, valMap)
 	DecodeIamSamlProvider_ValidUntil(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamSamlProvider_Id(p *IamSamlProviderParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamSamlProvider_Name(p *IamSamlProviderParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamSamlProvider_SamlMetadataDocument(p *IamSamlProviderParameters, vals map[string]cty.Value) {
 	p.SamlMetadataDocument = ctwhy.ValueAsString(vals["saml_metadata_document"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamSamlProvider_Arn(p *IamSamlProviderObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamSamlProvider_ValidUntil(p *IamSamlProviderObservation, vals map[string]cty.Value) {
 	p.ValidUntil = ctwhy.ValueAsString(vals["valid_until"])
 }

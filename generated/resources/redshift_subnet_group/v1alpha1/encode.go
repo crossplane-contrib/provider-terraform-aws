@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRedshiftSubnetGroup(r RedshiftSubnetGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeRedshiftSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeRedshiftSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_SubnetIds(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSubnetGroup_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRedshiftSubnetGroup_Description(r.Spec.ForProvider, ctyVal)
 	EncodeRedshiftSubnetGroup_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,22 +51,6 @@ func EncodeRedshiftSubnetGroup(r RedshiftSubnetGroup) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeRedshiftSubnetGroup_Id(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRedshiftSubnetGroup_Name(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeRedshiftSubnetGroup_SubnetIds(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.SubnetIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeRedshiftSubnetGroup_Tags(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
@@ -83,6 +67,22 @@ func EncodeRedshiftSubnetGroup_Tags(p RedshiftSubnetGroupParameters, vals map[st
 
 func EncodeRedshiftSubnetGroup_Description(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
 	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeRedshiftSubnetGroup_Id(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeRedshiftSubnetGroup_Name(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeRedshiftSubnetGroup_SubnetIds(p RedshiftSubnetGroupParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.SubnetIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["subnet_ids"] = cty.SetVal(colVals)
 }
 
 func EncodeRedshiftSubnetGroup_Arn(p RedshiftSubnetGroupObservation, vals map[string]cty.Value) {

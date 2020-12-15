@@ -43,18 +43,24 @@ func DecodeVpnGatewayAttachment(prev *VpnGatewayAttachment, ctyValue cty.Value) 
 	DecodeVpnGatewayAttachment_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeVpnGatewayAttachment_VpnGatewayId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpnGatewayAttachment_Id(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpnGatewayAttachment_VpcId(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeVpnGatewayAttachment_VpnGatewayId(p *VpnGatewayAttachmentParameters, vals map[string]cty.Value) {
 	p.VpnGatewayId = ctwhy.ValueAsString(vals["vpn_gateway_id"])
 }

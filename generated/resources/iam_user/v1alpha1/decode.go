@@ -39,18 +39,27 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamUser(prev *IamUser, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIamUser_PermissionsBoundary(&new.Spec.ForProvider, valMap)
 	DecodeIamUser_Tags(&new.Spec.ForProvider, valMap)
 	DecodeIamUser_ForceDestroy(&new.Spec.ForProvider, valMap)
 	DecodeIamUser_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamUser_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamUser_Path(&new.Spec.ForProvider, valMap)
-	DecodeIamUser_PermissionsBoundary(&new.Spec.ForProvider, valMap)
 	DecodeIamUser_UniqueId(&new.Status.AtProvider, valMap)
 	DecodeIamUser_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeIamUser_PermissionsBoundary(p *IamUserParameters, vals map[string]cty.Value) {
+	p.PermissionsBoundary = ctwhy.ValueAsString(vals["permissions_boundary"])
+}
+
+//primitiveMapTypeDecodeTemplate
 func DecodeIamUser_Tags(p *IamUserParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -61,30 +70,32 @@ func DecodeIamUser_Tags(p *IamUserParameters, vals map[string]cty.Value) {
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUser_ForceDestroy(p *IamUserParameters, vals map[string]cty.Value) {
 	p.ForceDestroy = ctwhy.ValueAsBool(vals["force_destroy"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUser_Id(p *IamUserParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUser_Name(p *IamUserParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUser_Path(p *IamUserParameters, vals map[string]cty.Value) {
 	p.Path = ctwhy.ValueAsString(vals["path"])
 }
 
-func DecodeIamUser_PermissionsBoundary(p *IamUserParameters, vals map[string]cty.Value) {
-	p.PermissionsBoundary = ctwhy.ValueAsString(vals["permissions_boundary"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamUser_UniqueId(p *IamUserObservation, vals map[string]cty.Value) {
 	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamUser_Arn(p *IamUserObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

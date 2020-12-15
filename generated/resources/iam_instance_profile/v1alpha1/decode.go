@@ -39,46 +39,57 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamInstanceProfile(prev *IamInstanceProfile, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeIamInstanceProfile_Path(&new.Spec.ForProvider, valMap)
+	DecodeIamInstanceProfile_Role(&new.Spec.ForProvider, valMap)
 	DecodeIamInstanceProfile_Id(&new.Spec.ForProvider, valMap)
 	DecodeIamInstanceProfile_Name(&new.Spec.ForProvider, valMap)
 	DecodeIamInstanceProfile_NamePrefix(&new.Spec.ForProvider, valMap)
-	DecodeIamInstanceProfile_Path(&new.Spec.ForProvider, valMap)
-	DecodeIamInstanceProfile_Role(&new.Spec.ForProvider, valMap)
-	DecodeIamInstanceProfile_CreateDate(&new.Status.AtProvider, valMap)
 	DecodeIamInstanceProfile_UniqueId(&new.Status.AtProvider, valMap)
 	DecodeIamInstanceProfile_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeIamInstanceProfile_CreateDate(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeIamInstanceProfile_Id(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeIamInstanceProfile_Name(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-func DecodeIamInstanceProfile_NamePrefix(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
-	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamInstanceProfile_Path(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
 	p.Path = ctwhy.ValueAsString(vals["path"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamInstanceProfile_Role(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
 	p.Role = ctwhy.ValueAsString(vals["role"])
 }
 
-func DecodeIamInstanceProfile_CreateDate(p *IamInstanceProfileObservation, vals map[string]cty.Value) {
-	p.CreateDate = ctwhy.ValueAsString(vals["create_date"])
+//primitiveTypeDecodeTemplate
+func DecodeIamInstanceProfile_Id(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeIamInstanceProfile_Name(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamInstanceProfile_NamePrefix(p *IamInstanceProfileParameters, vals map[string]cty.Value) {
+	p.NamePrefix = ctwhy.ValueAsString(vals["name_prefix"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeIamInstanceProfile_UniqueId(p *IamInstanceProfileObservation, vals map[string]cty.Value) {
 	p.UniqueId = ctwhy.ValueAsString(vals["unique_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamInstanceProfile_Arn(p *IamInstanceProfileObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamInstanceProfile_CreateDate(p *IamInstanceProfileObservation, vals map[string]cty.Value) {
+	p.CreateDate = ctwhy.ValueAsString(vals["create_date"])
 }

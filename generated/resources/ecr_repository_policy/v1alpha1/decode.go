@@ -39,26 +39,33 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEcrRepositoryPolicy(prev *EcrRepositoryPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEcrRepositoryPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeEcrRepositoryPolicy_Policy(&new.Spec.ForProvider, valMap)
 	DecodeEcrRepositoryPolicy_Repository(&new.Spec.ForProvider, valMap)
-	DecodeEcrRepositoryPolicy_Id(&new.Spec.ForProvider, valMap)
 	DecodeEcrRepositoryPolicy_RegistryId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeEcrRepositoryPolicy_Policy(p *EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
-	p.Policy = ctwhy.ValueAsString(vals["policy"])
-}
-
-func DecodeEcrRepositoryPolicy_Repository(p *EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
-	p.Repository = ctwhy.ValueAsString(vals["repository"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEcrRepositoryPolicy_Id(p *EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEcrRepositoryPolicy_Policy(p *EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
+	p.Policy = ctwhy.ValueAsString(vals["policy"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEcrRepositoryPolicy_Repository(p *EcrRepositoryPolicyParameters, vals map[string]cty.Value) {
+	p.Repository = ctwhy.ValueAsString(vals["repository"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEcrRepositoryPolicy_RegistryId(p *EcrRepositoryPolicyObservation, vals map[string]cty.Value) {
 	p.RegistryId = ctwhy.ValueAsString(vals["registry_id"])
 }

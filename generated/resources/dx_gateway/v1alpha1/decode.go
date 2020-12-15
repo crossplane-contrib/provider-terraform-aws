@@ -44,36 +44,46 @@ func DecodeDxGateway(prev *DxGateway, ctyValue cty.Value) (resource.Managed, err
 	DecodeDxGateway_Name(&new.Spec.ForProvider, valMap)
 	DecodeDxGateway_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDxGateway_OwnerAccountId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGateway_AmazonSideAsn(p *DxGatewayParameters, vals map[string]cty.Value) {
 	p.AmazonSideAsn = ctwhy.ValueAsString(vals["amazon_side_asn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGateway_Id(p *DxGatewayParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGateway_Name(p *DxGatewayParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//containerTypeDecodeTemplate
 func DecodeDxGateway_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeDxGateway_Timeouts_Create(p, valMap)
 	DecodeDxGateway_Timeouts_Delete(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGateway_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGateway_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxGateway_OwnerAccountId(p *DxGatewayObservation, vals map[string]cty.Value) {
 	p.OwnerAccountId = ctwhy.ValueAsString(vals["owner_account_id"])
 }

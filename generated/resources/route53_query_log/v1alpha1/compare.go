@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*Route53QueryLog)
+	p := prov.(*Route53QueryLog)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeRoute53QueryLog_CloudwatchLogGroupArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53QueryLog_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeRoute53QueryLog_ZoneId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53QueryLog_CloudwatchLogGroupArn(k *Route53QueryLogParameters, p *Route53QueryLogParameters, md *plugin.MergeDescription) bool {
+	if k.CloudwatchLogGroupArn != p.CloudwatchLogGroupArn {
+		p.CloudwatchLogGroupArn = k.CloudwatchLogGroupArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53QueryLog_Id(k *Route53QueryLogParameters, p *Route53QueryLogParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeRoute53QueryLog_ZoneId(k *Route53QueryLogParameters, p *Route53QueryLogParameters, md *plugin.MergeDescription) bool {
+	if k.ZoneId != p.ZoneId {
+		p.ZoneId = k.ZoneId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

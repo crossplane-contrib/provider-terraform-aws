@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCustomerGateway(r CustomerGateway) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeCustomerGateway_Type(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_BgpAsn(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Id(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_IpAddress(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeCustomerGateway_Type(r.Spec.ForProvider, ctyVal)
 	EncodeCustomerGateway_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeCustomerGateway(r CustomerGateway) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeCustomerGateway_Type(p CustomerGatewayParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeCustomerGateway_BgpAsn(p CustomerGatewayParameters, vals map[string]cty.Value) {
@@ -79,6 +75,10 @@ func EncodeCustomerGateway_Tags(p CustomerGatewayParameters, vals map[string]cty
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeCustomerGateway_Type(p CustomerGatewayParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeCustomerGateway_Arn(p CustomerGatewayObservation, vals map[string]cty.Value) {

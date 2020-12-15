@@ -39,19 +39,19 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeAcmCertificateValidation(prev *AcmCertificateValidation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeAcmCertificateValidation_Id(&new.Spec.ForProvider, valMap)
 	DecodeAcmCertificateValidation_ValidationRecordFqdns(&new.Spec.ForProvider, valMap)
 	DecodeAcmCertificateValidation_CertificateArn(&new.Spec.ForProvider, valMap)
+	DecodeAcmCertificateValidation_Id(&new.Spec.ForProvider, valMap)
 	DecodeAcmCertificateValidation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeAcmCertificateValidation_Id(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveCollectionTypeDecodeTemplate
 func DecodeAcmCertificateValidation_ValidationRecordFqdns(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["validation_record_fqdns"]) {
@@ -60,15 +60,23 @@ func DecodeAcmCertificateValidation_ValidationRecordFqdns(p *AcmCertificateValid
 	p.ValidationRecordFqdns = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAcmCertificateValidation_CertificateArn(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
 	p.CertificateArn = ctwhy.ValueAsString(vals["certificate_arn"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeAcmCertificateValidation_Id(p *AcmCertificateValidationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//containerTypeDecodeTemplate
 func DecodeAcmCertificateValidation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeAcmCertificateValidation_Timeouts_Create(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeAcmCertificateValidation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }

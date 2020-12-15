@@ -37,14 +37,14 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLicensemanagerLicenseConfiguration(r LicensemanagerLicenseConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeLicensemanagerLicenseConfiguration_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerLicenseConfiguration_Description(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseCount(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseCountHardLimit(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseCountingType(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_LicenseRules(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerLicenseConfiguration_Name(r.Spec.ForProvider, ctyVal)
-	EncodeLicensemanagerLicenseConfiguration_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeLicensemanagerLicenseConfiguration_Description(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -54,6 +54,22 @@ func EncodeLicensemanagerLicenseConfiguration(r LicensemanagerLicenseConfigurati
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_Tags(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	if len(p.Tags) == 0 {
+		vals["tags"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.Tags {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["tags"] = cty.MapVal(mVals)
+}
+
+func EncodeLicensemanagerLicenseConfiguration_Description(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
 }
 
 func EncodeLicensemanagerLicenseConfiguration_Id(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
@@ -82,20 +98,4 @@ func EncodeLicensemanagerLicenseConfiguration_LicenseRules(p LicensemanagerLicen
 
 func EncodeLicensemanagerLicenseConfiguration_Name(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_Tags(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	if len(p.Tags) == 0 {
-		vals["tags"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.Tags {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["tags"] = cty.MapVal(mVals)
-}
-
-func EncodeLicensemanagerLicenseConfiguration_Description(p LicensemanagerLicenseConfigurationParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
 }

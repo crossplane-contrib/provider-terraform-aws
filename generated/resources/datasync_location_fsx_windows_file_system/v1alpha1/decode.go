@@ -41,35 +41,43 @@ func DecodeDatasyncLocationFsxWindowsFileSystem(prev *DatasyncLocationFsxWindows
 	new := prev.DeepCopy()
 	DecodeDatasyncLocationFsxWindowsFileSystem_User(&new.Spec.ForProvider, valMap)
 	DecodeDatasyncLocationFsxWindowsFileSystem_Domain(&new.Spec.ForProvider, valMap)
-	DecodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(&new.Spec.ForProvider, valMap)
 	DecodeDatasyncLocationFsxWindowsFileSystem_Id(&new.Spec.ForProvider, valMap)
-	DecodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(&new.Spec.ForProvider, valMap)
-	DecodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(&new.Spec.ForProvider, valMap)
 	DecodeDatasyncLocationFsxWindowsFileSystem_Password(&new.Spec.ForProvider, valMap)
+	DecodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(&new.Spec.ForProvider, valMap)
 	DecodeDatasyncLocationFsxWindowsFileSystem_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(&new.Spec.ForProvider, valMap)
+	DecodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(&new.Spec.ForProvider, valMap)
+	DecodeDatasyncLocationFsxWindowsFileSystem_Uri(&new.Status.AtProvider, valMap)
 	DecodeDatasyncLocationFsxWindowsFileSystem_Arn(&new.Status.AtProvider, valMap)
 	DecodeDatasyncLocationFsxWindowsFileSystem_CreationTime(&new.Status.AtProvider, valMap)
-	DecodeDatasyncLocationFsxWindowsFileSystem_Uri(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDatasyncLocationFsxWindowsFileSystem_User(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
 	p.User = ctwhy.ValueAsString(vals["user"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDatasyncLocationFsxWindowsFileSystem_Domain(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
-func DecodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	p.FsxFilesystemArn = ctwhy.ValueAsString(vals["fsx_filesystem_arn"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDatasyncLocationFsxWindowsFileSystem_Id(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDatasyncLocationFsxWindowsFileSystem_Password(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	p.Password = ctwhy.ValueAsString(vals["password"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
 func DecodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["security_group_arns"]) {
@@ -78,14 +86,7 @@ func DecodeDatasyncLocationFsxWindowsFileSystem_SecurityGroupArns(p *DatasyncLoc
 	p.SecurityGroupArns = goVals
 }
 
-func DecodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	p.Subdirectory = ctwhy.ValueAsString(vals["subdirectory"])
-}
-
-func DecodeDatasyncLocationFsxWindowsFileSystem_Password(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
-	p.Password = ctwhy.ValueAsString(vals["password"])
-}
-
+//primitiveMapTypeDecodeTemplate
 func DecodeDatasyncLocationFsxWindowsFileSystem_Tags(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -96,14 +97,27 @@ func DecodeDatasyncLocationFsxWindowsFileSystem_Tags(p *DatasyncLocationFsxWindo
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDatasyncLocationFsxWindowsFileSystem_FsxFilesystemArn(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	p.FsxFilesystemArn = ctwhy.ValueAsString(vals["fsx_filesystem_arn"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDatasyncLocationFsxWindowsFileSystem_Subdirectory(p *DatasyncLocationFsxWindowsFileSystemParameters, vals map[string]cty.Value) {
+	p.Subdirectory = ctwhy.ValueAsString(vals["subdirectory"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDatasyncLocationFsxWindowsFileSystem_Uri(p *DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
+	p.Uri = ctwhy.ValueAsString(vals["uri"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeDatasyncLocationFsxWindowsFileSystem_Arn(p *DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDatasyncLocationFsxWindowsFileSystem_CreationTime(p *DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
 	p.CreationTime = ctwhy.ValueAsString(vals["creation_time"])
-}
-
-func DecodeDatasyncLocationFsxWindowsFileSystem_Uri(p *DatasyncLocationFsxWindowsFileSystemObservation, vals map[string]cty.Value) {
-	p.Uri = ctwhy.ValueAsString(vals["uri"])
 }

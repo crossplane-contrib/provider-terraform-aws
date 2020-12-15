@@ -66,15 +66,15 @@ func EncodeVpcIpv4CidrBlockAssociation_VpcId(p VpcIpv4CidrBlockAssociationParame
 
 func EncodeVpcIpv4CidrBlockAssociation_Timeouts(p Timeouts, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p, ctyVal)
 	EncodeVpcIpv4CidrBlockAssociation_Timeouts_Delete(p, ctyVal)
+	EncodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p, ctyVal)
 	vals["timeouts"] = cty.ObjectVal(ctyVal)
-}
-
-func EncodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
-	vals["create"] = cty.StringVal(p.Create)
 }
 
 func EncodeVpcIpv4CidrBlockAssociation_Timeouts_Delete(p Timeouts, vals map[string]cty.Value) {
 	vals["delete"] = cty.StringVal(p.Delete)
+}
+
+func EncodeVpcIpv4CidrBlockAssociation_Timeouts_Create(p Timeouts, vals map[string]cty.Value) {
+	vals["create"] = cty.StringVal(p.Create)
 }

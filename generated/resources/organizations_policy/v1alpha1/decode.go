@@ -46,26 +46,34 @@ func DecodeOrganizationsPolicy(prev *OrganizationsPolicy, ctyValue cty.Value) (r
 	DecodeOrganizationsPolicy_Tags(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicy_Type(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicy_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Content(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	p.Content = ctwhy.ValueAsString(vals["content"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Description(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Id(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Name(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Tags(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -76,10 +84,12 @@ func DecodeOrganizationsPolicy_Tags(p *OrganizationsPolicyParameters, vals map[s
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Type(p *OrganizationsPolicyParameters, vals map[string]cty.Value) {
 	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicy_Arn(p *OrganizationsPolicyObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

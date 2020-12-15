@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLicensemanagerAssociation(r LicensemanagerAssociation) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLicensemanagerAssociation_Id(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerAssociation_LicenseConfigurationArn(r.Spec.ForProvider, ctyVal)
 	EncodeLicensemanagerAssociation_ResourceArn(r.Spec.ForProvider, ctyVal)
+	EncodeLicensemanagerAssociation_Id(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,14 +51,14 @@ func EncodeLicensemanagerAssociation(r LicensemanagerAssociation) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLicensemanagerAssociation_Id(p LicensemanagerAssociationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
 func EncodeLicensemanagerAssociation_LicenseConfigurationArn(p LicensemanagerAssociationParameters, vals map[string]cty.Value) {
 	vals["license_configuration_arn"] = cty.StringVal(p.LicenseConfigurationArn)
 }
 
 func EncodeLicensemanagerAssociation_ResourceArn(p LicensemanagerAssociationParameters, vals map[string]cty.Value) {
 	vals["resource_arn"] = cty.StringVal(p.ResourceArn)
+}
+
+func EncodeLicensemanagerAssociation_Id(p LicensemanagerAssociationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }

@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSagemakerNotebookInstanceLifecycleConfiguration(r SagemakerNotebookInstanceLifecycleConfiguration) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Id(r.Spec.ForProvider, ctyVal)
-	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Name(r.Spec.ForProvider, ctyVal)
 	EncodeSagemakerNotebookInstanceLifecycleConfiguration_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,20 +52,20 @@ func EncodeSagemakerNotebookInstanceLifecycleConfiguration(r SagemakerNotebookIn
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Id(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Name(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
 func EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnCreate(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	vals["on_create"] = cty.StringVal(p.OnCreate)
 }
 
 func EncodeSagemakerNotebookInstanceLifecycleConfiguration_OnStart(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
 	vals["on_start"] = cty.StringVal(p.OnStart)
+}
+
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Id(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Name(p SagemakerNotebookInstanceLifecycleConfigurationParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeSagemakerNotebookInstanceLifecycleConfiguration_Arn(p SagemakerNotebookInstanceLifecycleConfigurationObservation, vals map[string]cty.Value) {

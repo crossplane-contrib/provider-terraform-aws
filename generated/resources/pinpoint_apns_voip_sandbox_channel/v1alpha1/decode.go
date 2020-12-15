@@ -40,56 +40,69 @@ func DecodePinpointApnsVoipSandboxChannel(prev *PinpointApnsVoipSandboxChannel, 
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
 	DecodePinpointApnsVoipSandboxChannel_BundleId(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsVoipSandboxChannel_PrivateKey(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsVoipSandboxChannel_TokenKeyId(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipSandboxChannel_Id(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipSandboxChannel_TeamId(&new.Spec.ForProvider, valMap)
-	DecodePinpointApnsVoipSandboxChannel_TokenKey(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipSandboxChannel_TokenKeyId(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipSandboxChannel_ApplicationId(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipSandboxChannel_Certificate(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipSandboxChannel_DefaultAuthenticationMethod(&new.Spec.ForProvider, valMap)
 	DecodePinpointApnsVoipSandboxChannel_Enabled(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipSandboxChannel_PrivateKey(&new.Spec.ForProvider, valMap)
+	DecodePinpointApnsVoipSandboxChannel_TokenKey(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipSandboxChannel_BundleId(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	p.BundleId = ctwhy.ValueAsString(vals["bundle_id"])
 }
 
-func DecodePinpointApnsVoipSandboxChannel_PrivateKey(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
-	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
-}
-
-func DecodePinpointApnsVoipSandboxChannel_TokenKeyId(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
-	p.TokenKeyId = ctwhy.ValueAsString(vals["token_key_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipSandboxChannel_Id(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipSandboxChannel_TeamId(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	p.TeamId = ctwhy.ValueAsString(vals["team_id"])
 }
 
-func DecodePinpointApnsVoipSandboxChannel_TokenKey(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
-	p.TokenKey = ctwhy.ValueAsString(vals["token_key"])
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsVoipSandboxChannel_TokenKeyId(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
+	p.TokenKeyId = ctwhy.ValueAsString(vals["token_key_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipSandboxChannel_ApplicationId(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipSandboxChannel_Certificate(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	p.Certificate = ctwhy.ValueAsString(vals["certificate"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipSandboxChannel_DefaultAuthenticationMethod(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	p.DefaultAuthenticationMethod = ctwhy.ValueAsString(vals["default_authentication_method"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointApnsVoipSandboxChannel_Enabled(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsVoipSandboxChannel_PrivateKey(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
+	p.PrivateKey = ctwhy.ValueAsString(vals["private_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodePinpointApnsVoipSandboxChannel_TokenKey(p *PinpointApnsVoipSandboxChannelParameters, vals map[string]cty.Value) {
+	p.TokenKey = ctwhy.ValueAsString(vals["token_key"])
 }

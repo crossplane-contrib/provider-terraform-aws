@@ -43,18 +43,24 @@ func DecodeGuarddutyOrganizationConfiguration(prev *GuarddutyOrganizationConfigu
 	DecodeGuarddutyOrganizationConfiguration_DetectorId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyOrganizationConfiguration_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyOrganizationConfiguration_AutoEnable(p *GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
 	p.AutoEnable = ctwhy.ValueAsBool(vals["auto_enable"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyOrganizationConfiguration_DetectorId(p *GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
 	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyOrganizationConfiguration_Id(p *GuarddutyOrganizationConfigurationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

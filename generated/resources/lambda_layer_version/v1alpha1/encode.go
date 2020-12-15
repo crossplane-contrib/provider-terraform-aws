@@ -37,20 +37,20 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeLambdaLayerVersion(r LambdaLayerVersion) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeLambdaLayerVersion_LicenseInfo(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaLayerVersion_CompatibleRuntimes(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaLayerVersion_Filename(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaLayerVersion_S3Key(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaLayerVersion_Id(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaLayerVersion_S3Bucket(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaLayerVersion_S3ObjectVersion(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaLayerVersion_CompatibleRuntimes(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaLayerVersion_LayerName(r.Spec.ForProvider, ctyVal)
+	EncodeLambdaLayerVersion_LicenseInfo(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaLayerVersion_SourceCodeHash(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaLayerVersion_Description(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaLayerVersion_S3ObjectVersion(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaLayerVersion_LayerName(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaLayerVersion_S3Bucket(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaLayerVersion_S3Key(r.Spec.ForProvider, ctyVal)
-	EncodeLambdaLayerVersion_Filename(r.Spec.ForProvider, ctyVal)
 	EncodeLambdaLayerVersion_SourceCodeSize(r.Status.AtProvider, ctyVal)
 	EncodeLambdaLayerVersion_LayerArn(r.Status.AtProvider, ctyVal)
-	EncodeLambdaLayerVersion_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeLambdaLayerVersion_Version(r.Status.AtProvider, ctyVal)
+	EncodeLambdaLayerVersion_CreatedDate(r.Status.AtProvider, ctyVal)
 	EncodeLambdaLayerVersion_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -62,8 +62,24 @@ func EncodeLambdaLayerVersion(r LambdaLayerVersion) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeLambdaLayerVersion_LicenseInfo(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	vals["license_info"] = cty.StringVal(p.LicenseInfo)
+func EncodeLambdaLayerVersion_Filename(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	vals["filename"] = cty.StringVal(p.Filename)
+}
+
+func EncodeLambdaLayerVersion_S3Key(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	vals["s3_key"] = cty.StringVal(p.S3Key)
+}
+
+func EncodeLambdaLayerVersion_Id(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeLambdaLayerVersion_S3Bucket(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	vals["s3_bucket"] = cty.StringVal(p.S3Bucket)
+}
+
+func EncodeLambdaLayerVersion_S3ObjectVersion(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	vals["s3_object_version"] = cty.StringVal(p.S3ObjectVersion)
 }
 
 func EncodeLambdaLayerVersion_CompatibleRuntimes(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
@@ -74,8 +90,12 @@ func EncodeLambdaLayerVersion_CompatibleRuntimes(p LambdaLayerVersionParameters,
 	vals["compatible_runtimes"] = cty.SetVal(colVals)
 }
 
-func EncodeLambdaLayerVersion_Id(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
+func EncodeLambdaLayerVersion_LayerName(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	vals["layer_name"] = cty.StringVal(p.LayerName)
+}
+
+func EncodeLambdaLayerVersion_LicenseInfo(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
+	vals["license_info"] = cty.StringVal(p.LicenseInfo)
 }
 
 func EncodeLambdaLayerVersion_SourceCodeHash(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
@@ -86,26 +106,6 @@ func EncodeLambdaLayerVersion_Description(p LambdaLayerVersionParameters, vals m
 	vals["description"] = cty.StringVal(p.Description)
 }
 
-func EncodeLambdaLayerVersion_S3ObjectVersion(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	vals["s3_object_version"] = cty.StringVal(p.S3ObjectVersion)
-}
-
-func EncodeLambdaLayerVersion_LayerName(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	vals["layer_name"] = cty.StringVal(p.LayerName)
-}
-
-func EncodeLambdaLayerVersion_S3Bucket(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	vals["s3_bucket"] = cty.StringVal(p.S3Bucket)
-}
-
-func EncodeLambdaLayerVersion_S3Key(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	vals["s3_key"] = cty.StringVal(p.S3Key)
-}
-
-func EncodeLambdaLayerVersion_Filename(p LambdaLayerVersionParameters, vals map[string]cty.Value) {
-	vals["filename"] = cty.StringVal(p.Filename)
-}
-
 func EncodeLambdaLayerVersion_SourceCodeSize(p LambdaLayerVersionObservation, vals map[string]cty.Value) {
 	vals["source_code_size"] = cty.NumberIntVal(p.SourceCodeSize)
 }
@@ -114,12 +114,12 @@ func EncodeLambdaLayerVersion_LayerArn(p LambdaLayerVersionObservation, vals map
 	vals["layer_arn"] = cty.StringVal(p.LayerArn)
 }
 
-func EncodeLambdaLayerVersion_CreatedDate(p LambdaLayerVersionObservation, vals map[string]cty.Value) {
-	vals["created_date"] = cty.StringVal(p.CreatedDate)
-}
-
 func EncodeLambdaLayerVersion_Version(p LambdaLayerVersionObservation, vals map[string]cty.Value) {
 	vals["version"] = cty.StringVal(p.Version)
+}
+
+func EncodeLambdaLayerVersion_CreatedDate(p LambdaLayerVersionObservation, vals map[string]cty.Value) {
+	vals["created_date"] = cty.StringVal(p.CreatedDate)
 }
 
 func EncodeLambdaLayerVersion_Arn(p LambdaLayerVersionObservation, vals map[string]cty.Value) {

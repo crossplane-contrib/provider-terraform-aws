@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIotThing(r IotThing) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIotThing_ThingTypeName(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Attributes(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Name(r.Spec.ForProvider, ctyVal)
-	EncodeIotThing_ThingTypeName(r.Spec.ForProvider, ctyVal)
 	EncodeIotThing_Version(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_Arn(r.Status.AtProvider, ctyVal)
 	EncodeIotThing_DefaultClientId(r.Status.AtProvider, ctyVal)
@@ -52,6 +52,10 @@ func EncodeIotThing(r IotThing) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIotThing_ThingTypeName(p IotThingParameters, vals map[string]cty.Value) {
+	vals["thing_type_name"] = cty.StringVal(p.ThingTypeName)
 }
 
 func EncodeIotThing_Attributes(p IotThingParameters, vals map[string]cty.Value) {
@@ -72,10 +76,6 @@ func EncodeIotThing_Id(p IotThingParameters, vals map[string]cty.Value) {
 
 func EncodeIotThing_Name(p IotThingParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeIotThing_ThingTypeName(p IotThingParameters, vals map[string]cty.Value) {
-	vals["thing_type_name"] = cty.StringVal(p.ThingTypeName)
 }
 
 func EncodeIotThing_Version(p IotThingObservation, vals map[string]cty.Value) {

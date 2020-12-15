@@ -43,18 +43,24 @@ func DecodeSpotDatafeedSubscription(prev *SpotDatafeedSubscription, ctyValue cty
 	DecodeSpotDatafeedSubscription_Id(&new.Spec.ForProvider, valMap)
 	DecodeSpotDatafeedSubscription_Prefix(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSpotDatafeedSubscription_Bucket(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
 	p.Bucket = ctwhy.ValueAsString(vals["bucket"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSpotDatafeedSubscription_Id(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSpotDatafeedSubscription_Prefix(p *SpotDatafeedSubscriptionParameters, vals map[string]cty.Value) {
 	p.Prefix = ctwhy.ValueAsString(vals["prefix"])
 }

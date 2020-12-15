@@ -44,18 +44,24 @@ func DecodeEc2TrafficMirrorFilter(prev *Ec2TrafficMirrorFilter, ctyValue cty.Val
 	DecodeEc2TrafficMirrorFilter_NetworkServices(&new.Spec.ForProvider, valMap)
 	DecodeEc2TrafficMirrorFilter_Tags(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorFilter_Description(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorFilter_Id(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeEc2TrafficMirrorFilter_NetworkServices(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["network_services"]) {
@@ -64,6 +70,7 @@ func DecodeEc2TrafficMirrorFilter_NetworkServices(p *Ec2TrafficMirrorFilterParam
 	p.NetworkServices = goVals
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeEc2TrafficMirrorFilter_Tags(p *Ec2TrafficMirrorFilterParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)

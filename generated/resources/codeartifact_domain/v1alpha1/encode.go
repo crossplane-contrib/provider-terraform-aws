@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeCodeartifactDomain(r CodeartifactDomain) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeCodeartifactDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_EncryptionKey(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_Id(r.Spec.ForProvider, ctyVal)
-	EncodeCodeartifactDomain_Domain(r.Spec.ForProvider, ctyVal)
 	EncodeCodeartifactDomain_Owner(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_RepositoryCount(r.Status.AtProvider, ctyVal)
 	EncodeCodeartifactDomain_Arn(r.Status.AtProvider, ctyVal)
@@ -55,16 +55,16 @@ func EncodeCodeartifactDomain(r CodeartifactDomain) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeCodeartifactDomain_Domain(p CodeartifactDomainParameters, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
+}
+
 func EncodeCodeartifactDomain_EncryptionKey(p CodeartifactDomainParameters, vals map[string]cty.Value) {
 	vals["encryption_key"] = cty.StringVal(p.EncryptionKey)
 }
 
 func EncodeCodeartifactDomain_Id(p CodeartifactDomainParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeCodeartifactDomain_Domain(p CodeartifactDomainParameters, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
 }
 
 func EncodeCodeartifactDomain_Owner(p CodeartifactDomainObservation, vals map[string]cty.Value) {

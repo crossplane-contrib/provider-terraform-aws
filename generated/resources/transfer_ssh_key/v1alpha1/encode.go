@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeTransferSshKey(r TransferSshKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeTransferSshKey_Body(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_Id(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_ServerId(r.Spec.ForProvider, ctyVal)
 	EncodeTransferSshKey_UserName(r.Spec.ForProvider, ctyVal)
+	EncodeTransferSshKey_Body(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,10 +50,6 @@ func EncodeTransferSshKey(r TransferSshKey) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeTransferSshKey_Body(p TransferSshKeyParameters, vals map[string]cty.Value) {
-	vals["body"] = cty.StringVal(p.Body)
 }
 
 func EncodeTransferSshKey_Id(p TransferSshKeyParameters, vals map[string]cty.Value) {
@@ -66,4 +62,8 @@ func EncodeTransferSshKey_ServerId(p TransferSshKeyParameters, vals map[string]c
 
 func EncodeTransferSshKey_UserName(p TransferSshKeyParameters, vals map[string]cty.Value) {
 	vals["user_name"] = cty.StringVal(p.UserName)
+}
+
+func EncodeTransferSshKey_Body(p TransferSshKeyParameters, vals map[string]cty.Value) {
+	vals["body"] = cty.StringVal(p.Body)
 }

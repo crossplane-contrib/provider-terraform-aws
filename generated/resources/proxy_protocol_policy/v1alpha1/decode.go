@@ -43,14 +43,19 @@ func DecodeProxyProtocolPolicy(prev *ProxyProtocolPolicy, ctyValue cty.Value) (r
 	DecodeProxyProtocolPolicy_InstancePorts(&new.Spec.ForProvider, valMap)
 	DecodeProxyProtocolPolicy_LoadBalancer(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeProxyProtocolPolicy_Id(p *ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeProxyProtocolPolicy_InstancePorts(p *ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["instance_ports"]) {
@@ -59,6 +64,7 @@ func DecodeProxyProtocolPolicy_InstancePorts(p *ProxyProtocolPolicyParameters, v
 	p.InstancePorts = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeProxyProtocolPolicy_LoadBalancer(p *ProxyProtocolPolicyParameters, vals map[string]cty.Value) {
 	p.LoadBalancer = ctwhy.ValueAsString(vals["load_balancer"])
 }

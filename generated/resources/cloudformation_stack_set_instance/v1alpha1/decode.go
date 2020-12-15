@@ -47,18 +47,24 @@ func DecodeCloudformationStackSetInstance(prev *CloudformationStackSetInstance, 
 	DecodeCloudformationStackSetInstance_StackSetName(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStackSetInstance_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeCloudformationStackSetInstance_StackId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_AccountId(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	p.AccountId = ctwhy.ValueAsString(vals["account_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_Id(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_ParameterOverrides(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -69,18 +75,22 @@ func DecodeCloudformationStackSetInstance_ParameterOverrides(p *CloudformationSt
 	p.ParameterOverrides = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_Region(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	p.Region = ctwhy.ValueAsString(vals["region"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_RetainStack(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	p.RetainStack = ctwhy.ValueAsBool(vals["retain_stack"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_StackSetName(p *CloudformationStackSetInstanceParameters, vals map[string]cty.Value) {
 	p.StackSetName = ctwhy.ValueAsString(vals["stack_set_name"])
 }
 
+//containerTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeCloudformationStackSetInstance_Timeouts_Create(p, valMap)
@@ -88,18 +98,22 @@ func DecodeCloudformationStackSetInstance_Timeouts(p *Timeouts, vals map[string]
 	DecodeCloudformationStackSetInstance_Timeouts_Update(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
 	p.Update = ctwhy.ValueAsString(vals["update"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStackSetInstance_StackId(p *CloudformationStackSetInstanceObservation, vals map[string]cty.Value) {
 	p.StackId = ctwhy.ValueAsString(vals["stack_id"])
 }

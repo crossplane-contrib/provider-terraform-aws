@@ -52,9 +52,9 @@ type EcrRepositoryPolicySpec struct {
 
 // A EcrRepositoryPolicyParameters defines the desired state of a EcrRepositoryPolicy
 type EcrRepositoryPolicyParameters struct {
+	Id         string `json:"id"`
 	Policy     string `json:"policy"`
 	Repository string `json:"repository"`
-	Id         string `json:"id"`
 }
 
 // A EcrRepositoryPolicyStatus defines the observed state of a EcrRepositoryPolicy

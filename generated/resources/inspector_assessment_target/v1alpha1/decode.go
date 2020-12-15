@@ -43,22 +43,29 @@ func DecodeInspectorAssessmentTarget(prev *InspectorAssessmentTarget, ctyValue c
 	DecodeInspectorAssessmentTarget_Name(&new.Spec.ForProvider, valMap)
 	DecodeInspectorAssessmentTarget_ResourceGroupArn(&new.Spec.ForProvider, valMap)
 	DecodeInspectorAssessmentTarget_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInspectorAssessmentTarget_Id(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInspectorAssessmentTarget_Name(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInspectorAssessmentTarget_ResourceGroupArn(p *InspectorAssessmentTargetParameters, vals map[string]cty.Value) {
 	p.ResourceGroupArn = ctwhy.ValueAsString(vals["resource_group_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInspectorAssessmentTarget_Arn(p *InspectorAssessmentTargetObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

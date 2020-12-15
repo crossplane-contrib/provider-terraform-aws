@@ -52,18 +52,18 @@ type Ec2CapacityReservationSpec struct {
 
 // A Ec2CapacityReservationParameters defines the desired state of a Ec2CapacityReservation
 type Ec2CapacityReservationParameters struct {
-	InstanceMatchCriteria string            `json:"instance_match_criteria"`
-	InstanceType          string            `json:"instance_type"`
-	Tenancy               string            `json:"tenancy"`
-	EbsOptimized          bool              `json:"ebs_optimized"`
-	Id                    string            `json:"id"`
-	EphemeralStorage      bool              `json:"ephemeral_storage"`
-	InstanceCount         int64             `json:"instance_count"`
-	InstancePlatform      string            `json:"instance_platform"`
-	Tags                  map[string]string `json:"tags"`
 	AvailabilityZone      string            `json:"availability_zone"`
 	EndDate               string            `json:"end_date"`
 	EndDateType           string            `json:"end_date_type"`
+	EphemeralStorage      bool              `json:"ephemeral_storage"`
+	InstanceCount         int64             `json:"instance_count"`
+	InstanceMatchCriteria string            `json:"instance_match_criteria"`
+	InstancePlatform      string            `json:"instance_platform"`
+	Tenancy               string            `json:"tenancy"`
+	Id                    string            `json:"id"`
+	InstanceType          string            `json:"instance_type"`
+	Tags                  map[string]string `json:"tags"`
+	EbsOptimized          bool              `json:"ebs_optimized"`
 }
 
 // A Ec2CapacityReservationStatus defines the observed state of a Ec2CapacityReservation

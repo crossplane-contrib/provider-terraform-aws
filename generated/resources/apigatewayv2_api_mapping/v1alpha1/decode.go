@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeApigatewayv2ApiMapping(prev *Apigatewayv2ApiMapping, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeApigatewayv2ApiMapping_ApiId(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2ApiMapping_ApiMappingKey(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2ApiMapping_DomainName(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2ApiMapping_Id(&new.Spec.ForProvider, valMap)
 	DecodeApigatewayv2ApiMapping_Stage(&new.Spec.ForProvider, valMap)
+	DecodeApigatewayv2ApiMapping_ApiId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeApigatewayv2ApiMapping_ApiId(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
-	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2ApiMapping_ApiMappingKey(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	p.ApiMappingKey = ctwhy.ValueAsString(vals["api_mapping_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2ApiMapping_DomainName(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	p.DomainName = ctwhy.ValueAsString(vals["domain_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2ApiMapping_Id(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApigatewayv2ApiMapping_Stage(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
 	p.Stage = ctwhy.ValueAsString(vals["stage"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeApigatewayv2ApiMapping_ApiId(p *Apigatewayv2ApiMappingParameters, vals map[string]cty.Value) {
+	p.ApiId = ctwhy.ValueAsString(vals["api_id"])
 }

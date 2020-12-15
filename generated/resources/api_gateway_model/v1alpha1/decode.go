@@ -46,30 +46,39 @@ func DecodeApiGatewayModel(prev *ApiGatewayModel, ctyValue cty.Value) (resource.
 	DecodeApiGatewayModel_RestApiId(&new.Spec.ForProvider, valMap)
 	DecodeApiGatewayModel_Schema(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_ContentType(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.ContentType = ctwhy.ValueAsString(vals["content_type"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_Description(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_Id(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_Name(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_RestApiId(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.RestApiId = ctwhy.ValueAsString(vals["rest_api_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeApiGatewayModel_Schema(p *ApiGatewayModelParameters, vals map[string]cty.Value) {
 	p.Schema = ctwhy.ValueAsString(vals["schema"])
 }

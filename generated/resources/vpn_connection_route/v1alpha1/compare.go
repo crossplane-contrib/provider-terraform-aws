@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*VpnConnectionRoute)
+	p := prov.(*VpnConnectionRoute)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeVpnConnectionRoute_DestinationCidrBlock(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpnConnectionRoute_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVpnConnectionRoute_VpnConnectionId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpnConnectionRoute_DestinationCidrBlock(k *VpnConnectionRouteParameters, p *VpnConnectionRouteParameters, md *plugin.MergeDescription) bool {
+	if k.DestinationCidrBlock != p.DestinationCidrBlock {
+		p.DestinationCidrBlock = k.DestinationCidrBlock
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpnConnectionRoute_Id(k *VpnConnectionRouteParameters, p *VpnConnectionRouteParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVpnConnectionRoute_VpnConnectionId(k *VpnConnectionRouteParameters, p *VpnConnectionRouteParameters, md *plugin.MergeDescription) bool {
+	if k.VpnConnectionId != p.VpnConnectionId {
+		p.VpnConnectionId = k.VpnConnectionId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

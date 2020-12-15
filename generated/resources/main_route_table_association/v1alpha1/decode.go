@@ -39,26 +39,33 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeMainRouteTableAssociation(prev *MainRouteTableAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeMainRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeMainRouteTableAssociation_RouteTableId(&new.Spec.ForProvider, valMap)
 	DecodeMainRouteTableAssociation_VpcId(&new.Spec.ForProvider, valMap)
-	DecodeMainRouteTableAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeMainRouteTableAssociation_OriginalRouteTableId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeMainRouteTableAssociation_RouteTableId(p *MainRouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
-}
-
-func DecodeMainRouteTableAssociation_VpcId(p *MainRouteTableAssociationParameters, vals map[string]cty.Value) {
-	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeMainRouteTableAssociation_Id(p *MainRouteTableAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeMainRouteTableAssociation_RouteTableId(p *MainRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.RouteTableId = ctwhy.ValueAsString(vals["route_table_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeMainRouteTableAssociation_VpcId(p *MainRouteTableAssociationParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeMainRouteTableAssociation_OriginalRouteTableId(p *MainRouteTableAssociationObservation, vals map[string]cty.Value) {
 	p.OriginalRouteTableId = ctwhy.ValueAsString(vals["original_route_table_id"])
 }

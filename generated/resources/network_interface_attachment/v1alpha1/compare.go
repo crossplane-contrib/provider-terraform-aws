@@ -17,13 +17,116 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*NetworkInterfaceAttachment)
+	p := prov.(*NetworkInterfaceAttachment)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeNetworkInterfaceAttachment_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkInterfaceAttachment_NetworkInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkInterfaceAttachment_DeviceIndex(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkInterfaceAttachment_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkInterfaceAttachment_Status(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNetworkInterfaceAttachment_AttachmentId(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceAttachment_InstanceId(k *NetworkInterfaceAttachmentParameters, p *NetworkInterfaceAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.InstanceId != p.InstanceId {
+		p.InstanceId = k.InstanceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceAttachment_NetworkInterfaceId(k *NetworkInterfaceAttachmentParameters, p *NetworkInterfaceAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		p.NetworkInterfaceId = k.NetworkInterfaceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceAttachment_DeviceIndex(k *NetworkInterfaceAttachmentParameters, p *NetworkInterfaceAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.DeviceIndex != p.DeviceIndex {
+		p.DeviceIndex = k.DeviceIndex
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNetworkInterfaceAttachment_Id(k *NetworkInterfaceAttachmentParameters, p *NetworkInterfaceAttachmentParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNetworkInterfaceAttachment_Status(k *NetworkInterfaceAttachmentObservation, p *NetworkInterfaceAttachmentObservation, md *plugin.MergeDescription) bool {
+	if k.Status != p.Status {
+		k.Status = p.Status
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNetworkInterfaceAttachment_AttachmentId(k *NetworkInterfaceAttachmentObservation, p *NetworkInterfaceAttachmentObservation, md *plugin.MergeDescription) bool {
+	if k.AttachmentId != p.AttachmentId {
+		k.AttachmentId = p.AttachmentId
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }

@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*SpotDatafeedSubscription)
+	p := prov.(*SpotDatafeedSubscription)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeSpotDatafeedSubscription_Bucket(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSpotDatafeedSubscription_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeSpotDatafeedSubscription_Prefix(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSpotDatafeedSubscription_Bucket(k *SpotDatafeedSubscriptionParameters, p *SpotDatafeedSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Bucket != p.Bucket {
+		p.Bucket = k.Bucket
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSpotDatafeedSubscription_Id(k *SpotDatafeedSubscriptionParameters, p *SpotDatafeedSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeSpotDatafeedSubscription_Prefix(k *SpotDatafeedSubscriptionParameters, p *SpotDatafeedSubscriptionParameters, md *plugin.MergeDescription) bool {
+	if k.Prefix != p.Prefix {
+		p.Prefix = k.Prefix
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

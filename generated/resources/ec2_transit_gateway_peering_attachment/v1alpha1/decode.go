@@ -39,21 +39,31 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2TransitGatewayPeeringAttachment(prev *Ec2TransitGatewayPeeringAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeEc2TransitGatewayPeeringAttachment_PeerRegion(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayPeeringAttachment_PeerTransitGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayPeeringAttachment_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayPeeringAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayPeeringAttachment_PeerAccountId(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGatewayPeeringAttachment_PeerRegion(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayPeeringAttachment_PeerRegion(p *Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
+	p.PeerRegion = ctwhy.ValueAsString(vals["peer_region"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayPeeringAttachment_PeerTransitGatewayId(p *Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
 	p.PeerTransitGatewayId = ctwhy.ValueAsString(vals["peer_transit_gateway_id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeEc2TransitGatewayPeeringAttachment_Tags(p *Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -64,18 +74,17 @@ func DecodeEc2TransitGatewayPeeringAttachment_Tags(p *Ec2TransitGatewayPeeringAt
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayPeeringAttachment_TransitGatewayId(p *Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
 	p.TransitGatewayId = ctwhy.ValueAsString(vals["transit_gateway_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayPeeringAttachment_Id(p *Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayPeeringAttachment_PeerAccountId(p *Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
 	p.PeerAccountId = ctwhy.ValueAsString(vals["peer_account_id"])
-}
-
-func DecodeEc2TransitGatewayPeeringAttachment_PeerRegion(p *Ec2TransitGatewayPeeringAttachmentParameters, vals map[string]cty.Value) {
-	p.PeerRegion = ctwhy.ValueAsString(vals["peer_region"])
 }

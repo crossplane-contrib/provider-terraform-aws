@@ -39,32 +39,35 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCustomerGateway(prev *CustomerGateway, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCustomerGateway_Type(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_BgpAsn(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_Id(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_IpAddress(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_Tags(&new.Spec.ForProvider, valMap)
+	DecodeCustomerGateway_Type(&new.Spec.ForProvider, valMap)
 	DecodeCustomerGateway_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeCustomerGateway_Type(p *CustomerGatewayParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeCustomerGateway_BgpAsn(p *CustomerGatewayParameters, vals map[string]cty.Value) {
 	p.BgpAsn = ctwhy.ValueAsString(vals["bgp_asn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCustomerGateway_Id(p *CustomerGatewayParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCustomerGateway_IpAddress(p *CustomerGatewayParameters, vals map[string]cty.Value) {
 	p.IpAddress = ctwhy.ValueAsString(vals["ip_address"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeCustomerGateway_Tags(p *CustomerGatewayParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -75,6 +78,12 @@ func DecodeCustomerGateway_Tags(p *CustomerGatewayParameters, vals map[string]ct
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCustomerGateway_Type(p *CustomerGatewayParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeCustomerGateway_Arn(p *CustomerGatewayObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

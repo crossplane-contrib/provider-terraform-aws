@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodePinpointBaiduChannel(prev *PinpointBaiduChannel, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodePinpointBaiduChannel_ApiKey(&new.Spec.ForProvider, valMap)
 	DecodePinpointBaiduChannel_ApplicationId(&new.Spec.ForProvider, valMap)
 	DecodePinpointBaiduChannel_Enabled(&new.Spec.ForProvider, valMap)
 	DecodePinpointBaiduChannel_Id(&new.Spec.ForProvider, valMap)
 	DecodePinpointBaiduChannel_SecretKey(&new.Spec.ForProvider, valMap)
-	DecodePinpointBaiduChannel_ApiKey(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodePinpointBaiduChannel_ApiKey(p *PinpointBaiduChannelParameters, vals map[string]cty.Value) {
+	p.ApiKey = ctwhy.ValueAsString(vals["api_key"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodePinpointBaiduChannel_ApplicationId(p *PinpointBaiduChannelParameters, vals map[string]cty.Value) {
 	p.ApplicationId = ctwhy.ValueAsString(vals["application_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointBaiduChannel_Enabled(p *PinpointBaiduChannelParameters, vals map[string]cty.Value) {
 	p.Enabled = ctwhy.ValueAsBool(vals["enabled"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointBaiduChannel_Id(p *PinpointBaiduChannelParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodePinpointBaiduChannel_SecretKey(p *PinpointBaiduChannelParameters, vals map[string]cty.Value) {
 	p.SecretKey = ctwhy.ValueAsString(vals["secret_key"])
-}
-
-func DecodePinpointBaiduChannel_ApiKey(p *PinpointBaiduChannelParameters, vals map[string]cty.Value) {
-	p.ApiKey = ctwhy.ValueAsString(vals["api_key"])
 }

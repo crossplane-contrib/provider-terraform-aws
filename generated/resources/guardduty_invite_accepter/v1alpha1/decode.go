@@ -44,27 +44,35 @@ func DecodeGuarddutyInviteAccepter(prev *GuarddutyInviteAccepter, ctyValue cty.V
 	DecodeGuarddutyInviteAccepter_MasterAccountId(&new.Spec.ForProvider, valMap)
 	DecodeGuarddutyInviteAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyInviteAccepter_DetectorId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	p.DetectorId = ctwhy.ValueAsString(vals["detector_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyInviteAccepter_Id(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyInviteAccepter_MasterAccountId(p *GuarddutyInviteAccepterParameters, vals map[string]cty.Value) {
 	p.MasterAccountId = ctwhy.ValueAsString(vals["master_account_id"])
 }
 
+//containerTypeDecodeTemplate
 func DecodeGuarddutyInviteAccepter_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeGuarddutyInviteAccepter_Timeouts_Create(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeGuarddutyInviteAccepter_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }

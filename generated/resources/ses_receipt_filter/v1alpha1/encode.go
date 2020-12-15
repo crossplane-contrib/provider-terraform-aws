@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeSesReceiptFilter(r SesReceiptFilter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeSesReceiptFilter_Name(r.Spec.ForProvider, ctyVal)
-	EncodeSesReceiptFilter_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Cidr(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Id(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptFilter_Name(r.Spec.ForProvider, ctyVal)
+	EncodeSesReceiptFilter_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeSesReceiptFilter_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -52,20 +52,20 @@ func EncodeSesReceiptFilter(r SesReceiptFilter) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeSesReceiptFilter_Name(p SesReceiptFilterParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeSesReceiptFilter_Policy(p SesReceiptFilterParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
-}
-
 func EncodeSesReceiptFilter_Cidr(p SesReceiptFilterParameters, vals map[string]cty.Value) {
 	vals["cidr"] = cty.StringVal(p.Cidr)
 }
 
 func EncodeSesReceiptFilter_Id(p SesReceiptFilterParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
+}
+
+func EncodeSesReceiptFilter_Name(p SesReceiptFilterParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeSesReceiptFilter_Policy(p SesReceiptFilterParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
 }
 
 func EncodeSesReceiptFilter_Arn(p SesReceiptFilterObservation, vals map[string]cty.Value) {

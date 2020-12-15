@@ -17,13 +17,132 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*EipAssociation)
+	p := prov.(*EipAssociation)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeEipAssociation_AllocationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_AllowReassociation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_InstanceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_NetworkInterfaceId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_PrivateIpAddress(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeEipAssociation_PublicIp(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_AllocationId(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.AllocationId != p.AllocationId {
+		p.AllocationId = k.AllocationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_AllowReassociation(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.AllowReassociation != p.AllowReassociation {
+		p.AllowReassociation = k.AllowReassociation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_Id(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_InstanceId(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.InstanceId != p.InstanceId {
+		p.InstanceId = k.InstanceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_NetworkInterfaceId(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.NetworkInterfaceId != p.NetworkInterfaceId {
+		p.NetworkInterfaceId = k.NetworkInterfaceId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_PrivateIpAddress(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.PrivateIpAddress != p.PrivateIpAddress {
+		p.PrivateIpAddress = k.PrivateIpAddress
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeEipAssociation_PublicIp(k *EipAssociationParameters, p *EipAssociationParameters, md *plugin.MergeDescription) bool {
+	if k.PublicIp != p.PublicIp {
+		p.PublicIp = k.PublicIp
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

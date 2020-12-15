@@ -45,36 +45,46 @@ func DecodeRoute53ResolverRuleAssociation(prev *Route53ResolverRuleAssociation, 
 	DecodeRoute53ResolverRuleAssociation_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverRuleAssociation_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverRuleAssociation_Id(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverRuleAssociation_Name(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverRuleAssociation_ResolverRuleId(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
 	p.ResolverRuleId = ctwhy.ValueAsString(vals["resolver_rule_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverRuleAssociation_VpcId(p *Route53ResolverRuleAssociationParameters, vals map[string]cty.Value) {
 	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
 }
 
+//containerTypeDecodeTemplate
 func DecodeRoute53ResolverRuleAssociation_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeRoute53ResolverRuleAssociation_Timeouts_Create(p, valMap)
 	DecodeRoute53ResolverRuleAssociation_Timeouts_Delete(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverRuleAssociation_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverRuleAssociation_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }

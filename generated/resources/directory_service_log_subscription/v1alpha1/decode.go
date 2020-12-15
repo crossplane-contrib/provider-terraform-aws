@@ -43,18 +43,24 @@ func DecodeDirectoryServiceLogSubscription(prev *DirectoryServiceLogSubscription
 	DecodeDirectoryServiceLogSubscription_DirectoryId(&new.Spec.ForProvider, valMap)
 	DecodeDirectoryServiceLogSubscription_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDirectoryServiceLogSubscription_LogGroupName(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
 	p.LogGroupName = ctwhy.ValueAsString(vals["log_group_name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDirectoryServiceLogSubscription_DirectoryId(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
 	p.DirectoryId = ctwhy.ValueAsString(vals["directory_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDirectoryServiceLogSubscription_Id(p *DirectoryServiceLogSubscriptionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }

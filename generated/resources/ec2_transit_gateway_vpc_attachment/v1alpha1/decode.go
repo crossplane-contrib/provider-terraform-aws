@@ -39,28 +39,68 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeEc2TransitGatewayVpcAttachment(prev *Ec2TransitGatewayVpcAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeEc2TransitGatewayVpcAttachment_Id(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGatewayVpcAttachment_Ipv6Support(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGatewayVpcAttachment_Tags(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayVpcAttachment_SubnetIds(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayVpcAttachment_TransitGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayVpcAttachment_VpcId(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayVpcAttachment_DnsSupport(&new.Spec.ForProvider, valMap)
-	DecodeEc2TransitGatewayVpcAttachment_SubnetIds(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayVpcAttachment_Id(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayVpcAttachment_Ipv6Support(&new.Spec.ForProvider, valMap)
+	DecodeEc2TransitGatewayVpcAttachment_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEc2TransitGatewayVpcAttachment_VpcOwnerId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveCollectionTypeDecodeTemplate
+func DecodeEc2TransitGatewayVpcAttachment_SubnetIds(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.SubnetIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	p.TransitGatewayDefaultRouteTableAssociation = ctwhy.ValueAsBool(vals["transit_gateway_default_route_table_association"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	p.TransitGatewayDefaultRouteTablePropagation = ctwhy.ValueAsBool(vals["transit_gateway_default_route_table_propagation"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayVpcAttachment_TransitGatewayId(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	p.TransitGatewayId = ctwhy.ValueAsString(vals["transit_gateway_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayVpcAttachment_VpcId(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeEc2TransitGatewayVpcAttachment_DnsSupport(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
+	p.DnsSupport = ctwhy.ValueAsString(vals["dns_support"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayVpcAttachment_Id(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayVpcAttachment_Ipv6Support(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
 	p.Ipv6Support = ctwhy.ValueAsString(vals["ipv6_support"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeEc2TransitGatewayVpcAttachment_Tags(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -71,34 +111,7 @@ func DecodeEc2TransitGatewayVpcAttachment_Tags(p *Ec2TransitGatewayVpcAttachment
 	p.Tags = vMap
 }
 
-func DecodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTableAssociation(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	p.TransitGatewayDefaultRouteTableAssociation = ctwhy.ValueAsBool(vals["transit_gateway_default_route_table_association"])
-}
-
-func DecodeEc2TransitGatewayVpcAttachment_TransitGatewayDefaultRouteTablePropagation(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	p.TransitGatewayDefaultRouteTablePropagation = ctwhy.ValueAsBool(vals["transit_gateway_default_route_table_propagation"])
-}
-
-func DecodeEc2TransitGatewayVpcAttachment_TransitGatewayId(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	p.TransitGatewayId = ctwhy.ValueAsString(vals["transit_gateway_id"])
-}
-
-func DecodeEc2TransitGatewayVpcAttachment_VpcId(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	p.VpcId = ctwhy.ValueAsString(vals["vpc_id"])
-}
-
-func DecodeEc2TransitGatewayVpcAttachment_DnsSupport(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	p.DnsSupport = ctwhy.ValueAsString(vals["dns_support"])
-}
-
-func DecodeEc2TransitGatewayVpcAttachment_SubnetIds(p *Ec2TransitGatewayVpcAttachmentParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["subnet_ids"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.SubnetIds = goVals
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeEc2TransitGatewayVpcAttachment_VpcOwnerId(p *Ec2TransitGatewayVpcAttachmentObservation, vals map[string]cty.Value) {
 	p.VpcOwnerId = ctwhy.ValueAsString(vals["vpc_owner_id"])
 }

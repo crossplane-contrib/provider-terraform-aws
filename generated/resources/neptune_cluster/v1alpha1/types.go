@@ -52,31 +52,31 @@ type NeptuneClusterSpec struct {
 
 // A NeptuneClusterParameters defines the desired state of a NeptuneCluster
 type NeptuneClusterParameters struct {
-	ApplyImmediately                 bool              `json:"apply_immediately"`
+	IamDatabaseAuthenticationEnabled bool              `json:"iam_database_authentication_enabled"`
+	IamRoles                         []string          `json:"iam_roles"`
 	KmsKeyArn                        string            `json:"kms_key_arn"`
 	NeptuneClusterParameterGroupName string            `json:"neptune_cluster_parameter_group_name"`
-	Tags                             map[string]string `json:"tags"`
-	Engine                           string            `json:"engine"`
-	StorageEncrypted                 bool              `json:"storage_encrypted"`
-	FinalSnapshotIdentifier          string            `json:"final_snapshot_identifier"`
-	Port                             int64             `json:"port"`
-	VpcSecurityGroupIds              []string          `json:"vpc_security_group_ids"`
 	BackupRetentionPeriod            int64             `json:"backup_retention_period"`
-	ClusterIdentifierPrefix          string            `json:"cluster_identifier_prefix"`
-	NeptuneSubnetGroupName           string            `json:"neptune_subnet_group_name"`
-	PreferredBackupWindow            string            `json:"preferred_backup_window"`
-	SnapshotIdentifier               string            `json:"snapshot_identifier"`
 	DeletionProtection               bool              `json:"deletion_protection"`
-	EnableCloudwatchLogsExports      []string          `json:"enable_cloudwatch_logs_exports"`
-	EngineVersion                    string            `json:"engine_version"`
-	ReplicationSourceIdentifier      string            `json:"replication_source_identifier"`
-	IamRoles                         []string          `json:"iam_roles"`
-	AvailabilityZones                []string          `json:"availability_zones"`
 	Id                               string            `json:"id"`
+	EnableCloudwatchLogsExports      []string          `json:"enable_cloudwatch_logs_exports"`
+	Engine                           string            `json:"engine"`
+	FinalSnapshotIdentifier          string            `json:"final_snapshot_identifier"`
+	ApplyImmediately                 bool              `json:"apply_immediately"`
+	AvailabilityZones                []string          `json:"availability_zones"`
+	ClusterIdentifierPrefix          string            `json:"cluster_identifier_prefix"`
 	PreferredMaintenanceWindow       string            `json:"preferred_maintenance_window"`
+	StorageEncrypted                 bool              `json:"storage_encrypted"`
+	NeptuneSubnetGroupName           string            `json:"neptune_subnet_group_name"`
+	ReplicationSourceIdentifier      string            `json:"replication_source_identifier"`
+	Tags                             map[string]string `json:"tags"`
 	ClusterIdentifier                string            `json:"cluster_identifier"`
-	IamDatabaseAuthenticationEnabled bool              `json:"iam_database_authentication_enabled"`
+	EngineVersion                    string            `json:"engine_version"`
+	Port                             int64             `json:"port"`
+	SnapshotIdentifier               string            `json:"snapshot_identifier"`
+	PreferredBackupWindow            string            `json:"preferred_backup_window"`
 	SkipFinalSnapshot                bool              `json:"skip_final_snapshot"`
+	VpcSecurityGroupIds              []string          `json:"vpc_security_group_ids"`
 	Timeouts                         Timeouts          `json:"timeouts"`
 }
 
@@ -95,9 +95,9 @@ type NeptuneClusterStatus struct {
 // A NeptuneClusterObservation records the observed state of a NeptuneCluster
 type NeptuneClusterObservation struct {
 	ClusterMembers    []string `json:"cluster_members"`
-	ReaderEndpoint    string   `json:"reader_endpoint"`
-	HostedZoneId      string   `json:"hosted_zone_id"`
 	Endpoint          string   `json:"endpoint"`
-	Arn               string   `json:"arn"`
 	ClusterResourceId string   `json:"cluster_resource_id"`
+	Arn               string   `json:"arn"`
+	HostedZoneId      string   `json:"hosted_zone_id"`
+	ReaderEndpoint    string   `json:"reader_endpoint"`
 }

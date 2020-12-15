@@ -17,13 +17,72 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*StoragegatewayUploadBuffer)
+	p := prov.(*StoragegatewayUploadBuffer)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergeStoragegatewayUploadBuffer_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeStoragegatewayUploadBuffer_DiskId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeStoragegatewayUploadBuffer_GatewayArn(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeStoragegatewayUploadBuffer_Id(k *StoragegatewayUploadBufferParameters, p *StoragegatewayUploadBufferParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeStoragegatewayUploadBuffer_DiskId(k *StoragegatewayUploadBufferParameters, p *StoragegatewayUploadBufferParameters, md *plugin.MergeDescription) bool {
+	if k.DiskId != p.DiskId {
+		p.DiskId = k.DiskId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeStoragegatewayUploadBuffer_GatewayArn(k *StoragegatewayUploadBufferParameters, p *StoragegatewayUploadBufferParameters, md *plugin.MergeDescription) bool {
+	if k.GatewayArn != p.GatewayArn {
+		p.GatewayArn = k.GatewayArn
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

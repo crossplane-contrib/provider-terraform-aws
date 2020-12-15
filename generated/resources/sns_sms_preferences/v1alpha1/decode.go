@@ -39,42 +39,52 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSnsSmsPreferences(prev *SnsSmsPreferences, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSnsSmsPreferences_DefaultSenderId(&new.Spec.ForProvider, valMap)
-	DecodeSnsSmsPreferences_DefaultSmsType(&new.Spec.ForProvider, valMap)
-	DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_Id(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_MonthlySpendLimit(&new.Spec.ForProvider, valMap)
 	DecodeSnsSmsPreferences_UsageReportS3Bucket(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_DefaultSenderId(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_DefaultSmsType(&new.Spec.ForProvider, valMap)
+	DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSnsSmsPreferences_DefaultSenderId(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	p.DefaultSenderId = ctwhy.ValueAsString(vals["default_sender_id"])
-}
-
-func DecodeSnsSmsPreferences_DefaultSmsType(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	p.DefaultSmsType = ctwhy.ValueAsString(vals["default_sms_type"])
-}
-
-func DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
-	p.DeliveryStatusIamRoleArn = ctwhy.ValueAsString(vals["delivery_status_iam_role_arn"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSnsSmsPreferences_DeliveryStatusSuccessSamplingRate(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	p.DeliveryStatusSuccessSamplingRate = ctwhy.ValueAsString(vals["delivery_status_success_sampling_rate"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnsSmsPreferences_Id(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnsSmsPreferences_MonthlySpendLimit(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	p.MonthlySpendLimit = ctwhy.ValueAsString(vals["monthly_spend_limit"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSnsSmsPreferences_UsageReportS3Bucket(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
 	p.UsageReportS3Bucket = ctwhy.ValueAsString(vals["usage_report_s3_bucket"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsSmsPreferences_DefaultSenderId(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.DefaultSenderId = ctwhy.ValueAsString(vals["default_sender_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsSmsPreferences_DefaultSmsType(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.DefaultSmsType = ctwhy.ValueAsString(vals["default_sms_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSnsSmsPreferences_DeliveryStatusIamRoleArn(p *SnsSmsPreferencesParameters, vals map[string]cty.Value) {
+	p.DeliveryStatusIamRoleArn = ctwhy.ValueAsString(vals["delivery_status_iam_role_arn"])
 }

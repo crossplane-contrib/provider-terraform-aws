@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeIamUserPolicy(r IamUserPolicy) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeIamUserPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
+	EncodeIamUserPolicy_Policy(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_User(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Id(r.Spec.ForProvider, ctyVal)
 	EncodeIamUserPolicy_Name(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserPolicy_NamePrefix(r.Spec.ForProvider, ctyVal)
-	EncodeIamUserPolicy_Policy(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,6 +51,14 @@ func EncodeIamUserPolicy(r IamUserPolicy) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeIamUserPolicy_NamePrefix(p IamUserPolicyParameters, vals map[string]cty.Value) {
+	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
+}
+
+func EncodeIamUserPolicy_Policy(p IamUserPolicyParameters, vals map[string]cty.Value) {
+	vals["policy"] = cty.StringVal(p.Policy)
 }
 
 func EncodeIamUserPolicy_User(p IamUserPolicyParameters, vals map[string]cty.Value) {
@@ -63,12 +71,4 @@ func EncodeIamUserPolicy_Id(p IamUserPolicyParameters, vals map[string]cty.Value
 
 func EncodeIamUserPolicy_Name(p IamUserPolicyParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeIamUserPolicy_NamePrefix(p IamUserPolicyParameters, vals map[string]cty.Value) {
-	vals["name_prefix"] = cty.StringVal(p.NamePrefix)
-}
-
-func EncodeIamUserPolicy_Policy(p IamUserPolicyParameters, vals map[string]cty.Value) {
-	vals["policy"] = cty.StringVal(p.Policy)
 }

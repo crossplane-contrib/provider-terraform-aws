@@ -43,18 +43,24 @@ func DecodeWafregionalWebAclAssociation(prev *WafregionalWebAclAssociation, ctyV
 	DecodeWafregionalWebAclAssociation_ResourceArn(&new.Spec.ForProvider, valMap)
 	DecodeWafregionalWebAclAssociation_WebAclId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafregionalWebAclAssociation_Id(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafregionalWebAclAssociation_ResourceArn(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
 	p.ResourceArn = ctwhy.ValueAsString(vals["resource_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafregionalWebAclAssociation_WebAclId(p *WafregionalWebAclAssociationParameters, vals map[string]cty.Value) {
 	p.WebAclId = ctwhy.ValueAsString(vals["web_acl_id"])
 }

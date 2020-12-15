@@ -42,14 +42,19 @@ func DecodeSecurityhubStandardsSubscription(prev *SecurityhubStandardsSubscripti
 	DecodeSecurityhubStandardsSubscription_Id(&new.Spec.ForProvider, valMap)
 	DecodeSecurityhubStandardsSubscription_StandardsArn(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubStandardsSubscription_Id(p *SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSecurityhubStandardsSubscription_StandardsArn(p *SecurityhubStandardsSubscriptionParameters, vals map[string]cty.Value) {
 	p.StandardsArn = ctwhy.ValueAsString(vals["standards_arn"])
 }

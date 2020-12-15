@@ -43,18 +43,24 @@ func DecodeWafRegexPatternSet(prev *WafRegexPatternSet, ctyValue cty.Value) (res
 	DecodeWafRegexPatternSet_Name(&new.Spec.ForProvider, valMap)
 	DecodeWafRegexPatternSet_RegexPatternStrings(&new.Spec.ForProvider, valMap)
 	DecodeWafRegexPatternSet_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafRegexPatternSet_Id(p *WafRegexPatternSetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafRegexPatternSet_Name(p *WafRegexPatternSetParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeWafRegexPatternSet_RegexPatternStrings(p *WafRegexPatternSetParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["regex_pattern_strings"]) {
@@ -63,6 +69,7 @@ func DecodeWafRegexPatternSet_RegexPatternStrings(p *WafRegexPatternSetParameter
 	p.RegexPatternStrings = goVals
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeWafRegexPatternSet_Arn(p *WafRegexPatternSetObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

@@ -43,18 +43,24 @@ func DecodeNetworkInterfaceSgAttachment(prev *NetworkInterfaceSgAttachment, ctyV
 	DecodeNetworkInterfaceSgAttachment_NetworkInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeNetworkInterfaceSgAttachment_SecurityGroupId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceSgAttachment_Id(p *NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceSgAttachment_NetworkInterfaceId(p *NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
 	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeNetworkInterfaceSgAttachment_SecurityGroupId(p *NetworkInterfaceSgAttachmentParameters, vals map[string]cty.Value) {
 	p.SecurityGroupId = ctwhy.ValueAsString(vals["security_group_id"])
 }

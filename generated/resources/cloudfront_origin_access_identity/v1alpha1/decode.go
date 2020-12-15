@@ -41,39 +41,49 @@ func DecodeCloudfrontOriginAccessIdentity(prev *CloudfrontOriginAccessIdentity, 
 	new := prev.DeepCopy()
 	DecodeCloudfrontOriginAccessIdentity_Comment(&new.Spec.ForProvider, valMap)
 	DecodeCloudfrontOriginAccessIdentity_Id(&new.Spec.ForProvider, valMap)
-	DecodeCloudfrontOriginAccessIdentity_CallerReference(&new.Status.AtProvider, valMap)
 	DecodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(&new.Status.AtProvider, valMap)
 	DecodeCloudfrontOriginAccessIdentity_Etag(&new.Status.AtProvider, valMap)
 	DecodeCloudfrontOriginAccessIdentity_IamArn(&new.Status.AtProvider, valMap)
 	DecodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	DecodeCloudfrontOriginAccessIdentity_CallerReference(&new.Status.AtProvider, valMap)
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontOriginAccessIdentity_Comment(p *CloudfrontOriginAccessIdentityParameters, vals map[string]cty.Value) {
 	p.Comment = ctwhy.ValueAsString(vals["comment"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontOriginAccessIdentity_Id(p *CloudfrontOriginAccessIdentityParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
-func DecodeCloudfrontOriginAccessIdentity_CallerReference(p *CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
-	p.CallerReference = ctwhy.ValueAsString(vals["caller_reference"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontOriginAccessIdentity_CloudfrontAccessIdentityPath(p *CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	p.CloudfrontAccessIdentityPath = ctwhy.ValueAsString(vals["cloudfront_access_identity_path"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontOriginAccessIdentity_Etag(p *CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	p.Etag = ctwhy.ValueAsString(vals["etag"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontOriginAccessIdentity_IamArn(p *CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	p.IamArn = ctwhy.ValueAsString(vals["iam_arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudfrontOriginAccessIdentity_S3CanonicalUserId(p *CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
 	p.S3CanonicalUserId = ctwhy.ValueAsString(vals["s3_canonical_user_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCloudfrontOriginAccessIdentity_CallerReference(p *CloudfrontOriginAccessIdentityObservation, vals map[string]cty.Value) {
+	p.CallerReference = ctwhy.ValueAsString(vals["caller_reference"])
 }

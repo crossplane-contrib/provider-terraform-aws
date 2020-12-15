@@ -39,46 +39,57 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCodeartifactDomain(prev *CodeartifactDomain, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeCodeartifactDomain_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomain_EncryptionKey(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomain_Id(&new.Spec.ForProvider, valMap)
-	DecodeCodeartifactDomain_Domain(&new.Spec.ForProvider, valMap)
 	DecodeCodeartifactDomain_Owner(&new.Status.AtProvider, valMap)
 	DecodeCodeartifactDomain_RepositoryCount(&new.Status.AtProvider, valMap)
 	DecodeCodeartifactDomain_Arn(&new.Status.AtProvider, valMap)
 	DecodeCodeartifactDomain_AssetSizeBytes(&new.Status.AtProvider, valMap)
 	DecodeCodeartifactDomain_CreatedTime(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeCodeartifactDomain_EncryptionKey(p *CodeartifactDomainParameters, vals map[string]cty.Value) {
-	p.EncryptionKey = ctwhy.ValueAsString(vals["encryption_key"])
-}
-
-func DecodeCodeartifactDomain_Id(p *CodeartifactDomainParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_Domain(p *CodeartifactDomainParameters, vals map[string]cty.Value) {
 	p.Domain = ctwhy.ValueAsString(vals["domain"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCodeartifactDomain_EncryptionKey(p *CodeartifactDomainParameters, vals map[string]cty.Value) {
+	p.EncryptionKey = ctwhy.ValueAsString(vals["encryption_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeCodeartifactDomain_Id(p *CodeartifactDomainParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_Owner(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
 	p.Owner = ctwhy.ValueAsString(vals["owner"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_RepositoryCount(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
 	p.RepositoryCount = ctwhy.ValueAsInt64(vals["repository_count"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_Arn(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_AssetSizeBytes(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
 	p.AssetSizeBytes = ctwhy.ValueAsInt64(vals["asset_size_bytes"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCodeartifactDomain_CreatedTime(p *CodeartifactDomainObservation, vals map[string]cty.Value) {
 	p.CreatedTime = ctwhy.ValueAsString(vals["created_time"])
 }

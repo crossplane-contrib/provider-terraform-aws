@@ -44,14 +44,19 @@ func DecodeDxHostedPublicVirtualInterfaceAccepter(prev *DxHostedPublicVirtualInt
 	DecodeDxHostedPublicVirtualInterfaceAccepter_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedPublicVirtualInterfaceAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDxHostedPublicVirtualInterfaceAccepter_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedPublicVirtualInterfaceAccepter_Id(p *DxHostedPublicVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeDxHostedPublicVirtualInterfaceAccepter_Tags(p *DxHostedPublicVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -62,24 +67,29 @@ func DecodeDxHostedPublicVirtualInterfaceAccepter_Tags(p *DxHostedPublicVirtualI
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedPublicVirtualInterfaceAccepter_VirtualInterfaceId(p *DxHostedPublicVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	p.VirtualInterfaceId = ctwhy.ValueAsString(vals["virtual_interface_id"])
 }
 
+//containerTypeDecodeTemplate
 func DecodeDxHostedPublicVirtualInterfaceAccepter_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Create(p, valMap)
 	DecodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Delete(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedPublicVirtualInterfaceAccepter_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedPublicVirtualInterfaceAccepter_Arn(p *DxHostedPublicVirtualInterfaceAccepterObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

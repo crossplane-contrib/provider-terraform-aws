@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeSesTemplate(prev *SesTemplate, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeSesTemplate_Html(&new.Spec.ForProvider, valMap)
 	DecodeSesTemplate_Id(&new.Spec.ForProvider, valMap)
 	DecodeSesTemplate_Name(&new.Spec.ForProvider, valMap)
 	DecodeSesTemplate_Subject(&new.Spec.ForProvider, valMap)
 	DecodeSesTemplate_Text(&new.Spec.ForProvider, valMap)
+	DecodeSesTemplate_Html(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeSesTemplate_Html(p *SesTemplateParameters, vals map[string]cty.Value) {
-	p.Html = ctwhy.ValueAsString(vals["html"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeSesTemplate_Id(p *SesTemplateParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesTemplate_Name(p *SesTemplateParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesTemplate_Subject(p *SesTemplateParameters, vals map[string]cty.Value) {
 	p.Subject = ctwhy.ValueAsString(vals["subject"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeSesTemplate_Text(p *SesTemplateParameters, vals map[string]cty.Value) {
 	p.Text = ctwhy.ValueAsString(vals["text"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeSesTemplate_Html(p *SesTemplateParameters, vals map[string]cty.Value) {
+	p.Html = ctwhy.ValueAsString(vals["html"])
 }

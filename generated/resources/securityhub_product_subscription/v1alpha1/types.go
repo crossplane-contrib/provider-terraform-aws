@@ -52,8 +52,8 @@ type SecurityhubProductSubscriptionSpec struct {
 
 // A SecurityhubProductSubscriptionParameters defines the desired state of a SecurityhubProductSubscription
 type SecurityhubProductSubscriptionParameters struct {
-	ProductArn string `json:"product_arn"`
 	Id         string `json:"id"`
+	ProductArn string `json:"product_arn"`
 }
 
 // A SecurityhubProductSubscriptionStatus defines the observed state of a SecurityhubProductSubscription

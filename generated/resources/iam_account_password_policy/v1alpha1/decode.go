@@ -39,61 +39,75 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeIamAccountPasswordPolicy(prev *IamAccountPasswordPolicy, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeIamAccountPasswordPolicy_RequireSymbols(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_MaxPasswordAge(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_MinimumPasswordLength(&new.Spec.ForProvider, valMap)
 	DecodeIamAccountPasswordPolicy_AllowUsersToChangePassword(&new.Spec.ForProvider, valMap)
 	DecodeIamAccountPasswordPolicy_HardExpiry(&new.Spec.ForProvider, valMap)
 	DecodeIamAccountPasswordPolicy_Id(&new.Spec.ForProvider, valMap)
-	DecodeIamAccountPasswordPolicy_MinimumPasswordLength(&new.Spec.ForProvider, valMap)
-	DecodeIamAccountPasswordPolicy_RequireLowercaseCharacters(&new.Spec.ForProvider, valMap)
-	DecodeIamAccountPasswordPolicy_MaxPasswordAge(&new.Spec.ForProvider, valMap)
 	DecodeIamAccountPasswordPolicy_PasswordReusePrevention(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_RequireLowercaseCharacters(&new.Spec.ForProvider, valMap)
 	DecodeIamAccountPasswordPolicy_RequireNumbers(&new.Spec.ForProvider, valMap)
+	DecodeIamAccountPasswordPolicy_RequireSymbols(&new.Spec.ForProvider, valMap)
 	DecodeIamAccountPasswordPolicy_RequireUppercaseCharacters(&new.Spec.ForProvider, valMap)
 	DecodeIamAccountPasswordPolicy_ExpirePasswords(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeIamAccountPasswordPolicy_RequireSymbols(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	p.RequireSymbols = ctwhy.ValueAsBool(vals["require_symbols"])
-}
-
-func DecodeIamAccountPasswordPolicy_AllowUsersToChangePassword(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	p.AllowUsersToChangePassword = ctwhy.ValueAsBool(vals["allow_users_to_change_password"])
-}
-
-func DecodeIamAccountPasswordPolicy_HardExpiry(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	p.HardExpiry = ctwhy.ValueAsBool(vals["hard_expiry"])
-}
-
-func DecodeIamAccountPasswordPolicy_Id(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeIamAccountPasswordPolicy_MinimumPasswordLength(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	p.MinimumPasswordLength = ctwhy.ValueAsInt64(vals["minimum_password_length"])
-}
-
-func DecodeIamAccountPasswordPolicy_RequireLowercaseCharacters(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
-	p.RequireLowercaseCharacters = ctwhy.ValueAsBool(vals["require_lowercase_characters"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeIamAccountPasswordPolicy_MaxPasswordAge(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
 	p.MaxPasswordAge = ctwhy.ValueAsInt64(vals["max_password_age"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeIamAccountPasswordPolicy_MinimumPasswordLength(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.MinimumPasswordLength = ctwhy.ValueAsInt64(vals["minimum_password_length"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamAccountPasswordPolicy_AllowUsersToChangePassword(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.AllowUsersToChangePassword = ctwhy.ValueAsBool(vals["allow_users_to_change_password"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamAccountPasswordPolicy_HardExpiry(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.HardExpiry = ctwhy.ValueAsBool(vals["hard_expiry"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeIamAccountPasswordPolicy_Id(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeIamAccountPasswordPolicy_PasswordReusePrevention(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
 	p.PasswordReusePrevention = ctwhy.ValueAsInt64(vals["password_reuse_prevention"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeIamAccountPasswordPolicy_RequireLowercaseCharacters(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.RequireLowercaseCharacters = ctwhy.ValueAsBool(vals["require_lowercase_characters"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeIamAccountPasswordPolicy_RequireNumbers(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
 	p.RequireNumbers = ctwhy.ValueAsBool(vals["require_numbers"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeIamAccountPasswordPolicy_RequireSymbols(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
+	p.RequireSymbols = ctwhy.ValueAsBool(vals["require_symbols"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeIamAccountPasswordPolicy_RequireUppercaseCharacters(p *IamAccountPasswordPolicyParameters, vals map[string]cty.Value) {
 	p.RequireUppercaseCharacters = ctwhy.ValueAsBool(vals["require_uppercase_characters"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeIamAccountPasswordPolicy_ExpirePasswords(p *IamAccountPasswordPolicyObservation, vals map[string]cty.Value) {
 	p.ExpirePasswords = ctwhy.ValueAsBool(vals["expire_passwords"])
 }

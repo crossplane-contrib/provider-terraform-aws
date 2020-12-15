@@ -45,26 +45,34 @@ func DecodeEc2TrafficMirrorTarget(prev *Ec2TrafficMirrorTarget, ctyValue cty.Val
 	DecodeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(&new.Spec.ForProvider, valMap)
 	DecodeEc2TrafficMirrorTarget_Tags(&new.Spec.ForProvider, valMap)
 	DecodeEc2TrafficMirrorTarget_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorTarget_Description(p *Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
 	p.Description = ctwhy.ValueAsString(vals["description"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorTarget_Id(p *Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorTarget_NetworkInterfaceId(p *Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
 	p.NetworkInterfaceId = ctwhy.ValueAsString(vals["network_interface_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorTarget_NetworkLoadBalancerArn(p *Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
 	p.NetworkLoadBalancerArn = ctwhy.ValueAsString(vals["network_load_balancer_arn"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeEc2TrafficMirrorTarget_Tags(p *Ec2TrafficMirrorTargetParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -75,6 +83,7 @@ func DecodeEc2TrafficMirrorTarget_Tags(p *Ec2TrafficMirrorTargetParameters, vals
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeEc2TrafficMirrorTarget_Arn(p *Ec2TrafficMirrorTargetObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

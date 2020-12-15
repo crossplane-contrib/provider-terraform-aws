@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeAlbTargetGroupAttachment(r AlbTargetGroupAttachment) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeAlbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_Id(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_Port(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_TargetGroupArn(r.Spec.ForProvider, ctyVal)
 	EncodeAlbTargetGroupAttachment_TargetId(r.Spec.ForProvider, ctyVal)
+	EncodeAlbTargetGroupAttachment_AvailabilityZone(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeAlbTargetGroupAttachment(r AlbTargetGroupAttachment) cty.Value {
 		ctyVal["id"] = cty.StringVal(en)
 	}
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeAlbTargetGroupAttachment_AvailabilityZone(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
-	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }
 
 func EncodeAlbTargetGroupAttachment_Id(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
@@ -71,4 +67,8 @@ func EncodeAlbTargetGroupAttachment_TargetGroupArn(p AlbTargetGroupAttachmentPar
 
 func EncodeAlbTargetGroupAttachment_TargetId(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
 	vals["target_id"] = cty.StringVal(p.TargetId)
+}
+
+func EncodeAlbTargetGroupAttachment_AvailabilityZone(p AlbTargetGroupAttachmentParameters, vals map[string]cty.Value) {
+	vals["availability_zone"] = cty.StringVal(p.AvailabilityZone)
 }

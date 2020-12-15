@@ -39,28 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeBatchJobQueue(prev *BatchJobQueue, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeBatchJobQueue_Id(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_Name(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_Priority(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_State(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_ComputeEnvironments(&new.Spec.ForProvider, valMap)
-	DecodeBatchJobQueue_Id(&new.Spec.ForProvider, valMap)
 	DecodeBatchJobQueue_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeBatchJobQueue_Id(p *BatchJobQueueParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeBatchJobQueue_Name(p *BatchJobQueueParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeBatchJobQueue_Priority(p *BatchJobQueueParameters, vals map[string]cty.Value) {
 	p.Priority = ctwhy.ValueAsInt64(vals["priority"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeBatchJobQueue_State(p *BatchJobQueueParameters, vals map[string]cty.Value) {
 	p.State = ctwhy.ValueAsString(vals["state"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
 func DecodeBatchJobQueue_ComputeEnvironments(p *BatchJobQueueParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsList(vals["compute_environments"]) {
@@ -69,10 +81,7 @@ func DecodeBatchJobQueue_ComputeEnvironments(p *BatchJobQueueParameters, vals ma
 	p.ComputeEnvironments = goVals
 }
 
-func DecodeBatchJobQueue_Id(p *BatchJobQueueParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeBatchJobQueue_Arn(p *BatchJobQueueObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

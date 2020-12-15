@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeOrganizationsPolicyAttachment(prev *OrganizationsPolicyAttachment, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeOrganizationsPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicyAttachment_PolicyId(&new.Spec.ForProvider, valMap)
 	DecodeOrganizationsPolicyAttachment_TargetId(&new.Spec.ForProvider, valMap)
+	DecodeOrganizationsPolicyAttachment_Id(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeOrganizationsPolicyAttachment_Id(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicyAttachment_PolicyId(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.PolicyId = ctwhy.ValueAsString(vals["policy_id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeOrganizationsPolicyAttachment_TargetId(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
 	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeOrganizationsPolicyAttachment_Id(p *OrganizationsPolicyAttachmentParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
 }

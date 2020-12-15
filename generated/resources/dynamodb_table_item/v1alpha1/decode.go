@@ -39,32 +39,40 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDynamodbTableItem(prev *DynamodbTableItem, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDynamodbTableItem_RangeKey(&new.Spec.ForProvider, valMap)
-	DecodeDynamodbTableItem_TableName(&new.Spec.ForProvider, valMap)
 	DecodeDynamodbTableItem_HashKey(&new.Spec.ForProvider, valMap)
 	DecodeDynamodbTableItem_Id(&new.Spec.ForProvider, valMap)
 	DecodeDynamodbTableItem_Item(&new.Spec.ForProvider, valMap)
+	DecodeDynamodbTableItem_RangeKey(&new.Spec.ForProvider, valMap)
+	DecodeDynamodbTableItem_TableName(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeDynamodbTableItem_RangeKey(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
-	p.RangeKey = ctwhy.ValueAsString(vals["range_key"])
-}
-
-func DecodeDynamodbTableItem_TableName(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
-	p.TableName = ctwhy.ValueAsString(vals["table_name"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDynamodbTableItem_HashKey(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
 	p.HashKey = ctwhy.ValueAsString(vals["hash_key"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDynamodbTableItem_Id(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDynamodbTableItem_Item(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
 	p.Item = ctwhy.ValueAsString(vals["item"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDynamodbTableItem_RangeKey(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
+	p.RangeKey = ctwhy.ValueAsString(vals["range_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDynamodbTableItem_TableName(p *DynamodbTableItemParameters, vals map[string]cty.Value) {
+	p.TableName = ctwhy.ValueAsString(vals["table_name"])
 }

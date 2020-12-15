@@ -37,15 +37,15 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeRdsClusterEndpoint(r RdsClusterEndpoint) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_CustomEndpointType(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_Id(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_StaticMembers(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_ExcludedMembers(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_Id(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeRdsClusterEndpoint_Arn(r.Status.AtProvider, ctyVal)
+	EncodeRdsClusterEndpoint_ClusterIdentifier(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_StaticMembers(r.Spec.ForProvider, ctyVal)
+	EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(r.Spec.ForProvider, ctyVal)
 	EncodeRdsClusterEndpoint_Endpoint(r.Status.AtProvider, ctyVal)
+	EncodeRdsClusterEndpoint_Arn(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -56,28 +56,8 @@ func EncodeRdsClusterEndpoint(r RdsClusterEndpoint) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["cluster_endpoint_identifier"] = cty.StringVal(p.ClusterEndpointIdentifier)
-}
-
 func EncodeRdsClusterEndpoint_CustomEndpointType(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
 	vals["custom_endpoint_type"] = cty.StringVal(p.CustomEndpointType)
-}
-
-func EncodeRdsClusterEndpoint_Id(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeRdsClusterEndpoint_StaticMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.StaticMembers {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	vals["static_members"] = cty.SetVal(colVals)
-}
-
-func EncodeRdsClusterEndpoint_ClusterIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
-	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
 }
 
 func EncodeRdsClusterEndpoint_ExcludedMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
@@ -86,6 +66,10 @@ func EncodeRdsClusterEndpoint_ExcludedMembers(p RdsClusterEndpointParameters, va
 		colVals = append(colVals, cty.StringVal(value))
 	}
 	vals["excluded_members"] = cty.SetVal(colVals)
+}
+
+func EncodeRdsClusterEndpoint_Id(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	vals["id"] = cty.StringVal(p.Id)
 }
 
 func EncodeRdsClusterEndpoint_Tags(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
@@ -100,10 +84,26 @@ func EncodeRdsClusterEndpoint_Tags(p RdsClusterEndpointParameters, vals map[stri
 	vals["tags"] = cty.MapVal(mVals)
 }
 
-func EncodeRdsClusterEndpoint_Arn(p RdsClusterEndpointObservation, vals map[string]cty.Value) {
-	vals["arn"] = cty.StringVal(p.Arn)
+func EncodeRdsClusterEndpoint_ClusterIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	vals["cluster_identifier"] = cty.StringVal(p.ClusterIdentifier)
+}
+
+func EncodeRdsClusterEndpoint_StaticMembers(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.StaticMembers {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	vals["static_members"] = cty.SetVal(colVals)
+}
+
+func EncodeRdsClusterEndpoint_ClusterEndpointIdentifier(p RdsClusterEndpointParameters, vals map[string]cty.Value) {
+	vals["cluster_endpoint_identifier"] = cty.StringVal(p.ClusterEndpointIdentifier)
 }
 
 func EncodeRdsClusterEndpoint_Endpoint(p RdsClusterEndpointObservation, vals map[string]cty.Value) {
 	vals["endpoint"] = cty.StringVal(p.Endpoint)
+}
+
+func EncodeRdsClusterEndpoint_Arn(p RdsClusterEndpointObservation, vals map[string]cty.Value) {
+	vals["arn"] = cty.StringVal(p.Arn)
 }

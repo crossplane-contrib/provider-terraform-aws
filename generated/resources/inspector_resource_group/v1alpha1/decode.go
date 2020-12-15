@@ -42,14 +42,19 @@ func DecodeInspectorResourceGroup(prev *InspectorResourceGroup, ctyValue cty.Val
 	DecodeInspectorResourceGroup_Id(&new.Spec.ForProvider, valMap)
 	DecodeInspectorResourceGroup_Tags(&new.Spec.ForProvider, valMap)
 	DecodeInspectorResourceGroup_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInspectorResourceGroup_Id(p *InspectorResourceGroupParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeInspectorResourceGroup_Tags(p *InspectorResourceGroupParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -60,6 +65,7 @@ func DecodeInspectorResourceGroup_Tags(p *InspectorResourceGroupParameters, vals
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeInspectorResourceGroup_Arn(p *InspectorResourceGroupObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

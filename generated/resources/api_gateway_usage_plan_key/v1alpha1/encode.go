@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeApiGatewayUsagePlanKey(r ApiGatewayUsagePlanKey) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeApiGatewayUsagePlanKey_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_KeyType(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_UsagePlanId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Id(r.Spec.ForProvider, ctyVal)
-	EncodeApiGatewayUsagePlanKey_KeyId(r.Spec.ForProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Name(r.Status.AtProvider, ctyVal)
 	EncodeApiGatewayUsagePlanKey_Value(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
@@ -53,6 +53,10 @@ func EncodeApiGatewayUsagePlanKey(r ApiGatewayUsagePlanKey) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
+func EncodeApiGatewayUsagePlanKey_KeyId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
+	vals["key_id"] = cty.StringVal(p.KeyId)
+}
+
 func EncodeApiGatewayUsagePlanKey_KeyType(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	vals["key_type"] = cty.StringVal(p.KeyType)
 }
@@ -63,10 +67,6 @@ func EncodeApiGatewayUsagePlanKey_UsagePlanId(p ApiGatewayUsagePlanKeyParameters
 
 func EncodeApiGatewayUsagePlanKey_Id(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
 	vals["id"] = cty.StringVal(p.Id)
-}
-
-func EncodeApiGatewayUsagePlanKey_KeyId(p ApiGatewayUsagePlanKeyParameters, vals map[string]cty.Value) {
-	vals["key_id"] = cty.StringVal(p.KeyId)
 }
 
 func EncodeApiGatewayUsagePlanKey_Name(p ApiGatewayUsagePlanKeyObservation, vals map[string]cty.Value) {

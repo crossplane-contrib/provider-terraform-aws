@@ -45,22 +45,29 @@ func DecodeRamResourceShare(prev *RamResourceShare, ctyValue cty.Value) (resourc
 	DecodeRamResourceShare_Tags(&new.Spec.ForProvider, valMap)
 	DecodeRamResourceShare_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeRamResourceShare_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceShare_AllowExternalPrincipals(p *RamResourceShareParameters, vals map[string]cty.Value) {
 	p.AllowExternalPrincipals = ctwhy.ValueAsBool(vals["allow_external_principals"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceShare_Id(p *RamResourceShareParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceShare_Name(p *RamResourceShareParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeRamResourceShare_Tags(p *RamResourceShareParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -71,20 +78,24 @@ func DecodeRamResourceShare_Tags(p *RamResourceShareParameters, vals map[string]
 	p.Tags = vMap
 }
 
+//containerTypeDecodeTemplate
 func DecodeRamResourceShare_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeRamResourceShare_Timeouts_Create(p, valMap)
 	DecodeRamResourceShare_Timeouts_Delete(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceShare_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceShare_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRamResourceShare_Arn(p *RamResourceShareObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

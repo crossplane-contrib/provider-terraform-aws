@@ -39,27 +39,34 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDbInstanceRoleAssociation(prev *DbInstanceRoleAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDbInstanceRoleAssociation_Id(&new.Spec.ForProvider, valMap)
-	DecodeDbInstanceRoleAssociation_RoleArn(&new.Spec.ForProvider, valMap)
 	DecodeDbInstanceRoleAssociation_DbInstanceIdentifier(&new.Spec.ForProvider, valMap)
 	DecodeDbInstanceRoleAssociation_FeatureName(&new.Spec.ForProvider, valMap)
+	DecodeDbInstanceRoleAssociation_Id(&new.Spec.ForProvider, valMap)
+	DecodeDbInstanceRoleAssociation_RoleArn(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeDbInstanceRoleAssociation_Id(p *DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeDbInstanceRoleAssociation_RoleArn(p *DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
-	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDbInstanceRoleAssociation_DbInstanceIdentifier(p *DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
 	p.DbInstanceIdentifier = ctwhy.ValueAsString(vals["db_instance_identifier"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDbInstanceRoleAssociation_FeatureName(p *DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
 	p.FeatureName = ctwhy.ValueAsString(vals["feature_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbInstanceRoleAssociation_Id(p *DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDbInstanceRoleAssociation_RoleArn(p *DbInstanceRoleAssociationParameters, vals map[string]cty.Value) {
+	p.RoleArn = ctwhy.ValueAsString(vals["role_arn"])
 }

@@ -42,18 +42,24 @@ func DecodeDevicefarmProject(prev *DevicefarmProject, ctyValue cty.Value) (resou
 	DecodeDevicefarmProject_Id(&new.Spec.ForProvider, valMap)
 	DecodeDevicefarmProject_Name(&new.Spec.ForProvider, valMap)
 	DecodeDevicefarmProject_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDevicefarmProject_Id(p *DevicefarmProjectParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDevicefarmProject_Name(p *DevicefarmProjectParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDevicefarmProject_Arn(p *DevicefarmProjectObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

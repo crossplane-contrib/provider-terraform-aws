@@ -39,46 +39,30 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeCloudformationStack(prev *CloudformationStack, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeCloudformationStack_Id(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_Capabilities(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_DisableRollback(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_IamRoleArn(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStack_NotificationArns(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_Capabilities(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStack_PolicyBody(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStack_PolicyUrl(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_Tags(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_TimeoutInMinutes(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_Name(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_OnFailure(&new.Spec.ForProvider, valMap)
-	DecodeCloudformationStack_Parameters(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStack_TemplateBody(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStack_TemplateUrl(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_DisableRollback(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_Id(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_OnFailure(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_Parameters(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_TimeoutInMinutes(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_IamRoleArn(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_Name(&new.Spec.ForProvider, valMap)
+	DecodeCloudformationStack_Tags(&new.Spec.ForProvider, valMap)
 	DecodeCloudformationStack_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeCloudformationStack_Outputs(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeCloudformationStack_Id(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	p.Id = ctwhy.ValueAsString(vals["id"])
-}
-
-func DecodeCloudformationStack_Capabilities(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["capabilities"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Capabilities = goVals
-}
-
-func DecodeCloudformationStack_DisableRollback(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	p.DisableRollback = ctwhy.ValueAsBool(vals["disable_rollback"])
-}
-
-func DecodeCloudformationStack_IamRoleArn(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	p.IamRoleArn = ctwhy.ValueAsString(vals["iam_role_arn"])
-}
-
+//primitiveCollectionTypeDecodeTemplate
 func DecodeCloudformationStack_NotificationArns(p *CloudformationStackParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
 	for _, value := range ctwhy.ValueAsSet(vals["notification_arns"]) {
@@ -87,36 +71,51 @@ func DecodeCloudformationStack_NotificationArns(p *CloudformationStackParameters
 	p.NotificationArns = goVals
 }
 
+//primitiveCollectionTypeDecodeTemplate
+func DecodeCloudformationStack_Capabilities(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["capabilities"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Capabilities = goVals
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStack_PolicyBody(p *CloudformationStackParameters, vals map[string]cty.Value) {
 	p.PolicyBody = ctwhy.ValueAsString(vals["policy_body"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStack_PolicyUrl(p *CloudformationStackParameters, vals map[string]cty.Value) {
 	p.PolicyUrl = ctwhy.ValueAsString(vals["policy_url"])
 }
 
-func DecodeCloudformationStack_Tags(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	// TODO: generalize generation of the element type, string elements are hard-coded atm
-	vMap := make(map[string]string)
-	v := vals["tags"].AsValueMap()
-	for key, value := range v {
-		vMap[key] = ctwhy.ValueAsString(value)
-	}
-	p.Tags = vMap
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_TemplateBody(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	p.TemplateBody = ctwhy.ValueAsString(vals["template_body"])
 }
 
-func DecodeCloudformationStack_TimeoutInMinutes(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	p.TimeoutInMinutes = ctwhy.ValueAsInt64(vals["timeout_in_minutes"])
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_TemplateUrl(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	p.TemplateUrl = ctwhy.ValueAsString(vals["template_url"])
 }
 
-func DecodeCloudformationStack_Name(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_DisableRollback(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	p.DisableRollback = ctwhy.ValueAsBool(vals["disable_rollback"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_Id(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	p.Id = ctwhy.ValueAsString(vals["id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStack_OnFailure(p *CloudformationStackParameters, vals map[string]cty.Value) {
 	p.OnFailure = ctwhy.ValueAsString(vals["on_failure"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeCloudformationStack_Parameters(p *CloudformationStackParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -127,33 +126,56 @@ func DecodeCloudformationStack_Parameters(p *CloudformationStackParameters, vals
 	p.Parameters = vMap
 }
 
-func DecodeCloudformationStack_TemplateBody(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	p.TemplateBody = ctwhy.ValueAsString(vals["template_body"])
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_TimeoutInMinutes(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	p.TimeoutInMinutes = ctwhy.ValueAsInt64(vals["timeout_in_minutes"])
 }
 
-func DecodeCloudformationStack_TemplateUrl(p *CloudformationStackParameters, vals map[string]cty.Value) {
-	p.TemplateUrl = ctwhy.ValueAsString(vals["template_url"])
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_IamRoleArn(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	p.IamRoleArn = ctwhy.ValueAsString(vals["iam_role_arn"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_Name(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveMapTypeDecodeTemplate
+func DecodeCloudformationStack_Tags(p *CloudformationStackParameters, vals map[string]cty.Value) {
+	// TODO: generalize generation of the element type, string elements are hard-coded atm
+	vMap := make(map[string]string)
+	v := vals["tags"].AsValueMap()
+	for key, value := range v {
+		vMap[key] = ctwhy.ValueAsString(value)
+	}
+	p.Tags = vMap
+}
+
+//containerTypeDecodeTemplate
 func DecodeCloudformationStack_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
-	DecodeCloudformationStack_Timeouts_Update(p, valMap)
 	DecodeCloudformationStack_Timeouts_Create(p, valMap)
 	DecodeCloudformationStack_Timeouts_Delete(p, valMap)
+	DecodeCloudformationStack_Timeouts_Update(p, valMap)
 }
 
-func DecodeCloudformationStack_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
-	p.Update = ctwhy.ValueAsString(vals["update"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStack_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeCloudformationStack_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeCloudformationStack_Timeouts_Update(p *Timeouts, vals map[string]cty.Value) {
+	p.Update = ctwhy.ValueAsString(vals["update"])
+}
+
+//primitiveMapTypeDecodeTemplate
 func DecodeCloudformationStack_Outputs(p *CloudformationStackObservation, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)

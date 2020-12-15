@@ -39,28 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDxHostedTransitVirtualInterfaceAccepter(prev *DxHostedTransitVirtualInterfaceAccepter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
-	DecodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedTransitVirtualInterfaceAccepter_Id(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedTransitVirtualInterfaceAccepter_Tags(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(&new.Spec.ForProvider, valMap)
+	DecodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(&new.Spec.ForProvider, valMap)
 	DecodeDxHostedTransitVirtualInterfaceAccepter_Timeouts(&new.Spec.ForProvider.Timeouts, valMap)
 	DecodeDxHostedTransitVirtualInterfaceAccepter_Arn(&new.Status.AtProvider, valMap)
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
-func DecodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(p *DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	p.VirtualInterfaceId = ctwhy.ValueAsString(vals["virtual_interface_id"])
-}
-
-func DecodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(p *DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
-	p.DxGatewayId = ctwhy.ValueAsString(vals["dx_gateway_id"])
-}
-
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedTransitVirtualInterfaceAccepter_Id(p *DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveMapTypeDecodeTemplate
 func DecodeDxHostedTransitVirtualInterfaceAccepter_Tags(p *DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	vMap := make(map[string]string)
@@ -71,20 +68,34 @@ func DecodeDxHostedTransitVirtualInterfaceAccepter_Tags(p *DxHostedTransitVirtua
 	p.Tags = vMap
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeDxHostedTransitVirtualInterfaceAccepter_VirtualInterfaceId(p *DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	p.VirtualInterfaceId = ctwhy.ValueAsString(vals["virtual_interface_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDxHostedTransitVirtualInterfaceAccepter_DxGatewayId(p *DxHostedTransitVirtualInterfaceAccepterParameters, vals map[string]cty.Value) {
+	p.DxGatewayId = ctwhy.ValueAsString(vals["dx_gateway_id"])
+}
+
+//containerTypeDecodeTemplate
 func DecodeDxHostedTransitVirtualInterfaceAccepter_Timeouts(p *Timeouts, vals map[string]cty.Value) {
 	valMap := vals["timeouts"].AsValueMap()
 	DecodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(p, valMap)
 	DecodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(p, valMap)
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Create(p *Timeouts, vals map[string]cty.Value) {
 	p.Create = ctwhy.ValueAsString(vals["create"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedTransitVirtualInterfaceAccepter_Timeouts_Delete(p *Timeouts, vals map[string]cty.Value) {
 	p.Delete = ctwhy.ValueAsString(vals["delete"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeDxHostedTransitVirtualInterfaceAccepter_Arn(p *DxHostedTransitVirtualInterfaceAccepterObservation, vals map[string]cty.Value) {
 	p.Arn = ctwhy.ValueAsString(vals["arn"])
 }

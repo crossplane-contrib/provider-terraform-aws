@@ -17,13 +17,102 @@
 package v1alpha1
 
 import (
-	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
+//mergeManagedResourceEntrypointTemplate
 type resourceMerger struct{}
 
-func (r *resourceMerger) MergeResources(kube xpresource.Managed, prov xpresource.Managed) plugin.MergeDescription {
-	md := plugin.MergeDescription{}
-	return md
+func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Managed) plugin.MergeDescription {
+	k := kube.(*PinpointBaiduChannel)
+	p := prov.(*PinpointBaiduChannel)
+	md := &plugin.MergeDescription{}
+	updated := false
+	anyChildUpdated := false
+
+	updated = MergePinpointBaiduChannel_ApiKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointBaiduChannel_ApplicationId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointBaiduChannel_Enabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointBaiduChannel_Id(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergePinpointBaiduChannel_SecretKey(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+
+	for key, v := range p.Annotations {
+		if k.Annotations[key] != v {
+			k.Annotations[key] = v
+			md.AnnotationsUpdated = true
+		}
+	}
+	md.AnyFieldUpdated = anyChildUpdated
+	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointBaiduChannel_ApiKey(k *PinpointBaiduChannelParameters, p *PinpointBaiduChannelParameters, md *plugin.MergeDescription) bool {
+	if k.ApiKey != p.ApiKey {
+		p.ApiKey = k.ApiKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointBaiduChannel_ApplicationId(k *PinpointBaiduChannelParameters, p *PinpointBaiduChannelParameters, md *plugin.MergeDescription) bool {
+	if k.ApplicationId != p.ApplicationId {
+		p.ApplicationId = k.ApplicationId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointBaiduChannel_Enabled(k *PinpointBaiduChannelParameters, p *PinpointBaiduChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Enabled != p.Enabled {
+		p.Enabled = k.Enabled
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointBaiduChannel_Id(k *PinpointBaiduChannelParameters, p *PinpointBaiduChannelParameters, md *plugin.MergeDescription) bool {
+	if k.Id != p.Id {
+		p.Id = k.Id
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergePinpointBaiduChannel_SecretKey(k *PinpointBaiduChannelParameters, p *PinpointBaiduChannelParameters, md *plugin.MergeDescription) bool {
+	if k.SecretKey != p.SecretKey {
+		p.SecretKey = k.SecretKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }

@@ -59,8 +59,8 @@ type VpcIpv4CidrBlockAssociationParameters struct {
 }
 
 type Timeouts struct {
-	Create string `json:"create"`
 	Delete string `json:"delete"`
+	Create string `json:"create"`
 }
 
 // A VpcIpv4CidrBlockAssociationStatus defines the observed state of a VpcIpv4CidrBlockAssociation

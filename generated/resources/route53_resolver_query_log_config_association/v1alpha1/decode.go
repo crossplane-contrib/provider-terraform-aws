@@ -39,22 +39,28 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeRoute53ResolverQueryLogConfigAssociation(prev *Route53ResolverQueryLogConfigAssociation, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeRoute53ResolverQueryLogConfigAssociation_ResourceId(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfigAssociation_Id(&new.Spec.ForProvider, valMap)
 	DecodeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(&new.Spec.ForProvider, valMap)
-	DecodeRoute53ResolverQueryLogConfigAssociation_ResourceId(&new.Spec.ForProvider, valMap)
 
-	meta.SetExternalName(new, valMap["id"].AsString())
+	eid := valMap["id"].AsString()
+	if len(eid) > 0 {
+		meta.SetExternalName(new, eid)
+	}
 	return new, nil
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeRoute53ResolverQueryLogConfigAssociation_ResourceId(p *Route53ResolverQueryLogConfigAssociationParameters, vals map[string]cty.Value) {
+	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverQueryLogConfigAssociation_Id(p *Route53ResolverQueryLogConfigAssociationParameters, vals map[string]cty.Value) {
 	p.Id = ctwhy.ValueAsString(vals["id"])
 }
 
+//primitiveTypeDecodeTemplate
 func DecodeRoute53ResolverQueryLogConfigAssociation_ResolverQueryLogConfigId(p *Route53ResolverQueryLogConfigAssociationParameters, vals map[string]cty.Value) {
 	p.ResolverQueryLogConfigId = ctwhy.ValueAsString(vals["resolver_query_log_config_id"])
-}
-
-func DecodeRoute53ResolverQueryLogConfigAssociation_ResourceId(p *Route53ResolverQueryLogConfigAssociationParameters, vals map[string]cty.Value) {
-	p.ResourceId = ctwhy.ValueAsString(vals["resource_id"])
 }
